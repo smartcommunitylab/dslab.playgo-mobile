@@ -1,0 +1,7 @@
+{
+  "name": "playgo-mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
