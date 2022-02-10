@@ -1,0 +1,23 @@
+<div *ngIf="!join">
+  <ion-card button="join" (click)="detailCampaign()">
+    <img src="{{campaign.logo}}" />
+    <ion-card-header>
+      <strong> {{campaign.title}}</strong>
+    </ion-card-header>
+    <ion-card-subtitle> {{campaign.from}} - {{campaign.to}}</ion-card-subtitle>
+    <ion-card-content> {{campaign.description}}</ion-card-content>
+    <ion-button *ngIf="join" (click)="joinCamp()">{{"join" | translate}}</ion-button>
+  </ion-card>
+</div>
+<div *ngIf="join">
+  <ion-card>
+    <img src="{{campaign.logo}}" />
+    <ion-card-header>
+      <strong> {{campaign.title}}</strong>
+    </ion-card-header>
+    <ion-card-subtitle> {{campaign.from}} - {{campaign.to}}</ion-card-subtitle>
+    <ion-card-content> {{campaign.description}}</ion-card-content>
+    <ion-button *ngIf="join" (click)="joinCamp()">{{"join" | translate}}</ion-button>
+  </ion-card>
+</div>
+

@@ -5,10 +5,26 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule.forChild([
       {
+        path: 'home',
+        loadChildren: () =>
+          import('./home/home.module').then((m) => m.HomePageModule),
+      },
+      {
+        path: 'campaigns',
+        loadChildren: () =>
+          import('./campaigns/campaign.module').then((m) => m.CampaignModule),
+      },
+      {
+        path: 'campaign-details/:id',
+        loadChildren: () =>
+          import('./campaigns/campaign-details/campaign-details.module').then((m) => m.CampaignDetailsPageModule),
+      },
+      {
         path: '',
-        loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-      }
-    ])
-  ]
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+    ]),
+  ],
 })
 export class PagesRoutingModule {}

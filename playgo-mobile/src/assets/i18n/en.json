@@ -1,3 +1,9 @@
 {
-  "hello_world":"Hello world"
+  "hello_world":"Hello world",
+  "campaigns": "Campaigns",
+  "myCampains": "My campains",
+  "allCampains": "All campains",
+  "outof": "{{current}} out of {{total}}",
+  "Language": "Language",
+  "join":"Join"
 }

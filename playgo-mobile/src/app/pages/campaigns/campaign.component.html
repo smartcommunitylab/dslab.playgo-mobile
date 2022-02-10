@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-title>
+            {{"campaigns" | translate}}
+          </ion-title>
+        </ion-col>
+        <!--ion-col>
+          <ion-item>
+            <ion-label>{{'Language' | translate}}</ion-label>
+            <ion-select [(ngModel)]="language" [value]="language" (ionChange)="changeLanguage()" title="">
+              <ion-select-option *ngFor="let val of translate.getLangs()">{{val}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col-->
+      </ion-row>
+    </ion-grid>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div>
+    <ion-segment [(ngModel)]="selectedSegment">
+      <ion-segment-button value="myCampaigns">
+        <ion-label>{{'myCampains' | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="allCampaigns">
+        <ion-label>{{'allCampains' | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <div [ngSwitch]="selectedSegment">
+      <div *ngSwitchCase="'myCampaigns'">
+        <app-my-campaign></app-my-campaign>
+      </div>
+      <div *ngSwitchCase="'allCampaigns'">
+        <app-all-campaign></app-all-campaign>
+      </div>
+    </div>
+  </div>
+</ion-content>

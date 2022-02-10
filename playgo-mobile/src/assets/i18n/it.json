@@ -1,3 +1,9 @@
 {
-  "hello_world":"Ciao mondo"
+  "hello_world":"Ciao mondo",
+  "campaigns": "Campagne",
+  "myCampains": "Le mie campagne",
+  "allCampains": "Tutte le campagne",
+  "outof": "{{current}} su {{total}}",
+  "Language": "Lingua",
+  "join":"Partecipa"
 }
