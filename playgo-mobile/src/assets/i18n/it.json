@@ -1,3 +1,6 @@
 {
-  "hello_world":"Ciao mondo"
+  "hello_world":"Ciao mondo",
+  "home_title":"Home",
+  "profile_title":"Profilo",
+  "campaigns_title":"Campagna"
 }
