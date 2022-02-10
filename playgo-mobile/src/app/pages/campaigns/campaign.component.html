@@ -1,23 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-title>
-            {{"campaigns" | translate}}
-          </ion-title>
-        </ion-col>
-        <!--ion-col>
-          <ion-item>
-            <ion-label>{{'Language' | translate}}</ion-label>
-            <ion-select [(ngModel)]="language" [value]="language" (ionChange)="changeLanguage()" title="">
-              <ion-select-option *ngFor="let val of translate.getLangs()">{{val}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col-->
-      </ion-row>
-    </ion-grid>
-
+    <ion-buttons slot="start">
+      <ion-back-button [icon]="'arrow-back-outline'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{"campaigns" | translate}}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 

@@ -11,13 +11,18 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'campaigns',
-        loadChildren: () =>
-          import('./campaigns/campaign.module').then((m) => m.CampaignModule),
-      },
-      {
-        path: 'campaign-details/:id',
-        loadChildren: () =>
-          import('./campaigns/campaign-details/campaign-details.module').then((m) => m.CampaignDetailsPageModule),
+        children:[
+          {
+            path: '',
+            loadChildren: () =>
+              import('./campaigns/campaign.module').then((m) => m.CampaignModule),
+          },
+          {
+            path: 'details/:id',
+            loadChildren: () =>
+              import('./campaigns/campaign-details/campaign-details.module').then((m) => m.CampaignDetailsPageModule),
+          }
+        ]
       },
       {
         path: '',
