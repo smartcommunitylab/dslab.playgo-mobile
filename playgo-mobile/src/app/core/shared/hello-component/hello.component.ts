@@ -8,11 +8,5 @@ import { TripService } from '../tracking/trip.service';
   styleUrls: ['hello.component.css'],
 })
 export class HelloComponent {
-  constructor(
-    private tripService: TripService,
-    private tripPersistanceService: TripPersistanceService
-  ) {
-    // I dont like this at all...
-    this.tripPersistanceService.init();
-  }
+  constructor() { }
 }

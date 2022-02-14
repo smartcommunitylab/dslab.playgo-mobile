@@ -1,8 +1,2 @@
 <p>{{ "hello_world" | translate }}</p>
-
-<div>tripService.tripPart$</div>
-<div>{{ tripService.tripPart$ | async | json }}</div>
-<button (click)="tripService.changeMean('bus')">Bus</button>
-<button (click)="tripService.changeMean('bicycle')">Bicycle</button>
-<button (click)="tripService.changeMean('walk')">Walk</button>
-<button (click)="tripService.stop()">Stop</button>
+<app-tracking-main-control></app-tracking-main-control>

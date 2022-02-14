@@ -1,0 +1,15 @@
+<ion-button (click)="tripService.changeMean('walk')" size="small">
+  <ion-icon slot="icon-only" name="walk"></ion-icon>
+</ion-button>
+<ion-button (click)="tripService.changeMean('bicycle')" size="small">
+  <ion-icon slot="icon-only" name="bicycle"></ion-icon>
+</ion-button>
+<ion-button (click)="tripService.changeMean('bus')" size="small">
+  <ion-icon slot="icon-only" name="bus"></ion-icon>
+</ion-button>
+<ion-button (click)="tripService.changeMean('car')" size="small">
+  <ion-icon slot="icon-only" name="car"></ion-icon>
+</ion-button>
+<ion-button (click)="tripService.stop()" color="danger" [disabled]="(tripService.isInTrip$ | async) === false" size="small">
+  <ion-icon slot="icon-only" name="stop"></ion-icon>
+</ion-button>
