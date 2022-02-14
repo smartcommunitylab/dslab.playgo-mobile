@@ -13,4 +13,10 @@ export class ProfilePage {
 
   constructor() {}
 
+  ngOnInit() {
+    this.user = new UserClass();
+    this.user.img_source = "https://www.atuttodonna.it/atuttodonna/wp-content/uploads/2020/04/immagini-felicit%C3%A0.jpg";
+    this.user.totalLeaf = "42";
+    this.user.name = "My name";
+  }
 }

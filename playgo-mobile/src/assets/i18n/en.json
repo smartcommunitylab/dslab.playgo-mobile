@@ -11,5 +11,10 @@
   "home_title":"Home",
   "profile_title":"Profile",
   "campaigns_title":"Campaign",
-  "playNow": "Play now"
+  "playNow": "Play now",
+  "noMessages": "No messages available",
+  "noCampaigns": "No campaigns available",
+  "messages":"Messagges",
+  "generalStatistics": "Quantitative general statistics",
+  "noStatistics": "No statistics available"
 }

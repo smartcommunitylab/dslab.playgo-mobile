@@ -7,10 +7,34 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ 'profile_title' | translate }}</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  {{ 'profile_title' | translate }}
+  <ion-grid>
+    <ion-row>
+      <ion-col col-in=6>
+        <ion-avatar>
+          <img src="{{user.img_source}}">
+        </ion-avatar>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-in=6>
+        <ion-label>
+          {{user.name}}
+        </ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-in=6>
+        <ion-label>
+          Regione
+        </ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-my-activity-widget></app-my-activity-widget>
+  <app-message-widget></app-message-widget>
+  <app-general-statistics-widget></app-general-statistics-widget>
+
 </ion-content>

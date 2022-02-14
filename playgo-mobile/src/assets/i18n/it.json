@@ -11,5 +11,12 @@
   "home_title":"Home",
   "profile_title":"Profilo",
   "campaigns_title":"Campagna",
-  "playNow": "Gioca adesso"
+  "playNow": "Gioca adesso",
+  "noMessages": "Nessun messaggio",
+  "noCampaigns": "Nessuna campagna",
+  "messages":"Messaggi",
+  "generalStatistics": "Statistiche generali quantitative",
+  "noStatistics": "Nessuna statistica disponibile",
+  "activities": "Le mie attività",
+  "noActivities": "Nessuna attività disponibile"
 }
