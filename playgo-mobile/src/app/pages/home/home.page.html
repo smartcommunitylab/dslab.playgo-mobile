@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
+  <ion-toolbar color="primary">
+    <ion-title >
       {{ 'hello_world' | translate }}
     </ion-title>
   </ion-toolbar>
@@ -14,6 +14,7 @@
   </ion-header>
 
   <div id="container">
-    <app-hello></app-hello>
+    <ion-button (click)="campagins()">{{"campaigns" | translate}}</ion-button>
   </div>
+  <app-tab></app-tab>
 </ion-content>

@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
   <ion-buttons slot="start">
     <ion-back-button [icon]="'arrow-back-outline'"></ion-back-button>
   </ion-buttons>
-    <ion-title>campaign details</ion-title>
+    <ion-title>{{campaign.title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <p>{{id}}</p>
+  <app-campaign-card [campaign]="campaign" [join]="false"></app-campaign-card>
 </ion-content>

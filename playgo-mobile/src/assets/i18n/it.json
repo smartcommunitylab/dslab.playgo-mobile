@@ -5,5 +5,7 @@
   "allCampains": "Tutte le campagne",
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",
-  "join":"Partecipa"
+  "join":"Partecipa",
+  "home":"Home",
+  "profile": "Profilo"
 }

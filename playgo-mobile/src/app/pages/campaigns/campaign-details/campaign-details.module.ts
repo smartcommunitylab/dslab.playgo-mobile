@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CampaignDetailsPageRoutingModule } from './campaign-details-routing.module';
 
 import { CampaignDetailsPage } from './campaign-details.page';
+import { PlayGoSharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CampaignDetailsPageRoutingModule
+    CampaignDetailsPageRoutingModule,
+    PlayGoSharedModule,
   ],
   declarations: [CampaignDetailsPage]
 })

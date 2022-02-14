@@ -18,7 +18,6 @@ export class MyCampaignComponent implements OnInit {
    }
 
   ngOnInit() {
-    console.log(this.myCampaigns);
     if(!this.myCampaigns){
       this.numberPage = 0;
       this.myCampaignService.getPageNumberForMyCampaign(this.numberPage).subscribe((pagable) => {

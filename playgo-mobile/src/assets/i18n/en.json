@@ -5,5 +5,7 @@
   "allCampains": "All campains",
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",
-  "join":"Join"
+  "join":"Join",
+  "home":"Home",
+  "profile": "profile"
 }
