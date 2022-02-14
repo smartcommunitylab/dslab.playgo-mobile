@@ -1,10 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button [icon]="'arrow-back-outline'"></ion-back-button>
-    </ion-buttons>
     <ion-title>
-      {{"campaigns" | translate}}
+      {{ 'campaigns_title' | translate }}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,10 +10,10 @@
   <div>
     <ion-segment [(ngModel)]="selectedSegment">
       <ion-segment-button value="myCampaigns">
-        <ion-label>{{'myCampains' | translate }}</ion-label>
+        <ion-label>{{'myCampaigns' | translate }}</ion-label>
       </ion-segment-button>
       <ion-segment-button value="allCampaigns">
-        <ion-label>{{'allCampains' | translate }}</ion-label>
+        <ion-label>{{'allCampaigns' | translate }}</ion-label>
       </ion-segment-button>
     </ion-segment>
     <div [ngSwitch]="selectedSegment">

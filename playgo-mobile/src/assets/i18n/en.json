@@ -1,11 +1,15 @@
 {
   "hello_world":"Hello world",
   "campaigns": "Campaigns",
-  "myCampains": "My campains",
-  "allCampains": "All campains",
+  "myCampaigns": "My campaigns",
+  "allCampaigns": "All campaigns",
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",
   "join":"Join",
   "home":"Home",
-  "profile": "profile"
+  "profile": "profile",
+  "home_title":"Home",
+  "profile_title":"Profile",
+  "campaigns_title":"Campaign",
+  "playNow": "Play now"
 }

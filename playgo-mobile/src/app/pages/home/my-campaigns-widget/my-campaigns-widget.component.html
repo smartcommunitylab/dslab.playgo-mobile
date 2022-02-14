@@ -1,0 +1,14 @@
+<ion-card>
+  <ion-card-header>
+  {{"myCampaigns" | translate}}
+  </ion-card-header>
+  <ion-grid>
+    <ion-row *ngFor="let campaign of campaigns">
+      <ion-col col-1>
+        <ion-label >
+          {{campaign.title}}
+        </ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

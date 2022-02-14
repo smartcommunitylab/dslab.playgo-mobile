@@ -17,8 +17,7 @@ export class CampaignCardComponent implements OnInit {
   ngOnInit() {}
 
   detailCampaign(){
-    //this.campaign.id
-    this.router.navigateByUrl('/campaigns/details/'+this.campaign.id);
+    this.router.navigateByUrl('/tabs/campaigns/details/'+this.campaign.id);
   }
 
   joinCamp(){

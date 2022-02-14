@@ -4,6 +4,8 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { PlayGoSharedModule } from 'src/app/shared/shared.module';
+import { MyCampaignsWidgetComponent } from './my-campaigns-widget/my-campaigns-widget.component';
+import { HomeTrackingWidgetComponent } from './home-tracking-widget/home-tracking-widget.component';
 
 
 @NgModule({
@@ -11,6 +13,11 @@ import { PlayGoSharedModule } from 'src/app/shared/shared.module';
     PlayGoSharedModule,
     HomePageRoutingModule,
   ],
-  declarations: [HomePage]
+  declarations: [
+    MyCampaignsWidgetComponent,
+    HomeTrackingWidgetComponent,
+    HomePage],
+    exports: [MyCampaignsWidgetComponent,
+      HomeTrackingWidgetComponent]
 })
 export class HomePageModule {}
