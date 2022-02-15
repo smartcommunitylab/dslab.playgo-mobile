@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { TripPersistanceService } from '../tracking/trip-persistance.service';
-import { TripService } from '../tracking/trip.service';
+
+// import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 
 @Component({
   selector: 'app-hello',
@@ -8,5 +8,13 @@ import { TripService } from '../tracking/trip.service';
   styleUrls: ['hello.component.css'],
 })
 export class HelloComponent {
-  constructor() { }
+  constructor() {
+    this.start().then(() => console.log('OK'));
+  }
+  async start() {
+    // const initialConfig = {};
+    // const state = await BackgroundGeolocation.ready(initialConfig);
+    // const currentLocation = await BackgroundGeolocation.getCurrentPosition({});
+    // await BackgroundGeolocation.start();
+  }
 }
