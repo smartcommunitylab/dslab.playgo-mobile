@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'ionic-appauth';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { TrackingMainService } from './shared/tracking/tracking-main.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent {
   constructor(
     private translate: TranslateService,
     private platform: Platform,
-    private auth: AuthService
+    private auth: AuthService,
+    private trackingMainService: TrackingMainService
   ) {
     this.initializeApp();
   }
@@ -23,5 +25,6 @@ export class AppComponent {
       await this.auth.init();
       SplashScreen.hide();
     });
+    this.trackingMainService.start();
   }
 }
