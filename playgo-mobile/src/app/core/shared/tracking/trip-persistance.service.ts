@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { filter, mergeMap, switchMap } from 'rxjs/operators';
-import { NO_TRIP_STARTED, TripPart, TRIP_END } from './trip.model';
+import { NO_TRIP_STARTED, Trip, TripPart, TRIP_END } from './trip.model';
 import { isNotConstant } from './utils';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { isNotConstant } from './utils';
 })
 export class TripPersistanceService {
   private readonly localStorageKey = 'playgo-mobile';
-  private storage = new Storage<TripPart>(this.localStorageKey);
+  private storage = new Storage<TripPart & Trip>(this.localStorageKey);
 
   private initialTripSubject = new ReplaySubject<TripPart | NO_TRIP_STARTED>();
   public initialTrip$: Observable<TripPart> = this.initialTripSubject.pipe(
@@ -25,12 +25,13 @@ export class TripPersistanceService {
   );
 
   constructor() {
-    this.tripPartsToStore.subscribe(this.storeOrClearTrip.bind(this));
-
     this.initialTripSubject.next(this.readTrip());
     this.initialTripSubject.complete();
   }
-
+  public start() {
+    // TODO: better to pass trip service manually?
+    this.tripPartsToStore.subscribe(this.storeOrClearTrip.bind(this));
+  }
   //we have to pass observable manually, to avoid circular dependency in DI.
   storeLastOf(tripPart$: Observable<TripPart | TRIP_END>) {
     this.sourceTripPartsToStore.next(tripPart$);
@@ -38,44 +39,25 @@ export class TripPersistanceService {
 
   private storeOrClearTrip(tripPart) {
     if (tripPart === TRIP_END) {
-      this.clearTrip();
+      this.storage.set(null);
     } else {
-      this.storeTrip(tripPart);
+      this.storage.set(tripPart);
     }
-  }
-  private clearTrip() {
-    this.storage.set('mean', null);
-    this.storage.set('multimodalId', null);
-    this.storage.set('started', null);
-  }
-  private storeTrip(tripPart: TripPart) {
-    this.storage.set('mean', tripPart.mean);
-    this.storage.set('multimodalId', tripPart.multimodalId);
-    this.storage.set('started', tripPart.started);
   }
 
   private readTrip(): TripPart | NO_TRIP_STARTED {
-    const mean = this.storage.get('mean');
-    const multimodalId = this.storage.get('multimodalId');
-    const started = this.storage.get('started');
-
-    if (multimodalId) {
-      return new TripPart({ mean, started, multimodalId });
-    }
-    return NO_TRIP_STARTED;
+    const tripPart: TripPart = this.storage.get();
+    return tripPart || NO_TRIP_STARTED;
   }
 }
 
 class Storage<T> {
   constructor(private localStorageKey: string) {}
-  set<K extends keyof T>(key: K, value: T[K]) {
-    localStorage.setItem(
-      this.localStorageKey + '_' + key,
-      JSON.stringify(value)
-    );
+  set(data: T) {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(data || null));
   }
-  get<K extends keyof T>(key: K): T[K] {
-    const stringVal = localStorage.getItem(this.localStorageKey + '_' + key);
+  get(): T {
+    const stringVal = localStorage.getItem(this.localStorageKey);
     return JSON.parse(stringVal);
   }
 }

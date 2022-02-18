@@ -1,32 +1,34 @@
 export class Trip {
-  tripId: string;
+  multimodalId: string;
   constructor(data?: Trip) {
     Object.assign(this, data || {});
   }
   public static fromFirstPart(firstPart: TripPart): Trip {
-    const tripId = `${firstPart.mean}_${firstPart.started}`;
-    return new Trip({ tripId });
+    return new Trip({ multimodalId: firstPart.multimodalId });
   }
 }
 
 export class TripPart {
-  mean: Mean;
+  idTrip: string;
+  transportType: TransportType;
+  start: number;
   multimodalId: string;
-  started: number;
   constructor(data?: TripPart) {
     Object.assign(this, data || {});
   }
-  public static fromMean(mean: Mean): TripPart {
-    const started = new Date().getTime();
+  public static fromTransportType(transportType: TransportType): TripPart {
+    const start = new Date().getTime();
+    const idTrip = `${transportType}_${start}`;
     return new TripPart({
-      started,
-      mean,
-      multimodalId: `multimodal_${started}`,
+      start,
+      transportType,
+      idTrip,
+      multimodalId: null,
     });
   }
 }
 
-export type Mean = 'walk' | 'bicycle' | 'bus' | 'train' | 'car';
+export type TransportType = 'walk' | 'bicycle' | 'bus' | 'train' | 'car';
 
 export const TRIP_END = 'TRIP_END' as const;
 // eslint-disable-next-line @typescript-eslint/naming-convention

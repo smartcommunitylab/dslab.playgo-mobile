@@ -11,19 +11,51 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { TripPersistanceService } from './trip-persistance.service';
-import { Mean, NO_TRIP_STARTED, Trip, TripPart, TRIP_END } from './trip.model';
+import {
+  TransportType,
+  NO_TRIP_STARTED,
+  Trip,
+  TripPart,
+  TRIP_END,
+} from './trip.model';
 import { isNotConstant, tapLog } from './utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TripService {
-  private tripPartsSubject$ = new ReplaySubject<TripPart | TRIP_END>();
+  private tripPartsSubjectWithoutMultimodalId$ = new ReplaySubject<
+    TripPart | TRIP_END
+  >();
 
   public tripPart$: Observable<TripPart | TRIP_END> = concat(
     this.getInitialTripPart(),
-    this.tripPartsSubject$
-  ).pipe(shareReplay(1));
+    this.tripPartsSubjectWithoutMultimodalId$
+  ).pipe(
+    // set multimodalId
+    scan((lastTripPartWithId, currentTripPart) => {
+      if (currentTripPart === TRIP_END) {
+        return TRIP_END;
+      }
+      let multimodalId: string;
+      if (
+        lastTripPartWithId === TRIP_END ||
+        lastTripPartWithId === NO_TRIP_STARTED
+      ) {
+        // creating a new trip
+        multimodalId = `multimodal_${currentTripPart.start}`;
+      } else {
+        // continue with previous multimodalId
+        multimodalId = lastTripPartWithId.multimodalId;
+      }
+      return new TripPart({
+        ...currentTripPart,
+        multimodalId,
+      });
+    }, NO_TRIP_STARTED as TripPart | TRIP_END | NO_TRIP_STARTED),
+    filter(isNotConstant(NO_TRIP_STARTED)),
+    shareReplay(1)
+  );
 
   public trip$: Observable<Trip | TRIP_END> = this.tripPart$.pipe(
     // tapLog('trip$ before mergeScan'),
@@ -43,7 +75,6 @@ export class TripService {
         return EMPTY;
       }
       // we have new tripPart, but no trip ongoing -> create one.
-      // FIXME: if we have ongoing trip in the local storage, we should use that trip ID!!!!
       const newTrip = Trip.fromFirstPart(currentTripPart);
       // console.log(
       //   'we have new tripPart, but no trip ongoing -> create one.',
@@ -65,12 +96,26 @@ export class TripService {
   );
 
   public tripEnd$: Observable<Trip> = this.trip$.pipe(
-    scan((lastTrip, currentTripOrEnd) => {
-      if (isNotConstant(TRIP_END)(currentTripOrEnd)) {
-        return currentTripOrEnd;
+    scan(
+      (lastTripInfo, currentTripOrEnd) => {
+        if (currentTripOrEnd === TRIP_END) {
+          return {
+            trip: lastTripInfo.trip,
+            isEnd: true,
+          };
+        }
+        return {
+          trip: currentTripOrEnd,
+          isEnd: false,
+        };
+      },
+      {
+        isEnd: false,
+        trip: NO_TRIP_STARTED as NO_TRIP_STARTED | Trip,
       }
-      return lastTrip;
-    }, NO_TRIP_STARTED as NO_TRIP_STARTED | Trip),
+    ),
+    filter(({ isEnd }) => isEnd),
+    map(({ trip }) => trip),
     filter(isNotConstant(NO_TRIP_STARTED))
   );
 
@@ -78,12 +123,14 @@ export class TripService {
     this.tripPersistanceService.storeLastOf(this.tripPart$);
   }
 
-  public changeMean(mean: Mean) {
-    this.tripPartsSubject$.next(TripPart.fromMean(mean));
+  public changeMean(mean: TransportType) {
+    this.tripPartsSubjectWithoutMultimodalId$.next(
+      TripPart.fromTransportType(mean)
+    );
   }
 
   public stop() {
-    this.tripPartsSubject$.next(TRIP_END);
+    this.tripPartsSubjectWithoutMultimodalId$.next(TRIP_END);
   }
 
   private getInitialTripPart(): Observable<TripPart> {
