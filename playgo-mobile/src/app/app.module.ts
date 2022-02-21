@@ -17,7 +17,7 @@ export function createTranslateLoader(http: HttpClient) {
   entryComponents: [],
   imports: [
     BrowserModule,
-    PlayGoSharedModule,
+     PlayGoSharedModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

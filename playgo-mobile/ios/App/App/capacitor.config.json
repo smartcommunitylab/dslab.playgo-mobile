@@ -1,6 +1,11 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "playgo-mobile",
+	"appId": " it.dslab.playgo-mobile",
+	"appName": " it.dslab.playgo-mobile",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0
+		}
+	}
 }
