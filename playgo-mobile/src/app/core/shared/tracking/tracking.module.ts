@@ -8,6 +8,7 @@ import { TripService } from './trip.service';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { BackgroundGeolocationMock } from './BackgroundGeolocationMock';
 import { Platform } from '@ionic/angular';
+import { PlayGoSharedLibsModule } from '../shared-libs.module';
 
 @NgModule({
   declarations: [TrackingMainControlComponent, TrackingQuickControlComponent],
@@ -24,7 +25,7 @@ import { Platform } from '@ionic/angular';
       deps: [Platform],
     },
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, PlayGoSharedLibsModule],
   exports: [TrackingMainControlComponent, TrackingQuickControlComponent],
 })
 export class TrackingModule {}

@@ -1,23 +1,30 @@
 <div>tripService.tripPart$</div>
-<div>{{tripService.tripPart$ | async | json}}</div>
+<div>{{ tripService.tripPart$ | async | json }}</div>
 <div>tripService.trip$</div>
-<div>{{tripService.trip$ | async | json}}</div>
+<div>{{ tripService.trip$ | async | json }}</div>
 <div>tripService.isInTrip$</div>
-<div>{{tripService.isInTrip$ | async | json}}</div>
-
-
-<ion-button (click)="tripService.changeMean('walk')">
-  <ion-icon slot="icon-only" name="walk"></ion-icon>
-</ion-button>
-<ion-button (click)="tripService.changeMean('bicycle')">
-  <ion-icon slot="icon-only" name="bicycle"></ion-icon>
-</ion-button>
-<ion-button (click)="tripService.changeMean('bus')">
-  <ion-icon slot="icon-only" name="bus"></ion-icon>
-</ion-button>
-<ion-button (click)="tripService.changeMean('car')">
-  <ion-icon slot="icon-only" name="car"></ion-icon>
-</ion-button>
-<ion-button (click)="tripService.stop()" color="danger" [disabled]="(tripService.isInTrip$ | async) === false">
+<div>{{ tripService.isInTrip$ | async | json }}</div>
+<ng-container *ngFor="let eachTransportTypeOption of transportTypeOptions">
+  <ion-button
+    (click)="
+      tripService.changeTransportType(eachTransportTypeOption.transportType)
+    "
+    [size]="size"
+    [color]="
+      (tripService.activeTransportType$ | async) ===
+      eachTransportTypeOption.transportType
+        ? 'secondary'
+        : 'primary'
+    "
+  >
+    <ion-icon slot="icon-only" [name]="eachTransportTypeOption.icon"></ion-icon>
+  </ion-button>
+</ng-container>
+<ion-button
+  (click)="tripService.stop()"
+  color="danger"
+  [disabled]="(tripService.isInTrip$ | async) === false"
+  [size]="size"
+>
   <ion-icon slot="icon-only" name="stop"></ion-icon>
 </ion-button>

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IonButton } from '@ionic/angular';
+import { TransportType } from '../trip.model';
 import { TripService } from '../trip.service';
 
 @Component({
@@ -7,9 +9,18 @@ import { TripService } from '../trip.service';
   styleUrls: ['./tracking-main-control.component.scss'],
 })
 export class TrackingMainControlComponent implements OnInit {
-
-  constructor( public tripService: TripService) { }
+  @Input()
+  public size: IonButton['size'] = 'default';
+  public transportTypeOptions: {
+    transportType: TransportType;
+    icon: string;
+  }[] = [
+    { transportType: 'walk', icon: 'walk' },
+    { transportType: 'bicycle', icon: 'bicycle' },
+    { transportType: 'bus', icon: 'bus' },
+    { transportType: 'car', icon: 'car' },
+  ];
+  constructor(public tripService: TripService) {}
 
   ngOnInit() {}
-
 }

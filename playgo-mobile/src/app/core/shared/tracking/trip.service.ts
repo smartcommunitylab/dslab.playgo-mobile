@@ -23,6 +23,14 @@ export class TripService {
 
   public tripPart$: Observable<TripPart | TRIP_END> =
     this.tripPartSubject.asObservable();
+  public activeTransportType$ = this.tripPart$.pipe(
+    map((tripPart) => {
+      if (tripPart === TRIP_END) {
+        return null;
+      }
+      return tripPart.transportType;
+    })
+  );
 
   public trip$: Observable<Trip | TRIP_END> = this.tripPart$.pipe(
     // tapLog('trip$ before mergeScan'),
@@ -112,8 +120,8 @@ export class TripService {
     }
   }
 
-  public async changeMean(mean: TransportType) {
-    await this.startOrStop(TripPart.fromTransportType(mean));
+  public async changeTransportType(transportType: TransportType) {
+    await this.startOrStop(TripPart.fromTransportType(transportType));
   }
 
   public async stop() {
