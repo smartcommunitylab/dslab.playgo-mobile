@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Inject, Injectable } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import BackgroundGeolocation, {
   Config,
   Extras,
 } from '@transistorsoft/capacitor-background-geolocation';
-import { TripPart } from './trip.model';
+import { LOW_ACCURACY, TripPart } from './trip.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +15,12 @@ export class BackgroundTrackingService {
   private isReady = new Promise((resolve, reject) => {
     this.markAsReady = resolve;
   });
+  private appConfig = { tracking: { minimalAccuracy: 10 } };
 
   constructor(
     @Inject(BackgroundGeolocation)
-    private backgroundGeolocationPlugin: typeof BackgroundGeolocation
+    private backgroundGeolocationPlugin: typeof BackgroundGeolocation,
+    public alertController: AlertController
   ) {
     // FIXME: debug only
     (window as any).backgroundGeolocationPlugin =
@@ -57,7 +60,52 @@ export class BackgroundTrackingService {
 
   public async startTracking(tripPart: TripPart) {
     const location = await this.setExtrasAndForceLocation(tripPart);
+    const accuracy = location.coords.accuracy;
+    if (accuracy < this.appConfig.tracking.minimalAccuracy) {
+      const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
+      if (!userAcceptsLowAccuracy) {
+        throw LOW_ACCURACY;
+      }
+    }
     await this.backgroundGeolocationPlugin.start();
+  }
+
+  private async showLowAccuracyWarning() {
+    return await this.confirmPopup({
+      message: 'Low accuracy detected!.',
+      cancelText: 'Cancel tracking',
+      okText: 'Continue with low accuracy',
+    });
+  }
+
+  // TODO: move to other service!
+  private async confirmPopup({
+    okText,
+    cancelText,
+    message,
+  }: {
+    okText: string;
+    cancelText: string;
+    message: string;
+  }) {
+    let response = false;
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'Low accuracy detected!.',
+      buttons: [
+        {
+          text: okText,
+          handler: () => (response = true),
+        },
+        cancelText,
+      ],
+    });
+
+    await alert.present();
+    await alert.onDidDismiss();
+    return response;
   }
 
   public async stopTracking() {

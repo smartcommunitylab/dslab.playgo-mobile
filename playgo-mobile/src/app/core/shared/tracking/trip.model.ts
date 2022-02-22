@@ -37,3 +37,5 @@ export type TRIP_END = typeof TRIP_END;
 export const NO_TRIP_STARTED = 'NO_TRIP_STARTED' as const;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type NO_TRIP_STARTED = typeof NO_TRIP_STARTED;
+
+export const LOW_ACCURACY = 'LOW_ACCURACY' as const;

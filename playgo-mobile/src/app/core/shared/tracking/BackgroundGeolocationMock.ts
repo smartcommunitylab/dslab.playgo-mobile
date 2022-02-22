@@ -2,6 +2,7 @@
 import {
   BackgroundGeolocation,
   State,
+  Location,
 } from '@transistorsoft/capacitor-background-geolocation';
 import { Config } from 'protractor';
 
@@ -29,7 +30,11 @@ export class BackgroundGeolocationMock
   public static async getCurrentPosition(config: Config) {
     log('getCurrentPosition called!', config);
     await time(1000);
-    log('getCurrentPosition finished!');
+    const location: Partial<Location> = {
+      coords: { accuracy: Math.random() * 20, latitude: 10, longitude: 10 },
+    };
+    log('getCurrentPosition finished!', location);
+    return location;
   }
   public static async start() {
     log('start called!');
