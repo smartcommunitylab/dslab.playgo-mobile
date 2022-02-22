@@ -111,6 +111,7 @@ export class BackgroundTrackingService {
   public async stopTracking() {
     await this.setExtrasAndForceLocation(null);
     await this.backgroundGeolocationPlugin.stop();
+    await this.backgroundGeolocationPlugin.sync();
   }
   private async setExtrasAndForceLocation(tripPart: TripPart | null) {
     await this.isReady;

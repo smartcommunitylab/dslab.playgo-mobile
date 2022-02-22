@@ -9,9 +9,14 @@ import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocat
 import { BackgroundGeolocationMock } from './BackgroundGeolocationMock';
 import { Platform } from '@ionic/angular';
 import { PlayGoSharedLibsModule } from '../shared-libs.module';
+import { TrackingButtonsComponent } from './tracking-buttons/tracking-buttons.component';
 
 @NgModule({
-  declarations: [TrackingMainControlComponent, TrackingQuickControlComponent],
+  declarations: [
+    TrackingMainControlComponent,
+    TrackingQuickControlComponent,
+    TrackingButtonsComponent,
+  ],
   providers: [
     // { provide: BackgroundGeolocation, useValue: BackgroundGeolocation },
     // { provide: BackgroundGeolocation, useValue: BackgroundGeolocationMock },
