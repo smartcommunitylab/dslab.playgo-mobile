@@ -32,6 +32,9 @@ export class TripService {
     })
   );
 
+  private operationInProgressSubject = new ReplaySubject();
+  public operationInProgress$ = this.operationInProgressSubject.asObservable();
+
   public trip$: Observable<Trip | TRIP_END> = this.tripPart$.pipe(
     // tapLog('trip$ before mergeScan'),
     mergeScan((lastTrip, currentTripPart) => {
@@ -153,6 +156,7 @@ export class TripService {
     tripPartWithoutMultimodalId: TripPart | TRIP_END
   ): Promise<void> {
     try {
+      this.operationInProgressSubject.next(true);
       const lastTripPartWithId = this.currentTripPart;
       const newTripPart = this.getNewTripPart(
         lastTripPartWithId,
@@ -166,6 +170,8 @@ export class TripService {
       this.setCurrentTripPart(newTripPart);
     } catch (e) {
       console.error(e);
+    } finally {
+      this.operationInProgressSubject.next(false);
     }
   }
   private setCurrentTripPart(newTripPart: TripPart | TRIP_END) {

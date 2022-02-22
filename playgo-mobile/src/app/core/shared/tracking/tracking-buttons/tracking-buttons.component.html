@@ -4,6 +4,7 @@
       tripService.changeTransportType(eachTransportTypeOption.transportType)
     "
     [size]="size"
+    [disabled]="tripService.operationInProgress$ | async"
     [color]="
       (tripService.activeTransportType$ | async) ===
       eachTransportTypeOption.transportType
@@ -17,8 +18,15 @@
 <ion-button
   (click)="tripService.stop()"
   color="danger"
-  [disabled]="(tripService.isInTrip$ | async) === false"
+  [disabled]="
+    (tripService.isInTrip$ | async) === false ||
+    (tripService.operationInProgress$ | async)
+  "
   [size]="size"
 >
   <ion-icon slot="icon-only" name="stop"></ion-icon>
 </ion-button>
+<ion-progress-bar
+  *ngIf="tripService.operationInProgress$ | async"
+  type="indeterminate"
+></ion-progress-bar>
