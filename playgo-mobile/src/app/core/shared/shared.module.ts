@@ -1,21 +1,12 @@
 import { NgModule } from '@angular/core';
 import { HelloComponent } from './hello-component/hello.component';
 import { PlayGoSharedLibsModule } from './shared-libs.module';
-import { TrackingMainControlComponent } from './tracking/tracking-main-control/tracking-main-control.component';
-import { TrackingQuickControlComponent } from './tracking/tracking-quick-control/tracking-quick-control.component';
+import { TrackingModule } from './tracking/tracking.module';
 
 @NgModule({
-  imports: [PlayGoSharedLibsModule],
-  declarations: [
-    HelloComponent,
-    TrackingMainControlComponent,
-    TrackingQuickControlComponent,
-  ],
+  imports: [PlayGoSharedLibsModule, TrackingModule],
+  declarations: [HelloComponent],
   entryComponents: [],
-  exports: [
-    PlayGoSharedLibsModule,
-    HelloComponent,
-    TrackingQuickControlComponent,
-  ],
+  exports: [PlayGoSharedLibsModule, HelloComponent, TrackingModule],
 })
 export class PlayGoSharedModule {}

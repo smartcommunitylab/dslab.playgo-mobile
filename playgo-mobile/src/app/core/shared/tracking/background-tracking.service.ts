@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import BackgroundGeolocation, {
   Config,
   Extras,
@@ -15,16 +15,20 @@ export class BackgroundTrackingService {
     this.markAsReady = resolve;
   });
 
-  constructor() {
+  constructor(
+    @Inject(BackgroundGeolocation)
+    private backgroundGeolocationPlugin: typeof BackgroundGeolocation
+  ) {
     // FIXME: debug only
-    (window as any).BackgroundGeolocation = BackgroundGeolocation;
+    (window as any).backgroundGeolocationPlugin =
+      this.backgroundGeolocationPlugin;
   }
 
   async start() {
     try {
       // !!! location will be synced to the public open https://tracker.transistorsoft.com/fbk_dslab
       const debugTokenForPublicServer =
-        await BackgroundGeolocation.findOrCreateTransistorAuthorizationToken(
+        await this.backgroundGeolocationPlugin.findOrCreateTransistorAuthorizationToken(
           'fbk_dslab',
           'mmikula'
         );
@@ -37,7 +41,7 @@ export class BackgroundTrackingService {
         autoSync: false,
       };
       console.log('starting BackgroundGeolocation', config);
-      const state = await BackgroundGeolocation.ready(config);
+      const state = await this.backgroundGeolocationPlugin.ready(config);
       console.log('BackgroundGeolocation ready', state);
     } catch (e) {
       console.error(e);
@@ -47,20 +51,20 @@ export class BackgroundTrackingService {
 
   public async syncInitialLocations() {
     await this.isReady;
-    await BackgroundGeolocation.sync();
-    await BackgroundGeolocation.stop();
+    await this.backgroundGeolocationPlugin.sync();
+    await this.backgroundGeolocationPlugin.stop();
   }
 
   public async startTracking(tripPart: TripPart) {
     await this.isReady;
     const extras = this.getExtras(tripPart);
-    await BackgroundGeolocation.setConfig({ extras });
+    await this.backgroundGeolocationPlugin.setConfig({ extras });
 
-    await BackgroundGeolocation.getCurrentPosition({
+    await this.backgroundGeolocationPlugin.getCurrentPosition({
       extras: { ...extras, forced: true },
     });
 
-    await BackgroundGeolocation.start();
+    await this.backgroundGeolocationPlugin.start();
   }
 
   private getExtras(tripPart: TripPart): TripExtras {
