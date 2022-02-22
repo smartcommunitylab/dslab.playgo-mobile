@@ -99,13 +99,14 @@ export class TripService {
         this.tripPersistanceService.getInitialTrip();
       this.tripPersistanceService.storeLastOf(this.tripPart$);
 
+      console.log({ initialTrip });
       if (initialTrip === NO_TRIP_STARTED) {
         // maybe we have some location that are not synchronized with the server...
         await this.backgroundTrackingService.syncInitialLocations();
       } else {
         await this.backgroundTrackingService.startTracking(initialTrip);
+        this.setCurrentTripPart(initialTrip);
       }
-      this.currentTripPart = initialTrip;
     } catch (e) {
       console.error(e);
     }
@@ -119,36 +120,48 @@ export class TripService {
     await this.startOrStop(TRIP_END);
   }
 
-  private async startOrStop(tripPartWithoutMultimodalId: TripPart | TRIP_END) {
+  private getNewTripPart(
+    lastTripPart: TripPart | NO_TRIP_STARTED | TRIP_END,
+    currentTripPart: TripPart | TRIP_END
+  ) {
+    if (currentTripPart === TRIP_END) {
+      return TRIP_END;
+    }
+    let multimodalId: string;
+    if (lastTripPart === TRIP_END || lastTripPart === NO_TRIP_STARTED) {
+      // creating a new trip
+      multimodalId = `multimodal_${currentTripPart.start}`;
+    } else {
+      // continue with previous multimodalId
+      multimodalId = lastTripPart.multimodalId;
+    }
+
+    return new TripPart({
+      ...currentTripPart,
+      multimodalId,
+    });
+  }
+  private async startOrStop(
+    tripPartWithoutMultimodalId: TripPart | TRIP_END
+  ): Promise<void> {
     try {
       const lastTripPartWithId = this.currentTripPart;
-      const currentTripPart = tripPartWithoutMultimodalId;
-      if (currentTripPart === TRIP_END) {
-        return TRIP_END;
-      }
-      let multimodalId: string;
-      if (
-        lastTripPartWithId === TRIP_END ||
-        lastTripPartWithId === NO_TRIP_STARTED
-      ) {
-        // creating a new trip
-        multimodalId = `multimodal_${currentTripPart.start}`;
+      const newTripPart = this.getNewTripPart(
+        lastTripPartWithId,
+        tripPartWithoutMultimodalId
+      );
+      if (newTripPart === TRIP_END) {
+        await this.backgroundTrackingService.stopTracking();
       } else {
-        // continue with previous multimodalId
-        multimodalId = lastTripPartWithId.multimodalId;
+        await this.backgroundTrackingService.startTracking(newTripPart);
       }
-
-      const newTripPart = new TripPart({
-        ...currentTripPart,
-        multimodalId,
-      });
-
-      await this.backgroundTrackingService.startTracking(newTripPart);
-
-      this.currentTripPart = newTripPart;
-      this.tripPartSubject.next(this.currentTripPart);
+      this.setCurrentTripPart(newTripPart);
     } catch (e) {
       console.error(e);
     }
+  }
+  private setCurrentTripPart(newTripPart: TripPart | TRIP_END) {
+    this.currentTripPart = newTripPart;
+    this.tripPartSubject.next(this.currentTripPart);
   }
 }

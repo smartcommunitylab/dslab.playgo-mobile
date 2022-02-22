@@ -56,23 +56,30 @@ export class BackgroundTrackingService {
   }
 
   public async startTracking(tripPart: TripPart) {
+    const location = await this.setExtrasAndForceLocation(tripPart);
+    await this.backgroundGeolocationPlugin.start();
+  }
+
+  public async stopTracking() {
+    await this.setExtrasAndForceLocation(null);
+    await this.backgroundGeolocationPlugin.stop();
+  }
+  private async setExtrasAndForceLocation(tripPart: TripPart | null) {
     await this.isReady;
     const extras = this.getExtras(tripPart);
     await this.backgroundGeolocationPlugin.setConfig({ extras });
 
-    await this.backgroundGeolocationPlugin.getCurrentPosition({
+    return await this.backgroundGeolocationPlugin.getCurrentPosition({
       extras: { ...extras, forced: true },
     });
-
-    await this.backgroundGeolocationPlugin.start();
   }
 
-  private getExtras(tripPart: TripPart): TripExtras {
+  private getExtras(tripPart: TripPart | null): TripExtras {
     return {
-      idTrip: tripPart.idTrip,
-      multimodalId: tripPart.multimodalId,
-      start: tripPart.start,
-      transportType: tripPart.transportType,
+      idTrip: tripPart?.idTrip,
+      multimodalId: tripPart?.multimodalId,
+      start: tripPart?.start,
+      transportType: tripPart?.transportType,
     };
   }
 }
