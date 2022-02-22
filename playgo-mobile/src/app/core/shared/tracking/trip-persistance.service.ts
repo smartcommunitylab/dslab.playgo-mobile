@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { filter, mergeMap, switchMap } from 'rxjs/operators';
 import { NO_TRIP_STARTED, Trip, TripPart, TRIP_END } from './trip.model';
-import { isNotConstant } from './utils';
+import { isConstant, isNotConstant } from './utils';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,9 @@ export class TripPersistanceService {
   private storage = new Storage<TripPart & Trip>(this.localStorageKey);
 
   private initialTripSubject = new ReplaySubject<TripPart | NO_TRIP_STARTED>();
+  public initialTripNotPresent$ = this.initialTripSubject.pipe(
+    filter(isConstant(NO_TRIP_STARTED))
+  );
   public initialTrip$: Observable<TripPart> = this.initialTripSubject.pipe(
     filter(isNotConstant(NO_TRIP_STARTED))
   );

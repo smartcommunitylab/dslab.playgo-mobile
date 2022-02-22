@@ -5,8 +5,9 @@ import BackgroundGeolocation, {
   Config,
   Extras,
 } from '@transistorsoft/capacitor-background-geolocation';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Trip, TripPart, TRIP_END } from './trip.model';
+import { TripPersistanceService } from './trip-persistance.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,10 @@ export class BackgroundTrackingService {
       };
     })
   );
-  constructor(private tripService: TripService) {
+  constructor(
+    private tripService: TripService,
+    private tripPersistanceService: TripPersistanceService
+  ) {
     // FIXME: debug only
     (window as any).BackgroundGeolocation = BackgroundGeolocation;
   }
@@ -64,6 +68,10 @@ export class BackgroundTrackingService {
   }
 
   initSubscriptions() {
+    this.tripPersistanceService.initialTripNotPresent$.subscribe(() => {
+      // we maybe have some not synchronized location in the plugin
+      BackgroundGeolocation.sync();
+    });
     // this.extras$.subscribe(console.log);
     this.extras$.subscribe(async (extras) => {
       console.log('BackgroundGeolocation.setConfig({ extras });', extras);
