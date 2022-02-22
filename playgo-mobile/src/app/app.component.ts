@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'ionic-appauth';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { TrackingMainService } from './shared/tracking/tracking-main.service';
+import { AfterContentInit, Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements AfterContentInit {
   constructor(
     private translate: TranslateService,
     private platform: Platform,
     private auth: AuthService,
-    private trackingMainService: TrackingMainService
+    private backgroundTrackingService: BackgroundTrackingService
   ) {
     this.initializeApp();
   }
@@ -25,6 +25,8 @@ export class AppComponent {
       await this.auth.init();
       SplashScreen.hide();
     });
-    this.trackingMainService.start();
+  }
+  ngAfterContentInit() {
+    this.backgroundTrackingService.start();
   }
 }

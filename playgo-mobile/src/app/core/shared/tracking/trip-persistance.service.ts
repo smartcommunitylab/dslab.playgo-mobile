@@ -10,15 +10,7 @@ import { isConstant, isNotConstant } from './utils';
 })
 export class TripPersistanceService {
   private readonly localStorageKey = 'playgo-mobile';
-  private storage = new Storage<TripPart & Trip>(this.localStorageKey);
-
-  private initialTripSubject = new ReplaySubject<TripPart | NO_TRIP_STARTED>();
-  public initialTripNotPresent$ = this.initialTripSubject.pipe(
-    filter(isConstant(NO_TRIP_STARTED))
-  );
-  public initialTrip$: Observable<TripPart> = this.initialTripSubject.pipe(
-    filter(isNotConstant(NO_TRIP_STARTED))
-  );
+  private storage = new Storage<TripPart>(this.localStorageKey);
 
   private sourceTripPartsToStore = new ReplaySubject<
     Observable<TripPart | TRIP_END>
@@ -28,13 +20,9 @@ export class TripPersistanceService {
   );
 
   constructor() {
-    this.initialTripSubject.next(this.readTrip());
-    this.initialTripSubject.complete();
-  }
-  public start() {
-    // TODO: better to pass trip service manually?
     this.tripPartsToStore.subscribe(this.storeOrClearTrip.bind(this));
   }
+
   //we have to pass observable manually, to avoid circular dependency in DI.
   storeLastOf(tripPart$: Observable<TripPart | TRIP_END>) {
     this.sourceTripPartsToStore.next(tripPart$);
@@ -48,7 +36,7 @@ export class TripPersistanceService {
     }
   }
 
-  private readTrip(): TripPart | NO_TRIP_STARTED {
+  public getInitialTrip(): TripPart | NO_TRIP_STARTED {
     const tripPart: TripPart = this.storage.get();
     return tripPart || NO_TRIP_STARTED;
   }

@@ -1,43 +1,21 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { TripService } from './trip.service';
 import BackgroundGeolocation, {
   Config,
   Extras,
 } from '@transistorsoft/capacitor-background-geolocation';
-import { filter, map } from 'rxjs/operators';
-import { Trip, TripPart, TRIP_END } from './trip.model';
-import { TripPersistanceService } from './trip-persistance.service';
+import { TripPart } from './trip.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackgroundTrackingService {
-  private isReady$ = new ReplaySubject<void>();
+  private markAsReady: (val: unknown) => void;
+  private isReady = new Promise((resolve, reject) => {
+    this.markAsReady = resolve;
+  });
 
-  private extras$: Observable<TripExtras> = this.tripService.tripPart$.pipe(
-    map((tripPartOrEndTrip) => {
-      // console.log('extras data:', tripPartOrEndTrip);
-      if (tripPartOrEndTrip !== TRIP_END) {
-        return {
-          start: tripPartOrEndTrip.start,
-          transportType: tripPartOrEndTrip.transportType,
-          idTrip: tripPartOrEndTrip.idTrip,
-          multimodalId: tripPartOrEndTrip.multimodalId,
-        };
-      }
-      return {
-        start: null,
-        transportType: null,
-        idTrip: null,
-        multimodalId: null,
-      };
-    })
-  );
-  constructor(
-    private tripService: TripService,
-    private tripPersistanceService: TripPersistanceService
-  ) {
+  constructor() {
     // FIXME: debug only
     (window as any).BackgroundGeolocation = BackgroundGeolocation;
   }
@@ -64,46 +42,34 @@ export class BackgroundTrackingService {
     } catch (e) {
       console.error(e);
     }
-    this.initSubscriptions();
+    this.markAsReady(true);
   }
 
-  initSubscriptions() {
-    this.tripPersistanceService.initialTripNotPresent$.subscribe(() => {
-      // we maybe have some not synchronized location in the plugin
-      BackgroundGeolocation.sync();
-    });
-    // this.extras$.subscribe(console.log);
-    this.extras$.subscribe(async (extras) => {
-      console.log('BackgroundGeolocation.setConfig({ extras });', extras);
-      BackgroundGeolocation.setConfig({ extras });
-      try {
-        console.log('BackgroundGeolocation.getCurrentPosition()');
-        await BackgroundGeolocation.getCurrentPosition({
-          extras: { ...extras, forced: true },
-        });
-      } catch (e) {
-        console.error('BackgroundGeolocation.getCurrentPosition() --> failed');
-      }
+  public async syncInitialLocations() {
+    await this.isReady;
+    await BackgroundGeolocation.sync();
+    await BackgroundGeolocation.stop();
+  }
+
+  public async startTracking(tripPart: TripPart) {
+    await this.isReady;
+    const extras = this.getExtras(tripPart);
+    await BackgroundGeolocation.setConfig({ extras });
+
+    await BackgroundGeolocation.getCurrentPosition({
+      extras: { ...extras, forced: true },
     });
 
-    this.tripService.tripStart$.subscribe((trip) => {
-      try {
-        console.log('BackgroundGeolocation.start();');
-        BackgroundGeolocation.start();
-      } catch (e) {
-        console.error(e);
-      }
-    });
-    this.tripService.tripEnd$.subscribe(async (trip) => {
-      try {
-        console.log('BackgroundGeolocation.stop();');
-        await BackgroundGeolocation.stop();
-        console.log('BackgroundGeolocation.sync();');
-        await BackgroundGeolocation.sync();
-      } catch (e) {
-        console.error(e);
-      }
-    });
+    await BackgroundGeolocation.start();
+  }
+
+  private getExtras(tripPart: TripPart): TripExtras {
+    return {
+      idTrip: tripPart.idTrip,
+      multimodalId: tripPart.multimodalId,
+      start: tripPart.start,
+      transportType: tripPart.transportType,
+    };
   }
 }
 

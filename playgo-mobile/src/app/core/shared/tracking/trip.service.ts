@@ -1,15 +1,8 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
-import { concat, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
-import {
-  filter,
-  map,
-  mergeScan,
-  scan,
-  shareReplay,
-  startWith,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { EMPTY, Observable, of, ReplaySubject } from 'rxjs';
+import { filter, map, mergeScan, scan, shareReplay } from 'rxjs/operators';
+import { BackgroundTrackingService } from './background-tracking.service';
 import { TripPersistanceService } from './trip-persistance.service';
 import {
   TransportType,
@@ -24,38 +17,12 @@ import { isNotConstant, tapLog } from './utils';
   providedIn: 'root',
 })
 export class TripService {
-  private tripPartsSubjectWithoutMultimodalId$ = new ReplaySubject<
-    TripPart | TRIP_END
-  >();
+  private currentTripPart: TripPart | TRIP_END | NO_TRIP_STARTED =
+    NO_TRIP_STARTED;
+  private tripPartSubject = new ReplaySubject<TripPart | TRIP_END>();
 
-  public tripPart$: Observable<TripPart | TRIP_END> = concat(
-    this.getInitialTripPart(),
-    this.tripPartsSubjectWithoutMultimodalId$
-  ).pipe(
-    // set multimodalId
-    scan((lastTripPartWithId, currentTripPart) => {
-      if (currentTripPart === TRIP_END) {
-        return TRIP_END;
-      }
-      let multimodalId: string;
-      if (
-        lastTripPartWithId === TRIP_END ||
-        lastTripPartWithId === NO_TRIP_STARTED
-      ) {
-        // creating a new trip
-        multimodalId = `multimodal_${currentTripPart.start}`;
-      } else {
-        // continue with previous multimodalId
-        multimodalId = lastTripPartWithId.multimodalId;
-      }
-      return new TripPart({
-        ...currentTripPart,
-        multimodalId,
-      });
-    }, NO_TRIP_STARTED as TripPart | TRIP_END | NO_TRIP_STARTED),
-    filter(isNotConstant(NO_TRIP_STARTED)),
-    shareReplay(1)
-  );
+  public tripPart$: Observable<TripPart | TRIP_END> =
+    this.tripPartSubject.asObservable();
 
   public trip$: Observable<Trip | TRIP_END> = this.tripPart$.pipe(
     // tapLog('trip$ before mergeScan'),
@@ -119,21 +86,59 @@ export class TripService {
     filter(isNotConstant(NO_TRIP_STARTED))
   );
 
-  constructor(private tripPersistanceService: TripPersistanceService) {
+  constructor(
+    private tripPersistanceService: TripPersistanceService,
+    private backgroundTrackingService: BackgroundTrackingService
+  ) {}
+
+  private async start() {
+    const initialTrip: TripPart | NO_TRIP_STARTED =
+      this.tripPersistanceService.getInitialTrip();
     this.tripPersistanceService.storeLastOf(this.tripPart$);
+
+    if (initialTrip === NO_TRIP_STARTED) {
+      // maybe we have some location that are not synchronized with the server...
+      await this.backgroundTrackingService.syncInitialLocations();
+    } else {
+      await this.backgroundTrackingService.startTracking(initialTrip);
+    }
+    this.currentTripPart = initialTrip;
   }
 
-  public changeMean(mean: TransportType) {
-    this.tripPartsSubjectWithoutMultimodalId$.next(
-      TripPart.fromTransportType(mean)
-    );
+  public async changeMean(mean: TransportType) {
+    await this.startOrStop(TripPart.fromTransportType(mean));
   }
 
-  public stop() {
-    this.tripPartsSubjectWithoutMultimodalId$.next(TRIP_END);
+  public async stop() {
+    await this.startOrStop(TRIP_END);
   }
 
-  private getInitialTripPart(): Observable<TripPart> {
-    return this.tripPersistanceService.initialTrip$;
+  private async startOrStop(tripPartWithoutMultimodalId: TripPart | TRIP_END) {
+    const lastTripPartWithId = this.currentTripPart;
+    const currentTripPart = tripPartWithoutMultimodalId;
+    if (currentTripPart === TRIP_END) {
+      return TRIP_END;
+    }
+    let multimodalId: string;
+    if (
+      lastTripPartWithId === TRIP_END ||
+      lastTripPartWithId === NO_TRIP_STARTED
+    ) {
+      // creating a new trip
+      multimodalId = `multimodal_${currentTripPart.start}`;
+    } else {
+      // continue with previous multimodalId
+      multimodalId = lastTripPartWithId.multimodalId;
+    }
+
+    const newTripPart = new TripPart({
+      ...currentTripPart,
+      multimodalId,
+    });
+
+    await this.backgroundTrackingService.startTracking(newTripPart);
+
+    this.currentTripPart = newTripPart;
+    this.tripPartSubject.next(this.currentTripPart);
   }
 }
