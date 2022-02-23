@@ -1,10 +1,10 @@
 {
-  "hello_world":"Hello world",
-  "home_title":"Home",
-  "profile_title":"Profile",
-  "campaigns_title":"Campaign",
-  "login_card_header":"Login",
-  "login_button":"Login",
-  "label_signin":"Signin in...",
-  "label_signout":"Signin out..."
+  "hello_world": "Hello world",
+  "home_title": "Home",
+  "profile_title": "Profile",
+  "campaigns_title": "Campaign",
+  "login_card_header": "Login",
+  "login_button": "Login",
+  "label_signin": "Signin in...",
+  "label_signout": "Signin out..."
 }

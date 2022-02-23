@@ -5,20 +5,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { LoginPage } from './login.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { PlayGoSharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginPage
-  }
+    component: LoginPage,
+  },
 ];
 
 @NgModule({
   imports: [
-   PlayGoSharedModule,
-    RouterModule.forChild(routes)
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TranslateModule,
+    RouterModule.forChild(routes),
   ],
-  declarations: [LoginPage]
+  declarations: [LoginPage],
 })
 export class LoginPageModule {}

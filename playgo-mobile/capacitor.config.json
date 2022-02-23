@@ -1,8 +1,8 @@
 {
-	"appId": " it.dslab.playgo-mobile",
-	"appName": " it.dslab.playgo-mobile",
-	"webDir": "www",
-	"bundledWebRuntime": false,
+  "appId": "it.dslab.playgo",
+  "appName": "it.dslab.playgo",
+  "webDir": "www",
+  "bundledWebRuntime": false,
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0

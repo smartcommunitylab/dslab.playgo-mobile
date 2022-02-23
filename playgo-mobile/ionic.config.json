@@ -1,5 +1,5 @@
 {
-  "name": "playgo-mobile",
+  "name": "it.dslab.playgo",
   "integrations": {
     "capacitor": {}
   },

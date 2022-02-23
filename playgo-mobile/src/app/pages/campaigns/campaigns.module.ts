@@ -1,15 +1,11 @@
-
 import { NgModule } from '@angular/core';
 import { CampaignsPage } from './campaigns.page';
 
 import { CampaignsRoutingModule } from './campaigns-routing.module';
-import { PlayGoSharedModule } from 'src/app/shared/shared.module';
+import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 
 @NgModule({
-  imports: [
-    PlayGoSharedModule,
-    CampaignsRoutingModule
-  ],
-  declarations: [CampaignsPage]
+  imports: [PlayGoSharedModule, CampaignsRoutingModule],
+  declarations: [CampaignsPage],
 })
-export class CampaignsPageModule { }
+export class CampaignsPageModule {}

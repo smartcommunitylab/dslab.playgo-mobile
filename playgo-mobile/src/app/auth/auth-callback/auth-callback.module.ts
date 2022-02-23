@@ -11,8 +11,8 @@ import { TranslateModule } from '@ngx-translate/core';
 const routes: Routes = [
   {
     path: '',
-    component: AuthCallbackPage
-  }
+    component: AuthCallbackPage,
+  },
 ];
 
 @NgModule({
@@ -21,8 +21,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     TranslateModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
-  declarations: [AuthCallbackPage]
+  declarations: [AuthCallbackPage],
 })
 export class AuthCallbackPageModule {}

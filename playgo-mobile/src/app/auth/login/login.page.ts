@@ -12,13 +12,12 @@ export class LoginPage implements OnInit, OnDestroy {
   events$ = this.auth.events$;
   sub: Subscription;
 
-  constructor(
-    private auth: AuthService,
-    private navCtrl: NavController
-  ) { }
+  constructor(private auth: AuthService, private navCtrl: NavController) {}
 
   ngOnInit() {
-    this.sub = this.auth.events$.subscribe((action) => this.onSignInSuccess(action));
+    this.sub = this.auth.events$.subscribe((action) =>
+      this.onSignInSuccess(action)
+    );
   }
 
   ngOnDestroy() {
@@ -27,6 +26,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private onSignInSuccess(action: IAuthAction) {
     if (action.action === AuthActions.SignInSuccess) {
+      console.log('ciao');
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }

@@ -13,13 +13,12 @@ export class HomePage implements OnInit, OnDestroy {
   events$ = this.auth.events$;
   sub: Subscription;
 
-  constructor(
-    private auth: AuthService,
-    private navCtrl: NavController
-  ) { }
+  constructor(private auth: AuthService, private navCtrl: NavController) {}
 
   ngOnInit() {
-    this.sub = this.auth.events$.subscribe((action) => this.onSignOutSuccess(action));
+    this.sub = this.auth.events$.subscribe((action) =>
+      this.onSignOutSuccess(action)
+    );
   }
 
   ngOnDestroy() {

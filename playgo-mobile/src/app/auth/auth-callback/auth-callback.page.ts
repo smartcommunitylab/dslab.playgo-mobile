@@ -1,11 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthActions, IAuthAction, AuthObserver, AuthService } from 'ionic-appauth';
+import {
+  AuthActions,
+  IAuthAction,
+  AuthObserver,
+  AuthService,
+} from 'ionic-appauth';
 import { Subscription } from 'rxjs';
 
 @Component({
-  templateUrl:'./auth-callback.page.html'
+  templateUrl: './auth-callback.page.html',
 })
 export class AuthCallbackPage implements OnInit, OnDestroy {
   sub: Subscription;
@@ -14,10 +19,12 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
     private auth: AuthService,
     private navCtrl: NavController,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.sub = this.auth.events$.subscribe((action) => this.postCallback(action));
+    this.sub = this.auth.events$.subscribe((action) =>
+      this.postCallback(action)
+    );
     this.auth.authorizationCallback(window.location.origin + this.router.url);
   }
 
@@ -26,7 +33,7 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
   }
 
   postCallback(action: IAuthAction) {
-    console.log(JSON.stringify(action))
+    console.log(JSON.stringify(action));
     if (action.action === AuthActions.SignInSuccess) {
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
@@ -35,5 +42,4 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
       this.navCtrl.navigateRoot('login');
     }
   }
-
 }

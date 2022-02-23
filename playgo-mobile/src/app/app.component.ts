@@ -13,7 +13,7 @@ export class AppComponent {
   constructor(
     private translate: TranslateService,
     private platform: Platform,
-    private auth: AuthService,
+    private auth: AuthService
   ) {
     this.initializeApp();
   }
@@ -23,7 +23,5 @@ export class AppComponent {
       await this.auth.init();
       SplashScreen.hide();
     });
-
-
   }
 }

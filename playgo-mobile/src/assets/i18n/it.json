@@ -1,10 +1,10 @@
 {
-  "hello_world":"Ciao mondo",
-  "home_title":"Home",
-  "profile_title":"Profilo",
-  "campaigns_title":"Campagna",
-  "label_signin":"Autenticazione in corso",
-  "label_signout":"Uscita dal sistema",
-  "login_card_header":"Login",
-  "login_button":"Login"
+  "hello_world": "Ciao mondo",
+  "home_title": "Home",
+  "profile_title": "Profilo",
+  "campaigns_title": "Campagna",
+  "label_signin": "Autenticazione in corso",
+  "label_signout": "Uscita dal sistema",
+  "login_card_header": "Login",
+  "login_button": "Login"
 }

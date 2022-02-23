@@ -5,20 +5,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { EndSessionPage } from './end-session.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { PlayGoSharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: EndSessionPage
-  }
+    component: EndSessionPage,
+  },
 ];
 
 @NgModule({
   imports: [
-    PlayGoSharedModule,
-    RouterModule.forChild(routes)
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TranslateModule,
+    RouterModule.forChild(routes),
   ],
-  declarations: [EndSessionPage]
+  declarations: [EndSessionPage],
 })
 export class EndSessionPageModule {}

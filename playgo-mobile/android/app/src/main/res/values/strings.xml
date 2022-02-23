@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">playgo-mobile</string>
-    <string name="title_activity_main">playgo-mobile</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">it.dslab.playgo</string>
+    <string name="title_activity_main">it.dslab.playgo</string>
+    <string name="package_name">it.dslab.playgo</string>
+    <string name="custom_url_scheme">it.dslab.playgo</string>
 </resources>
