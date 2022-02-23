@@ -13,19 +13,19 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () =>
-      import('./auth/login/login.module').then((m) => m.LoginPageModule),
+      import('./auth-pages/login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'auth/callback',
     loadChildren: () =>
-      import('./auth/auth-callback/auth-callback.module').then(
+      import('./auth-pages/auth-callback/auth-callback.module').then(
         (m) => m.AuthCallbackPageModule
       ),
   },
   {
     path: 'auth/endsession',
     loadChildren: () =>
-      import('./auth/end-session/end-session.module').then(
+      import('./auth-pages/end-session/end-session.module').then(
         (m) => m.EndSessionPageModule
       ),
   },

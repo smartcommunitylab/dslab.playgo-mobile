@@ -26,7 +26,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private onSignInSuccess(action: IAuthAction) {
     if (action.action === AuthActions.SignInSuccess) {
-      console.log('ciao');
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }
