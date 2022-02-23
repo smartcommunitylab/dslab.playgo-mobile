@@ -6,10 +6,15 @@ import {
 } from '@transistorsoft/capacitor-background-geolocation';
 import { Config } from 'protractor';
 
-export class BackgroundGeolocationMock
-  implements Partial<BackgroundGeolocation>
-{
-  constructor() {}
+export class BackgroundGeolocationMock {
+  private static locations = [];
+  private static config: Config = { extras: {} };
+  private static isTracking = false;
+  private static handlers = new Set<(location: Partial<Location>) => void>();
+
+  constructor() {
+    throw new Error('static mock');
+  }
   public static findOrCreateTransistorAuthorizationToken() {
     log('findOrCreateTransistorAuthorizationToken');
     return 'TOKEN_MOCK';
@@ -24,32 +29,77 @@ export class BackgroundGeolocationMock
   }
   public static async setConfig(config: Config) {
     log('setConfig called!', config);
+    BackgroundGeolocationMock.config = config;
     await time(1000);
     log('setConfig finished!');
   }
   public static async getCurrentPosition(config: Config) {
     log('getCurrentPosition called!', config);
     await time(1000);
-    const location: Partial<Location> = {
-      coords: { accuracy: Math.random() * 20, latitude: 10, longitude: 10 },
-    };
+    const location = BackgroundGeolocationMock.getRandomLocation();
+    BackgroundGeolocationMock.locations.push(location);
     log('getCurrentPosition finished!', location);
     return location;
   }
   public static async start() {
     log('start called!');
     await time(1000);
+    BackgroundGeolocationMock.isTracking = true;
     log('start finished!');
   }
   public static async stop() {
     log('stop called!');
     await time(1000);
+    BackgroundGeolocationMock.isTracking = false;
     log('stop finished!');
   }
   public static async sync() {
     log('sync called!');
     await time(1000);
+    BackgroundGeolocationMock.locations = [];
     log('sync finished!');
+  }
+  public static async getLocations() {
+    log('getLocations called!');
+    await time(1000);
+    log('getLocations finished!', BackgroundGeolocationMock.locations);
+    return [...BackgroundGeolocationMock.locations];
+  }
+  public static onLocation(handler) {
+    log('onLocation handler added!', handler);
+    BackgroundGeolocationMock.handlers.add(handler);
+    return {
+      remove: () => {
+        BackgroundGeolocationMock.handlers.delete(handler);
+        log('onLocation subscription removed!');
+      },
+    };
+  }
+
+  private static getRandomLocation(): Partial<Location> {
+    return {
+      coords: {
+        accuracy: Math.random() * 20,
+        latitude: 10,
+        longitude: 10,
+      },
+      extras: BackgroundGeolocationMock.config.extras,
+    };
+  }
+  private static initMockTracking() {
+    setInterval(() => {
+      if (BackgroundGeolocationMock.isTracking) {
+        const location = BackgroundGeolocationMock.getRandomLocation();
+        BackgroundGeolocationMock.locations.push(location);
+        BackgroundGeolocationMock.handlers.forEach((handler) =>
+          handler(location)
+        );
+      }
+    }, 5000);
+  }
+
+  static {
+    BackgroundGeolocationMock.initMockTracking();
   }
 }
 

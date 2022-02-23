@@ -1,5 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
+import { Component, DoCheck, Input, NgZone, OnInit } from '@angular/core';
 import { IonButton } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BackgroundTrackingService } from '../background-tracking.service';
 import { TransportType } from '../trip.model';
 import { TripService } from '../trip.service';
 
@@ -8,9 +12,10 @@ import { TripService } from '../trip.service';
   templateUrl: './tracking-main-control.component.html',
   styleUrls: ['./tracking-main-control.component.scss'],
 })
-export class TrackingMainControlComponent implements OnInit {
+export class TrackingMainControlComponent {
   @Input()
   public size: IonButton['size'] = 'default';
+
   public transportTypeOptions: {
     transportType: TransportType;
     icon: string;
@@ -20,7 +25,16 @@ export class TrackingMainControlComponent implements OnInit {
     { transportType: 'bus', icon: 'bus' },
     { transportType: 'car', icon: 'car' },
   ];
-  constructor(public tripService: TripService) {}
 
-  ngOnInit() {}
+  public locationTransportTypes$: Observable<string> =
+    this.backgroundTrackingService.notSynchronizedLocations.pipe(
+      map((locations) =>
+        locations.map((eachLocation) => eachLocation.transportType).join()
+      )
+    );
+
+  constructor(
+    public tripService: TripService,
+    private backgroundTrackingService: BackgroundTrackingService
+  ) {}
 }
