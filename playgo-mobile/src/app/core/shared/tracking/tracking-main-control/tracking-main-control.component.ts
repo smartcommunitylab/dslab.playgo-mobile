@@ -1,8 +1,10 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { Component, DoCheck, Input, NgZone, OnInit } from '@angular/core';
 import { IonButton } from '@ionic/angular';
+import { join, map as _map } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+// import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
 import { TransportType } from '../trip.model';
 import { TripService } from '../trip.service';
@@ -28,9 +30,7 @@ export class TrackingMainControlComponent {
 
   public locationTransportTypes$: Observable<string> =
     this.backgroundTrackingService.notSynchronizedLocations.pipe(
-      map((locations) =>
-        locations.map((eachLocation) => eachLocation.transportType).join()
-      )
+      map((locations) => _map(locations, 'transportType').join())
     );
 
   constructor(

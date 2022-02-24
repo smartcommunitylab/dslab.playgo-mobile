@@ -8,6 +8,7 @@ import BackgroundGeolocation, {
   Location,
   Subscription,
 } from '@transistorsoft/capacitor-background-geolocation';
+import { isEqual, pick } from 'lodash-es';
 import { merge, Observable, ReplaySubject, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -49,6 +50,7 @@ export class BackgroundTrackingService {
         this.backgroundGeolocationPlugin.getLocations() as Promise<Location[]>
     ),
     map((rawLocations) => rawLocations.map(TripLocation.fromLocation)),
+    distinctUntilChanged(isEqual),
     shareReplay(1),
     tapLog('trip locations')
   );
@@ -170,6 +172,7 @@ export class BackgroundTrackingService {
 
     const currentLocation =
       await this.backgroundGeolocationPlugin.getCurrentPosition({
+        // TODO: this does not work...
         extras: { ...extras, forced: true },
       });
     this.possibleLocationsChange.next();
