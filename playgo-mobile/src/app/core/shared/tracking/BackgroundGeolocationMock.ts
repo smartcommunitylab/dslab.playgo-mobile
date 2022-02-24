@@ -4,10 +4,11 @@ import {
   State,
   Location,
 } from '@transistorsoft/capacitor-background-geolocation';
+import { last, mapValues } from 'lodash-es';
 import { Config } from 'protractor';
 
 export class BackgroundGeolocationMock {
-  private static locations = [];
+  private static locations: Partial<Location>[] = [];
   private static config: Config = { extras: {} };
   private static isTracking = false;
   private static handlers = new Set<(location: Partial<Location>) => void>();
@@ -77,11 +78,15 @@ export class BackgroundGeolocationMock {
   }
 
   private static getRandomLocation(): Partial<Location> {
+    const lastCoords = last(BackgroundGeolocationMock.locations)?.coords || {
+      latitude: 46.06787,
+      longitude: 11.12108,
+    };
+    const newCoords = mapValues(lastCoords, (coord) => coord + 0.1);
     return {
       coords: {
+        ...newCoords,
         accuracy: Math.random() * 20,
-        latitude: 10,
-        longitude: 10,
       },
       extras: BackgroundGeolocationMock.config.extras,
     };

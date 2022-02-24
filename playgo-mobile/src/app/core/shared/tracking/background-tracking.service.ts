@@ -54,6 +54,8 @@ export class BackgroundTrackingService {
     shareReplay(1),
     tapLog('trip locations')
   );
+  //TODO: filter for current idTrip..
+  public currentTripLocations = this.notSynchronizedLocations;
 
   constructor(
     @Inject(BackgroundGeolocation)

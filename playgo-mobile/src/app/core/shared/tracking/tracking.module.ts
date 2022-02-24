@@ -10,12 +10,14 @@ import { BackgroundGeolocationMock } from './BackgroundGeolocationMock';
 import { Platform } from '@ionic/angular';
 import { PlayGoSharedLibsModule } from '../shared-libs.module';
 import { TrackingButtonsComponent } from './tracking-buttons/tracking-buttons.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
     TrackingMainControlComponent,
     TrackingQuickControlComponent,
     TrackingButtonsComponent,
+    MapComponent,
   ],
   providers: [
     // { provide: BackgroundGeolocation, useValue: BackgroundGeolocation },
@@ -31,6 +33,10 @@ import { TrackingButtonsComponent } from './tracking-buttons/tracking-buttons.co
     },
   ],
   imports: [CommonModule, PlayGoSharedLibsModule],
-  exports: [TrackingMainControlComponent, TrackingQuickControlComponent],
+  exports: [
+    TrackingMainControlComponent,
+    TrackingQuickControlComponent,
+    MapComponent,
+  ],
 })
 export class TrackingModule {}
