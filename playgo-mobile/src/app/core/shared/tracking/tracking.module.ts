@@ -11,6 +11,7 @@ import { Platform } from '@ionic/angular';
 import { PlayGoSharedLibsModule } from '../shared-libs.module';
 import { TrackingButtonsComponent } from './tracking-buttons/tracking-buttons.component';
 import { MapComponent } from './map/map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { MapComponent } from './map/map.component';
       deps: [Platform],
     },
   ],
-  imports: [CommonModule, PlayGoSharedLibsModule],
+  imports: [CommonModule, PlayGoSharedLibsModule, LeafletModule],
   exports: [
     TrackingMainControlComponent,
     TrackingQuickControlComponent,

@@ -29,7 +29,7 @@ export class TrackingMainControlComponent {
   ];
 
   public locationTransportTypes$: Observable<string> =
-    this.backgroundTrackingService.notSynchronizedLocations.pipe(
+    this.backgroundTrackingService.notSynchronizedLocations$.pipe(
       map((locations) => _map(locations, 'transportType').join())
     );
 

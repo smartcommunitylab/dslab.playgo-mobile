@@ -4,7 +4,7 @@ import {
   State,
   Location,
 } from '@transistorsoft/capacitor-background-geolocation';
-import { last, mapValues } from 'lodash-es';
+import { last, mapValues, random, sample } from 'lodash-es';
 import { Config } from 'protractor';
 
 export class BackgroundGeolocationMock {
@@ -82,7 +82,10 @@ export class BackgroundGeolocationMock {
       latitude: 46.06787,
       longitude: 11.12108,
     };
-    const newCoords = mapValues(lastCoords, (coord) => coord + 0.1);
+    const newCoords = mapValues(
+      lastCoords,
+      (coord) => coord + random(-0.001, 0.001)
+    );
     return {
       coords: {
         ...newCoords,

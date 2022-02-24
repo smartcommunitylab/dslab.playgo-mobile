@@ -32,7 +32,7 @@ export class BackgroundTrackingService {
   });
   private appConfig = { tracking: { minimalAccuracy: 10 } };
 
-  public currentLocation: Observable<TripLocation> = this.getPluginObservable(
+  public currentLocation$: Observable<TripLocation> = this.getPluginObservable(
     this.backgroundGeolocationPlugin.onLocation
   ).pipe(
     tap(NgZone.assertInAngularZone),
@@ -40,10 +40,10 @@ export class BackgroundTrackingService {
     shareReplay(1)
   );
 
-  private possibleLocationsChange = new Subject<void>();
-  public notSynchronizedLocations: Observable<TripLocation[]> = merge(
-    this.currentLocation,
-    this.possibleLocationsChange.pipe(/*debounceTime(100)*/)
+  private possibleLocationsChangeSubject = new Subject<void>();
+  public notSynchronizedLocations$: Observable<TripLocation[]> = merge(
+    this.currentLocation$,
+    this.possibleLocationsChangeSubject.pipe(/*debounceTime(100)*/)
   ).pipe(
     switchMap(
       () =>
@@ -55,7 +55,7 @@ export class BackgroundTrackingService {
     tapLog('trip locations')
   );
   //TODO: filter for current idTrip..
-  public currentTripLocations = this.notSynchronizedLocations;
+  public currentTripLocations$ = this.notSynchronizedLocations$;
 
   constructor(
     @Inject(BackgroundGeolocation)
@@ -67,7 +67,7 @@ export class BackgroundTrackingService {
     (window as any).backgroundGeolocationPlugin =
       this.backgroundGeolocationPlugin;
     // start observing plugin events
-    this.currentLocation.subscribe();
+    this.currentLocation$.subscribe();
   }
 
   async start() {
@@ -99,7 +99,7 @@ export class BackgroundTrackingService {
     await this.isReady;
     await this.sync();
     await this.backgroundGeolocationPlugin.stop();
-    this.possibleLocationsChange.next();
+    this.possibleLocationsChangeSubject.next();
   }
 
   public async startTracking(tripPart: TripPart) {
@@ -112,7 +112,7 @@ export class BackgroundTrackingService {
       }
     }
     await this.backgroundGeolocationPlugin.start();
-    this.possibleLocationsChange.next();
+    this.possibleLocationsChangeSubject.next();
   }
 
   private async showLowAccuracyWarning() {
@@ -157,7 +157,7 @@ export class BackgroundTrackingService {
     await this.setExtrasAndForceLocation(null);
     await this.backgroundGeolocationPlugin.stop();
     await this.sync();
-    this.possibleLocationsChange.next();
+    this.possibleLocationsChangeSubject.next();
   }
   private async sync() {
     try {
@@ -165,7 +165,7 @@ export class BackgroundTrackingService {
     } catch (e) {
       console.warn('Sync failed, we will try to sync next time', e);
     }
-    this.possibleLocationsChange.next();
+    this.possibleLocationsChangeSubject.next();
   }
   private async setExtrasAndForceLocation(tripPart: TripPart | null) {
     await this.isReady;
@@ -177,7 +177,7 @@ export class BackgroundTrackingService {
         // TODO: this does not work...
         extras: { ...extras, forced: true },
       });
-    this.possibleLocationsChange.next();
+    this.possibleLocationsChangeSubject.next();
     return currentLocation;
   }
 

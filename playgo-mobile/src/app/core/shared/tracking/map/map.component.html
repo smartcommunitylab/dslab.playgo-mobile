@@ -1,1 +1,9 @@
-<div id="mapId" class="mapDiv"></div>
+<!-- <div id="mapId" class="mapDiv"></div> -->
+<div
+  class="ngx-leaflet"
+  leaflet
+  [leafletOptions]="mapOptions"
+  [leafletCenter]="mapCenter$ | async"
+>
+  <div [leafletLayer]="tripLineLayer$ | async"></div>
+</div>

@@ -1,7 +1,20 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import * as Leaflet from 'leaflet';
+import {
+  MapOptions,
+  Map,
+  tileLayer,
+  marker,
+  latLng,
+  polygon,
+  Polygon,
+  Layer,
+  LatLng,
+  polyline,
+} from 'leaflet';
 import { first, last } from 'lodash-es';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
 
 @Component({
@@ -9,54 +22,45 @@ import { BackgroundTrackingService } from '../background-tracking.service';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit, OnDestroy, AfterViewInit {
-  private map: Leaflet.Map;
-  private tripCoordinates =
-    this.backgroundTrackingService.currentTripLocations.pipe(
+export class MapComponent implements OnInit, AfterViewInit {
+  private defaultMapCenter = latLng(28.6448, 77.216721); //Trento
+
+  public mapOptions: MapOptions = {
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 25,
+        minZoom: 10,
+        // attribution: '...',
+      }),
+    ],
+    zoom: 15,
+    center: this.defaultMapCenter,
+  };
+
+  private tripCoordinates$: Observable<LatLng[]> =
+    this.backgroundTrackingService.currentTripLocations$.pipe(
       map((locations) =>
-        locations.map(
-          (tripLocation) =>
-            [tripLocation.latitude, tripLocation.longitude] as [number, number]
+        locations.map((tripLocation) =>
+          latLng(tripLocation.latitude, tripLocation.longitude)
         )
       )
     );
-
+  public mapCenter$: Observable<LatLng> = this.tripCoordinates$.pipe(
+    map(last),
+    startWith(this.defaultMapCenter)
+  );
+  public tripLineLayer$: Observable<Layer> = this.tripCoordinates$.pipe(
+    map((trip) => polyline(trip))
+  );
   constructor(private backgroundTrackingService: BackgroundTrackingService) {}
 
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.createMap();
-  }
-  /* only available in "route page" components?*/
-  ionViewDidEnter() {}
-
-  createMap() {
-    this.map = Leaflet.map('mapId').setView([28.6448, 77.216721], 5);
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'edupala.com © Angular LeafLet',
-    }).addTo(this.map);
-
-    Leaflet.marker([28.6, 77]).addTo(this.map).bindPopup('Delhi').openPopup();
-    Leaflet.marker([34, 77]).addTo(this.map).bindPopup('Leh').openPopup();
-
-    this.tripCoordinates.subscribe((tripCoords) => {
-      tripCoords.forEach((coords) =>
-        Leaflet.marker(coords)
-          .addTo(this.map)
-          .bindPopup('test' + tripCoords.length)
-          .openPopup()
-      );
-      this.map.setView(last(tripCoords));
-    });
-
-    // antPath([[28.644800, 77.216721], [34.1526, 77.5771]],
-    //   { color: '#FF0000', weight: 5, opacity: 0.6 })
-    //   .addTo(this.map);
-  }
-
-  /** Remove map when we have multiple map object */
-  ngOnDestroy() {
-    this.map.remove();
+    // FIXME:
+    setTimeout(() => {
+      console.log('manual resize');
+      window.dispatchEvent(new Event('resize'));
+    }, 1000);
   }
 }
