@@ -11,6 +11,8 @@ import {
   Layer,
   LatLng,
   polyline,
+  icon,
+  Icon,
 } from 'leaflet';
 import { first, last } from 'lodash-es';
 import { Observable } from 'rxjs';
@@ -52,6 +54,19 @@ export class MapComponent implements OnInit, AfterViewInit {
   public tripLineLayer$: Observable<Layer> = this.tripCoordinates$.pipe(
     map((trip) => polyline(trip))
   );
+  public currentLocationLayer$: Observable<Layer> =
+    this.backgroundTrackingService.currentLocation$.pipe(
+      map((currentLocation) =>
+        marker(latLng(currentLocation.latitude, currentLocation.longitude), {
+          icon: icon({
+            ...Icon.Default.prototype.options,
+            iconUrl: 'assets/marker-icon.png',
+            iconRetinaUrl: 'assets/marker-icon-2x.png',
+            shadowUrl: 'assets/marker-shadow.png',
+          }),
+        })
+      )
+    );
   constructor(private backgroundTrackingService: BackgroundTrackingService) {}
 
   ngOnInit() {}
