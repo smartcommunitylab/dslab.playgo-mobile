@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/member-ordering */
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import {
@@ -14,10 +15,21 @@ import {
   icon,
   Icon,
 } from 'leaflet';
-import { first, last } from 'lodash-es';
+import {
+  first,
+  map as _map,
+  groupBy as _groupBy,
+  last,
+  mapValues,
+} from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { BackgroundTrackingService } from '../background-tracking.service';
+import {
+  BackgroundTrackingService,
+  TripLocation,
+} from '../background-tracking.service';
+import { TransportType } from '../trip.model';
+import { groupByConsecutiveValues } from '../utils';
 
 @Component({
   selector: 'app-map',
@@ -39,21 +51,38 @@ export class MapComponent implements OnInit, AfterViewInit {
     center: this.defaultMapCenter,
   };
 
+  private transportTypeColors: Record<TransportType, string> = {
+    bicycle: 'red',
+    bus: 'green',
+    car: 'yellow',
+    train: 'blue',
+    walk: 'brown',
+  };
+
   private tripCoordinates$: Observable<LatLng[]> =
     this.backgroundTrackingService.currentTripLocations$.pipe(
-      map((locations) =>
-        locations.map((tripLocation) =>
-          latLng(tripLocation.latitude, tripLocation.longitude)
-        )
-      )
+      map(tripToCoordinates)
     );
   public mapCenter$: Observable<LatLng> = this.tripCoordinates$.pipe(
     map(last),
     startWith(this.defaultMapCenter)
   );
-  public tripLineLayer$: Observable<Layer> = this.tripCoordinates$.pipe(
-    map((trip) => polyline(trip))
-  );
+  private tripPartsCoordinates$ =
+    this.backgroundTrackingService.currentTripLocations$.pipe(
+      map((locations) => groupTripLocationsByTransportType(locations))
+    );
+
+  public tripPartLineLayers$: Observable<Layer[]> =
+    this.tripPartsCoordinates$.pipe(
+      map((tripPartsCoordinates) =>
+        _map(tripPartsCoordinates, ({ transportType, tripPartLocations }) =>
+          polyline(tripToCoordinates(tripPartLocations), {
+            color: this.transportTypeColors[transportType],
+          })
+        )
+      )
+    );
+
   public currentLocationLayer$: Observable<Layer> =
     this.backgroundTrackingService.currentLocation$.pipe(
       map((currentLocation) =>
@@ -78,4 +107,20 @@ export class MapComponent implements OnInit, AfterViewInit {
       window.dispatchEvent(new Event('resize'));
     }, 1000);
   }
+}
+function tripToCoordinates(trip: TripLocation[]): LatLng[] {
+  return trip.map((tripLocation) =>
+    latLng(tripLocation.latitude, tripLocation.longitude)
+  );
+}
+
+function groupTripLocationsByTransportType(
+  wholeTrip: TripLocation[]
+): { transportType: TransportType; tripPartLocations: TripLocation[] }[] {
+  return groupByConsecutiveValues(wholeTrip, 'transportType').map(
+    ({ group, values }) => ({
+      transportType: group,
+      tripPartLocations: values,
+    })
+  );
 }

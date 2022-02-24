@@ -5,6 +5,8 @@
   [leafletOptions]="mapOptions"
   [leafletCenter]="mapCenter$ | async"
 >
-  <div [leafletLayer]="tripLineLayer$ | async"></div>
   <div [leafletLayer]="currentLocationLayer$ | async"></div>
+  <ng-container *ngFor="let layer of tripPartLineLayers$ | async">
+    <div [leafletLayer]="layer"></div>
+  </ng-container>
 </div>

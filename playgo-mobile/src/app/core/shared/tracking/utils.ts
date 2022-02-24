@@ -1,5 +1,6 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { NgZone } from '@angular/core';
+import { last } from 'lodash-es';
 import { Observable, OperatorFunction } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -12,6 +13,25 @@ export const isConstant =
   <C>(constant: C) =>
   <T>(arg: T | C): arg is C =>
     arg === constant;
+
+export function groupByConsecutiveValues<T, K extends keyof T>(
+  array: T[],
+  needle: K
+): { group: T[K]; values: T[] }[] {
+  return array.reduce((accumulator, currentValue) => {
+    const lastGroup = last(accumulator);
+    const currentGroupValue = currentValue[needle];
+    if (lastGroup && currentGroupValue === lastGroup.group) {
+      lastGroup.values.push(currentValue);
+    } else {
+      accumulator.push({
+        group: currentGroupValue,
+        values: [currentValue],
+      });
+    }
+    return accumulator;
+  }, [] as { group: T[K]; values: T[] }[]);
+}
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function tapLog<T>(...logMsgs: any[]) {

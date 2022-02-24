@@ -8,8 +8,8 @@ import BackgroundGeolocation, {
   Location,
   Subscription,
 } from '@transistorsoft/capacitor-background-geolocation';
-import { isEqual, pick } from 'lodash-es';
-import { merge, Observable, ReplaySubject, Subject } from 'rxjs';
+import { filter as _filter, isEqual, pick } from 'lodash-es';
+import { combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   finalize,
@@ -18,6 +18,7 @@ import {
   startWith,
   switchMap,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { LOW_ACCURACY, TransportType, TripPart } from './trip.model';
 import { runInZone, tapLog } from './utils';
@@ -41,6 +42,8 @@ export class BackgroundTrackingService {
   );
 
   private possibleLocationsChangeSubject = new Subject<void>();
+  private currentExtrasSubject = new Subject<TripExtras>();
+
   public notSynchronizedLocations$: Observable<TripLocation[]> = merge(
     this.currentLocation$,
     this.possibleLocationsChangeSubject.pipe(/*debounceTime(100)*/)
@@ -54,8 +57,17 @@ export class BackgroundTrackingService {
     shareReplay(1),
     tapLog('trip locations')
   );
-  //TODO: filter for current idTrip..
-  public currentTripLocations$ = this.notSynchronizedLocations$;
+
+  public currentTripLocations$: Observable<TripLocation[]> = combineLatest([
+    this.notSynchronizedLocations$,
+    this.currentExtrasSubject,
+  ]).pipe(
+    map(([notSynchronizedLocations, currentExtras]) =>
+      _filter(notSynchronizedLocations, {
+        multimodalId: currentExtras.multimodalId,
+      })
+    )
+  );
 
   constructor(
     @Inject(BackgroundGeolocation)
@@ -170,7 +182,9 @@ export class BackgroundTrackingService {
   private async setExtrasAndForceLocation(tripPart: TripPart | null) {
     await this.isReady;
     const extras = this.getExtras(tripPart);
+
     await this.backgroundGeolocationPlugin.setConfig({ extras });
+    this.currentExtrasSubject.next(extras);
 
     const currentLocation =
       await this.backgroundGeolocationPlugin.getCurrentPosition({
@@ -207,7 +221,7 @@ export class BackgroundTrackingService {
   }
 }
 
-class TripLocation {
+export class TripLocation {
   transportType: TransportType;
   multimodalId: string;
   latitude: number;
