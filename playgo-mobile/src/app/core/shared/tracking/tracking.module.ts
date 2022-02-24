@@ -22,7 +22,6 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
   ],
   providers: [
     // { provide: BackgroundGeolocation, useValue: BackgroundGeolocation },
-    // { provide: BackgroundGeolocation, useValue: BackgroundGeolocationMock },
     {
       provide: BackgroundGeolocation,
       useFactory: (platform: Platform) =>

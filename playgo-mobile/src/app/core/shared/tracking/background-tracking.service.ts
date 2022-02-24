@@ -60,7 +60,7 @@ export class BackgroundTrackingService {
 
   public currentTripLocations$: Observable<TripLocation[]> = combineLatest([
     this.notSynchronizedLocations$,
-    this.currentExtrasSubject,
+    this.currentExtrasSubject, //FIXME: better!
   ]).pipe(
     map(([notSynchronizedLocations, currentExtras]) =>
       _filter(notSynchronizedLocations, {
@@ -78,6 +78,7 @@ export class BackgroundTrackingService {
     // FIXME: debug only
     (window as any).backgroundGeolocationPlugin =
       this.backgroundGeolocationPlugin;
+
     // start observing plugin events
     this.currentLocation$.subscribe();
   }
@@ -93,7 +94,7 @@ export class BackgroundTrackingService {
 
       const config: Config = {
         transistorAuthorizationToken: debugTokenForPublicServer,
-        distanceFilter: 10, // <-- your config options as desired
+        distanceFilter: 10,
         stopOnTerminate: false,
         startOnBoot: false,
         autoSync: false,

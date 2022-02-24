@@ -3,6 +3,8 @@ import {
   BackgroundGeolocation,
   State,
   Location,
+  CurrentPositionRequest,
+  Extras,
 } from '@transistorsoft/capacitor-background-geolocation';
 import { last, mapValues, random, sample } from 'lodash-es';
 import { Config } from 'protractor';
@@ -34,10 +36,12 @@ export class BackgroundGeolocationMock {
     await time(1000);
     log('setConfig finished!');
   }
-  public static async getCurrentPosition(config: Config) {
-    log('getCurrentPosition called!', config);
+  public static async getCurrentPosition(request: CurrentPositionRequest) {
+    log('getCurrentPosition called!', request);
     await time(1000);
-    const location = BackgroundGeolocationMock.getRandomLocation();
+    const location = BackgroundGeolocationMock.getRandomLocation(
+      request.extras
+    );
     BackgroundGeolocationMock.locations.push(location);
     log('getCurrentPosition finished!', location);
     return location;
@@ -77,7 +81,7 @@ export class BackgroundGeolocationMock {
     };
   }
 
-  private static getRandomLocation(): Partial<Location> {
+  private static getRandomLocation(extras: Extras = {}): Partial<Location> {
     const lastCoords = last(BackgroundGeolocationMock.locations)?.coords || {
       latitude: 46.06787,
       longitude: 11.12108,
@@ -91,7 +95,10 @@ export class BackgroundGeolocationMock {
         ...newCoords,
         accuracy: Math.random() * 20,
       },
-      extras: BackgroundGeolocationMock.config.extras,
+      extras: {
+        ...BackgroundGeolocationMock.config.extras,
+        ...extras,
+      },
     };
   }
   private static initMockTracking() {

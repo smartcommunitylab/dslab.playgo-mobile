@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { identity, Observable, ReplaySubject } from 'rxjs';
 import { filter, mergeMap, switchMap } from 'rxjs/operators';
 import { NO_TRIP_STARTED, Trip, TripPart, TRIP_END } from './trip.model';
 import { isConstant, isNotConstant } from './utils';
@@ -16,7 +16,7 @@ export class TripPersistanceService {
     Observable<TripPart | TRIP_END>
   >();
   private tripPartsToStore = this.sourceTripPartsToStore.pipe(
-    mergeMap((trip$) => trip$)
+    mergeMap(identity)
   );
 
   constructor() {

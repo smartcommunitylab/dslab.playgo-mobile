@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, of, ReplaySubject } from 'rxjs';
-import { filter, map, mergeScan, scan, shareReplay } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { BackgroundTrackingService } from './background-tracking.service';
 import { TripPersistanceService } from './trip-persistance.service';
 import {
-  TransportType,
   NO_TRIP_STARTED,
-  Trip,
+  TransportType,
   TripPart,
   TRIP_END,
 } from './trip.model';
-import { isNotConstant, tapLog } from './utils';
+import { isNotConstant } from './utils';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +22,7 @@ export class TripService {
 
   public tripPart$: Observable<TripPart | TRIP_END> =
     this.tripPartSubject.asObservable();
+
   public activeTransportType$ = this.tripPart$.pipe(
     map((tripPart) => {
       if (tripPart === TRIP_END) {
@@ -35,66 +35,9 @@ export class TripService {
   private operationInProgressSubject = new ReplaySubject();
   public operationInProgress$ = this.operationInProgressSubject.asObservable();
 
-  public trip$: Observable<Trip | TRIP_END> = this.tripPart$.pipe(
-    // tapLog('trip$ before mergeScan'),
-    mergeScan((lastTrip, currentTripPart) => {
-      // console.log('trip$ in mergeScan', lastTrip, currentTripPart);
-      if (currentTripPart === TRIP_END) {
-        // we received trip part end event -> end also the trip.
-        // console.log(
-        //   'we received trip part end event -> end also the trip.',
-        //   TRIP_END
-        // );
-        return of(TRIP_END);
-      }
-      if (lastTrip !== TRIP_END && lastTrip !== NO_TRIP_STARTED) {
-        // there is ongoing trip -> continue with that one.
-        // console.log('there is ongoing trip -> continue with that one.', '--');
-        return EMPTY;
-      }
-      // we have new tripPart, but no trip ongoing -> create one.
-      const newTrip = Trip.fromFirstPart(currentTripPart);
-      // console.log(
-      //   'we have new tripPart, but no trip ongoing -> create one.',
-      //   newTrip
-      // );
-      return of(newTrip);
-    }, NO_TRIP_STARTED as Trip | TRIP_END | NO_TRIP_STARTED),
-    // tapLog('trip$ after mergeScan'),
-    filter(isNotConstant(NO_TRIP_STARTED)),
-    shareReplay(1)
-  );
-
-  public isInTrip$: Observable<boolean> = this.trip$.pipe(
-    map(isNotConstant(TRIP_END))
-  );
-
-  public tripStart$: Observable<Trip> = this.trip$.pipe(
-    filter(isNotConstant(TRIP_END))
-  );
-
-  public tripEnd$: Observable<Trip> = this.trip$.pipe(
-    scan(
-      (lastTripInfo, currentTripOrEnd) => {
-        if (currentTripOrEnd === TRIP_END) {
-          return {
-            trip: lastTripInfo.trip,
-            isEnd: true,
-          };
-        }
-        return {
-          trip: currentTripOrEnd,
-          isEnd: false,
-        };
-      },
-      {
-        isEnd: false,
-        trip: NO_TRIP_STARTED as NO_TRIP_STARTED | Trip,
-      }
-    ),
-    filter(({ isEnd }) => isEnd),
-    map(({ trip }) => trip),
-    filter(isNotConstant(NO_TRIP_STARTED))
+  public isInTrip$: Observable<boolean> = this.tripPart$.pipe(
+    map(isNotConstant(TRIP_END)),
+    distinctUntilChanged()
   );
 
   constructor(

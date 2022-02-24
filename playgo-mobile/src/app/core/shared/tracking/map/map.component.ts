@@ -108,6 +108,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 }
+
 function tripToCoordinates(trip: TripLocation[]): LatLng[] {
   return trip.map((tripLocation) =>
     latLng(tripLocation.latitude, tripLocation.longitude)
