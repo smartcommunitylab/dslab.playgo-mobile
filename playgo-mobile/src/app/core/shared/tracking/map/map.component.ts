@@ -16,11 +16,14 @@ import {
   Icon,
 } from 'leaflet';
 import {
-  first,
   map as _map,
   groupBy as _groupBy,
   last,
-  mapValues,
+  initial,
+  zip,
+  tail,
+  first,
+  concat,
 } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -29,7 +32,7 @@ import {
   TripLocation,
 } from '../background-tracking.service';
 import { TransportType } from '../trip.model';
-import { groupByConsecutiveValues } from '../utils';
+import { getAdjacentPairs, groupByConsecutiveValues } from '../utils';
 
 @Component({
   selector: 'app-map',
@@ -117,11 +120,28 @@ function tripToCoordinates(trip: TripLocation[]): LatLng[] {
 
 function groupTripLocationsByTransportType(
   wholeTrip: TripLocation[]
-): { transportType: TransportType; tripPartLocations: TripLocation[] }[] {
-  return groupByConsecutiveValues(wholeTrip, 'transportType').map(
-    ({ group, values }) => ({
-      transportType: group,
-      tripPartLocations: values,
+): GroupedTripPart[] {
+  const tripPartsByTransportType = groupByConsecutiveValues(
+    wholeTrip,
+    'transportType'
+  ).map(({ group, values }) => ({
+    transportType: group,
+    tripPartLocations: values,
+  }));
+
+  const inBetweenTripParts = getAdjacentPairs(tripPartsByTransportType).map(
+    ([fromTripPart, toTripPart]) => ({
+      transportType: toTripPart.transportType,
+      tripPartLocations: [
+        last(fromTripPart.tripPartLocations),
+        first(toTripPart.tripPartLocations),
+      ],
     })
   );
+  // we do not really care about order, otherwise we would need to complicate it a little bit
+  return concat(tripPartsByTransportType, inBetweenTripParts);
 }
+type GroupedTripPart = {
+  transportType: TransportType;
+  tripPartLocations: TripLocation[];
+};

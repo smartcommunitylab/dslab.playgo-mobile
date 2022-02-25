@@ -1,6 +1,6 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { NgZone } from '@angular/core';
-import { last } from 'lodash-es';
+import { initial, last, tail, zip } from 'lodash-es';
 import { Observable, OperatorFunction } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -47,3 +47,8 @@ export function runInZone<T>(zone: NgZone): OperatorFunction<T, T> {
       return source.subscribe(onNext, onError, onComplete);
     });
 }
+
+/**
+ * [1,2,3,4] -> [[1,2], [2,3], [3,4]]
+ */
+export const getAdjacentPairs = <T>(a: T[]) => zip(initial(a), tail(a));

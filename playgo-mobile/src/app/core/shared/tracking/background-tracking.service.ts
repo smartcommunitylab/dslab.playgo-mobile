@@ -66,7 +66,8 @@ export class BackgroundTrackingService {
       _filter(notSynchronizedLocations, {
         multimodalId: currentExtras.multimodalId,
       })
-    )
+    ),
+    shareReplay(1)
   );
 
   constructor(
