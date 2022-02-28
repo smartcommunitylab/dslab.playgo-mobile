@@ -1,0 +1,12 @@
+<!-- <div id="mapId" class="mapDiv"></div> -->
+<div
+  class="ngx-leaflet"
+  leaflet
+  [leafletOptions]="mapOptions"
+  [leafletCenter]="mapCenter$ | async"
+>
+  <div [leafletLayer]="currentLocationLayer$ | async"></div>
+  <ng-container *ngFor="let layer of tripPartLineLayers$ | async">
+    <div [leafletLayer]="layer"></div>
+  </ng-container>
+</div>

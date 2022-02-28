@@ -17,6 +17,8 @@ dependencies {
     implementation project(':capacitor-status-bar')
     implementation project(':capacitor-storage')
     implementation project(':capacitor-secure-storage-plugin')
+    implementation project(':transistorsoft-capacitor-background-fetch')
+    implementation project(':transistorsoft-capacitor-background-geolocation')
 
 }
 
