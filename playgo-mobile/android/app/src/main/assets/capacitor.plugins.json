@@ -1,42 +1,42 @@
 [
-  {
-    "pkg": "@capacitor/app",
-    "classpath": "com.capacitorjs.plugins.app.AppPlugin"
-  },
-  {
-    "pkg": "@capacitor/browser",
-    "classpath": "com.capacitorjs.plugins.browser.BrowserPlugin"
-  },
-  {
-    "pkg": "@capacitor/haptics",
-    "classpath": "com.capacitorjs.plugins.haptics.HapticsPlugin"
-  },
-  {
-    "pkg": "@capacitor/keyboard",
-    "classpath": "com.capacitorjs.plugins.keyboard.KeyboardPlugin"
-  },
-  {
-    "pkg": "@capacitor/splash-screen",
-    "classpath": "com.capacitorjs.plugins.splashscreen.SplashScreenPlugin"
-  },
-  {
-    "pkg": "@capacitor/status-bar",
-    "classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
-  },
-  {
-    "pkg": "@capacitor/storage",
-    "classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
-  },
-  {
-    "pkg": "capacitor-secure-storage-plugin",
-    "classpath": "com.whitestein.securestorage.SecureStoragePlugin"
-  },
-  {
-    "pkg": "@transistorsoft/capacitor-background-fetch",
-    "classpath": "com.transistorsoft.bgfetch.capacitor.BackgroundFetchPlugin"
-  },
-  {
-    "pkg": "@transistorsoft/capacitor-background-geolocation",
-    "classpath": "com.transistorsoft.bggeo.capacitor.BackgroundGeolocationPlugin"
-  }
+	{
+		"pkg": "@capacitor/app",
+		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
+	},
+	{
+		"pkg": "@capacitor/browser",
+		"classpath": "com.capacitorjs.plugins.browser.BrowserPlugin"
+	},
+	{
+		"pkg": "@capacitor/haptics",
+		"classpath": "com.capacitorjs.plugins.haptics.HapticsPlugin"
+	},
+	{
+		"pkg": "@capacitor/keyboard",
+		"classpath": "com.capacitorjs.plugins.keyboard.KeyboardPlugin"
+	},
+	{
+		"pkg": "@capacitor/splash-screen",
+		"classpath": "com.capacitorjs.plugins.splashscreen.SplashScreenPlugin"
+	},
+	{
+		"pkg": "@capacitor/status-bar",
+		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
+	},
+	{
+		"pkg": "@capacitor/storage",
+		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
+	},
+	{
+		"pkg": "capacitor-secure-storage-plugin",
+		"classpath": "com.whitestein.securestorage.SecureStoragePlugin"
+	},
+	{
+		"pkg": "@transistorsoft/capacitor-background-fetch",
+		"classpath": "com.transistorsoft.bgfetch.capacitor.BackgroundFetchPlugin"
+	},
+	{
+		"pkg": "@transistorsoft/capacitor-background-geolocation",
+		"classpath": "com.transistorsoft.bggeo.capacitor.BackgroundGeolocationPlugin"
+	}
 ]

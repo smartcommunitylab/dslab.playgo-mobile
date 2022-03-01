@@ -1,0 +1,17 @@
+/* 
+  InfoPlist.strings
+  App
+
+  Created by Smart Community Lab on 01/03/2022.
+  
+*/
+NSMotionUsageDescription = "L’applicazione necessita di accedere alla motion detection (rilevazione di movimento) per minimizzare il consumo di batteria ed attivare la geo-localizzazione solo al bisogno.";
+NSLocationWhenInUseUsageDescription="L’applicazione necessita di accedere alle informazioni relative alla tua posizione per poter tracciare, validare e premiare i tuoi spostamenti sostenibili.";
+NSLocationAlwaysAndWhenInUseUsageDescription= "Durante il tracciamento del viaggio l'applicazione necessita di accesso costante alla posizione, anche quando lo schermo non è attivo e l'applicazione è in background.";
+NSLocationAlwaysUsageDescription="Durante il tracciamento del viaggio l'applicazione necessita di accesso costante alla posizione, anche quando lo schermo non è attivo e l'applicazione è in background.";
+NSContactsUsageDescription="Questa applicazione richiede l'accesso ai tuoi contatti";
+NSCalendarsUsageDescription="Questa applicazione richiede l'accesso al tuo calendario";
+NSPhotoLibraryUsageDescription="Questa applicazione richiede l'accesso alla tua galleria di immagini";
+NSBluetoothPeripheralUsageDescription="Questa applicazione richiede l'accesso alla connessione Bluetooth per localizzare e certificare i tuoi viaggi";
+NSMicrophoneUsageDescription ="Questa applicazione richiede l'accesso al microfono";
+NSBluetoothAlwaysUsageDescription="Questa applicazione richiede l'accesso alla connessione Bluetooth per localizzare e certificare i tuoi viaggi";
