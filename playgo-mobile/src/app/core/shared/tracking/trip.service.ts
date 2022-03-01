@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { BackgroundTrackingService } from './background-tracking.service';
 import { TripPersistanceService } from './trip-persistance.service';
 import {
@@ -44,6 +49,16 @@ export class TripService {
     private backgroundTrackingService: BackgroundTrackingService
   ) {
     this.start();
+    backgroundTrackingService.isPowerSaveMode$
+      .pipe(
+        withLatestFrom(this.isInTrip$),
+        filter(([isPowerSaveMode, isInTrip]) => isPowerSaveMode && isInTrip),
+        distinctUntilChanged()
+      )
+      .subscribe(() =>
+        // TODO: no not work reliable
+        alert('Please disable power save mode for proper location tracking')
+      );
   }
 
   private async start() {
@@ -61,6 +76,7 @@ export class TripService {
         this.setCurrentTripPart(initialTrip);
       }
     } catch (e) {
+      alert(e);
       console.error(e);
     }
   }
@@ -111,6 +127,7 @@ export class TripService {
       }
       this.setCurrentTripPart(newTripPart);
     } catch (e) {
+      alert(e);
       console.error(e);
     } finally {
       this.operationInProgressSubject.next(false);

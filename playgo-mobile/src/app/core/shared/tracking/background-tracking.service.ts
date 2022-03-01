@@ -1,15 +1,24 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
-import { AlertController } from '@ionic/angular';
 import { AlertService } from 'src/app/core/shared/services/alert.services';
 
-import BackgroundGeolocation, {
+import {
   Config,
   Extras,
   Location,
   Subscription,
 } from '@transistorsoft/capacitor-background-geolocation';
-import { filter as _filter, isEqual, pick } from 'lodash-es';
-import { combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
+
+// No not use BackgroundGeolocation / BackgroundGeolocationInternal directly, but use dependency injection!
+import { default as BackgroundGeolocationInternal } from '@transistorsoft/capacitor-background-geolocation';
+import { filter as _filter, fromPairs, isEqual, pick } from 'lodash-es';
+import {
+  combineLatest,
+  concat,
+  merge,
+  Observable,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   finalize,
@@ -20,7 +29,12 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { LOW_ACCURACY, TransportType, TripPart } from './trip.model';
+import {
+  LOW_ACCURACY,
+  POWER_SAVE_MODE,
+  TransportType,
+  TripPart,
+} from './trip.model';
 import { runInZone, tapLog } from './utils';
 
 @Injectable({
@@ -38,6 +52,16 @@ export class BackgroundTrackingService {
   ).pipe(
     tap(NgZone.assertInAngularZone),
     map(TripLocation.fromLocation),
+    shareReplay(1)
+  );
+
+  public isPowerSaveMode$: Observable<boolean> = concat(
+    this.isReady.then(this.backgroundGeolocationPlugin.isPowerSaveMode),
+    this.getPluginObservable(this.backgroundGeolocationPlugin.onPowerSaveChange)
+  ).pipe(
+    startWith(false),
+    distinctUntilChanged(),
+    tap(NgZone.assertInAngularZone),
     shareReplay(1)
   );
 
@@ -71,9 +95,8 @@ export class BackgroundTrackingService {
   );
 
   constructor(
-    @Inject(BackgroundGeolocation)
-    private backgroundGeolocationPlugin: typeof BackgroundGeolocation,
-    // public alertController: AlertController,
+    @Inject(BackgroundGeolocationInternal)
+    private backgroundGeolocationPlugin: typeof BackgroundGeolocationInternal,
     private alertService: AlertService,
     private zone: NgZone
   ) {
@@ -83,6 +106,7 @@ export class BackgroundTrackingService {
 
     // start observing plugin events
     this.currentLocation$.subscribe();
+    this.isPowerSaveMode$.subscribe();
   }
 
   async start() {
@@ -129,23 +153,21 @@ export class BackgroundTrackingService {
         throw LOW_ACCURACY;
       }
     }
+    const isPowerSaveMode =
+      await this.backgroundGeolocationPlugin.isPowerSaveMode();
+    if (isPowerSaveMode) {
+      throw POWER_SAVE_MODE;
+    }
+
     await this.backgroundGeolocationPlugin.start();
     this.possibleLocationsChangeSubject.next();
   }
 
   private async showLowAccuracyWarning() {
-    return await this.confirmPopup({
-      message: 'Low accuracy detected!.'
-    });
-  }
-
-  // TODO: move to other service!
-  private async confirmPopup({
-    message,
-  }: {
-    message: string;
-  }) {
-    return this.alertService.confirmAlert('Alert', message);
+    return await this.alertService.confirmAlert(
+      'Alert',
+      'Low accuracy detected!.'
+    );
   }
 
   public async stopTracking() {
@@ -223,4 +245,4 @@ export class TripLocation {
   }
 }
 
-interface TripExtras extends Extras, TripPart { }
+interface TripExtras extends Extras, TripPart {}

@@ -39,3 +39,4 @@ export const NO_TRIP_STARTED = 'NO_TRIP_STARTED' as const;
 export type NO_TRIP_STARTED = typeof NO_TRIP_STARTED;
 
 export const LOW_ACCURACY = 'LOW_ACCURACY' as const;
+export const POWER_SAVE_MODE = 'POWER_SAVE_MODE' as const;

@@ -34,6 +34,6 @@ export class TrackingMainControlComponent {
 
   constructor(
     public tripService: TripService,
-    private backgroundTrackingService: BackgroundTrackingService
+    public backgroundTrackingService: BackgroundTrackingService
   ) {}
 }
