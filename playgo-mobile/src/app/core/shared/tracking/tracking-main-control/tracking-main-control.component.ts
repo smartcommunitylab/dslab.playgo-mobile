@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { Component, DoCheck, Input, NgZone, OnInit } from '@angular/core';
 import { IonButton } from '@ionic/angular';
 import { join, map as _map } from 'lodash-es';

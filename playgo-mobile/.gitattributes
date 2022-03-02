@@ -1,0 +1,7 @@
+# even on windows all text files should have lf file endings.
+# This require at least git 2.10.0
+# see https://stackoverflow.com/questions/29435156/what-will-text-auto-eol-lf-in-gitattributes-do
+* text=auto eol=lf
+
+# we explicitly specifi files which should have crlf ending on windows and linux
+*.bat text eol=crlf

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
 import { identity, Observable, ReplaySubject } from 'rxjs';
 import { filter, mergeMap, switchMap } from 'rxjs/operators';

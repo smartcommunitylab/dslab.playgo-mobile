@@ -1,5 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Inject, Injectable, NgZone } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import BackgroundGeolocation, {
