@@ -1,7 +1,7 @@
 import { Component, DoCheck, Input, NgZone, OnInit } from '@angular/core';
 import { IonButton } from '@ionic/angular';
 import { join, map as _map } from 'lodash-es';
-import { Observable } from 'rxjs';
+import { merge, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
@@ -29,10 +29,19 @@ export class TrackingMainControlComponent {
       map((locations) => _map(locations, 'transportType').join())
     );
 
-  public isMapShown = false;
+  private manualToggleModalSubject = new Subject<boolean>();
+
+  public modalShouldBeOpened$ = merge(
+    this.manualToggleModalSubject,
+    this.tripService.isInTrip$
+  );
 
   constructor(
     public tripService: TripService,
     public backgroundTrackingService: BackgroundTrackingService
   ) {}
+
+  toggleModal(open: boolean) {
+    this.manualToggleModalSubject.next(open);
+  }
 }

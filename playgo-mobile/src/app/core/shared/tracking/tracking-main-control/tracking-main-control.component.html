@@ -12,15 +12,21 @@
 
 <app-tracking-buttons size="default"></app-tracking-buttons>
 
-<ion-button (click)="isMapShown = true">
+<ion-button (click)="toggleModal(true)">
   <ion-icon slot="icon-only" name="map"></ion-icon>
 </ion-button>
 
-<ion-modal [isOpen]="isMapShown" (didDismiss)="isMapShown = false">
+<ion-modal
+  [isOpen]="modalShouldBeOpened$ | async"
+  (didDismiss)="toggleModal(false)"
+>
   <ng-template>
     <ion-content>
       <app-map></app-map>
-      <app-tracking-buttons size="small"></app-tracking-buttons>
+      <!-- FIXME: how to style properly? -->
+      <div style="position: absolute; bottom: 0; z-index: 1000">
+        <app-tracking-buttons size="small"></app-tracking-buttons>
+      </div>
     </ion-content>
   </ng-template>
 </ion-modal>
