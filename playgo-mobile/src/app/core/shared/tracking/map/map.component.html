@@ -4,6 +4,7 @@
   leaflet
   [leafletOptions]="mapOptions"
   [leafletCenter]="mapCenter$ | async"
+  (leafletMapReady)="onMapReady($event)"
 >
   <div [leafletLayer]="currentLocationLayer$ | async"></div>
   <ng-container *ngFor="let layer of tripPartLineLayers$ | async">

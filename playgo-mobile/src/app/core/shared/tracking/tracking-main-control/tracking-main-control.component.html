@@ -1,3 +1,5 @@
+<div>isMapShown</div>
+<div>{{ isMapShown }}</div>
 <div>backgroundTrackingService.isPowerSaveMode$</div>
 <div>{{ backgroundTrackingService.isPowerSaveMode$ | async | json }}</div>
 <div>tripService.tripPart$</div>
@@ -9,3 +11,16 @@
 <div>{{ locationTransportTypes$ | async }}</div>
 
 <app-tracking-buttons size="default"></app-tracking-buttons>
+
+<ion-button (click)="isMapShown = true">
+  <ion-icon slot="icon-only" name="map"></ion-icon>
+</ion-button>
+
+<ion-modal [isOpen]="isMapShown" (didDismiss)="isMapShown = false">
+  <ng-template>
+    <ion-content>
+      <app-map></app-map>
+      <app-tracking-buttons size="small"></app-tracking-buttons>
+    </ion-content>
+  </ng-template>
+</ion-modal>

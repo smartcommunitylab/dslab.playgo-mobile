@@ -37,8 +37,10 @@ import { getAdjacentPairs, groupByConsecutiveValues } from '../utils';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit, AfterViewInit {
-  private defaultMapCenter = latLng(28.6448, 77.216721); //Trento
+export class MapComponent implements OnInit {
+  private mapInstance: Map;
+  // TODO: where should be map displayed by default?
+  private defaultMapCenter = latLng(46.06787, 11.12108); //Trento
 
   public mapOptions: MapOptions = {
     layers: [
@@ -101,12 +103,12 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {}
 
-  ngAfterViewInit() {
-    // FIXME:
+  onMapReady(mapInstance: Map) {
+    // TODO: invalidateSize on modal show event
+    this.mapInstance = mapInstance;
     setTimeout(() => {
-      console.log('manual resize');
-      window.dispatchEvent(new Event('resize'));
-    }, 1000);
+      this.mapInstance.invalidateSize();
+    });
   }
 }
 

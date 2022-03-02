@@ -14,9 +14,6 @@ import { TripService } from '../trip.service';
   styleUrls: ['./tracking-main-control.component.scss'],
 })
 export class TrackingMainControlComponent {
-  @Input()
-  public size: IonButton['size'] = 'default';
-
   public transportTypeOptions: {
     transportType: TransportType;
     icon: string;
@@ -31,6 +28,8 @@ export class TrackingMainControlComponent {
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
       map((locations) => _map(locations, 'transportType').join())
     );
+
+  public isMapShown = false;
 
   constructor(
     public tripService: TripService,
