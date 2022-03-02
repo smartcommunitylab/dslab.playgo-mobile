@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { NgZone } from '@angular/core';
 import { initial, last, tail, zip } from 'lodash-es';
 import { Observable, OperatorFunction } from 'rxjs';
@@ -33,7 +32,6 @@ export function groupByConsecutiveValues<T, K extends keyof T>(
   }, [] as { group: T[K]; values: T[] }[]);
 }
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function tapLog<T>(...logMsgs: any[]) {
   return tap((data: T) => console.log(...logMsgs, data));
 }

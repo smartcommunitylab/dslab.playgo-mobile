@@ -1,5 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-/* eslint-disable @typescript-eslint/member-ordering */
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   MapOptions,

@@ -37,6 +37,14 @@
           }
         ],
         "space-before-function-paren": "off",
+        "prefer-arrow/prefer-arrow-functions": [
+          "error",
+          { "allowStandaloneDeclarations": true }
+        ],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          { "default": ["signature", "field", "constructor", "method"] }
+        ],
         "linebreak-style": ["error", "unix"]
       }
     },
