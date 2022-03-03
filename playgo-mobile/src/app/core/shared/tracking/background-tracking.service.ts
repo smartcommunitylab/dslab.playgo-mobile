@@ -141,22 +141,21 @@ export class BackgroundTrackingService {
     this.possibleLocationsChangeSubject.next();
   }
 
-  public async startTracking(tripPart: TripPart) {
-    console.log('start Tracking');
-
+  public async startTracking(tripPart: TripPart, doChecks: boolean) {
     const location = await this.setExtrasAndForceLocation(tripPart);
     const accuracy = location.coords.accuracy;
-    if (accuracy < this.appConfig.tracking.minimalAccuracy) {
-      console.log('low accuracy');
-      const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
-      if (!userAcceptsLowAccuracy) {
-        throw LOW_ACCURACY;
+    if (doChecks) {
+      if (accuracy < this.appConfig.tracking.minimalAccuracy) {
+        const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
+        if (!userAcceptsLowAccuracy) {
+          throw LOW_ACCURACY;
+        }
       }
-    }
-    const isPowerSaveMode =
-      await this.backgroundGeolocationPlugin.isPowerSaveMode();
-    if (isPowerSaveMode) {
-      throw POWER_SAVE_MODE;
+      const isPowerSaveMode =
+        await this.backgroundGeolocationPlugin.isPowerSaveMode();
+      if (isPowerSaveMode) {
+        throw POWER_SAVE_MODE;
+      }
     }
 
     await this.backgroundGeolocationPlugin.start();

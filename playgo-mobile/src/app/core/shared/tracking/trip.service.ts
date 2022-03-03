@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { includes } from 'lodash';
 import { Observable, ReplaySubject } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -72,7 +73,7 @@ export class TripService {
         // maybe we have some location that are not synchronized with the server...
         await this.backgroundTrackingService.syncInitialLocations();
       } else {
-        await this.backgroundTrackingService.startTracking(initialTrip);
+        await this.backgroundTrackingService.startTracking(initialTrip, true);
         this.setCurrentTripPart(initialTrip);
       }
     } catch (e) {
@@ -116,6 +117,10 @@ export class TripService {
     try {
       this.operationInProgressSubject.next(true);
       const lastTripPartWithId = this.currentTripPart;
+      const isNewTrip = includes(
+        [NO_TRIP_STARTED, TRIP_END],
+        this.currentTripPart
+      );
       const newTripPart = this.getNewTripPart(
         lastTripPartWithId,
         tripPartWithoutMultimodalId
@@ -123,7 +128,10 @@ export class TripService {
       if (newTripPart === TRIP_END) {
         await this.backgroundTrackingService.stopTracking();
       } else {
-        await this.backgroundTrackingService.startTracking(newTripPart);
+        await this.backgroundTrackingService.startTracking(
+          newTripPart,
+          isNewTrip
+        );
       }
       this.setCurrentTripPart(newTripPart);
     } catch (e) {
