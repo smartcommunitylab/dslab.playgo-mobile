@@ -13,6 +13,8 @@ import { TrackingButtonsComponent } from './tracking-buttons/tracking-buttons.co
 import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CarpoolingRoleDialogComponent } from './carpooling/carpooling-role-dialog';
+import { QRCodeModule } from 'angularx-qrcode';
+import { CarpoolingShowQRDialogComponent } from './carpooling/carpooling-show-qr-dialog/carpooling-show-qr-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { CarpoolingRoleDialogComponent } from './carpooling/carpooling-role-dial
     TrackingButtonsComponent,
     MapComponent,
     CarpoolingRoleDialogComponent,
+    CarpoolingShowQRDialogComponent,
   ],
   providers: [
     // { provide: BackgroundGeolocation, useValue: BackgroundGeolocation },
@@ -34,7 +37,7 @@ import { CarpoolingRoleDialogComponent } from './carpooling/carpooling-role-dial
       deps: [Platform],
     },
   ],
-  imports: [CommonModule, PlayGoSharedLibsModule, LeafletModule],
+  imports: [CommonModule, PlayGoSharedLibsModule, LeafletModule, QRCodeModule],
   exports: [
     TrackingMainControlComponent,
     TrackingQuickControlComponent,

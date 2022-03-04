@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { random, sample } from 'lodash';
 import { CarpoolingRoleDialogComponent } from './carpooling-role-dialog';
+import { CarpoolingShowQRDialogComponent } from './carpooling-show-qr-dialog/carpooling-show-qr-dialog.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarPoolingService {
+  private qrCodePrefix = 'play&go_carpooling_';
   constructor(private modalController: ModalController) {}
 
   public async startCarPoolingTrip(): Promise<string> {
@@ -38,7 +40,18 @@ export class CarPoolingService {
     return role;
   }
   private async showQRDialog(id: string): Promise<boolean> {
-    alert('showQRDialog');
+    const modal = await this.modalController.create({
+      component: CarpoolingShowQRDialogComponent,
+      componentProps: {
+        qrCode: this.qrCodePrefix + id,
+        id,
+      },
+    });
+
+    await modal.present();
+    await modal.onWillDismiss();
+
+    // TODO: do we allow also dismiss?
     return true;
   }
   private async scanQR(): Promise<string> {

@@ -137,7 +137,7 @@ function mockMethod(opts: { async: boolean } = { async: false }) {
       if (opts.async) {
         return (async () => {
           const promiseRes = await res;
-          await time(1000);
+          await time(200);
           console.log(
             `BackgroundGeolocationMock.${propertyKey} finished:`,
             promiseRes
