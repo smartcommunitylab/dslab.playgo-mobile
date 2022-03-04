@@ -5,6 +5,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  shareReplay,
   withLatestFrom,
 } from 'rxjs/operators';
 import { BackgroundTrackingService } from './background-tracking.service';
@@ -43,7 +44,8 @@ export class TripService {
 
   public isInTrip$: Observable<boolean> = this.tripPart$.pipe(
     map(isNotConstant(TRIP_END)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
+    shareReplay(1)
   );
 
   constructor(

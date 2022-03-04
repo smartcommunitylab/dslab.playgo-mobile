@@ -2,7 +2,7 @@ import { Component, DoCheck, Input, NgZone, OnInit } from '@angular/core';
 import { IonButton } from '@ionic/angular';
 import { join, map as _map } from 'lodash-es';
 import { merge, Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay, startWith } from 'rxjs/operators';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
 import { TransportType } from '../trip.model';
@@ -24,7 +24,7 @@ export class TrackingMainControlComponent {
   public modalShouldBeOpened$ = merge(
     this.manualToggleModalSubject,
     this.tripService.isInTrip$
-  );
+  ).pipe(startWith(false), shareReplay(1));
 
   constructor(
     public tripService: TripService,
