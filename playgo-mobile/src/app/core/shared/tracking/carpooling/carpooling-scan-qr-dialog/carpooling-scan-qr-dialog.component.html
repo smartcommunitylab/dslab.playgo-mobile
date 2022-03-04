@@ -1,0 +1,13 @@
+<ion-item>
+  <ion-label>Input code manually</ion-label>
+  <!-- FIXME: there is some bug with ion-input and type=number https://github.com/ionic-team/ionic-framework/issues/24753 -->
+  <!-- type="number" -->
+  <ion-input placeholder="13245" [(ngModel)]="manualId"></ion-input>
+
+  <ion-button
+    (click)="manualIdEnter()"
+    size="large"
+    [disabled]="!isManualIdValid()"
+    >Ok</ion-button
+  >
+</ion-item>

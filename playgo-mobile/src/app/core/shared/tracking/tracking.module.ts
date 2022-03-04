@@ -15,6 +15,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CarpoolingRoleDialogComponent } from './carpooling/carpooling-role-dialog';
 import { QRCodeModule } from 'angularx-qrcode';
 import { CarpoolingShowQRDialogComponent } from './carpooling/carpooling-show-qr-dialog/carpooling-show-qr-dialog.component';
+import { CarpoolingScanQRDialogComponent } from './carpooling/carpooling-scan-qr-dialog/carpooling-scan-qr-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { CarpoolingShowQRDialogComponent } from './carpooling/carpooling-show-qr
     MapComponent,
     CarpoolingRoleDialogComponent,
     CarpoolingShowQRDialogComponent,
+    CarpoolingScanQRDialogComponent,
   ],
   providers: [
     // { provide: BackgroundGeolocation, useValue: BackgroundGeolocation },

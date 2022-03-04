@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { QR_CODE_PREFIX } from '../carpooling.service';
 
 @Component({
   selector: 'app-carpooling-show-qr-dialog',
@@ -9,8 +10,7 @@ import { ModalController } from '@ionic/angular';
 export class CarpoolingShowQRDialogComponent implements OnInit {
   @Input()
   public id: string;
-  @Input()
-  public qrCode: string;
+  public qrCodePrefix = QR_CODE_PREFIX;
   constructor(private modalController: ModalController) {}
 
   close() {
