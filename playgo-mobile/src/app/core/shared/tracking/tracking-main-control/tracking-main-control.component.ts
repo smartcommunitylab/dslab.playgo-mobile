@@ -14,16 +14,6 @@ import { TripService } from '../trip.service';
   styleUrls: ['./tracking-main-control.component.scss'],
 })
 export class TrackingMainControlComponent {
-  public transportTypeOptions: {
-    transportType: TransportType;
-    icon: string;
-  }[] = [
-    { transportType: 'walk', icon: 'walk' },
-    { transportType: 'bicycle', icon: 'bicycle' },
-    { transportType: 'bus', icon: 'bus' },
-    { transportType: 'car', icon: 'car' },
-  ];
-
   public locationTransportTypes$: Observable<string> =
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
       map((locations) => _map(locations, 'transportType').join())

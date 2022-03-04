@@ -12,6 +12,7 @@ import { PlayGoSharedLibsModule } from '../shared-libs.module';
 import { TrackingButtonsComponent } from './tracking-buttons/tracking-buttons.component';
 import { MapComponent } from './map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { CarpoolingRoleDialogComponent } from './carpooling/carpooling-role-dialog';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     TrackingQuickControlComponent,
     TrackingButtonsComponent,
     MapComponent,
+    CarpoolingRoleDialogComponent,
   ],
   providers: [
     // { provide: BackgroundGeolocation, useValue: BackgroundGeolocation },

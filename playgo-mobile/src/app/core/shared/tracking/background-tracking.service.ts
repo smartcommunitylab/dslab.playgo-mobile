@@ -205,6 +205,7 @@ export class BackgroundTrackingService {
       multimodalId: tripPart?.multimodalId,
       start: tripPart?.start,
       transportType: tripPart?.transportType,
+      sharedTravelId: tripPart?.sharedTravelId,
     };
   }
 

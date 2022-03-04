@@ -8,6 +8,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { BackgroundTrackingService } from './background-tracking.service';
+import { CarPoolingService } from './carpooling/carpooling.service';
 import { TripPersistanceService } from './trip-persistance.service';
 import {
   NO_TRIP_STARTED,
@@ -47,7 +48,8 @@ export class TripService {
 
   constructor(
     private tripPersistanceService: TripPersistanceService,
-    private backgroundTrackingService: BackgroundTrackingService
+    private backgroundTrackingService: BackgroundTrackingService,
+    private carpoolingService: CarPoolingService
   ) {
     this.start();
     backgroundTrackingService.isPowerSaveMode$
@@ -125,6 +127,12 @@ export class TripService {
         lastTripPartWithId,
         tripPartWithoutMultimodalId
       );
+
+      if (newTripPart !== TRIP_END && newTripPart.transportType === 'car') {
+        newTripPart.sharedTravelId =
+          await this.carpoolingService.startCarPoolingTrip();
+      }
+
       if (newTripPart === TRIP_END) {
         await this.backgroundTrackingService.stopTracking();
       } else {

@@ -55,11 +55,12 @@ export class MapComponent implements OnInit {
   };
 
   private transportTypeColors: Record<TransportType, string> = {
-    bicycle: 'red',
+    bike: 'red',
     bus: 'green',
     car: 'yellow',
     train: 'blue',
     walk: 'brown',
+    boat: 'blue',
   };
 
   private tripCoordinates$: Observable<LatLng[]> =

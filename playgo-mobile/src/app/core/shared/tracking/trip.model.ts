@@ -13,6 +13,7 @@ export class TripPart {
   transportType: TransportType;
   start: number;
   multimodalId: string;
+  sharedTravelId: string;
   constructor(data?: TripPart) {
     Object.assign(this, data || {});
   }
@@ -23,12 +24,13 @@ export class TripPart {
       start,
       transportType,
       idTrip,
+      sharedTravelId: null,
       multimodalId: null,
     });
   }
 }
 
-export type TransportType = 'walk' | 'bicycle' | 'bus' | 'train' | 'car';
+export type TransportType = 'walk' | 'bike' | 'bus' | 'train' | 'car' | 'boat';
 
 export const TRIP_END = 'TRIP_END' as const;
 // eslint-disable-next-line @typescript-eslint/naming-convention

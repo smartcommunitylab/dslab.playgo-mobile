@@ -16,7 +16,7 @@ export class TrackingButtonsComponent implements OnInit {
     icon: string;
   }[] = [
     { transportType: 'walk', icon: 'walk' },
-    { transportType: 'bicycle', icon: 'bicycle' },
+    { transportType: 'bike', icon: 'bicycle' },
     { transportType: 'bus', icon: 'bus' },
     { transportType: 'car', icon: 'car' },
   ];
