@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
     "@asymmetrik/ngx-leaflet": "^13.0.2",
+    "@capacitor-community/barcode-scanner": "^2.1.0",
     "@capacitor/android": "3.4.1",
     "@capacitor/app": "1.1.0",
     "@capacitor/browser": "^1.0.7",
