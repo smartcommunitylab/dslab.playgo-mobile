@@ -1,0 +1,6 @@
+{
+  "eslint.workingDirectories": ["playgo-mobile"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "typescript.tsdk": "playgo-mobile/node_modules/typescript/lib"
+}

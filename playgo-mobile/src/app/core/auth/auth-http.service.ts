@@ -15,19 +15,21 @@ export class AuthHttpService {
   ) {
     const token: TokenResponse = await this.auth.getValidToken();
     return this.requestor.xhr<T>({
-      url: url,
-      method: method,
+      url,
+      method,
       data: JSON.stringify(body),
       headers: this.addHeaders(token),
     });
   }
 
-  private addHeaders(token) {
+  private addHeaders(token: any) {
     return token
       ? {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           Authorization: `${
             token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
           } ${token.accessToken}`,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           'Content-Type': 'application/json',
         }
       : {};

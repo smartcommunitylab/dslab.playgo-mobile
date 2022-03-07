@@ -5,7 +5,7 @@ import { App } from '@capacitor/app';
 import { environment } from 'src/environments/environment';
 import { NgZone } from '@angular/core';
 
-export let authFactory = (
+export const authFactory = (
   platform: Platform,
   ngZone: NgZone,
   requestor: Requestor,
@@ -13,7 +13,7 @@ export let authFactory = (
   storage: StorageBackend
 ) => {
   const authService = new AuthService(browser, storage, requestor);
-  authService.authConfig = environment.auth_config;
+  authService.authConfig = environment.authConfig;
   if (!platform.is('cordova')) {
     authService.authConfig.redirect_url =
       window.location.origin + '/auth/callback';

@@ -1,5 +1,7 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { AlertService } from 'src/app/core/shared/services/alert.services';
+
 import BackgroundGeolocation, {
   Config,
   Extras,
@@ -71,7 +73,8 @@ export class BackgroundTrackingService {
   constructor(
     @Inject(BackgroundGeolocation)
     private backgroundGeolocationPlugin: typeof BackgroundGeolocation,
-    public alertController: AlertController,
+    // public alertController: AlertController,
+    private alertService: AlertService,
     private zone: NgZone
   ) {
     // FIXME: debug only
@@ -115,9 +118,12 @@ export class BackgroundTrackingService {
   }
 
   public async startTracking(tripPart: TripPart) {
+    console.log('start Tracking');
+
     const location = await this.setExtrasAndForceLocation(tripPart);
     const accuracy = location.coords.accuracy;
     if (accuracy < this.appConfig.tracking.minimalAccuracy) {
+      console.log('low accuracy');
       const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
       if (!userAcceptsLowAccuracy) {
         throw LOW_ACCURACY;
@@ -129,40 +135,17 @@ export class BackgroundTrackingService {
 
   private async showLowAccuracyWarning() {
     return await this.confirmPopup({
-      message: 'Low accuracy detected!.',
-      cancelText: 'Cancel tracking',
-      okText: 'Continue with low accuracy',
+      message: 'Low accuracy detected!.'
     });
   }
 
   // TODO: move to other service!
   private async confirmPopup({
-    okText,
-    cancelText,
     message,
   }: {
-    okText: string;
-    cancelText: string;
     message: string;
   }) {
-    let response = false;
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Alert',
-      subHeader: 'Subtitle',
-      message,
-      buttons: [
-        {
-          text: okText,
-          handler: () => (response = true),
-        },
-        cancelText,
-      ],
-    });
-
-    await alert.present();
-    await alert.onDidDismiss();
-    return response;
+    return this.alertService.confirmAlert('Alert', message);
   }
 
   public async stopTracking() {
@@ -240,4 +223,4 @@ export class TripLocation {
   }
 }
 
-interface TripExtras extends Extras, TripPart {}
+interface TripExtras extends Extras, TripPart { }

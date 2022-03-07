@@ -11,9 +11,20 @@ import { Subscription } from 'rxjs';
 export class HomePage implements OnInit, OnDestroy {
   user$ = this.auth.user$;
   events$ = this.auth.events$;
-  sub: Subscription;
+  sub!: Subscription;
 
   constructor(private auth: AuthService, private navCtrl: NavController) {}
+  public signOut() {
+    this.auth.signOut();
+  }
+
+  public async getUserInfo(): Promise<void> {
+    this.auth.loadUserInfo();
+  }
+
+  public async refreshToken(): Promise<void> {
+    this.auth.refreshToken();
+  }
 
   ngOnInit() {
     this.sub = this.auth.events$.subscribe((action) =>
@@ -29,17 +40,5 @@ export class HomePage implements OnInit, OnDestroy {
     if (action.action === AuthActions.SignOutSuccess) {
       this.navCtrl.navigateRoot('login');
     }
-  }
-
-  public signOut() {
-    this.auth.signOut();
-  }
-
-  public async getUserInfo(): Promise<void> {
-    this.auth.loadUserInfo();
-  }
-
-  public async refreshToken(): Promise<void> {
-    this.auth.refreshToken();
   }
 }
