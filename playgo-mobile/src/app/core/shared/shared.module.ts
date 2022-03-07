@@ -8,7 +8,7 @@ import { TrackingModule } from './tracking/tracking.module';
   imports: [PlayGoSharedLibsModule, TrackingModule],
   declarations: [HelloComponent],
   entryComponents: [],
-  providers:[AlertService],
+  providers: [AlertService],
   exports: [PlayGoSharedLibsModule, HelloComponent, TrackingModule],
 })
 export class PlayGoSharedModule {}

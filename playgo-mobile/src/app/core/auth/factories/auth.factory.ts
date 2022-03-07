@@ -5,7 +5,7 @@ import { App } from '@capacitor/app';
 import { environment } from 'src/environments/environment';
 import { NgZone } from '@angular/core';
 
-export let authFactory = (
+export const authFactory = (
   platform: Platform,
   ngZone: NgZone,
   requestor: Requestor,

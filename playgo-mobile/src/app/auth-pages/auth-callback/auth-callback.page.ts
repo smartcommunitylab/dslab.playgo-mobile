@@ -39,7 +39,9 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
   postCallback(action: IAuthAction) {
     console.log(JSON.stringify(action));
     if (action.action === AuthActions.SignInSuccess) {
-      this.alertService.showToast(this.translateService.instant('login.welcome'));
+      this.alertService.showToast(
+        this.translateService.instant('login.welcome')
+      );
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
 
