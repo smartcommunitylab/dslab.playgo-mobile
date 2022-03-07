@@ -13,7 +13,7 @@ export const authFactory = (
   storage: StorageBackend
 ) => {
   const authService = new AuthService(browser, storage, requestor);
-  authService.authConfig = environment.auth_config;
+  authService.authConfig = environment.authConfig;
   if (!platform.is('cordova')) {
     authService.authConfig.redirect_url =
       window.location.origin + '/auth/callback';
