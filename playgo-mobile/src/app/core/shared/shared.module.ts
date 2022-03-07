@@ -11,4 +11,4 @@ import { TrackingModule } from './tracking/tracking.module';
   providers: [AlertService],
   exports: [PlayGoSharedLibsModule, HelloComponent, TrackingModule],
 })
-export class PlayGoSharedModule {}
+export class PlayGoSharedModule { }

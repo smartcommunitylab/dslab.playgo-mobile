@@ -14,7 +14,7 @@ export class AlertService {
     private toastController: ToastController,
     private loadingController: LoadingController,
     private alertController: AlertController
-  ) {}
+  ) { }
   public async showToast(message: string) {
     this.toast = await this.toastController.create({
       message,
@@ -65,5 +65,5 @@ export class AlertService {
 
     await this.loading.present();
   }
-  public async dismissLoading() {}
+  public async dismissLoading() { }
 }

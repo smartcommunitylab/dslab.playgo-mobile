@@ -23,7 +23,7 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
     private router: Router,
     private alertService: AlertService,
     private translateService: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sub = this.auth.events$.subscribe((action) =>
@@ -39,9 +39,7 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
   postCallback(action: IAuthAction) {
     console.log(JSON.stringify(action));
     if (action.action === AuthActions.SignInSuccess) {
-      this.alertService.showToast(
-        this.translateService.instant('login.welcome')
-      );
+      this.alertService.showToast(this.translateService.instant('login.welcome'));
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
 
