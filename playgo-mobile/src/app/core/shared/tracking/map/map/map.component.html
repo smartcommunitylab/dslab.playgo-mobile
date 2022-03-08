@@ -3,7 +3,7 @@
   class="ngx-leaflet"
   leaflet
   [leafletOptions]="mapOptions"
-  [leafletCenter]="mapCenter$ | async"
+  [leafletCenter]="tripInitialLatLng$ | async"
   (leafletMapReady)="onMapReady($event)"
 >
   <div [leafletLayer]="currentLocationLayer$ | async"></div>
@@ -11,3 +11,7 @@
     <div [leafletLayer]="layer"></div>
   </ng-container>
 </div>
+<app-current-location-map-control
+  [map]="mapInstance"
+  [mapCenter]="currentLatLng$ | async"
+></app-current-location-map-control>

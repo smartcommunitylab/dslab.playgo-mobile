@@ -17,14 +17,15 @@ import {
   map as _map,
   groupBy as _groupBy,
   last,
+  first,
   initial,
   zip,
   tail,
-  first,
   concat,
+  isEqual,
 } from 'lodash-es';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import {
   BackgroundTrackingService,
   TripLocation,
@@ -38,7 +39,7 @@ import { getAdjacentPairs, groupByConsecutiveValues } from '../../utils';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  private mapInstance: Map;
+  public mapInstance: Map;
   // TODO: where should be map displayed by default?
   private defaultMapCenter = latLng(46.06787, 11.12108); //Trento
 
@@ -63,14 +64,6 @@ export class MapComponent implements OnInit {
     boat: 'blue',
   };
 
-  private tripCoordinates$: Observable<LatLng[]> =
-    this.backgroundTrackingService.currentTripLocations$.pipe(
-      map(tripToCoordinates)
-    );
-  public mapCenter$: Observable<LatLng> = this.tripCoordinates$.pipe(
-    map(last),
-    startWith(this.defaultMapCenter)
-  );
   private tripPartsCoordinates$ =
     this.backgroundTrackingService.currentTripLocations$.pipe(
       map((locations) => groupTripLocationsByTransportType(locations))
@@ -87,19 +80,31 @@ export class MapComponent implements OnInit {
       )
     );
 
-  public currentLocationLayer$: Observable<Layer> =
-    this.backgroundTrackingService.currentLocation$.pipe(
-      map((currentLocation) =>
-        marker(latLng(currentLocation.latitude, currentLocation.longitude), {
-          icon: icon({
-            ...Icon.Default.prototype.options,
-            iconUrl: 'assets/marker-icon.png',
-            iconRetinaUrl: 'assets/marker-icon-2x.png',
-            shadowUrl: 'assets/marker-shadow.png',
-          }),
-        })
-      )
+  public currentLatLng$: Observable<LatLng> =
+    this.backgroundTrackingService.currentTripLocations$.pipe(
+      map(last),
+      map(locationToCoordinate)
     );
+
+  public tripInitialLatLng$: Observable<LatLng> =
+    this.backgroundTrackingService.currentTripLocations$.pipe(
+      map(first),
+      distinctUntilChanged(isEqual),
+      map(locationToCoordinate)
+    );
+
+  public currentLocationLayer$: Observable<Layer> = this.currentLatLng$.pipe(
+    map((coordinates) =>
+      marker(coordinates, {
+        icon: icon({
+          ...Icon.Default.prototype.options,
+          iconUrl: 'assets/marker-icon.png',
+          iconRetinaUrl: 'assets/marker-icon-2x.png',
+          shadowUrl: 'assets/marker-shadow.png',
+        }),
+      })
+    )
+  );
   constructor(private backgroundTrackingService: BackgroundTrackingService) {}
 
   ngOnInit() {}
@@ -112,11 +117,12 @@ export class MapComponent implements OnInit {
     });
   }
 }
+function locationToCoordinate(tripLocation: TripLocation): LatLng {
+  return latLng(tripLocation.latitude, tripLocation.longitude);
+}
 
 function tripToCoordinates(trip: TripLocation[]): LatLng[] {
-  return trip.map((tripLocation) =>
-    latLng(tripLocation.latitude, tripLocation.longitude)
-  );
+  return trip.map(locationToCoordinate);
 }
 
 function groupTripLocationsByTransportType(

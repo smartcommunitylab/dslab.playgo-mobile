@@ -16,6 +16,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { CarpoolingShowQRDialogComponent } from './carpooling/carpooling-show-qr-dialog/carpooling-show-qr-dialog.component';
 import { CarpoolingScanQRDialogComponent } from './carpooling/carpooling-scan-qr-dialog/carpooling-scan-qr-dialog.component';
 import { MapComponent } from './map/map/map.component';
+import { CurrentLocationMapControlComponent } from './map/current-location-map-control/current-location-map-control.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MapComponent } from './map/map/map.component';
     TrackingQuickControlComponent,
     TrackingButtonsComponent,
     MapComponent,
+    CurrentLocationMapControlComponent,
     CarpoolingRoleDialogComponent,
     CarpoolingShowQRDialogComponent,
     CarpoolingScanQRDialogComponent,
