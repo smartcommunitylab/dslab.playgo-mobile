@@ -23,9 +23,11 @@ import {
   tail,
   concat,
   isEqual,
+  negate,
+  isNil,
 } from 'lodash-es';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import {
   BackgroundTrackingService,
   TripLocation,
@@ -83,12 +85,14 @@ export class MapComponent implements OnInit {
   public currentLatLng$: Observable<LatLng> =
     this.backgroundTrackingService.currentTripLocations$.pipe(
       map(last),
+      filter(negate(isNil)),
       map(locationToCoordinate)
     );
 
   public tripInitialLatLng$: Observable<LatLng> =
     this.backgroundTrackingService.currentTripLocations$.pipe(
       map(first),
+      filter(negate(isNil)),
       distinctUntilChanged(isEqual),
       map(locationToCoordinate)
     );
@@ -114,7 +118,7 @@ export class MapComponent implements OnInit {
     this.mapInstance = mapInstance;
     setTimeout(() => {
       this.mapInstance.invalidateSize();
-    });
+    }, 500);
   }
 }
 function locationToCoordinate(tripLocation: TripLocation): LatLng {

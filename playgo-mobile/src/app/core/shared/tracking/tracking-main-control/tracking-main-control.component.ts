@@ -5,6 +5,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
+import { MapService } from '../map/map.service';
 import { TransportType } from '../trip.model';
 import { TripService } from '../trip.service';
 
@@ -19,19 +20,9 @@ export class TrackingMainControlComponent {
       map((locations) => _map(locations, 'transportType').join())
     );
 
-  private manualToggleModalSubject = new Subject<boolean>();
-
-  public modalShouldBeOpened$ = merge(
-    this.manualToggleModalSubject,
-    this.tripService.isInTrip$
-  ).pipe(startWith(false), shareReplay(1));
-
   constructor(
     public tripService: TripService,
-    public backgroundTrackingService: BackgroundTrackingService
+    public backgroundTrackingService: BackgroundTrackingService,
+    public mapService: MapService
   ) {}
-
-  toggleModal(open: boolean) {
-    this.manualToggleModalSubject.next(open);
-  }
 }

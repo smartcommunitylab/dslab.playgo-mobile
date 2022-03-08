@@ -43,7 +43,9 @@ export class CurrentLocationMapControlComponent
   }
 
   public onClick(): void {
-    this.map.setView(this.mapCenter);
+    if (this.mapCenter) {
+      this.map.setView(this.mapCenter);
+    }
   }
 
   /** Should be called once map and control element are available */
