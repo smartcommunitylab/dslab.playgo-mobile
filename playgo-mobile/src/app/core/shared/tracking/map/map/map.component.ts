@@ -28,9 +28,9 @@ import { map, startWith } from 'rxjs/operators';
 import {
   BackgroundTrackingService,
   TripLocation,
-} from '../background-tracking.service';
-import { TransportType } from '../trip.model';
-import { getAdjacentPairs, groupByConsecutiveValues } from '../utils';
+} from '../../background-tracking.service';
+import { TransportType } from '../../trip.model';
+import { getAdjacentPairs, groupByConsecutiveValues } from '../../utils';
 
 @Component({
   selector: 'app-map',
