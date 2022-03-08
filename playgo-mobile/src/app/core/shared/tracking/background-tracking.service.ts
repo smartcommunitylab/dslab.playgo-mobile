@@ -65,8 +65,8 @@ export class BackgroundTrackingService {
     shareReplay(1)
   );
 
-  private possibleLocationsChangeSubject = new Subject<void>();
-  private currentExtrasSubject = new Subject<TripExtras>();
+  private possibleLocationsChangeSubject = new ReplaySubject<void>();
+  private currentExtrasSubject = new ReplaySubject<TripExtras>();
 
   public notSynchronizedLocations$: Observable<TripLocation[]> = merge(
     this.currentLocation$,
