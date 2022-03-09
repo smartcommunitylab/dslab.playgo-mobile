@@ -164,8 +164,8 @@ export class BackgroundTrackingService {
 
   private async showLowAccuracyWarning() {
     return await this.alertService.confirmAlert(
-      'Alert',
-      'Low accuracy detected!.'
+      'modal.alert_title',
+      'tracking.continue_low_accuracy_prompt'
     );
   }
 
