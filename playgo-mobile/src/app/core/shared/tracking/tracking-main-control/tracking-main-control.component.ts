@@ -1,12 +1,9 @@
-import { Component, DoCheck, Input, NgZone, OnInit } from '@angular/core';
-import { IonButton } from '@ionic/angular';
-import { join, map as _map } from 'lodash-es';
-import { merge, Observable, Subject } from 'rxjs';
-import { map, shareReplay, startWith } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { map as _map } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
-import { MapService } from '../map/map.service';
-import { TransportType } from '../trip.model';
 import { TripService } from '../trip.service';
 
 @Component({
@@ -22,7 +19,6 @@ export class TrackingMainControlComponent {
 
   constructor(
     public tripService: TripService,
-    public backgroundTrackingService: BackgroundTrackingService,
-    public mapService: MapService
+    public backgroundTrackingService: BackgroundTrackingService
   ) {}
 }

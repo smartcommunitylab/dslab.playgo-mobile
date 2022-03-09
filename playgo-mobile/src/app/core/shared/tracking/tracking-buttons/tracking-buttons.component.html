@@ -28,6 +28,16 @@
 >
   <ion-icon slot="icon-only" name="stop"></ion-icon>
 </ion-button>
+
+<ion-button
+  (click)="mapService.showMap()"
+  [size]="size"
+  [disabled]="tripService.operationInProgress$ | async"
+  *ngIf="mapButton && (tripService.isInTrip$ | async) === true"
+>
+  <ion-icon slot="icon-only" name="map"></ion-icon>
+</ion-button>
+
 <ion-progress-bar
   *ngIf="tripService.operationInProgress$ | async"
   type="indeterminate"

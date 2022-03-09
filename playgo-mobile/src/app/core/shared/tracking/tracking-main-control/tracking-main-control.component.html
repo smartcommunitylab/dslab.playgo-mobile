@@ -9,21 +9,3 @@
 <div>{{ locationTransportTypes$ | async }}</div>
 
 <app-tracking-buttons size="default"></app-tracking-buttons>
-
-<ion-button (click)="mapService.showMap()">
-  <ion-icon slot="icon-only" name="map"></ion-icon>
-</ion-button>
-<!--
-<ion-modal
-  [isOpen]="modalShouldBeOpened$ | async"
-  (didDismiss)="toggleModal(false)"
->
-  <ng-template>
-    <ion-content>
-      <app-map></app-map>
-      <div style="position: absolute; bottom: 0; z-index: 1000">
-        <app-tracking-buttons size="small"></app-tracking-buttons>
-      </div>
-    </ion-content>
-  </ng-template>
-</ion-modal> -->

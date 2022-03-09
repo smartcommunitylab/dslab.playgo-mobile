@@ -78,8 +78,8 @@ export class BackgroundTrackingService {
     ),
     map((rawLocations) => rawLocations.map(TripLocation.fromLocation)),
     distinctUntilChanged(isEqual),
-    shareReplay(1),
-    tapLog('trip locations')
+    tapLog('trip locations'),
+    shareReplay(1)
   );
 
   public currentTripLocations$: Observable<TripLocation[]> = combineLatest([
