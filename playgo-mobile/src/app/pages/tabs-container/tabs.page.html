@@ -1,5 +1,7 @@
 <ion-tabs class="scanner-hide">
-  <app-tracking-quick-control></app-tracking-quick-control>
+  <app-tracking-quick-control
+    *ngIf="(isHome$|async) === false"
+  ></app-tracking-quick-control>
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="home">
       <ion-icon name="triangle"></ion-icon>
