@@ -16,24 +16,36 @@ import {
 import {
   map as _map,
   groupBy as _groupBy,
-  last,
-  first,
+  last as _last,
+  first as _first,
   initial,
   zip,
   tail,
-  concat,
+  concat as _concat,
   isEqual,
   negate,
   isNil,
 } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { concat, Observable } from 'rxjs';
+import {
+  delay,
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  shareReplay,
+  take,
+} from 'rxjs/operators';
 import {
   BackgroundTrackingService,
   TripLocation,
 } from '../../background-tracking.service';
 import { TransportType } from '../../trip.model';
-import { getAdjacentPairs, groupByConsecutiveValues } from '../../utils';
+import {
+  getAdjacentPairs,
+  groupByConsecutiveValues,
+  tapLog,
+} from '../../utils';
 
 @Component({
   selector: 'app-map',
@@ -42,20 +54,28 @@ import { getAdjacentPairs, groupByConsecutiveValues } from '../../utils';
 })
 export class MapComponent implements OnInit {
   public mapInstance: Map;
-  // TODO: where should be map displayed by default?
-  private defaultMapCenter = latLng(46.06787, 11.12108); //Trento
 
-  public mapOptions: MapOptions = {
-    layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 25,
-        minZoom: 10,
-        // attribution: '...',
-      }),
-    ],
-    zoom: 15,
-    center: this.defaultMapCenter,
-  };
+  private initialLatLng$: Observable<LatLng> =
+    this.backgroundTrackingService.lastLocation$.pipe(
+      first(),
+      map(locationToCoordinate),
+      shareReplay(1)
+    );
+
+  public mapOptions$: Observable<MapOptions> = this.initialLatLng$.pipe(
+    map((initLatLng) => ({
+      layers: [
+        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 25,
+          minZoom: 10,
+          // attribution: '...',
+        }),
+      ],
+      zoom: 15,
+      center: initLatLng,
+    })),
+    shareReplay(1)
+  );
 
   private transportTypeColors: Record<TransportType, string> = {
     bike: 'red',
@@ -82,20 +102,22 @@ export class MapComponent implements OnInit {
       )
     );
 
-  public currentLatLng$: Observable<LatLng> =
+  /**
+   * We use "slow" currentTripLocations$ to show marker on the map, so it will
+   * be visually is sync with the colored path. But in the beginning we show
+   * one instant value, so the marker will be present from the first time the map is shown
+   *
+   * Observable is used for moving the marker, but also to provide data for the
+   * "center map" button
+   * */
+  public currentLatLng$: Observable<LatLng> = concat(
+    this.initialLatLng$,
     this.backgroundTrackingService.currentTripLocations$.pipe(
-      map(last),
+      map(_last),
       filter(negate(isNil)),
       map(locationToCoordinate)
-    );
-
-  public tripInitialLatLng$: Observable<LatLng> =
-    this.backgroundTrackingService.currentTripLocations$.pipe(
-      map(first),
-      filter(negate(isNil)),
-      distinctUntilChanged(isEqual),
-      map(locationToCoordinate)
-    );
+    )
+  );
 
   public currentLocationLayer$: Observable<Layer> = this.currentLatLng$.pipe(
     map((coordinates) =>
@@ -114,6 +136,7 @@ export class MapComponent implements OnInit {
   ngOnInit() {}
 
   onMapReady(mapInstance: Map) {
+    (window as any).mapInstance = mapInstance;
     // TODO: invalidateSize on modal show event
     this.mapInstance = mapInstance;
     setTimeout(() => {
@@ -144,13 +167,13 @@ function groupTripLocationsByTransportType(
     ([fromTripPart, toTripPart]) => ({
       transportType: toTripPart.transportType,
       tripPartLocations: [
-        last(fromTripPart.tripPartLocations),
-        first(toTripPart.tripPartLocations),
+        _last(fromTripPart.tripPartLocations),
+        _first(toTripPart.tripPartLocations),
       ],
     })
   );
   // we do not really care about order, otherwise we would need to complicate it a little bit
-  return concat(tripPartsByTransportType, inBetweenTripParts);
+  return _concat(tripPartsByTransportType, inBetweenTripParts);
 }
 type GroupedTripPart = {
   transportType: TransportType;

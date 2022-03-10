@@ -10,7 +10,7 @@ import {
 
 // No not use BackgroundGeolocation / BackgroundGeolocationInternal directly, but use dependency injection!
 import { default as BackgroundGeolocationInternal } from '@transistorsoft/capacitor-background-geolocation';
-import { filter as _filter, fromPairs, isEqual, pick } from 'lodash-es';
+import { filter as _filter, fromPairs, isEqual, last, pick } from 'lodash-es';
 import {
   combineLatest,
   concat,
@@ -22,10 +22,12 @@ import {
 import {
   distinctUntilChanged,
   finalize,
+  first,
   map,
   shareReplay,
   startWith,
   switchMap,
+  takeUntil,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -73,6 +75,7 @@ export class BackgroundTrackingService {
     this.currentLocation$,
     this.possibleLocationsChangeSubject.pipe(/*debounceTime(100)*/)
   ).pipe(
+    startWith('initial getLocation request'),
     switchMap(
       () =>
         this.backgroundGeolocationPlugin.getLocations() as Promise<Location[]>
@@ -94,6 +97,16 @@ export class BackgroundTrackingService {
     ),
     shareReplay(1)
   );
+
+  /**  watch all onLocation events, but also take last location from database */
+  public lastLocation$: Observable<TripLocation> = concat(
+    this.notSynchronizedLocations$.pipe(
+      first(),
+      map((x) => last(x)),
+      takeUntil(this.currentLocation$)
+    ),
+    this.currentLocation$
+  ).pipe(distinctUntilChanged(isEqual), shareReplay(1));
 
   constructor(
     @Inject(BackgroundGeolocationInternal)
