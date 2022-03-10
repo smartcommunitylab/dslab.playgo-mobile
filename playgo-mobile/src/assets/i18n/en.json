@@ -9,5 +9,26 @@
     "label_signin": "Signin in...",
     "label_signout": "Signin out...",
     "welcome": "Welcome"
+  },
+  "registration": {
+    "title": "Registration",
+    "avatar": {
+      "title": "Avatar"
+    },
+    "name": "Name",
+    "lastname": "Surname",
+    "mail": "Email",
+    "nickname": "Nickname",
+    "lang": {
+      "language": "Language",
+      "select": "Select the language",
+      "ita": "Italian",
+      "en": "English"
+    },
+    "territories": {
+      "territory": "Territiory",
+      "select": "Select the territory"
+    },
+    "sumbmit_button": "Registrati"
   }
 }

@@ -9,5 +9,26 @@
     "login_card_header": "Login",
     "login_button": "Login",
     "welcome": "Benvenuto"
+  },
+  "registration": {
+    "title": "Registratione",
+    "avatar": {
+      "title": "Avatar"
+    },
+    "name": "Nome",
+    "lastname": "Cognome",
+    "mail": "Email",
+    "nickname": "Nickname",
+    "lang": {
+      "language": "Lingua",
+      "select": "Seleziona la lingua",
+      "ita": "Italiano",
+      "en": "Inglese"
+    },
+    "territories": {
+      "territory": "Territorio",
+      "select": "Seleziona il territorio"
+    },
+    "sumbmit_button": "Registrati"
   }
 }

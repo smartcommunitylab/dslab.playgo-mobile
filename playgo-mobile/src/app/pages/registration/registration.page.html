@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'registration.title'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-item lines="full">
+      <ion-avatar>
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+          title="{{'registration.avatar.title'|translate}}">
+      </ion-avatar>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">{{'registration.name'|translate}}</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">{{'registration.lastname'|translate}}</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">{{'registration.mail'|translate}}</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">{{'registration.nickname'|translate}}</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label>{{'registration.lang.language'|translate}}</ion-label>
+      <ion-select placeholder="{{'registration.lang.select'|translate}}">
+        <ion-select-option value="ita">{{'registration.lang.ita'|translate}}</ion-select-option>
+        <ion-select-option value="en">{{'registration.lang.en'|translate}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label>{{'registration.territories.territory'|translate}}</ion-label>
+      <ion-select placeholder="{{'registration.territories.select'|translate}}">
+        <ion-select-option *ngFor="let territory of territoryList" value="territory.territoryId">
+          {{territory.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" expand="block">{{'registration.sumbmit_button'|translate}}</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
