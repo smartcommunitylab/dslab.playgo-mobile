@@ -1,13 +1,13 @@
 {
-  "hello_world": "Ciao mondo",
-  "home_title": "Home",
-  "profile_title": "Profilo",
-  "campaigns_title": "Campagna",
+  "helloWorld": "Ciao mondo",
+  "homeTtle": "Home",
+  "profileTitle": "Profilo",
+  "campaignsTitle": "Campagna",
   "login": {
-    "label_signin": "Autenticazione in corso",
-    "label_signout": "Uscita dal sistema",
-    "login_card_header": "Login",
-    "login_button": "Login",
+    "labelSignin": "Autenticazione in corso",
+    "labelSignout": "Uscita dal sistema",
+    "loginCardHeader": "Login",
+    "loginButton": "Login",
     "welcome": "Benvenuto"
   },
   "registration": {
@@ -23,12 +23,24 @@
       "language": "Lingua",
       "select": "Seleziona la lingua",
       "ita": "Italiano",
-      "en": "Inglese"
+      "eng": "Inglese"
     },
     "territories": {
       "territory": "Territorio",
       "select": "Seleziona il territorio"
     },
-    "sumbmit_button": "Registrati"
+    "form": {
+      "nameRequired": "Il nome é richiesto",
+      "nameMinLength": "La lunghezza minima é di 2 caratteri",
+      "lastNameRequired": "Il cognome é richiesto",
+      "lastNameMinLength": "La lunghezza minima é di 2 caratteri",
+      "mailRequired": "L'indirizzo email é richiesto",
+      "mailPattern": "L'indirizzo email non risulta valido",
+      "nicknameRequired": "Il nickname é richiesto",
+      "nicknameMinLength": "La lunghezza minima é di 2 caratteri",
+      "languageRequired": "Il linguaggio é richiesto",
+      "territoryRequired": "Il territorio é richiesto"
+    },
+    "sumbmitButton": "Registrati"
   }
 }

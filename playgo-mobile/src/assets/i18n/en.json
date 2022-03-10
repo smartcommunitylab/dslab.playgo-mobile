@@ -1,13 +1,13 @@
 {
-  "hello_world": "Hello world",
-  "home_title": "Home",
-  "profile_title": "Profile",
-  "campaigns_title": "Campaign",
+  "helloWorld": "Hello world",
+  "homeTtle": "Home",
+  "profileTitle": "Profile",
+  "campaignsTitle": "Campaign",
   "login": {
-    "login_card_header": "Login",
-    "login_button": "Login",
-    "label_signin": "Signin in...",
-    "label_signout": "Signin out...",
+    "loginCardHeader": "Login",
+    "loginButton": "Login",
+    "labelSignin": "Signin in...",
+    "labelSignout": "Signin out...",
     "welcome": "Welcome"
   },
   "registration": {
@@ -23,12 +23,24 @@
       "language": "Language",
       "select": "Select the language",
       "ita": "Italian",
-      "en": "English"
+      "eng": "English"
     },
     "territories": {
       "territory": "Territiory",
       "select": "Select the territory"
     },
-    "sumbmit_button": "Registrati"
+    "form": {
+      "nameRequired": "The name is required.",
+      "nameMinLength": "Name must be at least 2 charachters long.",
+      "lastNameRequired": "The surname is required.",
+      "lastNameMinLength": "Lastname must be at least 2 charachters long.",
+      "mailRequired": "The address is required.",
+      "mailPattern": "The email address is not valid.",
+      "nicknameRequired": "The nickname is required.",
+      "nicknameMinLength": "Nickname must be at least 2 charachters long.",
+      "languageRequired": "The language is required.",
+      "territoryRequired": "The territory is required."
+    },
+    "sumbmitButton": "Register"
   }
 }
