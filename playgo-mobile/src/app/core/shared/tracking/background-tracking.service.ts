@@ -34,6 +34,7 @@ import {
   POWER_SAVE_MODE,
   TransportType,
   TripPart,
+  UNABLE_TO_GET_POSITION,
 } from './trip.model';
 import { runInZone, tapLog } from './utils';
 
@@ -183,18 +184,28 @@ export class BackgroundTrackingService {
     }
     this.possibleLocationsChangeSubject.next();
   }
-  private async setExtrasAndForceLocation(tripPart: TripPart | null) {
+
+  private async setExtrasAndForceLocation(
+    tripPart: TripPart | null
+  ): Promise<Location> {
     await this.isReady;
     const extras = this.getExtras(tripPart);
 
     await this.backgroundGeolocationPlugin.setConfig({ extras });
     this.currentExtrasSubject.next(extras);
+    let currentLocation: Location;
 
-    const currentLocation =
-      await this.backgroundGeolocationPlugin.getCurrentPosition({
-        // TODO: this does not work...
-        extras: { ...extras, forced: true },
-      });
+    try {
+      currentLocation =
+        await this.backgroundGeolocationPlugin.getCurrentPosition({
+          // TODO: this does not work...
+          extras: { ...extras, forced: true },
+        });
+    } catch (e) {
+      console.error(e);
+      throw UNABLE_TO_GET_POSITION;
+    }
+
     this.possibleLocationsChangeSubject.next();
     return currentLocation;
   }

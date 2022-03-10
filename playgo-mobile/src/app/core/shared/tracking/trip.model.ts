@@ -42,3 +42,5 @@ export type NO_TRIP_STARTED = typeof NO_TRIP_STARTED;
 
 export const LOW_ACCURACY = 'LOW_ACCURACY' as const;
 export const POWER_SAVE_MODE = 'POWER_SAVE_MODE' as const;
+// probably location services are disabled by user.
+export const UNABLE_TO_GET_POSITION = 'UNABLE_TO_GET_POSITION' as const;
