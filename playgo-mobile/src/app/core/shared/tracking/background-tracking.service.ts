@@ -1,26 +1,44 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
-import { AlertController } from '@ionic/angular';
 import { AlertService } from 'src/app/core/shared/services/alert.services';
 
-import BackgroundGeolocation, {
+import {
   Config,
   Extras,
   Location,
   Subscription,
 } from '@transistorsoft/capacitor-background-geolocation';
-import { filter as _filter, isEqual, pick } from 'lodash-es';
-import { combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
+
+// No not use BackgroundGeolocation / BackgroundGeolocationInternal directly, but use dependency injection!
+import { default as BackgroundGeolocationInternal } from '@transistorsoft/capacitor-background-geolocation';
+import { filter as _filter, fromPairs, isEqual, last, pick } from 'lodash-es';
+import {
+  combineLatest,
+  concat,
+  merge,
+  Observable,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   finalize,
+  first,
   map,
+  scan,
   shareReplay,
   startWith,
   switchMap,
+  takeUntil,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { LOW_ACCURACY, TransportType, TripPart } from './trip.model';
+import {
+  LOW_ACCURACY,
+  POWER_SAVE_MODE,
+  TransportType,
+  TripPart,
+  UNABLE_TO_GET_POSITION,
+} from './trip.model';
 import { runInZone, tapLog } from './utils';
 
 @Injectable({
@@ -31,31 +49,53 @@ export class BackgroundTrackingService {
   private isReady = new Promise((resolve, reject) => {
     this.markAsReady = resolve;
   });
-  private appConfig = { tracking: { minimalAccuracy: 10 } };
+  private appConfig = { tracking: { maximalAccuracy: 30 } };
 
-  public currentLocation$: Observable<TripLocation> = this.getPluginObservable(
+  private pluginLocation$ = this.getPluginObservable(
     this.backgroundGeolocationPlugin.onLocation
-  ).pipe(
-    tap(NgZone.assertInAngularZone),
+  ).pipe(tap(NgZone.assertInAngularZone), shareReplay(1));
+
+  public accuracy$ = this.pluginLocation$.pipe(
+    map((loc) => loc.coords.accuracy),
+    shareReplay(1)
+  );
+  public lowAccuracy$ = this.accuracy$.pipe(
+    map((accuracy) => accuracy > this.appConfig.tracking.maximalAccuracy),
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+
+  public currentLocation$: Observable<TripLocation> = this.pluginLocation$.pipe(
     map(TripLocation.fromLocation),
     shareReplay(1)
   );
 
-  private possibleLocationsChangeSubject = new Subject<void>();
-  private currentExtrasSubject = new Subject<TripExtras>();
+  public isPowerSaveMode$: Observable<boolean> = concat(
+    this.isReady.then(this.backgroundGeolocationPlugin.isPowerSaveMode),
+    this.getPluginObservable(this.backgroundGeolocationPlugin.onPowerSaveChange)
+  ).pipe(
+    startWith(false),
+    distinctUntilChanged(),
+    tap(NgZone.assertInAngularZone),
+    shareReplay(1)
+  );
+
+  private possibleLocationsChangeSubject = new ReplaySubject<void>();
+  private currentExtrasSubject = new ReplaySubject<TripExtras>();
 
   public notSynchronizedLocations$: Observable<TripLocation[]> = merge(
     this.currentLocation$,
     this.possibleLocationsChangeSubject.pipe(/*debounceTime(100)*/)
   ).pipe(
+    startWith('initial getLocation request'),
     switchMap(
       () =>
         this.backgroundGeolocationPlugin.getLocations() as Promise<Location[]>
     ),
     map((rawLocations) => rawLocations.map(TripLocation.fromLocation)),
     distinctUntilChanged(isEqual),
-    shareReplay(1),
-    tapLog('trip locations')
+    tapLog('trip locations'),
+    shareReplay(1)
   );
 
   public currentTripLocations$: Observable<TripLocation[]> = combineLatest([
@@ -70,10 +110,19 @@ export class BackgroundTrackingService {
     shareReplay(1)
   );
 
+  /**  watch all onLocation events, but also take last location from database */
+  public lastLocation$: Observable<TripLocation> = concat(
+    this.notSynchronizedLocations$.pipe(
+      first(),
+      map((x) => last(x)),
+      takeUntil(this.currentLocation$)
+    ),
+    this.currentLocation$
+  ).pipe(distinctUntilChanged(isEqual), shareReplay(1));
+
   constructor(
-    @Inject(BackgroundGeolocation)
-    private backgroundGeolocationPlugin: typeof BackgroundGeolocation,
-    // public alertController: AlertController,
+    @Inject(BackgroundGeolocationInternal)
+    private backgroundGeolocationPlugin: typeof BackgroundGeolocationInternal,
     private alertService: AlertService,
     private zone: NgZone
   ) {
@@ -82,7 +131,8 @@ export class BackgroundTrackingService {
       this.backgroundGeolocationPlugin;
 
     // start observing plugin events
-    this.currentLocation$.subscribe();
+    this.pluginLocation$.subscribe();
+    this.isPowerSaveMode$.subscribe();
   }
 
   async start() {
@@ -117,35 +167,32 @@ export class BackgroundTrackingService {
     this.possibleLocationsChangeSubject.next();
   }
 
-  public async startTracking(tripPart: TripPart) {
-    console.log('start Tracking');
-
+  public async startTracking(tripPart: TripPart, doChecks: boolean) {
     const location = await this.setExtrasAndForceLocation(tripPart);
     const accuracy = location.coords.accuracy;
-    if (accuracy < this.appConfig.tracking.minimalAccuracy) {
-      console.log('low accuracy');
-      const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
-      if (!userAcceptsLowAccuracy) {
-        throw LOW_ACCURACY;
+    if (doChecks) {
+      if (accuracy > this.appConfig.tracking.maximalAccuracy) {
+        const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
+        if (!userAcceptsLowAccuracy) {
+          throw LOW_ACCURACY;
+        }
+      }
+      const isPowerSaveMode =
+        await this.backgroundGeolocationPlugin.isPowerSaveMode();
+      if (isPowerSaveMode) {
+        throw POWER_SAVE_MODE;
       }
     }
+
     await this.backgroundGeolocationPlugin.start();
     this.possibleLocationsChangeSubject.next();
   }
 
   private async showLowAccuracyWarning() {
-    return await this.confirmPopup({
-      message: 'Low accuracy detected!.'
-    });
-  }
-
-  // TODO: move to other service!
-  private async confirmPopup({
-    message,
-  }: {
-    message: string;
-  }) {
-    return this.alertService.confirmAlert('Alert', message);
+    return await this.alertService.confirmAlert(
+      'modal.alert_title',
+      'tracking.continue_low_accuracy_prompt'
+    );
   }
 
   public async stopTracking() {
@@ -162,18 +209,28 @@ export class BackgroundTrackingService {
     }
     this.possibleLocationsChangeSubject.next();
   }
-  private async setExtrasAndForceLocation(tripPart: TripPart | null) {
+
+  private async setExtrasAndForceLocation(
+    tripPart: TripPart | null
+  ): Promise<Location> {
     await this.isReady;
     const extras = this.getExtras(tripPart);
 
     await this.backgroundGeolocationPlugin.setConfig({ extras });
     this.currentExtrasSubject.next(extras);
+    let currentLocation: Location;
 
-    const currentLocation =
-      await this.backgroundGeolocationPlugin.getCurrentPosition({
-        // TODO: this does not work...
-        extras: { ...extras, forced: true },
-      });
+    try {
+      currentLocation =
+        await this.backgroundGeolocationPlugin.getCurrentPosition({
+          // TODO: this does not work...
+          extras: { ...extras, forced: true },
+        });
+    } catch (e) {
+      console.error(e);
+      throw UNABLE_TO_GET_POSITION;
+    }
+
     this.possibleLocationsChangeSubject.next();
     return currentLocation;
   }
@@ -184,6 +241,7 @@ export class BackgroundTrackingService {
       multimodalId: tripPart?.multimodalId,
       start: tripPart?.start,
       transportType: tripPart?.transportType,
+      sharedTravelId: tripPart?.sharedTravelId,
     };
   }
 
@@ -223,4 +281,4 @@ export class TripLocation {
   }
 }
 
-interface TripExtras extends Extras, TripPart { }
+interface TripExtras extends Extras, TripPart {}

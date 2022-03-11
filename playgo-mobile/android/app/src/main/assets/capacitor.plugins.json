@@ -1,5 +1,9 @@
 [
 	{
+		"pkg": "@capacitor-community/barcode-scanner",
+		"classpath": "com.getcapacitor.community.barcodescanner.BarcodeScanner"
+	},
+	{
 		"pkg": "@capacitor/app",
 		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
 	},
@@ -28,15 +32,15 @@
 		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
 	},
 	{
-		"pkg": "capacitor-secure-storage-plugin",
-		"classpath": "com.whitestein.securestorage.SecureStoragePlugin"
-	},
-	{
 		"pkg": "@transistorsoft/capacitor-background-fetch",
 		"classpath": "com.transistorsoft.bgfetch.capacitor.BackgroundFetchPlugin"
 	},
 	{
 		"pkg": "@transistorsoft/capacitor-background-geolocation",
 		"classpath": "com.transistorsoft.bggeo.capacitor.BackgroundGeolocationPlugin"
+	},
+	{
+		"pkg": "capacitor-secure-storage-plugin",
+		"classpath": "com.whitestein.securestorage.SecureStoragePlugin"
 	}
 ]

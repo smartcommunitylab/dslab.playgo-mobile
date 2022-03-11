@@ -1,0 +1,15 @@
+<!-- https://cordobo.github.io/angularx-qrcode/ -->
+<qrcode
+  [qrdata]="qrCodePrefix + id"
+  [allowEmptyString]="true"
+  [cssClass]="'center'"
+  [colorDark]="'#000000ff'"
+  [colorLight]="'#ffffffff'"
+  [elementType]="'canvas'"
+  [errorCorrectionLevel]="'M'"
+  [margin]="4"
+  [scale]="1"
+  [width]="300"
+></qrcode>
+{{ "tracking.car.manual_code" | translate }}
+<pre>{{ id }}</pre>

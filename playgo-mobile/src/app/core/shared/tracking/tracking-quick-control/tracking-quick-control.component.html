@@ -1,1 +1,4 @@
-<app-tracking-buttons size="small"></app-tracking-buttons>
+<app-tracking-buttons
+  size="small"
+  *ngIf="tripService.isInTrip$ | async"
+></app-tracking-buttons>

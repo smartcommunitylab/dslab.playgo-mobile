@@ -1,0 +1,20 @@
+<ion-item>
+  <ion-label>{{
+    "tracking.car.manual_code_input_label" | translate
+  }}</ion-label>
+  <!-- FIXME: there is some bug with ion-input and type=number https://github.com/ionic-team/ionic-framework/issues/24753 -->
+  <!-- type="number" -->
+  <ion-input placeholder="13245" [(ngModel)]="manualId"></ion-input>
+
+  <ion-button
+    (click)="manualIdEnter()"
+    size="large"
+    [disabled]="!isManualIdValid()"
+  >
+    {{ "tracking.car.manual_code_input_confirm" | translate }}
+  </ion-button>
+</ion-item>
+
+<ion-button (click)="startScan()" size="large">{{
+  "tracking.car.scan" | translate
+}}</ion-button>

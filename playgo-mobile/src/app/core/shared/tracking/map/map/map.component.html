@@ -1,0 +1,22 @@
+<ng-container *ngIf="mapOptions$ | async as mapOptions">
+  <!-- [leafletCenter]="tripInitialLatLng$ | async" -->
+  <div
+    class="ngx-leaflet"
+    leaflet
+    [leafletOptions]="mapOptions"
+    (leafletMapReady)="onMapReady($event)"
+  >
+    <div [leafletLayer]="currentLocationLayer$ | async"></div>
+    <ng-container *ngFor="let layer of tripPartLineLayers$ | async">
+      <div [leafletLayer]="layer"></div>
+    </ng-container>
+  </div>
+  <app-current-location-map-control
+    [map]="mapInstance"
+    [mapCenter]="currentLatLng$ | async"
+  ></app-current-location-map-control>
+</ng-container>
+
+<div style="position: absolute; bottom: 0; z-index: 1000">
+  <app-tracking-buttons size="small" [mapButton]="false"></app-tracking-buttons>
+</div>
