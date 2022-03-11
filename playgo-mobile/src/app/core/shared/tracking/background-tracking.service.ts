@@ -24,6 +24,7 @@ import {
   finalize,
   first,
   map,
+  scan,
   shareReplay,
   startWith,
   switchMap,
@@ -48,12 +49,23 @@ export class BackgroundTrackingService {
   private isReady = new Promise((resolve, reject) => {
     this.markAsReady = resolve;
   });
-  private appConfig = { tracking: { minimalAccuracy: 10 } };
+  private appConfig = { tracking: { maximalAccuracy: 30 } };
 
-  public currentLocation$: Observable<TripLocation> = this.getPluginObservable(
+  private pluginLocation$ = this.getPluginObservable(
     this.backgroundGeolocationPlugin.onLocation
-  ).pipe(
-    tap(NgZone.assertInAngularZone),
+  ).pipe(tap(NgZone.assertInAngularZone), shareReplay(1));
+
+  public accuracy$ = this.pluginLocation$.pipe(
+    map((loc) => loc.coords.accuracy),
+    shareReplay(1)
+  );
+  public lowAccuracy$ = this.accuracy$.pipe(
+    map((accuracy) => accuracy > this.appConfig.tracking.maximalAccuracy),
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+
+  public currentLocation$: Observable<TripLocation> = this.pluginLocation$.pipe(
     map(TripLocation.fromLocation),
     shareReplay(1)
   );
@@ -119,7 +131,7 @@ export class BackgroundTrackingService {
       this.backgroundGeolocationPlugin;
 
     // start observing plugin events
-    this.currentLocation$.subscribe();
+    this.pluginLocation$.subscribe();
     this.isPowerSaveMode$.subscribe();
   }
 
@@ -159,7 +171,7 @@ export class BackgroundTrackingService {
     const location = await this.setExtrasAndForceLocation(tripPart);
     const accuracy = location.coords.accuracy;
     if (doChecks) {
-      if (accuracy < this.appConfig.tracking.minimalAccuracy) {
+      if (accuracy > this.appConfig.tracking.maximalAccuracy) {
         const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
         if (!userAcceptsLowAccuracy) {
           throw LOW_ACCURACY;
