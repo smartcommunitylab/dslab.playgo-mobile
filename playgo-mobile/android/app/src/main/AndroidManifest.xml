@@ -13,7 +13,7 @@
         android:hardwareAccelerated="true"
     >
         <!-- capacitor-background-geolocation licence key -->
-        <meta-data android:name="com.transistorsoft.locationmanager.license" android:value="YOUR_LICENCE_KEY_HERE" />
+        <meta-data android:name="com.transistorsoft.locationmanager.license" android:value="2e4f62a3935686bc54cb1c7bbe6eca8cf11a5744e49fac82cfee506d79601bee" />
         <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" />
         <service android:name="com.transistorsoft.locationmanager.service.LocationRequestService" android:foregroundServiceType="location" />
 
