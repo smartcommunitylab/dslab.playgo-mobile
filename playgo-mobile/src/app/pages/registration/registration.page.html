@@ -8,8 +8,7 @@
   <form [formGroup]="registrationForm" (ngSubmit)="registrationSubmit()">
     <ion-item lines="full">
       <ion-avatar>
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
-          title="{{'registration.avatar.title'|translate}}">
+        <img [src]="urlAvatar" title="{{'registration.avatar.title'|translate}}" (click)="changeAvatar()">
       </ion-avatar>
     </ion-item>
     <ion-item lines="full">

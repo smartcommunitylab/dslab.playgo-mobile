@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TerritoryService } from 'src/app/core/territory/territory.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Camera, CameraResultType } from '@capacitor/camera';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-registration',
@@ -11,10 +13,11 @@ export class RegistrationPage implements OnInit {
   territoryList = [];
   registrationForm: FormGroup;
   isSubmitted = false;
-
+  urlAvatar: string | SafeUrl = 'assets/images/registration/generic_user.png';
   constructor(
     private territoryService: TerritoryService,
-    public formBuilder: FormBuilder) {
+    public formBuilder: FormBuilder,
+    private sanitizer: DomSanitizer) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
     });
@@ -29,6 +32,18 @@ export class RegistrationPage implements OnInit {
       language: ['', [Validators.required]],
       territory: ['', [Validators.required]]
     });
+  }
+  async changeAvatar() {
+    console.log('changing avatar');
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    });
+    const safeImg = this.sanitizer.bypassSecurityTrustUrl(image.webPath);
+    // const imageUrl = image.webPath;
+    // Can be set to the src of an image now
+    this.urlAvatar = safeImg;
   }
   //computed errorcontrol
   get errorControl() {
