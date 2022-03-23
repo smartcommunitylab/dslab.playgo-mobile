@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core';
-import { TokenResponse, Requestor } from '@openid/appauth';
+import { Requestor } from '@openid/appauth';
 import { AuthService } from 'ionic-appauth';
+import { filter, map, shareReplay, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthHttpService {
+  public headers$ = this.auth.token$.pipe(
+    filter(Boolean),
+    map((token) => this.addHeaders(token)),
+    shareReplay(1)
+  );
+
   constructor(private requestor: Requestor, private auth: AuthService) {}
 
   public async request<T>(
@@ -13,13 +20,19 @@ export class AuthHttpService {
     url: string,
     body?: any
   ) {
-    const token: TokenResponse = await this.auth.getValidToken();
     return this.requestor.xhr<T>({
       url,
       method,
       data: JSON.stringify(body),
-      headers: this.addHeaders(token),
+      headers: await this.getHeaders(),
     });
+  }
+
+  /** Waits for the first token available, but later it will return headers with active token immediately */
+  public async getHeaders() {
+    const headers = await this.headers$.pipe(take(1)).toPromise();
+    console.log('headers:', headers);
+    return headers;
   }
 
   private addHeaders(token: any) {
