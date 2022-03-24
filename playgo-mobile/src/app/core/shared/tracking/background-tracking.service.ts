@@ -140,7 +140,7 @@ export class BackgroundTrackingService {
   async start() {
     try {
       const config: Config = {
-        url: 'https://backenddev.playngo.it/playandgo/api/track/player/geolocations',
+        url: this.authHttpService.getApiUrl('/track/player/geolocations'),
         distanceFilter: 10,
         stopOnTerminate: false,
         startOnBoot: false,
