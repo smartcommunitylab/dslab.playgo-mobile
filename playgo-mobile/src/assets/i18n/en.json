@@ -42,5 +42,23 @@
       "territoryRequired": "The territory is required."
     },
     "sumbmitButton": "Register"
+  },
+  "modal": {
+    "cancel": "Cancel",
+    "ok": "Okay",
+    "alert_title": "Alert"
+  },
+  "tracking": {
+    "continue_low_accuracy_prompt": "Low accuracy detected! Do you want to continue?",
+    "show_current_location": "Show me where I am",
+    "car": {
+      "choose_role": "Which mode are you?",
+      "driver": "Driver",
+      "passenger": "Passenger",
+      "manual_code": "Shared trip code:",
+      "manual_code_input_label": "Input code manually:",
+      "manual_code_input_confirm": "OK",
+      "scan": "Scan"
+    }
   }
 }

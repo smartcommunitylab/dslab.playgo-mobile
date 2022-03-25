@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
+import { includes } from 'lodash';
 import { Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { BackgroundTrackingService } from './background-tracking.service';
+import { CarPoolingService } from './carpooling/carpooling.service';
 import { TripPersistanceService } from './trip-persistance.service';
 import {
   NO_TRIP_STARTED,
@@ -36,14 +44,26 @@ export class TripService {
 
   public isInTrip$: Observable<boolean> = this.tripPart$.pipe(
     map(isNotConstant(TRIP_END)),
-    distinctUntilChanged()
+    distinctUntilChanged(),
+    shareReplay(1)
   );
 
   constructor(
     private tripPersistanceService: TripPersistanceService,
-    private backgroundTrackingService: BackgroundTrackingService
+    private backgroundTrackingService: BackgroundTrackingService,
+    private carpoolingService: CarPoolingService
   ) {
     this.start();
+    backgroundTrackingService.isPowerSaveMode$
+      .pipe(
+        withLatestFrom(this.isInTrip$),
+        filter(([isPowerSaveMode, isInTrip]) => isPowerSaveMode && isInTrip),
+        distinctUntilChanged()
+      )
+      .subscribe(() =>
+        // TODO: no not work reliable
+        alert('Please disable power save mode for proper location tracking')
+      );
   }
 
   private async start() {
@@ -57,10 +77,11 @@ export class TripService {
         // maybe we have some location that are not synchronized with the server...
         await this.backgroundTrackingService.syncInitialLocations();
       } else {
-        await this.backgroundTrackingService.startTracking(initialTrip);
+        await this.backgroundTrackingService.startTracking(initialTrip, true);
         this.setCurrentTripPart(initialTrip);
       }
     } catch (e) {
+      alert(e);
       console.error(e);
     }
   }
@@ -100,17 +121,31 @@ export class TripService {
     try {
       this.operationInProgressSubject.next(true);
       const lastTripPartWithId = this.currentTripPart;
+      const isNewTrip = includes(
+        [NO_TRIP_STARTED, TRIP_END],
+        this.currentTripPart
+      );
       const newTripPart = this.getNewTripPart(
         lastTripPartWithId,
         tripPartWithoutMultimodalId
       );
+
+      if (newTripPart !== TRIP_END && newTripPart.transportType === 'car') {
+        newTripPart.sharedTravelId =
+          await this.carpoolingService.startCarPoolingTrip();
+      }
+
       if (newTripPart === TRIP_END) {
         await this.backgroundTrackingService.stopTracking();
       } else {
-        await this.backgroundTrackingService.startTracking(newTripPart);
+        await this.backgroundTrackingService.startTracking(
+          newTripPart,
+          isNewTrip
+        );
       }
       this.setCurrentTripPart(newTripPart);
     } catch (e) {
+      alert(e);
       console.error(e);
     } finally {
       this.operationInProgressSubject.next(false);

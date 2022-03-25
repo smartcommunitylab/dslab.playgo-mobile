@@ -4,6 +4,11 @@ import {
   LoadingController,
   AlertController,
 } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { isString } from 'lodash-es';
+import * as itDictionary from '../../../../assets/i18n/it.json';
+import { StringPath } from '../type.utils';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,9 +18,11 @@ export class AlertService {
   constructor(
     private toastController: ToastController,
     private loadingController: LoadingController,
-    private alertController: AlertController
-  ) { }
-  public async showToast(message: string) {
+    private alertController: AlertController,
+    private translateService: TranslateService
+  ) {}
+  public async showToast(messageTranslateKey: TranslateKey) {
+    const message = await this.translate(messageTranslateKey);
     this.toast = await this.toastController.create({
       message,
       duration: 3000,
@@ -25,10 +32,14 @@ export class AlertService {
   }
 
   public async confirmAlert(
-    header: string,
-    message: string,
+    headerTranslateKey: TranslateKey,
+    messageTranslateKey: TranslateKey,
     cssClass?: string
   ): Promise<boolean> {
+    const header = await this.translate(headerTranslateKey);
+    const message = await this.translate(messageTranslateKey);
+    const cancel = await this.translate('modal.cancel');
+    const ok = await this.translate('modal.ok');
     return new Promise(async (resolve, reject) => {
       const alert = await this.alertController.create({
         cssClass,
@@ -36,7 +47,7 @@ export class AlertService {
         message,
         buttons: [
           {
-            text: 'Cancel',
+            text: cancel,
             role: 'cancel',
             cssClass: 'secondary',
             id: 'cancel-button',
@@ -45,7 +56,7 @@ export class AlertService {
             },
           },
           {
-            text: 'Okay',
+            text: ok,
             id: 'confirm-button',
             handler: () => {
               resolve(true);
@@ -65,5 +76,26 @@ export class AlertService {
 
     await this.loading.present();
   }
-  public async dismissLoading() { }
+  public async dismissLoading() {}
+
+  private async translate(key: TranslateKey): Promise<string> {
+    const translated = await this.translateService
+      .get(...normalizeTranslateKey(key))
+      .toPromise();
+    return String(translated);
+  }
+}
+
+type Dictionary = typeof itDictionary;
+export type TranslateKey =
+  | StringPath<Dictionary>
+  | {
+      key: StringPath<Dictionary>;
+      interpolateParams: Record<'string', 'string'>;
+    };
+
+export function normalizeTranslateKey(
+  key: TranslateKey
+): [string, Record<'string', 'string'>] {
+  return isString(key) ? [key, null] : [key.key, key.interpolateParams];
 }

@@ -1,11 +1,9 @@
-import { Component, DoCheck, Input, NgZone, OnInit } from '@angular/core';
-import { IonButton } from '@ionic/angular';
-import { join, map as _map } from 'lodash-es';
+import { Component } from '@angular/core';
+import { map as _map } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
-import { TransportType } from '../trip.model';
 import { TripService } from '../trip.service';
 
 @Component({
@@ -14,19 +12,6 @@ import { TripService } from '../trip.service';
   styleUrls: ['./tracking-main-control.component.scss'],
 })
 export class TrackingMainControlComponent {
-  @Input()
-  public size: IonButton['size'] = 'default';
-
-  public transportTypeOptions: {
-    transportType: TransportType;
-    icon: string;
-  }[] = [
-    { transportType: 'walk', icon: 'walk' },
-    { transportType: 'bicycle', icon: 'bicycle' },
-    { transportType: 'bus', icon: 'bus' },
-    { transportType: 'car', icon: 'car' },
-  ];
-
   public locationTransportTypes$: Observable<string> =
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
       map((locations) => _map(locations, 'transportType').join())
@@ -34,6 +19,6 @@ export class TrackingMainControlComponent {
 
   constructor(
     public tripService: TripService,
-    private backgroundTrackingService: BackgroundTrackingService
+    public backgroundTrackingService: BackgroundTrackingService
   ) {}
 }

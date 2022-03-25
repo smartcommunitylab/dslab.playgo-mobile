@@ -13,6 +13,7 @@ export class TripPart {
   transportType: TransportType;
   start: number;
   multimodalId: string;
+  sharedTravelId: string;
   constructor(data?: TripPart) {
     Object.assign(this, data || {});
   }
@@ -23,12 +24,13 @@ export class TripPart {
       start,
       transportType,
       idTrip,
+      sharedTravelId: null,
       multimodalId: null,
     });
   }
 }
 
-export type TransportType = 'walk' | 'bicycle' | 'bus' | 'train' | 'car';
+export type TransportType = 'walk' | 'bike' | 'bus' | 'train' | 'car' | 'boat';
 
 export const TRIP_END = 'TRIP_END' as const;
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -39,3 +41,6 @@ export const NO_TRIP_STARTED = 'NO_TRIP_STARTED' as const;
 export type NO_TRIP_STARTED = typeof NO_TRIP_STARTED;
 
 export const LOW_ACCURACY = 'LOW_ACCURACY' as const;
+export const POWER_SAVE_MODE = 'POWER_SAVE_MODE' as const;
+// probably location services are disabled by user.
+export const UNABLE_TO_GET_POSITION = 'UNABLE_TO_GET_POSITION' as const;

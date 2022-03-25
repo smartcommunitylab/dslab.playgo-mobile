@@ -1,25 +1,43 @@
 import { Injectable } from '@angular/core';
-import { TokenResponse, Requestor } from '@openid/appauth';
+import { Requestor } from '@openid/appauth';
 import { AuthService } from 'ionic-appauth';
+import { castArray, trim } from 'lodash-es';
+import { filter, map, shareReplay, take } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthHttpService {
+  public headers$ = this.auth.token$.pipe(
+    filter(Boolean),
+    map((token) => this.addHeaders(token)),
+    shareReplay(1)
+  );
+
   constructor(private requestor: Requestor, private auth: AuthService) {}
 
   public async request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-    url: string,
+    endpoint: Endpoint,
     body?: any
   ) {
-    const token: TokenResponse = await this.auth.getValidToken();
     return this.requestor.xhr<T>({
-      url,
+      url: this.getApiUrl(endpoint),
       method,
       data: JSON.stringify(body),
-      headers: this.addHeaders(token),
+      headers: await this.getHeaders(),
     });
+  }
+
+  /** Waits for the first token available, but later it will return headers with active token immediately */
+  public async getHeaders() {
+    const headers = await this.headers$.pipe(take(1)).toPromise();
+    return headers;
+  }
+
+  public getApiUrl(endpoint: Endpoint): string {
+    return joinUriPathNames(environment.apiUrl, ...castArray(endpoint));
   }
 
   private addHeaders(token: any) {
@@ -34,4 +52,12 @@ export class AuthHttpService {
         }
       : {};
   }
+}
+
+export type Endpoint = string | string[];
+
+function joinUriPathNames(...pathNames: string[]): string {
+  return pathNames
+    .map((eachPathNamePart) => trim(eachPathNamePart, '/'))
+    .join('/');
 }

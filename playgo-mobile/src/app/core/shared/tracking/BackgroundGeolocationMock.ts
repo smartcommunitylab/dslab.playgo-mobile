@@ -17,67 +17,69 @@ export class BackgroundGeolocationMock {
   constructor() {
     throw new Error('static mock');
   }
+  @mockMethod()
   public static findOrCreateTransistorAuthorizationToken() {
-    log('findOrCreateTransistorAuthorizationToken');
     return 'TOKEN_MOCK';
   }
+  @mockMethod({ async: true })
   public static async ready(config: Config): Promise<Partial<State>> {
-    log('ready called!', config);
-    await time(1000);
-    log('ready finished!');
     return {
       enabled: true,
     };
   }
+
+  @mockMethod({ async: true })
   public static async setConfig(config: Config) {
-    log('setConfig called!', config);
     BackgroundGeolocationMock.config = config;
-    await time(1000);
-    log('setConfig finished!');
   }
+  @mockMethod({ async: true })
   public static async getCurrentPosition(request: CurrentPositionRequest) {
-    log('getCurrentPosition called!', request);
-    await time(1000);
     const location = BackgroundGeolocationMock.getRandomLocation(
       request.extras
     );
     BackgroundGeolocationMock.locations.push(location);
-    log('getCurrentPosition finished!', location);
     return location;
   }
+  @mockMethod({ async: true })
   public static async start() {
-    log('start called!');
-    await time(1000);
     BackgroundGeolocationMock.isTracking = true;
-    log('start finished!');
   }
+  @mockMethod({ async: true })
   public static async stop() {
-    log('stop called!');
-    await time(1000);
     BackgroundGeolocationMock.isTracking = false;
-    log('stop finished!');
   }
+  @mockMethod({ async: true })
   public static async sync() {
-    log('sync called!');
-    await time(1000);
     BackgroundGeolocationMock.locations = [];
-    log('sync finished!');
   }
+  @mockMethod({ async: true })
   public static async getLocations() {
-    log('getLocations called!');
-    await time(1000);
-    log('getLocations finished!', BackgroundGeolocationMock.locations);
     return [...BackgroundGeolocationMock.locations];
   }
+
+  @mockMethod()
   public static onLocation(handler) {
-    log('onLocation handler added!', handler);
     BackgroundGeolocationMock.handlers.add(handler);
     return {
       remove: () => {
         BackgroundGeolocationMock.handlers.delete(handler);
-        log('onLocation subscription removed!');
+        console.log(
+          'BackgroundGeolocationMock: onLocation subscription removed!'
+        );
       },
     };
+  }
+
+  @mockMethod()
+  public static onPowerSaveChange(handler) {
+    return {
+      remove: () => {},
+    };
+  }
+
+  @mockMethod({ async: true })
+  public static async isPowerSaveMode() {
+    return false;
   }
 
   private static getRandomLocation(extras: Extras = {}): Partial<Location> {
@@ -117,11 +119,35 @@ export class BackgroundGeolocationMock {
   }
 }
 
-function log(...args) {
-  console.log('BackgroundGeolocationMock:', ...args);
-}
 async function time(ms) {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, ms);
   });
+}
+function mockMethod(opts: { async: boolean } = { async: false }) {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+  ) {
+    const targetMethod = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+      console.log(`BackgroundGeolocationMock.${propertyKey} called:`, ...args);
+      const res = targetMethod.apply(this, args);
+      if (opts.async) {
+        return (async () => {
+          const promiseRes = await res;
+          await time(200);
+          console.log(
+            `BackgroundGeolocationMock.${propertyKey} finished:`,
+            promiseRes
+          );
+          return promiseRes;
+        })();
+      } else {
+        console.log(`BackgroundGeolocationMock.${propertyKey} result`, res);
+      }
+    };
+    return descriptor;
+  };
 }

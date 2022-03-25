@@ -42,5 +42,23 @@
       "territoryRequired": "Il territorio é richiesto"
     },
     "sumbmitButton": "Registrati"
+  },
+  "modal": {
+    "cancel": "IT: Cancel",
+    "ok": "IT: Okay",
+    "alert_title": "IT: Alert"
+  },
+  "tracking": {
+    "continue_low_accuracy_prompt": "IT: Low accuracy detected! Do you want to continue?",
+    "show_current_location": "IT: Show me where I am",
+    "car": {
+      "choose_role": "IT: Which mode are you?",
+      "driver": "IT: Driver",
+      "passenger": "IT: Passenger",
+      "manual_code": "IT: Shared trip code:",
+      "manual_code_input_label": "IT: Input code manually:",
+      "manual_code_input_confirm": "IT: OK",
+      "scan": "IT: Scan"
+    }
   }
 }
