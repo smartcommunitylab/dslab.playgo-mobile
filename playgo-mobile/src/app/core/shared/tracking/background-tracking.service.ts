@@ -40,6 +40,7 @@ import {
   UNABLE_TO_GET_POSITION,
 } from './trip.model';
 import { runInZone, tapLog } from './utils';
+import { AuthHttpService } from '../../auth/auth-http.service';
 
 @Injectable({
   providedIn: 'root',
@@ -124,6 +125,7 @@ export class BackgroundTrackingService {
     @Inject(BackgroundGeolocationInternal)
     private backgroundGeolocationPlugin: typeof BackgroundGeolocationInternal,
     private alertService: AlertService,
+    private authHttpService: AuthHttpService,
     private zone: NgZone
   ) {
     // FIXME: debug only
@@ -137,22 +139,17 @@ export class BackgroundTrackingService {
 
   async start() {
     try {
-      // !!! location will be synced to the public open https://tracker.transistorsoft.com/fbk_dslab
-      const debugTokenForPublicServer =
-        await this.backgroundGeolocationPlugin.findOrCreateTransistorAuthorizationToken(
-          'fbk_dslab',
-          'mmikula'
-        );
-
       const config: Config = {
-        transistorAuthorizationToken: debugTokenForPublicServer,
+        url: this.authHttpService.getApiUrl('/track/player/geolocations'),
         distanceFilter: 10,
         stopOnTerminate: false,
         startOnBoot: false,
         autoSync: false,
+        batchSync: true,
       };
       console.log('starting BackgroundGeolocation', config);
       const state = await this.backgroundGeolocationPlugin.ready(config);
+
       console.log('BackgroundGeolocation ready', state);
     } catch (e) {
       console.error(e);
@@ -203,6 +200,9 @@ export class BackgroundTrackingService {
   }
   private async sync() {
     try {
+      const headers = await this.authHttpService.getHeaders();
+      console.log('sync using headers', headers);
+      await this.backgroundGeolocationPlugin.setConfig({ headers });
       await this.backgroundGeolocationPlugin.sync();
     } catch (e) {
       console.warn('Sync failed, we will try to sync next time', e);
