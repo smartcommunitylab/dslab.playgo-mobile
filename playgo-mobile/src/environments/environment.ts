@@ -13,7 +13,11 @@ export const environment = {
     scopes: 'openid email profile',
     pkce: true,
   },
-  apiUrl: 'https://backenddev.playngo.it/playandgo/api',
+  serverUrl: {
+    server: 'https://backenddev.playngo.it:443/playandgo/api/',
+    player: 'player',
+    territory: 'territory'
+  }
 };
 
 /*

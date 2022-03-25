@@ -3,6 +3,7 @@ import { TerritoryService } from 'src/app/core/territory/territory.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-registration',
@@ -17,6 +18,7 @@ export class RegistrationPage implements OnInit {
   constructor(
     private territoryService: TerritoryService,
     public formBuilder: FormBuilder,
+    private navCtrl: NavController,
     private sanitizer: DomSanitizer) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -56,6 +58,7 @@ export class RegistrationPage implements OnInit {
       return false;
     } else {
       console.log(this.registrationForm.value);
+      this.navCtrl.navigateRoot('/pages/tabs/home');
     }
 
   }

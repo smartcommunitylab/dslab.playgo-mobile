@@ -1,22 +1,21 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthHttpService } from '../auth/auth-http.service';
 import { IUser } from './user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
     public resourceUrl = environment.serverUrl.server + environment.serverUrl.player;
-    constructor(private http: HttpClient) { }
+    constructor(private authHttpService: AuthHttpService) { }
 
-    registerPlayer(user: IUser): Observable<IUser> {
-        return this.http.post<IUser>(this.resourceUrl, user);
+    registerPlayer(user: IUser): Promise<IUser> {
+        return this.authHttpService.request<IUser>('POST', this.resourceUrl, user);
     }
-    getPlayer(): Observable<IUser> {
-        return this.http.get<IUser>(this.resourceUrl);
+    getPlayer(): Promise<IUser> {
+        return this.authHttpService.request<IUser>('GET', this.resourceUrl);
     }
-    updatePlayer(user: IUser): Observable<IUser> {
-        return this.http.put<IUser>(this.resourceUrl, user);
+    updatePlayer(user: IUser): Promise<IUser> {
+        return this.authHttpService.request<IUser>('PUT', this.resourceUrl, user);
     }
 
 }
