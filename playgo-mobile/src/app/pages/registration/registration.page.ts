@@ -4,6 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NavController } from '@ionic/angular';
+import { UserService } from 'src/app/core/user/user.service';
+import { AlertService } from 'src/app/core/shared/services/alert.services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registration',
@@ -16,6 +19,9 @@ export class RegistrationPage implements OnInit {
   isSubmitted = false;
   urlAvatar: string | SafeUrl = 'assets/images/registration/generic_user.png';
   constructor(
+    private userService: UserService,
+    private alertService: AlertService,
+    private translateService: TranslateService,
     private territoryService: TerritoryService,
     public formBuilder: FormBuilder,
     private navCtrl: NavController,
@@ -27,12 +33,10 @@ export class RegistrationPage implements OnInit {
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      lastname: ['', [Validators.required, Validators.minLength(2)]],
       mail: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       nickname: ['', [Validators.required, Validators.minLength(2)]],
       language: ['', [Validators.required]],
-      territory: ['', [Validators.required]]
+      territoryId: ['', [Validators.required]]
     });
   }
   async changeAvatar() {
@@ -58,7 +62,12 @@ export class RegistrationPage implements OnInit {
       return false;
     } else {
       console.log(this.registrationForm.value);
-      this.navCtrl.navigateRoot('/pages/tabs/home');
+      //register user
+      this.userService.registerPlayer(this.registrationForm.value).then(() => {
+        this.navCtrl.navigateRoot('/pages/tabs/home');
+      }).catch(() => {
+        this.alertService.showToast(this.translateService.instant('error.generic'));
+      });
     }
 
   }

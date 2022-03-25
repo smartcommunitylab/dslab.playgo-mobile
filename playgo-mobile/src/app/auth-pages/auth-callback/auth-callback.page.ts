@@ -42,8 +42,8 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
     console.log(JSON.stringify(action));
     if (action.action === AuthActions.SignInSuccess) {
       this.alertService.showToast(this.translateService.instant('login.welcome'));
-      const user = await this.userService.getPlayer();
-      if (false) {
+      const userIsRegistered = await this.userService.isUserRegistered();
+      if (userIsRegistered) {
         this.navCtrl.navigateRoot('/pages/tabs/home');
       }
       else {

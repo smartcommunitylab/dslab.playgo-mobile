@@ -15,7 +15,7 @@ export class AuthHttpService {
     shareReplay(1)
   );
 
-  constructor(private requestor: Requestor, private auth: AuthService) {}
+  constructor(private requestor: Requestor, private auth: AuthService) { }
 
   public async request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
@@ -37,19 +37,18 @@ export class AuthHttpService {
   }
 
   public getApiUrl(endpoint: Endpoint): string {
-    return joinUriPathNames(environment.apiUrl, ...castArray(endpoint));
+    return joinUriPathNames(environment.serverUrl.apiUrl, ...castArray(endpoint));
   }
 
   private addHeaders(token: any) {
     return token
       ? {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          Authorization: `${
-            token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Authorization: `${token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
           } ${token.accessToken}`,
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          'Content-Type': 'application/json',
-        }
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Content-Type': 'application/json',
+      }
       : {};
   }
 }

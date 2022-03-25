@@ -33,8 +33,8 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private async onSignInSuccess(action: IAuthAction) {
     this.alertService.showToast(this.translateService.instant('login.welcome'));
-    const user = await this.userService.getPlayer();
-    if (user) {
+    const userIsRegistered = await this.userService.isUserRegistered();
+    if (userIsRegistered) {
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
     else {

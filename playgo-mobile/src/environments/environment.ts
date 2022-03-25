@@ -14,7 +14,9 @@ export const environment = {
     pkce: true,
   },
   serverUrl: {
-    server: 'https://backenddev.playngo.it:443/playandgo/api/',
+    apiUrl: 'https://backenddev.playngo.it:443/playandgo/api/',
+    profile: 'player/profile',
+    register: 'player/register',
     player: 'player',
     territory: 'territory'
   }

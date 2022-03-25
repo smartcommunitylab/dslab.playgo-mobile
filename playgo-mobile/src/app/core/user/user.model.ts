@@ -1,7 +1,5 @@
 export interface IUser {
     playerId?: string;
-    name?: string;
-    surname?: string;
     nickname?: string;
     language?: string;
     mail?: string;
@@ -11,8 +9,6 @@ export interface IUser {
 export class User implements IUser {
     constructor(
         public playerId?: string,
-        public name?: string,
-        public surname?: string,
         public nickname?: string,
         public language?: string,
         public mail?: string,

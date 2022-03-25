@@ -5,17 +5,29 @@ import { IUser } from './user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-    public resourceUrl = environment.serverUrl.server + environment.serverUrl.player;
     constructor(private authHttpService: AuthHttpService) { }
 
     registerPlayer(user: IUser): Promise<IUser> {
-        return this.authHttpService.request<IUser>('POST', this.resourceUrl, user);
+        return this.authHttpService.request<IUser>('POST', environment.serverUrl.register, user);
+    }
+    async isUserRegistered(): Promise<boolean> {
+        try {
+            const user = await this.authHttpService.request<IUser>('GET', environment.serverUrl.profile);
+            if (user) { return true; }
+            else { return false; }
+        } catch (e) {
+            { return false; }
+        }
+
+    }
+    getProfile(): Promise<IUser> {
+        return this.authHttpService.request<IUser>('GET', environment.serverUrl.profile);
     }
     getPlayer(): Promise<IUser> {
-        return this.authHttpService.request<IUser>('GET', this.resourceUrl);
+        return this.authHttpService.request<IUser>('GET', environment.serverUrl.player);
     }
     updatePlayer(user: IUser): Promise<IUser> {
-        return this.authHttpService.request<IUser>('PUT', this.resourceUrl, user);
+        return this.authHttpService.request<IUser>('PUT', environment.serverUrl.player, user);
     }
 
 }
