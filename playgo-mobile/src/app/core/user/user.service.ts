@@ -13,12 +13,19 @@ export class UserService {
     async isUserRegistered(): Promise<boolean> {
         try {
             const user = await this.authHttpService.request<IUser>('GET', environment.serverUrl.profile);
-            if (user) { return true; }
-            else { return false; }
+            if (user) {
+                //user registered
+                return true;
+            }
+            else {
+                //user not registered
+                return false;
+            }
         } catch (e) {
-            { return false; }
+            {
+                return false;
+            }
         }
-
     }
     getProfile(): Promise<IUser> {
         return this.authHttpService.request<IUser>('GET', environment.serverUrl.profile);

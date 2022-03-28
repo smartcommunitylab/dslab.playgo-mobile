@@ -7,6 +7,7 @@ import { NavController } from '@ionic/angular';
 import { UserService } from 'src/app/core/user/user.service';
 import { AlertService } from 'src/app/core/shared/services/alert.services';
 import { TranslateService } from '@ngx-translate/core';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 
 @Component({
   selector: 'app-registration',
@@ -20,6 +21,7 @@ export class RegistrationPage implements OnInit {
   urlAvatar: string | SafeUrl = 'assets/images/registration/generic_user.png';
   constructor(
     private userService: UserService,
+    private errorService: ErrorService,
     private alertService: AlertService,
     private translateService: TranslateService,
     private territoryService: TerritoryService,
@@ -65,8 +67,8 @@ export class RegistrationPage implements OnInit {
       //register user
       this.userService.registerPlayer(this.registrationForm.value).then(() => {
         this.navCtrl.navigateRoot('/pages/tabs/home');
-      }).catch(() => {
-        this.alertService.showToast(this.translateService.instant('error.generic'));
+      }).catch((error: any) => {
+        this.errorService.showAlert(error);
       });
     }
 

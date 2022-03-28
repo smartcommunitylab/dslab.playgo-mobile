@@ -11,6 +11,7 @@
     "welcome": "Benvenuto"
   },
   "registration": {
+    "newUser": "New User. Fill the form with your information",
     "title": "Registratione",
     "avatar": {
       "title": "Avatar"
@@ -60,5 +61,10 @@
       "manual_code_input_confirm": "IT: OK",
       "scan": "IT: Scan"
     }
+  },
+  "errors": {
+    "userNotFound": "Utente non registrato",
+    "nickNameExist": "Questo soprannome é giá registrato",
+    "defaultErr": "Errore generico"
   }
 }

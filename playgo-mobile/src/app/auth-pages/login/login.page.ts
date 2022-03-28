@@ -38,6 +38,7 @@ export class LoginPage implements OnInit, OnDestroy {
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
     else {
+      this.alertService.showToast(this.translateService.instant('registration.newUser'));
       this.navCtrl.navigateRoot('/pages/registration');
     };
 

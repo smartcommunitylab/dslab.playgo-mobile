@@ -11,6 +11,7 @@
     "welcome": "Welcome"
   },
   "registration": {
+    "newUser": "New User. Fill the form with your information",
     "title": "Registration",
     "avatar": {
       "title": "Avatar"
@@ -60,5 +61,10 @@
       "manual_code_input_confirm": "OK",
       "scan": "Scan"
     }
+  },
+  "errors": {
+    "userNotFound": "User Not Found",
+    "nickNameExist": "This nickname already exists",
+    "defaultErr": "Generic error"
   }
 }
