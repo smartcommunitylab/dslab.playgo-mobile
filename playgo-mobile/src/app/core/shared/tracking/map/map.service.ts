@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { merge, Subject } from 'rxjs';
-import { shareReplay, startWith } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  startWith,
+} from 'rxjs/operators';
+import { isNotConstant, tapLog } from '../../utils';
+import { TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
 import { MapComponent } from './map/map.component';
 
@@ -12,9 +20,17 @@ export class MapService {
   private manualToggleModalSubject = new Subject<boolean>();
   private modal: HTMLIonModalElement;
 
+  private isInNotInitialTrip$: Observable<boolean> =
+    this.tripService.tripPart$.pipe(
+      filter((tripPart) => tripPart === TRIP_END || !tripPart.isInitial),
+      map(isNotConstant(TRIP_END)),
+      distinctUntilChanged(),
+      shareReplay(1)
+    );
+
   public modalShouldBeOpened$ = merge(
     this.manualToggleModalSubject,
-    this.tripService.isInTrip$
+    this.isInNotInitialTrip$
   ).pipe(startWith(false), shareReplay(1));
 
   constructor(

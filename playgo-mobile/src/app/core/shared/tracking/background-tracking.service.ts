@@ -281,4 +281,4 @@ export class TripLocation {
   }
 }
 
-interface TripExtras extends Extras, TripPart {}
+interface TripExtras extends Extras, Partial<TripPart> {}

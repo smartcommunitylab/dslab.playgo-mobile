@@ -12,25 +12,20 @@ import {
 } from '@angular/core';
 import { Map, Control, ControlPosition, LatLng } from 'leaflet';
 import {
-  BehaviorSubject,
   EMPTY,
   fromEvent,
   merge,
   Observable,
-  of,
   ReplaySubject,
   Subject,
 } from 'rxjs';
 import {
   filter,
-  map,
   mapTo,
   scan,
-  share,
   shareReplay,
   startWith,
   switchMap,
-  switchMapTo,
   takeUntil,
   tap,
   withLatestFrom,
@@ -92,7 +87,6 @@ export class CurrentLocationMapControlComponent
       }
     }, true),
     startWith(true),
-    tapLog('locationControl followingEnabled$'),
     tap(NgZone.assertInAngularZone),
     shareReplay(1)
   );
@@ -107,10 +101,9 @@ export class CurrentLocationMapControlComponent
   );
 
   constructor(private zone: NgZone) {
-    this.shouldMoveCenter$.subscribe(([center, mapInstance]) => {
-      console.log('locationControl moving a center!');
-      mapInstance.setView(center, undefined, { noMoveStart: true });
-    });
+    this.shouldMoveCenter$.subscribe(([center, mapInstance]) =>
+      mapInstance.setView(center, undefined, { noMoveStart: true })
+    );
   }
 
   ngAfterViewInit() {

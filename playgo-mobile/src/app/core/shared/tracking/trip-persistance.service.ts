@@ -27,7 +27,7 @@ export class TripPersistanceService {
     this.sourceTripPartsToStore.next(tripPart$);
   }
 
-  private storeOrClearTrip(tripPart) {
+  private storeOrClearTrip(tripPart: TripPart | TRIP_END) {
     if (tripPart === TRIP_END) {
       this.storage.set(null);
     } else {
@@ -37,16 +37,20 @@ export class TripPersistanceService {
 
   public getInitialTrip(): TripPart | NO_TRIP_STARTED {
     const tripPart: TripPart = this.storage.get();
-    return tripPart || NO_TRIP_STARTED;
+    if (tripPart === null) {
+      return NO_TRIP_STARTED;
+    }
+    tripPart.isInitial = true;
+    return tripPart;
   }
 }
 
 class Storage<T> {
   constructor(private localStorageKey: string) {}
-  set(data: T) {
+  set(data: T | null) {
     localStorage.setItem(this.localStorageKey, JSON.stringify(data || null));
   }
-  get(): T {
+  get(): T | null {
     const stringVal = localStorage.getItem(this.localStorageKey);
     return JSON.parse(stringVal);
   }
