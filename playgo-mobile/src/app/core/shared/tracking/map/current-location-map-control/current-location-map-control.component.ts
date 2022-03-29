@@ -1,5 +1,6 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable no-underscore-dangle */
+import { NgZone } from '@angular/core';
 import {
   Component,
   OnInit,
@@ -10,6 +11,31 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { Map, Control, ControlPosition, LatLng } from 'leaflet';
+import {
+  BehaviorSubject,
+  EMPTY,
+  fromEvent,
+  merge,
+  Observable,
+  of,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
+import {
+  filter,
+  map,
+  mapTo,
+  scan,
+  share,
+  shareReplay,
+  startWith,
+  switchMap,
+  switchMapTo,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import { runInZone, tapLog } from '../../../utils';
 
 @Component({
   selector: 'app-current-location-map-control',
@@ -19,48 +45,105 @@ import { Map, Control, ControlPosition, LatLng } from 'leaflet';
 export class CurrentLocationMapControlComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  public control: Control;
+  private componentIsDestroyed$ = new Subject<boolean>();
 
-  @Input() mapCenter: LatLng;
+  @Input() set mapCenter(mapCenter: LatLng) {
+    this.mapCenter$.next(mapCenter);
+  }
+  mapCenter$ = new ReplaySubject<LatLng>(1);
+
+  @Input() set mapInstance(mapInstance: Map) {
+    this._mapInstance = mapInstance;
+    this.mapInstance$.next(mapInstance);
+  }
+  get mapInstance() {
+    return this._mapInstance;
+  }
+  _mapInstance: Map;
+  mapInstance$ = new ReplaySubject<Map>(1);
+
   @Input() position: ControlPosition = 'topleft';
-  @Input() map: Map;
 
   @ViewChild('customLocationControl', { static: true })
   public controlElement: ElementRef;
 
-  constructor() {}
+  public control: Control;
+
+  private iconClicked$ = new Subject<'iconClicked'>();
+
+  private mapPanned$: Observable<'mapPanned'> = this.mapInstance$.pipe(
+    tapLog('locationControl map instance'),
+    switchMap((mapInstance) => fromEvent(mapInstance, 'dragstart')),
+    runInZone(this.zone),
+    filter((e) => {
+      console.log('locationControl movestart event', e);
+      return true;
+    }),
+    mapTo('mapPanned')
+  );
+
+  followingEnabled$ = merge(this.iconClicked$, this.mapPanned$).pipe(
+    scan((previousFollowingEnabled, currentEvent) => {
+      if (currentEvent === 'iconClicked') {
+        return !previousFollowingEnabled;
+      }
+      if (currentEvent === 'mapPanned') {
+        return false;
+      }
+    }, true),
+    startWith(true),
+    tapLog('locationControl followingEnabled$'),
+    tap(NgZone.assertInAngularZone),
+    shareReplay(1)
+  );
+
+  private shouldMoveCenter$ = this.followingEnabled$.pipe(
+    switchMap((followingEnabled) =>
+      followingEnabled ? this.mapCenter$ : EMPTY
+    ),
+    filter((center) => center !== null),
+    withLatestFrom(this.mapInstance$),
+    takeUntil(this.componentIsDestroyed$)
+  );
+
+  constructor(private zone: NgZone) {
+    this.shouldMoveCenter$.subscribe(([center, mapInstance]) => {
+      console.log('locationControl moving a center!');
+      mapInstance.setView(center, undefined, { noMoveStart: true });
+    });
+  }
 
   ngAfterViewInit() {
-    this.createControl(this.map, this.controlElement);
+    this.createControl(this.mapInstance, this.controlElement);
   }
 
   ngOnInit() {}
 
   ngOnDestroy() {
-    if (this.map && this.control) {
-      this.map.removeControl(this.control);
+    this.componentIsDestroyed$.next(true);
+    this.componentIsDestroyed$.complete();
+    if (this.mapInstance && this.control) {
+      this.mapInstance.removeControl(this.control);
     }
   }
 
   public onClick(): void {
-    if (this.mapCenter) {
-      this.map.setView(this.mapCenter);
-    }
+    this.iconClicked$.next('iconClicked');
   }
 
-  /** Should be called once map and control element are available */
-  private createControl(map: Map, controlElement: ElementRef) {
+  /** Should be called once mapInstance and control element are available */
+  private createControl(mapInstance: Map, controlElement: ElementRef) {
     this.control = this.getControl(controlElement);
-    this.control.addTo(map);
+    this.control.addTo(mapInstance);
   }
 
   private getControl(controlElement: ElementRef) {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const Custom = Control.extend({
-      onAdd(map: Map) {
+      onAdd(mapInstance: Map) {
         return controlElement.nativeElement;
       },
-      onRemove(map: Map) {},
+      onRemove(mapInstance: Map) {},
     });
     return new Custom({
       position: this.position,
