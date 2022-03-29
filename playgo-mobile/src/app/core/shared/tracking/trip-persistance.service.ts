@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { identity, Observable, ReplaySubject } from 'rxjs';
 import { filter, mergeMap, switchMap } from 'rxjs/operators';
 import { NO_TRIP_STARTED, Trip, TripPart, TRIP_END } from './trip.model';
-import { isConstant, isNotConstant } from './utils';
+import { isConstant, isNotConstant } from '../utils';
 
 @Injectable({
   providedIn: 'root',
