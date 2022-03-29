@@ -68,3 +68,9 @@ export function convertBlobToBase64(blob: Blob): Promise<any> {
  * [1,2,3,4] -> [[1,2], [2,3], [3,4]]
  */
 export const getAdjacentPairs = <T>(a: T[]) => zip(initial(a), tail(a));
+
+export async function time(ms: number): Promise<void> {
+  await new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}

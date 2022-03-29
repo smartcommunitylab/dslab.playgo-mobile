@@ -132,20 +132,20 @@ function mockMethod(opts: { async: boolean } = { async: false }) {
   ) {
     const targetMethod = descriptor.value;
     descriptor.value = function (...args: any[]) {
-      console.log(`BackgroundGeolocationMock.${propertyKey} called:`, ...args);
+      // console.log(`BackgroundGeolocationMock.${propertyKey} called:`, ...args);
       const res = targetMethod.apply(this, args);
       if (opts.async) {
         return (async () => {
           const promiseRes = await res;
           await time(200);
-          console.log(
-            `BackgroundGeolocationMock.${propertyKey} finished:`,
-            promiseRes
-          );
+          // console.log(
+          //   `BackgroundGeolocationMock.${propertyKey} finished:`,
+          //   promiseRes
+          // );
           return promiseRes;
         })();
       } else {
-        console.log(`BackgroundGeolocationMock.${propertyKey} result`, res);
+        // console.log(`BackgroundGeolocationMock.${propertyKey} result`, res);
       }
     };
     return descriptor;
