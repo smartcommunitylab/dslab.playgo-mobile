@@ -4,6 +4,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { AfterContentInit, Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
+import { codePush } from 'capacitor-codepush';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,11 @@ export class AppComponent implements AfterContentInit {
       //TODO auto check if user is stored with token
       await this.auth.init();
       SplashScreen.hide();
+    });
+    this.platform.ready().then(() => {
+      // codePush.sync();
+      // notify is needed only if sync is not called on the start
+      codePush.notifyApplicationReady();
     });
   }
   ngAfterContentInit() {

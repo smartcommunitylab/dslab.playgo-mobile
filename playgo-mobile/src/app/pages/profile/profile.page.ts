@@ -26,10 +26,10 @@ export class ProfilePage implements OnInit {
         }
       );
       console.log('codePush.sync()', res);
-      alert(JSON.stringify(res));
+      // alert(JSON.stringify(res));
     } catch (e) {
       console.error('codePush.sync()', e);
-      alert(e);
+      // alert(e);
       throw e;
     }
   }
