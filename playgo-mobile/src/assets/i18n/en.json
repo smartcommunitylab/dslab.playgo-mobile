@@ -4,6 +4,7 @@
   "profileTitle": "Profile",
   "campaignsTitle": "Campaign",
   "tripsTitle": "Trips",
+  "tripDetailTitle": "Trip Details",
   "login": {
     "loginCardHeader": "Login",
     "loginButton": "Login",

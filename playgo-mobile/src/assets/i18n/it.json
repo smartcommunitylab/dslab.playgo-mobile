@@ -4,6 +4,7 @@
   "profileTitle": "Profilo",
   "campaignsTitle": "Campagna",
   "tripsTitle": "Lista viaggi",
+  "tripDetailTitle": "IT: Trip Details",
   "login": {
     "labelSignin": "Autenticazione in corso",
     "labelSignout": "Uscita dal sistema",
