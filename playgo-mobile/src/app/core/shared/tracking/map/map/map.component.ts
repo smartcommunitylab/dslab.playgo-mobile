@@ -45,7 +45,7 @@ import {
   getAdjacentPairs,
   groupByConsecutiveValues,
   tapLog,
-} from '../../utils';
+} from '../../../utils';
 
 @Component({
   selector: 'app-map',

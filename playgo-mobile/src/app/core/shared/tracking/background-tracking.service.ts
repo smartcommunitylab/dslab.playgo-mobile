@@ -39,7 +39,7 @@ import {
   TripPart,
   UNABLE_TO_GET_POSITION,
 } from './trip.model';
-import { runInZone, tapLog } from './utils';
+import { runInZone, tapLog } from '../utils';
 import { AuthHttpService } from '../../auth/auth-http.service';
 
 @Injectable({
@@ -281,4 +281,4 @@ export class TripLocation {
   }
 }
 
-interface TripExtras extends Extras, TripPart {}
+interface TripExtras extends Extras, Partial<TripPart> {}

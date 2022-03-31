@@ -17,7 +17,7 @@ import {
   TripPart,
   TRIP_END,
 } from './trip.model';
-import { isNotConstant } from './utils';
+import { isNotConstant } from '../utils';
 
 @Injectable({
   providedIn: 'root',

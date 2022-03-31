@@ -9,6 +9,7 @@ export class Trip {
 }
 
 export class TripPart {
+  isInitial: boolean;
   idTrip: string;
   transportType: TransportType;
   start: number;
@@ -26,6 +27,7 @@ export class TripPart {
       idTrip,
       sharedTravelId: null,
       multimodalId: null,
+      isInitial: false,
     });
   }
 }
