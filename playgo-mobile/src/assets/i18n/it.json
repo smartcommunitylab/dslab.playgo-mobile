@@ -3,6 +3,7 @@
   "homeTtle": "Home",
   "profileTitle": "Profilo",
   "campaignsTitle": "Campagna",
+  "tripsTitle": "Lista viaggi",
   "login": {
     "labelSignin": "Autenticazione in corso",
     "labelSignout": "Uscita dal sistema",
