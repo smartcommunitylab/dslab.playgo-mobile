@@ -13,10 +13,10 @@ export class AllCampaignComponent implements OnInit {
   contentPagable?: ContentPagable;
   allCampaigns?: CampaignClass[];
 
-  constructor(private CampaignService: CampaignServiceService) {}
+  constructor(private campaignService: CampaignServiceService) {}
 
   ngOnInit() {
-    this.CampaignService.getPageNumberForAllCampaign(this.numberPage).subscribe(
+    this.campaignService.getPageNumberForAllCampaign(this.numberPage).subscribe(
       (result) => {
         this.contentPagable = result;
         this.allCampaigns = result.content;
@@ -31,12 +31,12 @@ export class AllCampaignComponent implements OnInit {
 
   loadData(event) {
     if (!this.contentPagable.last) {
-      this.CampaignService.getPageNumberForAllCampaign(
+      this.campaignService.getPageNumberForAllCampaign(
         this.numberPage
       ).subscribe((pagable) => {
         this.contentPagable = pagable;
-        for (let campaign of pagable.content) {
-          let cc: CampaignClass = campaign;
+        for (const campaign of pagable.content) {
+          const cc: CampaignClass = campaign;
           this.allCampaigns.push(cc);
         }
       });

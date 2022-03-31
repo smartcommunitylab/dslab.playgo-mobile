@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { CampaignCompany } from 'src/app/shared/campaigns/classes/campaign-company';
+import { CampaignPersonal } from 'src/app/shared/campaigns/classes/campaign-personal';
+import { CampaignSchool } from 'src/app/shared/campaigns/classes/campaign-school';
+import { CampaignTerritory } from 'src/app/shared/campaigns/classes/campaign-territory';
 import { CampaignClass } from '../../../shared/campaigns/classes/campaign-class';
 import { ContentPagable } from '../../../shared/campaigns/classes/content-pagable';
 import { CampaignServiceService } from '../../../shared/service/campaign-service.service';
@@ -12,9 +16,9 @@ export class MyCampaignComponent implements OnInit {
 
   numberPage?: number;
   contentPagable?: ContentPagable;
-  myCampaigns?: CampaignClass[];
+  myCampaigns?: (CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory)[];
 
-  constructor(private myCampaignService :CampaignServiceService) {
+  constructor(private myCampaignService: CampaignServiceService) {
    }
 
   ngOnInit() {
@@ -22,19 +26,14 @@ export class MyCampaignComponent implements OnInit {
       this.numberPage = 0;
       this.myCampaignService.getPageNumberForMyCampaign(this.numberPage).subscribe((pagable) => {
         this.contentPagable = pagable;
-        let list: CampaignClass[] = [];
-        for (let campaign of pagable.content) {
-          let cc: CampaignClass = campaign;
-          list.push(cc);
-        }
-        this.myCampaigns = list;
+        this.myCampaigns = this.contentPagable.content;
       });
       this.numberPage++;
     }
   }
 
   joinCampaign(id: string){
-    console.log("joining the campaign", id);
+    console.log('joining the campaign', id);
   }
 
   loadData(pagination){
@@ -42,8 +41,8 @@ export class MyCampaignComponent implements OnInit {
       console.log(this.numberPage);
       this.myCampaignService.getPageNumberForMyCampaign(this.numberPage).subscribe((pagable) => {
         this.contentPagable = pagable;
-        for (let campaign of pagable.content) {
-          let cc: CampaignClass = campaign;
+        for (const campaign of pagable.content) {
+          const cc: CampaignClass = campaign;
           this.myCampaigns.push(cc);
         }
       });

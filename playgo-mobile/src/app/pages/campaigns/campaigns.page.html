@@ -7,22 +7,20 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div>
-    <ion-segment [(ngModel)]="selectedSegment">
-      <ion-segment-button value="myCampaigns">
-        <ion-label>{{'myCampaigns' | translate }}</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="allCampaigns">
-        <ion-label>{{'allCampaigns' | translate }}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-    <div [ngSwitch]="selectedSegment">
-      <div *ngSwitchCase="'myCampaigns'">
-        <app-my-campaign></app-my-campaign>
-      </div>
-      <div *ngSwitchCase="'allCampaigns'">
-        <app-all-campaign></app-all-campaign>
-      </div>
+  <div  style="background-image: linear-gradient(to bottom left, #53D117, #0F52FF);">
+    <div style="font-style: italic; margin-right: 20px; margin-left: 20px;">
+      <h5 style="margin-top: 0px;">{{'myCampaigns' | translate}}</h5>
+      <hr style="border:none; height:1px;background-color:#000080">
+    </div>
+    <div>
+      <app-my-campaign></app-my-campaign>
+    </div>
+    <div style="font-style: italic; margin-right: 20px; margin-left: 20px;">
+      <h5>{{'allCampaigns' | translate}}</h5>
+      <hr style="border:none; height:1px;background-color:#000080">
+    </div>
+    <div>
+      <app-all-campaign></app-all-campaign>
     </div>
   </div>
 </ion-content>

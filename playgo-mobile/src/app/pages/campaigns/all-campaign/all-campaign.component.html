@@ -1,4 +1,4 @@
-<div *ngIf="allCampaigns!= undefined && allCampaigns.length>0">
+<div *ngIf="allCampaigns!== undefined && allCampaigns.length>0">
   <ion-grid>
     <ion-row *ngFor="let campaign of allCampaigns">
       <ion-col size-md="6" offset-md="3">
@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div *ngIf="allCampaigns== undefined || allCampaigns.length==0">
+<div *ngIf="allCampaigns=== undefined || allCampaigns.length===0">
   <ion-grid>
     <ion-row>
       <ion-col>

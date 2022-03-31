@@ -18,5 +18,20 @@
   "generalStatistics": "Statistiche generali quantitative",
   "noStatistics": "Nessuna statistica disponibile",
   "activities": "Le mie attività",
-  "noActivities": "Nessuna attività disponibile"
+  "noActivities": "Nessuna attività disponibile",
+  "greenLeaves": "Green Leaves",
+  "forNextLevel": "al prossimo livello",
+  "challenge":"Sfida",
+  "totals": "totali",
+  "thisWeek": "questa settimana",
+  "classificationList": "Posizione classifica",
+  "activeSince": "Attiva da",
+  "to": "a",
+  "madeToday": "Fatti oggi",
+  "maximumKmPerToday": "massimi per oggi",
+  "total":"totali",
+  "tier": "Classifica",
+  "adhesionCode": "Codice adesione",
+  "generalTier": "Classifica generale",
+  "weeklyTier": "Classifica settimanale"
 }

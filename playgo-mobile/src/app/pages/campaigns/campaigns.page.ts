@@ -1,18 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-campaigns',
   templateUrl: 'campaigns.page.html',
   styleUrls: ['campaigns.page.scss']
 })
-export class CampaignsPage {
+export class CampaignsPage implements OnInit{
 
-  selectedSegment?:string;
+  selectedSegment?: string;
 
   constructor() {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.selectedSegment ='myCampaigns';
   }
-
 }

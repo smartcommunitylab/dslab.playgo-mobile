@@ -1,17 +1,28 @@
+import { Challenge } from './challenge';
+
 export class CampaignClass {
-
   active?: boolean;
-  application?: string;
+  type?: string;
+  campaignId?: string; //id
+  communications?: boolean;
+  dateFrom?: string; //from
+  dateTo?: string; //to
   description?: string;
-  from?: string;
-  id?: string;
-  limits?: [];
-  logo?: string;
-  means?: [];
-  privacy?: string;
-  rules?: string;
-  title?: string;
-  to?: string;
+  gameId?: string;
+  logoUrl?: string; //logo
+  name?: string; //title
+  organization?: string;
+  registrationUrl?: string;
+  privacyUrl?: string; // privacy
+  rulesUrl?: string; //rules
+  territoryId?: string;
+  validationData?: any;
+  webPageUrl?: string;
 
+  // Not present in current API
+  application?: string;
+  limits?: [];
+  means?: [];
+  lastNotification?: string;
 
 }

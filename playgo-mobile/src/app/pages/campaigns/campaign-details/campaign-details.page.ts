@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { CampaignClass } from '../../../shared/campaigns/classes/campaign-class';
 import { CampaignServiceService } from '../../../shared/service/campaign-service.service';
@@ -12,9 +12,9 @@ import { CampaignServiceService } from '../../../shared/service/campaign-service
 
 export class CampaignDetailsPage implements OnInit {
   id: string;
-  campaign?: CampaignClass = new CampaignClass;
+  campaign?: CampaignClass = new CampaignClass();
 
-  constructor(private route: ActivatedRoute,private campaignService: CampaignServiceService) {
+  constructor(private route: ActivatedRoute,private campaignService: CampaignServiceService,private router: Router) {
     this.route.params.subscribe( params => this.id = params.id);
   }
 
@@ -22,6 +22,11 @@ export class CampaignDetailsPage implements OnInit {
     this.campaignService.getCampaignDetailsById(this.id).subscribe((result) => {
       this.campaign = result;
     });
+  }
+
+  backToCampaigns(){
+    console.log('here');
+    this.router.navigateByUrl('/tabs/campaigns');
   }
 
 }

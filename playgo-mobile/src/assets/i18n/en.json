@@ -16,5 +16,22 @@
   "noCampaigns": "No campaigns available",
   "messages":"Messagges",
   "generalStatistics": "Quantitative general statistics",
-  "noStatistics": "No statistics available"
+  "noStatistics": "No statistics available",
+  "activities": "My activities",
+  "noActivities": "No activities available",
+  "greenLeaves": "Green Leaves",
+  "forNextLevel": "for next level",
+  "challenge":"Challenge",
+  "totals": "totals",
+  "thisWeek": "this week",
+  "classificationList": "Classification position",
+  "activeSince": "Active since",
+  "to": "to",
+  "madeToday": "Made today",
+  "maximumKmPerToday": "maximum for today",
+  "total":"total",
+  "tier": "Tier",
+  "adhesionCode": "Adhesion code",
+  "generalTier": "General tier",
+  "weeklyTier": "Weekly tier"
 }
