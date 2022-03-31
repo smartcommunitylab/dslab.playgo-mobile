@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Requestor } from '@openid/appauth';
 import { AuthService } from 'ionic-appauth';
@@ -15,17 +16,27 @@ export class AuthHttpService {
     shareReplay(1)
   );
 
-  constructor(private requestor: Requestor, private auth: AuthService) { }
+  constructor(private requestor: Requestor, private auth: AuthService) {}
 
   public async request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     endpoint: Endpoint,
-    body?: any
+    data?: AnyRecord
   ) {
+    let body: string;
+    let paramString = '';
+    if (data) {
+      if (method === 'GET') {
+        paramString = '?' + new HttpParams().appendAll(data as any).toString();
+      }
+      if (method === 'POST' || method === 'PUT') {
+        body = JSON.stringify(data);
+      }
+    }
     return this.requestor.xhr<T>({
-      url: this.getApiUrl(endpoint),
+      url: this.getApiUrl(endpoint) + paramString,
       method,
-      data: JSON.stringify(body),
+      data: body,
       headers: await this.getHeaders(),
     });
   }
@@ -37,21 +48,28 @@ export class AuthHttpService {
   }
 
   public getApiUrl(endpoint: Endpoint): string {
-    return joinUriPathNames(environment.serverUrl.apiUrl, ...castArray(endpoint));
+    return joinUriPathNames(
+      environment.serverUrl.apiUrl,
+      ...castArray(endpoint)
+    );
   }
 
   private addHeaders(token: any) {
     return token
       ? {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Authorization: `${token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          Authorization: `${
+            token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
           } ${token.accessToken}`,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        'Content-Type': 'application/json',
-      }
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          'Content-Type': 'application/json',
+        }
       : {};
   }
 }
+
+// https://github.com/microsoft/TypeScript/issues/42825
+type AnyRecord = object;
 
 export type Endpoint = string | string[];
 
