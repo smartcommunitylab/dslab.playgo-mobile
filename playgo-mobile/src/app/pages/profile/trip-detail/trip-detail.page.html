@@ -4,4 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  <div *ngIf="trip">{{ trip | json }}</div>
+  <div *ngIf="!trip">no_trip</div>
+</ion-content>

@@ -5,14 +5,15 @@
 </ion-header>
 
 <ion-content>
-  <a [routerLink]="['../trip-detail', 0]">trip #0</a>
-
   <app-infinite-scroll
     (request)="scrollRequest.next($event)"
     [response]="tripsResponse$ | async"
   >
     <ng-template appInfiniteScrollContent let-item="item">
-      <ion-card> {{ item |json }} </ion-card>
+      <ion-card>
+        <a [routerLink]="['../trip-detail', item.trackedInstanceId]">Details</a>
+        {{ item |json }}
+      </ion-card>
     </ng-template>
   </app-infinite-scroll>
 </ion-content>
