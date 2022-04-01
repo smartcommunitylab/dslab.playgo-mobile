@@ -7,6 +7,7 @@ import { GeneralStatisticsComponent } from '../../core/shared/profile-components
 import { MyActivityComponent } from 'src/app/core/shared/profile-components/my-activity-component/my-activity.component';
 import { TripsPage } from './trips/trips.page';
 import { TripDetailPage } from './trip-detail/trip-detail.page';
+import { TripDetailMapComponent } from './trip-detail-map/trip-detail-map.component';
 
 @NgModule({
   imports: [PlayGoSharedModule, ProfilePageRoutingModule],
@@ -17,6 +18,7 @@ import { TripDetailPage } from './trip-detail/trip-detail.page';
     ProfilePage,
     TripsPage,
     TripDetailPage,
+    TripDetailMapComponent,
   ],
   exports: [MessageComponent, MyActivityComponent, GeneralStatisticsComponent],
 })

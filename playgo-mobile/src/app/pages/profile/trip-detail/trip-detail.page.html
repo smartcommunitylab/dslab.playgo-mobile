@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="trip">{{ trip | json }}</div>
+  <app-trip-detail-map></app-trip-detail-map>
+  <div *ngIf="trip"></div>
   <div *ngIf="!trip">no_trip</div>
 </ion-content>
