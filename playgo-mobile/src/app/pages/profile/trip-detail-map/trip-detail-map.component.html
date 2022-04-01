@@ -1,3 +1,13 @@
-<p>
-  trip-detail-map works!
-</p>
+<ng-container *ngIf="mapOptions$ | async as mapOptions">
+  <!-- [leafletCenter]="tripInitialLatLng$ | async" -->
+  <div
+    class="ngx-leaflet"
+    leaflet
+    [leafletOptions]="mapOptions"
+    (leafletMapReady)="onMapReady($event)"
+  >
+    <ng-container *ngFor="let layer of tripPartLineLayers$ | async">
+      <div [leafletLayer]="layer"></div>
+    </ng-container>
+  </div>
+</ng-container>

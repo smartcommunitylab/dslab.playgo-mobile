@@ -8,9 +8,10 @@ import { MyActivityComponent } from 'src/app/core/shared/profile-components/my-a
 import { TripsPage } from './trips/trips.page';
 import { TripDetailPage } from './trip-detail/trip-detail.page';
 import { TripDetailMapComponent } from './trip-detail-map/trip-detail-map.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
-  imports: [PlayGoSharedModule, ProfilePageRoutingModule],
+  imports: [PlayGoSharedModule, ProfilePageRoutingModule, LeafletModule],
   declarations: [
     MessageComponent,
     GeneralStatisticsComponent,

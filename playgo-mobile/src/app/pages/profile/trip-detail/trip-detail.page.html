@@ -5,7 +5,14 @@
 </ion-header>
 
 <ion-content>
-  <app-trip-detail-map></app-trip-detail-map>
-  <div *ngIf="trip"></div>
+  <div *ngIf="trip">
+    <app-trip-detail-map
+      *ngIf="trip.polyline"
+      (tripParts)="[trip.polyline]"
+    ></app-trip-detail-map>
+    {{trip | json}}
+    <div>Start: {{trip.startTime | date:"medium" }}</div>
+    <div>End: {{trip.endTime | date:"medium" }}</div>
+  </div>
   <div *ngIf="!trip">no_trip</div>
 </ion-content>
