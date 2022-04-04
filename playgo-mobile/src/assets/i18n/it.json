@@ -23,8 +23,8 @@
     "lang": {
       "language": "Lingua",
       "select": "Seleziona la lingua",
-      "ita": "Italiano",
-      "eng": "Inglese"
+      "it": "Italiano",
+      "en": "Inglese"
     },
     "territories": {
       "territory": "Territorio",
@@ -60,6 +60,20 @@
       "manual_code_input_label": "IT: Input code manually:",
       "manual_code_input_confirm": "IT: OK",
       "scan": "IT: Scan"
+    }
+  },
+  "profile": {
+    "changeButton": "Modifica",
+    "change": {
+      "modalTitle": "Modifica Profilo",
+      "closeButton": "Chiudi",
+      "saveButton": "Salva",
+      "lang": {
+        "language": "Lingua",
+        "select": "Seleziona la lingua",
+        "it": "Italiano",
+        "en": "Inglese"
+      }
     }
   },
   "errors": {

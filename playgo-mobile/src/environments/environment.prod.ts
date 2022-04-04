@@ -14,6 +14,6 @@ export const environment = {
     register: 'player/register',
     profile: 'player/profile',
     player: 'player',
-    territory: 'territory'
-  }
+    territory: 'territory',
+  },
 };

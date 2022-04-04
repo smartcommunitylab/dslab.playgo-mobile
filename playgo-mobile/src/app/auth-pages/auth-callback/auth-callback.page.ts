@@ -8,7 +8,7 @@ import {
   AuthService,
 } from 'ionic-appauth';
 import { Subscription } from 'rxjs';
-import { AlertService } from 'src/app/core/shared/services/alert.services';
+import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'src/app/core/user/user.service';
 
@@ -25,7 +25,7 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private translateService: TranslateService,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.sub = this.auth.events$.subscribe((action) =>
@@ -41,15 +41,15 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
   async postCallback(action: IAuthAction) {
     console.log(JSON.stringify(action));
     if (action.action === AuthActions.SignInSuccess) {
-      this.alertService.showToast(this.translateService.instant('login.welcome'));
+      this.alertService.showToast(
+        this.translateService.instant('login.welcome')
+      );
       const userIsRegistered = await this.userService.isUserRegistered();
       if (userIsRegistered) {
         this.navCtrl.navigateRoot('/pages/tabs/home');
-      }
-      else {
+      } else {
         this.navCtrl.navigateRoot('/pages/registration');
-      };
-
+      }
     }
 
     if (action.action === AuthActions.SignInFailed) {

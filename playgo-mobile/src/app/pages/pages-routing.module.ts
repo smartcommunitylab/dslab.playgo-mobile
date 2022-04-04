@@ -12,9 +12,11 @@ import { RouterModule } from '@angular/router';
       {
         path: 'registration',
         loadChildren: () =>
-          import('./registration/registration.module').then((m) => m.RegistrationPageModule),
+          import('./registration/registration.module').then(
+            (m) => m.RegistrationPageModule
+          ),
       },
     ]),
   ],
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}

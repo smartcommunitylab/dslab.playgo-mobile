@@ -18,8 +18,8 @@ export const environment = {
     profile: 'player/profile',
     register: 'player/register',
     player: 'player',
-    territory: 'territory'
-  }
+    territory: 'territory',
+  },
 };
 
 /*

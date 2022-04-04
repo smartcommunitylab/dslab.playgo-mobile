@@ -5,7 +5,6 @@ import { AuthService } from 'ionic-appauth';
 import { castArray, trim } from 'lodash-es';
 import { filter, map, shareReplay, take } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -33,12 +32,14 @@ export class AuthHttpService {
         body = JSON.stringify(data);
       }
     }
-    return this.requestor.xhr<T>({
+
+    const ret = await this.requestor.xhr<T>({
       url: this.getApiUrl(endpoint) + paramString,
       method,
       data: body,
       headers: await this.getHeaders(),
     });
+    return ret;
   }
 
   /** Waits for the first token available, but later it will return headers with active token immediately */

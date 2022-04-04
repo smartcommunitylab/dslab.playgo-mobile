@@ -1,8 +1,12 @@
 <ion-content>
   <ion-card>
-    <ion-card-header> {{ 'login.loginCardHeader' | translate }} </ion-card-header>
+    <ion-card-header>
+      {{ 'login.loginCardHeader' | translate }}
+    </ion-card-header>
     <ion-card-content>
-      <ion-button expand="block" (click)="signIn()">{{ 'login.loginButton' | translate }}</ion-button>
+      <ion-button expand="block" (click)="signIn()"
+        >{{ 'login.loginButton' | translate }}</ion-button
+      >
     </ion-card-content>
   </ion-card>
 </ion-content>

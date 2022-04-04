@@ -23,8 +23,8 @@
     "lang": {
       "language": "Language",
       "select": "Select the language",
-      "ita": "Italian",
-      "eng": "English"
+      "it": "Italian",
+      "en": "English"
     },
     "territories": {
       "territory": "Territiory",
@@ -61,6 +61,20 @@
       "manual_code_input_confirm": "OK",
       "scan": "Scan"
     }
+  },
+  "profile": {
+    "change": {
+      "modalTitle": "Change Profile",
+      "lang": {
+        "language": "Language",
+        "select": "Select the language",
+        "it": "Italian",
+        "en": "English"
+      },
+      "closeButton": "Close",
+      "saveButton": "Save"
+    },
+    "changeButton": "Change"
   },
   "errors": {
     "userNotFound": "User Not Found",

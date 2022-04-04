@@ -1,0 +1,19 @@
+<ion-card>
+  <ion-card-content>
+    <ion-item *ngIf="profile">
+      <ion-avatar slot="start">
+        <img
+          src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+          title="avatar"
+        />
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ profile.nickname }}</h3>
+        <p>{{ profile.mail }}</p>
+        <ion-button expand="block" (click)="openModal()">{{
+          "profile.changeButton" | translate
+        }}</ion-button>
+      </ion-label>
+    </ion-item>
+  </ion-card-content>
+</ion-card>

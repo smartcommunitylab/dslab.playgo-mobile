@@ -5,7 +5,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NavController } from '@ionic/angular';
 import { UserService } from 'src/app/core/user/user.service';
-import { AlertService } from 'src/app/core/shared/services/alert.services';
+import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 
@@ -27,7 +27,8 @@ export class RegistrationPage implements OnInit {
     private territoryService: TerritoryService,
     public formBuilder: FormBuilder,
     private navCtrl: NavController,
-    private sanitizer: DomSanitizer) {
+    private sanitizer: DomSanitizer
+  ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
     });
@@ -35,10 +36,16 @@ export class RegistrationPage implements OnInit {
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group({
-      mail: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      mail: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
+        ],
+      ],
       nickname: ['', [Validators.required, Validators.minLength(2)]],
       language: ['', [Validators.required]],
-      territoryId: ['', [Validators.required]]
+      territoryId: ['', [Validators.required]],
     });
   }
   async changeAvatar() {
@@ -46,7 +53,7 @@ export class RegistrationPage implements OnInit {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: true,
-      resultType: CameraResultType.Uri
+      resultType: CameraResultType.Uri,
     });
     const safeImg = this.sanitizer.bypassSecurityTrustUrl(image.webPath);
     // const imageUrl = image.webPath;
@@ -65,12 +72,14 @@ export class RegistrationPage implements OnInit {
     } else {
       console.log(this.registrationForm.value);
       //register user
-      this.userService.registerPlayer(this.registrationForm.value).then(() => {
-        this.navCtrl.navigateRoot('/pages/tabs/home');
-      }).catch((error: any) => {
-        this.errorService.showAlert(error);
-      });
+      this.userService
+        .registerPlayer(this.registrationForm.value)
+        .then(() => {
+          this.navCtrl.navigateRoot('/pages/tabs/home');
+        })
+        .catch((error: any) => {
+          this.errorService.showAlert(error);
+        });
     }
-
   }
 }

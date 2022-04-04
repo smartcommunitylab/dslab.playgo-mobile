@@ -1,5 +1,5 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
-import { AlertService } from 'src/app/core/shared/services/alert.services';
+import { AlertService } from 'src/app/core/shared/services/alert.service';
 
 import {
   Config,

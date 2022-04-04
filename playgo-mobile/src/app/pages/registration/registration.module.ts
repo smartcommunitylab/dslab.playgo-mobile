@@ -4,10 +4,7 @@ import { RegistrationPage } from './registration.page';
 import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 
 @NgModule({
-  imports: [
-    PlayGoSharedModule,
-    RegistrationPageRoutingModule
-  ],
-  declarations: [RegistrationPage]
+  imports: [PlayGoSharedModule, RegistrationPageRoutingModule],
+  declarations: [RegistrationPage],
 })
-export class RegistrationPageModule { }
+export class RegistrationPageModule {}

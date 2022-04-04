@@ -14,6 +14,7 @@ export class HomePage implements OnInit, OnDestroy {
   sub!: Subscription;
 
   constructor(private auth: AuthService, private navCtrl: NavController) {}
+
   public signOut() {
     this.auth.signOut();
   }
