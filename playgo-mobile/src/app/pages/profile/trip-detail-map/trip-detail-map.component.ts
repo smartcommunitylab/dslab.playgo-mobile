@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  Map,
   LatLng,
   latLng,
   Layer,
@@ -7,13 +8,15 @@ import {
   polyline,
   tileLayer,
 } from 'leaflet';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { map as _map } from 'lodash-es';
+import { concat, map as _map } from 'lodash-es';
 import {
   TransportType,
   transportTypeColors,
 } from 'src/app/core/shared/tracking/trip.model';
+import { tapLog } from 'src/app/core/shared/utils';
+import { decode } from '@googlemaps/polyline-codec';
 
 @Component({
   selector: 'app-trip-detail-map',
@@ -21,22 +24,28 @@ import {
   styleUrls: ['./trip-detail-map.component.scss'],
 })
 export class TripDetailMapComponent implements OnInit {
+  public mapInstance: Map;
   @Input()
   public set tripParts(tripParts: TripPartDetail[]) {
+    console.log('tripParts', tripParts);
     this.tripParts$.next(tripParts);
   }
-  tripParts$ = new Subject<TripPartDetail[]>();
-
-  initialLatLng$ = this.tripParts$.pipe(
-    map((tripParts) => {
-      // TODO: parse polyline, and get best latlng
-      console.log(tripParts);
-      const coords: string = tripParts[0].polyline.split(' ')[0];
-      const splitted: [number, number] = coords
-        .split(',')
-        .map((s) => parseFloat(s)) as [number, number];
-      return latLng(splitted);
-    })
+  tripParts$ = new ReplaySubject<TripPartDetail[]>(1);
+  tripPartsDecoded$ = this.tripParts$.pipe(
+    map((tripParts) =>
+      _map(tripParts, (tripPart) => {
+        const decoded = decode(tripPart.polyline);
+        return {
+          ...tripPart,
+          polyline: decoded,
+        };
+      })
+    ),
+    shareReplay(1)
+  );
+  initialLatLng$ = this.tripPartsDecoded$.pipe(
+    map((tripParts) => tripParts[0].polyline[0]),
+    tapLog('initialLatLng$')
   );
 
   public mapOptions$: Observable<MapOptions> = this.initialLatLng$.pipe(
@@ -48,29 +57,52 @@ export class TripDetailMapComponent implements OnInit {
           // attribution: '...',
         }),
       ],
-      zoom: 15,
-      center: initLatLng,
+      // zoom: 15,
+      // center: initLatLng,
     })),
+    tapLog('mapOptions$'),
     shareReplay(1)
   );
 
-  public tripPartLineLayers$: Observable<Layer[]> = this.tripParts$.pipe(
+  public tripPartLineLayers$: Observable<Layer[]> = this.tripPartsDecoded$.pipe(
+    tapLog('tripParts$'),
     map((tripParts) =>
       _map(tripParts, (eachPart) =>
-        polyline(polylineStringToCoordinates(eachPart.polyline), {
-          color: transportTypeColors[eachPart.tripMean],
+        polyline(eachPart.polyline, {
+          color: transportTypeColors[eachPart.tripMean.toLowerCase()],
         })
       )
-    )
+    ),
+    tapLog('tripPartLineLayers$'),
+    shareReplay(1)
   );
 
-  constructor() {}
+  public tripBounds$ = this.tripPartsDecoded$.pipe(
+    map((tripParts) => {
+      const fullPolyLineCoords = concat(
+        tripParts.map((tripPart) => tripPart.polyline)
+      );
+      return polyline(fullPolyLineCoords).getBounds();
+    })
+  );
+
+  constructor() {
+    console.log('TripDetailMapComponent.constructor', this, this.tripParts);
+  }
+
+  onMapReady(mapInstance: Map) {
+    (window as any).mapInstance = mapInstance;
+    // TODO: invalidateSize on modal show event
+    this.mapInstance = mapInstance;
+    this.tripBounds$.subscribe((bounds) => {
+      this.mapInstance.fitBounds(bounds);
+    });
+    setTimeout(() => {
+      this.mapInstance.invalidateSize();
+    }, 500);
+  }
 
   ngOnInit() {}
-}
-
-function polylineStringToCoordinates(polylineString: string): LatLng[] {
-  return [];
 }
 
 interface TripPartDetail {

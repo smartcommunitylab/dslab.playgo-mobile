@@ -8,9 +8,9 @@
   <div *ngIf="trip">
     <app-trip-detail-map
       *ngIf="trip.polyline"
-      (tripParts)="[trip.polyline]"
+      [tripParts]="[{tripMean:$any(trip.modeType),polyline:trip.polyline}]"
     ></app-trip-detail-map>
-    {{trip | json}}
+    <!-- {{trip | json}} -->
     <div>Start: {{trip.startTime | date:"medium" }}</div>
     <div>End: {{trip.endTime | date:"medium" }}</div>
   </div>

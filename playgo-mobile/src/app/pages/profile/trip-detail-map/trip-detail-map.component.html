@@ -1,5 +1,15 @@
+<!-- <hr />
+tripParts$ {{ tripParts$ | async | json }}
+<hr />
+initialLatLng$ {{ initialLatLng$ | async | json }}
+<hr /> -->
+<!-- mapOptions$ | async {{ mapOptions$ | async | json }} -->
+<hr />
+
 <ng-container *ngIf="mapOptions$ | async as mapOptions">
   <!-- [leafletCenter]="tripInitialLatLng$ | async" -->
+  <!-- we have mapOptions! tripPartLineLayers$ | async
+  {{ tripPartLineLayers$ | async | json }} -->
   <div
     class="ngx-leaflet"
     leaflet
