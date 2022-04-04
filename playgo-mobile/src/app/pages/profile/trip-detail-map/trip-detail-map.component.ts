@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   Map,
   LatLng,
@@ -9,7 +9,7 @@ import {
   tileLayer,
 } from 'leaflet';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
 import { concat, map as _map } from 'lodash-es';
 import {
   TransportType,
@@ -23,15 +23,26 @@ import { decode } from '@googlemaps/polyline-codec';
   templateUrl: './trip-detail-map.component.html',
   styleUrls: ['./trip-detail-map.component.scss'],
 })
-export class TripDetailMapComponent implements OnInit {
-  public mapInstance: Map;
+export class TripDetailMapComponent implements OnInit, OnDestroy {
   @Input()
   public set tripParts(tripParts: TripPartDetail[]) {
     console.log('tripParts', tripParts);
-    this.tripParts$.next(tripParts);
+    this.tripPartsSubject.next(tripParts);
   }
-  tripParts$ = new ReplaySubject<TripPartDetail[]>(1);
-  tripPartsDecoded$ = this.tripParts$.pipe(
+
+  tripPartsSubject = new ReplaySubject<TripPartDetail[]>(1);
+
+  public mapOptions: MapOptions = {
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 25,
+        minZoom: 10,
+        // attribution: '...',
+      }),
+    ],
+  };
+
+  tripPartsDecoded$ = this.tripPartsSubject.pipe(
     map((tripParts) =>
       _map(tripParts, (tripPart) => {
         const decoded = decode(tripPart.polyline);
@@ -43,29 +54,8 @@ export class TripDetailMapComponent implements OnInit {
     ),
     shareReplay(1)
   );
-  initialLatLng$ = this.tripPartsDecoded$.pipe(
-    map((tripParts) => tripParts[0].polyline[0]),
-    tapLog('initialLatLng$')
-  );
-
-  public mapOptions$: Observable<MapOptions> = this.initialLatLng$.pipe(
-    map((initLatLng) => ({
-      layers: [
-        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 25,
-          minZoom: 10,
-          // attribution: '...',
-        }),
-      ],
-      // zoom: 15,
-      // center: initLatLng,
-    })),
-    tapLog('mapOptions$'),
-    shareReplay(1)
-  );
 
   public tripPartLineLayers$: Observable<Layer[]> = this.tripPartsDecoded$.pipe(
-    tapLog('tripParts$'),
     map((tripParts) =>
       _map(tripParts, (eachPart) =>
         polyline(eachPart.polyline, {
@@ -73,7 +63,6 @@ export class TripDetailMapComponent implements OnInit {
         })
       )
     ),
-    tapLog('tripPartLineLayers$'),
     shareReplay(1)
   );
 
@@ -86,23 +75,32 @@ export class TripDetailMapComponent implements OnInit {
     })
   );
 
-  constructor() {
-    console.log('TripDetailMapComponent.constructor', this, this.tripParts);
-  }
+  private componentDestroyed$ = new Subject<boolean>();
+
+  constructor() {}
 
   onMapReady(mapInstance: Map) {
-    (window as any).mapInstance = mapInstance;
-    // TODO: invalidateSize on modal show event
-    this.mapInstance = mapInstance;
-    this.tripBounds$.subscribe((bounds) => {
-      this.mapInstance.fitBounds(bounds);
-    });
+    this.initMap(mapInstance);
+    mapInstance.invalidateSize();
     setTimeout(() => {
-      this.mapInstance.invalidateSize();
+      mapInstance.invalidateSize();
     }, 500);
   }
 
+  initMap(mapInstance: Map) {
+    this.tripBounds$
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe((bounds) => {
+        mapInstance.fitBounds(bounds);
+      });
+  }
+
   ngOnInit() {}
+
+  ngOnDestroy() {
+    this.componentDestroyed$.next(true);
+    this.componentDestroyed$.complete();
+  }
 }
 
 interface TripPartDetail {
