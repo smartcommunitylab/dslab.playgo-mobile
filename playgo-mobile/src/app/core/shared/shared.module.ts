@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HelloComponent } from './hello-component/hello.component';
+import { LocalDatePipe } from './pipes/localDate.pipe';
+import { LocalNumberPipe } from './pipes/localNumber.pipe';
 import { ChangeProfileModalPage } from './profile/changeProfile.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AlertService } from './services/alert.service';
@@ -8,14 +10,16 @@ import { TrackingModule } from './tracking/tracking.module';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
-  declarations: [HelloComponent, ProfileComponent, ChangeProfileModalPage],
+  declarations: [HelloComponent, ProfileComponent, ChangeProfileModalPage, LocalDatePipe, LocalNumberPipe],
   entryComponents: [],
   providers: [AlertService],
   exports: [
     PlayGoSharedLibsModule,
     HelloComponent,
     ProfileComponent,
+    LocalDatePipe,
+    LocalNumberPipe,
     TrackingModule,
   ],
 })
-export class PlayGoSharedModule {}
+export class PlayGoSharedModule { }

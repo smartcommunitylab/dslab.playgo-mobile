@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['profile.page.scss'],
 })
 export class ProfilePage {
-  constructor() {}
+  today = new Date();
+  val = 111122222.3333;
+  constructor() { }
 }
