@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { Trip } from 'src/app/core/shared/tracking/trip.model';
+import {
+  transportTypeIcons,
+  transportTypeLabels,
+} from 'src/app/core/shared/tracking/trip.model';
 
 @Component({
   selector: 'app-trip-detail',
@@ -10,7 +13,10 @@ import { Trip } from 'src/app/core/shared/tracking/trip.model';
   styleUrls: ['./trip-detail.page.scss'],
 })
 export class TripDetailPage implements OnInit {
-  trip: TripDetail = null;
+  tripDetails: TripDetail[] = null;
+  hasPolyline: boolean;
+  transportTypeIcons = transportTypeIcons;
+  transportTypeLabels = transportTypeLabels;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,20 +28,24 @@ export class TripDetailPage implements OnInit {
     const tripId = this.route.snapshot.paramMap.get('id');
     if (tripId) {
       try {
-        this.trip = await this.getTripDetail(tripId);
+        const singleTripDetail = await this.getTripDetail(tripId);
+        this.tripDetails = [singleTripDetail];
+        this.hasPolyline = this.tripDetails.some((trip) => trip.polyline);
       } catch (e) {
         // TODO: incorrect id handling
         this.errorService.showAlert(e);
       }
     }
-    console.log(tripId, this.trip);
   }
   // TODO: move to service
   async getTripDetail(id: string): Promise<TripDetail> {
-    return this.authHttpService.request('GET', `/track/player/${id}`);
+    return await this.authHttpService.request<TripDetail>(
+      'GET',
+      `/track/player/${id}`
+    );
   }
 }
-interface TripDetail {
+export interface TripDetail {
   trackedInstanceId: string;
   multimodalId: string;
   startTime: number;

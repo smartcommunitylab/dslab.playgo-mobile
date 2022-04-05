@@ -47,6 +47,15 @@ export const POWER_SAVE_MODE = 'POWER_SAVE_MODE' as const;
 // probably location services are disabled by user.
 export const UNABLE_TO_GET_POSITION = 'UNABLE_TO_GET_POSITION' as const;
 
+export const transportTypes: TransportType[] = [
+  'walk',
+  'bike',
+  'bus',
+  'train',
+  'car',
+  'boat',
+];
+
 export const transportTypeColors: Record<TransportType, string> = {
   bike: 'red',
   bus: 'green',
@@ -54,4 +63,20 @@ export const transportTypeColors: Record<TransportType, string> = {
   train: 'blue',
   walk: 'brown',
   boat: 'blue',
+};
+export const transportTypeIcons: Record<TransportType, string> = {
+  bike: 'bicycle',
+  bus: 'bus',
+  car: 'car',
+  train: 'train',
+  walk: 'walk',
+  boat: 'boat',
+};
+export const transportTypeLabels: Record<TransportType, string> = {
+  bike: 'trip_detail.mean.bike',
+  bus: 'trip_detail.mean.bus',
+  car: 'trip_detail.mean.car',
+  train: 'trip_detail.mean.train',
+  walk: 'trip_detail.mean.walk',
+  boat: 'trip_detail.mean.boat',
 };

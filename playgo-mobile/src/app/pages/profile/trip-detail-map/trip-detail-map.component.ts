@@ -17,6 +17,7 @@ import {
 } from 'src/app/core/shared/tracking/trip.model';
 import { tapLog } from 'src/app/core/shared/utils';
 import { decode } from '@googlemaps/polyline-codec';
+import { TripDetail } from '../trip-detail/trip-detail.page';
 
 @Component({
   selector: 'app-trip-detail-map',
@@ -25,12 +26,12 @@ import { decode } from '@googlemaps/polyline-codec';
 })
 export class TripDetailMapComponent implements OnInit, OnDestroy {
   @Input()
-  public set tripParts(tripParts: TripPartDetail[]) {
+  public set tripParts(tripParts: TripDetail[]) {
     console.log('tripParts', tripParts);
     this.tripPartsSubject.next(tripParts);
   }
 
-  tripPartsSubject = new ReplaySubject<TripPartDetail[]>(1);
+  tripPartsSubject = new ReplaySubject<TripDetail[]>(1);
 
   public mapOptions: MapOptions = {
     layers: [
@@ -59,7 +60,7 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
     map((tripParts) =>
       _map(tripParts, (eachPart) =>
         polyline(eachPart.polyline, {
-          color: transportTypeColors[eachPart.tripMean.toLowerCase()],
+          color: transportTypeColors[eachPart.modeType],
         })
       )
     ),
@@ -101,9 +102,4 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
     this.componentDestroyed$.next(true);
     this.componentDestroyed$.complete();
   }
-}
-
-interface TripPartDetail {
-  tripMean: TransportType;
-  polyline: string;
 }

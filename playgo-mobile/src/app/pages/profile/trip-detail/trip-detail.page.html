@@ -5,16 +5,37 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="trip">
+  <ng-container *ngIf="tripDetails">
     <app-trip-detail-map
-      *ngIf="trip.polyline"
-      [tripParts]="[{tripMean:$any(trip.modeType),polyline:trip.polyline}]"
+      *ngIf="hasPolyline"
+      [tripParts]="tripDetails"
     ></app-trip-detail-map>
-    <div style="height: 50%">
-      <!-- {{trip | json}} -->
-      <div>Start: {{trip.startTime | date:"medium" }}</div>
-      <div>End: {{trip.endTime | date:"medium" }}</div>
+    <div>
+      <ion-card>
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngFor="let tripPart of tripDetails" size="6">
+              <ion-icon
+                [name]="transportTypeIcons[tripPart.modeType]"
+              ></ion-icon>
+              {{ transportTypeLabels[tripPart.modeType] | translate }}
+              <div>
+                {{ 'trip_detail.start' |translate}}: {{tripPart.startTime |
+                date:"medium" }}
+              </div>
+              <div>
+                {{ 'trip_detail.end' |translate}}: {{tripPart.endTime |
+                date:"medium" }}
+              </div>
+              <div>
+                {{ 'km' | translate }}: {{tripPart.distance / 1000 | number:
+                '0.0-1' }}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
     </div>
   </ng-container>
-  <ng-container *ngIf="!trip">no_trip</ng-container>
+  <ng-container *ngIf="!tripDetails">no_trip</ng-container>
 </ion-content>

@@ -84,6 +84,19 @@
       "activeCampaigns": "{{activeCampaigns}} active campaings"
     }
   },
+  "trip_detail": {
+    "title": "Dettaglio viaggio",
+    "start": "Inizio",
+    "end": "Fine",
+    "mean": {
+      "car": "Macchina",
+      "bike": "Bici",
+      "walk": "Corsa",
+      "boat": "Barca",
+      "train": "Treno",
+      "bus": "Autobus"
+    }
+  },
   "errors": {
     "userNotFound": "Utente non registrato",
     "nickNameExist": "Questo soprannome é giá registrato",

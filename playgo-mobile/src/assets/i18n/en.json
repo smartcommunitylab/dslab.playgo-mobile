@@ -84,6 +84,19 @@
       "activeCampaigns": "{{activeCampaigns}} active campaings"
     }
   },
+  "trip_detail": {
+    "title": "Trip Details",
+    "start": "Start",
+    "end": "End",
+    "mean": {
+      "car": "Car",
+      "bike": "Bike",
+      "walk": "Walk",
+      "train": "Train",
+      "bus": "Bus",
+      "boat": "Boat"
+    }
+  },
   "errors": {
     "userNotFound": "User Not Found",
     "nickNameExist": "This nickname already exists",
