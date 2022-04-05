@@ -1,9 +1,7 @@
 :host {
-  width: 100%;
   height: 100%;
-  position: absolute;
+  position: relative;
   .ngx-leaflet {
-    width: 100%;
     height: 50%;
   }
 }

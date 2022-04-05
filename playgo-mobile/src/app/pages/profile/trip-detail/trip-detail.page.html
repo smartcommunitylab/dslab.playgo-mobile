@@ -5,14 +5,16 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="trip">
+  <ng-container *ngIf="trip">
     <app-trip-detail-map
       *ngIf="trip.polyline"
       [tripParts]="[{tripMean:$any(trip.modeType),polyline:trip.polyline}]"
     ></app-trip-detail-map>
-    <!-- {{trip | json}} -->
-    <div>Start: {{trip.startTime | date:"medium" }}</div>
-    <div>End: {{trip.endTime | date:"medium" }}</div>
-  </div>
-  <div *ngIf="!trip">no_trip</div>
+    <div style="height: 50%">
+      <!-- {{trip | json}} -->
+      <div>Start: {{trip.startTime | date:"medium" }}</div>
+      <div>End: {{trip.endTime | date:"medium" }}</div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!trip">no_trip</ng-container>
 </ion-content>
