@@ -7,7 +7,7 @@
 <ion-content>
   <ng-container *ngIf="tripDetails">
     <app-trip-detail-map
-      *ngIf="hasPolyline"
+      *ngIf="showMap"
       [tripParts]="tripDetails"
     ></app-trip-detail-map>
     <div>
@@ -34,6 +34,16 @@
             </ion-col>
           </ion-row>
         </ion-grid>
+      </ion-card>
+      <ion-card *ngFor="let campaign of campaigns">
+        <ion-card-header>
+          <ion-card-title>{{campaign.campaignName}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-icon name="leaf"></ion-icon>
+          {{campaign.score}} {{ 'trip_detail.gl_earned_in' | translate }}
+          {{campaign.campaignName}}
+        </ion-card-content>
       </ion-card>
     </div>
   </ng-container>

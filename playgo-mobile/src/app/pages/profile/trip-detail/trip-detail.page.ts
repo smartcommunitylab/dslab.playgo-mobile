@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { flatMap } from 'lodash-es';
 import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import {
@@ -14,7 +15,8 @@ import {
 })
 export class TripDetailPage implements OnInit {
   tripDetails: TripDetail[] = null;
-  hasPolyline: boolean;
+  campaigns: TripCampaign[];
+  showMap: boolean;
   transportTypeIcons = transportTypeIcons;
   transportTypeLabels = transportTypeLabels;
 
@@ -30,7 +32,8 @@ export class TripDetailPage implements OnInit {
       try {
         const singleTripDetail = await this.getTripDetail(tripId);
         this.tripDetails = [singleTripDetail];
-        this.hasPolyline = this.tripDetails.some((trip) => trip.polyline);
+        this.showMap = this.tripDetails.some((trip) => trip.polyline);
+        this.campaigns = flatMap(this.tripDetails, (trip) => trip.campaigns);
       } catch (e) {
         // TODO: incorrect id handling
         this.errorService.showAlert(e);
@@ -53,6 +56,12 @@ export interface TripDetail {
   modeType: string; //'BIKE';
   distance: number;
   validity: 'VALID' | 'INVALID';
-  campaigns: [];
+  campaigns: TripCampaign[];
   polyline: string;
+}
+export interface TripCampaign {
+  campaignId: string;
+  campaignName: string;
+  score: number;
+  valid: boolean;
 }

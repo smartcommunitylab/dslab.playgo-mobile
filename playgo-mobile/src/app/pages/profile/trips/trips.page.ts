@@ -31,12 +31,11 @@ export class TripsPage implements OnInit {
   async getTripsPage(
     pageRequest: PageableRequest
   ): Promise<PageableResponse<TripInfo>> {
-    // fix server side pagination
-    const incorrectTripArrayResult: TripInfo[] =
-      await this.authHttpService.request('GET', '/track/player', pageRequest);
-    return {
-      content: incorrectTripArrayResult,
-    } as PageableResponse<TripInfo>;
+    return await this.authHttpService.request(
+      'GET',
+      '/track/player',
+      pageRequest
+    );
     // await time(1000);
     // return {
     //   content: times(100, (n) => ({

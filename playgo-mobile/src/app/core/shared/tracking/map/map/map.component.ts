@@ -66,7 +66,7 @@ export class MapComponent implements OnInit {
     map((initLatLng) => ({
       layers: [
         tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 25,
+          maxZoom: 19, // for lower zooms there are no tiles!
           minZoom: 10,
           // attribution: '...',
         }),
