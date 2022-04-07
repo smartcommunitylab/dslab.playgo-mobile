@@ -2,10 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AuthService, IAuthAction, AuthActions } from 'ionic-appauth';
-import { Subscription } from 'rxjs';
 import { CampaignClass } from 'src/app/core/shared/campaigns/classes/campaign-class';
 // import { UserClass } from 'src/app/core/shared/classes/user';
 import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';
+import { from, Observable, Subscription } from 'rxjs';
+import { App } from '@capacitor/app';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +19,10 @@ export class HomePage implements OnInit, OnDestroy {
   events$ = this.auth.events$;
   sub!: Subscription;
   campaigns?: CampaignClass[];
+
+  version$: Observable<string> = from(App.getInfo()).pipe(
+    map((info) => info.version)
+  );
 
   constructor(
     private auth: AuthService,
