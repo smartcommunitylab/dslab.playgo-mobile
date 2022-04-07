@@ -8,7 +8,7 @@ import { MyActivityComponent } from 'src/app/core/shared/profile-components/my-a
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
-  imports: [PlayGoSharedModule, ProfilePageRoutingModule, LeafletModule],
+  imports: [PlayGoSharedModule, ProfilePageRoutingModule],
   declarations: [
     MessageComponent,
     GeneralStatisticsComponent,
