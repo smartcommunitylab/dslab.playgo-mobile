@@ -9,13 +9,14 @@ import { CampaignSchool } from '../campaigns/classes/campaign-school';
 import { CampaignTerritory } from '../campaigns/classes/campaign-territory';
 import { ContentPagable } from '../campaigns/classes/content-pagable';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class CampaignServiceService {
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getMyCampaign(): Observable<any> {
     //let listt: Observable<CampaignClass[]>;
@@ -45,19 +46,19 @@ export class CampaignServiceService {
           const list: (CampaignClass | CampaignCompany | CampaignSchool | CampaignPersonal | CampaignTerritory)[] = [];
           for (const campaign of obj.content) {
             const type = campaign.type;
-            if(type === 'personal'){
+            if (type === 'personal') {
               const cc: CampaignPersonal = campaign;
               list.push(cc);
             }
-            if(type === 'school'){
+            if (type === 'school') {
               const cc: CampaignSchool = campaign;
               list.push(cc);
             }
-            if(type === 'company'){
+            if (type === 'company') {
               const cc: CampaignCompany = campaign;
               list.push(cc);
             }
-            if(type === 'territory'){
+            if (type === 'territory') {
               const cc: CampaignTerritory = campaign;
               list.push(cc);
             }
@@ -85,7 +86,7 @@ export class CampaignServiceService {
     return pagableObj;
   }
 
-  getCampaignDetailsById(id: string): Observable<CampaignClass | CampaignCompany | CampaignSchool | CampaignPersonal | CampaignTerritory>{
+  getCampaignDetailsById(id: string): Observable<CampaignClass | CampaignCompany | CampaignSchool | CampaignPersonal | CampaignTerritory> {
     //let pagableObj: Observable<CampaignClass>;
     const pagableObj = this.http
       .get('assets/data/data.json', { responseType: 'text' })
@@ -93,8 +94,8 @@ export class CampaignServiceService {
         map((response) => {
           const obj: ContentPagable = JSON.parse(response);
           const campaigns: CampaignClass[] = obj.content;
-          for(const campaign of campaigns){
-            if(campaign.campaignId === id){
+          for (const campaign of campaigns) {
+            if (campaign.campaignId === id) {
               return campaign;
             }
           }

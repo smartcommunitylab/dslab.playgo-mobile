@@ -1,4 +1,4 @@
-<div *ngIf="activities!= undefined && activities.length>0">
+<div *ngIf="activities!== undefined && activities.length>0">
   <ion-card>
     <ion-card-header>
       <ion-label>
@@ -17,7 +17,7 @@
   </ion-list>
 </div>
 
-<div *ngIf="activities== undefined || activities.length==0">
+<div *ngIf="activities === undefined || activities.length ===0">
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -28,7 +28,7 @@
             </ion-label>
           </ion-card-header>
           <ion-card-content>
-             {{"noActivities" | translate}}
+            {{"noActivities" | translate}}
           </ion-card-content>
         </ion-card>
       </ion-col>

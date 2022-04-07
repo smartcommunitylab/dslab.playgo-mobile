@@ -7,27 +7,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <app-profile-component></app-profile-component>
   <ion-grid>
-    <ion-row>
-      <ion-col col-in=6>
-        <ion-avatar>
-          <img src="{{user.img_source}}" title="avatar">
-        </ion-avatar>
-      </ion-col>
-    </ion-row>
 
     <ion-row>
       <ion-col col-in=6>
         <ion-label>
-          {{user.name}}
-        </ion-label>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col col-in=6>
-        <ion-label>
-          Regione
           {{today| localDate}} {{val| localNumber}}
 
         </ion-label>
@@ -35,8 +20,8 @@
     </ion-row>
   </ion-grid>
 
-  <app-my-activity-widget></app-my-activity-widget>
-  <app-message-widget></app-message-widget>
-  <app-general-statistics-widget></app-general-statistics-widget>
+  <app-my-activity></app-my-activity>
+  <app-message></app-message>
+  <app-general-statistics></app-general-statistics>
 
 </ion-content>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IUser } from '../../user/user.model';
+import { IUser } from '../model/user.model';
 import { LocalStorageRefService } from './local-storage-ref.service';
 
 @Injectable({ providedIn: 'root' })

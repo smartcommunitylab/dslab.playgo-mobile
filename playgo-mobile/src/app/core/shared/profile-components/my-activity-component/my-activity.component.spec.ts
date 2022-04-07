@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ProfileHomeWidgetComponent } from './profile-home-widget.component';
+import { MyActivityComponent } from './my-activity.component';
 
-describe('ProfileHomeWidgetComponent', () => {
-  let component: ProfileHomeWidgetComponent;
-  let fixture: ComponentFixture<ProfileHomeWidgetComponent>;
+describe('MyActivityComponent', () => {
+  let component: MyActivityComponent;
+  let fixture: ComponentFixture<MyActivityComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileHomeWidgetComponent ],
+      declarations: [MyActivityComponent],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProfileHomeWidgetComponent);
+    fixture = TestBed.createComponent(MyActivityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

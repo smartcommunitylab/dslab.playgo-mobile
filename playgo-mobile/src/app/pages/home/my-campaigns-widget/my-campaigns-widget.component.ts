@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CampaignClass } from 'src/app/shared/campaigns/classes/campaign-class';
+import { CampaignClass } from 'src/app/core/shared/campaigns/classes/campaign-class';
 
 @Component({
   selector: 'app-my-campaigns-widget',
@@ -11,6 +11,6 @@ export class MyCampaignsWidgetComponent implements OnInit {
   @Input() campaigns: CampaignClass[];
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

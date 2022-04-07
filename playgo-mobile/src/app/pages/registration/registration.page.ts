@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { TerritoryService } from 'src/app/core/territory/territory.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NavController } from '@ionic/angular';
-import { UserService } from 'src/app/core/user/user.service';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { TerritoryService } from 'src/app/core/shared/services/territory.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
   selector: 'app-registration',

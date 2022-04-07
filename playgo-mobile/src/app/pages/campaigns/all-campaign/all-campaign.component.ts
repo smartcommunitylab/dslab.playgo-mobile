@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CampaignClass } from '../../../shared/campaigns/classes/campaign-class';
-import { ContentPagable } from '../../../shared/campaigns/classes/content-pagable';
-import { CampaignServiceService } from '../../../shared/service/campaign-service.service';
+import { CampaignServiceService } from 'src/app/core/shared/services/campaign-service.service';
+import { CampaignClass } from '../../../core/shared/campaigns/classes/campaign-class';
+import { ContentPagable } from '../../../core/shared/campaigns/classes/content-pagable';
 
 @Component({
   selector: 'app-all-campaign',
@@ -13,7 +13,7 @@ export class AllCampaignComponent implements OnInit {
   contentPagable?: ContentPagable;
   allCampaigns?: CampaignClass[];
 
-  constructor(private campaignService: CampaignServiceService) {}
+  constructor(private campaignService: CampaignServiceService) { }
 
   ngOnInit() {
     this.campaignService.getPageNumberForAllCampaign(this.numberPage).subscribe(

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { MessageComponent } from './message.component';
 
-import { GeneralStatisticsWidgetComponent } from './general-statistics-widget.component';
 
-describe('GeneralStatisticsWidgetComponent', () => {
-  let component: GeneralStatisticsWidgetComponent;
-  let fixture: ComponentFixture<GeneralStatisticsWidgetComponent>;
+describe('MessageWidgetComponent', () => {
+  let component: MessageComponent;
+  let fixture: ComponentFixture<MessageComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GeneralStatisticsWidgetComponent ],
+      declarations: [MessageComponent],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(GeneralStatisticsWidgetComponent);
+    fixture = TestBed.createComponent(MessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

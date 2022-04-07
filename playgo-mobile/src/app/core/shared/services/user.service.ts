@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AuthHttpService } from '../auth/auth-http.service';
-import { IUser } from './user.model';
+import { AuthHttpService } from '../../auth/auth-http.service';
+import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
 import localeEnglish from '@angular/common/locales/en';
-import { TransportType } from '../shared/tracking/trip.model';
-import { LocalStorageService } from '../shared/services/local-storage.service';
-import { TerritoryService } from '../territory/territory.service';
+import { TransportType } from '../tracking/trip.model';
+import { LocalStorageService } from './local-storage.service';
+import { TerritoryService } from './territory.service';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userProfileSubject = new ReplaySubject<IUser>();

@@ -16,4 +16,13 @@ export const environment = {
     player: 'player',
     territory: 'territory',
   },
+  firebaseConfig: {
+    apiKey: 'AIzaSyBBUsW8BpWEgWIe45M34sgPIiCN-ssw4gY',
+    authDomain: 'analyticsdemo-1ee4c.firebaseapp.com',
+    projectId: 'analyticsdemo-1ee4c',
+    storageBucket: 'analyticsdemo-1ee4c.appspot.com',
+    messagingSenderId: '638917288616',
+    appId: '1:638917288616:web:2979eb96b7d6fd2772989d',
+    measurementId: 'G-M3H7W563GY'
+  }
 };

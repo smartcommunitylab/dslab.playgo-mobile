@@ -5,14 +5,14 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { formatNumber } from '@angular/common';
-import { UserService } from '../../user/user.service';
+import { UserService } from '../services/user.service';
 
 @Pipe({
   name: 'localNumber',
   pure: false,
 })
 export class LocalNumberPipe implements PipeTransform {
-  constructor(private user: UserService) {}
+  constructor(private user: UserService) { }
 
   transform(value: any, format?: string) {
     if (value == null) {

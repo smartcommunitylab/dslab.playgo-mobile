@@ -9,8 +9,9 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { AuthHttpService } from '../auth/auth-http.service';
-import { ITerritory } from './territory.model';
+import { AuthHttpService } from '../../auth/auth-http.service';
+import { ITerritory } from '../model/territory.model';
+
 
 @Injectable({ providedIn: 'root' })
 export class TerritoryService {

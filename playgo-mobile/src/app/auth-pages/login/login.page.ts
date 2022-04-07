@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
-import { UserService } from 'src/app/core/user/user.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private translateService: TranslateService,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sub = this.auth.events$.subscribe((action) =>

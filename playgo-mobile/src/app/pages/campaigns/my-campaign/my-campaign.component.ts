@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CampaignCompany } from 'src/app/shared/campaigns/classes/campaign-company';
-import { CampaignPersonal } from 'src/app/shared/campaigns/classes/campaign-personal';
-import { CampaignSchool } from 'src/app/shared/campaigns/classes/campaign-school';
-import { CampaignTerritory } from 'src/app/shared/campaigns/classes/campaign-territory';
-import { CampaignClass } from '../../../shared/campaigns/classes/campaign-class';
-import { ContentPagable } from '../../../shared/campaigns/classes/content-pagable';
-import { CampaignServiceService } from '../../../shared/service/campaign-service.service';
+import { CampaignCompany } from 'src/app/core/shared/campaigns/classes/campaign-company';
+import { CampaignPersonal } from 'src/app/core/shared/campaigns/classes/campaign-personal';
+import { CampaignSchool } from 'src/app/core/shared/campaigns/classes/campaign-school';
+import { CampaignTerritory } from 'src/app/core/shared/campaigns/classes/campaign-territory';
+import { CampaignServiceService } from 'src/app/core/shared/services/campaign-service.service';
+import { CampaignClass } from '../../../core/shared/campaigns/classes/campaign-class';
+import { ContentPagable } from '../../../core/shared/campaigns/classes/content-pagable';
 
 @Component({
   selector: 'app-my-campaign',
@@ -19,10 +19,10 @@ export class MyCampaignComponent implements OnInit {
   myCampaigns?: (CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory)[];
 
   constructor(private myCampaignService: CampaignServiceService) {
-   }
+  }
 
   ngOnInit() {
-    if(!this.myCampaigns){
+    if (!this.myCampaigns) {
       this.numberPage = 0;
       this.myCampaignService.getPageNumberForMyCampaign(this.numberPage).subscribe((pagable) => {
         this.contentPagable = pagable;
@@ -32,12 +32,12 @@ export class MyCampaignComponent implements OnInit {
     }
   }
 
-  joinCampaign(id: string){
+  joinCampaign(id: string) {
     console.log('joining the campaign', id);
   }
 
-  loadData(pagination){
-    if(!this.contentPagable.last){
+  loadData(pagination) {
+    if (!this.contentPagable.last) {
       console.log(this.numberPage);
       this.myCampaignService.getPageNumberForMyCampaign(this.numberPage).subscribe((pagable) => {
         this.contentPagable = pagable;

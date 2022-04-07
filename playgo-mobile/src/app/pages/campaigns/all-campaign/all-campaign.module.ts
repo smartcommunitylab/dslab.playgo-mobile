@@ -5,11 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { AllCampaignComponent } from './all-campaign.component';
-import { PlayGoSharedModule } from 'src/app/shared/shared.module';
+import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 
 @NgModule({
-  imports: [ CommonModule, FormsModule, IonicModule,PlayGoSharedModule],
+  imports: [PlayGoSharedModule],
   declarations: [AllCampaignComponent],
   exports: [AllCampaignComponent]
 })
-export class AllCampaignModule {}
+export class AllCampaignModule { }

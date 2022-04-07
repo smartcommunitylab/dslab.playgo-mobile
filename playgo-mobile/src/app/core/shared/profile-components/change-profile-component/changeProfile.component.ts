@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { IUser } from '../../user/user.model';
+import { IUser } from 'src/app/core/shared/model/user.model';
 
 @Component({
   selector: 'app-change-profile-modal',
@@ -10,9 +10,9 @@ import { IUser } from '../../user/user.model';
 export class ChangeProfileModalPage implements OnInit {
   @Input() profile: IUser;
 
-  constructor(private modalCtr: ModalController) {}
+  constructor(private modalCtr: ModalController) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async close() {
     await this.modalCtr.dismiss();
