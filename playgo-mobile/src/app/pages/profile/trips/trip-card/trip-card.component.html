@@ -1,0 +1,25 @@
+<ion-card (click)="openDetail()">
+  <div>
+    {{ "trip_detail.distance" | translate }}:
+    <strong
+      >{{ distance / 1000 | number: "0.0-1" }} {{ "km" | translate }}</strong
+    >
+  </div>
+  <div>
+    <div>
+      {{ "trip_detail.start" | translate }}:
+      <strong>{{ start | date: "medium" }}</strong>
+    </div>
+    <div>
+      {{ "trip_detail.end" | translate }}:
+      <strong>{{ end | date: "medium" }}</strong>
+    </div>
+  </div>
+  <div>
+    {{ "trip_detail.used_modes" | translate }}:
+    <strong>{{ modeTypesList }}</strong>
+  </div>
+  <div *ngFor="let campaignLabel of campaignsLabels">
+    <strong>{{ campaignLabel }}</strong>
+  </div>
+</ion-card>

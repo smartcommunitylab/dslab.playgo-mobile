@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { sample, startsWith, times } from 'lodash-es';
-import { Observable, Subject } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, startWith, switchMap } from 'rxjs/operators';
 import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
 import {
   PageableRequest,
   PageableResponse,
 } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
-import { transportTypeLabels } from 'src/app/core/shared/tracking/trip.model';
-import { time } from 'src/app/core/shared/utils';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
+import {
+  TransportType,
+  transportTypeLabels,
+} from 'src/app/core/shared/tracking/trip.model';
 
 @Component({
   selector: 'app-trips',
@@ -24,21 +25,18 @@ export class TripsPage implements OnInit {
   tripsResponse$: Observable<PageableResponse<TripInfo>> =
     this.scrollRequest.pipe(
       startWith(null as any),
-      switchMap((scrollRequest) => this.getTripsPage(scrollRequest))
+      switchMap((scrollRequest) => this.getTripsPage(scrollRequest)),
+      catchError((error) => {
+        this.errorService.showAlert(error);
+        return throwError(error);
+      })
     );
 
   constructor(
     private authHttpService: AuthHttpService,
-    private router: Router,
-    private route: ActivatedRoute
+    private errorService: ErrorService
   ) {}
   ngOnInit() {}
-
-  openTripDetail(trackedInstanceId: string) {
-    this.router.navigate(['../trip-detail', trackedInstanceId], {
-      relativeTo: this.route,
-    });
-  }
 
   // TODO: move to service..
   async getTripsPage(
@@ -49,25 +47,23 @@ export class TripsPage implements OnInit {
       '/track/player',
       pageRequest
     );
-    // await time(1000);
-    // return {
-    //   content: times(100, (n) => ({
-    //     start: n,
-    //     end: n,
-    //     valid: sample([true, false]),
-    //   })),
-    // } as any;
   }
 }
 
-interface TripInfo {
+export interface TripInfo {
   trackedInstanceId: string;
   multimodalId: string;
   startTime: number;
   endTime: number;
-  modeType: string;
+  modeType: TransportType;
   distance: number;
   validity: 'VALID' | 'INVALID';
-  campaigns: [];
+  campaigns: TripCampaign[];
   polyline: string;
+}
+export interface TripCampaign {
+  campaignId: string;
+  campaignName: string;
+  score: number;
+  valid: boolean;
 }

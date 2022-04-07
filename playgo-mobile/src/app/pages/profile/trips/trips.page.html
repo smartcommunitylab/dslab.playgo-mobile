@@ -9,10 +9,8 @@
     (request)="scrollRequest.next($event)"
     [response]="tripsResponse$ | async"
   >
-    <ng-template appInfiniteScrollContent let-tripPart="item">
-      <ion-card (click)="openTripDetail(tripPart.trackedInstanceId)">
-        <!-- {{ item |json }} -->
-      </ion-card>
+    <ng-template appInfiniteScrollContent let-trip="item">
+      <app-trip-card [multiTrip]="[trip]"></app-trip-card>
     </ng-template>
   </app-infinite-scroll>
 </ion-content>

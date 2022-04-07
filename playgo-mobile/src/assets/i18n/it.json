@@ -88,7 +88,13 @@
     "title": "Dettaglio viaggio",
     "start": "Inizio",
     "end": "Fine",
+    "distance": "Distanza",
     "gl_earned_in": "GL guadagnate in",
+    "gl_per_campaign": {
+      "plural_form_one": "+ {{score}} Foglia Verde per {{campaignName}}",
+      "plural_form_other": "+ {{score}} Foglie Verdi per  {{campaignName}}"
+    },
+    "used_modes": "Mezzi usati",
     "mean": {
       "car": "Macchina",
       "bike": "Bici",
