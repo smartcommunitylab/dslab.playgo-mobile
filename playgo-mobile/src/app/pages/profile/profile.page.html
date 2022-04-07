@@ -15,7 +15,9 @@
   <!-- <app-my-activity></app-my-activity>
   <app-message></app-message>
    -->
-  <ion-item>
-    <a routerLink="trips">{{'tripsTitle' | translate}}</a>
-  </ion-item>
+  <ion-card (click)="navigateTo('trips')">
+    <ion-card-content>
+      <strong>{{'tripsTitle' | translate}}</strong>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
