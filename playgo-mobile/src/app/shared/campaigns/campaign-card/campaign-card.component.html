@@ -1,0 +1,244 @@
+<div *ngIf="!join">
+  <div *ngIf="campaign.type==='personal'">
+    <ion-card button="join" (click)="detailCampaign()" class="ion-card">
+      <div style="height: 64px;">
+        <div style="float: left;">
+          <ion-card-header style="color:white">
+            <strong> {{campaign.name}}</strong>
+          </ion-card-header>
+        </div>
+        <div style="float:right; margin: 2px">
+          <ion-avatar style="margin: 2px">
+            <img src="{{campaign.logoUrl}}" />
+          </ion-avatar>
+        </div>
+      </div>
+      <div style="margin-left: 18px;">
+        <p> {{campaign.totalGreenLeves}} {{'greenLeaves' | translate}}</p>
+      </div>
+      <div>
+        <div style="height: 10px;">
+          <div style="float:left; margin-left: 18px;">
+            Lvl {{campaign.level}}
+          </div>
+          <div style="float: right; margin-right: 18px;">
+            {{campaign.greenLeaveLeftForNextLevel}} {{'greenLeaves' | translate}} {{'forNextLevel' | translate}}
+          </div>
+        </div>
+        <br>
+        <div class="progress-bar-contourn">
+          <div class="progress-bar" style="--varwidth:{{campaign.percentage}}">
+            {{campaign.percentage}}
+          </div>
+        </div>
+      </div>
+      <div class="border-class-fancy">
+        <div style="margin: 10px;">
+          {{campaign.lastNotification}}
+        </div>
+      </div>
+      <div (click)="challenges()" class="border-class-fancy" *ngFor="let challenge of campaign.challenges; let i= index">
+        <div style="margin: 10px;">
+          <div>
+            <span style="font-size: large">
+              {{'challenge' | translate}} {{i+1}}
+            </span>
+          </div>
+          <div style="margin-top: 15px;margin-bottom: 15px">
+            <span>
+              {{challenge.progress}}
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </ion-card>
+  </div>
+  <!--TODO -->
+  <div *ngIf="campaign.type==='school'">
+    <ion-card button="join" (click)="detailCampaign()" class="ion-card">
+      <div style="height: 64px;">
+        <div style="float: left;">
+          <ion-card-header style="color:white">
+            <strong> {{campaign.name}}</strong>
+          </ion-card-header>
+        </div>
+        <div style="float:right; margin: 2px">
+          <ion-avatar style="margin: 2px">
+            <img src="{{campaign.logoUrl}}" />
+          </ion-avatar>
+        </div>
+      </div>
+      <div class="border-class-fancy">
+        <div style="margin: 10px;">
+          <div>
+            <span style="font-size: large">
+              {{campaign.schoolName}}
+            </span>
+          </div>
+          <div style="margin-top: 15px;margin-bottom: 15px">
+            <span>
+               {{'classificationList' | translate}} {{campaign.classificationPosition}} °
+            </span>
+          </div>
+          <div style="margin-top: 15px;margin-bottom: 15px">
+            <span>
+              <p> {{campaign.classLeavesGained}} {{'greenLeaves' | translate}} {{'totals'}}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="border-class-fancy">
+        <div style="margin: 10px;">
+          {{campaign.lastNotification}}
+        </div>
+      </div>
+
+    </ion-card>
+  </div>
+  <!--TODO -->
+  <div *ngIf="campaign.type==='company'">
+    <ion-card button="join" (click)="detailCampaign()" class="ion-card">
+      <div style="height: 64px;">
+        <div style="float: left;">
+          <ion-card-header style="color:white">
+            <strong> {{campaign.name}}</strong>
+          </ion-card-header>
+          <ion-card-subtitle style="color:white;float: left; margin-left: 18px; font-size: small;">
+            {{'activeSince' | translate}} {{campaign.dateFrom}} {{'to' | translate}} {{campaign.dateTo}}
+          </ion-card-subtitle>
+        </div>
+        <div style="float:right; margin: 2px">
+          <ion-avatar style="margin: 2px">
+            <img src="{{campaign.logoUrl}}" />
+          </ion-avatar>
+        </div>
+      </div>
+      <div style="margin-left: 18px;">
+        <p> {{campaign.totalKm}} km {{'total' | translate}} - {{campaign.totalKmPerWeek}} {{'thisWeek' | translate}}</p>
+      </div>
+      <div>
+        <div style="height: 10px;">
+          <div style="float:left; margin-left: 18px;">
+            {{'madeToday' | translate}} {{campaign.kmPerDay}} km
+          </div>
+          <div style="float: right; margin-right: 18px;">
+            Km {{'maximumKmPerToday' | translate}} {{campaign.maxKmPerDay}}
+          </div>
+        </div>
+        <br>
+        <div class="progress-bar-contourn">
+          <div class="progress-bar" style="--varwidth:{{campaign.percentage}}">
+            {{campaign.percentage}}
+          </div>
+        </div>
+      </div>
+      <div class="border-class-fancy">
+        <div style="margin: 10px;">
+          <div style="font-size: large;">{{campaign.companyDetails.name}}</div>
+          <br>
+          <div style="margin-bottom: 3px"> {{campaign.companyDetails.address}}</div>
+          <div style="margin-bottom: 3px"> {{campaign.companyDetails.round}}° {{'round' | translate}}</div>
+          <div style="margin-bottom: 3px">{{'adhesionCode' | translate}}: {{campaign.companyDetails.adhesionCode}}</div>
+
+        </div>
+      </div>
+      <div class="border-class-fancy">
+        <div style="margin: 10px;">
+          {{campaign.lastNotification}}
+        </div>
+      </div>
+      <div></div>
+    </ion-card>
+  </div>
+  <!--TODO -->
+  <div *ngIf="campaign.type==='territory'">
+    <ion-card button="join" (click)="detailCampaign()" class="ion-card">
+      <div style="height: 64px;">
+        <div style="float: left;">
+          <ion-card-header style="color:white">
+            <strong> {{campaign.name}}</strong>
+          </ion-card-header>
+        </div>
+        <div style="float:right; margin: 2px">
+          <ion-avatar style="margin: 2px">
+            <img src="{{campaign.logoUrl}}" />
+          </ion-avatar>
+        </div>
+      </div>
+      <div style="margin-left: 18px;">
+        <p> {{campaign.totalGreenLeves}} {{'greenLeaves' | translate}} - {{campaign.totalGreenLevesPerWeek}} {{'thisWeek' | translate}}</p>
+      </div>
+      <div>
+        <div style="height: 10px;">
+          <div style="float:left; margin-left: 18px;">
+            Lvl {{campaign.level}}
+          </div>
+          <div style="float: right; margin-right: 18px;">
+            {{campaign.greenLeaveLeftForNextLevel}} {{'greenLeaves' | translate}} {{'forNextLevel' | translate}}
+          </div>
+        </div>
+        <br>
+        <div class="progress-bar-contourn">
+          <div class="progress-bar" style="--varwidth:{{campaign.percentage}}">
+            {{campaign.percentage}}
+          </div>
+        </div>
+      </div>
+      <div (click)="challenges()" class="border-class-fancy" *ngFor="let challenge of campaign.challenges; let i= index">
+        <div style="margin: 10px;">
+          <div>
+            <span style="font-size: large">
+              {{'challenge' | translate}} {{i+1}}
+            </span>
+          </div>
+          <div style="margin-top: 15px;margin-bottom: 15px">
+            <span>
+              {{challenge.progress}}
+            </span>
+          </div>
+
+        </div>
+      </div>
+      <div class="border-class-fancy">
+        <div style="margin: 10px;">
+          <div style="font-size: large;">{{'tier' | translate}}</div>
+          <br>
+          <div style="margin-bottom: 3px"> {{'generalTier' | translate}}: {{campaign.tierList.general}}°</div>
+          <div style="margin-bottom: 3px"> {{'weeklyTier' | translate}}: {{campaign.tierList.weekly}}° </div>
+
+        </div>
+      </div>
+      <div class="border-class-fancy">
+        <div style="margin: 10px;">
+          {{campaign.lastNotification}}
+        </div>
+      </div>
+
+    </ion-card>
+  </div>
+</div>
+
+
+<div *ngIf="join">
+  <ion-card class="ion-card">
+    <div style="height: 64px;">
+      <div style="float: left;">
+        <ion-card-header style="color:white">
+          <strong> {{campaign.name}}</strong>
+        </ion-card-header>
+      </div>
+      <div style="float:right; margin: 2px">
+        <ion-avatar style="margin: 2px">
+          <img src="{{campaign.logoUrl}}" />
+        </ion-avatar>
+      </div>
+    </div>
+    <ion-card-subtitle style="color:white;margin-left: 18px;"> {{campaign.dateFrom}} - {{campaign.dateTo}}</ion-card-subtitle>
+    <div style="margin: 20px">
+      <img src="{{campaign.logoUrl}}" />
+    </div>
+    <ion-card-content> {{campaign.description}}</ion-card-content>
+    <ion-button style="margin-left: 18px; margin-bottom: 6px;" *ngIf="join" (click)="joinCamp()">{{"join" | translate}}</ion-button>
+  </ion-card>
+</div>

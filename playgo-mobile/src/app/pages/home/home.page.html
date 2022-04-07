@@ -1,6 +1,8 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> {{ 'helloWorld' | translate }} </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>
+      {{ 'home' | translate }}
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="signOut()">Sign Out </ion-button>
     </ion-buttons>
@@ -8,13 +10,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <!--ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">{{ 'helloWorld' | translate }}</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header-->
 
   <div id="container">
-    <app-hello></app-hello>
+    <app-profile-component></app-profile-component>
+    <!-- <app-profile-home-widget [user]="user"></app-profile-home-widget> -->
+    <app-home-tracking-widget></app-home-tracking-widget>
+    <app-my-campaigns-widget [campaigns]="campaigns"></app-my-campaigns-widget>
   </div>
 </ion-content>

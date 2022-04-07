@@ -1,0 +1,41 @@
+.progress-bar {
+  height: 24px;
+  width: var(--varwidth, 0%);
+  color: black;
+  background-color: rgb(8, 166, 240);
+  text-align: center;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.progress-bar-contourn {
+  border: 1px solid black;
+  border-color: black;
+  margin-left: 18px;
+  margin-right: 18px;
+  background-color: lightgrey;
+  border-radius: 10px;
+}
+
+.border-class {
+  border: 1px solid rgb(63, 63, 63);
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.border-class-fancy {
+  border: 1px solid rgb(255, 255, 255);
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.ion-card{
+  color:white;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 2px solid white;
+}

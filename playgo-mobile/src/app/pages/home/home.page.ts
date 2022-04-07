@@ -1,8 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { AuthActions, AuthService, IAuthAction } from 'ionic-appauth';
+import { AuthService, IAuthAction, AuthActions } from 'ionic-appauth';
 import { Subscription } from 'rxjs';
+import { CampaignClass } from 'src/app/core/shared/campaigns/classes/campaign-class';
+// import { UserClass } from 'src/app/core/shared/classes/user';
 import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';
+
 
 @Component({
   selector: 'app-home',
@@ -13,12 +17,34 @@ export class HomePage implements OnInit, OnDestroy {
   user$ = this.auth.user$;
   events$ = this.auth.events$;
   sub!: Subscription;
+  campaigns?: CampaignClass[];
 
   constructor(
     private auth: AuthService,
     private navCtrl: NavController,
-    private localStorageService: LocalStorageService
-  ) {}
+    private localStorageService: LocalStorageService,
+    private router: Router
+  ) { }
+
+
+
+  // ngOnInit() {
+  //   this.user = new UserClass();
+  //   this.user.img_source = 'https://www.atuttodonna.it/atuttodonna/wp-content/uploads/2020/04/immagini-felicit%C3%A0.jpg';
+  //   this.user.name = 'My name';
+  //   this.user.totalLeaf = '42';
+  //   const a = new CampaignClass();
+  //   a.name = 'ciao';
+  //   const b = new CampaignClass();
+  //   b.name = 'hola';
+  //   const c = new CampaignClass();
+  //   c.name = 'hello';
+  //   this.campaigns = [a, b, c];
+  // }
+
+  campagins() {
+    this.router.navigateByUrl('/campaigns');
+  }
 
   public signOut() {
     this.auth.signOut();

@@ -1,0 +1,33 @@
+<ion-card>
+  <ion-card-header>
+    <ion-label>
+      {{"playNow" | translate}}
+    </ion-label>
+  </ion-card-header>
+  <ion-buttons>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="startTraking('walk')" class="trackingButton">
+            <ion-icon size="large" name="walk"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button (click)="startTraking('bicycle')" class="trackingButton">
+            <ion-icon size="large" name="bicycle"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button (click)="startTraking('bus')" class="trackingButton">
+            <ion-icon size="large" name="bus"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button (click)="startTraking('car')" class="trackingButton">
+            <ion-icon size="large" name="car"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-buttons>
+</ion-card>

@@ -2,11 +2,17 @@ import { NgModule } from '@angular/core';
 import { CampaignsPage } from './campaigns.page';
 
 import { CampaignsRoutingModule } from './campaigns-routing.module';
-import { TrackingModule } from 'src/app/core/shared/tracking/tracking.module';
-import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
+import { PlayGoSharedModule } from 'src/app/shared/shared.module';
+import { MyCampaignModule } from './my-campaign/my-campaign.module';
+import { AllCampaignModule } from './all-campaign/all-campaign.module';
 
 @NgModule({
-  imports: [TrackingModule, PlayGoSharedModule, CampaignsRoutingModule],
-  declarations: [CampaignsPage],
+  imports: [
+    PlayGoSharedModule,
+    CampaignsRoutingModule,
+    MyCampaignModule,
+    AllCampaignModule
+  ],
+  declarations: [CampaignsPage]
 })
-export class CampaignsPageModule {}
+export class CampaignsPageModule { }
