@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthActions, AuthService, IAuthAction } from 'ionic-appauth';
 import { Subscription } from 'rxjs';
+import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,11 @@ export class HomePage implements OnInit, OnDestroy {
   events$ = this.auth.events$;
   sub!: Subscription;
 
-  constructor(private auth: AuthService, private navCtrl: NavController) {}
+  constructor(
+    private auth: AuthService,
+    private navCtrl: NavController,
+    private localStorageService: LocalStorageService
+  ) {}
 
   public signOut() {
     this.auth.signOut();
@@ -39,6 +44,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   private onSignOutSuccess(action: IAuthAction) {
     if (action.action === AuthActions.SignOutSuccess) {
+      this.localStorageService.clearUser();
       this.navCtrl.navigateRoot('login');
     }
   }

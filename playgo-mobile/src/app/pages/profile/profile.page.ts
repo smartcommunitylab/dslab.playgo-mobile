@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 export class ProfilePage {
   today = new Date();
   val = 111122222.3333;
-  constructor() { }
+  constructor() {}
 }
