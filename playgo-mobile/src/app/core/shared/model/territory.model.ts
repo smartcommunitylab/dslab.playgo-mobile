@@ -11,7 +11,7 @@ export interface ITerritoryData {
   means: TransportType[];
 }
 export class TerritoryData implements ITerritoryData {
-  constructor(public means: TransportType[]) { }
+  constructor(public means: TransportType[]) {}
 }
 export class Territory implements ITerritory {
   constructor(
@@ -20,5 +20,5 @@ export class Territory implements ITerritory {
     public description: string,
     public messagingAppId: string,
     public territoryData: TerritoryData
-  ) { }
+  ) {}
 }

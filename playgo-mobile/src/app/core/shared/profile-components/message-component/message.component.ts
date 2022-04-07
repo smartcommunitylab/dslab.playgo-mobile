@@ -7,10 +7,8 @@ import { MessageClass } from 'src/app/core/shared/model/message-class';
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit {
-
   messages: MessageClass[];
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
-
+  ngOnInit() {}
 }

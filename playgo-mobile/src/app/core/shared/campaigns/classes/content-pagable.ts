@@ -8,7 +8,6 @@ import { CampaignSchool } from './campaign-school';
 import { CampaignTerritory } from './campaign-territory';
 
 export class ContentPagable {
-
   totalPages?: number;
   totalElements?: number;
   last?: boolean;
@@ -17,13 +16,18 @@ export class ContentPagable {
   numberOfElements?: number;
   size?: number;
   empty?: boolean;
-  content?: (CampaignClass | CampaignCompany | CampaignSchool | CampaignPersonal | CampaignTerritory)[];
+  content?: (
+    | CampaignClass
+    | CampaignCompany
+    | CampaignSchool
+    | CampaignPersonal
+    | CampaignTerritory
+  )[];
   pagable?: {};
   sort?: {};
 
-  constructor(totalPages,number){
+  constructor(totalPages, number) {
     this.totalPages = totalPages;
     this.number = number;
   }
-
 }

@@ -12,7 +12,6 @@ import { environment } from 'src/environments/environment';
 import { AuthHttpService } from '../../auth/auth-http.service';
 import { ITerritory } from '../model/territory.model';
 
-
 @Injectable({ providedIn: 'root' })
 export class TerritoryService {
   // private resourceUrl = environment.serverUrl.apiUrl + environment.serverUrl.territory;

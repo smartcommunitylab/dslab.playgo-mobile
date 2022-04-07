@@ -5,6 +5,6 @@ import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 @NgModule({
   imports: [PlayGoSharedModule],
   declarations: [MyCampaignComponent],
-  exports: [MyCampaignComponent]
+  exports: [MyCampaignComponent],
 })
-export class MyCampaignModule { }
+export class MyCampaignModule {}

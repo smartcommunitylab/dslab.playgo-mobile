@@ -17,6 +17,6 @@ import { PlayGoSharedModule } from 'src/app/shared/shared.module';
     CampaignDetailsPageRoutingModule,
     PlayGoSharedModule,
   ],
-  declarations: [CampaignDetailsPage]
+  declarations: [CampaignDetailsPage],
 })
 export class CampaignDetailsPageModule {}

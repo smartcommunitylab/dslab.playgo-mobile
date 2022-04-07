@@ -7,17 +7,13 @@ import { MyCampaignsWidgetComponent } from './my-campaigns-widget/my-campaigns-w
 import { HomeTrackingWidgetComponent } from './home-tracking-widget/home-tracking-widget.component';
 import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 
-
 @NgModule({
-  imports: [
-    PlayGoSharedModule,
-    HomePageRoutingModule,
-  ],
+  imports: [PlayGoSharedModule, HomePageRoutingModule],
   declarations: [
     MyCampaignsWidgetComponent,
     HomeTrackingWidgetComponent,
-    HomePage],
-  exports: [MyCampaignsWidgetComponent,
-    HomeTrackingWidgetComponent]
+    HomePage,
+  ],
+  exports: [MyCampaignsWidgetComponent, HomeTrackingWidgetComponent],
 })
-export class HomePageModule { }
+export class HomePageModule {}

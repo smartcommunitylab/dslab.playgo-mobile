@@ -13,20 +13,19 @@ import { Device } from '@capacitor/device';
 const { FirebaseAnalytics } = Plugins;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AnalyticsServiceService {
-
   analyticsEnabled = true;
 
-  constructor( private router: Router) {
+  constructor(private router: Router) {
     this.initFb();
-    this.router.events.pipe(
-      filter((e: RouterEvent) => e instanceof NavigationEnd),
-    ).subscribe((e: RouterEvent) => {
-      console.log('route changed: ', e.url);
-      this.setScreenName(e.url);
-    });
+    this.router.events
+      .pipe(filter((e: RouterEvent) => e instanceof NavigationEnd))
+      .subscribe((e: RouterEvent) => {
+        console.log('route changed: ', e.url);
+        this.setScreenName(e.url);
+      });
   }
 
   async initFb() {
@@ -40,7 +39,7 @@ export class AnalyticsServiceService {
     const currentDate = new Date();
     const timestamp = currentDate.getTime();
     FirebaseAnalytics.setUserId({
-      userId: '123'//"test_123"+ timestamp.toString(),
+      userId: '123', //"test_123"+ timestamp.toString(),
     });
   }
 
@@ -55,9 +54,9 @@ export class AnalyticsServiceService {
     FirebaseAnalytics.logEvent({
       name: 'cutom_event',
       params: {
-        casa:'undici',
-        method: 'email'
-      }
+        casa: 'undici',
+        method: 'email',
+      },
     });
   }
 
@@ -65,14 +64,14 @@ export class AnalyticsServiceService {
     FirebaseAnalytics.logEvent({
       name: 'event_name_check_params',
       params: {
-        event
-      }
+        event,
+      },
     });
   }
 
   setScreenName(screenName) {
     FirebaseAnalytics.setScreenName({
-      screenName
+      screenName,
     });
   }
 

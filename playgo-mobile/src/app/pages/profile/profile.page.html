@@ -9,13 +9,9 @@
 <ion-content [fullscreen]="true">
   <app-profile-component></app-profile-component>
   <ion-grid>
-
     <ion-row>
-      <ion-col col-in=6>
-        <ion-label>
-          {{today| localDate}} {{val| localNumber}}
-
-        </ion-label>
+      <ion-col col-in="6">
+        <ion-label> {{today| localDate}} {{val| localNumber}} </ion-label>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -23,5 +19,4 @@
   <app-my-activity></app-my-activity>
   <app-message></app-message>
   <app-general-statistics></app-general-statistics>
-
 </ion-content>

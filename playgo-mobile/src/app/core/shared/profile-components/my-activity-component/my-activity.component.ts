@@ -7,11 +7,9 @@ import { ActivityClass } from 'src/app/core/shared/model/activity-class';
   styleUrls: ['./my-activity.component.scss'],
 })
 export class MyActivityComponent implements OnInit {
-
   activities?: ActivityClass[];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
-
+  ngOnInit() {}
 }

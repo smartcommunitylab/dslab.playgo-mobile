@@ -9,13 +9,16 @@ import { CampaignClass } from '../../../core/shared/campaigns/classes/campaign-c
   templateUrl: './campaign-details.page.html',
   styleUrls: ['./campaign-details.page.scss'],
 })
-
 export class CampaignDetailsPage implements OnInit {
   id: string;
   campaign?: CampaignClass = new CampaignClass();
 
-  constructor(private route: ActivatedRoute, private campaignService: CampaignServiceService, private router: Router) {
-    this.route.params.subscribe(params => this.id = params.id);
+  constructor(
+    private route: ActivatedRoute,
+    private campaignService: CampaignServiceService,
+    private router: Router
+  ) {
+    this.route.params.subscribe((params) => (this.id = params.id));
   }
 
   ngOnInit() {
@@ -28,5 +31,4 @@ export class CampaignDetailsPage implements OnInit {
     console.log('here');
     this.router.navigateByUrl('/tabs/campaigns');
   }
-
 }

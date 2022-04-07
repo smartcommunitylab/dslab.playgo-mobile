@@ -11,11 +11,11 @@ const routes: Routes = [
   {
     path: 'details/:id',
     component: CampaignDetailsPage,
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CampaignsRoutingModule { }
+export class CampaignsRoutingModule {}

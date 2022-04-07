@@ -11,7 +11,7 @@ import { UserService } from '../services/user.service';
   pure: false,
 })
 export class LocalDatePipe implements PipeTransform {
-  constructor(private user: UserService) { }
+  constructor(private user: UserService) {}
 
   transform(value: any, format?: string) {
     if (!value) {

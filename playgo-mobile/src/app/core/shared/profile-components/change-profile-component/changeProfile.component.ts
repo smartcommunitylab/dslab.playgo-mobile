@@ -10,9 +10,9 @@ import { IUser } from 'src/app/core/shared/model/user.model';
 export class ChangeProfileModalPage implements OnInit {
   @Input() profile: IUser;
 
-  constructor(private modalCtr: ModalController) { }
+  constructor(private modalCtr: ModalController) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async close() {
     await this.modalCtr.dismiss();

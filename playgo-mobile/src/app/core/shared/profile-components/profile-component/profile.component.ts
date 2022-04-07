@@ -4,7 +4,6 @@ import { IUser } from 'src/app/core/shared/model/user.model';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { ChangeProfileModalPage } from '../change-profile-component/changeProfile.component';
 
-
 @Component({
   selector: 'app-profile-component',
   templateUrl: 'profile.component.html',
@@ -16,7 +15,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private modalController: ModalController
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userService.userProfile$.subscribe((profile) => {
@@ -36,7 +35,7 @@ export class ProfileComponent implements OnInit {
         //save new profile
         try {
           this.userService.updatePlayer(this.profile);
-        } catch (e) { }
+        } catch (e) {}
       } else {
         //not save and show hi
       }

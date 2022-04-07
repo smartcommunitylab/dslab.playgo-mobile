@@ -1,218 +1,213 @@
 {
-   "content":[
-      {
-         "active":true,
-         "type":"personal",
-         "campaignId":"PersonalCampaingID",
-         "communication":"this is a communication /maybe its the lastNotification",
-         "dateFrom":"2020-11-01",
-         "dateTo":"2022-04-23",
-         "description":"Descrizione di una campagna personale. In the world you will have tribulation. But take heart; I have overcome the world.",
-         "gameId": "gameId personal",
-         "logoUrl":"https://i.imgur.com/almP0Fg.jpg",
-         "name":"Personal Campaign",
-         "organization": "Organization name",
-         "rulesUrl":"<p><img style=\"width: 200px; margin: auto; display: block;\" src=\"https://i.imgur.com/FfY4aPW.jpg\"></p><p><br></p><p><strong>Benvenuto nel progetto Bike2Work-Ferrara attraverso l’app <em>Ferrara Play&amp;Go</em>&nbsp;</strong></p><p>&nbsp;</p><p>Partecipare è semplice: traccia i tuoi spostamenti in bici sul tragitto casa-lavoro con l’app gratuita <strong>Ferrara    Play&amp;Go </strong>per guadagnare incentivi. Contribuirai inoltre a rendere la tua città più sostenibile e smart!</p><p>&nbsp;</p><p><strong>IMPIANTO GENERALE</strong></p><p>L’iniziativa durerà fino al <strong>31 Agosto 2021</strong>. Ogni Partecipante che utilizza l’app <strong>Ferrara    Play&amp;Go</strong> durante gli spostamenti casa-lavoro ha la possibilità di accumulare <strong>kilometri</strong> che riconoscono l’utilizzo di soluzioni di mobilità sostenibile (bicicletta tradizionale o a pedalata assistita).</p><p>In base ai km accumulati i Partecipanti potranno guadagnare incentivi pari a 0,20 €/km percorso per un massimo di € 50 al mese.</p><p>&nbsp;</p><p><strong>FUNZIONAMENTO DELL’INIZIATIVA</strong></p><p><br></p><p>Il Partecipante deve registrarsi all’iniziativa, attraverso il sito di <strong>Play&amp;Go    Aziende, </strong>raggiungibile all’indirizzo <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a> , oppure tramite l’app <strong>Ferrara Play&amp;Go </strong>utilizzando l’apposito menu’ “<strong>Campagne di Mobilitá”</strong>. Una volta registrato, il Partecipante può iniziare ad accumulare km usando la <em><span style=\"font-weight: 400;\">funzionalità di tracciamento di un viaggio </span></em>tramite l’app <strong>Ferrara Play&amp;Go. </strong>&nbsp;La funzionalità di tracciamento del viaggio viene utilizzata esclusivamente ai fini del progetto per la validazione della scelta di viaggio compiuta dal partecipante. In questo senso, <strong>è    essenziale </strong>che il Partecipante, per procedere, abbia attivato la <strong>funzione di    geo-localizzazione </strong>sul suo dispositivo mobile.</p><p>&nbsp;</p><p>Il tracciamento dei viaggi avviene nel seguente modo:</p><p><br></p><p>&nbsp;</p><p><br></p><p>Con ogni itinerario effettuato, il Partecipante può guadagnare km. Le modalità di acquisizione dei km sono le seguenti:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p><strong>Controllo validità dei viaggi e penalità:&nbsp;</strong></p><p>Ogni viaggio tracciato viene memorizzato nell’app Ferrara Play&amp;Go, a valle di una validazione    automatica di identificazione del mezzo utilizzato (mode detection). Per rendere il viaggio valido ai fini della campagna Bike2Work,    le informazioni rilevate durante il tracciamento di ogni viaggio vengono utilizzate, da un sistema automatico, per la validazione e l’assegnazione dei Km effettuati, utilizzando i seguenti criteri:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p>Ogni Partecipante può consultare i viaggi validi e i Km accumulati per la campagna Bike2Work tramite il sito web di <strong>Play&amp;Go    Aziende</strong> raggiungibile al seguente indirizzo: <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a></p><p>&nbsp;</p><p>Durante tutta l’iniziativa potranno essere effettuati ulteriori controlli a campione per verificare la correttezza delle informazioni rilevate e delle modalità di spostamento utilizzate. In caso di evidenti violazioni delle regole e di registrazione di viaggi non effettivamente effettuati da parte del partecipante, gli organizzatori, a proprio insindacabile diritto, si riservano di revocare km al partecipante. In caso di reiterazione di comportamenti scorretti gli Organizzatori si riservano il diritto di escludere il partecipante dall’iniziativa.</p><p><br></p><p><br></p><p>Il Partecipante può cancellarsi dalla campagna <strong>Bike2Work-Ferrara </strong>utilizzando l’apposita voce nel menu “Abbandona Campagna” dal sito di <strong>Play&amp;Go    Aziende</strong>. Una volta confermata la cancellazione dalla campagna Il Partecipante non potrà più accumulare i Km in bici e riceverà dalla propria azienda soltanto gli incentivi maturati nel periodo di partecipazione.</p><p>&nbsp;</p><p><strong>RISULTATI E INCENTIVI</strong></p><p>Al termine del periodo dell’iniziativa ogni dipendente che ha partecipato riceverà in busta paga l’accredito degli incentivi maturati in base ai km percorsi.    Nel caso i contributi da erogare siano superiori alla somma a disposizione del Comune di Ferrara e stanziata dalla Regione Emilia Romagna, si provvederà alla riduzione proporzionale degli stessi contributi sulla base dei Km percorsi fino a riportare il totale entro il limite della somma disponibile.&nbsp;</p><p>&nbsp;</p><p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p><p><strong>ORGANIZZATORI</strong></p><p>Gli enti organizzatori del progetto “Bike2Work-Ferrara” sono il Comune di Ferrara sulla base di un Protocollo d’intesa con la Regione Emilia Romagna che finanzia il progetto. I gestori dell’ app “<strong>Ferrara    Play&amp;Go</strong>” e del sito relativo a “<strong>Play&amp;Go    Aziende</strong>”, rese disponibili per il progetto, è la Fondazione Bruno Kessler di Trento. L’iniziativa <strong>Bike2Work-Ferrara</strong> e’ inserita nelle attività del progetto<strong> UIA    Air-Break.</strong></p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p>",
-         "privacyUrl":"<p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al proprio Datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p>",
-         "registrationUrl": "Url For registration",
-         "territoryId":"territoryIdPersonalCampaign",
-         "validationData": "validation data",
-         "webPageUrl": "webPage",
-         "application":"ApplicazionePersonalCampaign",
-         "means":[
-            "bike"
-          ],
-         "limits":[
-            {
-              "span":"day",
-              "mean":"bike",
-              "value":20000.0
-            },
-            {
-              "span":"month",
-              "mean":"bike",
-              "value":250000.0
-            }
-         ],
-         "lastNotification": "Ultima notifica gioco campagna",
-
-         "totalGreenLeves": "560",
-         "greenLeaveLeftForNextLevel": "189",
-         "level": "12",
-         "percentage":"50%",
-         "challenges":[{
-           "index":"1",
-           "progress":"Progresso sfida",
-           "description":"Descirizone sfida"
-         }]
-
-      },
-      {
-        "active":true,
-        "type":"school",
-        "campaignId":"SchoolCampaignId",
-        "communication":"this is a communication /maybe its the lastNotification",
-        "dateFrom":"2020-11-01",
-        "dateTo":"2022-04-23",
-        "description":"Descrizione di una campagna scuola. In the world you will have tribulation. But take heart; I have overcome the world.",
-        "gameId": "gameId scuola",
-        "logoUrl":"https://i.imgur.com/almP0Fg.jpg",
-        "name":"School Campaign",
-        "organization": "Organization name",
-        "rulesUrl":"<p><img style=\"width: 200px; margin: auto; display: block;\" src=\"https://i.imgur.com/FfY4aPW.jpg\"></p><p><br></p><p><strong>Benvenuto nel progetto Bike2Work-Ferrara attraverso l’app <em>Ferrara Play&amp;Go</em>&nbsp;</strong></p><p>&nbsp;</p><p>Partecipare è semplice: traccia i tuoi spostamenti in bici sul tragitto casa-lavoro con l’app gratuita <strong>Ferrara    Play&amp;Go </strong>per guadagnare incentivi. Contribuirai inoltre a rendere la tua città più sostenibile e smart!</p><p>&nbsp;</p><p><strong>IMPIANTO GENERALE</strong></p><p>L’iniziativa durerà fino al <strong>31 Agosto 2021</strong>. Ogni Partecipante che utilizza l’app <strong>Ferrara    Play&amp;Go</strong> durante gli spostamenti casa-lavoro ha la possibilità di accumulare <strong>kilometri</strong> che riconoscono l’utilizzo di soluzioni di mobilità sostenibile (bicicletta tradizionale o a pedalata assistita).</p><p>In base ai km accumulati i Partecipanti potranno guadagnare incentivi pari a 0,20 €/km percorso per un massimo di € 50 al mese.</p><p>&nbsp;</p><p><strong>FUNZIONAMENTO DELL’INIZIATIVA</strong></p><p><br></p><p>Il Partecipante deve registrarsi all’iniziativa, attraverso il sito di <strong>Play&amp;Go    Aziende, </strong>raggiungibile all’indirizzo <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a> , oppure tramite l’app <strong>Ferrara Play&amp;Go </strong>utilizzando l’apposito menu’ “<strong>Campagne di Mobilitá”</strong>. Una volta registrato, il Partecipante può iniziare ad accumulare km usando la <em><span style=\"font-weight: 400;\">funzionalità di tracciamento di un viaggio </span></em>tramite l’app <strong>Ferrara Play&amp;Go. </strong>&nbsp;La funzionalità di tracciamento del viaggio viene utilizzata esclusivamente ai fini del progetto per la validazione della scelta di viaggio compiuta dal partecipante. In questo senso, <strong>è    essenziale </strong>che il Partecipante, per procedere, abbia attivato la <strong>funzione di    geo-localizzazione </strong>sul suo dispositivo mobile.</p><p>&nbsp;</p><p>Il tracciamento dei viaggi avviene nel seguente modo:</p><p><br></p><p>&nbsp;</p><p><br></p><p>Con ogni itinerario effettuato, il Partecipante può guadagnare km. Le modalità di acquisizione dei km sono le seguenti:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p><strong>Controllo validità dei viaggi e penalità:&nbsp;</strong></p><p>Ogni viaggio tracciato viene memorizzato nell’app Ferrara Play&amp;Go, a valle di una validazione    automatica di identificazione del mezzo utilizzato (mode detection). Per rendere il viaggio valido ai fini della campagna Bike2Work,    le informazioni rilevate durante il tracciamento di ogni viaggio vengono utilizzate, da un sistema automatico, per la validazione e l’assegnazione dei Km effettuati, utilizzando i seguenti criteri:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p>Ogni Partecipante può consultare i viaggi validi e i Km accumulati per la campagna Bike2Work tramite il sito web di <strong>Play&amp;Go    Aziende</strong> raggiungibile al seguente indirizzo: <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a></p><p>&nbsp;</p><p>Durante tutta l’iniziativa potranno essere effettuati ulteriori controlli a campione per verificare la correttezza delle informazioni rilevate e delle modalità di spostamento utilizzate. In caso di evidenti violazioni delle regole e di registrazione di viaggi non effettivamente effettuati da parte del partecipante, gli organizzatori, a proprio insindacabile diritto, si riservano di revocare km al partecipante. In caso di reiterazione di comportamenti scorretti gli Organizzatori si riservano il diritto di escludere il partecipante dall’iniziativa.</p><p><br></p><p><br></p><p>Il Partecipante può cancellarsi dalla campagna <strong>Bike2Work-Ferrara </strong>utilizzando l’apposita voce nel menu “Abbandona Campagna” dal sito di <strong>Play&amp;Go    Aziende</strong>. Una volta confermata la cancellazione dalla campagna Il Partecipante non potrà più accumulare i Km in bici e riceverà dalla propria azienda soltanto gli incentivi maturati nel periodo di partecipazione.</p><p>&nbsp;</p><p><strong>RISULTATI E INCENTIVI</strong></p><p>Al termine del periodo dell’iniziativa ogni dipendente che ha partecipato riceverà in busta paga l’accredito degli incentivi maturati in base ai km percorsi.    Nel caso i contributi da erogare siano superiori alla somma a disposizione del Comune di Ferrara e stanziata dalla Regione Emilia Romagna, si provvederà alla riduzione proporzionale degli stessi contributi sulla base dei Km percorsi fino a riportare il totale entro il limite della somma disponibile.&nbsp;</p><p>&nbsp;</p><p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p><p><strong>ORGANIZZATORI</strong></p><p>Gli enti organizzatori del progetto “Bike2Work-Ferrara” sono il Comune di Ferrara sulla base di un Protocollo d’intesa con la Regione Emilia Romagna che finanzia il progetto. I gestori dell’ app “<strong>Ferrara    Play&amp;Go</strong>” e del sito relativo a “<strong>Play&amp;Go    Aziende</strong>”, rese disponibili per il progetto, è la Fondazione Bruno Kessler di Trento. L’iniziativa <strong>Bike2Work-Ferrara</strong> e’ inserita nelle attività del progetto<strong> UIA    Air-Break.</strong></p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p>",
-        "privacyUrl":"<p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al proprio Datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p>",
-        "registrationUrl": "Url For registration",
-        "territoryId":"territoryIdSchoolCampaign",
-        "validationData": "validation data",
-        "webPageUrl": "webPage",
-        "application":"ApplicazioneSchoolCampaign",
-        "means":[
-          "bike"
-        ],
-        "limits":[
-          {
-            "span":"day",
-            "mean":"bike",
-            "value":20000.0
-          },
-          {
-            "span":"month",
-            "mean":"bike",
-            "value":250000.0
-          }
-        ],
-        "lastNotification": "Ultima notifica gioco campagna",
-
-        "totalKm": "120",
-        "totalKmPerWeek": "12",
-        "totalGreenLevesPerWeek": "110",
-        "schoolName": "IV B - ISTITUTO SUPERIORE PINELLI",
-        "classificationPosition": "13",
-        "classLeavesGained": "780"
-      },
-      {
-        "active":true,
-        "type":"company",
-        "campaignId":"CompanyCampaignId",
-        "communication":"this is a communication /maybe its the lastNotification",
-        "dateFrom":"2020-11-01",
-        "dateTo":"2022-04-23",
-        "description":"Descrizione di una campagna compagnia. In the world you will have tribulation. But take heart; I have overcome the world.",
-        "gameId": "gameId company",
-        "logoUrl":"https://i.imgur.com/almP0Fg.jpg",
-        "name":"Company Campaign",
-        "organization": "Organization name",
-        "rulesUrl":"<p><img style=\"width: 200px; margin: auto; display: block;\" src=\"https://i.imgur.com/FfY4aPW.jpg\"></p><p><br></p><p><strong>Benvenuto nel progetto Bike2Work-Ferrara attraverso l’app <em>Ferrara Play&amp;Go</em>&nbsp;</strong></p><p>&nbsp;</p><p>Partecipare è semplice: traccia i tuoi spostamenti in bici sul tragitto casa-lavoro con l’app gratuita <strong>Ferrara    Play&amp;Go </strong>per guadagnare incentivi. Contribuirai inoltre a rendere la tua città più sostenibile e smart!</p><p>&nbsp;</p><p><strong>IMPIANTO GENERALE</strong></p><p>L’iniziativa durerà fino al <strong>31 Agosto 2021</strong>. Ogni Partecipante che utilizza l’app <strong>Ferrara    Play&amp;Go</strong> durante gli spostamenti casa-lavoro ha la possibilità di accumulare <strong>kilometri</strong> che riconoscono l’utilizzo di soluzioni di mobilità sostenibile (bicicletta tradizionale o a pedalata assistita).</p><p>In base ai km accumulati i Partecipanti potranno guadagnare incentivi pari a 0,20 €/km percorso per un massimo di € 50 al mese.</p><p>&nbsp;</p><p><strong>FUNZIONAMENTO DELL’INIZIATIVA</strong></p><p><br></p><p>Il Partecipante deve registrarsi all’iniziativa, attraverso il sito di <strong>Play&amp;Go    Aziende, </strong>raggiungibile all’indirizzo <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a> , oppure tramite l’app <strong>Ferrara Play&amp;Go </strong>utilizzando l’apposito menu’ “<strong>Campagne di Mobilitá”</strong>. Una volta registrato, il Partecipante può iniziare ad accumulare km usando la <em><span style=\"font-weight: 400;\">funzionalità di tracciamento di un viaggio </span></em>tramite l’app <strong>Ferrara Play&amp;Go. </strong>&nbsp;La funzionalità di tracciamento del viaggio viene utilizzata esclusivamente ai fini del progetto per la validazione della scelta di viaggio compiuta dal partecipante. In questo senso, <strong>è    essenziale </strong>che il Partecipante, per procedere, abbia attivato la <strong>funzione di    geo-localizzazione </strong>sul suo dispositivo mobile.</p><p>&nbsp;</p><p>Il tracciamento dei viaggi avviene nel seguente modo:</p><p><br></p><p>&nbsp;</p><p><br></p><p>Con ogni itinerario effettuato, il Partecipante può guadagnare km. Le modalità di acquisizione dei km sono le seguenti:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p><strong>Controllo validità dei viaggi e penalità:&nbsp;</strong></p><p>Ogni viaggio tracciato viene memorizzato nell’app Ferrara Play&amp;Go, a valle di una validazione    automatica di identificazione del mezzo utilizzato (mode detection). Per rendere il viaggio valido ai fini della campagna Bike2Work,    le informazioni rilevate durante il tracciamento di ogni viaggio vengono utilizzate, da un sistema automatico, per la validazione e l’assegnazione dei Km effettuati, utilizzando i seguenti criteri:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p>Ogni Partecipante può consultare i viaggi validi e i Km accumulati per la campagna Bike2Work tramite il sito web di <strong>Play&amp;Go    Aziende</strong> raggiungibile al seguente indirizzo: <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a></p><p>&nbsp;</p><p>Durante tutta l’iniziativa potranno essere effettuati ulteriori controlli a campione per verificare la correttezza delle informazioni rilevate e delle modalità di spostamento utilizzate. In caso di evidenti violazioni delle regole e di registrazione di viaggi non effettivamente effettuati da parte del partecipante, gli organizzatori, a proprio insindacabile diritto, si riservano di revocare km al partecipante. In caso di reiterazione di comportamenti scorretti gli Organizzatori si riservano il diritto di escludere il partecipante dall’iniziativa.</p><p><br></p><p><br></p><p>Il Partecipante può cancellarsi dalla campagna <strong>Bike2Work-Ferrara </strong>utilizzando l’apposita voce nel menu “Abbandona Campagna” dal sito di <strong>Play&amp;Go    Aziende</strong>. Una volta confermata la cancellazione dalla campagna Il Partecipante non potrà più accumulare i Km in bici e riceverà dalla propria azienda soltanto gli incentivi maturati nel periodo di partecipazione.</p><p>&nbsp;</p><p><strong>RISULTATI E INCENTIVI</strong></p><p>Al termine del periodo dell’iniziativa ogni dipendente che ha partecipato riceverà in busta paga l’accredito degli incentivi maturati in base ai km percorsi.    Nel caso i contributi da erogare siano superiori alla somma a disposizione del Comune di Ferrara e stanziata dalla Regione Emilia Romagna, si provvederà alla riduzione proporzionale degli stessi contributi sulla base dei Km percorsi fino a riportare il totale entro il limite della somma disponibile.&nbsp;</p><p>&nbsp;</p><p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p><p><strong>ORGANIZZATORI</strong></p><p>Gli enti organizzatori del progetto “Bike2Work-Ferrara” sono il Comune di Ferrara sulla base di un Protocollo d’intesa con la Regione Emilia Romagna che finanzia il progetto. I gestori dell’ app “<strong>Ferrara    Play&amp;Go</strong>” e del sito relativo a “<strong>Play&amp;Go    Aziende</strong>”, rese disponibili per il progetto, è la Fondazione Bruno Kessler di Trento. L’iniziativa <strong>Bike2Work-Ferrara</strong> e’ inserita nelle attività del progetto<strong> UIA    Air-Break.</strong></p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p>",
-        "privacyUrl":"<p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al proprio Datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p>",
-        "registrationUrl": "Url For registration",
-        "territoryId":"territoryIdCompanyCampaign",
-        "validationData": "validation data",
-        "webPageUrl": "webPage",
-        "application":"ApplicazioneCompanyCampaign",
-        "means":[
-          "bike"
-        ],
-        "limits":[
-          {
-            "span":"day",
-            "mean":"bike",
-            "value":20000.0
-          },
-          {
-            "span":"month",
-            "mean":"bike",
-            "value":250000.0
-          }
-        ],
-        "lastNotification": "Ultima notifica gioco campagna",
-
-        "percentage":"35%",
-        "totalKm": "120",
-        "totalKmPerWeek": "12",
-        "kmPerDay":"3.5",
-        "maxKmPerDay":"10",
-        "companyDetails":{
-          "name":"Ariston SPA",
-          "address":"Sede di Ferrara, VIa del Bacino 18",
-          "round":"3",
-          "adhesionCode":"ASDFFF45"
+  "content": [
+    {
+      "active": true,
+      "type": "personal",
+      "campaignId": "PersonalCampaingID",
+      "communication": "this is a communication /maybe its the lastNotification",
+      "dateFrom": "2020-11-01",
+      "dateTo": "2022-04-23",
+      "description": "Descrizione di una campagna personale. In the world you will have tribulation. But take heart; I have overcome the world.",
+      "gameId": "gameId personal",
+      "logoUrl": "https://i.imgur.com/almP0Fg.jpg",
+      "name": "Personal Campaign",
+      "organization": "Organization name",
+      "rulesUrl": "<p><img style=\"width: 200px; margin: auto; display: block;\" src=\"https://i.imgur.com/FfY4aPW.jpg\"></p><p><br></p><p><strong>Benvenuto nel progetto Bike2Work-Ferrara attraverso l’app <em>Ferrara Play&amp;Go</em>&nbsp;</strong></p><p>&nbsp;</p><p>Partecipare è semplice: traccia i tuoi spostamenti in bici sul tragitto casa-lavoro con l’app gratuita <strong>Ferrara    Play&amp;Go </strong>per guadagnare incentivi. Contribuirai inoltre a rendere la tua città più sostenibile e smart!</p><p>&nbsp;</p><p><strong>IMPIANTO GENERALE</strong></p><p>L’iniziativa durerà fino al <strong>31 Agosto 2021</strong>. Ogni Partecipante che utilizza l’app <strong>Ferrara    Play&amp;Go</strong> durante gli spostamenti casa-lavoro ha la possibilità di accumulare <strong>kilometri</strong> che riconoscono l’utilizzo di soluzioni di mobilità sostenibile (bicicletta tradizionale o a pedalata assistita).</p><p>In base ai km accumulati i Partecipanti potranno guadagnare incentivi pari a 0,20 €/km percorso per un massimo di € 50 al mese.</p><p>&nbsp;</p><p><strong>FUNZIONAMENTO DELL’INIZIATIVA</strong></p><p><br></p><p>Il Partecipante deve registrarsi all’iniziativa, attraverso il sito di <strong>Play&amp;Go    Aziende, </strong>raggiungibile all’indirizzo <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a> , oppure tramite l’app <strong>Ferrara Play&amp;Go </strong>utilizzando l’apposito menu’ “<strong>Campagne di Mobilitá”</strong>. Una volta registrato, il Partecipante può iniziare ad accumulare km usando la <em><span style=\"font-weight: 400;\">funzionalità di tracciamento di un viaggio </span></em>tramite l’app <strong>Ferrara Play&amp;Go. </strong>&nbsp;La funzionalità di tracciamento del viaggio viene utilizzata esclusivamente ai fini del progetto per la validazione della scelta di viaggio compiuta dal partecipante. In questo senso, <strong>è    essenziale </strong>che il Partecipante, per procedere, abbia attivato la <strong>funzione di    geo-localizzazione </strong>sul suo dispositivo mobile.</p><p>&nbsp;</p><p>Il tracciamento dei viaggi avviene nel seguente modo:</p><p><br></p><p>&nbsp;</p><p><br></p><p>Con ogni itinerario effettuato, il Partecipante può guadagnare km. Le modalità di acquisizione dei km sono le seguenti:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p><strong>Controllo validità dei viaggi e penalità:&nbsp;</strong></p><p>Ogni viaggio tracciato viene memorizzato nell’app Ferrara Play&amp;Go, a valle di una validazione    automatica di identificazione del mezzo utilizzato (mode detection). Per rendere il viaggio valido ai fini della campagna Bike2Work,    le informazioni rilevate durante il tracciamento di ogni viaggio vengono utilizzate, da un sistema automatico, per la validazione e l’assegnazione dei Km effettuati, utilizzando i seguenti criteri:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p>Ogni Partecipante può consultare i viaggi validi e i Km accumulati per la campagna Bike2Work tramite il sito web di <strong>Play&amp;Go    Aziende</strong> raggiungibile al seguente indirizzo: <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a></p><p>&nbsp;</p><p>Durante tutta l’iniziativa potranno essere effettuati ulteriori controlli a campione per verificare la correttezza delle informazioni rilevate e delle modalità di spostamento utilizzate. In caso di evidenti violazioni delle regole e di registrazione di viaggi non effettivamente effettuati da parte del partecipante, gli organizzatori, a proprio insindacabile diritto, si riservano di revocare km al partecipante. In caso di reiterazione di comportamenti scorretti gli Organizzatori si riservano il diritto di escludere il partecipante dall’iniziativa.</p><p><br></p><p><br></p><p>Il Partecipante può cancellarsi dalla campagna <strong>Bike2Work-Ferrara </strong>utilizzando l’apposita voce nel menu “Abbandona Campagna” dal sito di <strong>Play&amp;Go    Aziende</strong>. Una volta confermata la cancellazione dalla campagna Il Partecipante non potrà più accumulare i Km in bici e riceverà dalla propria azienda soltanto gli incentivi maturati nel periodo di partecipazione.</p><p>&nbsp;</p><p><strong>RISULTATI E INCENTIVI</strong></p><p>Al termine del periodo dell’iniziativa ogni dipendente che ha partecipato riceverà in busta paga l’accredito degli incentivi maturati in base ai km percorsi.    Nel caso i contributi da erogare siano superiori alla somma a disposizione del Comune di Ferrara e stanziata dalla Regione Emilia Romagna, si provvederà alla riduzione proporzionale degli stessi contributi sulla base dei Km percorsi fino a riportare il totale entro il limite della somma disponibile.&nbsp;</p><p>&nbsp;</p><p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p><p><strong>ORGANIZZATORI</strong></p><p>Gli enti organizzatori del progetto “Bike2Work-Ferrara” sono il Comune di Ferrara sulla base di un Protocollo d’intesa con la Regione Emilia Romagna che finanzia il progetto. I gestori dell’ app “<strong>Ferrara    Play&amp;Go</strong>” e del sito relativo a “<strong>Play&amp;Go    Aziende</strong>”, rese disponibili per il progetto, è la Fondazione Bruno Kessler di Trento. L’iniziativa <strong>Bike2Work-Ferrara</strong> e’ inserita nelle attività del progetto<strong> UIA    Air-Break.</strong></p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p>",
+      "privacyUrl": "<p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al proprio Datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p>",
+      "registrationUrl": "Url For registration",
+      "territoryId": "territoryIdPersonalCampaign",
+      "validationData": "validation data",
+      "webPageUrl": "webPage",
+      "application": "ApplicazionePersonalCampaign",
+      "means": ["bike"],
+      "limits": [
+        {
+          "span": "day",
+          "mean": "bike",
+          "value": 20000.0
+        },
+        {
+          "span": "month",
+          "mean": "bike",
+          "value": 250000.0
         }
-     },
-     {
-       "active":true,
-       "type":"territory",
-       "campaignId":"territoryCampaignId",
-       "communication":"this is a communication /maybe its the lastNotification",
-       "dateFrom":"2020-11-01",
-       "dateTo":"2022-04-23",
-       "description":"Descrizione di una campagna compagnia. In the world you will have tribulation. But take heart; I have overcome the world.",
-       "gameId": "gameId territory",
-       "logoUrl":"https://i.imgur.com/almP0Fg.jpg",
-       "name":"Territory Campaign",
-       "organization": "Organization name",
-       "rulesUrl":"<p><img style=\"width: 200px; margin: auto; display: block;\" src=\"https://i.imgur.com/FfY4aPW.jpg\"></p><p><br></p><p><strong>Benvenuto nel progetto Bike2Work-Ferrara attraverso l’app <em>Ferrara Play&amp;Go</em>&nbsp;</strong></p><p>&nbsp;</p><p>Partecipare è semplice: traccia i tuoi spostamenti in bici sul tragitto casa-lavoro con l’app gratuita <strong>Ferrara    Play&amp;Go </strong>per guadagnare incentivi. Contribuirai inoltre a rendere la tua città più sostenibile e smart!</p><p>&nbsp;</p><p><strong>IMPIANTO GENERALE</strong></p><p>L’iniziativa durerà fino al <strong>31 Agosto 2021</strong>. Ogni Partecipante che utilizza l’app <strong>Ferrara    Play&amp;Go</strong> durante gli spostamenti casa-lavoro ha la possibilità di accumulare <strong>kilometri</strong> che riconoscono l’utilizzo di soluzioni di mobilità sostenibile (bicicletta tradizionale o a pedalata assistita).</p><p>In base ai km accumulati i Partecipanti potranno guadagnare incentivi pari a 0,20 €/km percorso per un massimo di € 50 al mese.</p><p>&nbsp;</p><p><strong>FUNZIONAMENTO DELL’INIZIATIVA</strong></p><p><br></p><p>Il Partecipante deve registrarsi all’iniziativa, attraverso il sito di <strong>Play&amp;Go    Aziende, </strong>raggiungibile all’indirizzo <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a> , oppure tramite l’app <strong>Ferrara Play&amp;Go </strong>utilizzando l’apposito menu’ “<strong>Campagne di Mobilitá”</strong>. Una volta registrato, il Partecipante può iniziare ad accumulare km usando la <em><span style=\"font-weight: 400;\">funzionalità di tracciamento di un viaggio </span></em>tramite l’app <strong>Ferrara Play&amp;Go. </strong>&nbsp;La funzionalità di tracciamento del viaggio viene utilizzata esclusivamente ai fini del progetto per la validazione della scelta di viaggio compiuta dal partecipante. In questo senso, <strong>è    essenziale </strong>che il Partecipante, per procedere, abbia attivato la <strong>funzione di    geo-localizzazione </strong>sul suo dispositivo mobile.</p><p>&nbsp;</p><p>Il tracciamento dei viaggi avviene nel seguente modo:</p><p><br></p><p>&nbsp;</p><p><br></p><p>Con ogni itinerario effettuato, il Partecipante può guadagnare km. Le modalità di acquisizione dei km sono le seguenti:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p><strong>Controllo validità dei viaggi e penalità:&nbsp;</strong></p><p>Ogni viaggio tracciato viene memorizzato nell’app Ferrara Play&amp;Go, a valle di una validazione    automatica di identificazione del mezzo utilizzato (mode detection). Per rendere il viaggio valido ai fini della campagna Bike2Work,    le informazioni rilevate durante il tracciamento di ogni viaggio vengono utilizzate, da un sistema automatico, per la validazione e l’assegnazione dei Km effettuati, utilizzando i seguenti criteri:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p>Ogni Partecipante può consultare i viaggi validi e i Km accumulati per la campagna Bike2Work tramite il sito web di <strong>Play&amp;Go    Aziende</strong> raggiungibile al seguente indirizzo: <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a></p><p>&nbsp;</p><p>Durante tutta l’iniziativa potranno essere effettuati ulteriori controlli a campione per verificare la correttezza delle informazioni rilevate e delle modalità di spostamento utilizzate. In caso di evidenti violazioni delle regole e di registrazione di viaggi non effettivamente effettuati da parte del partecipante, gli organizzatori, a proprio insindacabile diritto, si riservano di revocare km al partecipante. In caso di reiterazione di comportamenti scorretti gli Organizzatori si riservano il diritto di escludere il partecipante dall’iniziativa.</p><p><br></p><p><br></p><p>Il Partecipante può cancellarsi dalla campagna <strong>Bike2Work-Ferrara </strong>utilizzando l’apposita voce nel menu “Abbandona Campagna” dal sito di <strong>Play&amp;Go    Aziende</strong>. Una volta confermata la cancellazione dalla campagna Il Partecipante non potrà più accumulare i Km in bici e riceverà dalla propria azienda soltanto gli incentivi maturati nel periodo di partecipazione.</p><p>&nbsp;</p><p><strong>RISULTATI E INCENTIVI</strong></p><p>Al termine del periodo dell’iniziativa ogni dipendente che ha partecipato riceverà in busta paga l’accredito degli incentivi maturati in base ai km percorsi.    Nel caso i contributi da erogare siano superiori alla somma a disposizione del Comune di Ferrara e stanziata dalla Regione Emilia Romagna, si provvederà alla riduzione proporzionale degli stessi contributi sulla base dei Km percorsi fino a riportare il totale entro il limite della somma disponibile.&nbsp;</p><p>&nbsp;</p><p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p><p><strong>ORGANIZZATORI</strong></p><p>Gli enti organizzatori del progetto “Bike2Work-Ferrara” sono il Comune di Ferrara sulla base di un Protocollo d’intesa con la Regione Emilia Romagna che finanzia il progetto. I gestori dell’ app “<strong>Ferrara    Play&amp;Go</strong>” e del sito relativo a “<strong>Play&amp;Go    Aziende</strong>”, rese disponibili per il progetto, è la Fondazione Bruno Kessler di Trento. L’iniziativa <strong>Bike2Work-Ferrara</strong> e’ inserita nelle attività del progetto<strong> UIA    Air-Break.</strong></p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p>",
-       "privacyUrl":"<p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al proprio Datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p>",
-       "registrationUrl": "Url For registration",
-       "territoryId":"territoryIdTerritoryCampaign",
-       "validationData": "validation data",
-       "webPageUrl": "webPage",
-       "application":"ApplicazioneTerritoryCampaign",
-       "means":[
-         "bike"
-       ],
-       "limits":[
-         {
-           "span":"day",
-           "mean":"bike",
-           "value":20000.0
-         },
-         {
-           "span":"month",
-           "mean":"bike",
-           "value":250000.0
-         }
-       ],
-       "lastNotification": "Ultima notifica gioco campagna",
+      ],
+      "lastNotification": "Ultima notifica gioco campagna",
 
-       "totalGreenLeves": "560",
-       "totalGreenLevesPerWeek": "34",
-       "greenLeaveLeftForNextLevel": "189",
-       "level": "12",
-       "percentage":"50%",
-       "challenges":[{
-         "index":"1",
-         "progress":"Progresso sfida",
-         "description":"Descirizone sfida"
-       }],
-       "tierList":{
-         "general":"690",
-         "weekly": "11"
-       }
+      "totalGreenLeves": "560",
+      "greenLeaveLeftForNextLevel": "189",
+      "level": "12",
+      "percentage": "50%",
+      "challenges": [
+        {
+          "index": "1",
+          "progress": "Progresso sfida",
+          "description": "Descirizone sfida"
+        }
+      ]
+    },
+    {
+      "active": true,
+      "type": "school",
+      "campaignId": "SchoolCampaignId",
+      "communication": "this is a communication /maybe its the lastNotification",
+      "dateFrom": "2020-11-01",
+      "dateTo": "2022-04-23",
+      "description": "Descrizione di una campagna scuola. In the world you will have tribulation. But take heart; I have overcome the world.",
+      "gameId": "gameId scuola",
+      "logoUrl": "https://i.imgur.com/almP0Fg.jpg",
+      "name": "School Campaign",
+      "organization": "Organization name",
+      "rulesUrl": "<p><img style=\"width: 200px; margin: auto; display: block;\" src=\"https://i.imgur.com/FfY4aPW.jpg\"></p><p><br></p><p><strong>Benvenuto nel progetto Bike2Work-Ferrara attraverso l’app <em>Ferrara Play&amp;Go</em>&nbsp;</strong></p><p>&nbsp;</p><p>Partecipare è semplice: traccia i tuoi spostamenti in bici sul tragitto casa-lavoro con l’app gratuita <strong>Ferrara    Play&amp;Go </strong>per guadagnare incentivi. Contribuirai inoltre a rendere la tua città più sostenibile e smart!</p><p>&nbsp;</p><p><strong>IMPIANTO GENERALE</strong></p><p>L’iniziativa durerà fino al <strong>31 Agosto 2021</strong>. Ogni Partecipante che utilizza l’app <strong>Ferrara    Play&amp;Go</strong> durante gli spostamenti casa-lavoro ha la possibilità di accumulare <strong>kilometri</strong> che riconoscono l’utilizzo di soluzioni di mobilità sostenibile (bicicletta tradizionale o a pedalata assistita).</p><p>In base ai km accumulati i Partecipanti potranno guadagnare incentivi pari a 0,20 €/km percorso per un massimo di € 50 al mese.</p><p>&nbsp;</p><p><strong>FUNZIONAMENTO DELL’INIZIATIVA</strong></p><p><br></p><p>Il Partecipante deve registrarsi all’iniziativa, attraverso il sito di <strong>Play&amp;Go    Aziende, </strong>raggiungibile all’indirizzo <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a> , oppure tramite l’app <strong>Ferrara Play&amp;Go </strong>utilizzando l’apposito menu’ “<strong>Campagne di Mobilitá”</strong>. Una volta registrato, il Partecipante può iniziare ad accumulare km usando la <em><span style=\"font-weight: 400;\">funzionalità di tracciamento di un viaggio </span></em>tramite l’app <strong>Ferrara Play&amp;Go. </strong>&nbsp;La funzionalità di tracciamento del viaggio viene utilizzata esclusivamente ai fini del progetto per la validazione della scelta di viaggio compiuta dal partecipante. In questo senso, <strong>è    essenziale </strong>che il Partecipante, per procedere, abbia attivato la <strong>funzione di    geo-localizzazione </strong>sul suo dispositivo mobile.</p><p>&nbsp;</p><p>Il tracciamento dei viaggi avviene nel seguente modo:</p><p><br></p><p>&nbsp;</p><p><br></p><p>Con ogni itinerario effettuato, il Partecipante può guadagnare km. Le modalità di acquisizione dei km sono le seguenti:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p><strong>Controllo validità dei viaggi e penalità:&nbsp;</strong></p><p>Ogni viaggio tracciato viene memorizzato nell’app Ferrara Play&amp;Go, a valle di una validazione    automatica di identificazione del mezzo utilizzato (mode detection). Per rendere il viaggio valido ai fini della campagna Bike2Work,    le informazioni rilevate durante il tracciamento di ogni viaggio vengono utilizzate, da un sistema automatico, per la validazione e l’assegnazione dei Km effettuati, utilizzando i seguenti criteri:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p>Ogni Partecipante può consultare i viaggi validi e i Km accumulati per la campagna Bike2Work tramite il sito web di <strong>Play&amp;Go    Aziende</strong> raggiungibile al seguente indirizzo: <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a></p><p>&nbsp;</p><p>Durante tutta l’iniziativa potranno essere effettuati ulteriori controlli a campione per verificare la correttezza delle informazioni rilevate e delle modalità di spostamento utilizzate. In caso di evidenti violazioni delle regole e di registrazione di viaggi non effettivamente effettuati da parte del partecipante, gli organizzatori, a proprio insindacabile diritto, si riservano di revocare km al partecipante. In caso di reiterazione di comportamenti scorretti gli Organizzatori si riservano il diritto di escludere il partecipante dall’iniziativa.</p><p><br></p><p><br></p><p>Il Partecipante può cancellarsi dalla campagna <strong>Bike2Work-Ferrara </strong>utilizzando l’apposita voce nel menu “Abbandona Campagna” dal sito di <strong>Play&amp;Go    Aziende</strong>. Una volta confermata la cancellazione dalla campagna Il Partecipante non potrà più accumulare i Km in bici e riceverà dalla propria azienda soltanto gli incentivi maturati nel periodo di partecipazione.</p><p>&nbsp;</p><p><strong>RISULTATI E INCENTIVI</strong></p><p>Al termine del periodo dell’iniziativa ogni dipendente che ha partecipato riceverà in busta paga l’accredito degli incentivi maturati in base ai km percorsi.    Nel caso i contributi da erogare siano superiori alla somma a disposizione del Comune di Ferrara e stanziata dalla Regione Emilia Romagna, si provvederà alla riduzione proporzionale degli stessi contributi sulla base dei Km percorsi fino a riportare il totale entro il limite della somma disponibile.&nbsp;</p><p>&nbsp;</p><p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p><p><strong>ORGANIZZATORI</strong></p><p>Gli enti organizzatori del progetto “Bike2Work-Ferrara” sono il Comune di Ferrara sulla base di un Protocollo d’intesa con la Regione Emilia Romagna che finanzia il progetto. I gestori dell’ app “<strong>Ferrara    Play&amp;Go</strong>” e del sito relativo a “<strong>Play&amp;Go    Aziende</strong>”, rese disponibili per il progetto, è la Fondazione Bruno Kessler di Trento. L’iniziativa <strong>Bike2Work-Ferrara</strong> e’ inserita nelle attività del progetto<strong> UIA    Air-Break.</strong></p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p>",
+      "privacyUrl": "<p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al proprio Datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p>",
+      "registrationUrl": "Url For registration",
+      "territoryId": "territoryIdSchoolCampaign",
+      "validationData": "validation data",
+      "webPageUrl": "webPage",
+      "application": "ApplicazioneSchoolCampaign",
+      "means": ["bike"],
+      "limits": [
+        {
+          "span": "day",
+          "mean": "bike",
+          "value": 20000.0
+        },
+        {
+          "span": "month",
+          "mean": "bike",
+          "value": 250000.0
+        }
+      ],
+      "lastNotification": "Ultima notifica gioco campagna",
+
+      "totalKm": "120",
+      "totalKmPerWeek": "12",
+      "totalGreenLevesPerWeek": "110",
+      "schoolName": "IV B - ISTITUTO SUPERIORE PINELLI",
+      "classificationPosition": "13",
+      "classLeavesGained": "780"
+    },
+    {
+      "active": true,
+      "type": "company",
+      "campaignId": "CompanyCampaignId",
+      "communication": "this is a communication /maybe its the lastNotification",
+      "dateFrom": "2020-11-01",
+      "dateTo": "2022-04-23",
+      "description": "Descrizione di una campagna compagnia. In the world you will have tribulation. But take heart; I have overcome the world.",
+      "gameId": "gameId company",
+      "logoUrl": "https://i.imgur.com/almP0Fg.jpg",
+      "name": "Company Campaign",
+      "organization": "Organization name",
+      "rulesUrl": "<p><img style=\"width: 200px; margin: auto; display: block;\" src=\"https://i.imgur.com/FfY4aPW.jpg\"></p><p><br></p><p><strong>Benvenuto nel progetto Bike2Work-Ferrara attraverso l’app <em>Ferrara Play&amp;Go</em>&nbsp;</strong></p><p>&nbsp;</p><p>Partecipare è semplice: traccia i tuoi spostamenti in bici sul tragitto casa-lavoro con l’app gratuita <strong>Ferrara    Play&amp;Go </strong>per guadagnare incentivi. Contribuirai inoltre a rendere la tua città più sostenibile e smart!</p><p>&nbsp;</p><p><strong>IMPIANTO GENERALE</strong></p><p>L’iniziativa durerà fino al <strong>31 Agosto 2021</strong>. Ogni Partecipante che utilizza l’app <strong>Ferrara    Play&amp;Go</strong> durante gli spostamenti casa-lavoro ha la possibilità di accumulare <strong>kilometri</strong> che riconoscono l’utilizzo di soluzioni di mobilità sostenibile (bicicletta tradizionale o a pedalata assistita).</p><p>In base ai km accumulati i Partecipanti potranno guadagnare incentivi pari a 0,20 €/km percorso per un massimo di € 50 al mese.</p><p>&nbsp;</p><p><strong>FUNZIONAMENTO DELL’INIZIATIVA</strong></p><p><br></p><p>Il Partecipante deve registrarsi all’iniziativa, attraverso il sito di <strong>Play&amp;Go    Aziende, </strong>raggiungibile all’indirizzo <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a> , oppure tramite l’app <strong>Ferrara Play&amp;Go </strong>utilizzando l’apposito menu’ “<strong>Campagne di Mobilitá”</strong>. Una volta registrato, il Partecipante può iniziare ad accumulare km usando la <em><span style=\"font-weight: 400;\">funzionalità di tracciamento di un viaggio </span></em>tramite l’app <strong>Ferrara Play&amp;Go. </strong>&nbsp;La funzionalità di tracciamento del viaggio viene utilizzata esclusivamente ai fini del progetto per la validazione della scelta di viaggio compiuta dal partecipante. In questo senso, <strong>è    essenziale </strong>che il Partecipante, per procedere, abbia attivato la <strong>funzione di    geo-localizzazione </strong>sul suo dispositivo mobile.</p><p>&nbsp;</p><p>Il tracciamento dei viaggi avviene nel seguente modo:</p><p><br></p><p>&nbsp;</p><p><br></p><p>Con ogni itinerario effettuato, il Partecipante può guadagnare km. Le modalità di acquisizione dei km sono le seguenti:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p><strong>Controllo validità dei viaggi e penalità:&nbsp;</strong></p><p>Ogni viaggio tracciato viene memorizzato nell’app Ferrara Play&amp;Go, a valle di una validazione    automatica di identificazione del mezzo utilizzato (mode detection). Per rendere il viaggio valido ai fini della campagna Bike2Work,    le informazioni rilevate durante il tracciamento di ogni viaggio vengono utilizzate, da un sistema automatico, per la validazione e l’assegnazione dei Km effettuati, utilizzando i seguenti criteri:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p>Ogni Partecipante può consultare i viaggi validi e i Km accumulati per la campagna Bike2Work tramite il sito web di <strong>Play&amp;Go    Aziende</strong> raggiungibile al seguente indirizzo: <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a></p><p>&nbsp;</p><p>Durante tutta l’iniziativa potranno essere effettuati ulteriori controlli a campione per verificare la correttezza delle informazioni rilevate e delle modalità di spostamento utilizzate. In caso di evidenti violazioni delle regole e di registrazione di viaggi non effettivamente effettuati da parte del partecipante, gli organizzatori, a proprio insindacabile diritto, si riservano di revocare km al partecipante. In caso di reiterazione di comportamenti scorretti gli Organizzatori si riservano il diritto di escludere il partecipante dall’iniziativa.</p><p><br></p><p><br></p><p>Il Partecipante può cancellarsi dalla campagna <strong>Bike2Work-Ferrara </strong>utilizzando l’apposita voce nel menu “Abbandona Campagna” dal sito di <strong>Play&amp;Go    Aziende</strong>. Una volta confermata la cancellazione dalla campagna Il Partecipante non potrà più accumulare i Km in bici e riceverà dalla propria azienda soltanto gli incentivi maturati nel periodo di partecipazione.</p><p>&nbsp;</p><p><strong>RISULTATI E INCENTIVI</strong></p><p>Al termine del periodo dell’iniziativa ogni dipendente che ha partecipato riceverà in busta paga l’accredito degli incentivi maturati in base ai km percorsi.    Nel caso i contributi da erogare siano superiori alla somma a disposizione del Comune di Ferrara e stanziata dalla Regione Emilia Romagna, si provvederà alla riduzione proporzionale degli stessi contributi sulla base dei Km percorsi fino a riportare il totale entro il limite della somma disponibile.&nbsp;</p><p>&nbsp;</p><p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p><p><strong>ORGANIZZATORI</strong></p><p>Gli enti organizzatori del progetto “Bike2Work-Ferrara” sono il Comune di Ferrara sulla base di un Protocollo d’intesa con la Regione Emilia Romagna che finanzia il progetto. I gestori dell’ app “<strong>Ferrara    Play&amp;Go</strong>” e del sito relativo a “<strong>Play&amp;Go    Aziende</strong>”, rese disponibili per il progetto, è la Fondazione Bruno Kessler di Trento. L’iniziativa <strong>Bike2Work-Ferrara</strong> e’ inserita nelle attività del progetto<strong> UIA    Air-Break.</strong></p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p>",
+      "privacyUrl": "<p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al proprio Datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p>",
+      "registrationUrl": "Url For registration",
+      "territoryId": "territoryIdCompanyCampaign",
+      "validationData": "validation data",
+      "webPageUrl": "webPage",
+      "application": "ApplicazioneCompanyCampaign",
+      "means": ["bike"],
+      "limits": [
+        {
+          "span": "day",
+          "mean": "bike",
+          "value": 20000.0
+        },
+        {
+          "span": "month",
+          "mean": "bike",
+          "value": 250000.0
+        }
+      ],
+      "lastNotification": "Ultima notifica gioco campagna",
+
+      "percentage": "35%",
+      "totalKm": "120",
+      "totalKmPerWeek": "12",
+      "kmPerDay": "3.5",
+      "maxKmPerDay": "10",
+      "companyDetails": {
+        "name": "Ariston SPA",
+        "address": "Sede di Ferrara, VIa del Bacino 18",
+        "round": "3",
+        "adhesionCode": "ASDFFF45"
+      }
+    },
+    {
+      "active": true,
+      "type": "territory",
+      "campaignId": "territoryCampaignId",
+      "communication": "this is a communication /maybe its the lastNotification",
+      "dateFrom": "2020-11-01",
+      "dateTo": "2022-04-23",
+      "description": "Descrizione di una campagna compagnia. In the world you will have tribulation. But take heart; I have overcome the world.",
+      "gameId": "gameId territory",
+      "logoUrl": "https://i.imgur.com/almP0Fg.jpg",
+      "name": "Territory Campaign",
+      "organization": "Organization name",
+      "rulesUrl": "<p><img style=\"width: 200px; margin: auto; display: block;\" src=\"https://i.imgur.com/FfY4aPW.jpg\"></p><p><br></p><p><strong>Benvenuto nel progetto Bike2Work-Ferrara attraverso l’app <em>Ferrara Play&amp;Go</em>&nbsp;</strong></p><p>&nbsp;</p><p>Partecipare è semplice: traccia i tuoi spostamenti in bici sul tragitto casa-lavoro con l’app gratuita <strong>Ferrara    Play&amp;Go </strong>per guadagnare incentivi. Contribuirai inoltre a rendere la tua città più sostenibile e smart!</p><p>&nbsp;</p><p><strong>IMPIANTO GENERALE</strong></p><p>L’iniziativa durerà fino al <strong>31 Agosto 2021</strong>. Ogni Partecipante che utilizza l’app <strong>Ferrara    Play&amp;Go</strong> durante gli spostamenti casa-lavoro ha la possibilità di accumulare <strong>kilometri</strong> che riconoscono l’utilizzo di soluzioni di mobilità sostenibile (bicicletta tradizionale o a pedalata assistita).</p><p>In base ai km accumulati i Partecipanti potranno guadagnare incentivi pari a 0,20 €/km percorso per un massimo di € 50 al mese.</p><p>&nbsp;</p><p><strong>FUNZIONAMENTO DELL’INIZIATIVA</strong></p><p><br></p><p>Il Partecipante deve registrarsi all’iniziativa, attraverso il sito di <strong>Play&amp;Go    Aziende, </strong>raggiungibile all’indirizzo <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a> , oppure tramite l’app <strong>Ferrara Play&amp;Go </strong>utilizzando l’apposito menu’ “<strong>Campagne di Mobilitá”</strong>. Una volta registrato, il Partecipante può iniziare ad accumulare km usando la <em><span style=\"font-weight: 400;\">funzionalità di tracciamento di un viaggio </span></em>tramite l’app <strong>Ferrara Play&amp;Go. </strong>&nbsp;La funzionalità di tracciamento del viaggio viene utilizzata esclusivamente ai fini del progetto per la validazione della scelta di viaggio compiuta dal partecipante. In questo senso, <strong>è    essenziale </strong>che il Partecipante, per procedere, abbia attivato la <strong>funzione di    geo-localizzazione </strong>sul suo dispositivo mobile.</p><p>&nbsp;</p><p>Il tracciamento dei viaggi avviene nel seguente modo:</p><p><br></p><p>&nbsp;</p><p><br></p><p>Con ogni itinerario effettuato, il Partecipante può guadagnare km. Le modalità di acquisizione dei km sono le seguenti:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p><strong>Controllo validità dei viaggi e penalità:&nbsp;</strong></p><p>Ogni viaggio tracciato viene memorizzato nell’app Ferrara Play&amp;Go, a valle di una validazione    automatica di identificazione del mezzo utilizzato (mode detection). Per rendere il viaggio valido ai fini della campagna Bike2Work,    le informazioni rilevate durante il tracciamento di ogni viaggio vengono utilizzate, da un sistema automatico, per la validazione e l’assegnazione dei Km effettuati, utilizzando i seguenti criteri:</p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p>Ogni Partecipante può consultare i viaggi validi e i Km accumulati per la campagna Bike2Work tramite il sito web di <strong>Play&amp;Go    Aziende</strong> raggiungibile al seguente indirizzo: <a href=\"https://aziende.playngo.it\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://aziende.playngo.i</span><span style=\"font-weight: 400;\">t</span></a></p><p>&nbsp;</p><p>Durante tutta l’iniziativa potranno essere effettuati ulteriori controlli a campione per verificare la correttezza delle informazioni rilevate e delle modalità di spostamento utilizzate. In caso di evidenti violazioni delle regole e di registrazione di viaggi non effettivamente effettuati da parte del partecipante, gli organizzatori, a proprio insindacabile diritto, si riservano di revocare km al partecipante. In caso di reiterazione di comportamenti scorretti gli Organizzatori si riservano il diritto di escludere il partecipante dall’iniziativa.</p><p><br></p><p><br></p><p>Il Partecipante può cancellarsi dalla campagna <strong>Bike2Work-Ferrara </strong>utilizzando l’apposita voce nel menu “Abbandona Campagna” dal sito di <strong>Play&amp;Go    Aziende</strong>. Una volta confermata la cancellazione dalla campagna Il Partecipante non potrà più accumulare i Km in bici e riceverà dalla propria azienda soltanto gli incentivi maturati nel periodo di partecipazione.</p><p>&nbsp;</p><p><strong>RISULTATI E INCENTIVI</strong></p><p>Al termine del periodo dell’iniziativa ogni dipendente che ha partecipato riceverà in busta paga l’accredito degli incentivi maturati in base ai km percorsi.    Nel caso i contributi da erogare siano superiori alla somma a disposizione del Comune di Ferrara e stanziata dalla Regione Emilia Romagna, si provvederà alla riduzione proporzionale degli stessi contributi sulla base dei Km percorsi fino a riportare il totale entro il limite della somma disponibile.&nbsp;</p><p>&nbsp;</p><p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p><p><strong>ORGANIZZATORI</strong></p><p>Gli enti organizzatori del progetto “Bike2Work-Ferrara” sono il Comune di Ferrara sulla base di un Protocollo d’intesa con la Regione Emilia Romagna che finanzia il progetto. I gestori dell’ app “<strong>Ferrara    Play&amp;Go</strong>” e del sito relativo a “<strong>Play&amp;Go    Aziende</strong>”, rese disponibili per il progetto, è la Fondazione Bruno Kessler di Trento. L’iniziativa <strong>Bike2Work-Ferrara</strong> e’ inserita nelle attività del progetto<strong> UIA    Air-Break.</strong></p><p>&nbsp;</p><p><br></p><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p>",
+      "privacyUrl": "<p><strong>TRATTAMENTO E PROTEZIONE DEI DATI PERSONALI</strong></p><p>Ai sensi dell’art.13 del Regolamento UE n. 2016/679 (GDPR), i dati di ogni Partecipante saranno trattati per la partecipazione al Gioco Ferrara Play&amp;Go tramite strumenti manuali, informatici e telematici idonei a garantire la sicurezza e la riservatezza dei dati stessi. Con il solo scopo di calcolare e assegnare gli incentivi legati all’iniziativa Bike2Work - Ferrara , i dati relativi agli spostamenti casa-lavoro di ogni Partecipante saranno comunicati mensilmente in forma aggregata al proprio Datore di lavoro. L’informativa Privacy completa è disponibile al seguente link <a href=\"https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.pdf\" style=\"color: #0000EE\"><span style=\"font-weight: 400;\">https://ferrara.smartcommunitylab.it/playandgo/pdf/privacy_2020.p</span><span style=\"font-weight: 400;\">df</span></a>.</p><p>È diritto di ogni Partecipante di ottenere l’accesso, la rettifica, la cancellazione, la limitazione del trattamento, l’opposizione al trattamento per motivi legittimi, la portabilità e la proposizione e reclamo all’Autorità di controllo dei dati personali ai sensi del Capo III del GDPR.</p><p>&nbsp;</p>",
+      "registrationUrl": "Url For registration",
+      "territoryId": "territoryIdTerritoryCampaign",
+      "validationData": "validation data",
+      "webPageUrl": "webPage",
+      "application": "ApplicazioneTerritoryCampaign",
+      "means": ["bike"],
+      "limits": [
+        {
+          "span": "day",
+          "mean": "bike",
+          "value": 20000.0
+        },
+        {
+          "span": "month",
+          "mean": "bike",
+          "value": 250000.0
+        }
+      ],
+      "lastNotification": "Ultima notifica gioco campagna",
+
+      "totalGreenLeves": "560",
+      "totalGreenLevesPerWeek": "34",
+      "greenLeaveLeftForNextLevel": "189",
+      "level": "12",
+      "percentage": "50%",
+      "challenges": [
+        {
+          "index": "1",
+          "progress": "Progresso sfida",
+          "description": "Descirizone sfida"
+        }
+      ],
+      "tierList": {
+        "general": "690",
+        "weekly": "11"
+      }
     }
-   ],
-   "pageable":{
-      "sort":{
-         "sorted":false,
-         "unsorted":true,
-         "empty":true
-      },
-      "pageNumber":0,
-      "pageSize":20,
-      "offset":0,
-      "paged":true,
-      "unpaged":false
-   },
-   "totalPages":1,
-   "totalElements":2,
-   "last":false,
-   "sort":{
-      "sorted":false,
-      "unsorted":true,
-      "empty":true
-   },
-   "number":0,
-   "numberOfElements":2,
-   "first":true,
-   "size":20,
-   "empty":false
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "pageNumber": 0,
+    "pageSize": 20,
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalPages": 1,
+  "totalElements": 2,
+  "last": false,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "number": 0,
+  "numberOfElements": 2,
+  "first": true,
+  "size": 20,
+  "empty": false
 }

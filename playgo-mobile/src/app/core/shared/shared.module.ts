@@ -29,4 +29,4 @@ import { TrackingModule } from './tracking/tracking.module';
     TrackingModule,
   ],
 })
-export class PlayGoSharedModule { }
+export class PlayGoSharedModule {}

@@ -6,13 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-tracking-widget.component.scss'],
 })
 export class HomeTrackingWidgetComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 
-  startTraking(mean: string){
-    console.log("start trasking for", mean);
+  startTraking(mean: string) {
+    console.log('start trasking for', mean);
   }
-
 }

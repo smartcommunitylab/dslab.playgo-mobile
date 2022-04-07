@@ -7,17 +7,13 @@ import { GeneralStatisticsComponent } from '../../core/shared/profile-components
 import { MyActivityComponent } from 'src/app/core/shared/profile-components/my-activity-component/my-activity.component';
 
 @NgModule({
-  imports: [
-    PlayGoSharedModule,
-    ProfilePageRoutingModule,
-  ],
+  imports: [PlayGoSharedModule, ProfilePageRoutingModule],
   declarations: [
     MessageComponent,
     GeneralStatisticsComponent,
     MyActivityComponent,
-    ProfilePage],
-  exports: [MessageComponent,
-    MyActivityComponent,
-    GeneralStatisticsComponent]
+    ProfilePage,
+  ],
+  exports: [MessageComponent, MyActivityComponent, GeneralStatisticsComponent],
 })
-export class ProfilePageModule { }
+export class ProfilePageModule {}

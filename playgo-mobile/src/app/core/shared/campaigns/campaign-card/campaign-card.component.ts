@@ -12,25 +12,24 @@ import { CampaignTerritory } from '../classes/campaign-territory';
   styleUrls: ['./campaign-card.component.scss'],
 })
 export class CampaignCardComponent implements OnInit {
-
   @Input() join = false;
   @Input() campaign: any; // CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  detailCampaign() {
+    this.router.navigateByUrl(
+      '/tabs/campaigns/details/' + this.campaign.campaignId
+    );
   }
 
-  detailCampaign(){
-    this.router.navigateByUrl('/tabs/campaigns/details/'+this.campaign.campaignId);
-  }
-
-  joinCamp(){
+  joinCamp() {
     console.log('joinCampaign');
   }
 
-  challenges(){
+  challenges() {
     console.log('challenges');
   }
-
 }

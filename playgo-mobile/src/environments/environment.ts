@@ -27,8 +27,8 @@ export const environment = {
     storageBucket: 'analyticsdemo-1ee4c.appspot.com',
     messagingSenderId: '638917288616',
     appId: '1:638917288616:web:2979eb96b7d6fd2772989d',
-    measurementId: 'G-M3H7W563GY'
-  }
+    measurementId: 'G-M3H7W563GY',
+  },
 };
 
 /*

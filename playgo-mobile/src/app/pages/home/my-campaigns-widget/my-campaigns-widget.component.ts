@@ -7,10 +7,8 @@ import { CampaignClass } from 'src/app/core/shared/campaigns/classes/campaign-cl
   styleUrls: ['./my-campaigns-widget.component.scss'],
 })
 export class MyCampaignsWidgetComponent implements OnInit {
-
   @Input() campaigns: CampaignClass[];
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
-
+  ngOnInit() {}
 }

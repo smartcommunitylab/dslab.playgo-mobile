@@ -9,14 +9,11 @@ import { CampaignSchool } from '../campaigns/classes/campaign-school';
 import { CampaignTerritory } from '../campaigns/classes/campaign-territory';
 import { ContentPagable } from '../campaigns/classes/content-pagable';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class CampaignServiceService {
-
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getMyCampaign(): Observable<any> {
     //let listt: Observable<CampaignClass[]>;
@@ -43,7 +40,13 @@ export class CampaignServiceService {
       .pipe(
         map((response) => {
           const obj: ContentPagable = JSON.parse(response);
-          const list: (CampaignClass | CampaignCompany | CampaignSchool | CampaignPersonal | CampaignTerritory)[] = [];
+          const list: (
+            | CampaignClass
+            | CampaignCompany
+            | CampaignSchool
+            | CampaignPersonal
+            | CampaignTerritory
+          )[] = [];
           for (const campaign of obj.content) {
             const type = campaign.type;
             if (type === 'personal') {
@@ -71,7 +74,6 @@ export class CampaignServiceService {
     return pagableObj;
   }
 
-
   getPageNumberForAllCampaign(pageNumber: number): Observable<ContentPagable> {
     // let pagableObj: Observable<ContentPagable>;
     const pagableObj = this.http
@@ -86,7 +88,15 @@ export class CampaignServiceService {
     return pagableObj;
   }
 
-  getCampaignDetailsById(id: string): Observable<CampaignClass | CampaignCompany | CampaignSchool | CampaignPersonal | CampaignTerritory> {
+  getCampaignDetailsById(
+    id: string
+  ): Observable<
+    | CampaignClass
+    | CampaignCompany
+    | CampaignSchool
+    | CampaignPersonal
+    | CampaignTerritory
+  > {
     //let pagableObj: Observable<CampaignClass>;
     const pagableObj = this.http
       .get('assets/data/data.json', { responseType: 'text' })
@@ -103,8 +113,4 @@ export class CampaignServiceService {
       );
     return pagableObj;
   }
-
-
-
-
 }

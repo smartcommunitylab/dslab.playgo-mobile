@@ -1,4 +1,3 @@
 export class GeneralStatisticClass {
-
-  content?:string;
+  content?: string;
 }

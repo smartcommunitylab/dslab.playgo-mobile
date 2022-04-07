@@ -11,8 +11,8 @@ import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
     PlayGoSharedModule,
     CampaignsRoutingModule,
     MyCampaignModule,
-    AllCampaignModule
+    AllCampaignModule,
   ],
-  declarations: [CampaignsPage]
+  declarations: [CampaignsPage],
 })
-export class CampaignsPageModule { }
+export class CampaignsPageModule {}

@@ -24,5 +24,4 @@ export class CampaignClass {
   limits?: [];
   means?: [];
   lastNotification?: string;
-
 }

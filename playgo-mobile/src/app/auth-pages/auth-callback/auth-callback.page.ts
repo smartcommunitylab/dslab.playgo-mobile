@@ -25,7 +25,7 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private translateService: TranslateService,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.sub = this.auth.events$.subscribe((action) =>

@@ -6,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['campaigns.page.scss'],
 })
 export class CampaignsPage implements OnInit {
-
   selectedSegment?: string;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.selectedSegment = 'myCampaigns';

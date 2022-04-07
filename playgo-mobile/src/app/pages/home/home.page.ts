@@ -7,7 +7,6 @@ import { CampaignClass } from 'src/app/core/shared/campaigns/classes/campaign-cl
 // import { UserClass } from 'src/app/core/shared/classes/user';
 import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -24,9 +23,7 @@ export class HomePage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private localStorageService: LocalStorageService,
     private router: Router
-  ) { }
-
-
+  ) {}
 
   // ngOnInit() {
   //   this.user = new UserClass();
