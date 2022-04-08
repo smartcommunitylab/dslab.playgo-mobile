@@ -1,25 +1,42 @@
 <ion-card (click)="openDetail()">
-  <div>
-    {{ "trip_detail.distance" | translate }}:
-    <strong
-      >{{ distance / 1000 | number: "0.0-1" }} {{ "km" | translate }}</strong
+  <ion-card-header>
+    <ion-card-title *ngIf="isOneDayTrip"
+      ><strong>{{ start | localDate: "d MMMM" }}</strong></ion-card-title
     >
-  </div>
-  <div>
+    <ion-card-title *ngIf="!isOneDayTrip"
+      ><strong
+        >{{ start | localDate: "d MMMM" }} -
+        {{ end | localDate: "d MMMM" }}</strong
+      ></ion-card-title
+    >
+  </ion-card-header>
+  <ion-card-content>
     <div>
-      {{ "trip_detail.start" | translate }}:
-      <strong>{{ start | date: "medium" }}</strong>
+      {{ "trip_detail.distance" | translate }}:
+      <strong
+        >{{ distance / 1000 | number: "0.0-1" }} {{ "km" | translate }}</strong
+      >
     </div>
     <div>
-      {{ "trip_detail.end" | translate }}:
-      <strong>{{ end | date: "medium" }}</strong>
+      <div>
+        {{ "trip_detail.start" | translate }}:
+        <strong>{{
+          start | localDate: (isOneDayTrip ? "shortTime" : "medium")
+        }}</strong>
+      </div>
+      <div>
+        {{ "trip_detail.end" | translate }}:
+        <strong>{{
+          end | localDate: (isOneDayTrip ? "shortTime" : "medium")
+        }}</strong>
+      </div>
     </div>
-  </div>
-  <div>
-    {{ "trip_detail.used_modes" | translate }}:
-    <strong>{{ modeTypesList }}</strong>
-  </div>
-  <div *ngFor="let campaignLabel of campaignsLabels">
-    <strong>{{ campaignLabel }}</strong>
-  </div>
+    <div>
+      {{ "trip_detail.used_modes" | translate }}:
+      <strong>{{ modeTypesList }}</strong>
+    </div>
+    <div *ngFor="let campaignLabel of campaignsLabels">
+      <strong>{{ campaignLabel }}</strong>
+    </div>
+  </ion-card-content>
 </ion-card>

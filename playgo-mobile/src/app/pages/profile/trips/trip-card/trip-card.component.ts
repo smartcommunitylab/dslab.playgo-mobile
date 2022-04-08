@@ -47,6 +47,8 @@ export class TripCardComponent implements OnInit {
     this.start = first(multiTrip).startTime;
     this.end = last(multiTrip).endTime;
     this.distance = multiTrip.reduce((acc, trip) => acc + trip.distance, 0);
+    this.isOneDayTrip =
+      new Date(this.start).toDateString() === new Date(this.end).toDateString();
   }
   get multiTrip(): TripInfo[] {
     return this._multiTrip;
@@ -58,6 +60,7 @@ export class TripCardComponent implements OnInit {
   start: number = null;
   end: number = null;
   distance: number = null;
+  isOneDayTrip = true;
 
   constructor(
     private router: Router,
