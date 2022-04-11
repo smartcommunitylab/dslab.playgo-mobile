@@ -7,6 +7,7 @@
     ></ng-container>
   </ng-container>
   <ion-infinite-scroll
+    #infiniteScroll
     threshold="100px"
     (ionInfinite)="loadData($event)"
     [disabled]="numTimesLeft <= 0"

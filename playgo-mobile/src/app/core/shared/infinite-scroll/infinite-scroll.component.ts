@@ -1,3 +1,4 @@
+/* eslint-disable id-blacklist */
 import {
   Component,
   ContentChild,
@@ -7,10 +8,10 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
-
+import { filter, map, scan, withLatestFrom } from 'rxjs/operators';
 @Directive({
   selector: '[appInfiniteScrollContent]',
 })
@@ -27,31 +28,57 @@ export class InfiniteScrollComponent<T> implements OnInit {
   @ContentChild(InfiniteScrollContentDirective)
   content!: InfiniteScrollContentDirective;
 
+  @ViewChild('infiniteScroll')
+  infiniteScrollComponent!: HTMLIonInfiniteScrollElement;
+
   @Input()
   public set response(response: PageableResponse<T>) {
     this.response$.next(response);
+    if (this.infiniteScrollComponent) {
+      this.infiniteScrollComponent.complete();
+    }
   }
   response$ = new Subject<PageableResponse<T>>();
 
-  @Output()
-  public request = new EventEmitter<PageableRequest>();
+  private loadDataEvents$ = new Subject<IonicLoadDataEvent>();
 
-  public numTimesLeft = 100;
+  @Output()
+  public request: Observable<PageableRequest> = this.loadDataEvents$.pipe(
+    withLatestFrom(this.response$),
+    map(([event, response]) => {
+      const page = response.number + 1;
+      const size = response.size;
+      if (page >= response.totalPages) {
+        this.infiniteScrollComponent.disabled = true;
+        return null;
+      }
+      this.infiniteScrollComponent.disabled = false;
+      return { page, size };
+    }),
+    filter((request) => request !== null)
+  );
 
   public items$: Observable<T[]> = this.response$.pipe(
-    map((response) => response.content)
+    map((response) => response.content),
+    scan((acc, curr) => [...acc, ...curr], [])
   );
 
   constructor() {}
 
   loadData(event) {
-    this.request.emit({});
+    this.loadDataEvents$.next(event);
+    // this.request.emit({});
   }
 
   ngOnInit() {}
 }
 
-export interface PageableRequest {}
+interface IonicLoadDataEvent {}
+
+export interface PageableRequest {
+  size?: number;
+  page?: number;
+}
 
 export interface PageableResponse<T> {
   content: T[];

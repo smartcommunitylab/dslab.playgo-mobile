@@ -24,7 +24,10 @@ export class TripsPage implements OnInit {
 
   tripsResponse$: Observable<PageableResponse<TripInfo>> =
     this.scrollRequest.pipe(
-      startWith(null as any),
+      startWith({
+        page: 0,
+        size: 3,
+      }),
       switchMap((scrollRequest) => this.getTripsPage(scrollRequest)),
       catchError((error) => {
         this.errorService.showAlert(error);
@@ -46,6 +49,7 @@ export class TripsPage implements OnInit {
       'GET',
       '/track/player',
       pageRequest
+      // { page: 0, size: 3 }
     );
   }
 }
