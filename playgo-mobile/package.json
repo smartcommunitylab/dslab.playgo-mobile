@@ -10,10 +10,12 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+    "eslint": "eslint",
     "prettier": "prettier . --write",
     "prettier:check": "prettier . --check",
     "e2e": "ng e2e",
-    "getVersion": "tsc -v"
+    "getVersion": "tsc -v",
+    "generate-api": "sh ./generate-api.sh"
   },
   "private": true,
   "dependencies": {
