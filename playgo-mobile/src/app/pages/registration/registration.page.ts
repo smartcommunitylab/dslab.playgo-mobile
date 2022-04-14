@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
@@ -18,7 +18,9 @@ export class RegistrationPage implements OnInit {
   territoryList = [];
   registrationForm: FormGroup;
   isSubmitted = false;
+  blob: any;
   urlAvatar: string | SafeUrl = 'assets/images/registration/generic_user.png';
+  image: Photo;
   constructor(
     private userService: UserService,
     private errorService: ErrorService,
@@ -50,21 +52,36 @@ export class RegistrationPage implements OnInit {
   }
   async changeAvatar() {
     console.log('changing avatar');
-    const image = await Camera.getPhoto({
+    this.image = await Camera.getPhoto({
       quality: 90,
       allowEditing: true,
       resultType: CameraResultType.Uri,
     });
-    const safeImg = this.sanitizer.bypassSecurityTrustUrl(image.webPath);
-    // const imageUrl = image.webPath;
-    // Can be set to the src of an image now
+    const safeImg = this.sanitizer.bypassSecurityTrustUrl(this.image.webPath);
     this.urlAvatar = safeImg;
   }
   //computed errorcontrol
   get errorControl() {
     return this.registrationForm.controls;
   }
-  registrationSubmit() {
+
+
+  private async readAsBase64(photo: Photo) {
+    // Fetch the photo, read as a blob, then convert to base64 format
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const response = await fetch(photo.webPath!);
+    const blob = await response.blob();
+    return await this.convertBlobToBase64(blob) as string;
+  }
+  private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.readAsDataURL(blob);
+  });
+  async registrationSubmit() {
     this.isSubmitted = true;
     if (!this.registrationForm.valid) {
       console.log('Please provide all the required values!');
@@ -72,14 +89,21 @@ export class RegistrationPage implements OnInit {
     } else {
       console.log(this.registrationForm.value);
       //register user
-      this.userService
-        .registerPlayer(this.registrationForm.value)
-        .then(() => {
-          this.navCtrl.navigateRoot('/pages/tabs/home');
-        })
-        .catch((error: any) => {
-          this.errorService.showAlert(error);
-        });
+
+      // try {
+      //   await this.userService.uploadAvatar(await this.readAsBase64(this.image));
+      // } catch (error) {
+      //   // this.errorService.showAlert(error);
+      //   console.log(error);
     }
+    this.userService
+      .registerPlayer(this.registrationForm.value)
+      .then(() => {
+        this.navCtrl.navigateRoot('/pages/tabs/home');
+      })
+      .catch((error: any) => {
+        // this.errorService.showAlert(error);
+        console.log(error);
+      });
   }
 }

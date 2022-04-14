@@ -74,6 +74,12 @@
         "it": "Italiano",
         "en": "Inglese"
       }
+    },
+    "status": {
+      "totalKm": "{{totalKM}} fatti",
+      "travels": "{{totalTravels}} viaggi validi",
+      "activityDays": "{{activityDays}} giorni di gioco ",
+      "activeCampaigns": "{{activeCampaigns}} active campaings"
     }
   },
   "errors": {

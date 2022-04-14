@@ -15,21 +15,22 @@ export class AuthHttpService {
     shareReplay(1)
   );
 
-  constructor(private requestor: Requestor, private auth: AuthService) {}
+  constructor(private requestor: Requestor, private auth: AuthService) { }
 
   public async request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     endpoint: Endpoint,
-    data?: AnyRecord
+    data?: AnyRecord,
+    multipart?: boolean
   ) {
-    let body: string;
+    let body: any;
     let paramString = '';
     if (data) {
       if (method === 'GET') {
         paramString = '?' + new HttpParams().appendAll(data as any).toString();
       }
       if (method === 'POST' || method === 'PUT') {
-        body = JSON.stringify(data);
+        body = multipart ? data : JSON.stringify(data);
       }
     }
 
@@ -37,14 +38,20 @@ export class AuthHttpService {
       url: this.getApiUrl(endpoint) + paramString,
       method,
       data: body,
-      headers: await this.getHeaders(),
+      headers: await this.getHeaders(multipart),
     });
     return ret;
   }
 
   /** Waits for the first token available, but later it will return headers with active token immediately */
-  public async getHeaders() {
+  public async getHeaders(multipart?) {
     const headers = await this.headers$.pipe(take(1)).toPromise();
+    if (multipart) {
+      headers['Content-Type'] = 'multipart/form-data';
+    }
+    else {
+      headers['Content-Type'] = 'application/json';
+    }
     return headers;
   }
 
@@ -58,13 +65,12 @@ export class AuthHttpService {
   private addHeaders(token: any) {
     return token
       ? {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          Authorization: `${
-            token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Authorization: `${token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
           } ${token.accessToken}`,
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          'Content-Type': 'application/json',
-        }
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Content-Type': 'application/json',
+      }
       : {};
   }
 }

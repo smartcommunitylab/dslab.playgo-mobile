@@ -10,20 +10,29 @@ import localeEnglish from '@angular/common/locales/en';
 import { TransportType } from '../tracking/trip.model';
 import { LocalStorageService } from './local-storage.service';
 import { TerritoryService } from './territory.service';
+import { SafeUrl } from '@angular/platform-browser';
+import { IAvatar } from '../model/avatar.model';
+import { IStatus } from '../model/status.model';
+import { ReportService } from './report.service';
 @Injectable({ providedIn: 'root' })
 export class UserService {
+
   private userProfileSubject = new ReplaySubject<IUser>();
   private userProfileMeansSubject = new ReplaySubject<TransportType[]>();
+  private userStatusSubject = new ReplaySubject<IStatus>();
   private userLocale: string;
   private userProfile: IUser = null;
+  private userStatus: IStatus = null;
   public userProfileMeans$: Observable<TransportType[]> =
     this.userProfileMeansSubject.asObservable();
   public userProfile$: Observable<IUser> =
     this.userProfileSubject.asObservable();
-
+  public userStatus$: Observable<IUser> =
+    this.userStatusSubject.asObservable();
   constructor(
     private authHttpService: AuthHttpService,
     private translateService: TranslateService,
+    private reportService: ReportService,
     private territoryService: TerritoryService,
     private localStorageService: LocalStorageService
   ) {
@@ -35,7 +44,16 @@ export class UserService {
   get locale(): string {
     return this.userLocale || 'en-US';
   }
-
+  uploadAvatar(file: any): Promise<IAvatar> {
+    const formData = new FormData();
+    formData.append('data', file);
+    return this.authHttpService.request<IAvatar>(
+      'POST',
+      environment.serverUrl.avatar,
+      formData,
+      true
+    );
+  }
   registerLocale(locale: string) {
     if (!locale) {
       return;
@@ -56,17 +74,20 @@ export class UserService {
   }
   async startService() {
     //check if locally present and I'm logged (store in the memory)
-    if (!this.userProfile) {
-      try {
-        const user = await this.getProfile();
-        if (user) {
-          this.userProfile = user;
-          this.processUser(user);
-          this.userProfileSubject.next(this.userProfile);
-        }
-      } catch (e) {
-        console.log(e);
+    try {
+      const user = await this.getProfile();
+      if (user) {
+        this.userProfile = user;
+        this.processUser(user);
+        this.userProfileSubject.next(this.userProfile);
       }
+      const status = await this.reportService.getStatus();
+      if (status) {
+        this.userStatus = status;
+        this.userStatusSubject.next(this.userStatus);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -82,7 +103,7 @@ export class UserService {
     this.userProfileMeansSubject.next(userTerritory.territoryData.means);
   }
 
-  registerPlayer(user: IUser): Promise<IUser> {
+  registerPlayer(user: IUser,): Promise<IUser> {
     //TODO update local profile
     return this.authHttpService.request<IUser>(
       'POST',
@@ -123,6 +144,7 @@ export class UserService {
       }
     });
   }
+
 
   async updatePlayer(user: IUser): Promise<IUser> {
     //TODO update local profile

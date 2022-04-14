@@ -10,10 +10,18 @@ import {
 
 import { NgHttpService } from './ng-http.service';
 import { authFactory } from './factories';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+    ,
     {
       provide: StorageBackend,
       useClass: CapacitorSecureStorage,
@@ -33,4 +41,4 @@ import { authFactory } from './factories';
     },
   ],
 })
-export class AuthModule {}
+export class AuthModule { }

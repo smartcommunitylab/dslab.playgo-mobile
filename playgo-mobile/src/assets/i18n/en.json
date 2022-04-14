@@ -74,7 +74,13 @@
       "closeButton": "Close",
       "saveButton": "Save"
     },
-    "changeButton": "Change"
+    "changeButton": "Change",
+    "status": {
+      "totalKm": "{{totalKM}} done",
+      "travels": "{{totalTravels}} valid travels",
+      "activityDays": "{{activityDays}} days of gaming",
+      "activeCampaigns": "{{activeCampaigns}} active campaings"
+    }
   },
   "errors": {
     "userNotFound": "User Not Found",

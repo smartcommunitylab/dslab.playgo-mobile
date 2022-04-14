@@ -10,7 +10,8 @@ export const environment = {
     client_id: 'c_5445634c-95d6-4c0e-a1ff-829b951b91b3',
     redirect_url: 'it.dslab.playgo://callback',
     end_session_redirect_url: 'it.dslab.playgo://endsession',
-    scopes: 'openid email profile',
+    scopes: 'openid email profile offline_access',
+    automaticSilentRenew: true,
     pkce: true,
   },
   serverUrl: {
@@ -19,6 +20,8 @@ export const environment = {
     register: 'player/register',
     player: 'player',
     territory: 'territory',
+    avatar: 'player/avatar',
+    status: '/report/player/status'
   },
   firebaseConfig: {
     apiKey: 'AIzaSyBBUsW8BpWEgWIe45M34sgPIiCN-ssw4gY',

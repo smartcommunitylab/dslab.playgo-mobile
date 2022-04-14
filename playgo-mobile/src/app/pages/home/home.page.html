@@ -4,6 +4,9 @@
     <ion-buttons slot="end">
       <ion-button (click)="signOut()">Sign Out </ion-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="refreshToken()">refresh </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,7 +18,7 @@
   </ion-header-->
 
   <div id="container">
-    <app-profile-component></app-profile-component>
+    <app-profile-component [editable]="false" [showStatus]="false"></app-profile-component>
     <!-- <app-profile-home-widget [user]="user"></app-profile-home-widget> -->
     <app-tracking-main-control></app-tracking-main-control>
     <!-- <app-home-tracking-widget></app-home-tracking-widget> -->
