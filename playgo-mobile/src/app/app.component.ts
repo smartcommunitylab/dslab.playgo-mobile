@@ -22,8 +22,10 @@ export class AppComponent implements AfterContentInit {
   initializeApp() {
     this.translate.setDefaultLang('it');
     this.platform.ready().then(async () => {
+      //TODO auto check if user is stored with token
       await this.auth.init();
       SplashScreen.hide();
+
     });
   }
   ngAfterContentInit() {

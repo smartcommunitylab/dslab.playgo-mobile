@@ -6,14 +6,14 @@ import { environment } from 'src/environments/environment';
 import { AuthHttpService } from '../../auth/auth-http.service';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
-import localeEnglish from '@angular/common/locales/en';
 import { TransportType } from '../tracking/trip.model';
 import { LocalStorageService } from './local-storage.service';
 import { TerritoryService } from './territory.service';
-import { SafeUrl } from '@angular/platform-browser';
 import { IAvatar } from '../model/avatar.model';
 import { IStatus } from '../model/status.model';
 import { ReportService } from './report.service';
+import { NavController } from '@ionic/angular';
+import { AuthService } from 'ionic-appauth';
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
@@ -34,7 +34,9 @@ export class UserService {
     private translateService: TranslateService,
     private reportService: ReportService,
     private territoryService: TerritoryService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private navCtrl: NavController,
+    private authService: AuthService
   ) {
     this.startService();
   }
@@ -156,4 +158,11 @@ export class UserService {
     this.processUser(user);
     return player;
   }
+
+  // logout the user from the application and clean the storage
+  logout(): void {
+    this.authService.signOut();
+    this.localStorageService.clearUser();
+    this.navCtrl.navigateRoot('login');
+  };
 }

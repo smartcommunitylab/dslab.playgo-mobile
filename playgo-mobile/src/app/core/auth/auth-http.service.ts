@@ -9,13 +9,16 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AuthHttpService {
+
   public headers$ = this.auth.token$.pipe(
     filter(Boolean),
     map((token) => this.addHeaders(token)),
     shareReplay(1)
   );
 
-  constructor(private requestor: Requestor, private auth: AuthService) { }
+  constructor(private requestor: Requestor, private auth: AuthService) {
+
+  }
 
   public async request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',

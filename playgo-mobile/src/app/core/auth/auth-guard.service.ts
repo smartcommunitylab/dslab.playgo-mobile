@@ -8,12 +8,15 @@ import { NavController } from '@ionic/angular';
 import { AuthService } from 'ionic-appauth';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
+import { UserService } from '../shared/services/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
-  constructor(private auth: AuthService, private navCtrl: NavController) {}
+  constructor(private auth: AuthService,
+    private userService: UserService,
+    private navCtrl: NavController) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -25,6 +28,7 @@ export class AuthGuardService implements CanActivate {
       tap((isAuthenticated) => {
         if (!isAuthenticated) {
           this.navCtrl.navigateRoot('login');
+          this.userService.logout();
         }
       })
     );

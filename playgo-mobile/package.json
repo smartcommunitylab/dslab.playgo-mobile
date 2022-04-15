@@ -49,7 +49,6 @@
     "ionic-appauth": "^0.8.5",
     "leaflet": "^1.7.1",
     "lodash-es": "^4.17.21",
-    "pouchdb": "^7.2.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
