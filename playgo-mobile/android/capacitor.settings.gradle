@@ -5,6 +5,9 @@ project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/
 include ':capacitor-community-barcode-scanner'
 project(':capacitor-community-barcode-scanner').projectDir = new File('../node_modules/@capacitor-community/barcode-scanner/android')
 
+include ':capacitor-community-firebase-analytics'
+project(':capacitor-community-firebase-analytics').projectDir = new File('../node_modules/@capacitor-community/firebase-analytics/android')
+
 include ':capacitor-app'
 project(':capacitor-app').projectDir = new File('../node_modules/@capacitor/app/android')
 
@@ -13,6 +16,9 @@ project(':capacitor-browser').projectDir = new File('../node_modules/@capacitor/
 
 include ':capacitor-camera'
 project(':capacitor-camera').projectDir = new File('../node_modules/@capacitor/camera/android')
+
+include ':capacitor-device'
+project(':capacitor-device').projectDir = new File('../node_modules/@capacitor/device/android')
 
 include ':capacitor-haptics'
 project(':capacitor-haptics').projectDir = new File('../node_modules/@capacitor/haptics/android')

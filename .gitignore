@@ -1,1 +1,3 @@
 playgo-mobile/src/environments/environment.ts
+playgo-mobile/ios/App/App/GoogleService-Info.plist
+playgo-mobile/android/app/google-services.json

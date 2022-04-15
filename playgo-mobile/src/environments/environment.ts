@@ -24,13 +24,13 @@ export const environment = {
     status: '/report/player/status'
   },
   firebaseConfig: {
-    apiKey: 'AIzaSyBBUsW8BpWEgWIe45M34sgPIiCN-ssw4gY',
-    authDomain: 'analyticsdemo-1ee4c.firebaseapp.com',
-    projectId: 'analyticsdemo-1ee4c',
-    storageBucket: 'analyticsdemo-1ee4c.appspot.com',
-    messagingSenderId: '638917288616',
-    appId: '1:638917288616:web:2979eb96b7d6fd2772989d',
-    measurementId: 'G-M3H7W563GY',
+    apiKey: 'AIzaSyC4jMIUaDnXVITplF2jIjhw2ElgUMillHE',
+    authDomain: 'playgo-mobile.firebaseapp.com',
+    projectId: 'playgo-mobile',
+    storageBucket: 'playgo-mobile.appspot.com',
+    messagingSenderId: '187362305431',
+    appId: '1:187362305431:web:6b28040d084512431810d2',
+    measurementId: 'G-5QRQJTP30R'
   },
 };
 

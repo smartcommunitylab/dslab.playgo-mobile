@@ -4,6 +4,10 @@
 		"classpath": "com.getcapacitor.community.barcodescanner.BarcodeScanner"
 	},
 	{
+		"pkg": "@capacitor-community/firebase-analytics",
+		"classpath": "com.getcapacitor.community.firebaseanalytics.FirebaseAnalytics"
+	},
+	{
 		"pkg": "@capacitor/app",
 		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
 	},
@@ -14,6 +18,10 @@
 	{
 		"pkg": "@capacitor/camera",
 		"classpath": "com.capacitorjs.plugins.camera.CameraPlugin"
+	},
+	{
+		"pkg": "@capacitor/device",
+		"classpath": "com.capacitorjs.plugins.device.DevicePlugin"
 	},
 	{
 		"pkg": "@capacitor/haptics",
