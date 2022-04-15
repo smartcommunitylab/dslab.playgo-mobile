@@ -137,7 +137,7 @@ export class UserService {
       if (user) {
         return Promise.resolve(user);
       } else {
-        this.authHttpService
+        return this.authHttpService
           .request<IUser>('GET', environment.serverUrl.profile)
           .then((newUser) => {
             this.localStorageService.setUser(newUser);
