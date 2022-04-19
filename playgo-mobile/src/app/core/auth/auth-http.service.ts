@@ -24,7 +24,8 @@ export class AuthHttpService {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     endpoint: Endpoint,
     data?: AnyRecord,
-    multipart?: boolean
+    multipart?: boolean,
+    responseType?: 'arraybuffer' | 'blob' | 'json' | 'text'
   ) {
     let body: any;
     let paramString = '';
@@ -38,6 +39,7 @@ export class AuthHttpService {
     }
 
     const ret = await this.requestor.xhr<T>({
+
       url: this.getApiUrl(endpoint) + paramString,
       method,
       data: body,
@@ -72,7 +74,7 @@ export class AuthHttpService {
         Authorization: `${token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
           } ${token.accessToken}`,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        'Content-Type': 'application/json',
+        Accept: '*/*',
       }
       : {};
   }

@@ -56,6 +56,15 @@ export class UserService {
       true
     );
   }
+  getAvatar(): Promise<any> {
+    return this.authHttpService.request<any>(
+      'GET',
+      environment.serverUrl.avatar,
+      null,
+      false,
+      'blob');
+  }
+
   registerLocale(locale: string) {
     if (!locale) {
       return;
@@ -78,9 +87,10 @@ export class UserService {
     //check if locally present and I'm logged (store in the memory)
     try {
       const user = await this.getProfile();
+      //const avatar = await this.getAvatar();
       if (user) {
         this.userProfile = user;
-        this.processUser(user);
+        //this.processUser(user, avatar);
         this.userProfileSubject.next(this.userProfile);
       }
       const status = await this.reportService.getStatus();
@@ -93,9 +103,24 @@ export class UserService {
     }
   }
 
-  processUser(user: IUser) {
+  processUser(user: IUser, avatar?: Blob) {
+    if (avatar) {
+      this.setUserAvatar(user, avatar);
+    }
     this.setUserProfileMeans(user.territoryId);
     this.registerLocale(user.language);
+  }
+  setUserAvatar(user: IUser, avatar: Blob) {
+    this.createImageFromBlob(user, avatar);
+  }
+  createImageFromBlob(user: IUser, userimage: Blob) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      user.avatar.avatarData = reader.result;
+    }, false);
+    if (userimage) {
+      reader.readAsDataURL(userimage);
+    }
   }
   async setUserProfileMeans(territoryId: string) {
     //get territories means and set available means userProfileMeans$
