@@ -7,11 +7,13 @@
     </ion-card-header>
   </ion-card>
   <ion-grid>
-    <ion-row>
+    <ion-row *ngFor="let stat of statistics.meansStats">
       <ion-col size-md="6" offset-md="3">
-        <ion-label>{{ statistics.content }}</ion-label>
+        <ion-label>{{ stat }}</ion-label>
+        <app-single-mean-statistic></app-single-mean-statistic>
       </ion-col>
     </ion-row>
+
   </ion-grid>
 </div>
 
