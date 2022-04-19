@@ -1,0 +1,51 @@
+{{>licenseInfo}}
+
+
+import { Injectable } from '@angular/core';
+import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
+
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+{{#operations}}
+
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class {{classname}} {
+    constructor(private authHttpService: AuthHttpService) {}
+{{#operation}}
+{{#contents}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#parameters}}* @param {{paramName}} {{description}}
+     {{/parameters}}
+     */
+    public async {{nickname}}({{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/parameters}}): Promise<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+        return await this.authHttpService.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(
+                '{{httpMethod}}'.toUpperCase() as Uppercase<'{{httpMethod}}'>,
+                `{{path}}`,
+{{#bodyParam}}
+        {{paramName}},
+{{/bodyParam}}
+{{#hasQueryParams}}
+        {
+{{#queryParams}}
+            {{baseName}},
+{{/queryParams}}
+        },
+{{/hasQueryParams}}
+        );
+    }
+
+{{/contents}}
+{{/operation}}
+}
+{{/operations}}
