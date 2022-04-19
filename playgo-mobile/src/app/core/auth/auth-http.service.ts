@@ -25,7 +25,8 @@ export class AuthHttpService {
     endpoint: Endpoint,
     data?: AnyRecord,
     multipart?: boolean,
-    responseType?: 'arraybuffer' | 'blob' | 'json' | 'text'
+    responseType?: 'blob' | 'json' | 'document'
+
   ) {
     let body: any;
     let paramString = '';
@@ -43,6 +44,7 @@ export class AuthHttpService {
       url: this.getApiUrl(endpoint) + paramString,
       method,
       data: body,
+      ...(responseType && { xhrFields: { responseType: 'blob' } }),
       headers: await this.getHeaders(multipart),
     });
     return ret;
@@ -52,7 +54,7 @@ export class AuthHttpService {
   public async getHeaders(multipart?) {
     const headers = await this.headers$.pipe(take(1)).toPromise();
     if (multipart) {
-      headers['Content-Type'] = 'multipart/form-data';
+      delete headers['Content-Type'];
     }
     else {
       headers['Content-Type'] = 'application/json';

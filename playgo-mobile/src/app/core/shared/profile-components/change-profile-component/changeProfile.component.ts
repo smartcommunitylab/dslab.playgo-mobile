@@ -4,6 +4,8 @@ import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { ModalController } from '@ionic/angular';
 import { profile } from 'console';
 import { IUser } from 'src/app/core/shared/model/user.model';
+import { UserService } from '../../services/user.service';
+import { readAsBase64 } from '../../utils';
 
 @Component({
   selector: 'app-change-profile-modal',
@@ -15,12 +17,19 @@ export class ChangeProfileModalPage implements OnInit, OnChanges {
   blob: any;
   urlAvatar: any;
   image: Photo;
+  avatarData: any;
   constructor(private modalCtr: ModalController,
+    private userService: UserService,
     private sanitizer: DomSanitizer) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    const safeImg = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + this.profile.avatar.avatarData.data);
+    this.urlAvatar = safeImg;
+  }
   ngOnChanges() {
-    this.urlAvatar = this.profile.avatar;
+    // this.urlAvatar = this.profile.avatar;
+    const safeImg = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + this.profile.avatar.avatarData.data);
+    this.urlAvatar = safeImg;
   }
   async close() {
     await this.modalCtr.dismiss();
@@ -35,7 +44,9 @@ export class ChangeProfileModalPage implements OnInit, OnChanges {
       allowEditing: true,
       resultType: CameraResultType.Uri,
     });
-    const safeImg = this.sanitizer.bypassSecurityTrustUrl(this.image.webPath);
-    this.urlAvatar = safeImg;
+    // let safeImg = this.sanitizer.bypassSecurityTrustUrl(this.image.webPath);
+    const avatarData = await this.userService.uploadAvatar(await readAsBase64(this.image));
+    this.userService.updateImage(avatarData);
+    // this.urlAvatar = safeImg;
   }
 }

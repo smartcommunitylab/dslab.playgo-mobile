@@ -51,7 +51,8 @@ export async function readAsBase64(photo: Photo) {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const response = await fetch(photo.webPath!);
   const blob = await response.blob();
-  return await this.convertBlobToBase64(blob) as string;
+  return blob;
+  //return await convertBlobToBase64(blob) as string;
 }
 export function convertBlobToBase64(blob: Blob): Promise<any> {
   return new Promise((resolve, reject) => {
