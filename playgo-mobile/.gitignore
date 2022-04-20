@@ -29,3 +29,6 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+# jar used to generate the typescript API from swagger
+swagger-codegen-cli.jar

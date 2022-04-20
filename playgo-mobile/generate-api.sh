@@ -6,10 +6,17 @@
 # clear generated files
 rm -rf ./src/app/core/api/generated
 
-# generate using custom template. We are overriding just one file. Default template is here: https://github.com/swagger-api/swagger-codegen-generators/tree/master/src/main/resources/handlebars/typescript-angular
 
+# download the swagger codegen jar from maven if needed. (it is in gitignore)
+if [ ! -f ./swagger-codegen-cli.jar ]; then
+  curl -fL\
+    -o swagger-codegen-cli.jar \
+    http://search.maven.org/remotecontent?filepath=io/swagger/codegen/v3/swagger-codegen-cli/3.0.33/swagger-codegen-cli-3.0.33.jar
+fi
+
+# generate using custom template. We are overriding just one file. Default template is here: https://github.com/swagger-api/swagger-codegen-generators/tree/master/src/main/resources/handlebars/typescript-angular
 java -jar \
-  swagger-codegen-cli-3.0.34.jar \
+  swagger-codegen-cli.jar \
   generate \
   -i https://backenddev.playngo.it/playandgo/v3/api-docs \
   -l typescript-angular \
@@ -33,4 +40,3 @@ mv ./src/app/core/api/generated/api ./src/app/core/api/generated/controllers
 # formatting
 npm run prettier ./src/app/core/api/generated/ -- --write
 npm run eslint ./src/app/core/api/generated/ -- --fix
-
