@@ -1,8 +1,10 @@
 {{>licenseInfo}}
 
 
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
-import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
@@ -19,7 +21,7 @@ import { {{classname}} } from '../{{filename}}';
   providedIn: 'root'
 })
 export class {{classname}} {
-    constructor(private authHttpService: AuthHttpService) {}
+    constructor(private http: HttpClient) {}
 {{#operation}}
 {{#contents}}
     /**
@@ -28,20 +30,24 @@ export class {{classname}} {
      {{#parameters}}* @param {{paramName}} {{description}}
      {{/parameters}}
      */
-    public async {{nickname}}({{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/parameters}}): Promise<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
-        return await this.authHttpService.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(
-                '{{httpMethod}}'.toUpperCase() as Uppercase<'{{httpMethod}}'>,
-                `{{path}}`,
-{{#bodyParam}}
-        {{paramName}},
-{{/bodyParam}}
-{{#hasQueryParams}}
-        {
-{{#queryParams}}
-            {{baseName}},
-{{/queryParams}}
-        },
-{{/hasQueryParams}}
+    public {{nickname}}({{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/parameters}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+        return this.http.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(
+          '{{httpMethod}}',
+          environment.serverUrl.api+`{{path}}`,
+          {
+            {{#bodyParam}}
+              body:{{paramName}},
+            {{/bodyParam}}
+            {{#hasQueryParams}}
+              params: new HttpParams({
+                fromObject: {
+                  {{#queryParams}}
+                    {{baseName}},
+                  {{/queryParams}}
+                }
+              }),
+            {{/hasQueryParams}}
+          }
         );
     }
 
