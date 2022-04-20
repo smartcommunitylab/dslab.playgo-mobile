@@ -44,9 +44,9 @@ export class ChangeProfileModalPage implements OnInit, OnChanges {
       allowEditing: true,
       resultType: CameraResultType.Uri,
     });
-    // let safeImg = this.sanitizer.bypassSecurityTrustUrl(this.image.webPath);
     const avatarData = await this.userService.uploadAvatar(await readAsBase64(this.image));
-    this.userService.updateImage(avatarData);
-    // this.urlAvatar = safeImg;
+    if (avatarData) {
+      this.userService.updateImages();
+    }
   }
 }

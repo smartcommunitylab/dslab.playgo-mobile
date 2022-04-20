@@ -8,7 +8,8 @@
   <ion-grid *ngIf="profile">
     <ion-item lines="full">
       <ion-avatar>
-        <img [src]="urlAvatar" title="{{'registration.avatar.title'|translate}}" (click)="changeAvatar()" />
+        <img [src]="profile.avatar.avatarData" title="{{'registration.avatar.title'|translate}}"
+          (click)="changeAvatar()" />
       </ion-avatar>
     </ion-item>
     <ion-row>

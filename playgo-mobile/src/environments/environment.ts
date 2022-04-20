@@ -21,6 +21,7 @@ export const environment = {
     player: 'player',
     territory: 'territory',
     avatar: 'player/avatar',
+    avatarSmall: 'player/avatar/small',
     status: '/report/player/status'
   },
   firebaseConfig: {

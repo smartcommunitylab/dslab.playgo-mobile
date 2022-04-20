@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Requestor } from '@openid/appauth';
 import { AuthService } from 'ionic-appauth';
@@ -16,7 +16,7 @@ export class AuthHttpService {
     shareReplay(1)
   );
 
-  constructor(private requestor: Requestor, private auth: AuthService) {
+  constructor(private requestor: Requestor, private http: HttpClient, private auth: AuthService) {
 
   }
 
@@ -25,7 +25,7 @@ export class AuthHttpService {
     endpoint: Endpoint,
     data?: AnyRecord,
     multipart?: boolean,
-    responseType?: 'blob' | 'json' | 'document'
+    responseType?: 'arraybuffer' | 'blob' | 'json' | 'text'
 
   ) {
     let body: any;
@@ -38,15 +38,22 @@ export class AuthHttpService {
         body = multipart ? data : JSON.stringify(data);
       }
     }
-
-    const ret = await this.requestor.xhr<T>({
-
-      url: this.getApiUrl(endpoint) + paramString,
+    const ret = await this.http.request(
       method,
-      data: body,
-      ...(responseType && { xhrFields: { responseType: 'blob' } }),
-      headers: await this.getHeaders(multipart),
-    });
+      this.getApiUrl(endpoint) + paramString,
+      {
+        body,
+        headers: await this.getHeaders(multipart),
+        ...(responseType && { responseType })
+      }).toPromise();
+    // const ret = await this.requestor.xhr<T>({
+
+    //   url: this.getApiUrl(endpoint) + paramString,
+    //   method,
+    //   data: body,
+    //   headers: await this.getHeaders(multipart),
+    //   ...(responseType && { xhrFields: { responseType: 'blob' } })
+    // });
     return ret;
   }
 

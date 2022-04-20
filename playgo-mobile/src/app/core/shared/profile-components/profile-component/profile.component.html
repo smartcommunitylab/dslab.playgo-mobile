@@ -1,8 +1,8 @@
 <ion-card>
   <ion-card-content>
     <ion-item *ngIf="profile">
-      <ion-avatar slot="start">
-        <img [src]="profile.avatar.avatarData" title=" avatar" />
+      <ion-avatar slot="start" *ngIf="profile.avatar">
+        <img [src]="profile.avatar.avatarDataSmall" title=" avatar" />
       </ion-avatar>
       <ion-label>
         <h3>{{ profile.nickname }}</h3>
