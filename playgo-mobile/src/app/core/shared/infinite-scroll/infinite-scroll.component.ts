@@ -32,6 +32,9 @@ export class InfiniteScrollComponent<T> implements OnInit {
   infiniteScrollComponent!: HTMLIonInfiniteScrollElement;
 
   @Input()
+  allItemsInTemplate = false;
+
+  @Input()
   public set response(response: PageableResponse<T>) {
     this.response$.next(response);
     if (this.infiniteScrollComponent) {

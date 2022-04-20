@@ -94,7 +94,6 @@
       "plural_form_one": "+ {{score}} Green Leaf for {{campaignName}}",
       "plural_form_other": "+ {{score}} Green Leaves for {{campaignName}}"
     },
-    "used_modes": "Used modes",
     "mean": {
       "car": "Car",
       "bike": "Bike",

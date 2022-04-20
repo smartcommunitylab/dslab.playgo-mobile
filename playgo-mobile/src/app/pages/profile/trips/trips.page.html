@@ -6,11 +6,54 @@
 
 <ion-content>
   <app-infinite-scroll
+    [allItemsInTemplate]="true"
     (request)="scrollRequest.next($event)"
     [response]="tripsResponse$ | async"
   >
-    <ng-template appInfiniteScrollContent let-trip="item">
-      <app-trip-card [multiTrip]="[trip]"></app-trip-card>
+    <ng-template appInfiniteScrollContent let-trips="items">
+      <ng-container *ngFor="let tripGroup of groupTrips(trips || [])">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ tripGroup.date | localDate: "d MMMM" }}
+            </ion-card-title>
+          </ion-card-header>
+        </ion-card>
+        <ion-card *ngFor="let multiTrip of tripGroup.tripsInSameDate">
+          <!-- {{ multiTrip.multimodalId }} -->
+          <app-trip-card
+            *ngIf="multiTrip.trips.length === 1"
+            [trip]="multiTrip.trips[0]"
+            [isOneDayTrip]="multiTrip.isOneDayTrip"
+            [multiModalTrip]="false"
+          ></app-trip-card>
+
+          <ng-container *ngIf="multiTrip.trips.length !== 1">
+            <ion-item-divider>
+              <ion-label>
+                <strong>
+                  {{ 'multimodal' | translate }}
+                  <span *ngIf="multiTrip.isOneDayTrip">
+                    {{ multiTrip.date | localDate: "mediumDate" }}
+                  </span>
+                  <span *ngIf="!multiTrip.isOneDayTrip">
+                    >{{ multiTrip.startDate | localDate: "d MMMM" }} - {{
+                    multiTrip.startDate | localDate: "d MMMM" }}
+                  </span>
+                </strong>
+              </ion-label>
+            </ion-item-divider>
+
+            <ng-container *ngFor="let trip of multiTrip.trips">
+              <app-trip-card
+                [trip]="trip"
+                [isOneDayTrip]="multiTrip.isOneDayTrip"
+                [multiModalTrip]="true"
+              ></app-trip-card>
+            </ng-container>
+          </ng-container>
+        </ion-card>
+      </ng-container>
     </ng-template>
   </app-infinite-scroll>
 </ion-content>

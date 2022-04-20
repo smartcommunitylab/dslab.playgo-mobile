@@ -1,16 +1,24 @@
 <ion-content class="ion-padding" color="light">
   <ng-content></ng-content>
-  <ng-container *ngFor="let item of items$ | async">
+
+  <ng-container *ngIf="allItemsInTemplate === false">
+    <ng-container *ngFor="let item of items$ | async">
+      <ng-container
+        [ngTemplateOutlet]="content.templateRef"
+        [ngTemplateOutletContext]="{item}"
+      ></ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="allItemsInTemplate === true">
     <ng-container
       [ngTemplateOutlet]="content.templateRef"
-      [ngTemplateOutletContext]="{item}"
+      [ngTemplateOutletContext]="{ items: items$ | async }"
     ></ng-container>
   </ng-container>
   <ion-infinite-scroll
     #infiniteScroll
     threshold="100px"
     (ionInfinite)="loadData($event)"
-    [disabled]="numTimesLeft <= 0"
   >
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"

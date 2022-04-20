@@ -6,6 +6,7 @@ import { first, flatMap, last } from 'lodash-es';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import {
   TransportType,
+  transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
 import { TripCampaign, TripInfo } from '../trips.page';
@@ -17,50 +18,19 @@ import { TripCampaign, TripInfo } from '../trips.page';
 })
 export class TripCardComponent implements OnInit {
   transportTypeLabels = transportTypeLabels;
+  transportTypeIcons = transportTypeIcons;
+
   pluralRules = new Intl.PluralRules(this.user.locale);
 
-  @Input()
-  set multiTrip(multiTrip: TripInfo[]) {
-    this._multiTrip = multiTrip;
-
-    // derived from Input
-    this.campaignsLabels = flatMap(multiTrip, (trip) => trip.campaigns).map(
-      (campaign) => {
-        const pluralForm = this.pluralRules.select(campaign.score);
-        const label = this.translateService.instant(
-          'trip_detail.gl_per_campaign.plural_form_' + pluralForm,
-          campaign
-        );
-        return label;
-      }
-    );
-    this.modeTypesList = multiTrip
-      .filter((trip) => trip.modeType)
-      .map((trip) => {
-        const modeType = trip.modeType;
-        const modeTypeTranslated = this.translateService.instant(
-          transportTypeLabels[modeType]
-        );
-        return modeTypeTranslated;
-      })
-      .join(', ');
-    this.start = first(multiTrip).startTime;
-    this.end = last(multiTrip).endTime;
-    this.distance = multiTrip.reduce((acc, trip) => acc + trip.distance, 0);
-    this.isOneDayTrip =
-      new Date(this.start).toDateString() === new Date(this.end).toDateString();
-  }
-  get multiTrip(): TripInfo[] {
-    return this._multiTrip;
-  }
-  private _multiTrip: TripInfo[];
+  @Input() trip: TripInfo;
+  @Input() isOneDayTrip = true;
+  @Input() multiModalTrip = false;
 
   campaignsLabels: string[] = [];
   modeTypesList = '';
   start: number = null;
   end: number = null;
   distance: number = null;
-  isOneDayTrip = true;
 
   constructor(
     private router: Router,
@@ -70,14 +40,23 @@ export class TripCardComponent implements OnInit {
   ) {}
 
   openDetail() {
-    // TODO: change to multimodalId
-    this.router.navigate(
-      ['../trip-detail', this.multiTrip[0].trackedInstanceId],
-      {
-        relativeTo: this.route,
-      }
-    );
+    this.router.navigate(['../trip-detail', this.trip.trackedInstanceId], {
+      relativeTo: this.route,
+    });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (!this.trip) {
+      throw new Error('Trip is not defined');
+    }
+    // derived from Inputs
+    this.campaignsLabels = this.trip.campaigns.map((campaign) => {
+      const pluralForm = this.pluralRules.select(campaign.score);
+      const label = this.translateService.instant(
+        'trip_detail.gl_per_campaign.plural_form_' + pluralForm,
+        campaign
+      );
+      return label;
+    });
+  }
 }
