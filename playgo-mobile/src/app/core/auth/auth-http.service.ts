@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Requestor } from '@openid/appauth';
 import { AuthService } from 'ionic-appauth';
@@ -9,19 +9,24 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AuthHttpService {
+
   public headers$ = this.auth.token$.pipe(
     filter(Boolean),
     map((token) => this.addHeaders(token)),
     shareReplay(1)
   );
 
-  constructor(private requestor: Requestor, private auth: AuthService) { }
+  constructor(private requestor: Requestor, private http: HttpClient, private auth: AuthService) {
+
+  }
 
   public async request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     endpoint: Endpoint,
     data?: AnyRecord,
-    multipart?: boolean
+    multipart?: boolean,
+    responseType?: 'arraybuffer' | 'blob' | 'json' | 'text'
+
   ) {
     let body: any;
     let paramString = '';
@@ -33,13 +38,22 @@ export class AuthHttpService {
         body = multipart ? data : JSON.stringify(data);
       }
     }
-
-    const ret = await this.requestor.xhr<T>({
-      url: this.getApiUrl(endpoint) + paramString,
+    const ret = await this.http.request(
       method,
-      data: body,
-      headers: await this.getHeaders(multipart),
-    });
+      this.getApiUrl(endpoint) + paramString,
+      {
+        body,
+        headers: await this.getHeaders(multipart),
+        ...(responseType && { responseType })
+      }).toPromise();
+    // const ret = await this.requestor.xhr<T>({
+
+    //   url: this.getApiUrl(endpoint) + paramString,
+    //   method,
+    //   data: body,
+    //   headers: await this.getHeaders(multipart),
+    //   ...(responseType && { xhrFields: { responseType: 'blob' } })
+    // });
     return ret;
   }
 
@@ -47,7 +61,7 @@ export class AuthHttpService {
   public async getHeaders(multipart?) {
     const headers = await this.headers$.pipe(take(1)).toPromise();
     if (multipart) {
-      headers['Content-Type'] = 'multipart/form-data';
+      delete headers['Content-Type'];
     }
     else {
       headers['Content-Type'] = 'application/json';
@@ -69,7 +83,7 @@ export class AuthHttpService {
         Authorization: `${token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
           } ${token.accessToken}`,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        'Content-Type': 'application/json',
+        Accept: '*/*',
       }
       : {};
   }

@@ -6,16 +6,19 @@ import { environment } from 'src/environments/environment';
 import { AuthHttpService } from '../../auth/auth-http.service';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
-import localeEnglish from '@angular/common/locales/en';
 import { TransportType } from '../tracking/trip.model';
 import { LocalStorageService } from './local-storage.service';
 import { TerritoryService } from './territory.service';
-import { SafeUrl } from '@angular/platform-browser';
-import { IAvatar } from '../model/avatar.model';
+import { Avatar, IAvatar } from '../model/avatar.model';
 import { IStatus } from '../model/status.model';
 import { ReportService } from './report.service';
+import { NavController } from '@ionic/angular';
+import { AuthService } from 'ionic-appauth';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class UserService {
+
 
   private userProfileSubject = new ReplaySubject<IUser>();
   private userProfileMeansSubject = new ReplaySubject<TransportType[]>();
@@ -34,7 +37,11 @@ export class UserService {
     private translateService: TranslateService,
     private reportService: ReportService,
     private territoryService: TerritoryService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private navCtrl: NavController,
+    private authService: AuthService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
   ) {
     this.startService();
   }
@@ -44,16 +51,33 @@ export class UserService {
   get locale(): string {
     return this.userLocale || 'en-US';
   }
-  uploadAvatar(file: any): Promise<IAvatar> {
+  uploadAvatar(file: any): Promise<any> {
     const formData = new FormData();
     formData.append('data', file);
-    return this.authHttpService.request<IAvatar>(
+    return this.authHttpService.request<any>(
       'POST',
       environment.serverUrl.avatar,
       formData,
       true
     );
   }
+  getAvatar(): Promise<any> {
+    return this.authHttpService.request<any>(
+      'GET',
+      environment.serverUrl.avatar,
+      null,
+      true,
+      'blob');
+  }
+  getAvatarSmall(): Promise<any> {
+    return this.authHttpService.request<any>(
+      'GET',
+      environment.serverUrl.avatarSmall,
+      null,
+      true,
+      'blob');
+  }
+
   registerLocale(locale: string) {
     if (!locale) {
       return;
@@ -76,9 +100,11 @@ export class UserService {
     //check if locally present and I'm logged (store in the memory)
     try {
       const user = await this.getProfile();
+      const avatarImage = await this.getAvatar();
+      const avatarImageSmall = await this.getAvatarSmall();
       if (user) {
         this.userProfile = user;
-        this.processUser(user);
+        this.processUser(user, avatarImage, avatarImageSmall);
         this.userProfileSubject.next(this.userProfile);
       }
       const status = await this.reportService.getStatus();
@@ -90,10 +116,39 @@ export class UserService {
       console.log(e);
     }
   }
-
-  processUser(user: IUser) {
+  async updateImages() {
+    const avatarImage = await this.getAvatar();
+    const avatarImageSmall = await this.getAvatarSmall();
+    this.processUser(this.userProfile, avatarImage, avatarImageSmall);
+    this.userProfileSubject.next(this.userProfile);
+  }
+  processUser(user: IUser, avatar?: Blob, avatarSmall?: Blob) {
+    if (avatar) {
+      this.setUserAvatar(user, avatar, avatarSmall);
+    }
     this.setUserProfileMeans(user.territoryId);
     this.registerLocale(user.language);
+  }
+  setUserAvatar(user: IUser, avatar: Blob, avatarSmall: Blob) {
+    this.createImageFromBlob(user, avatar, avatarSmall);
+  }
+  createImageFromBlob(user: IUser, userimage: Blob, userimageSmall: Blob) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      if (!user.avatar) { user.avatar = new Avatar(); }
+      user.avatar.avatarData = reader.result;
+      this.userProfileSubject.next(user);
+    }, false);
+    const readerSmall = new FileReader();
+    readerSmall.addEventListener('load', () => {
+      if (!user.avatar) { user.avatar = new Avatar(); }
+      user.avatar.avatarDataSmall = reader.result;
+      this.userProfileSubject.next(user);
+    }, false);
+    if (userimage) {
+      reader.readAsDataURL(userimage);
+      readerSmall.readAsDataURL(userimageSmall);
+    }
   }
   async setUserProfileMeans(territoryId: string) {
     //get territories means and set available means userProfileMeans$
@@ -135,7 +190,7 @@ export class UserService {
       if (user) {
         return Promise.resolve(user);
       } else {
-        this.authHttpService
+        return this.authHttpService
           .request<IUser>('GET', environment.serverUrl.profile)
           .then((newUser) => {
             this.localStorageService.setUser(newUser);
@@ -156,4 +211,11 @@ export class UserService {
     this.processUser(user);
     return player;
   }
+
+  // logout the user from the application and clean the storage
+  logout(): void {
+    this.authService.signOut();
+    this.localStorageService.clearUser();
+    this.navCtrl.navigateRoot('login');
+  };
 }

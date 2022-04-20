@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { TerritoryService } from 'src/app/core/shared/services/territory.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { readAsBase64 } from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-registration',
@@ -66,21 +67,7 @@ export class RegistrationPage implements OnInit {
   }
 
 
-  private async readAsBase64(photo: Photo) {
-    // Fetch the photo, read as a blob, then convert to base64 format
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const response = await fetch(photo.webPath!);
-    const blob = await response.blob();
-    return await this.convertBlobToBase64(blob) as string;
-  }
-  private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(blob);
-  });
+
   async registrationSubmit() {
     this.isSubmitted = true;
     if (!this.registrationForm.valid) {
@@ -89,21 +76,21 @@ export class RegistrationPage implements OnInit {
     } else {
       console.log(this.registrationForm.value);
       //register user
-
-      // try {
-      //   await this.userService.uploadAvatar(await this.readAsBase64(this.image));
-      // } catch (error) {
-      //   // this.errorService.showAlert(error);
-      //   console.log(error);
-    }
-    this.userService
-      .registerPlayer(this.registrationForm.value)
-      .then(() => {
-        this.navCtrl.navigateRoot('/pages/tabs/home');
-      })
-      .catch((error: any) => {
+      try {
+        this.userService
+          .registerPlayer(this.registrationForm.value)
+          .then(async () => {
+            await this.userService.uploadAvatar(await readAsBase64(this.image));
+            this.navCtrl.navigateRoot('/pages/tabs/home');
+          })
+          .catch((error: any) => {
+            // this.errorService.showAlert(error);
+            console.log(error);
+          });
+      } catch (error) {
         // this.errorService.showAlert(error);
         console.log(error);
-      });
+      }
+    }
   }
 }

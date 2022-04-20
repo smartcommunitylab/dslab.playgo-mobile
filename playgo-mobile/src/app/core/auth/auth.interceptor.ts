@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from 'ionic-appauth';
 import { NavController } from '@ionic/angular';
 import { LocalStorageService } from '../shared/services/local-storage.service';
+import { UserService } from '../shared/services/user.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     private isRefreshing = false;
@@ -13,8 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     public refreshToken$: Observable<string> =
         this.refreshTokenSubject.asObservable();
     constructor(private authService: AuthService,
-        private navCtrl: NavController,
-        private localStorageService: LocalStorageService) { }
+        private userService: UserService) { }
     // eslint-disable-next-line @typescript-eslint/ban-types
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
 
@@ -41,9 +41,10 @@ export class AuthInterceptor implements HttpInterceptor {
                 else {
                     this.isRefreshing = false;
                     //logout
-                    this.authService.signOut();
-                    this.localStorageService.clearUser();
-                    this.navCtrl.navigateRoot('login');
+                    this.userService.logout();
+                    // this.authService.signOut();
+                    // this.localStorageService.clearUser();
+                    // this.navCtrl.navigateRoot('login');
                 }
             } catch (e) {
                 this.isRefreshing = false;

@@ -22,7 +22,8 @@ export const environment = {
     territory: 'territory',
     avatar: 'player/avatar',
     status: '/report/player/status',
-    transportStats: 'report/player/transport/stats'
+    transportStats: 'report/player/transport/stats',
+    avatarSmall: 'player/avatar/small',
   },
   firebaseConfig: {
     apiKey: 'AIzaSyC4jMIUaDnXVITplF2jIjhw2ElgUMillHE',
