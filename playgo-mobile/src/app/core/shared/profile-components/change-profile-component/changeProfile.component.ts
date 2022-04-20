@@ -18,17 +18,23 @@ export class ChangeProfileModalPage implements OnInit, OnChanges {
   urlAvatar: any;
   image: Photo;
   avatarData: any;
-  constructor(private modalCtr: ModalController,
+  constructor(
+    private modalCtr: ModalController,
     private userService: UserService,
-    private sanitizer: DomSanitizer) { }
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit() {
-    const safeImg = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + this.profile.avatar.avatarData.data);
+    const safeImg = this.sanitizer.bypassSecurityTrustUrl(
+      'data:image/jpg;base64,' + this.profile.avatar.avatarData.data
+    );
     this.urlAvatar = safeImg;
   }
   ngOnChanges() {
     // this.urlAvatar = this.profile.avatar;
-    const safeImg = this.sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + this.profile.avatar.avatarData.data);
+    const safeImg = this.sanitizer.bypassSecurityTrustUrl(
+      'data:image/jpg;base64,' + this.profile.avatar.avatarData.data
+    );
     this.urlAvatar = safeImg;
   }
   async close() {
@@ -44,7 +50,9 @@ export class ChangeProfileModalPage implements OnInit, OnChanges {
       allowEditing: true,
       resultType: CameraResultType.Uri,
     });
-    const avatarData = await this.userService.uploadAvatar(await readAsBase64(this.image));
+    const avatarData = await this.userService.uploadAvatar(
+      await readAsBase64(this.image)
+    );
     if (avatarData) {
       this.userService.updateImages();
     }

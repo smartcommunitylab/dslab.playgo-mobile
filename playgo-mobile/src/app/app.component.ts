@@ -25,7 +25,6 @@ export class AppComponent implements AfterContentInit {
       //TODO auto check if user is stored with token
       await this.auth.init();
       SplashScreen.hide();
-
     });
   }
   ngAfterContentInit() {

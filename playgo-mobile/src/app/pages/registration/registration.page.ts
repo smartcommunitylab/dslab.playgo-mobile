@@ -66,8 +66,6 @@ export class RegistrationPage implements OnInit {
     return this.registrationForm.controls;
   }
 
-
-
   async registrationSubmit() {
     this.isSubmitted = true;
     if (!this.registrationForm.valid) {

@@ -19,9 +19,8 @@ import { AuthInterceptor } from './auth.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
-    }
-    ,
+      multi: true,
+    },
     {
       provide: StorageBackend,
       useClass: CapacitorSecureStorage,
@@ -41,4 +40,4 @@ import { AuthInterceptor } from './auth.interceptor';
     },
   ],
 })
-export class AuthModule { }
+export class AuthModule {}

@@ -9,7 +9,7 @@ import { GeneralStatistic } from '../../../model/general-statistic.model';
 export class SingleMeanStatisticComponent implements OnInit {
   statistics?: GeneralStatistic;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 }

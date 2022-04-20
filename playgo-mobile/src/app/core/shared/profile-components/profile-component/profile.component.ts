@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private modalController: ModalController
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userService.userProfile$.subscribe((profile) => {
@@ -41,7 +41,7 @@ export class ProfileComponent implements OnInit {
         //save new profile
         try {
           this.userService.updatePlayer(this.profile);
-        } catch (e) { }
+        } catch (e) {}
       } else {
         //not save and show hi
       }

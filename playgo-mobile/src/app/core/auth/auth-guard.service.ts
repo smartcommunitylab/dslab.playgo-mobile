@@ -14,9 +14,11 @@ import { UserService } from '../shared/services/user.service';
   providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
-  constructor(private auth: AuthService,
+  constructor(
+    private auth: AuthService,
     private userService: UserService,
-    private navCtrl: NavController) { }
+    private navCtrl: NavController
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

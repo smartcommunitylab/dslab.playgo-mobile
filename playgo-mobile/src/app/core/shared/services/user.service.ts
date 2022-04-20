@@ -18,8 +18,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class UserService {
-
-
   private userProfileSubject = new ReplaySubject<IUser>();
   private userProfileMeansSubject = new ReplaySubject<TransportType[]>();
   private userStatusSubject = new ReplaySubject<IStatus>();
@@ -30,8 +28,7 @@ export class UserService {
     this.userProfileMeansSubject.asObservable();
   public userProfile$: Observable<IUser> =
     this.userProfileSubject.asObservable();
-  public userStatus$: Observable<IUser> =
-    this.userStatusSubject.asObservable();
+  public userStatus$: Observable<IUser> = this.userStatusSubject.asObservable();
   constructor(
     private authHttpService: AuthHttpService,
     private translateService: TranslateService,
@@ -51,6 +48,7 @@ export class UserService {
   get locale(): string {
     return this.userLocale || 'en-US';
   }
+
   uploadAvatar(file: any): Promise<any> {
     const formData = new FormData();
     formData.append('data', file);
@@ -62,20 +60,27 @@ export class UserService {
     );
   }
   getAvatar(): Promise<any> {
-    return this.authHttpService.request<any>(
-      'GET',
-      environment.serverUrl.avatar,
-      null,
-      true,
-      'blob');
+    return this.http
+      .request(
+        'GET',
+        environment.serverUrl.apiUrl + environment.serverUrl.avatar,
+        {
+          responseType: 'blob',
+        }
+      )
+      .toPromise();
   }
+
   getAvatarSmall(): Promise<any> {
-    return this.authHttpService.request<any>(
-      'GET',
-      environment.serverUrl.avatarSmall,
-      null,
-      true,
-      'blob');
+    return this.http
+      .request(
+        'GET',
+        environment.serverUrl.apiUrl + environment.serverUrl.avatarSmall,
+        {
+          responseType: 'blob',
+        }
+      )
+      .toPromise();
   }
 
   registerLocale(locale: string) {
@@ -134,17 +139,29 @@ export class UserService {
   }
   createImageFromBlob(user: IUser, userimage: Blob, userimageSmall: Blob) {
     const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      if (!user.avatar) { user.avatar = new Avatar(); }
-      user.avatar.avatarData = reader.result;
-      this.userProfileSubject.next(user);
-    }, false);
+    reader.addEventListener(
+      'load',
+      () => {
+        if (!user.avatar) {
+          user.avatar = new Avatar();
+        }
+        user.avatar.avatarData = reader.result;
+        this.userProfileSubject.next(user);
+      },
+      false
+    );
     const readerSmall = new FileReader();
-    readerSmall.addEventListener('load', () => {
-      if (!user.avatar) { user.avatar = new Avatar(); }
-      user.avatar.avatarDataSmall = reader.result;
-      this.userProfileSubject.next(user);
-    }, false);
+    readerSmall.addEventListener(
+      'load',
+      () => {
+        if (!user.avatar) {
+          user.avatar = new Avatar();
+        }
+        user.avatar.avatarDataSmall = reader.result;
+        this.userProfileSubject.next(user);
+      },
+      false
+    );
     if (userimage) {
       reader.readAsDataURL(userimage);
       readerSmall.readAsDataURL(userimageSmall);
@@ -158,7 +175,7 @@ export class UserService {
     this.userProfileMeansSubject.next(userTerritory.territoryData.means);
   }
 
-  registerPlayer(user: IUser,): Promise<IUser> {
+  registerPlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
     return this.authHttpService.request<IUser>(
       'POST',
@@ -200,7 +217,6 @@ export class UserService {
     });
   }
 
-
   async updatePlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
     const player = await this.authHttpService.request<IUser>(
@@ -217,5 +233,5 @@ export class UserService {
     this.authService.signOut();
     this.localStorageService.clearUser();
     this.navCtrl.navigateRoot('login');
-  };
+  }
 }

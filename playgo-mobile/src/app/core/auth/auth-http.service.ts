@@ -9,16 +9,17 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AuthHttpService {
-
   public headers$ = this.auth.token$.pipe(
     filter(Boolean),
     map((token) => this.addHeaders(token)),
     shareReplay(1)
   );
 
-  constructor(private requestor: Requestor, private http: HttpClient, private auth: AuthService) {
-
-  }
+  constructor(
+    private requestor: Requestor,
+    private http: HttpClient,
+    private auth: AuthService
+  ) {}
 
   public async request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
@@ -26,7 +27,6 @@ export class AuthHttpService {
     data?: AnyRecord,
     multipart?: boolean,
     responseType?: 'arraybuffer' | 'blob' | 'json' | 'text'
-
   ) {
     let body: any;
     let paramString = '';
@@ -38,14 +38,13 @@ export class AuthHttpService {
         body = multipart ? data : JSON.stringify(data);
       }
     }
-    const ret = await this.http.request(
-      method,
-      this.getApiUrl(endpoint) + paramString,
-      {
+    const ret = await this.http
+      .request(method, this.getApiUrl(endpoint) + paramString, {
         body,
         headers: await this.getHeaders(multipart),
-        ...(responseType && { responseType })
-      }).toPromise();
+        ...(responseType && { responseType }),
+      })
+      .toPromise();
     // const ret = await this.requestor.xhr<T>({
 
     //   url: this.getApiUrl(endpoint) + paramString,
@@ -62,8 +61,7 @@ export class AuthHttpService {
     const headers = await this.headers$.pipe(take(1)).toPromise();
     if (multipart) {
       delete headers['Content-Type'];
-    }
-    else {
+    } else {
       headers['Content-Type'] = 'application/json';
     }
     return headers;
@@ -79,12 +77,13 @@ export class AuthHttpService {
   private addHeaders(token: any) {
     return token
       ? {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Authorization: `${token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          Authorization: `${
+            token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
           } ${token.accessToken}`,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Accept: '*/*',
-      }
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          Accept: '*/*',
+        }
       : {};
   }
 }

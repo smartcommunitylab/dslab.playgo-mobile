@@ -6,8 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  today = new Date();
-  val = 111122222.3333;
   constructor() {}
 
   ngOnInit() {

@@ -9,7 +9,7 @@ import { IGeneralStatistic } from '../../../model/general-statistic.model';
 export class TotalStatisticsComponent implements OnInit {
   statistics?: IGeneralStatistic;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 }

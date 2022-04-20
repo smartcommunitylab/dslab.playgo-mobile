@@ -10,15 +10,16 @@ import { ReportService } from '../../services/report.service';
 export class GeneralStatisticsComponent implements OnInit {
   statistics?: IGeneralStatistic;
 
-  constructor(private reportService: ReportService) { }
+  constructor(private reportService: ReportService) {}
 
   ngOnInit() {
     this.initStat();
-
   }
   initStat() {
     this.reportService.getLastWeekStatistic().then((stats) => {
-      if (stats) { this.statistics = stats; }
+      if (stats) {
+        this.statistics = stats;
+      }
     });
   }
 }

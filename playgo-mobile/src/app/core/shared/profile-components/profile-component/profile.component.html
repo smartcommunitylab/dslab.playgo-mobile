@@ -10,16 +10,22 @@
       </ion-label>
       <ion-button expand="block" (click)="openModal()" *ngIf="editable">{{
         "profile.changeButton" | translate
-        }}</ion-button>
+      }}</ion-button>
     </ion-item>
     <ion-item *ngIf="showStatus && status">
       <ion-label>
-        <p>{{
-          "profile.status.travels" | translate :{totalTravels: status.travels}
-          }}</p>
-        <p>{{
-          "profile.status.activityDays" | translate: {activityDays: status.activityDays }
-          }}</p>
+        <p>
+          {{
+            "profile.status.travels"
+              | translate: { totalTravels: status.travels }
+          }}
+        </p>
+        <p>
+          {{
+            "profile.status.activityDays"
+              | translate: { activityDays: status.activityDays }
+          }}
+        </p>
       </ion-label>
     </ion-item>
   </ion-card-content>

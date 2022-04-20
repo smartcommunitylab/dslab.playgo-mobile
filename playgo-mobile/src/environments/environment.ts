@@ -32,7 +32,7 @@ export const environment = {
     storageBucket: 'playgo-mobile.appspot.com',
     messagingSenderId: '187362305431',
     appId: '1:187362305431:web:6b28040d084512431810d2',
-    measurementId: 'G-5QRQJTP30R'
+    measurementId: 'G-5QRQJTP30R',
   },
 };
 
