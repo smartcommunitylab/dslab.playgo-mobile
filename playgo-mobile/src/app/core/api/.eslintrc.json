@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "id-blacklist": "off"
+  }
+}

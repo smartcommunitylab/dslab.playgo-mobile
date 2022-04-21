@@ -1,0 +1,55 @@
+{{>licenseInfo}}
+
+
+import { environment } from 'src/environments/environment';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+{{#operations}}
+
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class {{classname}} {
+    constructor(private http: HttpClient) {}
+{{#operation}}
+{{#contents}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#parameters}}* @param {{paramName}} {{description}}
+     {{/parameters}}
+     */
+    public {{nickname}}({{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/parameters}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+        return this.http.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(
+          '{{httpMethod}}',
+          environment.serverUrl.api+`{{path}}`,
+          {
+            {{#bodyParam}}
+              body:{{paramName}},
+            {{/bodyParam}}
+            {{#hasQueryParams}}
+              params: {
+                {{#queryParams}}
+                  {{baseName}},
+                {{/queryParams}}
+              },
+            {{/hasQueryParams}}
+          }
+        );
+    }
+
+{{/contents}}
+{{/operation}}
+}
+{{/operations}}

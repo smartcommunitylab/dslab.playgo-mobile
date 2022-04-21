@@ -16,6 +16,7 @@ import { NavController } from '@ionic/angular';
 import { AuthService } from 'ionic-appauth';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userProfileSubject = new ReplaySubject<IUser>();
@@ -37,9 +38,9 @@ export class UserService {
     private localStorageService: LocalStorageService,
     private navCtrl: NavController,
     private authService: AuthService,
-    private http: HttpClient
-  ) // private sanitizer: DomSanitizer
-  {
+    private http: HttpClient,
+    private playerControllerService: PlayerControllerService // private sanitizer: DomSanitizer
+  ) {
     this.authService.token$.subscribe(async (token) => {
       if (token) {
         this.startService();
@@ -223,12 +224,8 @@ export class UserService {
     //   if (user) {
     //     return Promise.resolve(user);
     //   } else {
-    return this.http
-      .request(
-        'GET',
-        environment.serverUrl.apiUrl + environment.serverUrl.profile
-      )
-      .toPromise();
+    return this.playerControllerService.getProfileUsingGET().toPromise();
+
     //   //     .then((newUser) => {
     //   //       this.localStorageService.setUser(newUser);
     //   //       return Promise.resolve(newUser);;
