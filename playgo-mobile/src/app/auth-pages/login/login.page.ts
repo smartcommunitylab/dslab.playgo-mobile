@@ -14,6 +14,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 export class LoginPage implements OnInit, OnDestroy {
   events$ = this.auth.events$;
   sub: Subscription;
+  subToken: Subscription;
 
   constructor(
     private auth: AuthService,
@@ -21,7 +22,7 @@ export class LoginPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private translateService: TranslateService,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sub = this.auth.events$.subscribe((action) => {
@@ -33,19 +34,23 @@ export class LoginPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.subToken.unsubscribe();
   }
 
   private async onSignInSuccess(action: IAuthAction) {
     this.alertService.showToast(this.translateService.instant('login.welcome'));
-    const userIsRegistered = await this.userService.isUserRegistered();
-    if (userIsRegistered) {
-      this.navCtrl.navigateRoot('/pages/tabs/home');
-    } else {
-      this.alertService.showToast(
-        this.translateService.instant('registration.newUser')
-      );
-      this.navCtrl.navigateRoot('/pages/registration');
-    }
+    // wait until token is ready
+    this.subToken = this.auth.token$.subscribe(async (token) => {
+      const userIsRegistered = await this.userService.isUserRegistered();
+      if (userIsRegistered) {
+        this.navCtrl.navigateRoot('/pages/tabs/home');
+      } else {
+        this.alertService.showToast(
+          this.translateService.instant('registration.newUser')
+        );
+        this.navCtrl.navigateRoot('/pages/registration');
+      }
+    });
 
     if (action.action === AuthActions.SignInFailed) {
       this.navCtrl.navigateRoot('login');
