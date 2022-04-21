@@ -13,6 +13,8 @@ import {
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
 import { groupByConsecutiveValues } from 'src/app/core/shared/utils';
+import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
+import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 
 @Component({
   selector: 'app-trips',
@@ -24,7 +26,7 @@ export class TripsPage implements OnInit {
 
   scrollRequest = new Subject<PageableRequest>();
 
-  tripsResponse$: Observable<PageableResponse<TripInfo>> =
+  tripsResponse$: Observable<PageableResponse<TrackedInstanceInfo>> =
     this.scrollRequest.pipe(
       startWith({
         page: 0,
@@ -39,12 +41,13 @@ export class TripsPage implements OnInit {
 
   constructor(
     private authHttpService: AuthHttpService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private trackControllerService: TrackControllerService
   ) {}
   ngOnInit() {}
 
   // TODO: memoize
-  public groupTrips(allTrips: TripInfo[]): TripGroup[] {
+  public groupTrips(allTrips: TrackedInstanceInfo[]): TripGroup[] {
     const groupedByMultimodalId = groupByConsecutiveValues(
       allTrips,
       'multimodalId'
@@ -73,7 +76,7 @@ export class TripsPage implements OnInit {
     return groupedByDate;
   }
 
-  private roundToDay(timestamp: number): number {
+  private roundToDay(timestamp: number | Date): number {
     const dateCopy = new Date(timestamp);
     dateCopy.setHours(0, 0, 0, 0);
     return dateCopy.getTime();
@@ -82,13 +85,10 @@ export class TripsPage implements OnInit {
   // TODO: move to service..
   async getTripsPage(
     pageRequest: PageableRequest
-  ): Promise<PageableResponse<TripInfo>> {
-    return await this.authHttpService.request(
-      'GET',
-      '/track/player',
-      pageRequest
-      // { page: 0, size: 3 }
-    );
+  ): Promise<PageableResponse<TrackedInstanceInfo>> {
+    return await this.trackControllerService
+      .getTrackedInstanceInfoListUsingGET(pageRequest.page, pageRequest.size)
+      .toPromise();
   }
 }
 
@@ -99,25 +99,7 @@ export interface TripGroup {
     endDate: number;
     isOneDayTrip: boolean;
     multimodalId: string;
-    trips: TripInfo[];
+    trips: TrackedInstanceInfo[];
     date: number;
   }[];
-}
-
-export interface TripInfo {
-  trackedInstanceId: string;
-  multimodalId: string;
-  startTime: number;
-  endTime: number;
-  modeType: TransportType;
-  distance: number;
-  validity: 'VALID' | 'INVALID';
-  campaigns: TripCampaign[];
-  polyline: string;
-}
-export interface TripCampaign {
-  campaignId: string;
-  campaignName: string;
-  score: number;
-  valid: boolean;
 }

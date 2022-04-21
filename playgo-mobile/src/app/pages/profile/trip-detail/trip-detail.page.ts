@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { flatMap } from 'lodash-es';
+import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
+import { CampaignTripInfo } from 'src/app/core/api/generated/model/campaignTripInfo';
+import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import {
@@ -14,16 +17,16 @@ import {
   styleUrls: ['./trip-detail.page.scss'],
 })
 export class TripDetailPage implements OnInit {
-  tripDetails: TripDetail[] = null;
-  campaigns: TripCampaign[];
+  tripDetails: TrackedInstanceInfo[] = null;
+  campaigns: CampaignTripInfo[];
   showMap: boolean;
   transportTypeIcons = transportTypeIcons;
   transportTypeLabels = transportTypeLabels;
 
   constructor(
     private route: ActivatedRoute,
-    private authHttpService: AuthHttpService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private trackControllerService: TrackControllerService
   ) {}
 
   async ngOnInit() {
@@ -33,35 +36,19 @@ export class TripDetailPage implements OnInit {
         const singleTripDetail = await this.getTripDetail(tripId);
         this.tripDetails = [singleTripDetail];
         this.showMap = this.tripDetails.some((trip) => trip.polyline);
-        this.campaigns = flatMap(this.tripDetails, (trip) => trip.campaigns);
+        this.campaigns = flatMap(
+          this.tripDetails,
+          (trip: TrackedInstanceInfo) => trip.campaigns
+        );
       } catch (e) {
         // TODO: incorrect id handling
         this.errorService.showAlert(e);
       }
     }
   }
-  // TODO: move to service
-  async getTripDetail(id: string): Promise<TripDetail> {
-    return await this.authHttpService.request<TripDetail>(
-      'GET',
-      `/track/player/${id}`
-    );
+  async getTripDetail(id: string): Promise<TrackedInstanceInfo> {
+    return await this.trackControllerService
+      .getTrackedInstanceInfoUsingGET(id)
+      .toPromise();
   }
-}
-export interface TripDetail {
-  trackedInstanceId: string;
-  multimodalId: string;
-  startTime: number;
-  endTime: number;
-  modeType: string; //'BIKE';
-  distance: number;
-  validity: 'VALID' | 'INVALID';
-  campaigns: TripCampaign[];
-  polyline: string;
-}
-export interface TripCampaign {
-  campaignId: string;
-  campaignName: string;
-  score: number;
-  valid: boolean;
 }

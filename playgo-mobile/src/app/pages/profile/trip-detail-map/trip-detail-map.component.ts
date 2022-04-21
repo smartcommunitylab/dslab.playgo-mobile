@@ -17,7 +17,7 @@ import {
 } from 'src/app/core/shared/tracking/trip.model';
 import { tapLog } from 'src/app/core/shared/utils';
 import { decode } from '@googlemaps/polyline-codec';
-import { TripDetail } from '../trip-detail/trip-detail.page';
+import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 
 @Component({
   selector: 'app-trip-detail-map',
@@ -26,12 +26,12 @@ import { TripDetail } from '../trip-detail/trip-detail.page';
 })
 export class TripDetailMapComponent implements OnInit, OnDestroy {
   @Input()
-  public set tripParts(tripParts: TripDetail[]) {
+  public set tripParts(tripParts: TrackedInstanceInfo[]) {
     console.log('tripParts', tripParts);
     this.tripPartsSubject.next(tripParts);
   }
 
-  tripPartsSubject = new ReplaySubject<TripDetail[]>(1);
+  tripPartsSubject = new ReplaySubject<TrackedInstanceInfo[]>(1);
 
   public mapOptions: MapOptions = {
     layers: [

@@ -9,7 +9,7 @@ import {
   transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
-import { TripCampaign, TripInfo } from '../trips.page';
+import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 
 @Component({
   selector: 'app-trip-card',
@@ -22,7 +22,7 @@ export class TripCardComponent implements OnInit {
 
   pluralRules = new Intl.PluralRules(this.user.locale);
 
-  @Input() trip: TripInfo;
+  @Input() trip: TrackedInstanceInfo;
   @Input() isOneDayTrip = true;
   @Input() multiModalTrip = false;
 

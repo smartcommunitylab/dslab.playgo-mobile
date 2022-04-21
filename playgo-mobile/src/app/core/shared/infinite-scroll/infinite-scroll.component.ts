@@ -12,6 +12,8 @@ import {
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, scan, withLatestFrom } from 'rxjs/operators';
+import { Sort } from '../../api/generated/model/sort';
+import { SwaggerPageable } from '../../api/generated/model/swaggerPageable';
 @Directive({
   selector: '[appInfiniteScrollContent]',
 })
@@ -84,30 +86,15 @@ export interface PageableRequest {
 }
 
 export interface PageableResponse<T> {
-  content: T[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: Pageable;
-  size: number;
-  sort: Sort;
-  totalElements: number;
-  totalPages: number;
-}
-
-interface Sort {
-  empty: boolean;
-  sorted: boolean;
-  unsorted: boolean;
-}
-
-interface Pageable {
-  offset: number;
-  pageNumber: number;
-  pageSize: number;
-  paged: boolean;
-  sort: Sort;
-  unpaged: boolean;
+  content?: T[];
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: SwaggerPageable;
+  size?: number;
+  sort?: Sort;
+  totalElements?: number;
+  totalPages?: number;
 }
