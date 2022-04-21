@@ -30,6 +30,7 @@ rm ./src/app/core/api/generated/.gitignore
 rm ./src/app/core/api/generated/.npmignore
 rm -rf ./src/app/core/api/generated/.swagger-codegen/
 rm ./src/app/core/api/generated/api/api.ts
+rm ./src/app/core/api/generated/model/models.ts
 
 # this file can be used if we want to keep some changes in generated files
 rm ./src/app/core/api/generated/.swagger-codegen-ignore
