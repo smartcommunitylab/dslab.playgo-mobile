@@ -1,12 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import {
-  AuthActions,
-  IAuthAction,
-  AuthObserver,
-  AuthService,
-} from 'ionic-appauth';
+import { AuthActions, IAuthAction, AuthService } from 'ionic-appauth';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +12,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 })
 export class AuthCallbackPage implements OnInit, OnDestroy {
   sub: Subscription;
+  subToken: Subscription;
 
   constructor(
     private auth: AuthService,
@@ -36,20 +32,27 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.subToken.unsubscribe();
   }
 
   async postCallback(action: IAuthAction) {
     console.log(JSON.stringify(action));
     if (action.action === AuthActions.SignInSuccess) {
+      console.log(action.action);
       this.alertService.showToast(
         this.translateService.instant('login.welcome')
       );
-      const userIsRegistered = await this.userService.isUserRegistered();
-      if (userIsRegistered) {
-        this.navCtrl.navigateRoot('/pages/tabs/home');
-      } else {
-        this.navCtrl.navigateRoot('/pages/registration');
-      }
+      // wait until token is ready
+      this.subToken = this.auth.token$.subscribe(async (token) => {
+        if (token) {
+          const userIsRegistered = await this.userService.isUserRegistered();
+          if (userIsRegistered) {
+            this.navCtrl.navigateRoot('/pages/tabs/home');
+          } else {
+            this.navCtrl.navigateRoot('/pages/registration');
+          }
+        }
+      });
     }
 
     if (action.action === AuthActions.SignInFailed) {

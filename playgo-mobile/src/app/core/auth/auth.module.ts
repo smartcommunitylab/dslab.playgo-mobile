@@ -1,6 +1,6 @@
 import { Platform } from '@ionic/angular';
 import { Requestor, StorageBackend } from '@openid/appauth';
-import { APP_INITIALIZER, NgModule, NgZone } from '@angular/core';
+import { NgModule, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Browser, AuthService } from 'ionic-appauth';
 import {

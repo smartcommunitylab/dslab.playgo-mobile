@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AuthHttpService } from '../../auth/auth-http.service';
+// import { AuthHttpService } from '../../auth/auth-http.service';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
 import { TransportType } from '../tracking/trip.model';
@@ -30,17 +30,21 @@ export class UserService {
     this.userProfileSubject.asObservable();
   public userStatus$: Observable<IUser> = this.userStatusSubject.asObservable();
   constructor(
-    private authHttpService: AuthHttpService,
+    // private authHttpService: AuthHttpService,
     private translateService: TranslateService,
     private reportService: ReportService,
     private territoryService: TerritoryService,
     private localStorageService: LocalStorageService,
     private navCtrl: NavController,
     private authService: AuthService,
-    private http: HttpClient,
-    private sanitizer: DomSanitizer
-  ) {
-    this.startService();
+    private http: HttpClient
+  ) // private sanitizer: DomSanitizer
+  {
+    this.authService.token$.subscribe(async (token) => {
+      if (token) {
+        this.startService();
+      }
+    });
   }
   set locale(value: string) {
     this.userLocale = value;
@@ -52,12 +56,15 @@ export class UserService {
   uploadAvatar(file: any): Promise<any> {
     const formData = new FormData();
     formData.append('data', file);
-    return this.authHttpService.request<any>(
-      'POST',
-      environment.serverUrl.avatar,
-      formData,
-      true
-    );
+    return this.http
+      .request<any>(
+        'POST',
+        environment.serverUrl.apiUrl + environment.serverUrl.avatar,
+        {
+          body: formData,
+        }
+      )
+      .toPromise();
   }
   getAvatar(): Promise<any> {
     return this.http
@@ -177,18 +184,26 @@ export class UserService {
 
   registerPlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
-    return this.authHttpService.request<IUser>(
-      'POST',
-      environment.serverUrl.register,
-      user
-    );
+    return this.http
+      .request(
+        'POST',
+        environment.serverUrl.apiUrl + environment.serverUrl.register,
+        { body: user }
+      )
+      .toPromise();
   }
   async isUserRegistered(): Promise<boolean> {
     try {
-      const user = await this.authHttpService.request<IUser>(
-        'GET',
-        environment.serverUrl.profile
-      );
+      // const user = await this.http.request(
+      //   'GET',
+      //   environment.serverUrl.apiUrl + environment.serverUrl.profile
+      // ).toPromise();
+      const user = await this.http
+        .request<IUser>(
+          'GET',
+          environment.serverUrl.apiUrl + environment.serverUrl.profile
+        )
+        .toPromise();
       if (user) {
         //user registered
         return true;
@@ -198,32 +213,39 @@ export class UserService {
       }
     } catch (e) {
       {
+        console.log(e);
         return false;
       }
     }
   }
   getProfile(): Promise<IUser> {
-    return this.localStorageService.loadUser().then((user) => {
-      if (user) {
-        return Promise.resolve(user);
-      } else {
-        return this.authHttpService
-          .request<IUser>('GET', environment.serverUrl.profile)
-          .then((newUser) => {
-            this.localStorageService.setUser(newUser);
-            return newUser;
-          });
-      }
-    });
+    // return this.localStorageService.loadUser().then((user) => {
+    //   if (user) {
+    //     return Promise.resolve(user);
+    //   } else {
+    return this.http
+      .request(
+        'GET',
+        environment.serverUrl.apiUrl + environment.serverUrl.profile
+      )
+      .toPromise();
+    //   //     .then((newUser) => {
+    //   //       this.localStorageService.setUser(newUser);
+    //   //       return Promise.resolve(newUser);;
+    //   //     });
+    //   // }
+    // });
   }
 
   async updatePlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
-    const player = await this.authHttpService.request<IUser>(
-      'PUT',
-      environment.serverUrl.profile,
-      user
-    );
+    const player = await this.http
+      .request(
+        'PUT',
+        environment.serverUrl.apiUrl + environment.serverUrl.profile,
+        { body: user }
+      )
+      .toPromise();
     this.processUser(user);
     return player;
   }

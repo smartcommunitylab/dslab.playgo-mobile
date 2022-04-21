@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { EndSessionPage } from './end-session.page';
-import { TranslateModule } from '@ngx-translate/core';
+import { PlayGoSharedLibsModule } from 'src/app/core/shared/shared-libs.module';
 
 const routes: Routes = [
   {
@@ -15,12 +15,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TranslateModule,
+    PlayGoSharedLibsModule,
     RouterModule.forChild(routes),
   ],
   declarations: [EndSessionPage],
 })
-export class EndSessionPageModule {}
+export class EndSessionPageModule { }

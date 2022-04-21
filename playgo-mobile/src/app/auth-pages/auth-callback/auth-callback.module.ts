@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { AuthCallbackPage } from './auth-callback.page';
-import { TranslateModule } from '@ngx-translate/core';
+import { PlayGoSharedLibsModule } from 'src/app/core/shared/shared-libs.module';
 
 const routes: Routes = [
   {
@@ -17,12 +17,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TranslateModule,
+    PlayGoSharedLibsModule,
     RouterModule.forChild(routes),
   ],
   declarations: [AuthCallbackPage],
 })
-export class AuthCallbackPageModule {}
+export class AuthCallbackPageModule { }

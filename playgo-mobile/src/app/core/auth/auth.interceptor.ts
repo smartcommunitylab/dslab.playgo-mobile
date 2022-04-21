@@ -8,7 +8,9 @@ import {
 import { from, Observable, ReplaySubject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from 'ionic-appauth';
-import { UserService } from '../shared/services/user.service';
+import { LocalStorageService } from '../shared/services/local-storage.service';
+import { NavController } from '@ionic/angular';
+// import { UserService } from '../shared/services/user.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private urlsToNotUse: Array<string>;
@@ -20,7 +22,9 @@ export class AuthInterceptor implements HttpInterceptor {
     this.refreshTokenSubject.asObservable();
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    //private userService: UserService
+    private localStorageService: LocalStorageService,
+    private navCtrl: NavController
   ) {
     this.urlsToNotUse = [];
   }
@@ -75,10 +79,10 @@ export class AuthInterceptor implements HttpInterceptor {
         } else {
           this.isRefreshing = false;
           //logout
-          this.userService.logout();
-          // this.authService.signOut();
-          // this.localStorageService.clearUser();
-          // this.navCtrl.navigateRoot('login');
+          //this.userService.logout();
+          this.authService.signOut();
+          this.localStorageService.clearUser();
+          this.navCtrl.navigateRoot('login');
         }
       } catch (e) {
         this.isRefreshing = false;
