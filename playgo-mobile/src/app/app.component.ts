@@ -5,6 +5,7 @@ import { AfterContentInit, Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
 import { codePush } from 'capacitor-codepush';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +29,12 @@ export class AppComponent implements AfterContentInit {
       SplashScreen.hide();
     });
     this.platform.ready().then(() => {
-      // codePush.sync();
+      if (environment.useCodePush) {
+        codePush.sync();
+      }
+
       // notify is needed only if sync is not called on the start
-      codePush.notifyApplicationReady();
+      // codePush.notifyApplicationReady();
     });
   }
   ngAfterContentInit() {

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export const environment = {
   production: true,
+  useCodePush: true,
   authConfig: {
     server_host: 'https://aac.platform.smartcommunitylab.it',
     client_id: 'c_5445634c-95d6-4c0e-a1ff-829b951b91b3',
