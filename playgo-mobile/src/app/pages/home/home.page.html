@@ -27,9 +27,8 @@
     <!-- <app-home-tracking-widget></app-home-tracking-widget> -->
     <app-my-campaigns-widget [campaigns]="campaigns"></app-my-campaigns-widget>
     <div>
-      {{ version$ | async }}
-      <!-- insert code push release version here! -->
-      v8
+      {{ appVersionService.version$ | async }} | {{
+      appVersionService.codePushLabel$ | async }}
     </div>
   </div>
 </ion-content>

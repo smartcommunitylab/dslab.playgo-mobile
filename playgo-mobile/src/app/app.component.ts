@@ -6,6 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
 import { codePush } from 'capacitor-codepush';
 import { environment } from 'src/environments/environment';
+import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
+import { AppVersionService } from './core/app-version.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,8 @@ export class AppComponent implements AfterContentInit {
     private translate: TranslateService,
     private platform: Platform,
     private auth: AuthService,
-    private backgroundTrackingService: BackgroundTrackingService
+    private backgroundTrackingService: BackgroundTrackingService,
+    private appVersionService: AppVersionService
   ) {
     this.initializeApp();
   }
@@ -28,14 +31,22 @@ export class AppComponent implements AfterContentInit {
       await this.auth.init();
       SplashScreen.hide();
     });
-    this.platform.ready().then(() => {
-      if (environment.useCodePush) {
-        codePush.sync();
-      }
+    this.codePushSync();
+  }
 
-      // notify is needed only if sync is not called on the start
-      // codePush.notifyApplicationReady();
-    });
+  async codePushSync() {
+    try {
+      await this.platform.ready();
+      let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';
+      if (environment.useCodePush) {
+        syncStatus = await codePush.sync({});
+      }
+      console.log('codePushSync syncStatus:', syncStatus);
+    } catch (error) {
+      console.error('codePushSync error:', error);
+    } finally {
+      this.appVersionService.codePushSyncFinished();
+    }
   }
   ngAfterContentInit() {
     this.backgroundTrackingService.start();
