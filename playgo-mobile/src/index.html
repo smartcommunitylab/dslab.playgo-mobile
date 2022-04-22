@@ -19,12 +19,16 @@
     <!-- add to homescreen for ios -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <!-- FIXME: set up real code push server! -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src https://codepush.appcenter.ms 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *" /> -->
-    <!-- <meta
+
+    <meta
       http-equiv="Content-Security-Policy"
-      content="default-src https://localhost:3000 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"
-    /> -->
+      content="
+        default-src gap://ready file://* *;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+        style-src 'self' 'unsafe-inline' *;
+        img-src 'self' data:;
+      "
+    />
   </head>
 
   <body>
