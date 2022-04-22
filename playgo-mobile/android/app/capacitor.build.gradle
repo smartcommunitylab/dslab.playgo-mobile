@@ -11,10 +11,13 @@ apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-community-barcode-scanner')
     implementation project(':capacitor-community-firebase-analytics')
+    implementation project(':capacitor-community-http')
     implementation project(':capacitor-app')
     implementation project(':capacitor-browser')
     implementation project(':capacitor-camera')
     implementation project(':capacitor-device')
+    implementation project(':capacitor-dialog')
+    implementation project(':capacitor-filesystem')
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-splash-screen')
@@ -22,6 +25,7 @@ dependencies {
     implementation project(':capacitor-storage')
     implementation project(':transistorsoft-capacitor-background-fetch')
     implementation project(':transistorsoft-capacitor-background-geolocation')
+    implementation project(':capacitor-codepush')
     implementation project(':capacitor-secure-storage-plugin')
 
 }

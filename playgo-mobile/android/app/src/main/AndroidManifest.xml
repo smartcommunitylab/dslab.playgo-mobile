@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="it.dslab.playgo">
 
+    <!-- Android App version is set in android\app\build.gradle -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

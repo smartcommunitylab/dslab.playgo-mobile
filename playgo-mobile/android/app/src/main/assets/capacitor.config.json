@@ -12,6 +12,12 @@
 			"splashImmersive": false,
 			"backgroundColor": "#1C3461",
 			"androidSplashResourceName": "splash"
+		},
+		"CodePush": {
+			"ANDROID_DEPLOY_KEY": "URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog",
+			"___STAGING___ANDROID_DEPLOY_KEY": "URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog",
+			"___PROD___ANDROID_DEPLOY_KEY": "NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog",
+			"SERVER_URL": "https://code-push-server.platform.smartcommunitylab.it"
 		}
 	}
 }

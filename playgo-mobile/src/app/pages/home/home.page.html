@@ -26,5 +26,9 @@
     <app-tracking-main-control></app-tracking-main-control>
     <!-- <app-home-tracking-widget></app-home-tracking-widget> -->
     <app-my-campaigns-widget [campaigns]="campaigns"></app-my-campaigns-widget>
+    <div>
+      {{ appVersionService.version$ | async }} | {{
+      appVersionService.codePushLabel$ | async }}
+    </div>
   </div>
 </ion-content>

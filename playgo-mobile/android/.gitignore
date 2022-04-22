@@ -46,6 +46,7 @@ captures/
 .idea/assetWizardSettings.xml
 .idea/dictionaries
 .idea/libraries
+./idea/deploymentTargetDropDown.xml
 # Android Studio 3 in .gitignore file.
 .idea/caches
 .idea/modules.xml
@@ -93,4 +94,5 @@ lint/tmp/
 capacitor-cordova-android-plugins
 
 # Copied web assets
-app/src/main/assets/public
+app/src/main/assets
+
