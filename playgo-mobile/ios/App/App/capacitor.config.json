@@ -14,8 +14,10 @@
 			"androidSplashResourceName": "splash"
 		},
 		"CodePush": {
-			"ANDROID_DEPLOY_KEY": "37NTmWN6c784STOaZ8WR2qdxyzfD4ksvOXqog",
-			"SERVER_URL": "http://localhost:3000/"
+			"ANDROID_DEPLOY_KEY": "URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog",
+			"___STAGING___ANDROID_DEPLOY_KEY": "URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog",
+			"___PROD___ANDROID_DEPLOY_KEY": "NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog",
+			"SERVER_URL": "https://code-push-server.platform.smartcommunitylab.it"
 		}
 	}
 }
