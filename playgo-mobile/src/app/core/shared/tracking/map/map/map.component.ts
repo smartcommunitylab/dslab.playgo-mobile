@@ -65,7 +65,7 @@ export class MapComponent implements OnInit {
   public mapOptions$: Observable<MapOptions> = this.initialLatLng$.pipe(
     map((initLatLng) => ({
       layers: [
-        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 25,
           minZoom: 10,
           // attribution: '...',

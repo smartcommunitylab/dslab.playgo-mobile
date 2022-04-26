@@ -23,12 +23,23 @@
     <meta
       http-equiv="Content-Security-Policy"
       content="
-        default-src https://code-push-server.platform.smartcommunitylab.it gap://ready file://* *;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
-        style-src 'self' 'unsafe-inline' *;
-        img-src 'self' data:;
+        upgrade-insecure-requests;
+        base-uri 'self';
+        default-src 'self';
+        script-src 'self' 'unsafe-eval';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data: https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org;
+        connect-src 'self' https://aac.platform.smartcommunitylab.it https://backenddev.playngo.it/playandgo/api/;
+        form-action 'none';
+        object-src 'none';
       "
     />
+    <!--
+      This is CSP working for android. I didn't tested it on ios. Following urls maybe should be added:
+      https://code-push-server.platform.smartcommunitylab.it
+      gap://ready
+      file://*
+    -->
   </head>
 
   <body>
