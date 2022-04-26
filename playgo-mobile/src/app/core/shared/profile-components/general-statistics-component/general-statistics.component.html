@@ -1,19 +1,22 @@
-<div *ngIf="statistics !== undefined">
+<div *ngIf="statistics !== undefined" (click)="openStats()">
   <ion-card>
     <ion-card-header>
       <ion-label>
         <strong>{{ "generalStatistics" | translate }}</strong>
       </ion-label>
     </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row *ngFor="let meanStat of statistics">
+          <ion-col>
+            <ion-label>{{ stat }}</ion-label>
+            <app-single-mean-statistic [meanStat]="meanStat"></app-single-mean-statistic>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
   </ion-card>
-  <ion-grid>
-    <ion-row *ngFor="let stat of statistics.meansStats">
-      <ion-col size-md="6" offset-md="3">
-        <ion-label>{{ stat }}</ion-label>
-        <app-single-mean-statistic></app-single-mean-statistic>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
 </div>
 
 <div *ngIf="statistics === undefined">

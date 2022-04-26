@@ -10,11 +10,11 @@ import { DateTime } from 'luxon';
 export class ReportService {
   private statusSubject = new ReplaySubject<IStatus>();
   public userStatus$: Observable<IStatus> = this.statusSubject.asObservable();
-  constructor(private authHttpService: AuthHttpService) {}
+  constructor(private authHttpService: AuthHttpService) { }
 
   getLastWeekStatistic(): Promise<IGeneralStatistic> {
-    const fromDate = DateTime.local().toFormat('yyyy-MM-dd');
-    const toDate = DateTime.local().minus({ week: 1 }).toFormat('yyyy-MM-dd');
+    const fromDate = DateTime.local().minus({ week: 1 }).toFormat('yyyy-MM-dd');
+    const toDate = DateTime.local().toFormat('yyyy-MM-dd');
     return this.getTransportStats(fromDate, toDate);
   }
   getTransportStats(
