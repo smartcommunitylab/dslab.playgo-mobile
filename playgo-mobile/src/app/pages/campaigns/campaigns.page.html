@@ -5,19 +5,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div
-    style="background-image: linear-gradient(to bottom left, #53d117, #0f52ff)"
-  >
-    <div style="font-style: italic; margin-right: 20px; margin-left: 20px">
-      <h5 style="margin-top: 0px">{{'myCampaigns' | translate}}</h5>
-      <hr style="border: none; height: 1px; background-color: #000080" />
+  <div class="background-gradient">
+    <div class="campaigns-container">
+      <h5>{{'myCampaigns' | translate}}</h5>
+      <hr />
     </div>
     <div>
       <app-my-campaign></app-my-campaign>
     </div>
-    <div style="font-style: italic; margin-right: 20px; margin-left: 20px">
+    <div class="background-gradient">
       <h5>{{'allCampaigns' | translate}}</h5>
-      <hr style="border: none; height: 1px; background-color: #000080" />
+      <hr />
     </div>
     <div>
       <app-all-campaign></app-all-campaign>

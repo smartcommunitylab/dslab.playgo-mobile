@@ -48,3 +48,7 @@ body.qr-scanner .show-modal {
 body.qr-scanner .scanner-hide {
   visibility: hidden;
 }
+
+.background-gradient {
+  background-image: linear-gradient(to bottom left, #53d117, #0f52ff);
+}
