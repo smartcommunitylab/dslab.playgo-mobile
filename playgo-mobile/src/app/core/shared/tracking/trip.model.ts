@@ -67,12 +67,12 @@ export const transportTypeColors: Record<TransportType, string> = {
   boat: 'blue',
 };
 export const transportTypeIcons: Record<TransportType, string> = {
-  bike: 'bicycle',
-  bus: 'bus',
-  car: 'car',
-  train: 'train',
-  walk: 'walk',
-  boat: 'boat',
+  bike: 'pedal_bike',
+  bus: 'directions_bus',
+  car: 'directions_car',
+  train: 'directions_train',
+  walk: 'directions_walk',
+  boat: 'directions_boat',
 };
 export const transportTypeLabels: Record<TransportType, TranslateKey> = {
   bike: 'trip_detail.mean.bike',

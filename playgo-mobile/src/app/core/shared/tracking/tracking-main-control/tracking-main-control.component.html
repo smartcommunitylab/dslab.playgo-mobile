@@ -17,7 +17,9 @@
     </div>
     <!-- <div>backgroundTrackingService.isPowerSaveMode$</div>
     <div>{{ backgroundTrackingService.isPowerSaveMode$ | async | json }}</div> -->
-    <ion-icon [name]="tripService.activeTransportType$ | async"></ion-icon>
+    <i class="material-icons">{{
+      transportTypeIcons[tripService.activeTransportType$ | async]
+    }}</i>
     <app-tracking-stopwatch></app-tracking-stopwatch>
   </div>
   <ng-template #chooseMean>
