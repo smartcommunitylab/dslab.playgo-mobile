@@ -17,6 +17,7 @@ import { AuthService } from 'ionic-appauth';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
+import { Player } from '../../api/generated/model/player';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userProfileSubject = new ReplaySubject<IUser>();
@@ -219,7 +220,7 @@ export class UserService {
       }
     }
   }
-  getProfile(): Promise<IUser> {
+  getProfile(): Promise<Player> {
     // return this.localStorageService.loadUser().then((user) => {
     //   if (user) {
     //     return Promise.resolve(user);
@@ -234,15 +235,18 @@ export class UserService {
     // });
   }
 
-  async updatePlayer(user: IUser): Promise<IUser> {
+  async updatePlayer(user: IUser): Promise<Player> {
     //TODO update local profile
-    const player = await this.http
-      .request(
-        'PUT',
-        environment.serverUrl.apiUrl + environment.serverUrl.profile,
-        { body: user }
-      )
+    const player = await this.playerControllerService
+      .updateProfileUsingPUT(user)
       .toPromise();
+    // const player = await this.http
+    //   .request(
+    //     'PUT',
+    //     environment.serverUrl.apiUrl + environment.serverUrl.profile,
+    //     { body: user }
+    //   )
+    //   .toPromise();
     this.processUser(user);
     return player;
   }

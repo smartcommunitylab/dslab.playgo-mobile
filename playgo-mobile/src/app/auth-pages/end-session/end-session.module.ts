@@ -14,10 +14,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    PlayGoSharedLibsModule,
-    RouterModule.forChild(routes),
-  ],
+  imports: [PlayGoSharedLibsModule, RouterModule.forChild(routes)],
   declarations: [EndSessionPage],
 })
-export class EndSessionPageModule { }
+export class EndSessionPageModule {}

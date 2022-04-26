@@ -16,10 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    PlayGoSharedLibsModule,
-    RouterModule.forChild(routes),
-  ],
+  imports: [PlayGoSharedLibsModule, RouterModule.forChild(routes)],
   declarations: [AuthCallbackPage],
 })
-export class AuthCallbackPageModule { }
+export class AuthCallbackPageModule {}
