@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IGeneralStatistic } from '../../model/general-statistic.model';
 import { ReportService } from '../../services/report.service';
 
@@ -10,7 +11,7 @@ import { ReportService } from '../../services/report.service';
 export class GeneralStatisticsComponent implements OnInit {
   statistics?: IGeneralStatistic;
 
-  constructor(private reportService: ReportService) {}
+  constructor(private reportService: ReportService, private router: Router) { }
 
   ngOnInit() {
     this.initStat();
@@ -21,5 +22,8 @@ export class GeneralStatisticsComponent implements OnInit {
         this.statistics = stats;
       }
     });
+  }
+  openStats() {
+    this.router.navigateByUrl('pages/stats');
   }
 }

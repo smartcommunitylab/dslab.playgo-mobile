@@ -16,7 +16,12 @@ import { RouterModule } from '@angular/router';
             (m) => m.RegistrationPageModule
           ),
       },
+      {
+        path: 'stats',
+        loadChildren: () =>
+          import('./stats/stats.module').then((m) => m.StatsPageModule),
+      },
     ]),
   ],
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule { }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { GeneralStatistic } from '../../../model/general-statistic.model';
+import { Component, Input, OnInit } from '@angular/core';
+import { IMeansStat } from '../../../model/general-statistic.model';
 
 @Component({
   selector: 'app-single-mean-statistic',
@@ -7,9 +7,9 @@ import { GeneralStatistic } from '../../../model/general-statistic.model';
   styleUrls: ['./single-mean-statistic.component.scss'],
 })
 export class SingleMeanStatisticComponent implements OnInit {
-  statistics?: GeneralStatistic;
+  @Input() stat: IMeansStat;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }
