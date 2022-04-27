@@ -1,4 +1,4 @@
-<ion-item *ngIf="trip" button (click)="openDetail()" detail>
+<div *ngIf="trip" button (click)="openDetail()" detail>
   <strong>{{ transportTypeLabels[trip.modeType] | translate }}</strong>
   <div *ngIf="!multiModalTrip">
     <div *ngIf="isOneDayTrip">
@@ -38,4 +38,4 @@
   <div *ngFor="let campaignLabel of campaignsLabels">
     <strong>{{ campaignLabel }}</strong>
   </div>
-</ion-item>
+</div>
