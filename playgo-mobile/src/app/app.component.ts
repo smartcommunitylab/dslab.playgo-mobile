@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Platform } from '@ionic/angular';
 import { AuthService } from 'ionic-appauth';
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -8,6 +9,7 @@ import { codePush } from 'capacitor-codepush';
 import { environment } from 'src/environments/environment';
 import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
 import { AppVersionService } from './core/app-version.service';
+import { IconService } from './core/shared/ui/icon/icon.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +22,8 @@ export class AppComponent implements AfterContentInit {
     private platform: Platform,
     private auth: AuthService,
     private backgroundTrackingService: BackgroundTrackingService,
-    private appVersionService: AppVersionService
+    private appVersionService: AppVersionService,
+    private iconService: IconService
   ) {
     this.initializeApp();
   }
@@ -32,6 +35,7 @@ export class AppComponent implements AfterContentInit {
       SplashScreen.hide();
     });
     this.codePushSync();
+    this.loadCustomIcons();
   }
 
   async codePushSync() {
@@ -48,6 +52,15 @@ export class AppComponent implements AfterContentInit {
       this.appVersionService.codePushSyncFinished();
     }
   }
+
+  loadCustomIcons() {
+    const icons = {
+      custom_carpooling: '../assets/icon/carpooling.svg',
+      test: '../assets/icon/adfgadfs.svg',
+    };
+    this.iconService.registerSvgIcons(icons);
+  }
+
   ngAfterContentInit() {
     this.backgroundTrackingService.start();
   }

@@ -69,7 +69,7 @@ export const transportTypeColors: Record<TransportType, string> = {
 export const transportTypeIcons: Record<TransportType, string> = {
   bike: 'pedal_bike',
   bus: 'directions_bus',
-  car: 'directions_car',
+  car: 'custom_carpooling',
   train: 'directions_train',
   walk: 'directions_walk',
   boat: 'directions_boat',
