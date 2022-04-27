@@ -1,19 +1,20 @@
+<!-- my campaign -->
 <div *ngIf="!join">
-  <div *ngIf="campaign.type === 'personal'">
+  <div *ngIf="containerCampaign.campaign.type === 'personal'">
     <ion-card button="join" (click)="detailCampaign()" class="ion-card">
       <div style="height: 64px">
         <div style="float: left">
           <ion-card-header style="color: white">
-            <strong> {{ campaign.name }}</strong>
+            <strong> {{ containerCampaign.campaign.name }}</strong>
           </ion-card-header>
         </div>
         <div style="float: right; margin: 2px">
           <ion-avatar style="margin: 2px">
-            <img src="{{ campaign.logoUrl }}" />
+            <img [src]="imagePath" />
           </ion-avatar>
         </div>
       </div>
-      <div style="margin-left: 18px">
+      <!-- <div style="margin-left: 18px">
         <p>{{ campaign.totalGreenLeves }} {{ "greenLeaves" | translate }}</p>
       </div>
       <div>
@@ -28,10 +29,7 @@
         </div>
         <br />
         <div class="progress-bar-contourn">
-          <div
-            class="progress-bar"
-            style="--varwidth:{{ campaign.percentage }}"
-          >
+          <div class="progress-bar" style="--varwidth:{{ campaign.percentage }}">
             {{ campaign.percentage }}
           </div>
         </div>
@@ -41,11 +39,8 @@
           {{ campaign.lastNotification }}
         </div>
       </div>
-      <div
-        (click)="challenges()"
-        class="border-class-fancy"
-        *ngFor="let challenge of campaign.challenges; let i = index"
-      >
+      <div (click)="challenges()" class="border-class-fancy"
+        *ngFor="let challenge of campaign.challenges; let i = index">
         <div style="margin: 10px">
           <div>
             <span style="font-size: large">
@@ -58,11 +53,10 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> -->
     </ion-card>
   </div>
-  <!--TODO -->
-  <div *ngIf="campaign.type === 'school'">
+  <!-- <div *ngIf="campaign.type === 'school'">
     <ion-card button="join" (click)="detailCampaign()" class="ion-card">
       <div style="height: 64px">
         <div style="float: left">
@@ -106,7 +100,6 @@
       </div>
     </ion-card>
   </div>
-  <!--TODO -->
   <div *ngIf="campaign.type === 'company'">
     <ion-card button="join" (click)="detailCampaign()" class="ion-card">
       <div style="height: 64px">
@@ -114,14 +107,12 @@
           <ion-card-header style="color: white">
             <strong> {{ campaign.name }}</strong>
           </ion-card-header>
-          <ion-card-subtitle
-            style="
+          <ion-card-subtitle style="
               color: white;
               float: left;
               margin-left: 18px;
               font-size: small;
-            "
-          >
+            ">
             {{ "activeSince" | translate }} {{ campaign.dateFrom }}
             {{ "to" | translate }} {{ campaign.dateTo }}
           </ion-card-subtitle>
@@ -149,10 +140,7 @@
         </div>
         <br />
         <div class="progress-bar-contourn">
-          <div
-            class="progress-bar"
-            style="--varwidth:{{ campaign.percentage }}"
-          >
+          <div class="progress-bar" style="--varwidth:{{ campaign.percentage }}">
             {{ campaign.percentage }}
           </div>
         </div>
@@ -181,7 +169,6 @@
       <div></div>
     </ion-card>
   </div>
-  <!--TODO -->
   <div *ngIf="campaign.type === 'territory'">
     <ion-card button="join" (click)="detailCampaign()" class="ion-card">
       <div style="height: 64px">
@@ -214,19 +201,13 @@
         </div>
         <br />
         <div class="progress-bar-contourn">
-          <div
-            class="progress-bar"
-            style="--varwidth:{{ campaign.percentage }}"
-          >
+          <div class="progress-bar" style="--varwidth:{{ campaign.percentage }}">
             {{ campaign.percentage }}
           </div>
         </div>
       </div>
-      <div
-        (click)="challenges()"
-        class="border-class-fancy"
-        *ngFor="let challenge of campaign.challenges; let i = index"
-      >
+      <div (click)="challenges()" class="border-class-fancy"
+        *ngFor="let challenge of campaign.challenges; let i = index">
         <div style="margin: 10px">
           <div>
             <span style="font-size: large">
@@ -258,35 +239,5 @@
         </div>
       </div>
     </ion-card>
-  </div>
-</div>
-
-<div *ngIf="join">
-  <ion-card class="ion-card">
-    <div style="height: 64px">
-      <div style="float: left">
-        <ion-card-header style="color: white">
-          <strong> {{ campaign.name }}</strong>
-        </ion-card-header>
-      </div>
-      <div style="float: right; margin: 2px">
-        <ion-avatar style="margin: 2px">
-          <img src="{{ campaign.logoUrl }}" />
-        </ion-avatar>
-      </div>
-    </div>
-    <ion-card-subtitle style="color: white; margin-left: 18px">
-      {{ campaign.dateFrom }} - {{ campaign.dateTo }}</ion-card-subtitle
-    >
-    <div style="margin: 20px">
-      <img src="{{ campaign.logoUrl }}" />
-    </div>
-    <ion-card-content> {{ campaign.description }}</ion-card-content>
-    <ion-button
-      style="margin-left: 18px; margin-bottom: 6px"
-      *ngIf="join"
-      (click)="joinCamp()"
-      >{{ "join" | translate }}</ion-button
-    >
-  </ion-card>
+  </div> -->
 </div>

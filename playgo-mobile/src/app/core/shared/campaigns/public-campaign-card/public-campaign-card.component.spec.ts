@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { CampaignCardComponent } from './campaign-card.component';
+import { PublicCampaignCardComponent } from './public-campaign-card.component';
 
 describe('CampaignCardComponent', () => {
-  let component: CampaignCardComponent;
-  let fixture: ComponentFixture<CampaignCardComponent>;
+  let component: PublicCampaignCardComponent;
+  let fixture: ComponentFixture<PublicCampaignCardComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [CampaignCardComponent],
+        declarations: [PublicCampaignCardComponent],
         imports: [IonicModule.forRoot()],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(CampaignCardComponent);
+      fixture = TestBed.createComponent(PublicCampaignCardComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })

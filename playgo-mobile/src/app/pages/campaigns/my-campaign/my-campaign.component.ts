@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignCompany } from 'src/app/core/shared/campaigns/classes/campaign-company';
 import { CampaignPersonal } from 'src/app/core/shared/campaigns/classes/campaign-personal';
 import { CampaignSchool } from 'src/app/core/shared/campaigns/classes/campaign-school';
@@ -12,32 +14,39 @@ import { ContentPagable } from '../../../core/shared/campaigns/classes/content-p
   templateUrl: './my-campaign.component.html',
   styleUrls: ['./my-campaign.component.scss'],
 })
-export class MyCampaignComponent implements OnInit {
+export class MyCampaignComponent implements OnInit, OnDestroy {
   numberPage?: number;
   contentPagable?: ContentPagable;
-  myCampaigns?: (
+  myCampaigns?: ( //todo conversions
     | CampaignClass
     | CampaignCompany
     | CampaignPersonal
     | CampaignSchool
     | CampaignTerritory
+    | PlayerCampaign
   )[];
+  sub: Subscription;
 
-  constructor(private myCampaignService: CampaignServiceService) {}
+  constructor(private campaignService: CampaignServiceService) { }
 
   ngOnInit() {
-    if (!this.myCampaigns) {
-      this.numberPage = 0;
-      this.myCampaignService
-        .getPageNumberForMyCampaign(this.numberPage)
-        .subscribe((pagable) => {
-          this.contentPagable = pagable;
-          this.myCampaigns = this.contentPagable.content;
-        });
-      this.numberPage++;
-    }
+    this.sub = this.campaignService.myCampaigns$.subscribe(campaigns => {
+      this.myCampaigns = campaigns;
+    });
+    // if (!this.myCampaigns) {
+    //   this.numberPage = 0;
+    //   this.myCampaignService
+    //     .getPageNumberForMyCampaign(this.numberPage)
+    //     .subscribe((pagable) => {
+    //       this.contentPagable = pagable;
+    //       this.myCampaigns = this.contentPagable.content;
+    //     });
+    //   this.numberPage++;
+    // }
   }
-
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
   joinCampaign(id: string) {
     console.log('joining the campaign', id);
   }
@@ -45,7 +54,7 @@ export class MyCampaignComponent implements OnInit {
   loadData(pagination) {
     if (!this.contentPagable.last) {
       console.log(this.numberPage);
-      this.myCampaignService
+      this.campaignService
         .getPageNumberForMyCampaign(this.numberPage)
         .subscribe((pagable) => {
           this.contentPagable = pagable;

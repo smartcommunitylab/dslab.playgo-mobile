@@ -1,23 +1,19 @@
 <div *ngIf="allCampaigns !== undefined && allCampaigns.length > 0">
-  <ion-grid>
-    <ion-row *ngFor="let campaign of allCampaigns">
-      <ion-col size-md="6" offset-md="3">
-        <app-campaign-card
-          [campaign]="campaign"
-          [join]="true"
-        ></app-campaign-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <div *ngIf="contentPagable && !contentPagable.last">
+  <ion-list>
+    <ion-grid>
+      <ion-row *ngFor="let campaign of allCampaigns">
+        <ion-col size-md="6" offset-md="3" *ngIf="campaign">
+          <app-public-campaign-card [campaign]="campaign"></app-public-campaign-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+  <!-- <div *ngIf="contentPagable && !contentPagable.last">
     <ion-infinite-scroll threshold="15%" (ionInfinite)="loadData($event)">
-      <ion-infinite-scroll-content
-        loadingSpinner="bubbles"
-        loadingText="Loading more data..."
-      >
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
       </ion-infinite-scroll-content>
     </ion-infinite-scroll>
-  </div>
+  </div> -->
 </div>
 
 <div *ngIf="allCampaigns === undefined || allCampaigns.length === 0">

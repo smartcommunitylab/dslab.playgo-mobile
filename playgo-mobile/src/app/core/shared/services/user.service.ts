@@ -18,6 +18,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Player } from '../../api/generated/model/player';
+import { shareReplay } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userProfileSubject = new ReplaySubject<IUser>();
@@ -29,8 +30,8 @@ export class UserService {
   public userProfileMeans$: Observable<TransportType[]> =
     this.userProfileMeansSubject.asObservable();
   public userProfile$: Observable<IUser> =
-    this.userProfileSubject.asObservable();
-  public userStatus$: Observable<IUser> = this.userStatusSubject.asObservable();
+    this.userProfileSubject.asObservable().pipe(shareReplay(1));
+  public userStatus$: Observable<IUser> = this.userStatusSubject.asObservable().pipe(shareReplay(1));
   constructor(
     // private authHttpService: AuthHttpService,
     private translateService: TranslateService,

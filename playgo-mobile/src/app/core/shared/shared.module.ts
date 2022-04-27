@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { NgModule } from '@angular/core';
-import { CampaignCardComponent } from './campaigns/campaign-card/campaign-card.component';
+import { MyCampaignCardComponent } from './campaigns/my-campaign-card/my-campaign-card.component';
+import { PublicCampaignCardComponent } from './campaigns/public-campaign-card/public-campaign-card.component';
 import { LocalDatePipe } from './pipes/localDate.pipe';
 import { LocalNumberPipe } from './pipes/localNumber.pipe';
 import { ChangeProfileModalPage } from './profile-components/change-profile-component/changeProfile.component';
@@ -15,7 +16,8 @@ import { TrackingModule } from './tracking/tracking.module';
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
   declarations: [
-    CampaignCardComponent,
+    MyCampaignCardComponent,
+    PublicCampaignCardComponent,
     ProfileComponent,
     ChangeProfileModalPage,
     SingleMeanStatisticComponent,
@@ -27,7 +29,8 @@ import { TrackingModule } from './tracking/tracking.module';
   providers: [AlertService, LocalStorageRefService],
   exports: [
     PlayGoSharedLibsModule,
-    CampaignCardComponent,
+    MyCampaignCardComponent,
+    PublicCampaignCardComponent,
     ProfileComponent,
     LocalDatePipe,
     SingleMeanStatisticComponent,
@@ -36,4 +39,4 @@ import { TrackingModule } from './tracking/tracking.module';
     TrackingModule,
   ],
 })
-export class PlayGoSharedModule {}
+export class PlayGoSharedModule { }

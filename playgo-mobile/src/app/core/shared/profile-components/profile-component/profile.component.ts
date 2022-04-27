@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { IStatus } from '../../model/status.model';
@@ -10,23 +11,29 @@ import { ChangeProfileModalPage } from '../change-profile-component/changeProfil
   templateUrl: 'profile.component.html',
   styleUrls: ['profile.component.css'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   @Input() editable = false;
   @Input() showStatus = true;
   profile: IUser;
   status: IStatus;
+  subStat: Subscription;
+  subProf: Subscription;
   constructor(
     private userService: UserService,
     private modalController: ModalController
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.userService.userProfile$.subscribe((profile) => {
+    this.subProf = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
     });
-    this.userService.userStatus$.subscribe((status) => {
+    this.subStat = this.userService.userStatus$.subscribe((status) => {
       this.status = status;
     });
+  }
+  ngOnDestroy() {
+    this.subProf.unsubscribe();
+    this.subStat.unsubscribe();
   }
   async openModal() {
     const modal = await this.modalController.create({
@@ -41,7 +48,7 @@ export class ProfileComponent implements OnInit {
         //save new profile
         try {
           this.userService.updatePlayer(this.profile);
-        } catch (e) {}
+        } catch (e) { }
       } else {
         //not save and show hi
       }

@@ -52,3 +52,6 @@ body.qr-scanner .scanner-hide {
 .background-gradient {
   background-image: linear-gradient(to bottom left, #53d117, #0f52ff);
 }
+ion-list {
+  --ion-item-background: transparent;
+}

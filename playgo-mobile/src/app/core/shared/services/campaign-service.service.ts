@@ -1,36 +1,55 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { AuthService } from 'ionic-appauth';
+import { Observable, of, ReplaySubject, combineLatest } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { CampaignControllerService } from '../../api/generated/controllers/campaignController.service';
+import { Campaign } from '../../api/generated/model/campaign';
+// import { Campaign } from '../../api/generated/model/campaign';
+import { PlayerCampaign } from '../../api/generated/model/playerCampaign';
 import { CampaignClass } from '../campaigns/classes/campaign-class';
 import { CampaignCompany } from '../campaigns/classes/campaign-company';
 import { CampaignPersonal } from '../campaigns/classes/campaign-personal';
 import { CampaignSchool } from '../campaigns/classes/campaign-school';
 import { CampaignTerritory } from '../campaigns/classes/campaign-territory';
 import { ContentPagable } from '../campaigns/classes/content-pagable';
+import { IUser } from '../model/user.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CampaignServiceService {
-  constructor(private http: HttpClient) {}
+  private myCampaignsSubject = new ReplaySubject<PlayerCampaign[]>();
+  public myCampaigns$: Observable<PlayerCampaign[]> =
+    this.myCampaignsSubject.asObservable();
+  private allCampaignsSubject = new ReplaySubject<Campaign[]>();
+  public allCampaigns$: Observable<Campaign[]> =
+    this.allCampaignsSubject.asObservable();
+  constructor(private http: HttpClient,
+    private userService: UserService,
+    private campaignControllerService: CampaignControllerService) {
+    this.userService.userProfile$.subscribe(async (profile) => {
+      if (profile) {
+        this.startService(profile);
+      }
+    });
+  }
+  async startService(profile: IUser) {
+    this.getMyCampaigns().subscribe(myCampaigns => {
+      this.myCampaignsSubject.next(myCampaigns);
+    });
+    this.getAllCampaigns(profile).subscribe(allCampaigns => {
+      this.allCampaignsSubject.next(allCampaigns);
+    });
+  }
 
-  getMyCampaign(): Observable<any> {
-    //let listt: Observable<CampaignClass[]>;
-    const listt = this.http
-      .get('assets/data/data.json', { responseType: 'text' })
-      .pipe(
-        map((response) => {
-          const obj: ContentPagable = JSON.parse(response);
-          const list: CampaignClass[] = [];
-          for (const campaign of obj.content) {
-            const cc: CampaignClass = campaign;
-            list.push(cc);
-          }
-          return list;
-        })
-      );
-    return listt;
+
+  getMyCampaigns(): Observable<PlayerCampaign[]> {
+    return this.campaignControllerService.getMyCampaignsUsingGET();
+  }
+  getAllCampaigns(profile: IUser): Observable<Campaign[]> {
+    return this.campaignControllerService.getCampaignsUsingGET(profile.territoryId);
   }
 
   getPageNumberForMyCampaign(pageNumber: number): Observable<ContentPagable> {
