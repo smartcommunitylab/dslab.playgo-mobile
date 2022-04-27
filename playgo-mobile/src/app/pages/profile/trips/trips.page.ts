@@ -52,25 +52,30 @@ export class TripsPage implements OnInit {
       allTrips,
       'multimodalId'
     ).map(({ group, values }) => {
-      const startDate = this.roundToDay(values[0].startTime);
-      const endDate = this.roundToDay(last(values).endTime);
-      const isOneDayTrip = startDate === endDate;
+      const startDate = new Date(values[0].startTime);
+      const endDate = new Date(last(values).endTime);
+      const isOneDayTrip =
+        this.roundToDay(startDate) === this.roundToDay(endDate);
+      const referenceDate = endDate;
+      const monthDate = this.roundToMonth(referenceDate);
+
       return {
         multimodalId: group,
         trips: values,
         startDate,
         endDate,
         isOneDayTrip,
-        date: endDate, // endDate is used for grouping
+        date: referenceDate,
+        monthDate,
       };
     });
 
     const groupedByDate = groupByConsecutiveValues(
       groupedByMultimodalId,
-      'date'
+      'monthDate'
     ).map(({ group, values }) => ({
-      date: group,
-      tripsInSameDate: values,
+      monthDate: group,
+      tripsInSameMonth: values,
     }));
 
     return groupedByDate;
@@ -78,6 +83,12 @@ export class TripsPage implements OnInit {
 
   private roundToDay(timestamp: number | Date): number {
     const dateCopy = new Date(timestamp);
+    dateCopy.setHours(0, 0, 0, 0);
+    return dateCopy.getTime();
+  }
+  private roundToMonth(timestamp: number | Date): number {
+    const dateCopy = new Date(timestamp);
+    dateCopy.setDate(1);
     dateCopy.setHours(0, 0, 0, 0);
     return dateCopy.getTime();
   }
@@ -93,13 +104,13 @@ export class TripsPage implements OnInit {
 }
 
 export interface TripGroup {
-  date: number;
-  tripsInSameDate: {
-    startDate: number;
-    endDate: number;
+  monthDate: number;
+  tripsInSameMonth: {
+    startDate: Date;
+    endDate: Date;
     isOneDayTrip: boolean;
     multimodalId: string;
     trips: TrackedInstanceInfo[];
-    date: number;
+    monthDate: number;
   }[];
 }

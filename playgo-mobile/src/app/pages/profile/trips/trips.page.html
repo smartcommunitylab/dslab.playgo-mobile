@@ -15,11 +15,11 @@
         <ion-card>
           <ion-card-header>
             <ion-card-title>
-              {{ tripGroup.date | localDate: "d MMMM" }}
+              {{ tripGroup.monthDate | localDate: "MMMM y" }}
             </ion-card-title>
           </ion-card-header>
         </ion-card>
-        <ion-card *ngFor="let multiTrip of tripGroup.tripsInSameDate">
+        <ion-card *ngFor="let multiTrip of tripGroup.tripsInSameMonth">
           <!-- {{ multiTrip.multimodalId }} -->
           <app-trip-card
             *ngIf="multiTrip.trips.length === 1"
