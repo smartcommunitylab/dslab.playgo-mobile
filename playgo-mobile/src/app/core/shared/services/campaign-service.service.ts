@@ -26,9 +26,11 @@ export class CampaignServiceService {
   private allCampaignsSubject = new ReplaySubject<Campaign[]>();
   public allCampaigns$: Observable<Campaign[]> =
     this.allCampaignsSubject.asObservable();
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private userService: UserService,
-    private campaignControllerService: CampaignControllerService) {
+    private campaignControllerService: CampaignControllerService
+  ) {
     this.userService.userProfile$.subscribe(async (profile) => {
       if (profile) {
         this.startService(profile);
@@ -36,20 +38,21 @@ export class CampaignServiceService {
     });
   }
   async startService(profile: IUser) {
-    this.getMyCampaigns().subscribe(myCampaigns => {
+    this.getMyCampaigns().subscribe((myCampaigns) => {
       this.myCampaignsSubject.next(myCampaigns);
     });
-    this.getAllCampaigns(profile).subscribe(allCampaigns => {
+    this.getAllCampaigns(profile).subscribe((allCampaigns) => {
       this.allCampaignsSubject.next(allCampaigns);
     });
   }
-
 
   getMyCampaigns(): Observable<PlayerCampaign[]> {
     return this.campaignControllerService.getMyCampaignsUsingGET();
   }
   getAllCampaigns(profile: IUser): Observable<Campaign[]> {
-    return this.campaignControllerService.getCampaignsUsingGET(profile.territoryId);
+    return this.campaignControllerService.getCampaignsUsingGET(
+      profile.territoryId
+    );
   }
 
   getPageNumberForMyCampaign(pageNumber: number): Observable<ContentPagable> {

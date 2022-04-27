@@ -24,4 +24,4 @@ import { RouterModule } from '@angular/router';
     ]),
   ],
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}

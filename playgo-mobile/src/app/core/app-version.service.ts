@@ -22,12 +22,13 @@ export class AppVersionService {
     ),
     map(
       ([currentPackage, pendingPackage]) =>
-        `${currentPackage?.label || '-'}${pendingPackage ? ` (pending: ${pendingPackage.label})` : ''
+        `${currentPackage?.label || '-'}${
+          pendingPackage ? ` (pending: ${pendingPackage.label})` : ''
         }`
     )
   );
 
-  constructor() { }
+  constructor() {}
 
   codePushSyncFinished() {
     this.syncFinished$.next();

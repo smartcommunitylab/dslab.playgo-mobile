@@ -29,9 +29,12 @@ export class UserService {
   private userStatus: IStatus = null;
   public userProfileMeans$: Observable<TransportType[]> =
     this.userProfileMeansSubject.asObservable();
-  public userProfile$: Observable<IUser> =
-    this.userProfileSubject.asObservable().pipe(shareReplay(1));
-  public userStatus$: Observable<IUser> = this.userStatusSubject.asObservable().pipe(shareReplay(1));
+  public userProfile$: Observable<IUser> = this.userProfileSubject
+    .asObservable()
+    .pipe(shareReplay(1));
+  public userStatus$: Observable<IUser> = this.userStatusSubject
+    .asObservable()
+    .pipe(shareReplay(1));
   constructor(
     // private authHttpService: AuthHttpService,
     private translateService: TranslateService,

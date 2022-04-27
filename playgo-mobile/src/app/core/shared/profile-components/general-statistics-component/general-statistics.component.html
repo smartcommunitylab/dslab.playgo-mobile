@@ -10,13 +10,14 @@
         <ion-row *ngFor="let meanStat of statistics">
           <ion-col>
             <ion-label>{{ stat }}</ion-label>
-            <app-single-mean-statistic [meanStat]="meanStat"></app-single-mean-statistic>
+            <app-single-mean-statistic
+              [meanStat]="meanStat"
+            ></app-single-mean-statistic>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
-
 </div>
 
 <div *ngIf="statistics === undefined">

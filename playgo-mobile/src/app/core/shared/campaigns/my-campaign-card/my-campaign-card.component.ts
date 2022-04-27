@@ -16,10 +16,11 @@ export class MyCampaignCardComponent implements OnInit {
   @Input() containerCampaign: any; // CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory;
   imagePath: SafeResourceUrl;
 
-  constructor(private router: Router, private sanitizer: DomSanitizer) { }
+  constructor(private router: Router, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.imagePath = 'data:image/jpg;base64,' + this.containerCampaign.campaign.logo.image;
+    this.imagePath =
+      'data:image/jpg;base64,' + this.containerCampaign.campaign.logo.image;
   }
 
   detailCampaign() {

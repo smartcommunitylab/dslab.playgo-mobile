@@ -11,7 +11,7 @@ import { ReportService } from '../../services/report.service';
 export class GeneralStatisticsComponent implements OnInit {
   statistics?: IGeneralStatistic;
 
-  constructor(private reportService: ReportService, private router: Router) { }
+  constructor(private reportService: ReportService, private router: Router) {}
 
   ngOnInit() {
     this.initStat();

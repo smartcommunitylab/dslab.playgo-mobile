@@ -9,7 +9,7 @@ import { IMeansStat } from '../../../model/general-statistic.model';
 export class SingleMeanStatisticComponent implements OnInit {
   @Input() stat: IMeansStat;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 }

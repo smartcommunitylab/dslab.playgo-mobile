@@ -146,7 +146,7 @@ export class BackgroundTrackingService {
         startOnBoot: false,
         autoSync: false,
         batchSync: true,
-        authorization: null
+        authorization: null,
       };
       console.log('starting BackgroundGeolocation', config);
       const state = await this.backgroundGeolocationPlugin.ready(config);
@@ -282,4 +282,4 @@ export class TripLocation {
   }
 }
 
-interface TripExtras extends Extras, Partial<TripPart> { }
+interface TripExtras extends Extras, Partial<TripPart> {}

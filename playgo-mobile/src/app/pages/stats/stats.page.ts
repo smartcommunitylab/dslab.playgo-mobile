@@ -5,12 +5,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stats.page.scss'],
 })
 export class StatsPage implements OnInit {
+  constructor() {}
 
-  constructor(
-  ) {
-
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

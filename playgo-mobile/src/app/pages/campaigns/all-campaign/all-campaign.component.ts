@@ -16,14 +16,22 @@ export class AllCampaignComponent implements OnInit, OnDestroy {
   allCampaigns?: CampaignClass[];
   sub: any;
 
-  constructor(private campaignService: CampaignServiceService) { }
+  constructor(private campaignService: CampaignServiceService) {}
 
   ngOnInit() {
-    this.sub = combineLatest(this.campaignService.myCampaigns$, this.campaignService.allCampaigns$, (my, all) => ({ my, all }))
-      .subscribe(pair => {
-        this.allCampaigns = pair.all.filter(allCampaign =>
-          !pair.my.find(myCampaign => allCampaign.campaignId === myCampaign.campaign.campaignId))
-      });
+    this.sub = combineLatest(
+      this.campaignService.myCampaigns$,
+      this.campaignService.allCampaigns$,
+      (my, all) => ({ my, all })
+    ).subscribe((pair) => {
+      this.allCampaigns = pair.all.filter(
+        (allCampaign) =>
+          !pair.my.find(
+            (myCampaign) =>
+              allCampaign.campaignId === myCampaign.campaign.campaignId
+          )
+      );
+    });
 
     // this.campaignService
     //   .getPageNumberForAllCampaign(this.numberPage)

@@ -7,4 +7,4 @@ import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
   imports: [PlayGoSharedModule, StatsPageRoutingModule],
   declarations: [StatsPage],
 })
-export class StatsPageModule { }
+export class StatsPageModule {}

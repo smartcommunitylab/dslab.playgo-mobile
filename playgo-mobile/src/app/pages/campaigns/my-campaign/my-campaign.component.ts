@@ -17,8 +17,8 @@ import { ContentPagable } from '../../../core/shared/campaigns/classes/content-p
 export class MyCampaignComponent implements OnInit, OnDestroy {
   numberPage?: number;
   contentPagable?: ContentPagable;
-  myCampaigns?: ( //todo conversions
-    | CampaignClass
+  myCampaigns?: //todo conversions
+  (| CampaignClass
     | CampaignCompany
     | CampaignPersonal
     | CampaignSchool
@@ -27,10 +27,10 @@ export class MyCampaignComponent implements OnInit, OnDestroy {
   )[];
   sub: Subscription;
 
-  constructor(private campaignService: CampaignServiceService) { }
+  constructor(private campaignService: CampaignServiceService) {}
 
   ngOnInit() {
-    this.sub = this.campaignService.myCampaigns$.subscribe(campaigns => {
+    this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {
       this.myCampaigns = campaigns;
     });
     // if (!this.myCampaigns) {
