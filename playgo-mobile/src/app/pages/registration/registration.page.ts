@@ -79,6 +79,8 @@ export class RegistrationPage implements OnInit {
           .registerPlayer(this.registrationForm.value)
           .then(async () => {
             await this.userService.uploadAvatar(await readAsBase64(this.image));
+            //restart the status and load the home
+            this.userService.startService();
             this.navCtrl.navigateRoot('/pages/tabs/home');
           })
           .catch((error: any) => {

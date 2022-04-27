@@ -111,7 +111,7 @@ export class UserService {
       }
     }
   }
-  async startService() {
+  public async startService() {
     //check if locally present and I'm logged (store in the memory)
     try {
       const user = await this.getProfile();
