@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Ionic App</title>
 
-    <base href="/" />
+<head>
+  <meta charset="utf-8" />
+  <title>Ionic App</title>
 
-    <meta name="color-scheme" content="light dark" />
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
+  <base href="/" />
 
-    <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="viewport"
+    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
 
-    <!-- add to homescreen for ios -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
 
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="
-        default-src https://code-push-server.platform.smartcommunitylab.it gap://ready file://* * blob:;
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
-        style-src 'self' 'unsafe-inline' *;
-        img-src 'self' data: blob:;
-      "
-    />
-  </head>
+  <!-- add to homescreen for ios -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-  <body>
-    <app-root></app-root>
-  </body>
+  <meta http-equiv="Content-Security-Policy" content="
+        upgrade-insecure-requests;
+        base-uri 'self';
+        default-src 'self';
+        script-src 'self' 'unsafe-eval';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data: https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org ;
+        connect-src 'self' https://aac.platform.smartcommunitylab.it https://backenddev.playngo.it/playandgo/api/ blob: data: ;
+        form-action 'none';
+        object-src 'none';
+      " />
+  <!--
+      This is CSP working for android. I didn't tested it on ios. Following urls maybe should be added:
+      https://code-push-server.platform.smartcommunitylab.it
+      gap://ready
+      file://*
+    -->
+</head>
+
+<body>
+  <app-root></app-root>
+</body>
+
 </html>

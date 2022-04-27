@@ -118,6 +118,10 @@ export class UserService {
     //check if locally present and I'm logged (store in the memory)
     try {
       const user = await this.getProfile();
+      if (!user) {
+        //go to registration
+        this.navCtrl.navigateRoot('/pages/registration');
+      }
       //check if the avatar is present
       const avatarImage = await this.getAvatar();
       const avatarImageSmall = await this.getAvatarSmall();
