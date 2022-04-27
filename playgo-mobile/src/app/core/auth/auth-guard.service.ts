@@ -18,7 +18,7 @@ export class AuthGuardService implements CanActivate {
     private auth: AuthService,
     private userService: UserService,
     private navCtrl: NavController
-  ) { }
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

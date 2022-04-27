@@ -18,7 +18,8 @@ export class MyCampaignComponent implements OnInit, OnDestroy {
   numberPage?: number;
   contentPagable?: ContentPagable;
   myCampaigns?: //todo conversions
-  (| CampaignClass
+  (
+    | CampaignClass
     | CampaignCompany
     | CampaignPersonal
     | CampaignSchool
