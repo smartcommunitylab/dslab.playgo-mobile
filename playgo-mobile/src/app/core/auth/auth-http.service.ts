@@ -21,6 +21,11 @@ export class AuthHttpService {
     private auth: AuthService
   ) {}
 
+  /**
+   * @deprecated
+   * use generated api from /src/app/core/api/generated/controllers/
+   * if not possible, then use httpClient directly.
+   */
   public async request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     endpoint: Endpoint,

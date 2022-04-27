@@ -15,11 +15,11 @@ export class ErrorService {
 
   showAlert(error: any) {
     let errorFound: any = this.definedErrors.find(
-      (definedError) => definedError.msg === error.error.ex
+      (definedError) => definedError.msg === error?.error?.ex
     );
     if (!errorFound) {
       errorFound = {
-        errorString: 'error.defaultErr',
+        errorString: 'errors.defaultErr',
       };
     }
     this.alertService.showToast(

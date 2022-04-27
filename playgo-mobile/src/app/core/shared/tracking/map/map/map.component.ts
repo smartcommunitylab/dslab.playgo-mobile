@@ -40,7 +40,7 @@ import {
   BackgroundTrackingService,
   TripLocation,
 } from '../../background-tracking.service';
-import { TransportType } from '../../trip.model';
+import { TransportType, transportTypeColors } from '../../trip.model';
 import {
   getAdjacentPairs,
   groupByConsecutiveValues,
@@ -66,7 +66,7 @@ export class MapComponent implements OnInit {
     map((initLatLng) => ({
       layers: [
         tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 25,
+          maxZoom: 19, // for lower zooms there are no tiles!
           minZoom: 10,
           // attribution: '...',
         }),
@@ -76,15 +76,6 @@ export class MapComponent implements OnInit {
     })),
     shareReplay(1)
   );
-
-  private transportTypeColors: Record<TransportType, string> = {
-    bike: 'red',
-    bus: 'green',
-    car: 'yellow',
-    train: 'blue',
-    walk: 'brown',
-    boat: 'blue',
-  };
 
   private tripPartsCoordinates$ =
     this.backgroundTrackingService.currentTripLocations$.pipe(
@@ -96,7 +87,7 @@ export class MapComponent implements OnInit {
       map((tripPartsCoordinates) =>
         _map(tripPartsCoordinates, ({ transportType, tripPartLocations }) =>
           polyline(tripToCoordinates(tripPartLocations), {
-            color: this.transportTypeColors[transportType],
+            color: transportTypeColors[transportType],
           })
         )
       )
