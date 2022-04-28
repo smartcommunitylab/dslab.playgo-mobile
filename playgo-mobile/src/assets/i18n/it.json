@@ -85,6 +85,11 @@
       "myCampaigns": "Campagne attive: {{myCampaigns}}"
     }
   },
+  "report": {
+    "stats": {
+      "period": "Periodo"
+    }
+  },
   "trip_detail": {
     "title": "Dettaglio viaggio",
     "start": "Inizio",

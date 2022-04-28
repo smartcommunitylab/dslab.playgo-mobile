@@ -1,10 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { UserService } from 'src/app/core/shared/services/user.service';
-import { IStatus } from '../../model/status.model';
 import { CampaignService } from '../../services/campaign.service';
+// import { IStatus } from '../../model/status.model';
+// import { CampaignService } from '../../services/campaign.service';
 import { ChangeProfileModalPage } from '../change-profile-component/changeProfile.component';
 
 @Component({
@@ -16,7 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   @Input() editable = false;
   @Input() showStatus = true;
   profile: IUser;
-  status: IStatus;
+  status: PlayerStatus;
   subStat: Subscription;
   subProf: Subscription;
   subCamp: Subscription;

@@ -10,7 +10,10 @@ const routes: Routes = [
   },
   {
     path: 'details/:id',
-    component: CampaignDetailsPage,
+    loadChildren: () =>
+      import('./campaign-details/campaign-details.module').then(
+        (m) => m.CampaignDetailsPageModule
+      ),
   },
 ];
 
@@ -18,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CampaignsRoutingModule {}
+export class CampaignsRoutingModule { }

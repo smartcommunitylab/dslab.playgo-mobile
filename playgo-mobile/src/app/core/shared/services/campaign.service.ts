@@ -109,7 +109,6 @@ export class CampaignService {
 
     return pagableObj;
   }
-
   getCampaignDetailsById(
     id: string
   ): Observable<
@@ -119,20 +118,31 @@ export class CampaignService {
     | CampaignPersonal
     | CampaignTerritory
   > {
-    //let pagableObj: Observable<CampaignClass>;
-    const pagableObj = this.http
-      .get('assets/data/data.json', { responseType: 'text' })
-      .pipe(
-        map((response) => {
-          const obj: ContentPagable = JSON.parse(response);
-          const campaigns: CampaignClass[] = obj.content;
-          for (const campaign of campaigns) {
-            if (campaign.campaignId === id) {
-              return campaign;
-            }
-          }
-        })
-      );
-    return pagableObj;
+    return this.campaignControllerService.getCampaignUsingGET(id);
   }
+  // getCampaignDetailsById(
+  //   id: string
+  // ): Observable<
+  //   | CampaignClass
+  //   | CampaignCompany
+  //   | CampaignSchool
+  //   | CampaignPersonal
+  //   | CampaignTerritory
+  // > {
+  //   //let pagableObj: Observable<CampaignClass>;
+  //   const pagableObj = this.http
+  //     .get('assets/data/data.json', { responseType: 'text' })
+  //     .pipe(
+  //       map((response) => {
+  //         const obj: ContentPagable = JSON.parse(response);
+  //         const campaigns: CampaignClass[] = obj.content;
+  //         for (const campaign of campaigns) {
+  //           if (campaign.campaignId === id) {
+  //             return campaign;
+  //           }
+  //         }
+  //       })
+  //     );
+  //   return pagableObj;
+  // }
 }

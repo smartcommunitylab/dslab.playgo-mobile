@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { CampaignClass } from '../../../core/shared/campaigns/classes/campaign-class';
 
@@ -16,7 +16,8 @@ export class CampaignDetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
-    private router: Router
+    // private router: Router,
+    private navCtrl: NavController
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
@@ -26,9 +27,14 @@ export class CampaignDetailsPage implements OnInit {
       this.campaign = result;
     });
   }
-
-  backToCampaigns() {
-    console.log('here');
-    this.router.navigateByUrl('/tabs/campaigns');
+  getCampaign() {
+    return JSON.stringify(this.campaign);
   }
+  back() {
+    this.navCtrl.back();
+  }
+  // backToCampaigns() {
+  //   console.log('here');
+  //   this.router.navigateByUrl('/tabs/campaigns');
+  // }
 }

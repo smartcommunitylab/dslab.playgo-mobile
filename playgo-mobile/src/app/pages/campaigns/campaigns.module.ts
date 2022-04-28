@@ -15,4 +15,4 @@ import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
   ],
   declarations: [CampaignsPage],
 })
-export class CampaignsPageModule {}
+export class CampaignsPageModule { }

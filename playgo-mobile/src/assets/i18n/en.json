@@ -85,6 +85,11 @@
       "myCampaigns": "Active campaigns: {{myCampaigns}}"
     }
   },
+  "report": {
+    "stats": {
+      "period": "Periodo"
+    }
+  },
   "trip_detail": {
     "title": "Trip Details",
     "start": "Start",

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IGeneralStatistic } from '../../model/general-statistic.model';
+import { TransportStats } from 'src/app/core/api/generated/model/transportStats';
+// import { IGeneralStatistic } from '../../model/general-statistic.model';
 import { ReportService } from '../../services/report.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-general-statistics',
@@ -9,15 +11,16 @@ import { ReportService } from '../../services/report.service';
   styleUrls: ['./general-statistics.component.scss'],
 })
 export class GeneralStatisticsComponent implements OnInit {
-  statistics?: IGeneralStatistic;
-
-  constructor(private reportService: ReportService, private router: Router) {}
+  statistics?: TransportStats[];
+  fromDate = DateTime.local().minus({ week: 1 }).toFormat('yyyy-MM-dd');
+  toDate = DateTime.local().toFormat('yyyy-MM-dd');
+  constructor(private reportService: ReportService, private router: Router) { }
 
   ngOnInit() {
     this.initStat();
   }
   initStat() {
-    this.reportService.getLastWeekStatistic().then((stats) => {
+    this.reportService.getTransportStats(this.fromDate, this.toDate).then((stats) => {
       if (stats) {
         this.statistics = stats;
       }

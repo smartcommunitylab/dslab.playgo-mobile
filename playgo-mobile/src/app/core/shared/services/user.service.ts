@@ -10,7 +10,7 @@ import { TransportType } from '../tracking/trip.model';
 import { LocalStorageService } from './local-storage.service';
 import { TerritoryService } from './territory.service';
 import { Avatar, IAvatar } from '../model/avatar.model';
-import { IStatus } from '../model/status.model';
+// import { IStatus } from '../mxodel/status.model';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'ionic-appauth';
@@ -19,14 +19,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Player } from '../../api/generated/model/player';
 import { shareReplay } from 'rxjs/operators';
+import { PlayerStatus } from '../../api/generated/model/playerStatus';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userProfileSubject = new ReplaySubject<IUser>();
   private userProfileMeansSubject = new ReplaySubject<TransportType[]>();
-  private userStatusSubject = new ReplaySubject<IStatus>();
+  private userStatusSubject = new ReplaySubject<PlayerStatus>();
   private userLocale: string;
   private userProfile: IUser = null;
-  private userStatus: IStatus = null;
+  private userStatus: PlayerStatus = null;
   public userProfileMeans$: Observable<TransportType[]> =
     this.userProfileMeansSubject.asObservable();
   public userProfile$: Observable<IUser> = this.userProfileSubject

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IGeneralStatistic } from '../../../model/general-statistic.model';
+import { TransportStats } from 'src/app/core/api/generated/model/transportStats';
+// import { IGeneralStatistic } from '../../../model/general-statistic.model';
 
 @Component({
   selector: 'app-total-statistics',
@@ -7,9 +8,9 @@ import { IGeneralStatistic } from '../../../model/general-statistic.model';
   styleUrls: ['./total-statistics.component.scss'],
 })
 export class TotalStatisticsComponent implements OnInit {
-  statistics?: IGeneralStatistic;
+  statistics?: TransportStats[];
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }
