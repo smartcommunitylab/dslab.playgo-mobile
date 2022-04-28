@@ -3,6 +3,7 @@ import { first, isEqual, last } from 'lodash-es';
 import { combineLatest, Observable, Subject, throwError } from 'rxjs';
 import {
   catchError,
+  concatMap,
   distinctUntilChanged,
   map,
   scan,
@@ -45,7 +46,7 @@ export class TripsPage implements OnInit {
         page: 0,
         size: 5,
       }),
-      switchMap((scrollRequest) => this.getTripsPage(scrollRequest)),
+      concatMap((scrollRequest) => this.getTripsPage(scrollRequest)),
       catchError((error) => {
         this.errorService.showAlert(error);
         return throwError(error);
