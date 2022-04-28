@@ -12,6 +12,10 @@ import { AlertService } from './services/alert.service';
 import { LocalStorageRefService } from './services/local-storage-ref.service';
 import { PlayGoSharedLibsModule } from './shared-libs.module';
 import { TrackingModule } from './tracking/tracking.module';
+import {
+  InfiniteScrollComponent,
+  InfiniteScrollContentDirective,
+} from './infinite-scroll/infinite-scroll.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
@@ -24,6 +28,8 @@ import { TrackingModule } from './tracking/tracking.module';
     TotalStatisticsComponent,
     LocalDatePipe,
     LocalNumberPipe,
+    InfiniteScrollComponent,
+    InfiniteScrollContentDirective,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -37,6 +43,8 @@ import { TrackingModule } from './tracking/tracking.module';
     TotalStatisticsComponent,
     LocalNumberPipe,
     TrackingModule,
+    InfiniteScrollComponent,
+    InfiniteScrollContentDirective,
   ],
 })
 export class PlayGoSharedModule {}

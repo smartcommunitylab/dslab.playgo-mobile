@@ -3,6 +3,8 @@
   "homeTtle": "Home",
   "profileTitle": "Profilo",
   "campaignsTitle": "Campagna",
+  "tripsTitle": "Lista viaggi",
+  "tripDetailTitle": "IT: Trip Details",
   "login": {
     "labelSignin": "Autenticazione in corso",
     "labelSignout": "Uscita dal sistema",
@@ -81,6 +83,25 @@
       "activityDays": "{{activityDays}} giorni di gioco ",
       "activeCampaigns": "{{activeCampaigns}} active campaings",
       "myCampaigns": "Campagne attive: {{myCampaigns}}"
+    }
+  },
+  "trip_detail": {
+    "title": "Dettaglio viaggio",
+    "start": "Inizio",
+    "end": "Fine",
+    "distance": "Lunghezza",
+    "gl_earned_in": "GL guadagnate in",
+    "gl_per_campaign": {
+      "plural_form_one": "+ {{score}} Foglia Verde per {{campaignName}}",
+      "plural_form_other": "+ {{score}} Foglie Verdi per  {{campaignName}}"
+    },
+    "mean": {
+      "car": "Macchina",
+      "bike": "Bici",
+      "walk": "Corsa",
+      "boat": "Barca",
+      "train": "Treno",
+      "bus": "Autobus"
     }
   },
   "errors": {

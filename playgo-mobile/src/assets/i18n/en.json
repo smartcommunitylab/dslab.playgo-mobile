@@ -3,6 +3,8 @@
   "homeTtle": "Home",
   "profileTitle": "Profile",
   "campaignsTitle": "Campaign",
+  "tripsTitle": "Trips",
+  "tripDetailTitle": "Trip Details",
   "login": {
     "loginCardHeader": "Login",
     "loginButton": "Login",
@@ -81,6 +83,25 @@
       "activityDays": "{{activityDays}} days of gaming",
       "activeCampaigns": "{{activeCampaigns}} active campaings",
       "myCampaigns": "Active campaigns: {{myCampaigns}}"
+    }
+  },
+  "trip_detail": {
+    "title": "Trip Details",
+    "start": "Start",
+    "end": "End",
+    "distance": "Distance",
+    "gl_earned_in": "GL earned in",
+    "gl_per_campaign": {
+      "plural_form_one": "+ {{score}} Green Leaf for {{campaignName}}",
+      "plural_form_other": "+ {{score}} Green Leaves for {{campaignName}}"
+    },
+    "mean": {
+      "car": "Car",
+      "bike": "Bike",
+      "walk": "Walk",
+      "train": "Train",
+      "bus": "Bus",
+      "boat": "Boat"
     }
   },
   "errors": {

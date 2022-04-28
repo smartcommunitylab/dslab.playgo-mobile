@@ -95,7 +95,7 @@ export class BackgroundTrackingService {
     ),
     map((rawLocations) => rawLocations.map(TripLocation.fromLocation)),
     distinctUntilChanged(isEqual),
-    tapLog('trip locations'),
+    // tapLog('trip locations'),
     shareReplay(1)
   );
 
