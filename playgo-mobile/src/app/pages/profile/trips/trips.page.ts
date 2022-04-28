@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { first, isEqual, last } from 'lodash-es';
 import { combineLatest, Observable, Subject, throwError } from 'rxjs';
 import {
@@ -130,6 +130,20 @@ export class TripsPage implements OnInit {
     private backgroundTrackingService: BackgroundTrackingService,
     private tripService: TripService
   ) {}
+
+  trackGroup: TrackByFunction<TripGroup> = (index: number, group: TripGroup) =>
+    group.monthDate;
+
+  trackMultiTrip: TrackByFunction<MultiTrip> = (
+    index: number,
+    multiTrip: MultiTrip
+  ) => multiTrip.multimodalId;
+
+  trackTrip: TrackByFunction<ServerOrLocalTrip> = (
+    index: number,
+    trip: ServerOrLocalTrip
+  ) => trip.trackedInstanceId;
+
   ngOnInit() {}
 
   private groupTrips(allTrips: ServerOrLocalTrip[]): TripGroup[] {
@@ -178,13 +192,13 @@ export class TripsPage implements OnInit {
     return dateCopy.getTime();
   }
 
-  // TODO: move to service..
-  async getTripsPage(
+  getTripsPage(
     pageRequest: PageableRequest
-  ): Promise<PageableResponse<TrackedInstanceInfo>> {
-    return await this.trackControllerService
-      .getTrackedInstanceInfoListUsingGET(pageRequest.page, pageRequest.size)
-      .toPromise();
+  ): Observable<PageableResponse<TrackedInstanceInfo>> {
+    return this.trackControllerService.getTrackedInstanceInfoListUsingGET(
+      pageRequest.page,
+      pageRequest.size
+    );
   }
 }
 export interface ServerOrLocalTrip extends TrackedInstanceInfo {
@@ -192,15 +206,17 @@ export interface ServerOrLocalTrip extends TrackedInstanceInfo {
   isFinished?: boolean;
 }
 
+interface MultiTrip {
+  startDate: Date;
+  endDate: Date;
+  date: Date;
+  isOneDayTrip: boolean;
+  multimodalId: string;
+  trips: ServerOrLocalTrip[];
+  monthDate: number;
+}
+
 export interface TripGroup {
   monthDate: number;
-  tripsInSameMonth: {
-    startDate: Date;
-    endDate: Date;
-    date: Date;
-    isOneDayTrip: boolean;
-    multimodalId: string;
-    trips: ServerOrLocalTrip[];
-    monthDate: number;
-  }[];
+  tripsInSameMonth: MultiTrip[];
 }
