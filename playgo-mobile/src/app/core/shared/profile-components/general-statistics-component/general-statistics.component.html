@@ -1,4 +1,4 @@
-<div *ngIf="statistics !== undefined" (click)="openStats()">
+<div *ngIf="statistics && statistics.length>0;else empty_stat" (click)="openStats()">
   <ion-card>
     <ion-card-header>
       <ion-label>
@@ -17,22 +17,23 @@
     </ion-card-content>
   </ion-card>
 </div>
-
-<div *ngIf="statistics === undefined">
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-card>
-          <ion-card-header>
-            <ion-label>
-              <strong>{{ "generalStatistics" | translate }}</strong>
-            </ion-label>
-          </ion-card-header>
-          <ion-card-content>
-            {{ "noStatistics" | translate }}
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+<ng-template #empty_stat>
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-label>
+                <strong>{{ "generalStatistics" | translate }}</strong>
+              </ion-label>
+            </ion-card-header>
+            <ion-card-content>
+              {{ "noStatistics" | translate }}
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ng-template>

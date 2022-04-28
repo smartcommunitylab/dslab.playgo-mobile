@@ -15,6 +15,13 @@ const routes: Routes = [
         (m) => m.CampaignDetailsPageModule
       ),
   },
+  {
+    path: 'join/:id',
+    loadChildren: () =>
+      import('./campaign-join/campaign-join.module').then(
+        (m) => m.CampaignJoinPageModule
+      ),
+  },
 ];
 
 @NgModule({

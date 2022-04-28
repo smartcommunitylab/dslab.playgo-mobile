@@ -87,6 +87,7 @@
   },
   "report": {
     "stats": {
+      "title": "Activity details",
       "period": "Periodo"
     }
   },

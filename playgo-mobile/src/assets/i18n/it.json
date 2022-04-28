@@ -87,6 +87,7 @@
   },
   "report": {
     "stats": {
+      "title": "Dettaglio attività",
       "period": "Periodo"
     }
   },

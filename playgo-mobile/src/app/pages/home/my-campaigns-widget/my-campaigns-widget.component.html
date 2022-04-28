@@ -3,10 +3,10 @@
     {{ "myCampaigns" | translate }}
   </ion-card-header>
   <ion-grid>
-    <ion-row *ngFor="let campaign of campaigns">
+    <ion-row *ngFor="let campaign of myCampaigns">
       <ion-col col-1>
         <ion-label>
-          {{ campaign.title }}
+          {{ campaign.campaign.name }}
         </ion-label>
       </ion-col>
     </ion-row>

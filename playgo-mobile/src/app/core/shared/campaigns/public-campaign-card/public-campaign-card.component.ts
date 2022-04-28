@@ -24,7 +24,7 @@ export class PublicCampaignCardComponent implements OnInit {
 
   joinCamp() {
     this.router.navigateByUrl(
-      '/tabs/campaigns/join/' + this.campaign.campaignId
+      '/pages/tabs/campaigns/join/' + this.campaign.campaignId
     );
   }
 }
