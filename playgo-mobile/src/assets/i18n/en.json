@@ -107,6 +107,13 @@
       "train": "Train",
       "bus": "Bus",
       "boat": "Boat"
+    },
+    "status": {
+      "valid": "Valid",
+      "invalid": "Invalid",
+      "pending": "Pending",
+      "not_synchronized": "Not synchronized",
+      "not_finished": "Ongoing"
     }
   },
   "errors": {

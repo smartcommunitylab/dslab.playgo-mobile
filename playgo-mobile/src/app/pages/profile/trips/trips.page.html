@@ -12,7 +12,7 @@
   >
     <ng-template appInfiniteScrollContent let-trips="items">
       <ng-container
-        *ngFor="let tripGroup of groupTrips([].concat((notSynchronizedTrips$|async) || []).concat(trips||[]))"
+        *ngFor="let tripGroup of groupTrips([].concat((notSynchronizedTripsWithStatus$|async) || []).concat(trips||[]))"
       >
         <ion-card>
           <ion-card-header>

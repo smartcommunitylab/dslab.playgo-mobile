@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { first, isEqual, last } from 'lodash-es';
-import { Observable, Subject, throwError } from 'rxjs';
+import { combineLatest, Observable, Subject, throwError } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -9,6 +9,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
 import {
@@ -20,13 +21,14 @@ import {
   TransportType,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
-import { groupByConsecutiveValues } from 'src/app/core/shared/utils';
+import { groupByConsecutiveValues, tapLog } from 'src/app/core/shared/utils';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 import {
   BackgroundTrackingService,
   TripLocation,
 } from 'src/app/core/shared/tracking/background-tracking.service';
+import { TripService } from 'src/app/core/shared/tracking/trip.service';
 
 @Component({
   selector: 'app-trips',
@@ -36,33 +38,53 @@ import {
 export class TripsPage implements OnInit {
   transportTypeLabels = transportTypeLabels;
 
-  notSynchronizedTrips$: Observable<TrackedInstanceInfo[]> =
+  private notSynchronizedTrips$: Observable<TrackedInstanceInfo[]> =
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
-      map((notSynchronizedLocations: TripLocation[]) =>
-        groupByConsecutiveValues(notSynchronizedLocations, 'transportType').map(
+      map((notSynchronizedLocations: TripLocation[]) => {
+        const tripLocations = notSynchronizedLocations.filter(
+          (location) => location.transportType
+        );
+        return groupByConsecutiveValues(tripLocations, 'transportType').map(
           ({ group, values }) => {
             const transportType = group;
             const locations = values;
             const representativeLocation = first(locations);
-            const notSynchronizedTrip: TrackedInstanceInfo = {
+            const trip: TrackedInstanceInfo = {
               campaigns: [],
               distance: 0,
               startTime: first(locations).date,
               endTime: last(locations).date,
               modeType: group,
               multimodalId: representativeLocation.multimodalId,
-              // transform values to string?
               polyline: '',
               trackedInstanceId: `localId_${transportType}_${representativeLocation.date}`,
-              validity: TrackedInstanceInfo.ValidityEnum.PENDING,
+              validity: null,
             };
-            return notSynchronizedTrip;
+            return trip;
           }
-        )
-      ),
-      distinctUntilChanged(isEqual),
-      shareReplay(1)
+        );
+      })
     );
+
+  public notSynchronizedTripsWithStatus$: Observable<
+    TrackedOrLocalInstanceInfo[]
+  > = combineLatest([
+    this.notSynchronizedTrips$,
+    this.tripService.isInTrip$,
+  ]).pipe(
+    map(([notSynchronizedTrips, isInTrip]) =>
+      notSynchronizedTrips.map((notSynchronizedTrip, idx) => {
+        const isLast = idx === notSynchronizedTrips.length - 1;
+        return {
+          ...notSynchronizedTrip,
+          isFinished: !isLast || !isInTrip,
+          isLocal: true,
+        };
+      })
+    ),
+    distinctUntilChanged(isEqual),
+    shareReplay(1)
+  );
 
   scrollRequest = new Subject<PageableRequest>();
 
@@ -83,12 +105,13 @@ export class TripsPage implements OnInit {
     private authHttpService: AuthHttpService,
     private errorService: ErrorService,
     private trackControllerService: TrackControllerService,
-    private backgroundTrackingService: BackgroundTrackingService
+    private backgroundTrackingService: BackgroundTrackingService,
+    private tripService: TripService
   ) {}
   ngOnInit() {}
 
   // TODO: memoize
-  public groupTrips(allTrips: TrackedInstanceInfo[]): TripGroup[] {
+  public groupTrips(allTrips: TrackedOrLocalInstanceInfo[]): TripGroup[] {
     const groupedByMultimodalId = groupByConsecutiveValues(
       allTrips,
       'multimodalId'
@@ -143,6 +166,10 @@ export class TripsPage implements OnInit {
       .toPromise();
   }
 }
+export interface TrackedOrLocalInstanceInfo extends TrackedInstanceInfo {
+  isLocal: boolean;
+  isFinished: boolean;
+}
 
 export interface TripGroup {
   monthDate: number;
@@ -152,7 +179,7 @@ export interface TripGroup {
     date: Date;
     isOneDayTrip: boolean;
     multimodalId: string;
-    trips: TrackedInstanceInfo[];
+    trips: TrackedOrLocalInstanceInfo[];
     monthDate: number;
   }[];
 }

@@ -10,6 +10,7 @@ import {
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
+import { TrackedOrLocalInstanceInfo } from '../trips.page';
 
 @Component({
   selector: 'app-trip-card',
@@ -19,18 +20,16 @@ import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedIns
 export class TripCardComponent implements OnInit {
   transportTypeLabels = transportTypeLabels;
   transportTypeIcons = transportTypeIcons;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  readonly Validity = TrackedInstanceInfo.ValidityEnum;
 
   pluralRules = new Intl.PluralRules(this.user.locale);
 
-  @Input() trip: TrackedInstanceInfo;
+  @Input() trip: TrackedOrLocalInstanceInfo;
   @Input() isOneDayTrip = true;
   @Input() multiModalTrip = false;
 
   campaignsLabels: string[] = [];
-  modeTypesList = '';
-  start: number = null;
-  end: number = null;
-  distance: number = null;
 
   constructor(
     private router: Router,
@@ -40,6 +39,9 @@ export class TripCardComponent implements OnInit {
   ) {}
 
   openDetail() {
+    if (this.trip.isLocal) {
+      return;
+    }
     this.router.navigate(['../trip-detail', this.trip.trackedInstanceId], {
       relativeTo: this.route,
     });
