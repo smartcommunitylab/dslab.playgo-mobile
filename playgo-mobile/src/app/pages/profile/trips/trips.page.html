@@ -7,11 +7,12 @@
 <ion-content>
   <app-infinite-scroll
     [allItemsInTemplate]="true"
-    (request)="scrollRequest.next($event)"
     [response]="tripsResponse$ | async"
+    (request)="scrollRequestSubject.next($event)"
+    (items)="serverTripsSubject.next($event)"
   >
     <ng-template appInfiniteScrollContent let-trips="items">
-      <ng-container *ngFor="let tripGroup of groupTrips(trips || [])">
+      <ng-container *ngFor="let tripGroup of groupedTrips$ | async">
         <ion-card>
           <ion-card-header>
             <ion-card-title>
@@ -38,7 +39,7 @@
                   </span>
                   <span *ngIf="!multiTrip.isOneDayTrip">
                     >{{ multiTrip.startDate | localDate: "d MMMM" }} - {{
-                    multiTrip.startDate | localDate: "d MMMM" }}
+                    multiTrip.endDate | localDate: "d MMMM" }}
                   </span>
                 </strong>
               </ion-label>

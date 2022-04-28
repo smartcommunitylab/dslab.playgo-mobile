@@ -107,6 +107,13 @@
       "boat": "Barca",
       "train": "Treno",
       "bus": "Autobus"
+    },
+    "status": {
+      "valid": "IT: Valid",
+      "invalid": "IT: Invalid",
+      "pending": "IT: Pending",
+      "not_synchronized": "IT: Not synchronized",
+      "not_finished": "IT: Ongoing"
     }
   },
   "errors": {
