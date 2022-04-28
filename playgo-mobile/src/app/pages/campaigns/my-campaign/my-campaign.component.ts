@@ -5,7 +5,7 @@ import { CampaignCompany } from 'src/app/core/shared/campaigns/classes/campaign-
 import { CampaignPersonal } from 'src/app/core/shared/campaigns/classes/campaign-personal';
 import { CampaignSchool } from 'src/app/core/shared/campaigns/classes/campaign-school';
 import { CampaignTerritory } from 'src/app/core/shared/campaigns/classes/campaign-territory';
-import { CampaignServiceService } from 'src/app/core/shared/services/campaign-service.service';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { CampaignClass } from '../../../core/shared/campaigns/classes/campaign-class';
 import { ContentPagable } from '../../../core/shared/campaigns/classes/content-pagable';
 
@@ -18,17 +18,17 @@ export class MyCampaignComponent implements OnInit, OnDestroy {
   numberPage?: number;
   contentPagable?: ContentPagable;
   myCampaigns?: //todo conversions
-  (
-    | CampaignClass
-    | CampaignCompany
-    | CampaignPersonal
-    | CampaignSchool
-    | CampaignTerritory
-    | PlayerCampaign
-  )[];
+    (
+      | CampaignClass
+      | CampaignCompany
+      | CampaignPersonal
+      | CampaignSchool
+      | CampaignTerritory
+      | PlayerCampaign
+    )[];
   sub: Subscription;
 
-  constructor(private campaignService: CampaignServiceService) {}
+  constructor(private campaignService: CampaignService) { }
 
   ngOnInit() {
     this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {

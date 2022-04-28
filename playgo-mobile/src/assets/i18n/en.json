@@ -79,7 +79,8 @@
       "totalKm": "{{totalKM}} done",
       "travels": "{{totalTravels}} valid travels",
       "activityDays": "{{activityDays}} days of gaming",
-      "activeCampaigns": "{{activeCampaigns}} active campaings"
+      "activeCampaigns": "{{activeCampaigns}} active campaings",
+      "myCampaigns": "Active campaigns: {{myCampaigns}}"
     }
   },
   "errors": {

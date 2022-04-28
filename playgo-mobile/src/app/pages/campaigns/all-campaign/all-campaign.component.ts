@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { CampaignServiceService } from 'src/app/core/shared/services/campaign-service.service';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { CampaignClass } from '../../../core/shared/campaigns/classes/campaign-class';
 import { ContentPagable } from '../../../core/shared/campaigns/classes/content-pagable';
 
@@ -16,7 +16,7 @@ export class AllCampaignComponent implements OnInit, OnDestroy {
   allCampaigns?: CampaignClass[];
   sub: any;
 
-  constructor(private campaignService: CampaignServiceService) {}
+  constructor(private campaignService: CampaignService) { }
 
   ngOnInit() {
     this.sub = combineLatest(

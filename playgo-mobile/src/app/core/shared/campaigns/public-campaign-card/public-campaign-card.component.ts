@@ -15,23 +15,16 @@ import { CampaignTerritory } from '../classes/campaign-territory';
 export class PublicCampaignCardComponent implements OnInit {
   @Input() campaign: any; // CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory;
   imagePath: string;
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.imagePath = 'data:image/jpg;base64,' + this.campaign.logo.image;
   }
 
-  detailCampaign() {
-    this.router.navigateByUrl(
-      '/tabs/campaigns/details/' + this.campaign.campaignId
-    );
-  }
 
   joinCamp() {
-    console.log('joinCampaign');
-  }
-
-  challenges() {
-    console.log('challenges');
+    this.router.navigateByUrl(
+      '/tabs/campaigns/join/' + this.campaign.campaignId
+    );
   }
 }

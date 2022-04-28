@@ -19,7 +19,7 @@ import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CampaignServiceService {
+export class CampaignService {
   private myCampaignsSubject = new ReplaySubject<PlayerCampaign[]>();
   public myCampaigns$: Observable<PlayerCampaign[]> =
     this.myCampaignsSubject.asObservable();

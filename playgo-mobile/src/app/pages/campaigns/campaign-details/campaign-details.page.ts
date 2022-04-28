@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import { CampaignServiceService } from 'src/app/core/shared/services/campaign-service.service';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { CampaignClass } from '../../../core/shared/campaigns/classes/campaign-class';
 
 @Component({
@@ -15,7 +15,7 @@ export class CampaignDetailsPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private campaignService: CampaignServiceService,
+    private campaignService: CampaignService,
     private router: Router
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
