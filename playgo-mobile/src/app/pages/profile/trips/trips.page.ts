@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { last } from 'lodash-es';
+import { first, isEqual, last } from 'lodash-es';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, startWith, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  map,
+  scan,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
 import {
   PageableRequest,
@@ -15,6 +23,10 @@ import {
 import { groupByConsecutiveValues } from 'src/app/core/shared/utils';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
+import {
+  BackgroundTrackingService,
+  TripLocation,
+} from 'src/app/core/shared/tracking/background-tracking.service';
 
 @Component({
   selector: 'app-trips',
@@ -23,6 +35,34 @@ import { TrackControllerService } from 'src/app/core/api/generated/controllers/t
 })
 export class TripsPage implements OnInit {
   transportTypeLabels = transportTypeLabels;
+
+  notSynchronizedTrips$: Observable<TrackedInstanceInfo[]> =
+    this.backgroundTrackingService.notSynchronizedLocations$.pipe(
+      map((notSynchronizedLocations: TripLocation[]) =>
+        groupByConsecutiveValues(notSynchronizedLocations, 'transportType').map(
+          ({ group, values }) => {
+            const transportType = group;
+            const locations = values;
+            const representativeLocation = first(locations);
+            const notSynchronizedTrip: TrackedInstanceInfo = {
+              campaigns: [],
+              distance: 0,
+              startTime: first(locations).date,
+              endTime: last(locations).date,
+              modeType: group,
+              multimodalId: representativeLocation.multimodalId,
+              // transform values to string?
+              polyline: '',
+              trackedInstanceId: `localId_${transportType}_${representativeLocation.date}`,
+              validity: TrackedInstanceInfo.ValidityEnum.PENDING,
+            };
+            return notSynchronizedTrip;
+          }
+        )
+      ),
+      distinctUntilChanged(isEqual),
+      shareReplay(1)
+    );
 
   scrollRequest = new Subject<PageableRequest>();
 
@@ -42,7 +82,8 @@ export class TripsPage implements OnInit {
   constructor(
     private authHttpService: AuthHttpService,
     private errorService: ErrorService,
-    private trackControllerService: TrackControllerService
+    private trackControllerService: TrackControllerService,
+    private backgroundTrackingService: BackgroundTrackingService
   ) {}
   ngOnInit() {}
 
@@ -108,6 +149,7 @@ export interface TripGroup {
   tripsInSameMonth: {
     startDate: Date;
     endDate: Date;
+    date: Date;
     isOneDayTrip: boolean;
     multimodalId: string;
     trips: TrackedInstanceInfo[];
