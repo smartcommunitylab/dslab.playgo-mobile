@@ -10,7 +10,7 @@ import {
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
-import { TrackedOrLocalInstanceInfo } from '../trips.page';
+import { ServerOrLocalTrip } from '../trips.page';
 
 @Component({
   selector: 'app-trip-card',
@@ -25,7 +25,7 @@ export class TripCardComponent implements OnInit {
 
   pluralRules = new Intl.PluralRules(this.user.locale);
 
-  @Input() trip: TrackedOrLocalInstanceInfo;
+  @Input() trip: ServerOrLocalTrip;
   @Input() isOneDayTrip = true;
   @Input() multiModalTrip = false;
 

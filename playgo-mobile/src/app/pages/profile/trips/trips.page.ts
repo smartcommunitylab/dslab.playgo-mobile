@@ -37,6 +37,33 @@ import { TripService } from 'src/app/core/shared/tracking/trip.service';
 })
 export class TripsPage implements OnInit {
   transportTypeLabels = transportTypeLabels;
+  scrollRequestSubject = new Subject<PageableRequest>();
+
+  tripsResponse$: Observable<PageableResponse<TrackedInstanceInfo>> =
+    this.scrollRequestSubject.pipe(
+      startWith({
+        page: 0,
+        size: 5,
+      }),
+      switchMap((scrollRequest) => this.getTripsPage(scrollRequest)),
+      catchError((error) => {
+        this.errorService.showAlert(error);
+        return throwError(error);
+      })
+    );
+
+  /* filled from the infinite scroll component */
+  public serverTripsSubject = new Subject<TrackedInstanceInfo[]>();
+  private serverTrips$: Observable<ServerOrLocalTrip[]> =
+    this.serverTripsSubject.pipe(
+      map((trips) =>
+        trips.map((trip) => ({
+          ...trip,
+          isLocal: false,
+        }))
+      ),
+      startWith([])
+    );
 
   private notSynchronizedTrips$: Observable<TrackedInstanceInfo[]> =
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
@@ -66,9 +93,7 @@ export class TripsPage implements OnInit {
       })
     );
 
-  public notSynchronizedTripsWithStatus$: Observable<
-    TrackedOrLocalInstanceInfo[]
-  > = combineLatest([
+  private localTrips$: Observable<ServerOrLocalTrip[]> = combineLatest([
     this.notSynchronizedTrips$,
     this.tripService.isInTrip$,
   ]).pipe(
@@ -82,24 +107,21 @@ export class TripsPage implements OnInit {
         };
       })
     ),
-    distinctUntilChanged(isEqual),
-    shareReplay(1)
+    startWith([])
   );
 
-  scrollRequest = new Subject<PageableRequest>();
+  private trips$: Observable<ServerOrLocalTrip[]> = combineLatest([
+    this.serverTrips$,
+    this.localTrips$,
+  ]).pipe(
+    map(([serverTrips, localTrips]) => [...localTrips, ...serverTrips]),
+    distinctUntilChanged(isEqual)
+  );
 
-  tripsResponse$: Observable<PageableResponse<TrackedInstanceInfo>> =
-    this.scrollRequest.pipe(
-      startWith({
-        page: 0,
-        size: 5,
-      }),
-      switchMap((scrollRequest) => this.getTripsPage(scrollRequest)),
-      catchError((error) => {
-        this.errorService.showAlert(error);
-        return throwError(error);
-      })
-    );
+  public groupedTrips$: Observable<TripGroup[]> = this.trips$.pipe(
+    map((trips) => this.groupTrips(trips)),
+    shareReplay(1)
+  );
 
   constructor(
     private authHttpService: AuthHttpService,
@@ -110,8 +132,7 @@ export class TripsPage implements OnInit {
   ) {}
   ngOnInit() {}
 
-  // TODO: memoize
-  public groupTrips(allTrips: TrackedOrLocalInstanceInfo[]): TripGroup[] {
+  private groupTrips(allTrips: ServerOrLocalTrip[]): TripGroup[] {
     const groupedByMultimodalId = groupByConsecutiveValues(
       allTrips,
       'multimodalId'
@@ -166,9 +187,9 @@ export class TripsPage implements OnInit {
       .toPromise();
   }
 }
-export interface TrackedOrLocalInstanceInfo extends TrackedInstanceInfo {
+export interface ServerOrLocalTrip extends TrackedInstanceInfo {
   isLocal: boolean;
-  isFinished: boolean;
+  isFinished?: boolean;
 }
 
 export interface TripGroup {
@@ -179,7 +200,7 @@ export interface TripGroup {
     date: Date;
     isOneDayTrip: boolean;
     multimodalId: string;
-    trips: TrackedOrLocalInstanceInfo[];
+    trips: ServerOrLocalTrip[];
     monthDate: number;
   }[];
 }

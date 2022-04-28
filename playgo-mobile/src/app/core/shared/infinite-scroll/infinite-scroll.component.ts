@@ -31,10 +31,10 @@ export class InfiniteScrollComponent<T> implements OnInit {
   content!: InfiniteScrollContentDirective;
 
   @ViewChild('infiniteScroll')
-  infiniteScrollComponent!: HTMLIonInfiniteScrollElement;
+  private infiniteScrollComponent!: HTMLIonInfiniteScrollElement;
 
   @Input()
-  allItemsInTemplate = false;
+  public allItemsInTemplate = false;
 
   @Input()
   public set response(response: PageableResponse<T>) {
@@ -63,16 +63,20 @@ export class InfiniteScrollComponent<T> implements OnInit {
     filter((request) => request !== null)
   );
 
-  public items$: Observable<T[]> = this.response$.pipe(
+  items$: Observable<T[]> = this.response$.pipe(
+    filter((response) => response !== null),
     map((response) => response.content),
     scan((acc, curr) => [...acc, ...curr], [])
   );
+
+  /** For manual rendering */
+  @Output()
+  public items = this.items$;
 
   constructor() {}
 
   loadData(event) {
     this.loadDataEvents$.next(event);
-    // this.request.emit({});
   }
 
   ngOnInit() {}
