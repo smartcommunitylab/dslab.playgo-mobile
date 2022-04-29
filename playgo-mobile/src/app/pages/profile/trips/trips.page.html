@@ -11,8 +11,10 @@
     (request)="scrollRequestSubject.next($event)"
     (items)="serverTripsSubject.next($event)"
   >
-    <ng-template appInfiniteScrollContent let-trips="items">
-      <ng-container *ngFor="let tripGroup of groupedTrips$ | async">
+    <ng-template appInfiniteScrollContent>
+      <ng-container
+        *ngFor="let tripGroup of groupedTrips$ | async; trackBy: trackGroup"
+      >
         <ion-card>
           <ion-card-header>
             <ion-card-title>
@@ -20,7 +22,9 @@
             </ion-card-title>
           </ion-card-header>
         </ion-card>
-        <ion-card *ngFor="let multiTrip of tripGroup.tripsInSameMonth">
+        <ion-card
+          *ngFor="let multiTrip of tripGroup.tripsInSameMonth; trackBy: trackMultiTrip"
+        >
           <!-- {{ multiTrip.multimodalId }} -->
           <app-trip-card
             *ngIf="multiTrip.trips.length === 1"
@@ -45,7 +49,9 @@
               </ion-label>
             </ion-item-divider>
 
-            <ng-container *ngFor="let trip of multiTrip.trips">
+            <ng-container
+              *ngFor="let trip of multiTrip.trips; trackBy: trackTrip"
+            >
               <app-trip-card
                 [trip]="trip"
                 [isOneDayTrip]="multiTrip.isOneDayTrip"
