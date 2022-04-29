@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Requestor } from '@openid/appauth';
+import { Requestor, TokenResponse } from '@openid/appauth';
 import { AuthService } from 'ionic-appauth';
 import { castArray, trim } from 'lodash-es';
+import { Observable } from 'rxjs';
 import { filter, map, shareReplay, take } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 @Injectable({
@@ -15,11 +16,22 @@ export class AuthHttpService {
     shareReplay(1)
   );
 
+  public token$: Observable<TokenResponse> = this.auth.token$.pipe(
+    filter((token) => token !== null),
+    shareReplay(1)
+  );
+
   constructor(
     private requestor: Requestor,
     private http: HttpClient,
     private auth: AuthService
   ) {}
+
+  /** Waits for the first token available, but later it will return headers with active token immediately */
+  public async getToken(): Promise<TokenResponse> {
+    const token = await this.token$.pipe(take(1)).toPromise();
+    return token;
+  }
 
   /**
    * @deprecated
