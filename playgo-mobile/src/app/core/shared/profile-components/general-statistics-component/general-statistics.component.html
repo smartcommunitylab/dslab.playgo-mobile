@@ -10,13 +10,14 @@
         <ion-row *ngFor="let meanStat of statistics">
           <ion-col>
             <ion-label>{{ "report.stats.period" |translate }} {{fromDate|localDate}} {{toDate|localDate}} </ion-label>
-            <app-single-mean-statistic [meanStat]="meanStat"></app-single-mean-statistic>
+            <app-single-mean-statistic [meanStat]="meanStat" [percentage]="getPercentage(statistics,meanStat)">
+            </app-single-mean-statistic>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
             <ion-label>{{ "report.stats.total" |translate }} </ion-label>
-            <app-total-statistics></app-total-statistics>
+            <app-total-statistics [totalStat]="statistics"></app-total-statistics>
           </ion-col>
         </ion-row>
       </ion-grid>

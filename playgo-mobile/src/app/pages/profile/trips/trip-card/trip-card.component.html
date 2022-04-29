@@ -18,7 +18,8 @@
   <div>
     {{ "trip_detail.distance" | translate }}:
     <strong
-      >{{ distance / 1000 | number: "0.0-1" }} {{ "km" | translate }}</strong
+      >{{ trip.distance / 1000 | number: "0.0-1" }}
+      {{ "km" | translate }}</strong
     >
   </div>
   <div>
@@ -33,6 +34,26 @@
       <strong>{{
         trip.endTime | localDate: (isOneDayTrip ? "shortTime" : "medium")
       }}</strong>
+    </div>
+    <div>
+      <ion-label color="danger" *ngIf="trip.validity === Validity.INVALID">{{
+        "trip_detail.status.invalid" | translate
+      }}</ion-label>
+    </div>
+    <div *ngIf="trip.validity === Validity.PENDING">
+      <ion-label color="warning">{{
+        "trip_detail.status.pending" | translate
+      }}</ion-label>
+    </div>
+    <div *ngIf="trip.isLocal && trip.isFinished">
+      <ion-label color="warning">{{
+        "trip_detail.status.not_synchronized" | translate
+      }}</ion-label>
+    </div>
+    <div *ngIf="trip.isLocal && !trip.isFinished">
+      <ion-label color="warning">{{
+        "trip_detail.status.not_finished" | translate
+      }}</ion-label>
     </div>
   </div>
   <div *ngFor="let campaignLabel of campaignsLabels">

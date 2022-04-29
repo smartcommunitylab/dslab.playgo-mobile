@@ -96,6 +96,7 @@ export class BackgroundGeolocationMock {
         ...newCoords,
         accuracy: Math.random() * 20,
       },
+      timestamp: new Date().toISOString(),
       extras: {
         ...BackgroundGeolocationMock.config.extras,
         ...extras,

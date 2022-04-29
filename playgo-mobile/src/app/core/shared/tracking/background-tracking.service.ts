@@ -268,12 +268,14 @@ export class TripLocation {
   multimodalId: string;
   latitude: number;
   longitude: number;
+  date: Date;
   constructor(data?: Partial<TripLocation>) {
     Object.assign(this, data || {});
   }
   static fromLocation(location: Location) {
     const extras = (location.extras || {}) as TripExtras;
     return new TripLocation({
+      date: new Date(location.timestamp),
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       multimodalId: extras.multimodalId,

@@ -3,13 +3,21 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title> {{ 'stats.title' | translate }} </ion-title>
+    <ion-title> {{ 'report.stats.title' | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="ion-padding">
     <ion-card>
+      <ion-card-header>
+        selezione periodo
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+      </ion-card-content>
+    </ion-card>
+    <!-- <ion-card>
       <ion-card-header>
         Bar Chart
       </ion-card-header>
@@ -34,6 +42,6 @@
       <ion-card-content>
         <canvas #lineCanvas style="position: relative; height:20vh; width:40vw"></canvas>
       </ion-card-content>
-    </ion-card>
+    </ion-card> -->
   </div>
 </ion-content>

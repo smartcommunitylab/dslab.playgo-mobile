@@ -10,12 +10,11 @@ import { TransportStats } from 'src/app/core/api/generated/model/transportStats'
 })
 export class SingleMeanStatisticComponent implements OnInit, OnChanges {
   @Input() meanStat: TransportStats;
-  statValue: number;
+  @Input() percentage: number;
   // @ViewChild('barCanvas') private barCanvas: ElementRef;
   constructor() { }
 
   ngOnInit() {
-    this.statValue = Math.random();
   }
   ngOnChanges(): void {
     console.log(this.meanStat);
