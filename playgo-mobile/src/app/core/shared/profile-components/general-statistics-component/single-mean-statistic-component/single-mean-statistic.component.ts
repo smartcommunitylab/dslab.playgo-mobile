@@ -20,5 +20,11 @@ export class SingleMeanStatisticComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     console.log(this.meanStat);
   }
+  getHours(seconds: number): number {
+    return seconds / 3600;
+  }
+  getKm(meters: number): number {
+    return meters / 1000;
+  }
 
 }

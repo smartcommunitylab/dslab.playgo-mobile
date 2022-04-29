@@ -88,7 +88,10 @@
   "report": {
     "stats": {
       "title": "Dettaglio attività",
-      "period": "Periodo"
+      "period": "Periodo",
+      "meansTravel": "{{totalTravel}} viaggi",
+      "meansDuration": "{{totalDuration}} h",
+      "meansDistance": "{{totalDistance}} Km"
     }
   },
   "trip_detail": {

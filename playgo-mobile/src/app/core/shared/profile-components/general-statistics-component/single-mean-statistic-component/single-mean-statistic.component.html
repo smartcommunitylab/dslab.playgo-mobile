@@ -1,9 +1,16 @@
 <div>
     <p>{{meanStat.modeType}}</p>
     <p>
-        <span>{{meanStat.totalTravel}}</span> -
-        <span>{{meanStat.totalDuration}}</span> -
-        <span>{{meanStat.totalDistance}}</span>
+        <span>{{ "report.stats.meansTravel"
+            | translate: { totalTravel: meanStat.totalTravel }
+            }}</span> -
+        <span>{{ "report.stats.meansDuration"
+            | translate: { totalDuration: getHours(meanStat.totalDuration) }
+            }}
+        </span> -
+        <span>{{ "report.stats.meansDistance"
+            | translate: { totalDistance: getKm(meanStat.totalDistance) }
+            }}</span>
     </p>
     <ion-progress-bar color="primary" [value]="statValue"></ion-progress-bar>
 </div>

@@ -270,7 +270,7 @@ export class ReportControllerService {
         params: {
           dateFrom,
           dateTo,
-          ...(groupMode && { groupMode }),
+          groupMode,
         },
       }
     );

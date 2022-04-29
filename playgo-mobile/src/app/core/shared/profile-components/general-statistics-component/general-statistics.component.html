@@ -13,6 +13,12 @@
             <app-single-mean-statistic [meanStat]="meanStat"></app-single-mean-statistic>
           </ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label>{{ "report.stats.total" |translate }} </ion-label>
+            <app-total-statistics></app-total-statistics>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
