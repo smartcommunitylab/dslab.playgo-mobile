@@ -201,9 +201,14 @@ export class BackgroundTrackingService {
   }
   private async sync() {
     try {
-      const headers = await this.authHttpService.getHeaders();
-      console.log('sync using headers', headers);
-      await this.backgroundGeolocationPlugin.setConfig({ headers });
+      const token = await this.authHttpService.getToken();
+      console.log('sync using token', token);
+      await this.backgroundGeolocationPlugin.setConfig({
+        authorization: {
+          strategy: 'jwt',
+          accessToken: token.accessToken,
+        },
+      });
       await this.backgroundGeolocationPlugin.sync();
     } catch (e) {
       console.warn('Sync failed, we will try to sync next time', e);
