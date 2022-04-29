@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { first, flatMap, last } from 'lodash-es';
@@ -17,7 +17,7 @@ import { ServerOrLocalTrip } from '../trips.page';
   templateUrl: './trip-card.component.html',
   styleUrls: ['./trip-card.component.scss'],
 })
-export class TripCardComponent implements OnInit {
+export class TripCardComponent implements OnInit, OnChanges {
   transportTypeLabels = transportTypeLabels;
   transportTypeIcons = transportTypeIcons;
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -51,7 +51,8 @@ export class TripCardComponent implements OnInit {
     if (!this.trip) {
       throw new Error('Trip is not defined');
     }
-    // derived from Inputs
+  }
+  ngOnChanges() {
     this.campaignsLabels = this.trip.campaigns.map((campaign) => {
       const pluralForm = this.pluralRules.select(campaign.score);
       const label = this.translateService.instant(

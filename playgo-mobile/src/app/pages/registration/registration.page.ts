@@ -55,7 +55,7 @@ export class RegistrationPage implements OnInit {
     console.log('changing avatar');
     this.image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.Uri,
     });
     const safeImg = this.sanitizer.bypassSecurityTrustUrl(this.image.webPath);
@@ -78,7 +78,11 @@ export class RegistrationPage implements OnInit {
         this.userService
           .registerPlayer(this.registrationForm.value)
           .then(async () => {
-            await this.userService.uploadAvatar(await readAsBase64(this.image));
+            if (!this.image) {
+              await this.userService.uploadAvatar(await fetch('assets/images/registration/generic_user.png').then(r => r.blob()));
+            } else {
+              await this.userService.uploadAvatar(await readAsBase64(this.image));
+            }
             //restart the status and load the home
             this.userService.startService();
             this.navCtrl.navigateRoot('/pages/tabs/home');

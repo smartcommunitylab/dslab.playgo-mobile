@@ -116,33 +116,56 @@ export class UserService {
     }
   }
   public async startService() {
+    let user = {};
     //check if locally present and I'm logged (store in the memory)
     try {
-      const user = await this.getProfile();
+      user = await this.getProfile();
       if (!user) {
         //go to registration
         this.navCtrl.navigateRoot('/pages/registration');
       }
-      //check if the avatar is present
-      const avatarImage = await this.getAvatar();
-      const avatarImageSmall = await this.getAvatarSmall();
-      if (user) {
-        this.userProfile = user;
-        this.processUser(user, avatarImage, avatarImageSmall);
-        this.userProfileSubject.next(this.userProfile);
-      }
-      const status = await this.reportService.getStatus();
-      if (status) {
-        this.userStatus = status;
-        this.userStatusSubject.next(this.userStatus);
-      }
     } catch (e) {
       console.log(e);
     }
+    //check if the avatar is present
+    let avatarImage = null;
+    let avatarImageSmall = null;
+    try {
+      avatarImage = await this.getAvatar();
+      avatarImageSmall = await this.getAvatarSmall();
+    } catch (e) {
+      if (!avatarImage) {
+        avatarImage = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+      } if (!avatarImageSmall) {
+        avatarImageSmall = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+      }
+      //console.log(e);
+    }
+    if (user) {
+      this.userProfile = user;
+      this.processUser(user, avatarImage, avatarImageSmall);
+      this.userProfileSubject.next(this.userProfile);
+    }
+    const status = await this.reportService.getStatus();
+    if (status) {
+      this.userStatus = status;
+      this.userStatusSubject.next(this.userStatus);
+    }
   }
   async updateImages() {
-    const avatarImage = await this.getAvatar();
-    const avatarImageSmall = await this.getAvatarSmall();
+    //check if the avatar is present
+    let avatarImage = null;
+    let avatarImageSmall = null;
+    try {
+      avatarImage = await this.getAvatar();
+      avatarImageSmall = await this.getAvatarSmall();
+    } catch (e) {
+      if (!avatarImage) {
+        avatarImage = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+      } if (!avatarImageSmall) {
+        avatarImageSmall = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+      }
+    }
     this.processUser(this.userProfile, avatarImage, avatarImageSmall);
     this.userProfileSubject.next(this.userProfile);
   }
