@@ -22,7 +22,7 @@ export class ChangeProfileModalPage implements OnInit, OnChanges {
     private modalCtr: ModalController,
     private userService: UserService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   ngOnInit() {
     const safeImg = this.sanitizer.bypassSecurityTrustUrl(
@@ -47,7 +47,7 @@ export class ChangeProfileModalPage implements OnInit, OnChanges {
     console.log('changing avatar');
     this.image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.Uri,
     });
     const avatarData = await this.userService.uploadAvatar(

@@ -134,7 +134,12 @@ export class UserService {
       avatarImage = await this.getAvatar();
       avatarImageSmall = await this.getAvatarSmall();
     } catch (e) {
-      console.log(e);
+      if (!avatarImage) {
+        avatarImage = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+      } if (!avatarImageSmall) {
+        avatarImageSmall = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+      }
+      //console.log(e);
     }
     if (user) {
       this.userProfile = user;
@@ -148,8 +153,19 @@ export class UserService {
     }
   }
   async updateImages() {
-    const avatarImage = await this.getAvatar();
-    const avatarImageSmall = await this.getAvatarSmall();
+    //check if the avatar is present
+    let avatarImage = null;
+    let avatarImageSmall = null;
+    try {
+      avatarImage = await this.getAvatar();
+      avatarImageSmall = await this.getAvatarSmall();
+    } catch (e) {
+      if (!avatarImage) {
+        avatarImage = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+      } if (!avatarImageSmall) {
+        avatarImageSmall = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+      }
+    }
     this.processUser(this.userProfile, avatarImage, avatarImageSmall);
     this.userProfileSubject.next(this.userProfile);
   }
