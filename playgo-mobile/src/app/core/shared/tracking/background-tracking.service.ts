@@ -41,6 +41,7 @@ import {
 } from './trip.model';
 import { runInZone, tapLog } from '../utils';
 import { AuthHttpService } from '../../auth/auth-http.service';
+import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 
 @Injectable({
   providedIn: 'root',
@@ -126,6 +127,7 @@ export class BackgroundTrackingService {
     private backgroundGeolocationPlugin: typeof BackgroundGeolocationInternal,
     private alertService: AlertService,
     private authHttpService: AuthHttpService,
+    private playerControllerService: PlayerControllerService,
     private zone: NgZone
   ) {
     // FIXME: debug only
@@ -201,19 +203,32 @@ export class BackgroundTrackingService {
   }
   private async sync() {
     try {
-      const token = await this.authHttpService.getToken();
-      console.log('sync using token', token);
-      await this.backgroundGeolocationPlugin.setConfig({
-        authorization: {
-          strategy: 'jwt',
-          accessToken: token.accessToken,
-        },
-      });
-      await this.backgroundGeolocationPlugin.sync();
+      try {
+        this.trySync();
+      } catch (maybe401Error) {
+        console.log('Sync failed, trying to get new token');
+
+        // maybe sync failed because the token is expired. Let's try to call some
+        // api to refresh the token and try again.
+        await this.playerControllerService.getProfileUsingGET().toPromise();
+        this.trySync();
+      }
     } catch (e) {
       console.warn('Sync failed, we will try to sync next time', e);
     }
     this.possibleLocationsChangeSubject.next();
+  }
+
+  private async trySync(): Promise<void> {
+    const token = await this.authHttpService.getToken();
+    console.log('sync using token', token);
+    await this.backgroundGeolocationPlugin.setConfig({
+      authorization: {
+        strategy: 'jwt',
+        accessToken: token.accessToken,
+      },
+    });
+    await this.backgroundGeolocationPlugin.sync();
   }
 
   private async setExtrasAndForceLocation(

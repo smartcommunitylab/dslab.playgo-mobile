@@ -1,4 +1,6 @@
-<ng-container *ngFor="let eachTransportTypeOption of transportTypeOptions">
+<ng-container
+  *ngFor="let eachTransportTypeOption of transportTypeOptions$ | async"
+>
   <ion-button
     (click)="
       tripService.changeTransportType(eachTransportTypeOption.transportType)
