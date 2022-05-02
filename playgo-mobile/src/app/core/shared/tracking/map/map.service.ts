@@ -11,7 +11,6 @@ import {
 import { isNotConstant, tapLog } from '../../utils';
 import { TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
-import { MapComponent } from './map/map.component';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +54,9 @@ export class MapService {
   private async openMapModal() {
     // modal is not reused
     this.modal = await this.modalController.create({
-      component: MapComponent,
+      // FIXME: this should be a page!
+      component: null,
+      // component: MapComponent,
     });
     await this.modal.present();
   }
