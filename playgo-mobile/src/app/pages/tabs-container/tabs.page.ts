@@ -15,8 +15,25 @@ export class TabsPage {
     startWith(this.router.url)
   );
 
-  public isHome$: Observable<boolean> = this.url$.pipe(
-    map((url) => url.startsWith('/pages/tabs/home'))
+  private currentPageInfo$: Observable<{ isHome: boolean; isMap: boolean }> =
+    this.url$.pipe(
+      map((url: string) => {
+        const isHome = url.startsWith('/pages/tabs/home');
+        const isMap = url.startsWith('/pages/tabs/home/tracking-map');
+        return {
+          isHome,
+          isMap,
+        };
+      })
+    );
+
+  public showTrackingButtons$ = this.currentPageInfo$.pipe(
+    map(({ isHome, isMap }) => !isHome && !isMap)
   );
+
+  public showFooter$ = this.currentPageInfo$.pipe(
+    map(({ isHome, isMap }) => !isMap)
+  );
+
   constructor(private router: Router) {}
 }
