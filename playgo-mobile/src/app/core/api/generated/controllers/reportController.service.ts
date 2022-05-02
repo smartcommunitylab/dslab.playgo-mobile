@@ -25,7 +25,7 @@ import { TransportStats } from '../model/transportStats';
   providedIn: 'root',
 })
 export class ReportControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * getCampaingPlacingByCo2
    *
@@ -109,7 +109,7 @@ export class ReportControllerService {
     return this.http.request<PageCampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/transport`,
+      `/playandgo/api/report/campaign/placing/transport`,
       {
         params: {
           campaignId,
@@ -140,7 +140,7 @@ export class ReportControllerService {
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/player/co2`,
+      `/playandgo/api/report/campaign/placing/player/co2`,
       {
         params: {
           campaignId,
@@ -169,7 +169,7 @@ export class ReportControllerService {
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/player/game`,
+      `/playandgo/api/report/campaign/placing/player/game`,
       {
         params: {
           campaignId,
@@ -200,7 +200,7 @@ export class ReportControllerService {
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/player/transport`,
+      `/playandgo/api/report/campaign/placing/player/transport`,
       {
         params: {
           campaignId,
@@ -265,7 +265,7 @@ export class ReportControllerService {
     return this.http.request<Array<TransportStats>>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/player/transport/stats`,
+      `/playandgo/api/report/player/transport/stats`,
       {
         params: {
           dateFrom,

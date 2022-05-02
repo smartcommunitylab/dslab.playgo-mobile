@@ -21,7 +21,7 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private translateService: TranslateService,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sub = this.auth.events$.subscribe((action) =>
@@ -31,8 +31,8 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
-    this.subToken.unsubscribe();
+    if (this.sub) { this.sub.unsubscribe(); }
+    if (this.subToken) { this.subToken.unsubscribe(); }
   }
 
   async postCallback(action: IAuthAction) {
@@ -51,6 +51,9 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
           } else {
             this.navCtrl.navigateRoot('/pages/registration');
           }
+        }
+        else {
+          console.log("no token");
         }
       });
     }

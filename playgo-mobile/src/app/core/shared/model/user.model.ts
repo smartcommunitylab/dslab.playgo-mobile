@@ -16,5 +16,5 @@ export class User implements IUser {
     public mail?: string,
     public avatar?: IAvatar,
     public territoryId?: string
-  ) {}
+  ) { }
 }

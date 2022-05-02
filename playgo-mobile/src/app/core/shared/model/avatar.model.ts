@@ -3,5 +3,5 @@ export interface IAvatar {
   avatarDataSmall?: any;
 }
 export class Avatar implements IAvatar {
-  constructor(public avatarData?: any, public avatarDataSmall?: any) {}
+  constructor(public avatarData?: any, public avatarDataSmall?: any) { }
 }

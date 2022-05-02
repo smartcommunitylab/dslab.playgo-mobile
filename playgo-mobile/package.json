@@ -64,6 +64,7 @@
     "angularx-qrcode": "^13.0.3",
     "capacitor-codepush": "github:mapiacompany/capacitor-codepush",
     "capacitor-secure-storage-plugin": "^0.6.2",
+    "chart.js": "^3.7.1",
     "ionic-appauth": "^0.8.5",
     "leaflet": "^1.7.1",
     "lodash-es": "^4.17.21",

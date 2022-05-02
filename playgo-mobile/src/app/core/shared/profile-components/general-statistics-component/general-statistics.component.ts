@@ -26,6 +26,11 @@ export class GeneralStatisticsComponent implements OnInit {
       }
     });
   }
+
+  getPercentage(statistics, meanStat) {
+    //check for every statistics the percentage of our meanStat;
+    return Math.random();
+  }
   openStats() {
     this.router.navigateByUrl('pages/stats');
   }

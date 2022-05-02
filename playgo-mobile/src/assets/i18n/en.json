@@ -87,7 +87,13 @@
   },
   "report": {
     "stats": {
-      "period": "Periodo"
+      "title": "Activity details",
+      "period": "Period",
+      "total": "Total:",
+      "meansTravel": "{{totalTravel}} journeys",
+      "meansDuration": "{{totalDuration}} h",
+      "meansDistance": "{{totalDistance}} Km",
+      "changePeriodButton": "Change period"
     }
   },
   "trip_detail": {

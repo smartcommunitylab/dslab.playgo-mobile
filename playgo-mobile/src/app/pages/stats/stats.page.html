@@ -1,9 +1,48 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title> {{ 'stats.title' | translate }} </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title> {{ 'report.stats.title' | translate }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div>Stats</div>
+  <div class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <span>{{ 'report.stats.period' | translate }} {{periodSelected}}</span>
+        <ion-button (click)="dialogChangePeriod()">{{ 'report.stats.changePeriodButton' | translate }} </ion-button>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+      </ion-card-content>
+    </ion-card>
+    <!-- <ion-card>
+      <ion-card-header>
+        Bar Chart
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Doughnut Chart
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #doughnutCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Line Chart
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #lineCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+      </ion-card-content>
+    </ion-card> -->
+  </div>
 </ion-content>
