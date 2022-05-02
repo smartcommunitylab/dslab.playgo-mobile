@@ -10,7 +10,15 @@ import {
 
 // No not use BackgroundGeolocation / BackgroundGeolocationInternal directly, but use dependency injection!
 import { default as BackgroundGeolocationInternal } from '@transistorsoft/capacitor-background-geolocation';
-import { filter as _filter, fromPairs, isEqual, last, pick } from 'lodash-es';
+import {
+  filter as _filter,
+  fromPairs,
+  isEqual,
+  isNil,
+  last,
+  negate,
+  pick,
+} from 'lodash-es';
 import {
   combineLatest,
   concat,
@@ -21,6 +29,7 @@ import {
 } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   finalize,
   first,
   map,
@@ -117,6 +126,7 @@ export class BackgroundTrackingService {
     this.notSynchronizedLocations$.pipe(
       first(),
       map((x) => last(x)),
+      filter(negate(isNil)),
       takeUntil(this.currentLocation$)
     ),
     this.currentLocation$

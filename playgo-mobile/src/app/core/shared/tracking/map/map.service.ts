@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { merge, Observable, Subject } from 'rxjs';
 import {
@@ -12,6 +13,7 @@ import { isNotConstant, tapLog } from '../../utils';
 import { TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
 
+// FIXME: rewrite service
 @Injectable({
   providedIn: 'root',
 })
@@ -34,7 +36,8 @@ export class MapService {
 
   constructor(
     private tripService: TripService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private router: Router
   ) {
     this.modalShouldBeOpened$.subscribe((shouldBeOpen) =>
       this.toggleMapModal(shouldBeOpen)
@@ -52,13 +55,7 @@ export class MapService {
     }
   }
   private async openMapModal() {
-    // modal is not reused
-    this.modal = await this.modalController.create({
-      // FIXME: this should be a page!
-      component: null,
-      // component: MapComponent,
-    });
-    await this.modal.present();
+    this.router.navigate(['/pages/tracking/map']);
   }
 
   private async closeMapModal() {

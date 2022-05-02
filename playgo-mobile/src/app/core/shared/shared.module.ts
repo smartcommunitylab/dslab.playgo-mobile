@@ -11,7 +11,7 @@ import { ProfileComponent } from './profile-components/profile-component/profile
 import { AlertService } from './services/alert.service';
 import { LocalStorageRefService } from './services/local-storage-ref.service';
 import { PlayGoSharedLibsModule } from './shared-libs.module';
-import { TrackingModule } from './tracking/tracking.module';
+import { SharedTrackingModule } from './tracking/shared-tracking.module';
 import {
   InfiniteScrollComponent,
   InfiniteScrollContentDirective,
@@ -20,7 +20,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-number.component';
 
 @NgModule({
-  imports: [PlayGoSharedLibsModule, TrackingModule],
+  imports: [PlayGoSharedLibsModule, SharedTrackingModule],
   declarations: [
     MyCampaignCardComponent,
     PublicCampaignCardComponent,
@@ -47,7 +47,7 @@ import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-n
     SingleMeanStatisticComponent,
     TotalStatisticsComponent,
     LocalNumberPipe,
-    TrackingModule,
+    SharedTrackingModule,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
     OrdinalNumberComponent,

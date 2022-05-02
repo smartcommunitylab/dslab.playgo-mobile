@@ -9,13 +9,15 @@ import { TrackingMapPageRoutingModule } from './tracking-map-routing.module';
 import { TrackingMapPage } from './tracking-map.page';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CurrentLocationMapControlComponent } from './current-location-map-control/current-location-map-control.component';
+import { SharedTrackingModule } from 'src/app/core/shared/tracking/shared-tracking.module';
+import { PlayGoSharedLibsModule } from 'src/app/core/shared/shared-libs.module';
 
 @NgModule({
   imports: [
-    CommonModule,
-    IonicModule,
     TrackingMapPageRoutingModule,
+    PlayGoSharedLibsModule,
     LeafletModule,
+    SharedTrackingModule,
   ],
   declarations: [TrackingMapPage, CurrentLocationMapControlComponent],
 })

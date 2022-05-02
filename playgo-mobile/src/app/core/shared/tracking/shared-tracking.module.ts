@@ -37,7 +37,11 @@ import { CarpoolingScanQRDialogComponent } from './carpooling/carpooling-scan-qr
       deps: [Platform],
     },
   ],
-  imports: [CommonModule, PlayGoSharedLibsModule, LeafletModule, QRCodeModule],
-  exports: [TrackingMainControlComponent, TrackingQuickControlComponent],
+  imports: [CommonModule, PlayGoSharedLibsModule, QRCodeModule],
+  exports: [
+    TrackingMainControlComponent,
+    TrackingQuickControlComponent,
+    TrackingButtonsComponent,
+  ],
 })
-export class TrackingModule {}
+export class SharedTrackingModule {}
