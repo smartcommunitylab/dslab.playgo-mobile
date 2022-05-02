@@ -21,6 +21,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./stats/stats.module').then((m) => m.StatsPageModule),
       },
+      {
+        path: 'tracking',
+        loadChildren: () =>
+          import('./tracking/tracking.module').then((m) => m.TrackingModule),
+      },
     ]),
   ],
 })
