@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonButton } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
-import { tapLog } from '../../utils';
-import { MapService } from '../map/map.service';
+import { Location as LocationService } from '@angular/common';
 import {
   TransportType,
   transportTypeIcons,
@@ -41,9 +41,25 @@ export class TrackingButtonsComponent implements OnInit {
 
   constructor(
     public tripService: TripService,
-    public mapService: MapService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
+    private locationService: LocationService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
+
+  async changeTransportType(transportType: TransportType) {
+    await this.tripService.changeTransportType(transportType);
+    this.showMap();
+  }
+  async stop() {
+    await this.tripService.stop();
+    if (this.router.url === '/pages/tracking/map') {
+      // or should we navigate home?
+      this.locationService.back();
+    }
+  }
+  showMap() {
+    this.router.navigate(['/pages/tracking/map']);
+  }
 }

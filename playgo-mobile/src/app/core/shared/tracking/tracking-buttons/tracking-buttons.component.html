@@ -1,10 +1,9 @@
 <ng-container
   *ngFor="let eachTransportTypeOption of transportTypeOptions$ | async"
 >
+  <!-- (click)="tripService.changeTransportType(eachTransportTypeOption.transportType)" -->
   <ion-button
-    (click)="
-      tripService.changeTransportType(eachTransportTypeOption.transportType)
-    "
+    (click)="changeTransportType(eachTransportTypeOption.transportType)"
     [size]="size"
     [disabled]="
       (tripService.operationInProgress$ | async) ||
@@ -22,7 +21,7 @@
   </ion-button>
 </ng-container>
 <ion-button
-  (click)="tripService.stop()"
+  (click)="stop()"
   color="danger"
   [disabled]="tripService.operationInProgress$ | async"
   *ngIf="(tripService.isInTrip$ | async) === true"
@@ -32,7 +31,7 @@
 </ion-button>
 
 <ion-button
-  (click)="mapService.showMap()"
+  (click)="showMap()"
   [size]="size"
   [disabled]="tripService.operationInProgress$ | async"
   *ngIf="mapButton && (tripService.isInTrip$ | async) === true"
