@@ -7,12 +7,9 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 })
 export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   @Input() campaign: any;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 }

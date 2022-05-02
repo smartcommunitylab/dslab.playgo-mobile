@@ -22,7 +22,7 @@ export class LoginPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private translateService: TranslateService,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.sub = this.auth.events$.subscribe((action) => {
@@ -33,8 +33,12 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.sub) { this.sub.unsubscribe(); }
-    if (this.subToken) { this.subToken.unsubscribe(); }
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.subToken) {
+      this.subToken.unsubscribe();
+    }
   }
 
   private async onSignInSuccess(action: IAuthAction) {

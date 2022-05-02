@@ -20,4 +20,4 @@ import { HomeCampaignPersonalComponent } from './home-campaigns/home-campaign-pe
   ],
   exports: [MyCampaignsWidgetComponent, HomeTrackingWidgetComponent],
 })
-export class HomePageModule { }
+export class HomePageModule {}

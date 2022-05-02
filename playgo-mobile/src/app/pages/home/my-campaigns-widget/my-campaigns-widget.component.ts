@@ -12,7 +12,7 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
   myCampaigns: PlayerCampaign[];
   sub: Subscription;
-  constructor(private campaignService: CampaignService) { }
+  constructor(private campaignService: CampaignService) {}
 
   ngOnInit() {
     this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {

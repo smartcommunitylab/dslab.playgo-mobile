@@ -15,12 +15,11 @@ import { CampaignTerritory } from '../classes/campaign-territory';
 export class PublicCampaignCardComponent implements OnInit {
   @Input() campaign: any; // CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory;
   imagePath: string;
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.imagePath = 'data:image/jpg;base64,' + this.campaign.logo.image;
   }
-
 
   joinCamp() {
     this.router.navigateByUrl(

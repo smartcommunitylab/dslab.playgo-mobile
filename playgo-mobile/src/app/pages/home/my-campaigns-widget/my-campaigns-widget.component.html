@@ -6,14 +6,16 @@
     <ion-row *ngFor="let campaign of myCampaigns">
       <ng-container [ngSwitch]="campaign.campaign.type">
         <ng-container *ngSwitchCase="'personal'">
-          <app-home-campaign-personal [campaign]="campaign"></app-home-campaign-personal>
+          <app-home-campaign-personal
+            [campaign]="campaign"
+          ></app-home-campaign-personal>
         </ng-container>
         <ng-container *ngSwitchCase="'city'">
-          <app-home-campaign-city [campaign]="campaign"></app-home-campaign-city>
+          <app-home-campaign-city
+            [campaign]="campaign"
+          ></app-home-campaign-city>
         </ng-container>
-        <ng-container *ngSwitchDefault>
-          default
-        </ng-container>
+        <ng-container *ngSwitchDefault> default </ng-container>
       </ng-container>
     </ion-row>
   </ion-grid>

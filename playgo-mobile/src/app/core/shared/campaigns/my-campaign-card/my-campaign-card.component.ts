@@ -16,7 +16,7 @@ export class MyCampaignCardComponent implements OnInit {
   @Input() containerCampaign: any; // CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory;
   imagePath: SafeResourceUrl;
 
-  constructor(private router: Router, private sanitizer: DomSanitizer) { }
+  constructor(private router: Router, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.imagePath =
@@ -24,7 +24,10 @@ export class MyCampaignCardComponent implements OnInit {
   }
 
   detailCampaign() {
-    this.router.navigateByUrl('/pages/tabs/campaigns/details/' + this.containerCampaign.campaign.campaignId);
+    this.router.navigateByUrl(
+      '/pages/tabs/campaigns/details/' +
+        this.containerCampaign.campaign.campaignId
+    );
   }
 
   joinCamp() {

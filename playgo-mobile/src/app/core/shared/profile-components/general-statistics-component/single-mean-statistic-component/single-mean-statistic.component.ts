@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { TransportStats } from 'src/app/core/api/generated/model/transportStats';
 // import { IMeansStat } from '../../../model/general-statistic.model';
 // import { Chart } from 'chart.js';
@@ -12,10 +20,9 @@ export class SingleMeanStatisticComponent implements OnInit, OnChanges {
   @Input() meanStat: TransportStats;
   @Input() percentage: number;
   // @ViewChild('barCanvas') private barCanvas: ElementRef;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   ngOnChanges(): void {
     console.log(this.meanStat);
   }
@@ -25,5 +32,4 @@ export class SingleMeanStatisticComponent implements OnInit, OnChanges {
   getKm(meters: number): number {
     return meters / 1000;
   }
-
 }

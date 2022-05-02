@@ -4,10 +4,7 @@ import { CampaignJoinPage } from './campaign-join.page';
 import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 
 @NgModule({
-  imports: [
-    CampaignJoinPageRoutingModule,
-    PlayGoSharedModule,
-  ],
+  imports: [CampaignJoinPageRoutingModule, PlayGoSharedModule],
   declarations: [CampaignJoinPage],
 })
-export class CampaignJoinPageModule { }
+export class CampaignJoinPageModule {}

@@ -22,7 +22,7 @@ export class ChangeProfileModalPage implements OnInit, OnChanges {
     private modalCtr: ModalController,
     private userService: UserService,
     private sanitizer: DomSanitizer
-  ) { }
+  ) {}
 
   ngOnInit() {
     const safeImg = this.sanitizer.bypassSecurityTrustUrl(

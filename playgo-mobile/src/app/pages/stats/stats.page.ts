@@ -1,8 +1,22 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import {
-  ArcElement, BarController, BarElement, CategoryScale,
-  Chart, DoughnutController, LinearScale, LineController, LineElement, PointElement
+  ArcElement,
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  DoughnutController,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
 } from 'chart.js';
 
 @Component({
@@ -15,8 +29,8 @@ export class StatsPage implements OnInit, AfterViewInit {
 
   barChart: any;
   periodSelected: 'Complessivo';
-  constructor(private alertController: AlertController) { }
-  ngOnInit() { }
+  constructor(private alertController: AlertController) {}
+  ngOnInit() {}
 
   // When we try to call our chart to initialize methods in ngOnInit() it shows an error nativeElement of undefined.
   // So, we need to call all chart methods in ngAfterViewInit() where @ViewChild and @ViewChildren will be resolved.
@@ -36,7 +50,7 @@ export class StatsPage implements OnInit, AfterViewInit {
           handler: () => {
             console.log('Radio 1 selected');
           },
-          checked: true
+          checked: true,
         },
         {
           name: 'week',
@@ -45,7 +59,7 @@ export class StatsPage implements OnInit, AfterViewInit {
           value: 'week',
           handler: () => {
             console.log('Radio 2 selected');
-          }
+          },
         },
         {
           name: 'month',
@@ -54,7 +68,7 @@ export class StatsPage implements OnInit, AfterViewInit {
           value: 'month',
           handler: () => {
             console.log('Radio 3 selected');
-          }
+          },
         },
         {
           name: 'today',
@@ -63,8 +77,8 @@ export class StatsPage implements OnInit, AfterViewInit {
           value: 'today',
           handler: () => {
             console.log('Radio 4 selected');
-          }
-        }
+          },
+        },
       ],
       buttons: [
         {
@@ -73,16 +87,17 @@ export class StatsPage implements OnInit, AfterViewInit {
           cssClass: 'secondary',
           handler: () => {
             console.log('Confirm Cancel');
-          }
-        }, {
+          },
+        },
+        {
           text: 'Ok',
           handler: (data: any) => {
             console.log('Saved Information', data);
             this.barChart.destroy();
             this.barChartMethod();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
@@ -90,35 +105,46 @@ export class StatsPage implements OnInit, AfterViewInit {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
     // eslint-disable-next-line max-len
-    Chart.register(LineController, BarController, CategoryScale, LinearScale, BarElement, DoughnutController, ArcElement, PointElement, LineElement);
+    Chart.register(
+      LineController,
+      BarController,
+      CategoryScale,
+      LinearScale,
+      BarElement,
+      DoughnutController,
+      ArcElement,
+      PointElement,
+      LineElement
+    );
 
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       data: {
         labels: ['BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
-        datasets: [{
-          label: '# of Votes',
-          data: [200, 50, 30, 15, 20, 34],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      }
+        datasets: [
+          {
+            label: '# of Votes',
+            data: [200, 50, 30, 15, 20, 34],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
     });
   }
-
 }

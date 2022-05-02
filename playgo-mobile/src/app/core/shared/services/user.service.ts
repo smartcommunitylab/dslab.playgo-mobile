@@ -135,9 +135,14 @@ export class UserService {
       avatarImageSmall = await this.getAvatarSmall();
     } catch (e) {
       if (!avatarImage) {
-        avatarImage = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
-      } if (!avatarImageSmall) {
-        avatarImageSmall = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+        avatarImage = await fetch(
+          'assets/images/registration/generic_user.png'
+        ).then((r) => r.blob());
+      }
+      if (!avatarImageSmall) {
+        avatarImageSmall = await fetch(
+          'assets/images/registration/generic_user.png'
+        ).then((r) => r.blob());
       }
       //console.log(e);
     }
@@ -161,9 +166,14 @@ export class UserService {
       avatarImageSmall = await this.getAvatarSmall();
     } catch (e) {
       if (!avatarImage) {
-        avatarImage = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
-      } if (!avatarImageSmall) {
-        avatarImageSmall = await fetch('assets/images/registration/generic_user.png').then(r => r.blob());
+        avatarImage = await fetch(
+          'assets/images/registration/generic_user.png'
+        ).then((r) => r.blob());
+      }
+      if (!avatarImageSmall) {
+        avatarImageSmall = await fetch(
+          'assets/images/registration/generic_user.png'
+        ).then((r) => r.blob());
       }
     }
     this.processUser(this.userProfile, avatarImage, avatarImageSmall);

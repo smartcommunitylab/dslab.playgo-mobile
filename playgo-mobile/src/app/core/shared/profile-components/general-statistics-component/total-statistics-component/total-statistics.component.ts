@@ -12,16 +12,22 @@ export class TotalStatisticsComponent implements OnInit, OnChanges {
   totalKm: number;
   totalJouneys: number;
   totalDays: number;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
   ngOnChanges() {
     this.calculateTotals();
   }
   calculateTotals() {
-    this.totalKm = this.totalStat.reduce((n, { totalDistance }) => n + totalDistance, 0) / 1000;
-    this.totalJouneys = this.totalStat.reduce((n, { totalTravel }) => n + totalTravel, 0);
-    this.totalDays = this.totalStat.reduce((n, { totalDuration }) => n + totalDuration, 0) / 3600;
-
+    this.totalKm =
+      this.totalStat.reduce((n, { totalDistance }) => n + totalDistance, 0) /
+      1000;
+    this.totalJouneys = this.totalStat.reduce(
+      (n, { totalTravel }) => n + totalTravel,
+      0
+    );
+    this.totalDays =
+      this.totalStat.reduce((n, { totalDuration }) => n + totalDuration, 0) /
+      3600;
   }
 }

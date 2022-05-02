@@ -12,11 +12,12 @@ import { TransportStats } from '../../api/generated/model/transportStats';
 @Injectable({ providedIn: 'root' })
 export class ReportService {
   private statusSubject = new ReplaySubject<PlayerStatus>();
-  public userStatus$: Observable<PlayerStatus> = this.statusSubject.asObservable();
+  public userStatus$: Observable<PlayerStatus> =
+    this.statusSubject.asObservable();
   constructor(
     // private authHttpService: AuthHttpService
     private reportControllerService: ReportControllerService
-  ) { }
+  ) {}
 
   // getLastWeekStatistic(): Promise<TransportStats[]> {
   //   const fromDate = DateTime.local().minus({ week: 1 }).toFormat('yyyy-MM-dd');
@@ -28,7 +29,9 @@ export class ReportService {
     toDate?: any,
     group?: any
   ): Promise<TransportStats[]> {
-    return this.reportControllerService.getPlayerTransportStatsUsingGET(fromDate, toDate, group).toPromise();
+    return this.reportControllerService
+      .getPlayerTransportStatsUsingGET(fromDate, toDate, group)
+      .toPromise();
     // return this.authHttpService.request<IGeneralStatistic>(
     //   'GET',
     //   environment.serverUrl.transportStats,
