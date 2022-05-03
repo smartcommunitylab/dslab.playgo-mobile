@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 
 import { Campaign } from '../model/campaign';
 import { CampaignSubscription } from '../model/campaignSubscription';
-import { Logo } from '../model/logo';
+import { Image } from '../model/image';
 import { PlayerCampaign } from '../model/playerCampaign';
 
 @Injectable({
@@ -72,9 +72,11 @@ export class CampaignControllerService {
    * getCampaigns
    *
    * @param territoryId territoryId
+   * @param type type
    */
   public getCampaignsUsingGET(
-    territoryId: string
+    territoryId: string,
+    type?: string
   ): Observable<Array<Campaign>> {
     return this.http.request<Array<Campaign>>(
       'get',
@@ -82,6 +84,7 @@ export class CampaignControllerService {
       {
         params: {
           territoryId,
+          type,
         },
       }
     );
@@ -96,33 +99,6 @@ export class CampaignControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/campaign/my`,
       {}
-    );
-  }
-
-  /**
-   * subscribeCampaignByTerritory
-   *
-   * @param nickname nickname
-   * @param campaignId campaignId
-   * @param body
-   */
-  public subscribeCampaignByTerritoryUsingPOST(
-    nickname: string,
-    campaignId: string,
-    body?: any
-  ): Observable<CampaignSubscription> {
-    return this.http.request<CampaignSubscription>(
-      'post',
-      environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/subscribe/territory`,
-      {
-        body,
-        params: {
-          nickname,
-        },
-      }
     );
   }
 
@@ -190,8 +166,8 @@ export class CampaignControllerService {
   public uploadCampaignLogoUsingPOST(
     campaignId: string,
     body?: Object
-  ): Observable<Logo> {
-    return this.http.request<Logo>(
+  ): Observable<Image> {
+    return this.http.request<Image>(
       'post',
       environment.serverUrl.api +
         `/playandgo/api/campaign/${encodeURIComponent(

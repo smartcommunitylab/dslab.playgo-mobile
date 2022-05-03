@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 
 import { Avatar } from '../model/avatar';
 import { Player } from '../model/player';
+import { PlayerInfo } from '../model/playerInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -130,6 +131,25 @@ export class PlayerControllerService {
       environment.serverUrl.api + `/playandgo/api/player/register`,
       {
         body,
+      }
+    );
+  }
+
+  /**
+   * searchNickname
+   *
+   * @param nickname nickname
+   */
+  public searchNicknameUsingGET(
+    nickname: string
+  ): Observable<Array<PlayerInfo>> {
+    return this.http.request<Array<PlayerInfo>>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/player/search`,
+      {
+        params: {
+          nickname,
+        },
       }
     );
   }

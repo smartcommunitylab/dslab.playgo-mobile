@@ -9,14 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Player } from './player';
+import { PlayerCampaign } from './playerCampaign';
 
-export interface Player {
-  familyName?: string;
-  givenName?: string;
-  language?: string;
-  mail?: string;
-  nickname?: string;
-  playerId?: string;
-  sendMail?: boolean;
-  territoryId?: string;
+export interface PlayerInfoConsole {
+  campaigns?: Array<PlayerCampaign>;
+  player?: Player;
 }

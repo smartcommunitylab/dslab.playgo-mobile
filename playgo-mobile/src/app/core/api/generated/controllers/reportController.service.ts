@@ -32,13 +32,15 @@ export class ReportControllerService {
    * @param campaignId campaignId
    * @param page Results page you want to retrieve (0..N)
    * @param size Number of records per page
+   * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom dateFrom
    * @param dateTo dateTo
    */
   public getCampaingPlacingByCo2UsingGET(
     campaignId: string,
-    page?: number,
-    size?: number,
+    page: number,
+    size: number,
+    sort?: string,
     dateFrom?: string,
     dateTo?: string
   ): Observable<PageCampaignPlacing> {
@@ -50,6 +52,7 @@ export class ReportControllerService {
           campaignId,
           page,
           size,
+          sort,
           dateFrom,
           dateTo,
         },
@@ -63,13 +66,15 @@ export class ReportControllerService {
    * @param campaignId campaignId
    * @param page Results page you want to retrieve (0..N)
    * @param size Number of records per page
+   * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom dateFrom
    * @param dateTo dateTo
    */
   public getCampaingPlacingByGameUsingGET(
     campaignId: string,
-    page?: number,
-    size?: number,
+    page: number,
+    size: number,
+    sort?: string,
     dateFrom?: string,
     dateTo?: string
   ): Observable<PageCampaignPlacing> {
@@ -81,6 +86,7 @@ export class ReportControllerService {
           campaignId,
           page,
           size,
+          sort,
           dateFrom,
           dateTo,
         },
@@ -92,17 +98,19 @@ export class ReportControllerService {
    * getCampaingPlacingByTransportMode
    *
    * @param campaignId campaignId
-   * @param modeType modeType
    * @param page Results page you want to retrieve (0..N)
    * @param size Number of records per page
+   * @param modeType modeType
+   * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom dateFrom
    * @param dateTo dateTo
    */
   public getCampaingPlacingByTransportModeUsingGET(
     campaignId: string,
+    page: number,
+    size: number,
     modeType: string,
-    page?: number,
-    size?: number,
+    sort?: string,
     dateFrom?: string,
     dateTo?: string
   ): Observable<PageCampaignPlacing> {
@@ -115,6 +123,7 @@ export class ReportControllerService {
           campaignId,
           page,
           size,
+          sort,
           modeType,
           dateFrom,
           dateTo,

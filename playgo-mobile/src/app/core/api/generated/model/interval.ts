@@ -10,13 +10,11 @@
  * Do not edit the class manually.
  */
 
-export interface Player {
-  familyName?: string;
-  givenName?: string;
-  language?: string;
-  mail?: string;
-  nickname?: string;
-  playerId?: string;
-  sendMail?: boolean;
-  territoryId?: string;
+export interface Interval {
+  distance?: number;
+  end?: number;
+  endTime?: number;
+  match?: number;
+  start?: number;
+  startTime?: number;
 }
