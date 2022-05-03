@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignClass } from 'src/app/core/shared/campaigns/classes/campaign-class';
@@ -12,7 +13,7 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
   myCampaigns: PlayerCampaign[];
   sub: Subscription;
-  constructor(private campaignService: CampaignService) {}
+  constructor(private campaignService: CampaignService, private router: Router) { }
 
   ngOnInit() {
     this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {
@@ -22,5 +23,8 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+  detailCampaign(campaign) {
+    this.router.navigateByUrl('/pages/tabs/campaigns/details/' + campaign.campaign.campaignId);
   }
 }

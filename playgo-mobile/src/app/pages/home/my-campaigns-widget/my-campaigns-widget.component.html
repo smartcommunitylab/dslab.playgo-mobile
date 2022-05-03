@@ -1,22 +1,22 @@
-<ion-card>
+<!-- <ion-card>
   <ion-card-header>
     {{ "myCampaigns" | translate }}
-  </ion-card-header>
-  <ion-grid>
-    <ion-row *ngFor="let campaign of myCampaigns">
+  </ion-card-header> -->
+<ion-grid>
+  <ion-row *ngFor="let campaign of myCampaigns">
+    <ion-col>
       <ng-container [ngSwitch]="campaign.campaign.type">
         <ng-container *ngSwitchCase="'personal'">
-          <app-home-campaign-personal
-            [campaign]="campaign"
-          ></app-home-campaign-personal>
+          <app-home-campaign-personal [campaign]="campaign" (click)="detailCampaign(campaign)">
+          </app-home-campaign-personal>
         </ng-container>
         <ng-container *ngSwitchCase="'city'">
-          <app-home-campaign-city
-            [campaign]="campaign"
-          ></app-home-campaign-city>
+          <app-home-campaign-city [campaign]="campaign">
+          </app-home-campaign-city>
         </ng-container>
         <ng-container *ngSwitchDefault> default </ng-container>
       </ng-container>
-    </ion-row>
-  </ion-grid>
-</ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<!-- </ion-card> -->
