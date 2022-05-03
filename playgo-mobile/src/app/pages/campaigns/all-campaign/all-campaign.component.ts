@@ -16,7 +16,7 @@ export class AllCampaignComponent implements OnInit, OnDestroy {
   allCampaigns?: CampaignClass[];
   sub: any;
 
-  constructor(private campaignService: CampaignService) {}
+  constructor(private campaignService: CampaignService) { }
 
   ngOnInit() {
     this.sub = combineLatest(
@@ -48,19 +48,19 @@ export class AllCampaignComponent implements OnInit, OnDestroy {
     console.log('joining the campaign', id);
   }
 
-  loadData(event) {
-    if (!this.contentPagable.last) {
-      this.campaignService
-        .getPageNumberForAllCampaign(this.numberPage)
-        .subscribe((pagable) => {
-          this.contentPagable = pagable;
-          for (const campaign of pagable.content) {
-            const cc: CampaignClass = campaign;
-            this.allCampaigns.push(cc);
-          }
-        });
-      this.numberPage++;
-    }
-    event.target.complete();
-  }
+  // loadData(event) {
+  //   if (!this.contentPagable.last) {
+  //     this.campaignService
+  //       .getPageNumberForAllCampaign(this.numberPage)
+  //       .subscribe((pagable) => {
+  //         this.contentPagable = pagable;
+  //         for (const campaign of pagable.content) {
+  //           const cc: CampaignClass = campaign;
+  //           this.allCampaigns.push(cc);
+  //         }
+  //       });
+  //     this.numberPage++;
+  //   }
+  //   event.target.complete();
+  // }
 }

@@ -127,9 +127,12 @@
     "nickNameExist": "Questo soprannome é giá registrato",
     "defaultErr": "Errore generico"
   },
-  "campaigns": "Campagne",
-  "myCampaigns": "Le mie campagne",
-  "allCampaigns": "Tutte le campagne",
+  "campaigns": {
+    "title": "Campaigns",
+    "join": "Iscriviti",
+    "myCampaigns": "Le mie campagne",
+    "allCampaigns": "Tutte le campagne"
+  },
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",
   "join": "Partecipa",

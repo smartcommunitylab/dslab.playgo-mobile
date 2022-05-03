@@ -7,6 +7,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  {{campaign | json}}
-  <!--app-campaign-card [campaign]="campaign" [join]="false"></app-campaign-card-->
+  <ion-card>
+
+    <ion-card-content *ngIf="campaign">
+      <ion-avatar style="margin: 2px">
+        <img [src]="imagePath" title="campaign avatar" />
+      </ion-avatar>
+      <div>{{campaign.name}}</div>
+      <ion-button [disabled]="campaign.type!=='city'" (click)="joinCampaign(campaign)">{{'campaigns.join'|translate}}
+      </ion-button>
+      <div [innerHTML]="campaign.description">
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

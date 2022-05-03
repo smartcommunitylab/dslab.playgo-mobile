@@ -127,9 +127,12 @@
     "nickNameExist": "This nickname already exists",
     "defaultErr": "Generic error"
   },
-  "campaigns": "Campaigns",
-  "myCampaigns": "My campaigns",
-  "allCampaigns": "All campaigns",
+  "campaigns": {
+    "title": "Campaigns",
+    "join": "Join",
+    "myCampaigns": "My campaigns",
+    "allCampaigns": "All campaigns"
+  },
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",
   "join": "Join",

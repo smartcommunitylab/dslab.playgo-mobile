@@ -18,17 +18,17 @@ export class MyCampaignComponent implements OnInit, OnDestroy {
   numberPage?: number;
   contentPagable?: ContentPagable;
   myCampaigns?: //todo conversions
-  (
-    | CampaignClass
-    | CampaignCompany
-    | CampaignPersonal
-    | CampaignSchool
-    | CampaignTerritory
-    | PlayerCampaign
-  )[];
+    (
+      | CampaignClass
+      | CampaignCompany
+      | CampaignPersonal
+      | CampaignSchool
+      | CampaignTerritory
+      | PlayerCampaign
+    )[];
   sub: Subscription;
 
-  constructor(private campaignService: CampaignService) {}
+  constructor(private campaignService: CampaignService) { }
 
   ngOnInit() {
     this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {
@@ -52,20 +52,20 @@ export class MyCampaignComponent implements OnInit, OnDestroy {
     console.log('joining the campaign', id);
   }
 
-  loadData(pagination) {
-    if (!this.contentPagable.last) {
-      console.log(this.numberPage);
-      this.campaignService
-        .getPageNumberForMyCampaign(this.numberPage)
-        .subscribe((pagable) => {
-          this.contentPagable = pagable;
-          for (const campaign of pagable.content) {
-            const cc: CampaignClass = campaign;
-            this.myCampaigns.push(cc);
-          }
-        });
-      this.numberPage++;
-    }
-    pagination.target.complete();
-  }
+  // loadData(pagination) {
+  //   if (!this.contentPagable.last) {
+  //     console.log(this.numberPage);
+  //     this.campaignService
+  //       .getPageNumberForMyCampaign(this.numberPage)
+  //       .subscribe((pagable) => {
+  //         this.contentPagable = pagable;
+  //         for (const campaign of pagable.content) {
+  //           const cc: CampaignClass = campaign;
+  //           this.myCampaigns.push(cc);
+  //         }
+  //       });
+  //     this.numberPage++;
+  //   }
+  //   pagination.target.complete();
+  // }
 }
