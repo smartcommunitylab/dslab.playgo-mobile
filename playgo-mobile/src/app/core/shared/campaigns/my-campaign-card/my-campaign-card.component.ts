@@ -1,11 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { CampaignClass } from '../classes/campaign-class';
-import { CampaignCompany } from '../classes/campaign-company';
-import { CampaignPersonal } from '../classes/campaign-personal';
-import { CampaignSchool } from '../classes/campaign-school';
-import { CampaignTerritory } from '../classes/campaign-territory';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 
 @Component({
   selector: 'app-my-campaign-card',
@@ -13,7 +9,7 @@ import { CampaignTerritory } from '../classes/campaign-territory';
   styleUrls: ['./my-campaign-card.component.scss'],
 })
 export class MyCampaignCardComponent implements OnInit {
-  @Input() containerCampaign: any; // CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory;
+  @Input() containerCampaign: PlayerCampaign;
   imagePath: SafeResourceUrl;
 
   constructor(private router: Router, private sanitizer: DomSanitizer) {}

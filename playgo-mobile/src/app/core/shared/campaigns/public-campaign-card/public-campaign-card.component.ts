@@ -1,11 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { CampaignClass } from '../classes/campaign-class';
-import { CampaignCompany } from '../classes/campaign-company';
-import { CampaignPersonal } from '../classes/campaign-personal';
-import { CampaignSchool } from '../classes/campaign-school';
-import { CampaignTerritory } from '../classes/campaign-territory';
 
 @Component({
   selector: 'app-public-campaign-card',
