@@ -9,22 +9,10 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <!--ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ 'helloWorld' | translate }}</ion-title>
-    </ion-toolbar>
-  </ion-header-->
-
   <div id="container">
-    <app-profile-component
-      [editable]="false"
-      [showStatus]="true"
-    ></app-profile-component>
-    <!-- <app-profile-home-widget [user]="user"></app-profile-home-widget> -->
+    <app-profile-component [editable]="false" [showStatus]="true"></app-profile-component>
     <app-tracking-main-control></app-tracking-main-control>
-    <!-- <app-home-tracking-widget></app-home-tracking-widget> -->
     <app-my-campaigns-widget></app-my-campaigns-widget>
     <div>
       {{ appVersionService.version$ | async }} | {{

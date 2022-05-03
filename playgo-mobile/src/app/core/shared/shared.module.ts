@@ -16,12 +16,14 @@ import {
   InfiniteScrollComponent,
   InfiniteScrollContentDirective,
 } from './infinite-scroll/infinite-scroll.component';
+import { HeaderComponent } from './layout/header/header.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
   declarations: [
     MyCampaignCardComponent,
     PublicCampaignCardComponent,
+    HeaderComponent,
     ProfileComponent,
     ChangeProfileModalPage,
     SingleMeanStatisticComponent,
@@ -39,6 +41,7 @@ import {
     PublicCampaignCardComponent,
     ProfileComponent,
     LocalDatePipe,
+    HeaderComponent,
     SingleMeanStatisticComponent,
     TotalStatisticsComponent,
     LocalNumberPipe,
@@ -47,4 +50,4 @@ import {
     InfiniteScrollContentDirective,
   ],
 })
-export class PlayGoSharedModule {}
+export class PlayGoSharedModule { }

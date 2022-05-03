@@ -23,7 +23,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'leaderboard',
+    path: 'leaderboard/:id',
     loadChildren: () =>
       import('./leaderboard/leaderboard.module').then(
         (m) => m.LeaderboardModule

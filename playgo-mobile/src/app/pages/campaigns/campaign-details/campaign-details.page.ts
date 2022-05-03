@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
@@ -12,12 +13,14 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 export class CampaignDetailsPage implements OnInit {
   id: string;
   campaign?: Campaign;
+  imagePath: SafeResourceUrl;
+  titlePage = '';
 
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
-    // private router: Router,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
@@ -25,16 +28,20 @@ export class CampaignDetailsPage implements OnInit {
   ngOnInit() {
     this.campaignService.getCampaignDetailsById(this.id).subscribe((result) => {
       this.campaign = result;
+      this.titlePage = this.campaign.name;
+      this.imagePath =
+        'data:image/jpg;base64,' + this.campaign.logo.image;
     });
   }
   getCampaign() {
     return JSON.stringify(this.campaign);
   }
-  back() {
-    this.navCtrl.back();
+  isPersonal() {
+    return this.campaign.type === 'personal';
   }
-  // backToCampaigns() {
-  //   console.log('here');
-  //   this.router.navigateByUrl('/tabs/campaigns');
-  // }
+  unsubscribeCampaign() {
+    this.campaignService.unsubscribeCampaign(this.campaign.campaignId).subscribe((result) => {
+      console.log(result);
+    });
+  }
 }

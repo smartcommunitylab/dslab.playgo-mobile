@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { distinctUntilChanged, filter, first, map, shareReplay, switchMap } from 'rxjs/operators';
 import { CampaignControllerService } from '../../api/generated/controllers/campaignController.service';
 import { Campaign } from '../../api/generated/model/campaign';
 import { CampaignSubscription } from '../../api/generated/model/campaignSubscription';
@@ -11,29 +12,27 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class CampaignService {
-  private myCampaignsSubject = new ReplaySubject<PlayerCampaign[]>();
   public myCampaigns$: Observable<PlayerCampaign[]> =
-    this.myCampaignsSubject.asObservable();
-  private allCampaignsSubject = new ReplaySubject<Campaign[]>();
+    this.userService.userProfile$.pipe(
+      filter((profile) => profile !== null),
+      first(),
+      switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
+      shareReplay()
+    );
+
   public allCampaigns$: Observable<Campaign[]> =
-    this.allCampaignsSubject.asObservable();
+    this.userService.userProfile$.pipe(
+      map((profile) => profile.territoryId),
+      first(),
+      switchMap((territoryId) =>
+        this.campaignControllerService.getCampaignsUsingGET(territoryId)
+      ),
+      shareReplay()
+    );
   constructor(
     private userService: UserService,
     private campaignControllerService: CampaignControllerService
   ) {
-    this.userService.userProfile$.subscribe(async (profile) => {
-      if (profile) {
-        this.startService(profile);
-      }
-    });
-  }
-  async startService(profile: IUser) {
-    this.getMyCampaigns().subscribe((myCampaigns) => {
-      this.myCampaignsSubject.next(myCampaigns);
-    });
-    this.getAllCampaigns(profile).subscribe((allCampaigns) => {
-      this.allCampaignsSubject.next(allCampaigns);
-    });
   }
 
   getMyCampaigns(): Observable<PlayerCampaign[]> {
@@ -46,6 +45,9 @@ export class CampaignService {
   }
   subscribeToCampaign(id: string): Observable<CampaignSubscription> {
     return this.campaignControllerService.subscribeCampaignUsingPOST(id);
+  }
+  unsubscribeCampaign(id: string): Observable<CampaignSubscription> {
+    return this.campaignControllerService.unsubscribeCampaignUsingPUT(id);
   }
   getCampaignDetailsById(id: string): Observable<Campaign> {
     return this.campaignControllerService.getCampaignUsingGET(id);

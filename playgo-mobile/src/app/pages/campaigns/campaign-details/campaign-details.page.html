@@ -1,13 +1,68 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button (click)="back()" defaultHref="home"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="titlePage"></app-header>
+<ion-content [fullscreen]="true" *ngIf="campaign">
+  <ion-avatar class="avatar-campaign">
+    <img [src]="imagePath" title="campaign logo">
+  </ion-avatar>
+  <ion-card>
+    <ion-card-header>
+      {{'campaigns.detail.generalStat'|translate}}
+    </ion-card-header>
+    <ion-card-content>
+      general stat content
+    </ion-card-content>
+  </ion-card>
+  <ion-card [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaign.campaignId]">
+    <ion-item>
+      <ion-label>{{'campaigns.detail.leaderboard'|translate}}
+      </ion-label>
+      <ion-icon name="arrow-forward" end></ion-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-label>{{'campaigns.detail.prizes'|translate}}
+      </ion-label>
+      <ion-icon name="arrow-forward" end></ion-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-label> {{'campaigns.detail.journeys'|translate}}
+      </ion-label>
+      <ion-icon name=" arrow-forward" end>
+      </ion-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-label>{{'campaigns.detail.challenges'|translate}}
+      </ion-label>
+    </ion-item>
+    <ion-card-content>
+      Sfideeeee
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="campaign.description">
+    <ion-card-title>
+      {{'campaigns.detail.description'|translate}}
+    </ion-card-title>
+    <ion-card-content>
+      <div [innerHTML]="campaign.description"></div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-label>{{'campaigns.detail.signal'|translate}}
+      </ion-label>
+      <ion-icon name="arrow-forward" end></ion-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card (click)="unsubscribeCampaign()" *ngIf="!isPersonal()">
+    <ion-item>
+      <ion-label>{{'campaigns.detail.unsubscribe'|translate}}
+      </ion-label>
+      <ion-icon name="arrow-forward" end></ion-icon>
+    </ion-item>
+  </ion-card>
 
-<ion-content [fullscreen]="true">
-  {{campaign | json}}
-  <ion-button></ion-button>
-  <!--app-campaign-card [campaign]="campaign" [join]="false"></app-campaign-card-->
 </ion-content>

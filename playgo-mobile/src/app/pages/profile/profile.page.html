@@ -1,20 +1,8 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>
-      <ion-title> {{ 'profileTitle' | translate }} </ion-title>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="{{ 'profileTitle' | translate }}" [backButton]="false"></app-header>
 
 <ion-content [fullscreen]="true">
-  <app-profile-component
-    [editable]="true"
-    [showStatus]="true"
-  ></app-profile-component>
+  <app-profile-component [editable]="true" [showStatus]="true"></app-profile-component>
   <app-general-statistics></app-general-statistics>
-  <!-- <app-my-activity></app-my-activity>
-  <app-message></app-message>
-   -->
   <ion-card (click)="navigateTo('trips')">
     <ion-card-content>
       <strong>{{'tripsTitle' | translate}}</strong>

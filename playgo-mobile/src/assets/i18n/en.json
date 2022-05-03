@@ -131,7 +131,17 @@
     "title": "Campaigns",
     "join": "Join",
     "myCampaigns": "My campaigns",
-    "allCampaigns": "All campaigns"
+    "allCampaigns": "All campaigns",
+    "detail": {
+      "generalStat": "General",
+      "signal": "Contacts and support",
+      "prizes": "Prizes",
+      "unsubscribe": "Unsubscribe",
+      "challenges": "Challenges",
+      "journeys": "Journeys",
+      "leaderboard": "Leaderboard",
+      "description": "Description"
+    }
   },
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",

@@ -131,7 +131,17 @@
     "title": "Campaigns",
     "join": "Iscriviti",
     "myCampaigns": "Le mie campagne",
-    "allCampaigns": "Tutte le campagne"
+    "allCampaigns": "Tutte le campagne",
+    "detail": {
+      "generalStat": "Generale",
+      "signal": "Segnala e conatta il supporto",
+      "unsubscribe": "Disiscriviti",
+      "prizes": "Premi",
+      "challenges": "Sfide",
+      "journeys": "Lista viaggi",
+      "leaderboard": "Classifica",
+      "description": "Descrizione"
+    }
   },
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",

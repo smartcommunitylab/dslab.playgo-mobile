@@ -32,12 +32,11 @@ export class UserService {
     this.userProfileMeansSubject.asObservable();
   public userProfile$: Observable<IUser> = this.userProfileSubject
     .asObservable()
-    .pipe(shareReplay(1));
+    .pipe(shareReplay());
   public userStatus$: Observable<IUser> = this.userStatusSubject
     .asObservable()
-    .pipe(shareReplay(1));
+    .pipe(shareReplay());
   constructor(
-    // private authHttpService: AuthHttpService,
     private translateService: TranslateService,
     private reportService: ReportService,
     private territoryService: TerritoryService,
