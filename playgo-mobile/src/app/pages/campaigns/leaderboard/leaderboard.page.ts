@@ -2,8 +2,7 @@ import { getLocaleDayPeriods } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
-import { Dictionary, partial } from 'lodash';
-import { keyBy } from 'lodash-es';
+import { keyBy, partial } from 'lodash-es';
 
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
@@ -19,6 +18,7 @@ import { tapLog } from 'src/app/core/shared/utils';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
 
 const _ = partial.placeholder;
 
@@ -103,14 +103,37 @@ export class LeaderboardPage implements OnInit {
 
   playerPosition$: Observable<CampaignPlacing> = this.filterOptions$.pipe(
     switchMap(({ leaderboardType, period, campaignId, playerId }) =>
-      leaderboardType.playerApi.bind(this.reportControllerService)(
+      bind(leaderboardType.playerApi, this.reportControllerService)(
         campaignId,
         playerId,
-        period.from,
-        period.to
+        '', // period.from,
+        '' // period.to
       )
     )
   );
+
+  scrollRequestSubject = new Subject<PageableRequest>();
+
+  leaderboardScrollResponse$: Observable<PageCampaignPlacing> =
+    this.filterOptions$.pipe(
+      switchMap(({ leaderboardType, period, campaignId }) =>
+        this.scrollRequestSubject.pipe(
+          startWith({
+            page: 0,
+            size: 10,
+          }),
+          switchMap(({ page, size }) =>
+            bind(leaderboardType.leaderboardApi, this.reportControllerService)(
+              campaignId,
+              page,
+              size,
+              '', // period.from,
+              '' // period.to
+            )
+          )
+        )
+      )
+    );
 
   constructor(
     private route: ActivatedRoute,
@@ -172,3 +195,7 @@ type Period = {
   from: string;
   to: string;
 };
+
+function bind<F extends (...args: any) => any>(f: F, thisValue: any): F {
+  return f.bind(thisValue);
+}

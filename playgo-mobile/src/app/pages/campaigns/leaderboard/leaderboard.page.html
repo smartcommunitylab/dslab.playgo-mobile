@@ -1,5 +1,5 @@
 <ion-content>
-  <div *ngIf="(campaignId$ |async) as campaignId">
+  <ng-container *ngIf="(campaignId$ |async) as campaignId">
     <ion-item>
       <ion-label>Value</ion-label>
       <ion-select
@@ -32,5 +32,25 @@
       <ion-label>Player Position</ion-label>
       {{playerPosition | json}}
     </ion-item>
-  </div>
+
+    <!-- we are not using trackBy by design. Each tick of the filterOptions$ should
+      recreate a new instance of the infinite scroll. -->
+    <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
+      <app-infinite-scroll
+        [response]="leaderboardScrollResponse$ | async"
+        (request)="scrollRequestSubject.next($event)"
+      >
+        <ng-template appInfiniteScrollContent let-placing="item">
+          <div style="height: 200px; overflow: hidden; border: 3px solid red">
+            <div>{{placing.nickname}}</div>
+            <div>{{placing.position}}</div>
+            <div>
+              {{placing.value | number}}
+              {{filterOptions.leaderboardType.labelKey | translate}}
+            </div>
+          </div>
+        </ng-template>
+      </app-infinite-scroll>
+    </ng-container>
+  </ng-container>
 </ion-content>
