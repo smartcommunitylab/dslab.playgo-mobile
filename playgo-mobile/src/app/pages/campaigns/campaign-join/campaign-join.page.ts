@@ -15,7 +15,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   id: string;
   campaign?: Campaign;
   imagePath: SafeResourceUrl;
-  sub: Subscription;;
+  sub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,14 +27,14 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sub = this.campaignService.getCampaignDetailsById(this.id).subscribe((result) => {
-      if (result) {
-        this.campaign = result;
-        this.imagePath =
-          'data:image/jpg;base64,' + this.campaign.logo.image;
-      }
-    });
-
+    this.sub = this.campaignService
+      .getCampaignDetailsById(this.id)
+      .subscribe((result) => {
+        if (result) {
+          this.campaign = result;
+          this.imagePath = 'data:image/jpg;base64,' + this.campaign.logo.image;
+        }
+      });
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
@@ -43,12 +43,14 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   //   return JSON.stringify(this.campaign);
   // }
   joinCampaign(campaign) {
-    this.sub = this.campaignService.subscribeToCampaign(campaign.campaignId).subscribe((result) => {
-      if (result) {
-        console.log('subscribed');
-        //TODO update page
-      }
-    });
+    this.sub = this.campaignService
+      .subscribeToCampaign(campaign.campaignId)
+      .subscribe((result) => {
+        if (result) {
+          console.log('subscribed');
+          //TODO update page
+        }
+      });
   }
   back() {
     this.navCtrl.back();

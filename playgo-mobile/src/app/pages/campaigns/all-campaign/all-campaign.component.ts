@@ -16,7 +16,7 @@ export class AllCampaignComponent implements OnInit, OnDestroy {
   allCampaigns?: CampaignClass[];
   sub: any;
 
-  constructor(private campaignService: CampaignService) { }
+  constructor(private campaignService: CampaignService) {}
 
   ngOnInit() {
     this.sub = combineLatest(

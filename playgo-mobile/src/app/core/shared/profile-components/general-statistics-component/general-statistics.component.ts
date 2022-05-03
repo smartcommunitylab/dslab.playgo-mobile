@@ -14,7 +14,7 @@ export class GeneralStatisticsComponent implements OnInit {
   statistics?: TransportStats[];
   fromDate = DateTime.local().minus({ week: 1 }).toFormat('yyyy-MM-dd');
   toDate = DateTime.local().toFormat('yyyy-MM-dd');
-  constructor(private reportService: ReportService, private router: Router) { }
+  constructor(private reportService: ReportService, private router: Router) {}
 
   ngOnInit() {
     this.initStat();

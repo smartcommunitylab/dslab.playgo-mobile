@@ -18,17 +18,17 @@ export class MyCampaignComponent implements OnInit, OnDestroy {
   numberPage?: number;
   contentPagable?: ContentPagable;
   myCampaigns?: //todo conversions
-    (
-      | CampaignClass
-      | CampaignCompany
-      | CampaignPersonal
-      | CampaignSchool
-      | CampaignTerritory
-      | PlayerCampaign
-    )[];
+  (
+    | CampaignClass
+    | CampaignCompany
+    | CampaignPersonal
+    | CampaignSchool
+    | CampaignTerritory
+    | PlayerCampaign
+  )[];
   sub: Subscription;
 
-  constructor(private campaignService: CampaignService) { }
+  constructor(private campaignService: CampaignService) {}
 
   ngOnInit() {
     this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {

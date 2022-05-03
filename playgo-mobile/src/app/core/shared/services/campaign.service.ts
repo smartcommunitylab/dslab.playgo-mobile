@@ -112,11 +112,7 @@ export class CampaignService {
 
   //   return pagableObj;
   // }
-  getCampaignDetailsById(
-    id: string
-  ): Observable<
-    Campaign
-  > {
+  getCampaignDetailsById(id: string): Observable<Campaign> {
     return this.campaignControllerService.getCampaignUsingGET(id);
   }
   // getCampaignDetailsById(
