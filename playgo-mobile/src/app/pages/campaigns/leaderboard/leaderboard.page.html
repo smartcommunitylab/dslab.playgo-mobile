@@ -4,19 +4,27 @@
       <ion-label>Value</ion-label>
       <ion-select
         (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
+        [value]="selectedLeaderboardTypes$ | async"
       >
         <ion-select-option
           *ngFor="let leaderboardType of leaderboardTypes$|async"
-          [value]="leaderboardType.value"
+          [value]="leaderboardType"
         >
           {{leaderboardType.labelKey |translate}}
         </ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-item
-      *ngIf="(selectedLeaderboardTypes$ |async) as selectedLeaderboardTypes"
-    >
-      {{selectedLeaderboardTypes.labelKey | translate}}
+
+    <ion-item>
+      <ion-label>Period</ion-label>
+      <ion-select
+        (ionChange)="periodChangedSubject.next($any($event))"
+        [value]="selectedPeriod$ | async"
+      >
+        <ion-select-option *ngFor="let period of periods" [value]="period">
+          {{period.labelKey |translate}}
+        </ion-select-option>
+      </ion-select>
     </ion-item>
   </div>
 </ion-content>
