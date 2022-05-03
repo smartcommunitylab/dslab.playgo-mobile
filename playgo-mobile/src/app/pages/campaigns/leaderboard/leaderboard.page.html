@@ -1,3 +1,15 @@
 <ion-content>
-  leaderboars
+  leaderboar for ID:
+  <div *ngIf="(campaignId$ |async) as campaignId">{{campaignId}}</div>
+  <ion-item>
+    <ion-label>Value</ion-label>
+    <ion-select>
+      <ion-select-option
+        *ngFor="let leaderboardType of leaderboardTypes$|async"
+        [value]="leaderboardType.value"
+      >
+        {{leaderboardType.labelKey |translate}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
 </ion-content>
