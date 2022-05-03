@@ -4,7 +4,7 @@
       <ion-label>Value</ion-label>
       <ion-select
         (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
-        [value]="selectedLeaderboardTypes$ | async"
+        [value]="selectedLeaderboardType$ | async"
       >
         <ion-select-option
           *ngFor="let leaderboardType of leaderboardTypes$|async"
@@ -25,6 +25,12 @@
           {{period.labelKey |translate}}
         </ion-select-option>
       </ion-select>
+    </ion-item>
+
+    Player Position:
+    <ion-item *ngIf="(playerPosition$ |async) as playerPosition">
+      <ion-label>Player Position</ion-label>
+      {{playerPosition | json}}
     </ion-item>
   </div>
 </ion-content>
