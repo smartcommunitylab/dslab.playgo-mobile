@@ -22,10 +22,17 @@ const routes: Routes = [
         (m) => m.CampaignJoinPageModule
       ),
   },
+  {
+    path: 'leaderboard',
+    loadChildren: () =>
+      import('./leaderboard/leaderboard.module').then(
+        (m) => m.LeaderboardModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CampaignsRoutingModule {}
+export class CampaignsRoutingModule { }
