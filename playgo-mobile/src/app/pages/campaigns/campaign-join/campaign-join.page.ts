@@ -51,7 +51,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result) {
           this.alertService.showToast(
-            this.translateService.instant('campaign.unregistered')
+            this.translateService.instant('campaigns.registered')
           );
         }
       });

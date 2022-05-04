@@ -132,6 +132,8 @@
     "join": "Join",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
+    "registered": "Registered",
+    "unregistered": "Unregistered",
     "detail": {
       "generalStat": "General",
       "signal": "Contacts and support",

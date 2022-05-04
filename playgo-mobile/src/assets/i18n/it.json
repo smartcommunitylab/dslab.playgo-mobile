@@ -130,6 +130,8 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
+    "registered": "Registrato",
+    "unregistered": "Utente disiscritto",
     "myCampaigns": "Le mie campagne",
     "allCampaigns": "Tutte le campagne",
     "detail": {
