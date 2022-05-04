@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 
 @Component({
@@ -20,7 +22,8 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
-    // private router: Router,
+    private alertService: AlertService,
+    private translateService: TranslateService,
     private navCtrl: NavController
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
@@ -47,8 +50,9 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       .subscribeToCampaign(campaign.campaignId)
       .subscribe((result) => {
         if (result) {
-          console.log('subscribed');
-          //TODO update page
+          this.alertService.showToast(
+            this.translateService.instant('campaign.unregistered')
+          );
         }
       });
   }
