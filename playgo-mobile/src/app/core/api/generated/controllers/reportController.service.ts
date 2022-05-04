@@ -48,14 +48,14 @@ export class ReportControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/report/campaign/placing/co2`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           page,
           size,
           sort,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -82,14 +82,14 @@ export class ReportControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/report/campaign/placing/game`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           page,
           size,
           sort,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -119,7 +119,7 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/campaign/placing/transport`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           page,
           size,
@@ -127,7 +127,7 @@ export class ReportControllerService {
           modeType,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -151,12 +151,12 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/campaign/placing/player/co2`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           playerId,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -180,12 +180,12 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/campaign/placing/player/game`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           playerId,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -211,13 +211,13 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/campaign/placing/player/transport`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           playerId,
           modeType,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -238,11 +238,11 @@ export class ReportControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/report/player/game/stats`,
       {
-        params: {
+        params: removeNullOrUndefined({
           dateFrom,
           dateTo,
           groupMode,
-        },
+        }),
       }
     );
   }
@@ -276,12 +276,22 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/player/transport/stats`,
       {
-        params: {
+        params: removeNullOrUndefined({
           dateFrom,
           dateTo,
           groupMode,
-        },
+        }),
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

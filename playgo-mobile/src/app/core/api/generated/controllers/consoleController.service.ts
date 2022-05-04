@@ -38,10 +38,10 @@ export class ConsoleControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/console/role/campaign`,
       {
-        params: {
+        params: removeNullOrUndefined({
           userName,
           campaignId,
-        },
+        }),
       }
     );
   }
@@ -60,10 +60,10 @@ export class ConsoleControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/console/role/territory`,
       {
-        params: {
+        params: removeNullOrUndefined({
           userName,
           territoryId,
-        },
+        }),
       }
     );
   }
@@ -80,9 +80,9 @@ export class ConsoleControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/console/role/campaign`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
-        },
+        }),
       }
     );
   }
@@ -111,9 +111,9 @@ export class ConsoleControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/console/role/territory`,
       {
-        params: {
+        params: removeNullOrUndefined({
           territoryId,
-        },
+        }),
       }
     );
   }
@@ -132,10 +132,10 @@ export class ConsoleControllerService {
       'delete',
       environment.serverUrl.api + `/playandgo/api/console/role/campaign`,
       {
-        params: {
+        params: removeNullOrUndefined({
           userName,
           campaignId,
-        },
+        }),
       }
     );
   }
@@ -154,10 +154,10 @@ export class ConsoleControllerService {
       'delete',
       environment.serverUrl.api + `/playandgo/api/console/role/territory`,
       {
-        params: {
+        params: removeNullOrUndefined({
           userName,
           territoryId,
-        },
+        }),
       }
     );
   }
@@ -182,13 +182,13 @@ export class ConsoleControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/console/player/search`,
       {
-        params: {
+        params: removeNullOrUndefined({
           page,
           size,
           sort,
           territoryId,
           text,
-        },
+        }),
       }
     );
   }
@@ -225,7 +225,7 @@ export class ConsoleControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/console/track/search`,
       {
-        params: {
+        params: removeNullOrUndefined({
           page,
           size,
           sort,
@@ -237,8 +237,18 @@ export class ConsoleControllerService {
           dateTo,
           campaignId,
           status,
-        },
+        }),
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

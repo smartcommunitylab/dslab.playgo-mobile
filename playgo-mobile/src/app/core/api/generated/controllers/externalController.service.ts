@@ -37,9 +37,9 @@ export class ExternalControllerService {
       environment.serverUrl.api + `/playandgo/api/ext/campaign/game/placing`,
       {
         body,
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
-        },
+        }),
       }
     );
   }
@@ -62,10 +62,10 @@ export class ExternalControllerService {
         `/playandgo/api/ext/campaign/subscribe/territory`,
       {
         body,
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           nickname,
-        },
+        }),
       }
     );
   }
@@ -88,11 +88,21 @@ export class ExternalControllerService {
         `/playandgo/api/ext/campaign/unsubscribe/territory`,
       {
         body,
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           nickname,
-        },
+        }),
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

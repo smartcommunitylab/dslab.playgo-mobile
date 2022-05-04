@@ -34,10 +34,20 @@ export class GameControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/game/campaign`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
-        },
+        }),
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

@@ -82,10 +82,10 @@ export class CampaignControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/campaign`,
       {
-        params: {
+        params: removeNullOrUndefined({
           territoryId,
           type,
-        },
+        }),
       }
     );
   }
@@ -178,4 +178,14 @@ export class CampaignControllerService {
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

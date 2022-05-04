@@ -49,9 +49,9 @@ export class PlayerControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/player/nick`,
       {
-        params: {
+        params: removeNullOrUndefined({
           nickname,
-        },
+        }),
       }
     );
   }
@@ -147,9 +147,9 @@ export class PlayerControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/player/search`,
       {
-        params: {
+        params: removeNullOrUndefined({
           nickname,
-        },
+        }),
       }
     );
   }
@@ -183,4 +183,14 @@ export class PlayerControllerService {
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }
