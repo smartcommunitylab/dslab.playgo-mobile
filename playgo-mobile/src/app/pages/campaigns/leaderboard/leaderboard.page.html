@@ -33,10 +33,9 @@
       {{playerPosition | json}}
     </ion-item>
 
-    <!-- we are not using trackBy by design. Each tick of the filterOptions$ should
-      recreate a new instance of the infinite scroll. -->
     <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
       <app-infinite-scroll
+        [resetItems]="resetItems$ | async"
         [response]="leaderboardScrollResponse$ | async"
         (request)="scrollRequestSubject.next($event)"
       >

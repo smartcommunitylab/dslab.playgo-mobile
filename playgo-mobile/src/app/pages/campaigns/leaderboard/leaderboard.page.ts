@@ -1,4 +1,3 @@
-import { getLocaleDayPeriods } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
@@ -12,10 +11,8 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { DateTime } from 'luxon';
-import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 
 import {
-  TransportType,
   transportTypeLabels,
   transportTypes,
 } from 'src/app/core/shared/tracking/trip.model';
@@ -24,6 +21,7 @@ import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacin
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
+import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 
 const _ = partial.placeholder;
 
@@ -59,6 +57,8 @@ export class LeaderboardPage implements OnInit {
       ),
       leaderboardApi: partial(
         this.reportControllerService.getCampaingPlacingByTransportModeUsingGET,
+        _,
+        _,
         _,
         transportType
       ),
@@ -112,8 +112,8 @@ export class LeaderboardPage implements OnInit {
       bind(leaderboardType.playerApi, this.reportControllerService)(
         campaignId,
         playerId,
-        '',
-        this.toServerDate(this.referenceDate)
+        period.from,
+        period.to
       )
     )
   );
@@ -142,6 +142,8 @@ export class LeaderboardPage implements OnInit {
         )
       )
     );
+
+  resetItems$ = this.filterOptions$.pipe(map(() => Symbol()));
 
   constructor(
     private route: ActivatedRoute,
