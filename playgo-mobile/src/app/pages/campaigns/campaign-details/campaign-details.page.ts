@@ -41,6 +41,7 @@ export class CampaignDetailsPage implements OnInit {
   }
   unsubscribeCampaign() {
     this.campaignService.unsubscribeCampaign(this.campaign.campaignId).subscribe((result) => {
+      //update campaigns list
       console.log(result);
     });
   }
