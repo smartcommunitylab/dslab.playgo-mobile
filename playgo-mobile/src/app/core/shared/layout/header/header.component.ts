@@ -9,6 +9,7 @@ import { NavController } from '@ionic/angular';
 export class HeaderComponent implements OnInit, OnChanges {
   @Input() title: string;
   @Input() backButton = true;
+  @Input() color = 'primary';
   constructor(private navCtrl: NavController) { }
 
   ngOnInit() { }

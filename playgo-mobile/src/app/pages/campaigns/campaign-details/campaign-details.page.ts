@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 
 @Component({
@@ -15,11 +16,12 @@ export class CampaignDetailsPage implements OnInit {
   campaign?: Campaign;
   imagePath: SafeResourceUrl;
   titlePage = '';
-
+  colorCampaign = null;
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
-    private navCtrl: NavController,
+    private alertService: AlertService,
+    private translateService: TranslateService
 
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
@@ -29,6 +31,7 @@ export class CampaignDetailsPage implements OnInit {
     this.campaignService.getCampaignDetailsById(this.id).subscribe((result) => {
       this.campaign = result;
       this.titlePage = this.campaign.name;
+      this.colorCampaign = this.campaign.type;
       this.imagePath =
         'data:image/jpg;base64,' + this.campaign.logo.image;
     });
@@ -41,7 +44,9 @@ export class CampaignDetailsPage implements OnInit {
   }
   unsubscribeCampaign() {
     this.campaignService.unsubscribeCampaign(this.campaign.campaignId).subscribe((result) => {
-      console.log(result);
+      this.alertService.showToast(
+        this.translateService.instant('campaign.unregistered')
+      );
     });
   }
 }
