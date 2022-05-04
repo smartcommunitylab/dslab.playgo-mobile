@@ -2,10 +2,15 @@ import { getLocaleDayPeriods } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
-import { keyBy, partial } from 'lodash-es';
+import { isEqual, partial } from 'lodash-es';
 
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { DateTime } from 'luxon';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 
@@ -91,7 +96,8 @@ export class LeaderboardPage implements OnInit {
     this.selectedLeaderboardType$,
     this.selectedPeriod$,
     this.campaignId$,
-    this.userService.userProfile$,
+    // FIXME: investigate why this is needed.
+    this.userService.userProfile$.pipe(distinctUntilChanged(isEqual)),
   ]).pipe(
     map(([leaderboardType, period, campaignId, userProfile]) => ({
       leaderboardType,
@@ -106,8 +112,8 @@ export class LeaderboardPage implements OnInit {
       bind(leaderboardType.playerApi, this.reportControllerService)(
         campaignId,
         playerId,
-        '', // period.from,
-        '' // period.to
+        '',
+        this.toServerDate(this.referenceDate)
       )
     )
   );
@@ -122,13 +128,15 @@ export class LeaderboardPage implements OnInit {
             page: 0,
             size: 10,
           }),
+          tapLog('scrollRequest$'),
           switchMap(({ page, size }) =>
             bind(leaderboardType.leaderboardApi, this.reportControllerService)(
               campaignId,
               page,
               size,
-              '', // period.from,
-              '' // period.to
+              null,
+              period.from,
+              period.to
             )
           )
         )
@@ -145,25 +153,33 @@ export class LeaderboardPage implements OnInit {
     return [
       {
         labelKey: 'campaigns.period.today',
-        from: referenceDate.startOf('day').toUTC().toISO(),
-        to: referenceDate.toUTC().toISO(),
+        from: this.toServerDate(referenceDate.startOf('day')),
+        to: this.toServerDate(referenceDate),
       },
       {
         labelKey: 'campaigns.period.this_week',
-        from: referenceDate.startOf('week').toUTC().toISO(),
-        to: referenceDate.toUTC().toISO(),
+        from: this.toServerDate(referenceDate.startOf('week')),
+        to: this.toServerDate(referenceDate),
       },
       {
         labelKey: 'campaigns.period.this_month',
-        from: referenceDate.startOf('month').toUTC().toISO(),
-        to: referenceDate.toUTC().toISO(),
+        from: this.toServerDate(referenceDate.startOf('month')),
+        to: this.toServerDate(referenceDate),
       },
       {
         labelKey: 'campaigns.period.all_time',
         from: '',
-        to: referenceDate.toUTC().toISO(),
+        to: this.toServerDate(referenceDate),
       },
     ];
+  }
+
+  toServerDate(dateTime: DateTime): string {
+    // TODO: This is actually quite tricky bug.
+    // When we round reference date to the start of the day, than we get this period
+    // from beginning of the day to now, where events affecting this period will
+    // cause inconsistent data between the loaded pages of pagination.
+    return dateTime.toUTC().toFormat('yyyy-MM-dd');
   }
 
   ngOnInit() {}
@@ -186,6 +202,7 @@ type LeaderboardApi = (
   campaignId: string,
   page?: number,
   size?: number,
+  sort?: string,
   dateFrom?: string,
   dateTo?: string
 ) => Observable<PageCampaignPlacing>;
