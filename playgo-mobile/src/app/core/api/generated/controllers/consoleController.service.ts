@@ -15,6 +15,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { PagePlayerInfoConsole } from '../model/pagePlayerInfoConsole';
+import { PageTrackedInstance } from '../model/pageTrackedInstance';
 import { PlayerRole } from '../model/playerRole';
 
 @Injectable({
@@ -36,10 +38,10 @@ export class ConsoleControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/console/role/campaign`,
       {
-        params: {
+        params: removeNullOrUndefined({
           userName,
           campaignId,
-        },
+        }),
       }
     );
   }
@@ -58,10 +60,10 @@ export class ConsoleControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/console/role/territory`,
       {
-        params: {
+        params: removeNullOrUndefined({
           userName,
           territoryId,
-        },
+        }),
       }
     );
   }
@@ -78,10 +80,22 @@ export class ConsoleControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/console/role/campaign`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
-        },
+        }),
       }
+    );
+  }
+
+  /**
+   * getMyRoles
+   *
+   */
+  public getMyRolesUsingGET(): Observable<Array<PlayerRole>> {
+    return this.http.request<Array<PlayerRole>>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/console/role/my`,
+      {}
     );
   }
 
@@ -97,10 +111,144 @@ export class ConsoleControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/console/role/territory`,
       {
-        params: {
+        params: removeNullOrUndefined({
           territoryId,
-        },
+        }),
       }
     );
   }
+
+  /**
+   * removeCampaignManager
+   *
+   * @param userName userName
+   * @param campaignId campaignId
+   */
+  public removeCampaignManagerUsingDELETE(
+    userName: string,
+    campaignId: string
+  ): Observable<any> {
+    return this.http.request<any>(
+      'delete',
+      environment.serverUrl.api + `/playandgo/api/console/role/campaign`,
+      {
+        params: removeNullOrUndefined({
+          userName,
+          campaignId,
+        }),
+      }
+    );
+  }
+
+  /**
+   * removeTerritoryManager
+   *
+   * @param userName userName
+   * @param territoryId territoryId
+   */
+  public removeTerritoryManagerUsingDELETE(
+    userName: string,
+    territoryId: string
+  ): Observable<any> {
+    return this.http.request<any>(
+      'delete',
+      environment.serverUrl.api + `/playandgo/api/console/role/territory`,
+      {
+        params: removeNullOrUndefined({
+          userName,
+          territoryId,
+        }),
+      }
+    );
+  }
+
+  /**
+   * searchPlayersByTerritory
+   *
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page
+   * @param territoryId territoryId
+   * @param sort Sorting option: field,[asc,desc]
+   * @param text text
+   */
+  public searchPlayersByTerritoryUsingGET(
+    page: number,
+    size: number,
+    territoryId: string,
+    sort?: string,
+    text?: string
+  ): Observable<PagePlayerInfoConsole> {
+    return this.http.request<PagePlayerInfoConsole>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/console/player/search`,
+      {
+        params: removeNullOrUndefined({
+          page,
+          size,
+          sort,
+          territoryId,
+          text,
+        }),
+      }
+    );
+  }
+
+  /**
+   * searchTrackedInstance
+   *
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page
+   * @param territoryId territoryId
+   * @param sort Sorting option: field,[asc,desc]
+   * @param trackId trackId
+   * @param playerId playerId
+   * @param modeType modeType
+   * @param dateFrom dateFrom
+   * @param dateTo dateTo
+   * @param campaignId campaignId
+   * @param status status
+   */
+  public searchTrackedInstanceUsingGET(
+    page: number,
+    size: number,
+    territoryId: string,
+    sort?: string,
+    trackId?: string,
+    playerId?: string,
+    modeType?: string,
+    dateFrom?: Date,
+    dateTo?: Date,
+    campaignId?: string,
+    status?: string
+  ): Observable<PageTrackedInstance> {
+    return this.http.request<PageTrackedInstance>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/console/track/search`,
+      {
+        params: removeNullOrUndefined({
+          page,
+          size,
+          sort,
+          territoryId,
+          trackId,
+          playerId,
+          modeType,
+          dateFrom,
+          dateTo,
+          campaignId,
+          status,
+        }),
+      }
+    );
+  }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

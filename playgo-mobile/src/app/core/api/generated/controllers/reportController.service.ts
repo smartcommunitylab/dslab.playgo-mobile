@@ -32,13 +32,15 @@ export class ReportControllerService {
    * @param campaignId campaignId
    * @param page Results page you want to retrieve (0..N)
    * @param size Number of records per page
+   * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom dateFrom
    * @param dateTo dateTo
    */
   public getCampaingPlacingByCo2UsingGET(
     campaignId: string,
-    page?: number,
-    size?: number,
+    page: number,
+    size: number,
+    sort?: string,
     dateFrom?: string,
     dateTo?: string
   ): Observable<PageCampaignPlacing> {
@@ -46,13 +48,14 @@ export class ReportControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/report/campaign/placing/co2`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           page,
           size,
+          sort,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -63,13 +66,15 @@ export class ReportControllerService {
    * @param campaignId campaignId
    * @param page Results page you want to retrieve (0..N)
    * @param size Number of records per page
+   * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom dateFrom
    * @param dateTo dateTo
    */
   public getCampaingPlacingByGameUsingGET(
     campaignId: string,
-    page?: number,
-    size?: number,
+    page: number,
+    size: number,
+    sort?: string,
     dateFrom?: string,
     dateTo?: string
   ): Observable<PageCampaignPlacing> {
@@ -77,13 +82,14 @@ export class ReportControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/report/campaign/placing/game`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           page,
           size,
+          sort,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -92,17 +98,19 @@ export class ReportControllerService {
    * getCampaingPlacingByTransportMode
    *
    * @param campaignId campaignId
-   * @param modeType modeType
    * @param page Results page you want to retrieve (0..N)
    * @param size Number of records per page
+   * @param modeType modeType
+   * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom dateFrom
    * @param dateTo dateTo
    */
   public getCampaingPlacingByTransportModeUsingGET(
     campaignId: string,
+    page: number,
+    size: number,
     modeType: string,
-    page?: number,
-    size?: number,
+    sort?: string,
     dateFrom?: string,
     dateTo?: string
   ): Observable<PageCampaignPlacing> {
@@ -111,14 +119,15 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/campaign/placing/transport`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           page,
           size,
+          sort,
           modeType,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -142,12 +151,12 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/campaign/placing/player/co2`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           playerId,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -171,12 +180,12 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/campaign/placing/player/game`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           playerId,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -202,13 +211,13 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/campaign/placing/player/transport`,
       {
-        params: {
+        params: removeNullOrUndefined({
           campaignId,
           playerId,
           modeType,
           dateFrom,
           dateTo,
-        },
+        }),
       }
     );
   }
@@ -229,11 +238,11 @@ export class ReportControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/report/player/game/stats`,
       {
-        params: {
+        params: removeNullOrUndefined({
           dateFrom,
           dateTo,
           groupMode,
-        },
+        }),
       }
     );
   }
@@ -267,12 +276,22 @@ export class ReportControllerService {
       environment.serverUrl.api +
         `/playandgo/api/report/player/transport/stats`,
       {
-        params: {
+        params: removeNullOrUndefined({
           dateFrom,
           dateTo,
           groupMode,
-        },
+        }),
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

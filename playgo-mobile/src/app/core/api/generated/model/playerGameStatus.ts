@@ -10,7 +10,14 @@
  * Do not edit the class manually.
  */
 
-export interface Logo {
-  contentType?: string;
-  image?: string;
+export interface PlayerGameStatus {
+  badges?: Array<any>;
+  campaignId?: string;
+  challenges?: Array<any>;
+  id?: string;
+  level?: any;
+  nickname?: string;
+  playerId?: string;
+  score?: number;
+  updateTime?: Date;
 }

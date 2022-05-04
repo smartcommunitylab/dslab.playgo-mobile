@@ -9,8 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Image } from './image';
 
 export interface CampaignPlacing {
+  avatar?: Image;
   nickname?: string;
   playerId?: string;
   position?: number;
