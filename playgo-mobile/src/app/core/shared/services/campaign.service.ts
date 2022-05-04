@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, shareReplay, switchMap } from 'rxjs/operators';
+import { merge, Observable, ReplaySubject } from 'rxjs';
+import { distinctUntilChanged, filter, first, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { CampaignControllerService } from '../../api/generated/controllers/campaignController.service';
 import { Campaign } from '../../api/generated/model/campaign';
 import { CampaignSubscription } from '../../api/generated/model/campaignSubscription';
@@ -12,13 +12,14 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class CampaignService {
-  public myCampaigns$: Observable<PlayerCampaign[]> =
+  public initMyCampaigns$: Observable<PlayerCampaign[]> =
     this.userService.userProfile$.pipe(
       filter((profile) => profile !== null),
       first(),
       switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
       shareReplay()
     );
+
 
   public allCampaigns$: Observable<Campaign[]> =
     this.userService.userProfile$.pipe(
@@ -29,25 +30,41 @@ export class CampaignService {
       ),
       shareReplay()
     );
+  private playerCampaignUnSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
+  private playerCampaignSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
+  private campaignsCouldBeChanged$ = merge(
+    this.initMyCampaigns$,
+    this.playerCampaignSubscribed$,
+    this.playerCampaignUnSubscribed$,
+  ).pipe(
+    startWith(null),
+  );
+
+  myCampaigns$ = this.campaignsCouldBeChanged$.pipe(
+    switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
+    shareReplay()
+  );
+
   constructor(
     private userService: UserService,
     private campaignControllerService: CampaignControllerService
   ) {
   }
-
-  getMyCampaigns(): Observable<PlayerCampaign[]> {
-    return this.campaignControllerService.getMyCampaignsUsingGET();
-  }
-  getAllCampaigns(profile: IUser): Observable<Campaign[]> {
-    return this.campaignControllerService.getCampaignsUsingGET(
-      profile.territoryId
-    );
-  }
   subscribeToCampaign(id: string): Observable<CampaignSubscription> {
-    return this.campaignControllerService.subscribeCampaignUsingPOST(id);
+    //update my campaign list
+    return this.campaignControllerService.subscribeCampaignUsingPOST(id).pipe(
+      map((res) => {
+        this.playerCampaignSubscribed$.next(null);
+        return res;
+      }));
   }
   unsubscribeCampaign(id: string): Observable<CampaignSubscription> {
-    return this.campaignControllerService.unsubscribeCampaignUsingPUT(id);
+    //update my campaign list
+    return this.campaignControllerService.unsubscribeCampaignUsingPUT(id).pipe(
+      map((res) => {
+        this.playerCampaignUnSubscribed$.next(null);
+        return res;
+      }));
   }
   getCampaignDetailsById(id: string): Observable<Campaign> {
     return this.campaignControllerService.getCampaignUsingGET(id);
