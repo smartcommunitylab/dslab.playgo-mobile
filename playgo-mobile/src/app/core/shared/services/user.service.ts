@@ -3,19 +3,16 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-// import { AuthHttpService } from '../../auth/auth-http.service';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
 import { TransportType } from '../tracking/trip.model';
 import { LocalStorageService } from './local-storage.service';
 import { TerritoryService } from './territory.service';
-import { Avatar, IAvatar } from '../model/avatar.model';
-// import { IStatus } from '../mxodel/status.model';
+import { Avatar } from '../model/avatar.model';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'ionic-appauth';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Player } from '../../api/generated/model/player';
 import { shareReplay } from 'rxjs/operators';
@@ -44,7 +41,7 @@ export class UserService {
     private navCtrl: NavController,
     private authService: AuthService,
     private http: HttpClient,
-    private playerControllerService: PlayerControllerService // private sanitizer: DomSanitizer
+    private playerControllerService: PlayerControllerService
   ) {
     this.authService.token$.subscribe(async (token) => {
       if (token) {
@@ -62,15 +59,7 @@ export class UserService {
   uploadAvatar(file: any): Promise<any> {
     const formData = new FormData();
     formData.append('data', file);
-    return this.http
-      .request<any>(
-        'POST',
-        environment.serverUrl.apiUrl + environment.serverUrl.avatar,
-        {
-          body: formData,
-        }
-      )
-      .toPromise();
+    return this.playerControllerService.uploadPlayerAvatarUsingPOST(formData).toPromise();
   }
   getAvatar(): Promise<any> {
     return this.http
@@ -228,26 +217,11 @@ export class UserService {
 
   registerPlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
-    return this.http
-      .request(
-        'POST',
-        environment.serverUrl.apiUrl + environment.serverUrl.register,
-        { body: user }
-      )
-      .toPromise();
+    return this.playerControllerService.registerPlayerUsingPOST(user).toPromise();
   }
   async isUserRegistered(): Promise<boolean> {
     try {
-      // const user = await this.http.request(
-      //   'GET',
-      //   environment.serverUrl.apiUrl + environment.serverUrl.profile
-      // ).toPromise();
-      const user = await this.http
-        .request<IUser>(
-          'GET',
-          environment.serverUrl.apiUrl + environment.serverUrl.profile
-        )
-        .toPromise();
+      const user = await this.playerControllerService.getProfileUsingGET().toPromise();
       if (user) {
         //user registered
         return true;
@@ -263,18 +237,7 @@ export class UserService {
     }
   }
   getProfile(): Promise<Player> {
-    // return this.localStorageService.loadUser().then((user) => {
-    //   if (user) {
-    //     return Promise.resolve(user);
-    //   } else {
     return this.playerControllerService.getProfileUsingGET().toPromise();
-
-    //   //     .then((newUser) => {
-    //   //       this.localStorageService.setUser(newUser);
-    //   //       return Promise.resolve(newUser);;
-    //   //     });
-    //   // }
-    // });
   }
 
   async updatePlayer(user: IUser): Promise<Player> {
@@ -282,13 +245,6 @@ export class UserService {
     const player = await this.playerControllerService
       .updateProfileUsingPUT(user)
       .toPromise();
-    // const player = await this.http
-    //   .request(
-    //     'PUT',
-    //     environment.serverUrl.apiUrl + environment.serverUrl.profile,
-    //     { body: user }
-    //   )
-    //   .toPromise();
     this.processUser(user);
     return player;
   }

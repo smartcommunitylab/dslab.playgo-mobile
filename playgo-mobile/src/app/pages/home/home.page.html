@@ -10,6 +10,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" #refresher>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div id="container">
     <app-profile-component [editable]="false" [showStatus]="true"></app-profile-component>
     <app-tracking-main-control></app-tracking-main-control>
