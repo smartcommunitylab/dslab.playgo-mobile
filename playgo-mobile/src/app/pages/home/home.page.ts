@@ -47,9 +47,9 @@ export class HomePage implements OnInit, OnDestroy {
     this.sub = this.auth.events$.subscribe((action) =>
       this.onSignOutSuccess(action)
     );
-    // this.subProfile = this.userService.playerProfileRefresher$.subscribe((profile) => {
-    //   this.refresher.complete();
-    // });
+    this.subProfile = this.userService.userProfileRefresher$.subscribe(() => {
+      this.refresher.complete();
+    });
   }
 
   ngOnDestroy() {
@@ -57,11 +57,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.subProfile.unsubscribe();
   }
 
-  refresh(event) {
-    //updatelist maybechanged?
-    //this.userService.playerProfileRefresher$.next();
-    //event.target.complete();
-    this.refresher.complete();
+  refresh() {
+    //update status and profile
+    this.userService.userProfileRefresher$.next();
+    this.userService.userStatusRefresher$.next();
   }
   private onSignOutSuccess(action: IAuthAction) {
     if (action.action === AuthActions.SignOutSuccess) {
