@@ -1,6 +1,9 @@
 <app-header title="{{ 'campaigns_title' | translate }}" [backButton]="false"></app-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)" #refresher>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="background-gradient">
     <div class="campaigns-container">
       <h5>{{'campaigns.myCampaigns' | translate}}</h5>
