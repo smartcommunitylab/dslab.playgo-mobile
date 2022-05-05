@@ -24,8 +24,6 @@ import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-sc
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 import { TranslateKey } from 'src/app/core/shared/type.utils';
 
-const _ = partial.placeholder;
-
 @Component({
   selector: 'app-leaderboard',
   templateUrl: './leaderboard.page.html',
@@ -49,20 +47,36 @@ export class LeaderboardPage implements OnInit {
     },
     ...transportTypes.map((transportType) => ({
       labelKey: transportTypeLabels[transportType],
-      playerApi: partial(
-        this.reportControllerService
-          .getPlayerCampaingPlacingByTransportModeUsingGET,
-        _,
-        _,
-        transportType
-      ),
-      leaderboardApi: partial(
-        this.reportControllerService.getCampaingPlacingByTransportModeUsingGET,
-        _,
-        _,
-        _,
-        transportType
-      ),
+      playerApi: (
+        campaignId: string,
+        playerId: string,
+        dateFrom: string,
+        dateTo: string
+      ) =>
+        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
+          campaignId,
+          playerId,
+          transportType,
+          dateFrom,
+          dateTo
+        ),
+      leaderboardApi: (
+        campaignId: string,
+        page?: number,
+        size?: number,
+        sort?: string,
+        dateFrom?: string,
+        dateTo?: string
+      ) =>
+        this.reportControllerService.getCampaingPlacingByTransportModeUsingGET(
+          campaignId,
+          page,
+          size,
+          transportType,
+          sort,
+          dateFrom,
+          dateTo
+        ),
     })),
   ];
 
