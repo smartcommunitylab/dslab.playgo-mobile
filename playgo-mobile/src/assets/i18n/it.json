@@ -143,6 +143,22 @@
       "journeys": "Lista viaggi",
       "leaderboard": "Classifica",
       "description": "Descrizione"
+    },
+    "leaderboard": {
+      "filter": {
+        "leaderboard_type": "Valore",
+        "period": "Periodo"
+      },
+      "period": {
+        "today": "Oggi",
+        "this_week": "Questa settimana",
+        "this_month": "Questo mese",
+        "all_time": "Tutto il tempo"
+      },
+      "leaderboard_type": {
+        "co2": "CO₂",
+        "GL": "GL"
+      }
     }
   },
   "outof": "{{current}} su {{total}}",

@@ -143,6 +143,22 @@
       "journeys": "Journeys",
       "leaderboard": "Leaderboard",
       "description": "Description"
+    },
+    "leaderboard": {
+      "filter": {
+        "leaderboard_type": "Value",
+        "period": "Period"
+      },
+      "period": {
+        "today": "Today",
+        "this_week": "This Week",
+        "this_month": "This Month",
+        "all_time": "All Time"
+      },
+      "leaderboard_type": {
+        "co2": "CO₂",
+        "GL": "GLs"
+      }
     }
   },
   "outof": "{{current}} out of {{total}}",

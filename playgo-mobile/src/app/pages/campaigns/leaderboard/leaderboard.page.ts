@@ -22,6 +22,7 @@ import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampai
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
+import { TranslateKey } from 'src/app/core/shared/type.utils';
 
 const _ = partial.placeholder;
 
@@ -33,14 +34,14 @@ const _ = partial.placeholder;
 export class LeaderboardPage implements OnInit {
   allLeaderboardTypes: LeaderboardType[] = [
     {
-      labelKey: 'campaign.filter.co2',
+      labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
       playerApi:
         this.reportControllerService.getPlayerCampaingPlacingByCo2UsingGET,
       leaderboardApi:
         this.reportControllerService.getCampaingPlacingByCo2UsingGET,
     },
     {
-      labelKey: 'campaign.filter.GL',
+      labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
       playerApi:
         this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET,
       leaderboardApi:
@@ -154,22 +155,22 @@ export class LeaderboardPage implements OnInit {
   getPeriods(referenceDate: DateTime): Period[] {
     return [
       {
-        labelKey: 'campaigns.period.today',
+        labelKey: 'campaigns.leaderboard.period.today',
         from: this.toServerDate(referenceDate.startOf('day')),
         to: this.toServerDate(referenceDate),
       },
       {
-        labelKey: 'campaigns.period.this_week',
+        labelKey: 'campaigns.leaderboard.period.this_week',
         from: this.toServerDate(referenceDate.startOf('week')),
         to: this.toServerDate(referenceDate),
       },
       {
-        labelKey: 'campaigns.period.this_month',
+        labelKey: 'campaigns.leaderboard.period.this_month',
         from: this.toServerDate(referenceDate.startOf('month')),
         to: this.toServerDate(referenceDate),
       },
       {
-        labelKey: 'campaigns.period.all_time',
+        labelKey: 'campaigns.leaderboard.period.all_time',
         from: '',
         to: this.toServerDate(referenceDate),
       },
@@ -188,7 +189,7 @@ export class LeaderboardPage implements OnInit {
 }
 
 type LeaderboardType = {
-  labelKey: string;
+  labelKey: TranslateKey;
   playerApi: PlayerApi;
   leaderboardApi: LeaderboardApi;
 };
@@ -210,7 +211,7 @@ type LeaderboardApi = (
 ) => Observable<PageCampaignPlacing>;
 
 type Period = {
-  labelKey: string;
+  labelKey: TranslateKey;
   from: string;
   to: string;
 };

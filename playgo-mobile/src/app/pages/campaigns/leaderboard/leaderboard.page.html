@@ -1,7 +1,10 @@
 <ion-content>
   <ng-container *ngIf="(campaignId$ |async) as campaignId">
     <ion-item>
-      <ion-label>Value</ion-label>
+      <ion-label
+        >{{ 'campaigns.leaderboard.filter.leaderboard_type' | translate
+        }}</ion-label
+      >
       <ion-select
         (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
         [value]="selectedLeaderboardType$ | async"
@@ -16,7 +19,9 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Period</ion-label>
+      <ion-label
+        >{{ 'campaigns.leaderboard.filter.period' | translate }}</ion-label
+      >
       <ion-select
         (ionChange)="periodChangedSubject.next($any($event))"
         [value]="selectedPeriod$ | async"
@@ -29,7 +34,6 @@
 
     Player Position:
     <ion-item *ngIf="(playerPosition$ |async) as playerPosition">
-      <ion-label>Player Position</ion-label>
       {{playerPosition | json}}
     </ion-item>
 
