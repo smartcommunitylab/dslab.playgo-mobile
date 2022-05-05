@@ -9,14 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Image } from './image';
 
-export interface Player {
-  familyName?: string;
-  givenName?: string;
-  language?: string;
-  mail?: string;
+export interface PlayerInfo {
+  avatar?: Image;
   nickname?: string;
   playerId?: string;
-  sendMail?: boolean;
-  territoryId?: string;
 }

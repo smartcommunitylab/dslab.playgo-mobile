@@ -29,19 +29,28 @@ export class TrackControllerService {
    *
    * @param page Results page you want to retrieve (0..N)
    * @param size Number of records per page
+   * @param dateFrom dateFrom
+   * @param sort Sorting option: field,[asc,desc]
+   * @param dateTo dateTo
    */
   public getTrackedInstanceInfoListUsingGET(
-    page?: number,
-    size?: number
+    page: number,
+    size: number,
+    dateFrom?: string,
+    sort?: string,
+    dateTo?: string
   ): Observable<PageTrackedInstanceInfo> {
     return this.http.request<PageTrackedInstanceInfo>(
       'get',
       environment.serverUrl.api + `/playandgo/api/track/player`,
       {
-        params: {
+        params: removeNullOrUndefined({
+          dateFrom,
           page,
           size,
-        },
+          sort,
+          dateTo,
+        }),
       }
     );
   }
@@ -80,4 +89,14 @@ export class TrackControllerService {
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

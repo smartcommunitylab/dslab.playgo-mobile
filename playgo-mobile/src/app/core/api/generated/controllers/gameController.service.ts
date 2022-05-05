@@ -15,44 +15,29 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { PlayerGameStatus } from '../model/playerGameStatus';
+
 @Injectable({
   providedIn: 'root',
 })
-export class DevControllerService {
+export class GameControllerService {
   constructor(private http: HttpClient) {}
   /**
-   * addPlayers
+   * getCampaignGameStatus
    *
+   * @param campaignId campaignId
    */
-  public addPlayersUsingPOST(): Observable<any> {
-    return this.http.request<any>(
-      'post',
-      environment.serverUrl.api + `/playandgo/api/dev/players`,
-      {}
-    );
-  }
-
-  /**
-   * addTracks
-   *
-   */
-  public addTracksUsingPOST(): Observable<any> {
-    return this.http.request<any>(
-      'post',
-      environment.serverUrl.api + `/playandgo/api/dev/tracks`,
-      {}
-    );
-  }
-
-  /**
-   * testCampaignPlacingByTransportMode
-   *
-   */
-  public testCampaignPlacingByTransportModeUsingGET(): Observable<any> {
-    return this.http.request<any>(
+  public getCampaignGameStatusUsingGET(
+    campaignId: string
+  ): Observable<PlayerGameStatus> {
+    return this.http.request<PlayerGameStatus>(
       'get',
-      environment.serverUrl.api + `/playandgo/api/dev/test/campaign/placing`,
-      {}
+      environment.serverUrl.api + `/playandgo/api/game/campaign`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+        }),
+      }
     );
   }
 }

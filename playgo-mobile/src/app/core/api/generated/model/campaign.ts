@@ -9,7 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Logo } from './logo';
+import { Image } from './image';
 
 export interface Campaign {
   active?: boolean;
@@ -19,7 +19,7 @@ export interface Campaign {
   dateTo?: string;
   description?: string;
   gameId?: string;
-  logo?: Logo;
+  logo?: Image;
   name?: string;
   privacy?: string;
   rules?: string;
