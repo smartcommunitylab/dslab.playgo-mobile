@@ -8,22 +8,23 @@ import { DateTime } from 'luxon';
 import { ReportControllerService } from '../../api/generated/controllers/reportController.service';
 import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { TransportStats } from '../../api/generated/model/transportStats';
+import { switchMap, shareReplay } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
   private statusSubject = new ReplaySubject<PlayerStatus>();
   public userStatus$: Observable<PlayerStatus> =
     this.statusSubject.asObservable();
-  constructor(
-    // private authHttpService: AuthHttpService
-    private reportControllerService: ReportControllerService
-  ) {}
 
-  // getLastWeekStatistic(): Promise<TransportStats[]> {
-  //   const fromDate = DateTime.local().minus({ week: 1 }).toFormat('yyyy-MM-dd');
-  //   const toDate = DateTime.local().toFormat('yyyy-MM-dd');
-  //   return this.getTransportStats(fromDate, toDate);
-  // }
+  public userStatsHasChanged$ = new ReplaySubject<any>(1);
+  public userStats$ = this.userStatsHasChanged$.pipe(
+    switchMap(config => this.getTransportStats(config.fromDate, config.toDate, config.group)),
+    shareReplay()
+  );
+  constructor(
+    private reportControllerService: ReportControllerService
+  ) { }
+
   getTransportStats(
     fromDate?: any,
     toDate?: any,
@@ -32,22 +33,8 @@ export class ReportService {
     return this.reportControllerService
       .getPlayerTransportStatsUsingGET(fromDate, toDate, group)
       .toPromise();
-    // return this.authHttpService.request<IGeneralStatistic>(
-    //   'GET',
-    //   environment.serverUrl.transportStats,
-    //   {
-    //     dateFrom: fromDate,
-    //     dateTo: toDate,
-    //     ...(group && { groupMode: group }),
-    //   }
-    // );
   }
   getStatus(): Promise<PlayerStatus> {
     return this.reportControllerService.getPlayerStatsuUsingGET().toPromise();
-    //   return this.authHttpService.request<IStatus>(
-    //     'GET',
-    //     environment.serverUrl.status
-    //   );
-    // }
   }
 }

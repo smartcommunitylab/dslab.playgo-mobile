@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -18,27 +19,44 @@ import {
   LineElement,
   PointElement,
 } from 'chart.js';
+import { Subscription } from 'rxjs';
+import { ReportService } from 'src/app/core/shared/services/report.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.page.html',
   styleUrls: ['./stats.page.scss'],
 })
-export class StatsPage implements OnInit, AfterViewInit {
-  @ViewChild('barCanvas') private barCanvas: ElementRef;
-
+export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
+  subStat: Subscription;
   barChart: any;
-  periodSelected: 'Complessivo';
-  constructor(private alertController: AlertController) {}
-  ngOnInit() {}
-
+  periodSelected: 'total' | 'week' | 'month' | 'today' = 'total';
+  constructor(private alertController: AlertController, private reportService: ReportService) { }
+  ngOnInit() {
+    this.subStat = this.reportService.userStats$.subscribe((stats) => {
+      if (this.barChart) {
+        this.barChart.destroy();
+      }
+      console.log(stats);
+      this.barChartMethod(stats);
+    });
+  }
+  ngOnDestroy() {
+    this.subStat.unsubscribe();
+  }
   // When we try to call our chart to initialize methods in ngOnInit() it shows an error nativeElement of undefined.
   // So, we need to call all chart methods in ngAfterViewInit() where @ViewChild and @ViewChildren will be resolved.
   ngAfterViewInit() {
-    this.barChartMethod();
+    //init selection
+    // eslint-disable-next-line max-len
+    this.reportService.userStatsHasChanged$.next({ fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd') });
+    // this.barChartMethod();
   }
   async dialogChangePeriod() {
     const alert = await this.alertController.create({
+
       cssClass: 'my-custom-class',
       header: 'Seleziona un periodo',
       inputs: [
@@ -46,11 +64,11 @@ export class StatsPage implements OnInit, AfterViewInit {
           name: 'complex',
           type: 'radio',
           label: 'Complessivo',
-          value: 'complex',
+          value: 'total',
           handler: () => {
-            console.log('Radio 1 selected');
+            this.periodSelected = 'total';
           },
-          checked: true,
+          checked: this.isSelected('total'),
         },
         {
           name: 'week',
@@ -58,8 +76,10 @@ export class StatsPage implements OnInit, AfterViewInit {
           label: 'Questa settimana',
           value: 'week',
           handler: () => {
-            console.log('Radio 2 selected');
+            this.periodSelected = 'week';
           },
+          checked: this.isSelected('week'),
+
         },
         {
           name: 'month',
@@ -67,8 +87,9 @@ export class StatsPage implements OnInit, AfterViewInit {
           label: 'Questo mese',
           value: 'month',
           handler: () => {
-            console.log('Radio 3 selected');
+            this.periodSelected = 'month';
           },
+          checked: this.isSelected('month'),
         },
         {
           name: 'today',
@@ -76,8 +97,9 @@ export class StatsPage implements OnInit, AfterViewInit {
           label: 'Oggi',
           value: 'today',
           handler: () => {
-            console.log('Radio 4 selected');
+            this.periodSelected = 'today';
           },
+          checked: this.isSelected('today'),
         },
       ],
       buttons: [
@@ -86,22 +108,28 @@ export class StatsPage implements OnInit, AfterViewInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Confirm Cancel');
+            console.log('selected cancel');
           },
         },
         {
           text: 'Ok',
           handler: (data: any) => {
+            // getThestat and build the charts
             console.log('Saved Information', data);
-            this.barChart.destroy();
-            this.barChartMethod();
+            //destroy old and rebuild new chart
+            //trigger change stats
+            // eslint-disable-next-line max-len
+            this.reportService.userStatsHasChanged$.next({ fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), group: data });
           },
         },
       ],
     });
     await alert.present();
   }
-  barChartMethod() {
+  isSelected(arg0: string): boolean {
+    return this.periodSelected === arg0;
+  }
+  barChartMethod(stats?: any) {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
     // eslint-disable-next-line max-len
@@ -116,7 +144,7 @@ export class StatsPage implements OnInit, AfterViewInit {
       PointElement,
       LineElement
     );
-
+    if (!this.barCanvas) { return; }
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       data: {
