@@ -5,7 +5,7 @@ import { LeaderboardPage } from './leaderboard.page';
 
 const routes: Routes = [
   {
-    path: ':id',
+    path: '',
     component: LeaderboardPage,
   },
 ];
