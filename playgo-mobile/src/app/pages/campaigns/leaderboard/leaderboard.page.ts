@@ -185,7 +185,7 @@ export class LeaderboardPage implements OnInit {
       },
       {
         labelKey: 'campaigns.leaderboard.period.all_time',
-        from: '',
+        from: this.toServerDate(minusInfDate),
         to: this.toServerDate(referenceDate),
       },
     ];
@@ -201,6 +201,7 @@ export class LeaderboardPage implements OnInit {
 
   ngOnInit() {}
 }
+const minusInfDate = DateTime.fromMillis(0);
 
 type LeaderboardType = {
   labelKey: TranslateKey;
