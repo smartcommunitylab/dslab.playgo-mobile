@@ -1,0 +1,9 @@
+<ion-item [class.my-placing]="currentPlayerId === placing.playerId">
+  <ion-label>{{ placing.position }}</ion-label>
+  <ion-avatar *ngIf="placing.avatar">
+    <img [src]="'data:image/jpg;base64,' + placing.avatar.image" />
+  </ion-avatar>
+  {{ placing.nickname }}
+  {{ placing.value | number }}
+  {{ unitLabel | translate }}
+</ion-item>

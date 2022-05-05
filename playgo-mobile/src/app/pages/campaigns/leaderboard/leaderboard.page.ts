@@ -107,18 +107,22 @@ export class LeaderboardPage implements OnInit {
     startWith(this.periods[0]) // initial select value
   );
 
+  playerId$ = this.userService.userProfile$.pipe(
+    map((userProfile) => userProfile.playerId)
+  );
+
   filterOptions$ = combineLatest([
     this.selectedLeaderboardType$,
     this.selectedPeriod$,
     this.campaignId$,
     // FIXME: investigate why this is needed.
-    this.userService.userProfile$.pipe(distinctUntilChanged(isEqual)),
+    this.playerId$.pipe(distinctUntilChanged(isEqual)),
   ]).pipe(
-    map(([leaderboardType, period, campaignId, userProfile]) => ({
+    map(([leaderboardType, period, campaignId, playerId]) => ({
       leaderboardType,
       period,
       campaignId,
-      playerId: userProfile.playerId,
+      playerId,
     }))
   );
 

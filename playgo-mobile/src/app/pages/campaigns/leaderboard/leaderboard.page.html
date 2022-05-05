@@ -32,10 +32,11 @@
       </ion-select>
     </ion-item>
 
-    Player Position:
-    <ion-item *ngIf="(playerPosition$ |async) as playerPosition">
-      {{playerPosition | json}}
-    </ion-item>
+    <app-placing-detail
+      [placing]="playerPosition$ | async"
+      [currentPlayerId]="playerId$ | async"
+      [unitLabel]="$any('km')"
+    ></app-placing-detail>
 
     <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
       <app-infinite-scroll
@@ -44,14 +45,11 @@
         (request)="scrollRequestSubject.next($event)"
       >
         <ng-template appInfiniteScrollContent let-placing="item">
-          <div style="height: 200px; overflow: hidden; border: 3px solid red">
-            <div>{{placing.nickname}}</div>
-            <div>{{placing.position}}</div>
-            <div>
-              {{placing.value | number}}
-              {{filterOptions.leaderboardType.labelKey | translate}}
-            </div>
-          </div>
+          <app-placing-detail
+            [placing]="placing"
+            [currentPlayerId]="playerId$ | async"
+            [unitLabel]="$any('km')"
+          ></app-placing-detail>
         </ng-template>
       </app-infinite-scroll>
     </ng-container>
