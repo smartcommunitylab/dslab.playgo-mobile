@@ -185,8 +185,11 @@ export class LeaderboardPage implements OnInit {
       },
       {
         labelKey: 'campaigns.leaderboard.period.all_time',
-        from: this.toServerDate(minusInfDate),
-        to: this.toServerDate(referenceDate),
+        // not specifying dates, will improve the server performance because of special handling
+        // but we will lose the confidence that player position and leaderboard are in sync.
+        // maybe it is not such deal, "All Time" leaderboard will not change so rapidly.
+        from: null, //this.toServerDate(minusInfDate),
+        to: null, //this.toServerDate(referenceDate),
       },
     ];
   }
