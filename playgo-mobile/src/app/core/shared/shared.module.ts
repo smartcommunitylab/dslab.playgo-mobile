@@ -17,6 +17,7 @@ import {
   InfiniteScrollContentDirective,
 } from './infinite-scroll/infinite-scroll.component';
 import { HeaderComponent } from './layout/header/header.component';
+import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-number.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
@@ -32,6 +33,7 @@ import { HeaderComponent } from './layout/header/header.component';
     LocalNumberPipe,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
+    OrdinalNumberComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -48,6 +50,7 @@ import { HeaderComponent } from './layout/header/header.component';
     TrackingModule,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
+    OrdinalNumberComponent,
   ],
 })
-export class PlayGoSharedModule { }
+export class PlayGoSharedModule {}

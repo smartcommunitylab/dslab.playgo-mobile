@@ -6,8 +6,7 @@ import {
 } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { isString } from 'lodash-es';
-import * as itDictionary from '../../../../assets/i18n/it.json';
-import { StringPath } from '../type.utils';
+import { TranslateKeyWithParams } from '../type.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +20,7 @@ export class AlertService {
     private alertController: AlertController,
     private translateService: TranslateService
   ) {}
-  public async showToast(messageTranslateKey: TranslateKey) {
+  public async showToast(messageTranslateKey: TranslateKeyWithParams) {
     const message = await this.translate(messageTranslateKey);
     this.toast = await this.toastController.create({
       message,
@@ -32,8 +31,8 @@ export class AlertService {
   }
 
   public async confirmAlert(
-    headerTranslateKey: TranslateKey,
-    messageTranslateKey: TranslateKey,
+    headerTranslateKey: TranslateKeyWithParams,
+    messageTranslateKey: TranslateKeyWithParams,
     cssClass?: string
   ): Promise<boolean> {
     const header = await this.translate(headerTranslateKey);
@@ -78,7 +77,7 @@ export class AlertService {
   }
   public async dismissLoading() {}
 
-  private async translate(key: TranslateKey): Promise<string> {
+  private async translate(key: TranslateKeyWithParams): Promise<string> {
     const translated = await this.translateService
       .get(...normalizeTranslateKey(key))
       .toPromise();
@@ -86,16 +85,8 @@ export class AlertService {
   }
 }
 
-type Dictionary = typeof itDictionary;
-export type TranslateKey =
-  | StringPath<Dictionary>
-  | {
-      key: StringPath<Dictionary>;
-      interpolateParams: Record<'string', 'string'>;
-    };
-
 export function normalizeTranslateKey(
-  key: TranslateKey
+  key: TranslateKeyWithParams
 ): [string, Record<'string', 'string'>] {
   return isString(key) ? [key, null] : [key.key, key.interpolateParams];
 }
