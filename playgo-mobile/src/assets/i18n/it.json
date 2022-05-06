@@ -190,5 +190,10 @@
   "tier": "Classifica",
   "adhesionCode": "Codice adesione",
   "generalTier": "Classifica generale",
-  "weeklyTier": "Classifica settimanale"
+  "weeklyTier": "Classifica settimanale",
+  "number": {
+    "ordinal": {
+      "other": "{{ordinal}}°"
+    }
+  }
 }

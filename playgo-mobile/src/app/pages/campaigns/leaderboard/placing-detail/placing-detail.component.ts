@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { UserService } from 'src/app/core/shared/services/user.service';
 import { TranslateKey } from 'src/app/core/shared/type.utils';
 
 @Component({
@@ -15,7 +16,11 @@ export class PlacingDetailComponent implements OnInit {
   @Input()
   currentPlayerId: string;
 
-  constructor() {}
+  ordinalPluralRules = new Intl.PluralRules(this.userService.locale, {
+    type: 'ordinal',
+  });
+
+  constructor(private userService: UserService) {}
 
   ngOnInit() {}
 }

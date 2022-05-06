@@ -190,5 +190,13 @@
   "tier": "Tier",
   "adhesionCode": "Adhesion code",
   "generalTier": "General tier",
-  "weeklyTier": "Weekly tier"
+  "weeklyTier": "Weekly tier",
+  "number": {
+    "ordinal": {
+      "one": "{{ordinal}}st",
+      "two": "{{ordinal}}nd",
+      "few": "{{ordinal}}rd",
+      "other": "{{ordinal}}th"
+    }
+  }
 }
