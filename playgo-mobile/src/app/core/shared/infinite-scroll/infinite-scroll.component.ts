@@ -10,8 +10,16 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { isNil, negate } from 'lodash-es';
 import { Observable, Subject } from 'rxjs';
-import { filter, map, scan, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  scan,
+  startWith,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { Sort } from '../../api/generated/model/sort';
 import { SwaggerPageable } from '../../api/generated/model/swaggerPageable';
 @Directive({
@@ -45,6 +53,12 @@ export class InfiniteScrollComponent<T> implements OnInit {
   }
   response$ = new Subject<PageableResponse<T>>();
 
+  @Input()
+  public set resetItems(resetItems: symbol) {
+    this.resetItems$.next();
+  }
+  resetItems$ = new Subject<void>();
+
   private loadDataEvents$ = new Subject<IonicLoadDataEvent>();
 
   @Output()
@@ -63,10 +77,16 @@ export class InfiniteScrollComponent<T> implements OnInit {
     filter((request) => request !== null)
   );
 
-  items$: Observable<T[]> = this.response$.pipe(
-    filter((response) => response !== null),
-    map((response) => response.content),
-    scan((acc, curr) => [...acc, ...curr], [])
+  items$: Observable<T[]> = this.resetItems$.pipe(
+    startWith(undefined as void),
+    switchMap(() =>
+      this.response$.pipe(
+        filter(negate(isNil)),
+        map((response) => response.content),
+        scan((acc, curr) => [...acc, ...curr], []),
+        startWith([])
+      )
+    )
   );
 
   /** For manual rendering */
