@@ -7,6 +7,7 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   map,
+  shareReplay,
   startWith,
   switchMap,
 } from 'rxjs/operators';
@@ -104,7 +105,8 @@ export class LeaderboardPage implements OnInit {
       startWith(this.allLeaderboardTypes[0]) // initial select value
     );
   unitLabelKey$: Observable<TranslateKey> = this.selectedLeaderboardType$.pipe(
-    map((leaderboardType) => leaderboardType.unitLabelKey)
+    map((leaderboardType) => leaderboardType.unitLabelKey),
+    shareReplay()
   );
 
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
