@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { CampaignControllerService } from '../../api/generated/controllers/campaignController.service';
 import { Campaign } from '../../api/generated/model/campaign';
 import { CampaignSubscription } from '../../api/generated/model/campaignSubscription';
@@ -20,7 +28,6 @@ export class CampaignService {
       shareReplay()
     );
 
-
   public allCampaigns$: Observable<Campaign[]> =
     this.userService.userProfile$.pipe(
       map((profile) => profile.territoryId),
@@ -38,9 +45,7 @@ export class CampaignService {
     this.playerCampaignSubscribed$,
     this.playerCampaignUnSubscribed$,
     this.playerCampaignsRefresher$
-  ).pipe(
-    startWith(null),
-  );
+  ).pipe(startWith(null));
 
   myCampaigns$ = this.campaignsCouldBeChanged$.pipe(
     switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
@@ -50,15 +55,15 @@ export class CampaignService {
   constructor(
     private userService: UserService,
     private campaignControllerService: CampaignControllerService
-  ) {
-  }
+  ) {}
   subscribeToCampaign(id: string): Observable<CampaignSubscription> {
     //update my campaign list
     return this.campaignControllerService.subscribeCampaignUsingPOST(id).pipe(
       map((res) => {
         this.playerCampaignSubscribed$.next(null);
         return res;
-      }));
+      })
+    );
   }
   unsubscribeCampaign(id: string): Observable<CampaignSubscription> {
     //update my campaign list
@@ -66,7 +71,8 @@ export class CampaignService {
       map((res) => {
         this.playerCampaignUnSubscribed$.next(null);
         return res;
-      }));
+      })
+    );
   }
   getCampaignDetailsById(id: string): Observable<Campaign> {
     return this.campaignControllerService.getCampaignUsingGET(id);

@@ -1,11 +1,10 @@
 <ion-header>
   <ion-toolbar [color]="color">
     <ion-buttons slot="start" *ngIf="backButton">
-      <ion-back-button (click)="back()" defaultHref="/">
-      </ion-back-button>
+      <ion-back-button (click)="back()" defaultHref="/"> </ion-back-button>
     </ion-buttons>
     <ion-title>
-      <span *ngIf="title">{{title}}</span>
+      <span *ngIf="title">{{ title }}</span>
     </ion-title>
   </ion-toolbar>
 </ion-header>

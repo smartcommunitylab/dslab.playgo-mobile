@@ -15,7 +15,14 @@ import { AuthService } from 'ionic-appauth';
 import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Player } from '../../api/generated/model/player';
-import { distinctUntilChanged, filter, first, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  first,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { IStatus } from '../model/status.model';
 import { isEqual } from 'lodash-es';
@@ -27,13 +34,12 @@ export class UserService {
   private userStatus: PlayerStatus = null;
   public userProfileMeans$: Observable<TransportType[]> =
     this.userProfileMeansSubject.asObservable();
-  public initUserProfile$: Observable<IUser> =
-    this.authService.token$.pipe(
-      filter((token) => token !== null),
-      first(),
-      switchMap(() => this.getUserProfile()),
-      shareReplay()
-    );
+  public initUserProfile$: Observable<IUser> = this.authService.token$.pipe(
+    filter((token) => token !== null),
+    first(),
+    switchMap(() => this.getUserProfile()),
+    shareReplay()
+  );
   public userProfileRefresher$ = new ReplaySubject<IUser>(1);
 
   private userProfileCouldBeChanged$ = merge(
@@ -57,7 +63,7 @@ export class UserService {
   private userStatusCouldBeChanged$ = merge(
     this.initUserStatus$,
     this.userStatusRefresher$
-  );;
+  );
   userStatus$ = this.userStatusCouldBeChanged$.pipe(
     switchMap(() => this.getUserStatus()),
     distinctUntilChanged(isEqual),
@@ -72,7 +78,7 @@ export class UserService {
     private authService: AuthService,
     private http: HttpClient,
     private playerControllerService: PlayerControllerService
-  ) { }
+  ) {}
   set locale(value: string) {
     this.userLocale = value;
   }
@@ -83,7 +89,9 @@ export class UserService {
   uploadAvatar(file: any): Promise<any> {
     const formData = new FormData();
     formData.append('data', file);
-    return this.playerControllerService.uploadPlayerAvatarUsingPOST(formData).toPromise();
+    return this.playerControllerService
+      .uploadPlayerAvatarUsingPOST(formData)
+      .toPromise();
   }
   getAvatar(): Promise<any> {
     return this.http
@@ -177,7 +185,6 @@ export class UserService {
     //get user profile with avatars
     await this.getUserProfile();
     await this.getUserStatus();
-
   }
   async updateImages() {
     //check if the avatar is present
@@ -248,11 +255,15 @@ export class UserService {
 
   registerPlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
-    return this.playerControllerService.registerPlayerUsingPOST(user).toPromise();
+    return this.playerControllerService
+      .registerPlayerUsingPOST(user)
+      .toPromise();
   }
   async isUserRegistered(): Promise<boolean> {
     try {
-      const user = await this.playerControllerService.getProfileUsingGET().toPromise();
+      const user = await this.playerControllerService
+        .getProfileUsingGET()
+        .toPromise();
       if (user) {
         //user registered
         return true;

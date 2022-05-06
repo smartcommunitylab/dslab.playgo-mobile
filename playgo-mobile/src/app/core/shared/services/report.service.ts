@@ -14,38 +14,51 @@ import { GameControllerService } from '../../api/generated/controllers/gameContr
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
-
   public userStatsHasChanged$ = new ReplaySubject<any>(1);
   public userStats$ = this.userStatsHasChanged$.pipe(
-    switchMap(config => this.getTransportStats(config.fromDate, config.toDate, config.group)),
+    switchMap((config) =>
+      this.getTransportStats(config.fromDate, config.toDate, config.group)
+    ),
     shareReplay()
   );
   constructor(
     private reportControllerService: ReportControllerService,
-    private gameController: GameControllerService,
-  ) { }
+    private gameController: GameControllerService
+  ) {}
 
   getCo2Stats(
     campaignId?,
     playerId?,
     fromDate?: any,
-    toDate?: any,
+    toDate?: any
   ): Promise<CampaignPlacing> {
     return this.reportControllerService
-      .getPlayerCampaingPlacingByCo2UsingGET(campaignId, playerId, fromDate, toDate)
+      .getPlayerCampaingPlacingByCo2UsingGET(
+        campaignId,
+        playerId,
+        fromDate,
+        toDate
+      )
       .toPromise();
   }
   getGameStatus(campaignId: any): Promise<PlayerStatus> {
-    return this.gameController.getCampaignGameStatusUsingGET(campaignId).toPromise();
+    return this.gameController
+      .getCampaignGameStatusUsingGET(campaignId)
+      .toPromise();
   }
   getGameStats(
     campaignId?,
     playerId?,
     fromDate?: any,
-    toDate?: any,
+    toDate?: any
   ): Promise<CampaignPlacing> {
     return this.reportControllerService
-      .getPlayerCampaingPlacingByCo2UsingGET(campaignId, playerId, fromDate, toDate)
+      .getPlayerCampaingPlacingByCo2UsingGET(
+        campaignId,
+        playerId,
+        fromDate,
+        toDate
+      )
       .toPromise();
   }
   getTransportStats(

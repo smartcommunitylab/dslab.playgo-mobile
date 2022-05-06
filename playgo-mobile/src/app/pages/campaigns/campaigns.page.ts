@@ -14,13 +14,15 @@ export class CampaignsPage implements OnInit, OnDestroy {
   selectedSegment?: string;
   sub: Subscription;
 
-  constructor(private campaignService: CampaignService) { }
+  constructor(private campaignService: CampaignService) {}
 
   ngOnInit(): void {
     this.selectedSegment = 'myCampaigns';
-    this.sub = this.campaignService.playerCampaignsRefresher$.subscribe((campaigns) => {
-      this.refresher.complete();
-    });
+    this.sub = this.campaignService.playerCampaignsRefresher$.subscribe(
+      (campaigns) => {
+        this.refresher.complete();
+      }
+    );
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();

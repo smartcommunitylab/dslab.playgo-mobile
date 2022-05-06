@@ -22,7 +22,6 @@ export class CampaignDetailsPage implements OnInit {
     private campaignService: CampaignService,
     private alertService: AlertService,
     private translateService: TranslateService
-
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
@@ -32,8 +31,7 @@ export class CampaignDetailsPage implements OnInit {
       this.campaign = result;
       this.titlePage = this.campaign.name;
       this.colorCampaign = this.campaign.type;
-      this.imagePath =
-        'data:image/jpg;base64,' + this.campaign.logo.image;
+      this.imagePath = 'data:image/jpg;base64,' + this.campaign.logo.image;
     });
   }
   getCampaign() {
@@ -43,10 +41,12 @@ export class CampaignDetailsPage implements OnInit {
     return this.campaign.type === 'personal';
   }
   unsubscribeCampaign() {
-    this.campaignService.unsubscribeCampaign(this.campaign.campaignId).subscribe((result) => {
-      this.alertService.showToast(
-        this.translateService.instant('campaign.unregistered')
-      );
-    });
+    this.campaignService
+      .unsubscribeCampaign(this.campaign.campaignId)
+      .subscribe((result) => {
+        this.alertService.showToast(
+          this.translateService.instant('campaign.unregistered')
+        );
+      });
   }
 }

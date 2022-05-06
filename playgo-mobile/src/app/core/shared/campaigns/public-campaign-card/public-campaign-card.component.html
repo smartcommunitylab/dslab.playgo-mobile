@@ -14,7 +14,10 @@
       <div>{{ campaign.type }}</div>
     </ion-card-subtitle>
     <ion-card-content [innerHTML]="campaign.description"> </ion-card-content>
-    <ion-button style="margin-left: 18px; margin-bottom: 6px" (click)="joinCamp()">{{ "join" | translate }}
+    <ion-button
+      style="margin-left: 18px; margin-bottom: 6px"
+      (click)="joinCamp()"
+      >{{ "join" | translate }}
     </ion-button>
   </ion-card>
 </div>

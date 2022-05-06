@@ -6,7 +6,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { AlertController, IonInfiniteScroll, IonRefresher } from '@ionic/angular';
+import {
+  AlertController,
+  IonInfiniteScroll,
+  IonRefresher,
+} from '@ionic/angular';
 import {
   ArcElement,
   BarController,
@@ -38,7 +42,10 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   periodSelected: 'total' | 'week' | 'month' | 'today' = 'total';
   stats: any;
   selectedConf: any;
-  constructor(private alertController: AlertController, private reportService: ReportService) { }
+  constructor(
+    private alertController: AlertController,
+    private reportService: ReportService
+  ) {}
   ngOnInit() {
     this.subStat = this.reportService.userStats$.subscribe((stats) => {
       if (stats) {
@@ -64,14 +71,17 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     // this.barChartMethod();
   }
   loadNewStat(event) {
-    this.reportService.userStatsHasChanged$.next(this.getConfByData(this.selectedConf));
+    this.reportService.userStatsHasChanged$.next(
+      this.getConfByData(this.selectedConf)
+    );
   }
   refresh() {
-    this.reportService.userStatsHasChanged$.next(this.getConfByData(this.selectedConf));
-  };
+    this.reportService.userStatsHasChanged$.next(
+      this.getConfByData(this.selectedConf)
+    );
+  }
   async dialogChangePeriod() {
     const alert = await this.alertController.create({
-
       cssClass: 'my-custom-class',
       header: 'Seleziona un periodo',
       inputs: [
@@ -94,7 +104,6 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
             this.periodSelected = 'week';
           },
           checked: this.isSelected('week'),
-
         },
         {
           name: 'month',
@@ -135,7 +144,9 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
             //destroy old and rebuild new chart
             //trigger change stats
             // parse selections and make the call
-            this.reportService.userStatsHasChanged$.next(this.getConfByData(this.selectedConf));
+            this.reportService.userStatsHasChanged$.next(
+              this.getConfByData(this.selectedConf)
+            );
           },
         },
       ],
@@ -147,13 +158,18 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     if (data === 'total') {
       this.disableInfiniteScroll();
       // eslint-disable-next-line max-len
-      return { fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd') };
-
+      return {
+        fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
+        toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
+      };
     } else {
       this.enableInfiniteScroll();
       // eslint-disable-next-line max-len
-      return { fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), group: data };
-
+      return {
+        fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
+        toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
+        group: data,
+      };
     }
     // eslint-disable-next-line max-len
     // return { fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), ...(data !== 'total' && { group: data }) };
@@ -183,7 +199,9 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       PointElement,
       LineElement
     );
-    if (!this.barCanvas) { return; }
+    if (!this.barCanvas) {
+      return;
+    }
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       data: {

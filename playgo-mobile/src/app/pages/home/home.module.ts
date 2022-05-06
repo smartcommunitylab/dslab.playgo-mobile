@@ -24,4 +24,4 @@ import { HomeCampaignSchoolComponent } from './home-campaigns/home-campaign-scho
   ],
   exports: [MyCampaignsWidgetComponent, HomeTrackingWidgetComponent],
 })
-export class HomePageModule { }
+export class HomePageModule {}

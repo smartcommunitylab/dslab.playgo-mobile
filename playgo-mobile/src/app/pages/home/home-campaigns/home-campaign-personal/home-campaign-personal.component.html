@@ -3,17 +3,29 @@
     <ion-card-title>{{ campaignContainer.campaign.name }}</ion-card-title>
   </ion-card-header>
   <ion-card-content *ngIf="status && reportWeekStat">
-    <p> {{"campaigns.homewidgets.personal.active"
-      | translate: { startDate: status.registrationDate}
-      }}</p>
-    <p>{{"campaigns.homewidgets.personal.totalco2"
-      | translate: { totalCO2: status.co2}
-      }} </p>
-    <p>{{"campaigns.homewidgets.personal.weeklyco2"
-      | translate: { weeklyCO2: reportWeekStat.value}
-      }}</p>
-    <p>{{"campaigns.homewidgets.personal.weeklyRanking"
-      | translate: { weeklyRanking: reportWeekStat.position}
-      }}</p>
+    <p>
+      {{
+        "campaigns.homewidgets.personal.active"
+          | translate: { startDate: status.registrationDate }
+      }}
+    </p>
+    <p>
+      {{
+        "campaigns.homewidgets.personal.totalco2"
+          | translate: { totalCO2: status.co2 }
+      }}
+    </p>
+    <p>
+      {{
+        "campaigns.homewidgets.personal.weeklyco2"
+          | translate: { weeklyCO2: reportWeekStat.value }
+      }}
+    </p>
+    <p>
+      {{
+        "campaigns.homewidgets.personal.weeklyRanking"
+          | translate: { weeklyRanking: reportWeekStat.position }
+      }}
+    </p>
   </ion-card-content>
 </ion-card>

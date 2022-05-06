@@ -17,16 +17,22 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   subStat: Subscription;
   status: PlayerStatus;
   reportWeekStat: CampaignPlacing;
-  constructor(private userService: UserService, private reportService: ReportService) { }
+  constructor(
+    private userService: UserService,
+    private reportService: ReportService
+  ) {}
 
   ngOnInit() {
     this.subStat = this.userService.userStatus$.subscribe((status) => {
       this.status = status;
-      this.reportService.getCo2Stats(
-        this.campaignContainer.campaign.campaignId,
-        this.status.playerId,
-        DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-        DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd')).then((stats) => {
+      this.reportService
+        .getCo2Stats(
+          this.campaignContainer.campaign.campaignId,
+          this.status.playerId,
+          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
+          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd')
+        )
+        .then((stats) => {
           this.reportWeekStat = stats;
         });
     });

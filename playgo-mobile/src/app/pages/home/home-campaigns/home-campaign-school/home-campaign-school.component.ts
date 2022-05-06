@@ -8,9 +8,9 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 })
 export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
-  ngOnDestroy() { }
+  ngOnDestroy() {}
 }

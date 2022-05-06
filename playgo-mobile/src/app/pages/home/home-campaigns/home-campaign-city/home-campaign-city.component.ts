@@ -16,19 +16,27 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   subStat: Subscription;
   campaignStatus: PlayerStatus;
   reportWeekStat: CampaignPlacing;
-  constructor(private userService: UserService, private reportService: ReportService) { }
+  constructor(
+    private userService: UserService,
+    private reportService: ReportService
+  ) {}
 
   ngOnInit() {
     this.subStat = this.userService.userStatus$.subscribe((status) => {
       // this.status = status;
-      this.reportService.getGameStatus(this.campaignContainer.campaign.campaignId).then((campaignStatus) => {
-        this.campaignStatus = campaignStatus;
-      });
-      this.reportService.getGameStats(
-        this.campaignContainer.campaign.campaignId,
-        status.playerId,
-        DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-        DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd')).then((stats) => {
+      this.reportService
+        .getGameStatus(this.campaignContainer.campaign.campaignId)
+        .then((campaignStatus) => {
+          this.campaignStatus = campaignStatus;
+        });
+      this.reportService
+        .getGameStats(
+          this.campaignContainer.campaign.campaignId,
+          status.playerId,
+          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
+          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd')
+        )
+        .then((stats) => {
           this.reportWeekStat = stats;
         });
     });
