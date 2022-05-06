@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { UserService } from 'src/app/core/shared/services/user.service';
 import { TranslateKey } from 'src/app/core/shared/type.utils';
 
 @Component({
@@ -12,10 +14,16 @@ export class PlacingDetailComponent implements OnInit {
   placing: CampaignPlacing;
   @Input()
   unitLabelKey: TranslateKey;
-  @Input()
-  currentPlayerId: string;
 
-  constructor() {}
+  playerId$ = this.userService.userProfile$.pipe(
+    map((userProfile) => userProfile.playerId)
+  );
+
+  playerAvatar$ = this.userService.userProfile$.pipe(
+    map((userProfile) => userProfile.avatar.avatarDataSmall)
+  );
+
+  constructor(private userService: UserService) {}
 
   ngOnInit() {}
 }
