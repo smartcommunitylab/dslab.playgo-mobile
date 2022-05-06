@@ -1,6 +1,9 @@
 <app-header title="{{ 'report.stats.title' | translate }}"></app-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh()" #refresher>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="ion-padding">
     <ion-card>
       <ion-card-header>
@@ -8,7 +11,17 @@
         <ion-button (click)="dialogChangePeriod()">{{ 'report.stats.changePeriodButton' | translate }}
         </ion-button>
       </ion-card-header>
+
+
       <ion-card-content>
+        <!-- if total single element -->
+        {{stats | json}}
+        <ion-list>
+        </ion-list>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadNewStat($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
         <canvas #barCanvas style="position: relative; height: 20vh; width: 40vw"></canvas>
       </ion-card-content>
     </ion-card>

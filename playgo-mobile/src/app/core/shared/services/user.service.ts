@@ -15,9 +15,10 @@ import { AuthService } from 'ionic-appauth';
 import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Player } from '../../api/generated/model/player';
-import { filter, first, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { IStatus } from '../model/status.model';
+import { isEqual } from 'lodash-es';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userProfileMeansSubject = new ReplaySubject<TransportType[]>();
@@ -38,11 +39,10 @@ export class UserService {
   private userProfileCouldBeChanged$ = merge(
     this.initUserProfile$,
     this.userProfileRefresher$
-  ).pipe(
-    startWith(null),
   );
   userProfile$ = this.userProfileCouldBeChanged$.pipe(
     switchMap(() => this.getUserProfile()),
+    distinctUntilChanged(isEqual),
     shareReplay()
   );
   public initUserStatus$: Observable<PlayerStatus> =
@@ -57,11 +57,10 @@ export class UserService {
   private userStatusCouldBeChanged$ = merge(
     this.initUserStatus$,
     this.userStatusRefresher$
-  ).pipe(
-    startWith(null),
-  );
+  );;
   userStatus$ = this.userStatusCouldBeChanged$.pipe(
     switchMap(() => this.getUserStatus()),
+    distinctUntilChanged(isEqual),
     shareReplay()
   );
   constructor(

@@ -1,10 +1,9 @@
 <ion-card>
   <ion-card-header color="city">
-    <ion-card-title>{{ campaign.campaign.name }}</ion-card-title>
+    <ion-card-title>{{ campaignContainer.campaign.name }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    (TODO) 3° in classifica settimanale - 84° globale<br>
-    Stato, livello, .... <br>
-    Challenges<br>
+    {{campaignStatus | json}}
+    {{reportWeekStat | json}}
   </ion-card-content>
 </ion-card>

@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, IonRefresher } from '@ionic/angular';
 import {
   ArcElement,
   BarController,
@@ -30,17 +30,26 @@ import { DateTime } from 'luxon';
 })
 export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+  @ViewChild('refresher', { static: false }) refresher: IonRefresher;
+
   subStat: Subscription;
   barChart: any;
   periodSelected: 'total' | 'week' | 'month' | 'today' = 'total';
+  stats: any;
+  selectedConf: any;
   constructor(private alertController: AlertController, private reportService: ReportService) { }
   ngOnInit() {
     this.subStat = this.reportService.userStats$.subscribe((stats) => {
+      if (stats) {
+        this.stats = stats;
+      }
       if (this.barChart) {
         this.barChart.destroy();
       }
       console.log(stats);
       this.barChartMethod(stats);
+      this.refresher.complete();
     });
   }
   ngOnDestroy() {
@@ -51,9 +60,15 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     //init selection
     // eslint-disable-next-line max-len
-    this.reportService.userStatsHasChanged$.next({ fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd') });
+    this.reportService.userStatsHasChanged$.next(this.getConfByData());
     // this.barChartMethod();
   }
+  loadNewStat(event) {
+    this.reportService.userStatsHasChanged$.next(this.getConfByData(this.selectedConf));
+  }
+  refresh() {
+    this.reportService.userStatsHasChanged$.next(this.getConfByData(this.selectedConf));
+  };
   async dialogChangePeriod() {
     const alert = await this.alertController.create({
 
@@ -116,18 +131,42 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
           handler: (data: any) => {
             // getThestat and build the charts
             console.log('Saved Information', data);
+            this.selectedConf = data;
             //destroy old and rebuild new chart
             //trigger change stats
-            // eslint-disable-next-line max-len
-            this.reportService.userStatsHasChanged$.next({ fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), group: data });
+            // parse selections and make the call
+            this.reportService.userStatsHasChanged$.next(this.getConfByData(this.selectedConf));
           },
         },
       ],
     });
     await alert.present();
   }
+
+  getConfByData(data?: any): any {
+    if (data === 'total') {
+      this.disableInfiniteScroll();
+      // eslint-disable-next-line max-len
+      return { fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd') };
+
+    } else {
+      this.enableInfiniteScroll();
+      // eslint-disable-next-line max-len
+      return { fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), group: data };
+
+    }
+    // eslint-disable-next-line max-len
+    // return { fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), ...(data !== 'total' && { group: data }) };
+  }
   isSelected(arg0: string): boolean {
     return this.periodSelected === arg0;
+  }
+
+  disableInfiniteScroll() {
+    this.infiniteScroll.disabled = true;
+  }
+  enableInfiniteScroll() {
+    this.infiniteScroll.disabled = false;
   }
   barChartMethod(stats?: any) {
     // Now we need to supply a Chart element reference with an

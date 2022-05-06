@@ -9,12 +9,11 @@ import { ReportControllerService } from '../../api/generated/controllers/reportC
 import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { TransportStats } from '../../api/generated/model/transportStats';
 import { switchMap, shareReplay } from 'rxjs/operators';
+import { CampaignPlacing } from '../../api/generated/model/campaignPlacing';
+import { GameControllerService } from '../../api/generated/controllers/gameController.service';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
-  private statusSubject = new ReplaySubject<PlayerStatus>();
-  public userStatus$: Observable<PlayerStatus> =
-    this.statusSubject.asObservable();
 
   public userStatsHasChanged$ = new ReplaySubject<any>(1);
   public userStats$ = this.userStatsHasChanged$.pipe(
@@ -22,9 +21,33 @@ export class ReportService {
     shareReplay()
   );
   constructor(
-    private reportControllerService: ReportControllerService
+    private reportControllerService: ReportControllerService,
+    private gameController: GameControllerService,
   ) { }
 
+  getCo2Stats(
+    campaignId?,
+    playerId?,
+    fromDate?: any,
+    toDate?: any,
+  ): Promise<CampaignPlacing> {
+    return this.reportControllerService
+      .getPlayerCampaingPlacingByCo2UsingGET(campaignId, playerId, fromDate, toDate)
+      .toPromise();
+  }
+  getGameStatus(campaignId: any): Promise<PlayerStatus> {
+    return this.gameController.getCampaignGameStatusUsingGET(campaignId).toPromise();
+  }
+  getGameStats(
+    campaignId?,
+    playerId?,
+    fromDate?: any,
+    toDate?: any,
+  ): Promise<CampaignPlacing> {
+    return this.reportControllerService
+      .getPlayerCampaingPlacingByCo2UsingGET(campaignId, playerId, fromDate, toDate)
+      .toPromise();
+  }
   getTransportStats(
     fromDate?: any,
     toDate?: any,
@@ -34,6 +57,7 @@ export class ReportService {
       .getPlayerTransportStatsUsingGET(fromDate, toDate, group)
       .toPromise();
   }
+
   getStatus(): Promise<PlayerStatus> {
     return this.reportControllerService.getPlayerStatsuUsingGET().toPromise();
   }

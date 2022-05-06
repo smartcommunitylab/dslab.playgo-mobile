@@ -143,6 +143,14 @@
       "journeys": "Lista viaggi",
       "leaderboard": "Classifica",
       "description": "Descrizione"
+    },
+    "homewidgets": {
+      "personal": {
+        "active": "Attivo dal: {{startDate}}",
+        "totalco2": "CO2 risparmiata: {{totalCO2}}",
+        "weeklyco2": "CO2 settimanale: {{weeklyCO2}}",
+        "weklyRanking": "Posizione in classifica: {{weeklyRanking}}"
+      }
     }
   },
   "outof": "{{current}} su {{total}}",

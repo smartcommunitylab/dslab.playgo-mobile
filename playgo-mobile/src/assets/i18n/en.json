@@ -143,6 +143,14 @@
       "journeys": "Journeys",
       "leaderboard": "Leaderboard",
       "description": "Description"
+    },
+    "homewidgets": {
+      "personal": {
+        "active": "Active from: {{startDate}}",
+        "totalco2": "Total CO2: {{totalCO2}}",
+        "weeklyco2": "Weekly CO2: {{weeklyCO2}}",
+        "weeklyRanking": "Weekly ranking: {{weeklyRanking}}"
+      }
     }
   },
   "outof": "{{current}} out of {{total}}",
