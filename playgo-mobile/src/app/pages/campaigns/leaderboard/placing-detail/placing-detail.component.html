@@ -9,6 +9,5 @@
     <img [src]="'data:image/jpg;base64,' + placing.avatar.image" />
   </ion-avatar>
   {{ placing.nickname }}
-  {{ placing.value | number }}
-  {{ unitLabel | translate }}
+  {{ unitLabelKey | translate: { value: placing.value | number } }}
 </ion-item>

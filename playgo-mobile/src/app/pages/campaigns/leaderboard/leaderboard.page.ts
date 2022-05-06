@@ -33,6 +33,7 @@ export class LeaderboardPage implements OnInit {
   allLeaderboardTypes: LeaderboardType[] = [
     {
       labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
+      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
       playerApi:
         this.reportControllerService.getPlayerCampaingPlacingByCo2UsingGET,
       leaderboardApi:
@@ -40,6 +41,7 @@ export class LeaderboardPage implements OnInit {
     },
     {
       labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
+      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
       playerApi:
         this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET,
       leaderboardApi:
@@ -47,6 +49,7 @@ export class LeaderboardPage implements OnInit {
     },
     ...transportTypes.map((transportType) => ({
       labelKey: transportTypeLabels[transportType],
+      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.km' as const,
       playerApi: (
         campaignId: string,
         playerId: string,
@@ -100,6 +103,9 @@ export class LeaderboardPage implements OnInit {
       map((event) => event.detail.value),
       startWith(this.allLeaderboardTypes[0]) // initial select value
     );
+  unitLabelKey$: Observable<TranslateKey> = this.selectedLeaderboardType$.pipe(
+    map((leaderboardType) => leaderboardType.unitLabelKey)
+  );
 
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> = this.periodChangedSubject.pipe(
@@ -212,6 +218,7 @@ const minusInfDate = DateTime.fromMillis(0);
 
 type LeaderboardType = {
   labelKey: TranslateKey;
+  unitLabelKey: TranslateKey;
   playerApi: PlayerApi;
   leaderboardApi: LeaderboardApi;
 };

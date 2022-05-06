@@ -35,7 +35,7 @@
     <app-placing-detail
       [placing]="playerPosition$ | async"
       [currentPlayerId]="playerId$ | async"
-      [unitLabel]="$any('km')"
+      [unitLabelKey]="unitLabelKey$ | async"
     ></app-placing-detail>
 
     <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
@@ -48,7 +48,7 @@
           <app-placing-detail
             [placing]="placing"
             [currentPlayerId]="playerId$ | async"
-            [unitLabel]="$any('km')"
+            [unitLabelKey]="unitLabelKey$ | async"
           ></app-placing-detail>
         </ng-template>
       </app-infinite-scroll>

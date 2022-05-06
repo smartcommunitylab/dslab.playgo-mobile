@@ -11,7 +11,7 @@ export class PlacingDetailComponent implements OnInit {
   @Input()
   placing: CampaignPlacing;
   @Input()
-  unitLabel: TranslateKey;
+  unitLabelKey: TranslateKey;
   @Input()
   currentPlayerId: string;
 
