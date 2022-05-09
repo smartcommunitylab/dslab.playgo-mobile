@@ -130,6 +130,8 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
+    "registered": "Registrato",
+    "unregistered": "Utente disiscritto",
     "myCampaigns": "Le mie campagne",
     "allCampaigns": "Tutte le campagne",
     "detail": {
@@ -141,6 +143,35 @@
       "journeys": "Lista viaggi",
       "leaderboard": "Classifica",
       "description": "Descrizione"
+    },
+    "homewidgets": {
+      "personal": {
+        "active": "Attivo dal: {{startDate}}",
+        "totalco2": "CO2 risparmiata: {{totalCO2}}",
+        "weeklyco2": "CO2 settimanale: {{weeklyCO2}}",
+        "weklyRanking": "Posizione in classifica: {{weeklyRanking}}"
+      }
+    },
+    "leaderboard": {
+      "filter": {
+        "leaderboard_type": "Valore",
+        "period": "Periodo"
+      },
+      "period": {
+        "today": "Oggi",
+        "this_week": "Questa settimana",
+        "this_month": "Questo mese",
+        "all_time": "Tutto il tempo"
+      },
+      "leaderboard_type": {
+        "co2": "CO₂",
+        "GL": "GL"
+      },
+      "leaderboard_type_unit": {
+        "co2": "{{value}} kg CO₂",
+        "GL": "{{value}} GL",
+        "km": "{{value}} km"
+      }
     }
   },
   "outof": "{{current}} su {{total}}",
@@ -172,5 +203,10 @@
   "tier": "Classifica",
   "adhesionCode": "Codice adesione",
   "generalTier": "Classifica generale",
-  "weeklyTier": "Classifica settimanale"
+  "weeklyTier": "Classifica settimanale",
+  "number": {
+    "ordinal": {
+      "other": "{{ordinal}}°"
+    }
+  }
 }

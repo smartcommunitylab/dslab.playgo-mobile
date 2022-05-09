@@ -39,11 +39,11 @@ export class CommunicationAccountControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/app/notifications`,
       {
-        params: {
+        params: removeNullOrUndefined({
           since,
           skip,
           limit,
-        },
+        }),
       }
     );
   }
@@ -64,4 +64,14 @@ export class CommunicationAccountControllerService {
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

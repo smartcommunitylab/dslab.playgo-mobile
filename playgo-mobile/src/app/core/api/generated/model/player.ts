@@ -11,6 +11,8 @@
  */
 
 export interface Player {
+  familyName?: string;
+  givenName?: string;
   language?: string;
   mail?: string;
   nickname?: string;

@@ -35,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CampaignsRoutingModule { }
+export class CampaignsRoutingModule {}

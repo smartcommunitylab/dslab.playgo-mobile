@@ -12,8 +12,8 @@ import { DateTime } from 'luxon';
 })
 export class GeneralStatisticsComponent implements OnInit {
   statistics?: TransportStats[];
-  fromDate = DateTime.local().minus({ week: 1 }).toFormat('yyyy-MM-dd');
-  toDate = DateTime.local().toFormat('yyyy-MM-dd');
+  fromDate = DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd');
+  toDate = DateTime.utc().toFormat('yyyy-MM-dd');
   constructor(private reportService: ReportService, private router: Router) {}
 
   ngOnInit() {

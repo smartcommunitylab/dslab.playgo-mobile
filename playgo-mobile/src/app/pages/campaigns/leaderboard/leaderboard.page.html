@@ -1,3 +1,56 @@
+<app-header></app-header>
 <ion-content>
-  leaderboars
+  <ng-container *ngIf="(campaignId$ |async) as campaignId">
+    <ion-item>
+      <ion-label
+        >{{ 'campaigns.leaderboard.filter.leaderboard_type' | translate
+        }}</ion-label
+      >
+      <ion-select
+        (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
+        [value]="selectedLeaderboardType$ | async"
+      >
+        <ion-select-option
+          *ngFor="let leaderboardType of leaderboardTypes$|async"
+          [value]="leaderboardType"
+        >
+          {{leaderboardType.labelKey |translate}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label
+        >{{ 'campaigns.leaderboard.filter.period' | translate }}</ion-label
+      >
+      <ion-select
+        (ionChange)="periodChangedSubject.next($any($event))"
+        [value]="selectedPeriod$ | async"
+      >
+        <ion-select-option *ngFor="let period of periods" [value]="period">
+          {{period.labelKey |translate}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <app-placing-detail
+      [placing]="playerPosition$ | async"
+      [unitLabelKey]="unitLabelKey$ | async"
+    ></app-placing-detail>
+
+    <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
+      <app-infinite-scroll
+        [resetItems]="resetItems$ | async"
+        [response]="leaderboardScrollResponse$ | async"
+        (request)="scrollRequestSubject.next($event)"
+      >
+        <ng-template appInfiniteScrollContent let-placing="item">
+          <app-placing-detail
+            [placing]="placing"
+            [unitLabelKey]="unitLabelKey$ | async"
+          ></app-placing-detail>
+        </ng-template>
+      </app-infinite-scroll>
+    </ng-container>
+  </ng-container>
 </ion-content>

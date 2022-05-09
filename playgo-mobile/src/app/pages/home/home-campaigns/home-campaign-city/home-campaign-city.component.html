@@ -1,8 +1,9 @@
 <ion-card>
-  <ion-card-header color="secondary">
-    <ion-card-title>{{ campaign.campaign.name }}</ion-card-title>
+  <ion-card-header color="city">
+    <ion-card-title>{{ campaignContainer.campaign.name }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    statistiche e challenges
+    {{ campaignStatus | json }}
+    {{ reportWeekStat | json }}
   </ion-card-content>
 </ion-card>

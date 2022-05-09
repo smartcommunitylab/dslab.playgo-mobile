@@ -1,41 +1,75 @@
 import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { merge, Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-// import { AuthHttpService } from '../../auth/auth-http.service';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
 import { TransportType } from '../tracking/trip.model';
 import { LocalStorageService } from './local-storage.service';
 import { TerritoryService } from './territory.service';
-import { Avatar, IAvatar } from '../model/avatar.model';
-// import { IStatus } from '../mxodel/status.model';
+import { Avatar } from '../model/avatar.model';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'ionic-appauth';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Player } from '../../api/generated/model/player';
-import { shareReplay } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { PlayerStatus } from '../../api/generated/model/playerStatus';
+import { IStatus } from '../model/status.model';
+import { isEqual } from 'lodash-es';
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private userProfileSubject = new ReplaySubject<IUser>();
-  private userProfileMeansSubject = new ReplaySubject<TransportType[]>();
-  private userStatusSubject = new ReplaySubject<PlayerStatus>();
   private userLocale: string;
   private userProfile: IUser = null;
   private userStatus: PlayerStatus = null;
-  public userProfileMeans$: Observable<TransportType[]> =
-    this.userProfileMeansSubject.asObservable();
-  public userProfile$: Observable<IUser> = this.userProfileSubject
-    .asObservable()
-    .pipe(shareReplay());
-  public userStatus$: Observable<IUser> = this.userStatusSubject
-    .asObservable()
-    .pipe(shareReplay());
+  public initUserProfile$: Observable<IUser> = this.authService.token$.pipe(
+    filter((token) => token !== null),
+    first(),
+    switchMap(() => this.getUserProfile()),
+    shareReplay()
+  );
+  public userProfileRefresher$ = new ReplaySubject<IUser>(1);
+
+  private userProfileCouldBeChanged$ = merge(
+    this.initUserProfile$,
+    this.userProfileRefresher$
+  );
+  userProfile$ = this.userProfileCouldBeChanged$.pipe(
+    switchMap(() => this.getUserProfile()),
+    distinctUntilChanged(isEqual),
+    shareReplay()
+  );
+
+  public initUserStatus$: Observable<PlayerStatus> =
+    this.authService.token$.pipe(
+      filter((token) => token !== null),
+      first(),
+      switchMap(() => this.getUserStatus()),
+      shareReplay()
+    );
+  public userStatusRefresher$ = new ReplaySubject<PlayerStatus>(1);
+
+  private userStatusCouldBeChanged$ = merge(
+    this.initUserStatus$,
+    this.userStatusRefresher$
+  );
+  userStatus$ = this.userStatusCouldBeChanged$.pipe(
+    switchMap(() => this.getUserStatus()),
+    distinctUntilChanged(isEqual),
+    shareReplay()
+  );
+  public userProfileMeans$: Observable<TransportType[]> = this.userStatus$.pipe(
+    map((status) => status.territory.territoryData.means));
   constructor(
     private translateService: TranslateService,
     private reportService: ReportService,
@@ -44,14 +78,8 @@ export class UserService {
     private navCtrl: NavController,
     private authService: AuthService,
     private http: HttpClient,
-    private playerControllerService: PlayerControllerService // private sanitizer: DomSanitizer
-  ) {
-    this.authService.token$.subscribe(async (token) => {
-      if (token) {
-        this.startService();
-      }
-    });
-  }
+    private playerControllerService: PlayerControllerService
+  ) { }
   set locale(value: string) {
     this.userLocale = value;
   }
@@ -62,14 +90,8 @@ export class UserService {
   uploadAvatar(file: any): Promise<any> {
     const formData = new FormData();
     formData.append('data', file);
-    return this.http
-      .request<any>(
-        'POST',
-        environment.serverUrl.apiUrl + environment.serverUrl.avatar,
-        {
-          body: formData,
-        }
-      )
+    return this.playerControllerService
+      .uploadPlayerAvatarUsingPOST(formData)
       .toPromise();
   }
   getAvatar(): Promise<any> {
@@ -114,7 +136,8 @@ export class UserService {
       }
     }
   }
-  public async startService() {
+
+  private async getUserProfile(): Promise<IUser> {
     let user = {};
     //check if locally present and I'm logged (store in the memory)
     try {
@@ -143,18 +166,26 @@ export class UserService {
           'assets/images/registration/generic_user.png'
         ).then((r) => r.blob());
       }
-      //console.log(e);
     }
     if (user) {
       this.userProfile = user;
       this.processUser(user, avatarImage, avatarImageSmall);
-      this.userProfileSubject.next(this.userProfile);
     }
+    return Promise.resolve(user);
+  }
+  private async getUserStatus(): Promise<PlayerStatus> {
+    //get user status
     const status = await this.reportService.getStatus();
     if (status) {
       this.userStatus = status;
-      this.userStatusSubject.next(this.userStatus);
+      // this.userStatusSubject.next(this.userStatus);
     }
+    return Promise.resolve(status);
+  }
+  public async startService() {
+    //get user profile with avatars
+    await this.getUserProfile();
+    await this.getUserStatus();
   }
   async updateImages() {
     //check if the avatar is present
@@ -176,7 +207,6 @@ export class UserService {
       }
     }
     this.processUser(this.userProfile, avatarImage, avatarImageSmall);
-    this.userProfileSubject.next(this.userProfile);
   }
   processUser(user: IUser, avatar?: Blob, avatarSmall?: Blob) {
     if (avatar) {
@@ -197,7 +227,6 @@ export class UserService {
           user.avatar = new Avatar();
         }
         user.avatar.avatarData = reader.result;
-        this.userProfileSubject.next(user);
       },
       false
     );
@@ -209,7 +238,6 @@ export class UserService {
           user.avatar = new Avatar();
         }
         user.avatar.avatarDataSmall = reader.result;
-        this.userProfileSubject.next(user);
       },
       false
     );
@@ -218,35 +246,25 @@ export class UserService {
       readerSmall.readAsDataURL(userimageSmall);
     }
   }
-  async setUserProfileMeans(territoryId: string) {
+  async setUserProfileMeans(territoryId: string): Promise<TransportType[]> {
     //get territories means and set available means userProfileMeans$
     const userTerritory = await this.territoryService
       .getTerritory(territoryId)
       .toPromise();
-    this.userProfileMeansSubject.next(userTerritory.territoryData.means);
+    return Promise.resolve(userTerritory.territoryData.means);
+    //this.userProfileMeansSubject.next(userTerritory.territoryData.means);
   }
 
   registerPlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
-    return this.http
-      .request(
-        'POST',
-        environment.serverUrl.apiUrl + environment.serverUrl.register,
-        { body: user }
-      )
+    return this.playerControllerService
+      .registerPlayerUsingPOST(user)
       .toPromise();
   }
   async isUserRegistered(): Promise<boolean> {
     try {
-      // const user = await this.http.request(
-      //   'GET',
-      //   environment.serverUrl.apiUrl + environment.serverUrl.profile
-      // ).toPromise();
-      const user = await this.http
-        .request<IUser>(
-          'GET',
-          environment.serverUrl.apiUrl + environment.serverUrl.profile
-        )
+      const user = await this.playerControllerService
+        .getProfileUsingGET()
         .toPromise();
       if (user) {
         //user registered
@@ -263,18 +281,7 @@ export class UserService {
     }
   }
   getProfile(): Promise<Player> {
-    // return this.localStorageService.loadUser().then((user) => {
-    //   if (user) {
-    //     return Promise.resolve(user);
-    //   } else {
     return this.playerControllerService.getProfileUsingGET().toPromise();
-
-    //   //     .then((newUser) => {
-    //   //       this.localStorageService.setUser(newUser);
-    //   //       return Promise.resolve(newUser);;
-    //   //     });
-    //   // }
-    // });
   }
 
   async updatePlayer(user: IUser): Promise<Player> {
@@ -282,13 +289,6 @@ export class UserService {
     const player = await this.playerControllerService
       .updateProfileUsingPUT(user)
       .toPromise();
-    // const player = await this.http
-    //   .request(
-    //     'PUT',
-    //     environment.serverUrl.apiUrl + environment.serverUrl.profile,
-    //     { body: user }
-    //   )
-    //   .toPromise();
     this.processUser(user);
     return player;
   }

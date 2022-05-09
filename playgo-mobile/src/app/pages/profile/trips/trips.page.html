@@ -1,8 +1,4 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>{{'tripsTitle' | translate}}</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="{{'tripsTitle' | translate}}"></app-header>
 
 <ion-content>
   <app-infinite-scroll
@@ -56,7 +52,8 @@
                 [trip]="trip"
                 [isOneDayTrip]="multiTrip.isOneDayTrip"
                 [multiModalTrip]="true"
-              ></app-trip-card>
+              >
+              </app-trip-card>
             </ng-container>
           </ng-container>
         </ion-card>

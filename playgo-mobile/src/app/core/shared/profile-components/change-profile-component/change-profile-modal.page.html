@@ -8,8 +8,11 @@
   <ion-grid *ngIf="profile">
     <ion-item lines="full">
       <ion-avatar>
-        <img [src]="profile.avatar.avatarData" title="{{'registration.avatar.title'|translate}}"
-          (click)="changeAvatar()" />
+        <img
+          [src]="profile.avatar.avatarData"
+          title="{{'registration.avatar.title'|translate}}"
+          (click)="changeAvatar()"
+        />
       </ion-avatar>
     </ion-item>
     <ion-row>
@@ -26,19 +29,30 @@
       <ion-col text-center>
         <ion-item lines="full">
           <ion-label>{{'profile.change.lang.language'|translate}}</ion-label>
-          <ion-select placeholder="{{'profile.change.lang.select'|translate}}" [(ngModel)]="profile.language">
-            <ion-select-option value="it">{{'profile.change.lang.it'|translate}}</ion-select-option>
-            <ion-select-option value="en">{{'profile.change.lang.en'|translate}}</ion-select-option>
+          <ion-select
+            placeholder="{{'profile.change.lang.select'|translate}}"
+            [(ngModel)]="profile.language"
+          >
+            <ion-select-option value="it"
+              >{{'profile.change.lang.it'|translate}}</ion-select-option
+            >
+            <ion-select-option value="en"
+              >{{'profile.change.lang.en'|translate}}</ion-select-option
+            >
           </ion-select>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col text-center>
-        <ion-button (click)="close()">{{ 'profile.change.closeButton' | translate }}</ion-button>
+        <ion-button (click)="close()"
+          >{{ 'profile.change.closeButton' | translate }}</ion-button
+        >
       </ion-col>
       <ion-col text-center>
-        <ion-button (click)="closeAndSave()">{{ 'profile.change.saveButton' | translate }}</ion-button>
+        <ion-button (click)="closeAndSave()"
+          >{{ 'profile.change.saveButton' | translate }}</ion-button
+        >
       </ion-col>
     </ion-row>
   </ion-grid>

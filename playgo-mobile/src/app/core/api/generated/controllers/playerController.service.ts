@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 
 import { Avatar } from '../model/avatar';
 import { Player } from '../model/player';
+import { PlayerInfo } from '../model/playerInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -48,9 +49,9 @@ export class PlayerControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/player/nick`,
       {
-        params: {
+        params: removeNullOrUndefined({
           nickname,
-        },
+        }),
       }
     );
   }
@@ -135,6 +136,25 @@ export class PlayerControllerService {
   }
 
   /**
+   * searchNickname
+   *
+   * @param nickname nickname
+   */
+  public searchNicknameUsingGET(
+    nickname: string
+  ): Observable<Array<PlayerInfo>> {
+    return this.http.request<Array<PlayerInfo>>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/player/search`,
+      {
+        params: removeNullOrUndefined({
+          nickname,
+        }),
+      }
+    );
+  }
+
+  /**
    * updateProfile
    *
    * @param body
@@ -163,4 +183,14 @@ export class PlayerControllerService {
       }
     );
   }
+}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

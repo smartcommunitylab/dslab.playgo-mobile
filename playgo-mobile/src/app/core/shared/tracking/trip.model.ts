@@ -1,3 +1,5 @@
+import { TranslateKey } from '../type.utils';
+
 export class Trip {
   multimodalId: string;
   constructor(data?: Trip) {
@@ -72,7 +74,7 @@ export const transportTypeIcons: Record<TransportType, string> = {
   walk: 'walk',
   boat: 'boat',
 };
-export const transportTypeLabels: Record<TransportType, string> = {
+export const transportTypeLabels: Record<TransportType, TranslateKey> = {
   bike: 'trip_detail.mean.bike',
   bus: 'trip_detail.mean.bus',
   car: 'trip_detail.mean.car',

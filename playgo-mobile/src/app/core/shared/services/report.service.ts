@@ -8,22 +8,59 @@ import { DateTime } from 'luxon';
 import { ReportControllerService } from '../../api/generated/controllers/reportController.service';
 import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { TransportStats } from '../../api/generated/model/transportStats';
+import { switchMap, shareReplay } from 'rxjs/operators';
+import { CampaignPlacing } from '../../api/generated/model/campaignPlacing';
+import { GameControllerService } from '../../api/generated/controllers/gameController.service';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
-  private statusSubject = new ReplaySubject<PlayerStatus>();
-  public userStatus$: Observable<PlayerStatus> =
-    this.statusSubject.asObservable();
+  public userStatsHasChanged$ = new ReplaySubject<any>(1);
+  public userStats$ = this.userStatsHasChanged$.pipe(
+    switchMap((config) =>
+      this.getTransportStats(config.fromDate, config.toDate, config.group)
+    ),
+    shareReplay()
+  );
   constructor(
-    // private authHttpService: AuthHttpService
-    private reportControllerService: ReportControllerService
+    private reportControllerService: ReportControllerService,
+    private gameController: GameControllerService
   ) {}
 
-  // getLastWeekStatistic(): Promise<TransportStats[]> {
-  //   const fromDate = DateTime.local().minus({ week: 1 }).toFormat('yyyy-MM-dd');
-  //   const toDate = DateTime.local().toFormat('yyyy-MM-dd');
-  //   return this.getTransportStats(fromDate, toDate);
-  // }
+  getCo2Stats(
+    campaignId?,
+    playerId?,
+    fromDate?: any,
+    toDate?: any
+  ): Promise<CampaignPlacing> {
+    return this.reportControllerService
+      .getPlayerCampaingPlacingByCo2UsingGET(
+        campaignId,
+        playerId,
+        fromDate,
+        toDate
+      )
+      .toPromise();
+  }
+  getGameStatus(campaignId: any): Promise<PlayerStatus> {
+    return this.gameController
+      .getCampaignGameStatusUsingGET(campaignId)
+      .toPromise();
+  }
+  getGameStats(
+    campaignId?,
+    playerId?,
+    fromDate?: any,
+    toDate?: any
+  ): Promise<CampaignPlacing> {
+    return this.reportControllerService
+      .getPlayerCampaingPlacingByCo2UsingGET(
+        campaignId,
+        playerId,
+        fromDate,
+        toDate
+      )
+      .toPromise();
+  }
   getTransportStats(
     fromDate?: any,
     toDate?: any,
@@ -32,22 +69,9 @@ export class ReportService {
     return this.reportControllerService
       .getPlayerTransportStatsUsingGET(fromDate, toDate, group)
       .toPromise();
-    // return this.authHttpService.request<IGeneralStatistic>(
-    //   'GET',
-    //   environment.serverUrl.transportStats,
-    //   {
-    //     dateFrom: fromDate,
-    //     dateTo: toDate,
-    //     ...(group && { groupMode: group }),
-    //   }
-    // );
   }
+
   getStatus(): Promise<PlayerStatus> {
     return this.reportControllerService.getPlayerStatsuUsingGET().toPromise();
-    //   return this.authHttpService.request<IStatus>(
-    //     'GET',
-    //     environment.serverUrl.status
-    //   );
-    // }
   }
 }

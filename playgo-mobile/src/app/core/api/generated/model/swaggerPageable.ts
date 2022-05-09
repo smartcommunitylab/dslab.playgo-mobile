@@ -13,4 +13,5 @@
 export interface SwaggerPageable {
   page?: number;
   size?: number;
+  sort?: string;
 }

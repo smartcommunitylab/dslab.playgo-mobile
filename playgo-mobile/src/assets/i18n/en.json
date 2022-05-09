@@ -132,6 +132,8 @@
     "join": "Join",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
+    "registered": "Registered",
+    "unregistered": "Unregistered",
     "detail": {
       "generalStat": "General",
       "signal": "Contacts and support",
@@ -141,6 +143,35 @@
       "journeys": "Journeys",
       "leaderboard": "Leaderboard",
       "description": "Description"
+    },
+    "homewidgets": {
+      "personal": {
+        "active": "Active from: {{startDate}}",
+        "totalco2": "Total CO2: {{totalCO2}}",
+        "weeklyco2": "Weekly CO2: {{weeklyCO2}}",
+        "weeklyRanking": "Weekly ranking: {{weeklyRanking}}"
+      }
+    },
+    "leaderboard": {
+      "filter": {
+        "leaderboard_type": "Value",
+        "period": "Period"
+      },
+      "period": {
+        "today": "Today",
+        "this_week": "This Week",
+        "this_month": "This Month",
+        "all_time": "All Time"
+      },
+      "leaderboard_type": {
+        "co2": "CO₂",
+        "GL": "GLs"
+      },
+      "leaderboard_type_unit": {
+        "co2": "{{value}} kg CO₂",
+        "GL": "{{value}} GLs",
+        "km": "{{value}} km"
+      }
     }
   },
   "outof": "{{current}} out of {{total}}",
@@ -172,5 +203,13 @@
   "tier": "Tier",
   "adhesionCode": "Adhesion code",
   "generalTier": "General tier",
-  "weeklyTier": "Weekly tier"
+  "weeklyTier": "Weekly tier",
+  "number": {
+    "ordinal": {
+      "one": "{{ordinal}}st",
+      "two": "{{ordinal}}nd",
+      "few": "{{ordinal}}rd",
+      "other": "{{ordinal}}th"
+    }
+  }
 }

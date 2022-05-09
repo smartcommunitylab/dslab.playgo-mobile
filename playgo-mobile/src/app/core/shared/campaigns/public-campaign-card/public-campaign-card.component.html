@@ -1,19 +1,15 @@
 <!-- all campaigns -->
 <div>
   <ion-card class="ion-card">
-    <div style="height: 64px">
-      <div style="float: left">
-        <ion-card-header style="color: white">
-          <strong> {{ campaign.name }}</strong>
-        </ion-card-header>
-      </div>
-      <div style="float: right; margin: 2px" *ngIf="campaign.logo.image">
-        <ion-avatar style="margin: 2px">
-          <img [src]="imagePath" />
-        </ion-avatar>
-      </div>
+    <ion-card-header [color]="campaign.type">
+      <strong> {{ campaign.name }}</strong>
+    </ion-card-header>
+    <div *ngIf="campaign.logo.image">
+      <ion-avatar style="margin: 2px">
+        <img [src]="imagePath" />
+      </ion-avatar>
     </div>
-    <ion-card-subtitle style="color: white; margin-left: 18px">
+    <ion-card-subtitle>
       <div>{{ campaign.dateFrom }} - {{ campaign.dateTo }}</div>
       <div>{{ campaign.type }}</div>
     </ion-card-subtitle>
