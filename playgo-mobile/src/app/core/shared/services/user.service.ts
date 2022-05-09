@@ -19,6 +19,7 @@ import {
   distinctUntilChanged,
   filter,
   first,
+  map,
   shareReplay,
   startWith,
   switchMap,
@@ -28,12 +29,9 @@ import { IStatus } from '../model/status.model';
 import { isEqual } from 'lodash-es';
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private userProfileMeansSubject = new ReplaySubject<TransportType[]>();
   private userLocale: string;
   private userProfile: IUser = null;
   private userStatus: PlayerStatus = null;
-  public userProfileMeans$: Observable<TransportType[]> =
-    this.userProfileMeansSubject.asObservable();
   public initUserProfile$: Observable<IUser> = this.authService.token$.pipe(
     filter((token) => token !== null),
     first(),
@@ -51,6 +49,7 @@ export class UserService {
     distinctUntilChanged(isEqual),
     shareReplay()
   );
+
   public initUserStatus$: Observable<PlayerStatus> =
     this.authService.token$.pipe(
       filter((token) => token !== null),
@@ -69,6 +68,8 @@ export class UserService {
     distinctUntilChanged(isEqual),
     shareReplay()
   );
+  public userProfileMeans$: Observable<TransportType[]> = this.userStatus$.pipe(
+    map((status) => status.territory.territoryData.means));
   constructor(
     private translateService: TranslateService,
     private reportService: ReportService,
@@ -78,7 +79,7 @@ export class UserService {
     private authService: AuthService,
     private http: HttpClient,
     private playerControllerService: PlayerControllerService
-  ) {}
+  ) { }
   set locale(value: string) {
     this.userLocale = value;
   }
@@ -245,12 +246,13 @@ export class UserService {
       readerSmall.readAsDataURL(userimageSmall);
     }
   }
-  async setUserProfileMeans(territoryId: string) {
+  async setUserProfileMeans(territoryId: string): Promise<TransportType[]> {
     //get territories means and set available means userProfileMeans$
     const userTerritory = await this.territoryService
       .getTerritory(territoryId)
       .toPromise();
-    this.userProfileMeansSubject.next(userTerritory.territoryData.means);
+    return Promise.resolve(userTerritory.territoryData.means);
+    //this.userProfileMeansSubject.next(userTerritory.territoryData.means);
   }
 
   registerPlayer(user: IUser): Promise<IUser> {
