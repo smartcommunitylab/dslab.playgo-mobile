@@ -9,15 +9,12 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" padding>
   <ion-refresher slot="fixed" (ionRefresh)="refresh()" #refresher>
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div id="container">
-    <app-profile-component
-      [editable]="false"
-      [showStatus]="true"
-    ></app-profile-component>
+    <app-profile-component [editable]="false" [showStatus]="true"></app-profile-component>
     <app-tracking-main-control></app-tracking-main-control>
     <app-my-campaigns-widget></app-my-campaigns-widget>
     <div>
