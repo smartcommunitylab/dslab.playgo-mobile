@@ -40,6 +40,21 @@ export class CampaignDetailsPage implements OnInit {
   isPersonal() {
     return this.campaign.type === 'personal';
   }
+  campaignHasPrizes() {
+    switch (this.campaign.type) {
+      case 'personal':
+        return false;
+      case 'school':
+        return true;
+      case 'company':
+        return true;
+      case 'city':
+        return true;
+      default:
+        return true;
+    }
+
+  }
   unsubscribeCampaign() {
     this.campaignService
       .unsubscribeCampaign(this.campaign.campaignId)
