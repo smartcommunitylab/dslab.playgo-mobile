@@ -1,17 +1,28 @@
 import { Injectable } from '@angular/core';
-import { merge, NEVER, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  concat,
+  merge,
+  NEVER,
+  Observable,
+  of,
+  Subject,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   map,
   mapTo,
+  shareReplay,
   startWith,
   switchMap,
+  tap,
   throttleTime,
   withLatestFrom,
 } from 'rxjs/operators';
 import { intervalBackoff } from 'backoff-rxjs';
 import { DateTime } from 'luxon';
 import { isEqual } from 'lodash-es';
+import { startFrom } from '../utils';
 
 @Injectable({
   providedIn: 'root',
@@ -55,9 +66,17 @@ export class LocalTripsService {
     this.hardTrigger$.pipe(mapTo(true))
   );
 
-  localData$: Observable<Trip[]> = this.trigger$.pipe(
-    startWith(this.getTripsFromStorage()),
-    withLatestFrom(this.localData$),
+  initialLocalData$: Observable<Trip[]> = of(this.getTripsFromStorage());
+  localDataSubject: Subject<Trip[]> = new Subject();
+  lastLocalData$: Observable<Trip[]> = concat(
+    this.initialLocalData$, //we maybe do not need this, because of the tap after startFrom
+    this.localDataSubject
+  );
+
+  localData$ = this.trigger$.pipe(
+    // startWith(this.initialLocalData$),
+
+    withLatestFrom(this.lastLocalData$),
     map(([force, lastLocalData]) =>
       force
         ? this.localDataToDate
@@ -66,11 +85,16 @@ export class LocalTripsService {
     switchMap((periodToDate) =>
       this.loadDataFromServer(DateTime.now(), periodToDate)
     ),
-    withLatestFrom(this.localData$),
+    withLatestFrom(this.lastLocalData$),
     map(([newData, lastLocalData]) =>
       this.pairPendingTrips(lastLocalData, newData)
     ),
-    distinctUntilChanged(isEqual)
+    startFrom(this.initialLocalData$),
+    distinctUntilChanged((a, b) => isEqual(a, b)),
+    tap((value) => {
+      this.localDataSubject.next(value);
+    }),
+    shareReplay(1)
   );
 
   constructor() {

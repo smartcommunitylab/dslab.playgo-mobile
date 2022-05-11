@@ -1,7 +1,13 @@
 import { NgZone } from '@angular/core';
 import { Photo } from '@capacitor/camera';
 import { initial, last, tail, zip } from 'lodash-es';
-import { Observable, OperatorFunction } from 'rxjs';
+import {
+  concat,
+  Observable,
+  ObservableInput,
+  ObservedValueOf,
+  OperatorFunction,
+} from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export const isNotConstant =
@@ -46,6 +52,12 @@ export function runInZone<T>(zone: NgZone): OperatorFunction<T, T> {
       return source.subscribe(onNext, onError, onComplete);
     });
 }
+export function startFrom<T, O extends ObservableInput<any>>(
+  start: O
+): OperatorFunction<T, T | ObservedValueOf<O>> {
+  return (source: Observable<T>) => concat(start, source);
+}
+
 export async function readAsBase64(photo: Photo) {
   // Fetch the photo, read as a blob, then convert to base64 format
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
