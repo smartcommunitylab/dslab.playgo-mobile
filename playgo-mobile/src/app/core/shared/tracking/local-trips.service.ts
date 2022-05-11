@@ -21,8 +21,16 @@ import {
 } from 'rxjs/operators';
 import { intervalBackoff } from 'backoff-rxjs';
 import { DateTime } from 'luxon';
-import { isEqual } from 'lodash-es';
-import { startFrom } from '../utils';
+import { isEqual, some, sortBy } from 'lodash-es';
+import { startFrom, tapLog } from '../utils';
+
+const debugTriggers = {
+  hard: new Subject<any>(),
+  soft: new Subject<any>(),
+};
+const debugRefTime = DateTime.now();
+
+(window as any).debugTriggers = debugTriggers;
 
 @Injectable({
   providedIn: 'root',
@@ -53,29 +61,34 @@ export class LocalTripsService {
   private networkStatusChanged$: Observable<void> = NEVER;
 
   private softTrigger$: Observable<void> = merge(
-    this.afterSyncTimer$,
-    this.appStateChanged$,
-    this.networkStatusChanged$,
-    this.pushNotification$
+    this.afterSyncTimer$.pipe(tapLog('this.afterSyncTimer')),
+    // this.appStateChanged$.pipe(tapLog('this.appStateChanged')),
+    this.networkStatusChanged$.pipe(tapLog('this.networkStatusChanged')),
+    this.pushNotification$.pipe(tapLog('this.pushNotification')),
+    debugTriggers.soft.pipe(tapLog('debugTriggers.soft'))
   ).pipe(throttleTime(500));
 
-  private hardTrigger$: Observable<void> = this.explicitReload$;
+  private hardTrigger$: Observable<void> = merge(
+    this.explicitReload$,
+    debugTriggers.hard
+  );
 
   private trigger$: Observable<boolean> = merge(
     this.softTrigger$.pipe(mapTo(false)),
     this.hardTrigger$.pipe(mapTo(true))
-  );
+  ).pipe();
 
-  initialLocalData$: Observable<Trip[]> = of(this.getTripsFromStorage());
-  localDataSubject: Subject<Trip[]> = new Subject();
-  lastLocalData$: Observable<Trip[]> = concat(
+  private initialLocalData$: Observable<Trip[]> = of(
+    this.getTripsFromStorage()
+  );
+  private localDataSubject: Subject<Trip[]> = new Subject();
+  private lastLocalData$: Observable<Trip[]> = concat(
     this.initialLocalData$, //we maybe do not need this, because of the tap after startFrom
     this.localDataSubject
   );
 
-  localData$ = this.trigger$.pipe(
-    // startWith(this.initialLocalData$),
-
+  public localData$: Observable<any> = this.trigger$.pipe(
+    tapLog('LT: trigger$'),
     withLatestFrom(this.lastLocalData$),
     map(([force, lastLocalData]) =>
       force
@@ -90,11 +103,20 @@ export class LocalTripsService {
       this.pairPendingTrips(lastLocalData, newData)
     ),
     startFrom(this.initialLocalData$),
-    distinctUntilChanged((a, b) => isEqual(a, b)),
+    distinctUntilChanged((a, b) => {
+      const res = isEqual(a, b);
+      console.log('LT: distinctUntilChanged', a, b, res);
+      return res;
+    }),
     tap((value) => {
       this.localDataSubject.next(value);
     }),
+    tapLog('LT: localData$'),
     shareReplay(1)
+  );
+
+  public newTripsTrigger$: Observable<void> = this.localData$.pipe(
+    mapTo(undefined)
   );
 
   constructor() {
@@ -103,15 +125,33 @@ export class LocalTripsService {
     });
   }
 
-  loadDataFromServer(from: DateTime, to: DateTime): Observable<Trip[]> {
-    return of([]);
+  private loadDataFromServer(from: DateTime, to: DateTime): Observable<Trip[]> {
+    console.log('LT: loadDataFromServer');
+    return of([
+      {
+        status: 'returnedFromServer',
+        id: 0,
+        data: 'zero',
+        date: debugRefTime.minus({ days: 1 }).toJSDate(),
+      },
+      {
+        status: 'returnedFromServer',
+        id: 1,
+        data: 'one',
+        date: debugRefTime.minus({ days: 2 }).toJSDate(),
+      },
+    ]);
   }
 
-  pairPendingTrips(localTrips: Trip[], serverTrips: Trip[]): Trip[] {
-    return [];
+  private pairPendingTrips(localTrips: Trip[], serverTrips: Trip[]): Trip[] {
+    const localOnlyTrips = localTrips.filter(
+      (localTrip) => !some(serverTrips, { id: localTrip.id })
+    );
+    const newLocalData = sortBy([...serverTrips, ...localOnlyTrips], 'date');
+    return newLocalData;
   }
 
-  findLastPendingTripDate(trips: Trip[]): DateTime | undefined {
+  private findLastPendingTripDate(trips: Trip[]): DateTime | undefined {
     const lastPendingTrip = trips.find(
       (trip) => trip.status === 'syncButNotReturnedFromServer'
     );
@@ -121,15 +161,30 @@ export class LocalTripsService {
     return undefined;
   }
 
-  getTripsFromStorage(): Trip[] {
-    return [];
+  private getTripsFromStorage(): Trip[] {
+    return [
+      {
+        status: 'syncButNotReturnedFromServer',
+        id: 0,
+        date: debugRefTime.minus({ days: 1 }).toJSDate(),
+      },
+      {
+        status: 'returnedFromServer',
+        id: 1,
+        data: 'one',
+        date: debugRefTime.minus({ days: 2 }).toJSDate(),
+      },
+    ];
   }
 
-  storeTripsToStorage(trips: Trip[]): void {}
+  private storeTripsToStorage(trips: Trip[]): void {
+    console.log('LT: storeTripsToStorage', trips);
+  }
 }
 
-type Trip = {
+interface Trip {
   status: 'syncButNotReturnedFromServer' | 'returnedFromServer';
   date: Date;
-  a: number;
-};
+  data?: string;
+  id: number;
+}
