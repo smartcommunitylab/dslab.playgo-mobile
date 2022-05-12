@@ -36,7 +36,7 @@ const debugRefTime = DateTime.now();
   providedIn: 'root',
 })
 export class LocalTripsService {
-  private localDataToDate = DateTime.local().minus({ month: 1 });
+  private localDataFromDate = DateTime.local().minus({ month: 1 });
 
   private explicitReload$: Observable<void> = NEVER;
 
@@ -79,7 +79,7 @@ export class LocalTripsService {
   ).pipe();
 
   private initialLocalData$: Observable<Trip[]> = of(
-    this.getTripsFromStorage()
+    this.getTripsFromStorage(this.localDataFromDate)
   );
   private localDataSubject: Subject<Trip[]> = new Subject();
   private lastLocalData$: Observable<Trip[]> = concat(
@@ -92,10 +92,10 @@ export class LocalTripsService {
     withLatestFrom(this.lastLocalData$),
     map(([force, lastLocalData]) =>
       force
-        ? this.localDataToDate
+        ? this.localDataFromDate
         : this.findLastPendingTripDate(lastLocalData) || NOW
     ),
-    switchMap((periodToDate) => this.loadDataFromServer(NOW, periodToDate)),
+    switchMap((periodFromDate) => this.loadDataFromServer(periodFromDate)),
     withLatestFrom(this.lastLocalData$),
     map(([newData, lastLocalData]) =>
       this.pairPendingTrips(lastLocalData, newData)
@@ -149,11 +149,9 @@ export class LocalTripsService {
     });
   }
 
-  private loadDataFromServer(
-    from: DateTime | NOW,
-    to: DateTime | NOW
-  ): Observable<Trip[]> {
-    if (from === NOW && to === NOW) {
+  private loadDataFromServer(from: DateTime | NOW): Observable<Trip[]> {
+    const to = NOW;
+    if (from === NOW) {
       // no pending trips
       return of([]);
     }
@@ -192,7 +190,7 @@ export class LocalTripsService {
     return undefined;
   }
 
-  private getTripsFromStorage(): Trip[] {
+  private getTripsFromStorage(fromDateFilter: DateTime): Trip[] {
     return [
       {
         status: 'syncButNotReturnedFromServer',
