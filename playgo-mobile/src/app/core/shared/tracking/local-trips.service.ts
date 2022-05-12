@@ -9,6 +9,7 @@ import {
   Subject,
 } from 'rxjs';
 import {
+  delay,
   distinctUntilChanged,
   map,
   mapTo,
@@ -21,7 +22,7 @@ import {
 } from 'rxjs/operators';
 import { intervalBackoff } from 'backoff-rxjs';
 import { DateTime } from 'luxon';
-import { isEqual, some, sortBy } from 'lodash-es';
+import { find, findLast, isEqual, some, sortBy } from 'lodash-es';
 import { startFrom, tapLog } from '../utils';
 import { LocalStorageService } from '../local-storage.service';
 
@@ -37,8 +38,12 @@ const debugRefTime = DateTime.now();
   providedIn: 'root',
 })
 export class LocalTripsService {
-  private localDataFromDate = DateTime.local().minus({ month: 1 });
   private storage = this.localStorageService.getStorageOf<Trip[]>('trips');
+
+  public localDataFromDate = DateTime.local()
+    .minus({ month: 1 })
+    .toUTC()
+    .startOf('day');
 
   private explicitReload$: Observable<void> = NEVER;
 
@@ -93,9 +98,7 @@ export class LocalTripsService {
     tapLog('LT: trigger$'),
     withLatestFrom(this.lastLocalData$),
     map(([force, lastLocalData]) =>
-      force
-        ? this.localDataFromDate
-        : this.findLastPendingTripDate(lastLocalData) || NOW
+      force ? this.localDataFromDate : this.findPeriodFromDate(lastLocalData)
     ),
     switchMap((periodFromDate) => this.loadDataFromServer(periodFromDate)),
     withLatestFrom(this.lastLocalData$),
@@ -121,7 +124,7 @@ export class LocalTripsService {
     // this should be the trigger which caused the localData$ to change, not last trigger, but it is close enough
     withLatestFrom(this.trigger$),
     map(([data, isForceTrigger]) => ({ data, isForceTrigger })),
-    distinctUntilChanged((current, previous) => {
+    distinctUntilChanged((previous, current) => {
       console.log('LT: distinctUntilChanged - trigger', current, previous);
       if (!current || !previous) {
         console.log('LT: distinctUntilChanged - trigger', false, 0);
@@ -160,18 +163,18 @@ export class LocalTripsService {
     console.log('LT: loadDataFromServer');
     return of([
       {
-        status: 'returnedFromServer',
+        status: 'returnedFromServer' as const,
         id: 0,
         data: 'zero',
         date: debugRefTime.minus({ days: 1 }).toJSDate(),
       },
       {
-        status: 'returnedFromServer',
+        status: 'returnedFromServer' as const,
         id: 1,
         data: 'one',
         date: debugRefTime.minus({ days: 2 }).toJSDate(),
       },
-    ]);
+    ]).pipe(delay(1000));
   }
 
   private pairPendingTrips(localTrips: Trip[], serverTrips: Trip[]): Trip[] {
@@ -182,18 +185,29 @@ export class LocalTripsService {
     return newLocalData;
   }
 
-  private findLastPendingTripDate(trips: Trip[]): DateTime | undefined {
-    const lastPendingTrip = trips.find(
-      (trip) => trip.status === 'syncButNotReturnedFromServer'
-    );
+  private findPeriodFromDate(trips: Trip[]): DateTime | NOW {
+    // take latest pending trip
+    const lastPendingTrip = find(trips, {
+      status: 'syncButNotReturnedFromServer',
+    });
     if (lastPendingTrip) {
       return DateTime.fromJSDate(lastPendingTrip.date);
     }
-    return undefined;
+    // take newest not pending trip
+    const firstNotPendingTrip = findLast(trips, {
+      status: 'syncButNotReturnedFromServer',
+    });
+
+    if (firstNotPendingTrip) {
+      return DateTime.fromJSDate(firstNotPendingTrip.date);
+    }
+
+    return this.localDataFromDate;
   }
 
   private getTripsFromStorage(fromDateFilter: DateTime): Trip[] {
-    return [
+    // const tripsFromStorage = this.storage.get() || [];
+    const tripsFromStorage: Trip[] = [
       {
         status: 'syncButNotReturnedFromServer',
         id: 0,
@@ -206,10 +220,16 @@ export class LocalTripsService {
         date: debugRefTime.minus({ days: 2 }).toJSDate(),
       },
     ];
+    return tripsFromStorage.filter(
+      // TODO: check for +-1 errors. Otherwise, we could have same trip loaded twice.
+      // once from local trips, once from paging.
+      (trip) => fromDateFilter < DateTime.fromJSDate(trip.date)
+    );
   }
 
   private storeTripsToStorage(trips: Trip[]): void {
     console.log('LT: storeTripsToStorage', trips);
+    this.storage.set(trips);
   }
 }
 
