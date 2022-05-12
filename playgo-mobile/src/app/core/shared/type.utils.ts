@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import * as itDictionary from '../../../assets/i18n/it.json';
 
 type StringableKey<T> = T extends readonly unknown[]
@@ -22,3 +23,6 @@ export type TranslateKeyWithParams =
       key: TranslateKey;
       interpolateParams: Record<string, string>;
     };
+
+export type UnwrapObservable<T> = T extends Observable<infer U> ? U : never;
+export type UnwrapArray<T> = T extends Array<infer U> ? U : never;

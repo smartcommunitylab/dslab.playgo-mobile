@@ -24,3 +24,5 @@ class LocalStorage<T> {
     return JSON.parse(stringVal);
   }
 }
+
+export type LocalStorageType<T> = LocalStorage<T>;

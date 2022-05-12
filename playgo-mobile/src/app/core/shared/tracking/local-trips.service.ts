@@ -206,20 +206,8 @@ export class LocalTripsService {
   }
 
   private getTripsFromStorage(fromDateFilter: DateTime): Trip[] {
-    // const tripsFromStorage = this.storage.get() || [];
-    const tripsFromStorage: Trip[] = [
-      {
-        status: 'syncButNotReturnedFromServer',
-        id: 0,
-        date: debugRefTime.minus({ days: 1 }).toJSDate(),
-      },
-      {
-        status: 'returnedFromServer',
-        id: 1,
-        data: 'one',
-        date: debugRefTime.minus({ days: 2 }).toJSDate(),
-      },
-    ];
+    const tripsFromStorage = this.storage.get() || [];
+
     return tripsFromStorage.filter(
       // TODO: check for +-1 errors. Otherwise, we could have same trip loaded twice.
       // once from local trips, once from paging.
