@@ -83,49 +83,80 @@ export class LocalTripsService {
   );
   private localDataSubject: Subject<Trip[]> = new Subject();
   private lastLocalData$: Observable<Trip[]> = concat(
-    this.initialLocalData$, //we maybe do not need this, because of the tap after startFrom
+    this.initialLocalData$,
     this.localDataSubject
   );
 
-  public localData$: Observable<any> = this.trigger$.pipe(
+  private localData$: Observable<any> = this.trigger$.pipe(
     tapLog('LT: trigger$'),
     withLatestFrom(this.lastLocalData$),
     map(([force, lastLocalData]) =>
       force
         ? this.localDataToDate
-        : this.findLastPendingTripDate(lastLocalData) || this.localDataToDate
+        : this.findLastPendingTripDate(lastLocalData) || NOW
     ),
-    switchMap((periodToDate) =>
-      this.loadDataFromServer(DateTime.now(), periodToDate)
-    ),
+    switchMap((periodToDate) => this.loadDataFromServer(NOW, periodToDate)),
     withLatestFrom(this.lastLocalData$),
     map(([newData, lastLocalData]) =>
       this.pairPendingTrips(lastLocalData, newData)
     ),
     startFrom(this.initialLocalData$),
-    distinctUntilChanged((a, b) => {
-      const res = isEqual(a, b);
-      console.log('LT: distinctUntilChanged', a, b, res);
-      return res;
-    }),
-    tap((value) => {
-      this.localDataSubject.next(value);
-    }),
+
     tapLog('LT: localData$'),
     shareReplay(1)
   );
 
+  public localDataChanges$: Observable<Trip[]> = this.localData$.pipe(
+    distinctUntilChanged((a, b) => {
+      const res = isEqual(a, b);
+      console.log('LT: distinctUntilChanged - local data', a, b, res);
+      return res;
+    }),
+    tapLog('LT: localDataChanges$')
+  );
+
   public newTripsTrigger$: Observable<void> = this.localData$.pipe(
+    // this should be the trigger which caused the localData$ to change, not last trigger, but it is close enough
+    withLatestFrom(this.trigger$),
+    map(([data, isForceTrigger]) => ({ data, isForceTrigger })),
+    distinctUntilChanged((current, previous) => {
+      console.log('LT: distinctUntilChanged - trigger', current, previous);
+      if (!current || !previous) {
+        console.log('LT: distinctUntilChanged - trigger', false, 0);
+
+        return false;
+      }
+      if (current.isForceTrigger) {
+        console.log('LT: distinctUntilChanged - trigger', false, 1);
+        return false;
+      }
+      console.log(
+        'LT: distinctUntilChanged - trigger',
+        isEqual(current.data, previous.data),
+        2
+      );
+      return isEqual(current.data, previous.data);
+    }),
     mapTo(undefined)
   );
 
   constructor() {
-    this.localData$.subscribe((trips) => {
+    this.localDataChanges$.subscribe((trips) => {
+      // for creating lastLocalData$ observable
+      this.localDataSubject.next(trips);
+
       this.storeTripsToStorage(trips);
     });
   }
 
-  private loadDataFromServer(from: DateTime, to: DateTime): Observable<Trip[]> {
+  private loadDataFromServer(
+    from: DateTime | NOW,
+    to: DateTime | NOW
+  ): Observable<Trip[]> {
+    if (from === NOW && to === NOW) {
+      // no pending trips
+      return of([]);
+    }
     console.log('LT: loadDataFromServer');
     return of([
       {
@@ -188,3 +219,6 @@ interface Trip {
   data?: string;
   id: number;
 }
+
+const NOW = 'NOW' as const;
+type NOW = typeof NOW;
