@@ -23,6 +23,7 @@ import { intervalBackoff } from 'backoff-rxjs';
 import { DateTime } from 'luxon';
 import { isEqual, some, sortBy } from 'lodash-es';
 import { startFrom, tapLog } from '../utils';
+import { LocalStorageService } from '../local-storage.service';
 
 const debugTriggers = {
   hard: new Subject<any>(),
@@ -37,6 +38,7 @@ const debugRefTime = DateTime.now();
 })
 export class LocalTripsService {
   private localDataFromDate = DateTime.local().minus({ month: 1 });
+  private storage = this.localStorageService.getStorageOf<Trip[]>('trips');
 
   private explicitReload$: Observable<void> = NEVER;
 
@@ -140,7 +142,7 @@ export class LocalTripsService {
     mapTo(undefined)
   );
 
-  constructor() {
+  constructor(private localStorageService: LocalStorageService) {
     this.localDataChanges$.subscribe((trips) => {
       // for creating lastLocalData$ observable
       this.localDataSubject.next(trips);

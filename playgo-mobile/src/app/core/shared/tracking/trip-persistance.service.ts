@@ -3,13 +3,14 @@ import { identity, Observable, ReplaySubject } from 'rxjs';
 import { filter, mergeMap, switchMap } from 'rxjs/operators';
 import { NO_TRIP_STARTED, Trip, TripPart, TRIP_END } from './trip.model';
 import { isConstant, isNotConstant } from '../utils';
+import { LocalStorageService } from '../local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TripPersistanceService {
-  private readonly localStorageKey = 'playgo-mobile';
-  private storage = new Storage<TripPart>(this.localStorageKey);
+  private storage =
+    this.localStorageService.getStorageOf<TripPart>('locations');
 
   private sourceTripPartsToStore = new ReplaySubject<
     Observable<TripPart | TRIP_END>
@@ -18,7 +19,7 @@ export class TripPersistanceService {
     mergeMap(identity)
   );
 
-  constructor() {
+  constructor(private localStorageService: LocalStorageService) {
     this.tripPartsToStore.subscribe(this.storeOrClearTrip.bind(this));
   }
 
@@ -42,16 +43,5 @@ export class TripPersistanceService {
     }
     tripPart.isInitial = true;
     return tripPart;
-  }
-}
-
-class Storage<T> {
-  constructor(private localStorageKey: string) {}
-  set(data: T | null) {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(data || null));
-  }
-  get(): T | null {
-    const stringVal = localStorage.getItem(this.localStorageKey);
-    return JSON.parse(stringVal);
   }
 }
