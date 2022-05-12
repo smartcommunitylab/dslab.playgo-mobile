@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -8,6 +7,7 @@ import '@capacitor-community/firebase-analytics';
 
 import { Plugins } from '@capacitor/core';
 import { Device } from '@capacitor/device';
+import { environment } from 'src/environments/environment';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const { FirebaseAnalytics } = Plugins;
