@@ -1,6 +1,7 @@
 import { NgZone } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { initial, last, tail, zip } from 'lodash-es';
+import { initial, isNil, last, tail, zip } from 'lodash-es';
+import { DateTime } from 'luxon';
 import {
   concat,
   Observable,
@@ -85,4 +86,36 @@ export async function time(ms: number): Promise<void> {
   await new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+}
+
+export function toServerDateTime(dateTime: DateTime): string {
+  if (isNil(dateTime)) {
+    return '';
+  }
+  if (!dateTime.isValid) {
+    console.error(
+      'Invalid dateTime',
+      dateTime,
+      dateTime.invalidReason,
+      dateTime.invalidExplanation
+    );
+    throw new Error('Invalid dateTime');
+  }
+  return dateTime.toUTC().toFormat('yyyy-MM-dd HH:mm:SSS');
+}
+
+export function toServerDateOnly(dateTime: DateTime): string {
+  if (isNil(dateTime)) {
+    return '';
+  }
+  if (!dateTime.isValid) {
+    console.error(
+      'Invalid dateTime',
+      dateTime,
+      dateTime.invalidReason,
+      dateTime.invalidExplanation
+    );
+    throw new Error('Invalid dateTime');
+  }
+  return dateTime.toUTC().toFormat('yyyy-MM-dd');
 }

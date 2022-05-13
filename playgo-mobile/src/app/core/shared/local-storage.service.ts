@@ -17,6 +17,8 @@ export class LocalStorageService {
 class LocalStorage<T> {
   constructor(private storageKey: string) {}
   set(data: T | null) {
+    // hmm we could maybe use some sort of compression here
+    // https://pieroxy.net/blog/pages/lz-string/index.html
     localStorage.setItem(this.storageKey, JSON.stringify(data || null));
   }
   get(): T | null {

@@ -9,6 +9,7 @@ import {
   Subject,
 } from 'rxjs';
 import {
+  catchError,
   delay,
   distinctUntilChanged,
   map,
@@ -23,8 +24,9 @@ import {
 import { intervalBackoff } from 'backoff-rxjs';
 import { DateTime } from 'luxon';
 import { find, findLast, isEqual, some, sortBy } from 'lodash-es';
-import { startFrom, tapLog } from '../utils';
+import { startFrom, tapLog, toServerDateTime } from '../utils';
 import { LocalStorageService } from '../local-storage.service';
+import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 
 const debugTriggers = {
   hard: new Subject<any>(),
@@ -69,7 +71,7 @@ export class LocalTripsService {
 
   private softTrigger$: Observable<void> = merge(
     this.afterSyncTimer$.pipe(tapLog('this.afterSyncTimer')),
-    // this.appStateChanged$.pipe(tapLog('this.appStateChanged')),
+    this.appStateChanged$.pipe(tapLog('this.appStateChanged')),
     this.networkStatusChanged$.pipe(tapLog('this.networkStatusChanged')),
     this.pushNotification$.pipe(tapLog('this.pushNotification')),
     debugTriggers.soft.pipe(tapLog('debugTriggers.soft'))
@@ -145,7 +147,10 @@ export class LocalTripsService {
     mapTo(undefined)
   );
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor(
+    private localStorageService: LocalStorageService,
+    private trackControllerService: TrackControllerService
+  ) {
     this.localDataChanges$.subscribe((trips) => {
       // for creating lastLocalData$ observable
       this.localDataSubject.next(trips);
@@ -155,53 +160,87 @@ export class LocalTripsService {
   }
 
   private loadDataFromServer(from: DateTime | NOW): Observable<Trip[]> {
-    const to = NOW;
+    const nowDateTime = DateTime.local();
+    const to = nowDateTime;
+
     if (from === NOW) {
       // no pending trips
       return of([]);
     }
-    console.log('LT: loadDataFromServer');
-    return of([
-      {
-        status: 'returnedFromServer' as const,
-        id: 0,
-        data: 'zero',
-        date: debugRefTime.minus({ days: 1 }).toJSDate(),
-      },
-      {
-        status: 'returnedFromServer' as const,
-        id: 1,
-        data: 'one',
-        date: debugRefTime.minus({ days: 2 }).toJSDate(),
-      },
-    ]).pipe(delay(1000));
+
+    console.log(
+      'LT: loadDataFromServer',
+      toServerDateTime(from),
+      toServerDateTime(to)
+    );
+
+    return this.trackControllerService
+      .getTrackedInstanceInfoListUsingGET(
+        0,
+        10000,
+        toServerDateTime(from),
+        null,
+        toServerDateTime(to)
+      )
+      .pipe(
+        tapLog('LT: data from server!'),
+        map((pageResult) => pageResult.content),
+        map((serverTrips) =>
+          serverTrips.map((serverTrip) => {
+            const localTrip: Trip = {
+              ...serverTrip,
+              status: 'returnedFromServer',
+              date: new Date(serverTrip.endTime).toISOString(),
+              data: serverTrip,
+              trackedInstanceId: serverTrip.trackedInstanceId,
+            };
+            return localTrip;
+          })
+        ),
+        catchError((e) => {
+          console.error(
+            'LT: loading of some part of last month of trips failed!',
+            e
+          );
+          return of([]);
+        })
+      );
   }
 
   private pairPendingTrips(localTrips: Trip[], serverTrips: Trip[]): Trip[] {
     const localOnlyTrips = localTrips.filter(
-      (localTrip) => !some(serverTrips, { id: localTrip.id })
+      (localTrip) =>
+        !some(serverTrips, { trackedInstanceId: localTrip.trackedInstanceId })
     );
     const newLocalData = sortBy([...serverTrips, ...localOnlyTrips], 'date');
     return newLocalData;
   }
 
   private findPeriodFromDate(trips: Trip[]): DateTime | NOW {
-    // take latest pending trip
+    // take oldest pending trip
     const lastPendingTrip = find(trips, {
       status: 'syncButNotReturnedFromServer',
     });
     if (lastPendingTrip) {
-      return DateTime.fromJSDate(lastPendingTrip.date);
+      console.log('LT: findPeriodFromDate: lastPendingTrip', lastPendingTrip);
+      return DateTime.fromISO(lastPendingTrip.date);
     }
     // take newest not pending trip
     const firstNotPendingTrip = findLast(trips, {
-      status: 'syncButNotReturnedFromServer',
+      status: 'returnedFromServer',
     });
 
     if (firstNotPendingTrip) {
-      return DateTime.fromJSDate(firstNotPendingTrip.date);
+      console.log(
+        'LT: findPeriodFromDate: firstNotPendingTrip',
+        firstNotPendingTrip
+      );
+      return DateTime.fromISO(firstNotPendingTrip.date).plus({
+        millisecond: 1,
+      });
     }
 
+    console.log('LT: findPeriodFromDate: whole period');
     return this.localDataFromDate;
   }
 
@@ -211,7 +250,7 @@ export class LocalTripsService {
     return tripsFromStorage.filter(
       // TODO: check for +-1 errors. Otherwise, we could have same trip loaded twice.
       // once from local trips, once from paging.
-      (trip) => fromDateFilter < DateTime.fromJSDate(trip.date)
+      (trip) => fromDateFilter < DateTime.fromISO(trip.date)
     );
   }
 
@@ -223,9 +262,9 @@ export class LocalTripsService {
 
 interface Trip {
   status: 'syncButNotReturnedFromServer' | 'returnedFromServer';
-  date: Date;
-  data?: string;
-  id: number;
+  date: string;
+  data?: any;
+  trackedInstanceId: string;
 }
 
 const NOW = 'NOW' as const;
