@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import {
   BehaviorSubject,
   concat,
+  defer,
   merge,
   NEVER,
   Observable,
@@ -27,6 +28,15 @@ import { find, findLast, isEqual, some, sortBy } from 'lodash-es';
 import { startFrom, tapLog, toServerDateTime } from '../utils';
 import { LocalStorageService } from '../local-storage.service';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class InitServiceStream {
+  get() {
+    return of(undefined);
+  }
+}
 
 const debugTriggers = {
   hard: new Subject<any>(),
@@ -87,9 +97,10 @@ export class LocalTripsService {
     this.hardTrigger$.pipe(mapTo(true))
   ).pipe();
 
-  private initialLocalData$: Observable<Trip[]> = of(
-    this.getTripsFromStorage(this.localDataFromDate)
-  );
+  private initialLocalData$ = defer(() => {
+    const trips = this.getTripsFromStorage(this.localDataFromDate);
+    return of(trips);
+  });
   private localDataSubject: Subject<Trip[]> = new Subject();
   private lastLocalData$: Observable<Trip[]> = concat(
     this.initialLocalData$,
@@ -148,9 +159,18 @@ export class LocalTripsService {
   );
 
   constructor(
+    private initStream: InitServiceStream,
     private localStorageService: LocalStorageService,
     private trackControllerService: TrackControllerService
   ) {
+    console.log('TEST', initStream);
+    initStream.get().subscribe(() => {
+      this.initService();
+    });
+  }
+
+  private initService() {
+    console.log('TEST: initService triggered!!');
     this.localDataChanges$.subscribe((trips) => {
       // for creating lastLocalData$ observable
       this.localDataSubject.next(trips);
