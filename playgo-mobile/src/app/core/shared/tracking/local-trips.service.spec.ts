@@ -1,3 +1,5 @@
+/// <reference types="jasmine-expect" />
+
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { async, TestBed, waitForAsync } from '@angular/core/testing';
 import { DateTime } from 'luxon';
@@ -17,19 +19,22 @@ import { InitServiceStream, LocalTripsService } from './local-trips.service';
 
 fdescribe('LocalTripsService', () => {
   const debugRefTime = DateTime.now();
+  const oneDayAgo = debugRefTime.minus({ days: 1 }).toUTC().toISO();
+  const twoDaysAgo = debugRefTime.minus({ days: 2 }).toUTC().toISO();
+  const threeDaysAgo = debugRefTime.minus({ days: 3 }).toUTC().toISO();
 
   const tripsStub = {
     empty: [] as Trip[],
     onePendingAndOneReturned: [
       {
         status: 'syncButNotReturnedFromServer',
-        trackedInstanceId: '0',
-        date: debugRefTime.minus({ days: 2 }).toISO(),
+        trackedInstanceId: 'id_of_trip_three_days_ago',
+        date: threeDaysAgo,
       },
       {
         status: 'returnedFromServer',
-        trackedInstanceId: '1',
-        date: debugRefTime.minus({ days: 1 }).toISO(),
+        trackedInstanceId: 'id_of_trip_two_days_ago',
+        date: twoDaysAgo,
       },
     ] as Trip[],
   };
@@ -111,9 +116,9 @@ fdescribe('LocalTripsService', () => {
     'Data from server should be merged with local data - add new',
     waitForAsync(async () => {
       const newData: Trip = {
-        trackedInstanceId: '2',
-        date: debugRefTime.minus({ days: 0.5 }).toISO(),
-        status: 'returnedFromServer',
+        trackedInstanceId: 'id_of_new_trip_one_day_ago',
+        date: oneDayAgo,
+        status: null,
       };
 
       prepareService({
@@ -125,8 +130,14 @@ fdescribe('LocalTripsService', () => {
         .pipe(second())
         .toPromise();
 
-      expect(reportedData.length).toEqual(3);
-      expect(reportedData[2]).toEqual(newData);
+      expect(reportedData).toBeArrayOfSize(3);
+      expect(reportedData[2]).toEqual(
+        jasmine.objectContaining({
+          trackedInstanceId: 'id_of_new_trip_one_day_ago',
+          date: oneDayAgo,
+          status: 'returnedFromServer',
+        })
+      );
     })
   );
 
@@ -142,10 +153,13 @@ fdescribe('LocalTripsService', () => {
         .pipe(second())
         .toPromise();
 
-      expect(reportedData.length).toEqual(2);
-      expect(reportedData).toEqual(tripsStub.onePendingAndOneReturned as any);
+      expect(reportedData).toBeArrayOfSize(2);
+      expect(reportedData).toEqual(
+        tripsStub.onePendingAndOneReturned.map(jasmine.objectContaining)
+      );
     })
   );
+
   it(
     'Data from server should be merged with local data - merge pending',
     waitForAsync(async () => {
@@ -154,8 +168,8 @@ fdescribe('LocalTripsService', () => {
         firstServerData: [
           {
             status: null,
-            trackedInstanceId: '0',
-            date: debugRefTime.minus({ days: 2 }).toISO(),
+            trackedInstanceId: 'id_of_trip_three_days_ago',
+            date: threeDaysAgo,
           },
         ],
       });
@@ -164,15 +178,19 @@ fdescribe('LocalTripsService', () => {
         .pipe(second())
         .toPromise();
 
-      expect(reportedData.length).toEqual(2);
-      expect(reportedData[0]).toEqual({
-        status: 'returnedFromServer',
-        trackedInstanceId: '0',
-        date: debugRefTime.minus({ days: 2 }).toISO(),
-      });
+      expect(reportedData).toBeArrayOfSize(2);
+      expect(reportedData[0]).toEqual(
+        jasmine.objectContaining({
+          status: 'returnedFromServer',
+          trackedInstanceId: 'id_of_trip_three_days_ago',
+          date: threeDaysAgo,
+        })
+      );
     })
   );
+
   it('soft trigger should reload only pending trips', () => {});
+
   it('hard trigger should reload whole period', () => {});
 
   it('should store trips to storage', () => {});
