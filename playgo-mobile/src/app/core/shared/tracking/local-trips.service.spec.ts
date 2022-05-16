@@ -15,29 +15,34 @@ import {
 import { UnwrapArray, UnwrapObservable } from '../type.utils';
 import { tapLog } from '../utils';
 
-import { InitServiceStream, LocalTripsService } from './local-trips.service';
+import {
+  InitServiceStream,
+  LocalTripsService,
+  StorableTrip,
+} from './local-trips.service';
 
-fdescribe('LocalTripsService', () => {
+describe('LocalTripsService', () => {
   const debugRefTime = DateTime.now();
   const oneDayAgo = debugRefTime.minus({ days: 1 }).toUTC().toISO();
   const twoDaysAgo = debugRefTime.minus({ days: 2 }).toUTC().toISO();
   const threeDaysAgo = debugRefTime.minus({ days: 3 }).toUTC().toISO();
 
-  const tripsStub = {
-    empty: [] as Trip[],
-    onePendingAndOneReturned: [
+  const tripsStub = (() => {
+    const onePendingAndOneReturned: StorableTrip[] = [
       {
-        status: 'syncButNotReturnedFromServer',
+        status: 'syncedButNotReturnedFromServer',
         trackedInstanceId: 'id_of_trip_three_days_ago',
         date: threeDaysAgo,
       },
       {
-        status: 'returnedFromServer',
+        status: 'fromServer',
         trackedInstanceId: 'id_of_trip_two_days_ago',
         date: twoDaysAgo,
       },
-    ] as Trip[],
-  };
+    ];
+    const empty: StorableTrip[] = [];
+    return { empty, onePendingAndOneReturned } as const;
+  })();
 
   let localTripsService: LocalTripsService;
   let storageMock: jasmine.SpyObj<LocalStorageOfTrips>;
@@ -115,10 +120,9 @@ fdescribe('LocalTripsService', () => {
   it(
     'Data from server should be merged with local data - add new',
     waitForAsync(async () => {
-      const newData: Trip = {
+      const newData: ServerTripStub = {
         trackedInstanceId: 'id_of_new_trip_one_day_ago',
         date: oneDayAgo,
-        status: null,
       };
 
       prepareService({
@@ -135,8 +139,8 @@ fdescribe('LocalTripsService', () => {
         jasmine.objectContaining({
           trackedInstanceId: 'id_of_new_trip_one_day_ago',
           date: oneDayAgo,
-          status: 'returnedFromServer',
-        })
+          status: 'fromServer',
+        } as Partial<StorableTrip>)
       );
     })
   );
@@ -167,7 +171,6 @@ fdescribe('LocalTripsService', () => {
         storageData: tripsStub.onePendingAndOneReturned,
         firstServerData: [
           {
-            status: null,
             trackedInstanceId: 'id_of_trip_three_days_ago',
             date: threeDaysAgo,
           },
@@ -181,10 +184,10 @@ fdescribe('LocalTripsService', () => {
       expect(reportedData).toBeArrayOfSize(2);
       expect(reportedData[0]).toEqual(
         jasmine.objectContaining({
-          status: 'returnedFromServer',
+          status: 'fromServer',
           trackedInstanceId: 'id_of_trip_three_days_ago',
           date: threeDaysAgo,
-        })
+        } as Partial<StorableTrip>)
       );
     })
   );
@@ -196,8 +199,8 @@ fdescribe('LocalTripsService', () => {
   it('should store trips to storage', () => {});
 
   function prepareService(opts: {
-    storageData?: Trip[];
-    firstServerData?: Trip[];
+    storageData?: StorableTrip[];
+    firstServerData?: ServerTripStub[];
     runInit?: boolean;
   }) {
     storageMock.get.and.returnValue(opts.storageData || null);
@@ -211,7 +214,9 @@ fdescribe('LocalTripsService', () => {
   }
 });
 
-function asServerData(trips: Trip[]): Observable<PageTrackedInstanceInfo> {
+function asServerData(
+  trips: ServerTripStub[]
+): Observable<PageTrackedInstanceInfo> {
   const mockedResponse = {
     content: trips.map((t) => ({
       trackedInstanceId: t.trackedInstanceId,
@@ -226,12 +231,12 @@ function asServerData(trips: Trip[]): Observable<PageTrackedInstanceInfo> {
   );
 }
 
+interface ServerTripStub {
+  trackedInstanceId: string;
+  date: string;
+}
 const second = <T>() => elementAt<T>(1);
 
-// we do not want to export internal types, so lets derive them from the exposed ones
-type Trip = UnwrapArray<
-  UnwrapObservable<LocalTripsService['localDataChanges$']>
->;
-type LocalStorageOfTrips = LocalStorageType<Trip[]>;
+type LocalStorageOfTrips = LocalStorageType<StorableTrip[]>;
 
 //T extends Observable<infer U> ? U : never;

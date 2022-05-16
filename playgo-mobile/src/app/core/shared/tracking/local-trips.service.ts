@@ -28,6 +28,7 @@ import { find, findLast, isEqual, some, sortBy } from 'lodash-es';
 import { startFrom, tapLog, toServerDateTime } from '../utils';
 import { LocalStorageService } from '../local-storage.service';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
+import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +51,8 @@ const debugRefTime = DateTime.now();
   providedIn: 'root',
 })
 export class LocalTripsService {
-  private storage = this.localStorageService.getStorageOf<Trip[]>('trips');
+  private storage =
+    this.localStorageService.getStorageOf<StorableTrip[]>('trips');
 
   public localDataFromDate = DateTime.local()
     .minus({ month: 1 })
@@ -59,7 +61,7 @@ export class LocalTripsService {
 
   private explicitReload$: Observable<void> = NEVER;
 
-  private syncedTrips: Observable<Trip[]> = NEVER;
+  private syncedTrips: Observable<StorableTrip[]> = NEVER;
   private afterSyncTimer$: Observable<void> = this.syncedTrips.pipe(
     switchMap(() =>
       intervalBackoff({
@@ -101,8 +103,8 @@ export class LocalTripsService {
     const trips = this.getTripsFromStorage(this.localDataFromDate);
     return of(trips);
   });
-  private localDataSubject: Subject<Trip[]> = new Subject();
-  private lastLocalData$: Observable<Trip[]> = concat(
+  private localDataSubject: Subject<StorableTrip[]> = new Subject();
+  private lastLocalData$: Observable<StorableTrip[]> = concat(
     this.initialLocalData$,
     this.localDataSubject
   );
@@ -124,7 +126,7 @@ export class LocalTripsService {
     shareReplay(1)
   );
 
-  public localDataChanges$: Observable<Trip[]> = this.localData$.pipe(
+  public localDataChanges$: Observable<StorableTrip[]> = this.localData$.pipe(
     distinctUntilChanged((a, b) => {
       const res = isEqual(a, b);
       console.log('LT: distinctUntilChanged - local data', a, b, res);
@@ -179,7 +181,7 @@ export class LocalTripsService {
     });
   }
 
-  private loadDataFromServer(from: DateTime | NOW): Observable<Trip[]> {
+  private loadDataFromServer(from: DateTime | NOW): Observable<StorableTrip[]> {
     const nowDateTime = DateTime.local();
     const to = nowDateTime;
 
@@ -207,12 +209,11 @@ export class LocalTripsService {
         map((pageResult) => pageResult.content),
         map((serverTrips) =>
           serverTrips.map((serverTrip) => {
-            const localTrip: Trip = {
-              ...serverTrip,
-              status: 'returnedFromServer',
+            const localTrip: StorableTrip = {
+              status: 'fromServer',
               date: new Date(serverTrip.endTime).toISOString(),
-              data: serverTrip,
               trackedInstanceId: serverTrip.trackedInstanceId,
+              tripData: serverTrip,
             };
             return localTrip;
           })
@@ -227,7 +228,10 @@ export class LocalTripsService {
       );
   }
 
-  private pairPendingTrips(localTrips: Trip[], serverTrips: Trip[]): Trip[] {
+  private pairPendingTrips(
+    localTrips: StorableTrip[],
+    serverTrips: StorableTrip[]
+  ): StorableTrip[] {
     const localOnlyTrips = localTrips.filter(
       (localTrip) =>
         !some(serverTrips, { trackedInstanceId: localTrip.trackedInstanceId })
@@ -236,10 +240,10 @@ export class LocalTripsService {
     return newLocalData;
   }
 
-  private findPeriodFromDate(trips: Trip[]): DateTime | NOW {
+  private findPeriodFromDate(trips: StorableTrip[]): DateTime | NOW {
     // take oldest pending trip
     const lastPendingTrip = find(trips, {
-      status: 'syncButNotReturnedFromServer',
+      status: 'syncedButNotReturnedFromServer',
     });
     if (lastPendingTrip) {
       console.log('LT: findPeriodFromDate: lastPendingTrip', lastPendingTrip);
@@ -247,7 +251,7 @@ export class LocalTripsService {
     }
     // take newest not pending trip
     const firstNotPendingTrip = findLast(trips, {
-      status: 'returnedFromServer',
+      status: 'syncedButNotReturnedFromServer',
     });
 
     if (firstNotPendingTrip) {
@@ -264,7 +268,7 @@ export class LocalTripsService {
     return this.localDataFromDate;
   }
 
-  private getTripsFromStorage(fromDateFilter: DateTime): Trip[] {
+  private getTripsFromStorage(fromDateFilter: DateTime): StorableTrip[] {
     const tripsFromStorage = this.storage.get() || [];
 
     return tripsFromStorage.filter(
@@ -274,17 +278,17 @@ export class LocalTripsService {
     );
   }
 
-  private storeTripsToStorage(trips: Trip[]): void {
+  private storeTripsToStorage(trips: StorableTrip[]): void {
     console.log('LT: storeTripsToStorage', trips);
     this.storage.set(trips);
   }
 }
 
-interface Trip {
-  status: 'syncButNotReturnedFromServer' | 'returnedFromServer';
-  date: string;
-  data?: any;
+export interface StorableTrip {
   trackedInstanceId: string;
+  status: 'inPluginDB' | 'syncedButNotReturnedFromServer' | 'fromServer';
+  date: string;
+  tripData?: TrackedInstanceInfo;
 }
 
 const NOW = 'NOW' as const;
