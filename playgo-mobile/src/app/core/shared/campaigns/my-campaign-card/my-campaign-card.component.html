@@ -9,7 +9,8 @@
       <img [src]="imagePath" />
     </ion-avatar>
     <div>
-      home stats?
+      <app-main-campaign-stat [campaign]="containerCampaign.campaign" [type]="containerCampaign.campaign.type">
+      </app-main-campaign-stat>
     </div>
   </ion-card-content>
 </ion-card>

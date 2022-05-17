@@ -7,7 +7,10 @@
     <ion-card-header>
       {{'campaigns.detail.generalStat'|translate}}
     </ion-card-header>
-    <ion-card-content> home page stat? </ion-card-content>
+    <ion-card-content>
+      <app-main-campaign-stat [campaign]="campaign" [type]="campaign.type">
+      </app-main-campaign-stat>
+    </ion-card-content>
   </ion-card>
   <ion-card [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaign.campaignId]">
     <ion-item>

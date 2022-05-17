@@ -18,11 +18,13 @@ import {
 } from './infinite-scroll/infinite-scroll.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-number.component';
+import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-campaign-stat.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
   declarations: [
     MyCampaignCardComponent,
+    MainCampaignStatComponent,
     PublicCampaignCardComponent,
     HeaderComponent,
     ProfileComponent,
@@ -40,6 +42,7 @@ import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-n
   exports: [
     PlayGoSharedLibsModule,
     MyCampaignCardComponent,
+    MainCampaignStatComponent,
     PublicCampaignCardComponent,
     ProfileComponent,
     LocalDatePipe,
@@ -53,4 +56,4 @@ import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-n
     OrdinalNumberComponent,
   ],
 })
-export class PlayGoSharedModule {}
+export class PlayGoSharedModule { }

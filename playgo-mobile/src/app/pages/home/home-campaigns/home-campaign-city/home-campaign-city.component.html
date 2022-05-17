@@ -3,6 +3,8 @@
     <ion-card-title>{{ campaignContainer.campaign.name }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
+    <app-main-campaign-stat [campaign]="campaignContainer.campaign" [type]="campaignContainer.campaign.type">
+    </app-main-campaign-stat>
     {{ campaignStatus | json }}
     {{ reportWeekStat | json }}
   </ion-card-content>
