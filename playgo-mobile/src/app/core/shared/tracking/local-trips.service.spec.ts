@@ -31,12 +31,12 @@ describe('LocalTripsService', () => {
     const onePendingAndOneReturned: StorableTrip[] = [
       {
         status: 'syncedButNotReturnedFromServer',
-        trackedInstanceId: 'id_of_trip_three_days_ago',
+        id: 'id_of_trip_three_days_ago',
         date: threeDaysAgo,
       },
       {
         status: 'fromServer',
-        trackedInstanceId: 'id_of_trip_two_days_ago',
+        id: 'id_of_trip_two_days_ago',
         date: twoDaysAgo,
       },
     ];
@@ -96,19 +96,16 @@ describe('LocalTripsService', () => {
     expect(storageMock.get).toHaveBeenCalled();
   });
 
-  it(
-    'initial data should be triggered',
-    waitForAsync(async () => {
-      prepareService({ storageData: tripsStub.onePendingAndOneReturned });
+  it('initial data should be triggered', waitForAsync(async () => {
+    prepareService({ storageData: tripsStub.onePendingAndOneReturned });
 
-      const firstDataReported = await localTripsService.localDataChanges$
-        .pipe(first())
-        .toPromise();
-      expect(firstDataReported).toEqual(
-        tripsStub.onePendingAndOneReturned as any
-      );
-    })
-  );
+    const firstDataReported = await localTripsService.localDataChanges$
+      .pipe(first())
+      .toPromise();
+    expect(firstDataReported).toEqual(
+      tripsStub.onePendingAndOneReturned as any
+    );
+  }));
 
   it('On the app start soft trigger should cause calling of api, if we have pending trips', () => {
     prepareService({ storageData: tripsStub.onePendingAndOneReturned });
@@ -117,80 +114,71 @@ describe('LocalTripsService', () => {
     ).toHaveBeenCalled();
   });
 
-  it(
-    'Data from server should be merged with local data - add new',
-    waitForAsync(async () => {
-      const newData: ServerTripStub = {
-        trackedInstanceId: 'id_of_new_trip_one_day_ago',
+  it('Data from server should be merged with local data - add new', waitForAsync(async () => {
+    const newData: ServerTripStub = {
+      id: 'id_of_new_trip_one_day_ago',
+      date: oneDayAgo,
+    };
+
+    prepareService({
+      storageData: tripsStub.onePendingAndOneReturned,
+      firstServerData: [newData],
+    });
+
+    const reportedData = await localTripsService.localDataChanges$
+      .pipe(second())
+      .toPromise();
+
+    expect(reportedData).toBeArrayOfSize(3);
+    expect(reportedData[2]).toEqual(
+      jasmine.objectContaining({
+        id: 'id_of_new_trip_one_day_ago',
         date: oneDayAgo,
-      };
+        status: 'fromServer',
+      } as Partial<StorableTrip>)
+    );
+  }));
 
-      prepareService({
-        storageData: tripsStub.onePendingAndOneReturned,
-        firstServerData: [newData],
-      });
+  it('Data from server should be merged with local data - skip present', waitForAsync(async () => {
+    prepareService({
+      storageData: tripsStub.onePendingAndOneReturned,
+      firstServerData: [tripsStub.onePendingAndOneReturned[1]],
+    });
 
-      const reportedData = await localTripsService.localDataChanges$
-        .pipe(second())
-        .toPromise();
+    const reportedData = await localTripsService.localDataChanges$
+      .pipe(second())
+      .toPromise();
 
-      expect(reportedData).toBeArrayOfSize(3);
-      expect(reportedData[2]).toEqual(
-        jasmine.objectContaining({
-          trackedInstanceId: 'id_of_new_trip_one_day_ago',
-          date: oneDayAgo,
-          status: 'fromServer',
-        } as Partial<StorableTrip>)
-      );
-    })
-  );
+    expect(reportedData).toBeArrayOfSize(2);
+    expect(reportedData).toEqual(
+      tripsStub.onePendingAndOneReturned.map(jasmine.objectContaining)
+    );
+  }));
 
-  it(
-    'Data from server should be merged with local data - skip present',
-    waitForAsync(async () => {
-      prepareService({
-        storageData: tripsStub.onePendingAndOneReturned,
-        firstServerData: [tripsStub.onePendingAndOneReturned[1]],
-      });
-
-      const reportedData = await localTripsService.localDataChanges$
-        .pipe(second())
-        .toPromise();
-
-      expect(reportedData).toBeArrayOfSize(2);
-      expect(reportedData).toEqual(
-        tripsStub.onePendingAndOneReturned.map(jasmine.objectContaining)
-      );
-    })
-  );
-
-  it(
-    'Data from server should be merged with local data - merge pending',
-    waitForAsync(async () => {
-      prepareService({
-        storageData: tripsStub.onePendingAndOneReturned,
-        firstServerData: [
-          {
-            trackedInstanceId: 'id_of_trip_three_days_ago',
-            date: threeDaysAgo,
-          },
-        ],
-      });
-
-      const reportedData = await localTripsService.localDataChanges$
-        .pipe(second())
-        .toPromise();
-
-      expect(reportedData).toBeArrayOfSize(2);
-      expect(reportedData[0]).toEqual(
-        jasmine.objectContaining({
-          status: 'fromServer',
-          trackedInstanceId: 'id_of_trip_three_days_ago',
+  it('Data from server should be merged with local data - merge pending', waitForAsync(async () => {
+    prepareService({
+      storageData: tripsStub.onePendingAndOneReturned,
+      firstServerData: [
+        {
+          id: 'id_of_trip_three_days_ago',
           date: threeDaysAgo,
-        } as Partial<StorableTrip>)
-      );
-    })
-  );
+        },
+      ],
+    });
+
+    const reportedData = await localTripsService.localDataChanges$
+      .pipe(second())
+      .toPromise();
+
+    expect(reportedData).toBeArrayOfSize(2);
+    expect(reportedData[0]).toEqual(
+      jasmine.objectContaining({
+        status: 'fromServer',
+        id: 'id_of_trip_three_days_ago',
+        date: threeDaysAgo,
+      } as Partial<StorableTrip>)
+    );
+  }));
 
   it('soft trigger should reload only pending trips', () => {});
 
@@ -219,7 +207,7 @@ function asServerData(
 ): Observable<PageTrackedInstanceInfo> {
   const mockedResponse = {
     content: trips.map((t) => ({
-      trackedInstanceId: t.trackedInstanceId,
+      clientId: t.id,
       endTime: t.date as unknown as Date,
       status: 'returnedFromServer',
     })),
@@ -232,7 +220,7 @@ function asServerData(
 }
 
 interface ServerTripStub {
-  trackedInstanceId: string;
+  id: string;
   date: string;
 }
 const second = <T>() => elementAt<T>(1);

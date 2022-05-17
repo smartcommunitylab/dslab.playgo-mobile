@@ -21,6 +21,7 @@ export interface TrackedInstanceInfo {
   polyline?: string;
   startTime?: Date;
   trackedInstanceId?: string;
+  clientId?: string;
   validity?: TrackedInstanceInfo.ValidityEnum;
 }
 export namespace TrackedInstanceInfo {

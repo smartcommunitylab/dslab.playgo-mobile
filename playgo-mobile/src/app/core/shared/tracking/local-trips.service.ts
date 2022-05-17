@@ -212,7 +212,7 @@ export class LocalTripsService {
             const localTrip: StorableTrip = {
               status: 'fromServer',
               date: new Date(serverTrip.endTime).toISOString(),
-              trackedInstanceId: serverTrip.trackedInstanceId,
+              id: serverTrip.clientId,
               tripData: serverTrip,
             };
             return localTrip;
@@ -233,8 +233,7 @@ export class LocalTripsService {
     serverTrips: StorableTrip[]
   ): StorableTrip[] {
     const localOnlyTrips = localTrips.filter(
-      (localTrip) =>
-        !some(serverTrips, { trackedInstanceId: localTrip.trackedInstanceId })
+      (localTrip) => !some(serverTrips, { id: localTrip.id })
     );
     const newLocalData = sortBy([...serverTrips, ...localOnlyTrips], 'date');
     return newLocalData;
@@ -285,7 +284,7 @@ export class LocalTripsService {
 }
 
 export interface StorableTrip {
-  trackedInstanceId: string;
+  id: string;
   status: 'inPluginDB' | 'syncedButNotReturnedFromServer' | 'fromServer';
   date: string;
   tripData?: TrackedInstanceInfo;
