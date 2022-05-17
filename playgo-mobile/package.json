@@ -5,6 +5,9 @@
   "description": "An Ionic project",
   "homepage": "https://ionicframework.com/",
   "author": "Ionic Framework",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "ionic": "ionic",
     "ng": "ng",
