@@ -35,10 +35,11 @@ export class LeaderboardPage implements OnInit {
     {
       labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
       unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
-      playerApi:
-        this.reportControllerService.getPlayerCampaingPlacingByCo2UsingGET,
-      leaderboardApi:
-        this.reportControllerService.getCampaingPlacingByCo2UsingGET,
+      // FIXME: BROKEN API DESIGN!!
+      playerApi: null as any,
+      // this.reportControllerService.getPlayerCampaingPlacingByCo2UsingGET,
+      leaderboardApi: null as any,
+      // this.reportControllerService.getCampaingPlacingByCo2UsingGET,
     },
     {
       labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
@@ -60,6 +61,7 @@ export class LeaderboardPage implements OnInit {
         this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
           campaignId,
           playerId,
+          null, //metric,
           transportType,
           dateFrom,
           dateTo
@@ -72,12 +74,13 @@ export class LeaderboardPage implements OnInit {
         dateFrom?: string,
         dateTo?: string
       ) =>
-        this.reportControllerService.getCampaingPlacingByTransportModeUsingGET(
+        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
           campaignId,
           page,
           size,
-          transportType,
+          null, // metric
           sort,
+          transportType,
           dateFrom,
           dateTo
         ),

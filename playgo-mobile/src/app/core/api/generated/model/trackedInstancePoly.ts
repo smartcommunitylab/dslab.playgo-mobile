@@ -9,20 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Sort } from './sort';
-import { SwaggerPageable } from './swaggerPageable';
+import { PlayerInfo } from './playerInfo';
 import { TrackedInstance } from './trackedInstance';
 
-export interface PageTrackedInstance {
-  content?: Array<TrackedInstance>;
-  empty?: boolean;
-  first?: boolean;
-  last?: boolean;
-  number?: number;
-  numberOfElements?: number;
-  pageable?: SwaggerPageable;
-  size?: number;
-  sort?: Sort;
-  totalElements?: number;
-  totalPages?: number;
+export interface TrackedInstancePoly {
+  playerInfo?: PlayerInfo;
+  routesPolylines?: any;
+  trackPolyline?: string;
+  trackedInstance?: TrackedInstance;
 }

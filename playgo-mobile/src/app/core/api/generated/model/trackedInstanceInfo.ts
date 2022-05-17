@@ -13,6 +13,7 @@ import { CampaignTripInfo } from './campaignTripInfo';
 
 export interface TrackedInstanceInfo {
   campaigns?: Array<CampaignTripInfo>;
+  clientId?: string;
   distance?: number;
   endTime?: Date;
   modeType?: string;
