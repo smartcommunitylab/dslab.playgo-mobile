@@ -303,3 +303,21 @@
   --ion-color-shade: var(--ion-color-school-shade);
   --ion-color-tint: var(--ion-color-school-tint);
 }
+
+:root {
+  --ion-color-playgo: #01579b;
+  --ion-color-playgo-rgb: 1, 87, 155;
+  --ion-color-playgo-contrast: #ffffff;
+  --ion-color-playgo-contrast-rgb: 255, 255, 255;
+  --ion-color-playgo-shade: #014d88;
+  --ion-color-playgo-tint: #1a68a5;
+}
+
+.ion-color-playgo {
+  --ion-color-base: var(--ion-color-playgo);
+  --ion-color-base-rgb: var(--ion-color-playgo-rgb);
+  --ion-color-contrast: var(--ion-color-playgo-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-playgo-contrast-rgb);
+  --ion-color-shade: var(--ion-color-playgo-shade);
+  --ion-color-tint: var(--ion-color-playgo-tint);
+}

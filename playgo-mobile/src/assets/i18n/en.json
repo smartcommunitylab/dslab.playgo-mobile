@@ -10,7 +10,13 @@
     "loginButton": "Login",
     "labelSignin": "Signin in...",
     "labelSignout": "Signin out...",
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "loginGoogleButton": "Login with Google",
+    "loginFacebookButton": "Login with Facebook",
+    "loginAppleButton": "Login with Apple",
+    "loginInternalButton": "Login with AAC",
+    "title": "Welcome in Play&Go",
+    "subtitle": "Sustainable mobility app"
   },
   "registration": {
     "newUser": "New User. Fill the form with your information",

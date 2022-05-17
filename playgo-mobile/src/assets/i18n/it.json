@@ -10,7 +10,13 @@
     "labelSignout": "Uscita dal sistema",
     "loginCardHeader": "Login",
     "loginButton": "Login",
-    "welcome": "Benvenuto"
+    "welcome": "Benvenuto",
+    "loginGoogleButton": "Entra con Google",
+    "loginFacebookButton": "Entra con Facebook",
+    "loginAppleButton": "Entra con Apple",
+    "loginInternalButton": "Entra con AAC",
+    "title": "Benvenuto in Play&Go",
+    "subtitle": "App di mobilitá sostenibile"
   },
   "registration": {
     "newUser": "New User. Fill the form with your information",
