@@ -9,11 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Image } from './image';
+import { PlayerInfo } from './playerInfo';
+import { TrackedInstance } from './trackedInstance';
 
-export interface PlayerInfo {
-  avatar?: Image;
-  email?: string;
-  nickname?: string;
-  playerId?: string;
+export interface TrackedInstanceConsole {
+  playerInfo?: PlayerInfo;
+  trackedInstance?: TrackedInstance;
 }
