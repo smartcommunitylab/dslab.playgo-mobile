@@ -32,14 +32,15 @@ export class ReportService {
     fromDate?: any,
     toDate?: any
   ): Promise<CampaignPlacing> {
-    return this.reportControllerService
-      .getPlayerCampaingPlacingByCo2UsingGET(
-        campaignId,
-        playerId,
-        fromDate,
-        toDate
-      )
-      .toPromise();
+    throw new Error('API HAS CHANGED!');
+    // return this.reportControllerService
+    //   .getPlayerCampaingPlacingByCo2UsingGET(
+    //     campaignId,
+    //     playerId,
+    //     fromDate,
+    //     toDate
+    //   )
+    //   .toPromise();
   }
   getGameStatus(campaignId: any): Promise<PlayerStatus> {
     return this.gameController
@@ -52,14 +53,15 @@ export class ReportService {
     fromDate?: any,
     toDate?: any
   ): Promise<CampaignPlacing> {
-    return this.reportControllerService
-      .getPlayerCampaingPlacingByCo2UsingGET(
-        campaignId,
-        playerId,
-        fromDate,
-        toDate
-      )
-      .toPromise();
+    throw new Error('API HAS CHANGED!');
+    // return this.reportControllerService
+    //   .getPlayerCampaingPlacingByCo2UsingGET(
+    //     campaignId,
+    //     playerId,
+    //     fromDate,
+    //     toDate
+    //   )
+    //   .toPromise();
   }
   getTransportStats(
     fromDate?: any,
