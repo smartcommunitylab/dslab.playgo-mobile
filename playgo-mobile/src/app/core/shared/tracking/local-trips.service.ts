@@ -7,6 +7,7 @@ import {
   NEVER,
   Observable,
   of,
+  ReplaySubject,
   Subject,
 } from 'rxjs';
 import {
@@ -24,11 +25,20 @@ import {
 } from 'rxjs/operators';
 import { intervalBackoff } from 'backoff-rxjs';
 import { DateTime } from 'luxon';
-import { find, findLast, isEqual, some, sortBy } from 'lodash-es';
-import { startFrom, tapLog, toServerDateTime } from '../utils';
+import { find, findLast, first, isEqual, last, some, sortBy } from 'lodash-es';
+import {
+  groupByConsecutiveValues,
+  startFrom,
+  tapLog,
+  toServerDateTime,
+} from '../utils';
 import { LocalStorageService } from '../local-storage.service';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
+import {
+  BackgroundTrackingService,
+  TripLocation,
+} from './background-tracking.service';
 
 @Injectable({
   providedIn: 'root',
@@ -109,13 +119,64 @@ export class LocalTripsService {
     this.localDataSubject
   );
 
-  private localData$: Observable<any> = this.trigger$.pipe(
+  private justSynchronizedLocationsSubject: Subject<TripLocation[]> =
+    new Subject();
+
+  private dataFromPluginDB$: Observable<StorableTrip[]> =
+    this.justSynchronizedLocationsSubject.pipe(
+      map((notSynchronizedLocations: TripLocation[]) => {
+        const tripLocations = notSynchronizedLocations.filter(
+          (location) => location.idTrip
+        );
+        return groupByConsecutiveValues(tripLocations, 'idTrip').map(
+          ({ group, values }) => {
+            const idTrip = group;
+            const locations = values;
+            const representativeLocation = first(locations);
+            const trip: TrackedInstanceInfo = {
+              campaigns: [],
+              distance: 0,
+              startTime: first(locations).date,
+              endTime: last(locations).date,
+              modeType: group,
+              multimodalId: representativeLocation.multimodalId,
+              polyline: '',
+              trackedInstanceId: `localId_${idTrip}`,
+              validity: null,
+              clientId: idTrip,
+            };
+            return trip;
+          }
+        );
+      }),
+      map((trips: TrackedInstanceInfo[]) =>
+        //id: string;
+        //status: 'inPluginDB' | 'syncedButNotReturnedFromServer' | 'fromServer';
+        //date: string;
+        //tripData?: TrackedInstanceInfo;
+
+        trips.map((trip) => ({
+          id: trip.clientId,
+          status: 'inPluginDB',
+          date: DateTime.fromJSDate(trip.endTime).toISODate(),
+          tripData: trip,
+        }))
+      )
+    );
+
+  private dataFromServer$: Observable<StorableTrip[]> = this.trigger$.pipe(
     tapLog('LT: trigger$'),
     withLatestFrom(this.lastLocalData$),
     map(([force, lastLocalData]) =>
       force ? this.localDataFromDate : this.findPeriodFromDate(lastLocalData)
     ),
-    switchMap((periodFromDate) => this.loadDataFromServer(periodFromDate)),
+    switchMap((periodFromDate) => this.loadDataFromServer(periodFromDate))
+  );
+
+  private localData$: Observable<any> = merge(
+    this.dataFromServer$,
+    this.dataFromPluginDB$
+  ).pipe(
     withLatestFrom(this.lastLocalData$),
     map(([newData, lastLocalData]) =>
       this.pairPendingTrips(lastLocalData, newData)
@@ -169,6 +230,10 @@ export class LocalTripsService {
     initStream.get().subscribe(() => {
       this.initService();
     });
+  }
+
+  public locationSynchronizedToServer(locations: TripLocation[]): void {
+    this.justSynchronizedLocationsSubject.next(locations);
   }
 
   private initService() {
@@ -229,13 +294,16 @@ export class LocalTripsService {
   }
 
   private pairPendingTrips(
-    localTrips: StorableTrip[],
-    serverTrips: StorableTrip[]
+    lastLocalTrips: StorableTrip[],
+    serverOrPluginTrips: StorableTrip[]
   ): StorableTrip[] {
-    const localOnlyTrips = localTrips.filter(
-      (localTrip) => !some(serverTrips, { id: localTrip.id })
+    const localOnlyTrips = lastLocalTrips.filter(
+      (localTrip) => !some(serverOrPluginTrips, { id: localTrip.id })
     );
-    const newLocalData = sortBy([...serverTrips, ...localOnlyTrips], 'date');
+    const newLocalData = sortBy(
+      [...serverOrPluginTrips, ...localOnlyTrips],
+      'date'
+    );
     return newLocalData;
   }
 

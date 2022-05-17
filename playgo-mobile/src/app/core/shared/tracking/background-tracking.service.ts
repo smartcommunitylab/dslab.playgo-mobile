@@ -42,6 +42,7 @@ import {
 import { runInZone, tapLog } from '../utils';
 import { AuthHttpService } from '../../auth/auth-http.service';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
+import { LocalTripsService } from './local-trips.service';
 
 @Injectable({
   providedIn: 'root',
@@ -100,7 +101,7 @@ export class BackgroundTrackingService {
     shareReplay(1)
   );
 
-  public currentTripLocations$: Observable<TripLocation[]> = combineLatest([
+  public currentTripLocations$ = combineLatest([
     this.notSynchronizedLocations$,
     this.currentExtrasSubject, //FIXME: better!
   ]).pipe(
@@ -128,6 +129,7 @@ export class BackgroundTrackingService {
     private alertService: AlertService,
     private authHttpService: AuthHttpService,
     private playerControllerService: PlayerControllerService,
+    private localTripsService: LocalTripsService,
     private zone: NgZone
   ) {
     // FIXME: debug only
@@ -228,7 +230,15 @@ export class BackgroundTrackingService {
         accessToken: token.accessToken,
       },
     });
-    await this.backgroundGeolocationPlugin.sync();
+
+    // this call will fail, if the network is not available
+    const locationSentToServer: Location[] =
+      ((await this.backgroundGeolocationPlugin.sync()) as Location[]) || [];
+
+    console.log('sync sent', locationSentToServer);
+    this.localTripsService.locationSynchronizedToServer(
+      locationSentToServer.map(TripLocation.fromLocation)
+    );
   }
 
   private async setExtrasAndForceLocation(
@@ -286,6 +296,7 @@ export class BackgroundTrackingService {
 export class TripLocation {
   transportType: TransportType;
   multimodalId: string;
+  idTrip: string;
   latitude: number;
   longitude: number;
   date: Date;
@@ -299,6 +310,7 @@ export class TripLocation {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       multimodalId: extras.multimodalId,
+      idTrip: extras.idTrip,
       transportType: extras.transportType,
     });
   }

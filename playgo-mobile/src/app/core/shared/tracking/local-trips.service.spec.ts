@@ -12,8 +12,8 @@ import {
   LocalStorageService,
   LocalStorageType,
 } from '../local-storage.service';
-import { UnwrapArray, UnwrapObservable } from '../type.utils';
 import { tapLog } from '../utils';
+import { TripLocation } from './background-tracking.service';
 
 import {
   InitServiceStream,
@@ -42,6 +42,28 @@ describe('LocalTripsService', () => {
     ];
     const empty: StorableTrip[] = [];
     return { empty, onePendingAndOneReturned } as const;
+  })();
+
+  const locationsStub = (() => {
+    const walkOneDayAgo: TripLocation[] = [
+      {
+        idTrip: 'id_of_one_days_ago__walk',
+        date: debugRefTime.minus({ days: 1, minutes: 10 }).toJSDate(),
+        latitude: 1,
+        longitude: 1,
+        multimodalId: 'multimodalId_123',
+        transportType: 'walk',
+      },
+      {
+        idTrip: 'id_of_one_days_ago__walk',
+        date: debugRefTime.minus({ days: 1 }).toJSDate(),
+        latitude: 2,
+        longitude: 2,
+        multimodalId: 'multimodalId_123',
+        transportType: 'walk',
+      },
+    ];
+    return { walkOneDayAgo } as const;
   })();
 
   let localTripsService: LocalTripsService;
@@ -176,6 +198,29 @@ describe('LocalTripsService', () => {
         status: 'fromServer',
         id: 'id_of_trip_three_days_ago',
         date: threeDaysAgo,
+      } as Partial<StorableTrip>)
+    );
+  }));
+
+  it('Data from plugin DB should be added to local data', waitForAsync(async () => {
+    prepareService({
+      storageData: tripsStub.onePendingAndOneReturned,
+      firstServerData: [],
+    });
+
+    localTripsService.locationSynchronizedToServer(locationsStub.walkOneDayAgo);
+
+    const reportedData = await localTripsService.localDataChanges$
+
+      .pipe(second())
+      .toPromise();
+
+    expect(reportedData).toBeArrayOfSize(3);
+    expect(reportedData[2]).toEqual(
+      jasmine.objectContaining({
+        id: 'id_of_one_days_ago__walk',
+        date: oneDayAgo,
+        status: 'syncedButNotReturnedFromServer',
       } as Partial<StorableTrip>)
     );
   }));
