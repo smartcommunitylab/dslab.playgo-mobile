@@ -11,7 +11,7 @@ import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceIn
 import {
   LocalStorageService,
   LocalStorageType,
-} from '../local-storage.service';
+} from '../services/local-storage.service';
 import { tapLog } from '../utils';
 import { TripLocation } from './background-tracking.service';
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageRefService } from './services/local-storage-ref.service';
+import { LocalStorageRefService } from './local-storage-ref.service';
 
 @Injectable({
   providedIn: 'root',

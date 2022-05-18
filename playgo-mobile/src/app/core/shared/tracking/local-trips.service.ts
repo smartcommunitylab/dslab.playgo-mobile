@@ -32,7 +32,7 @@ import {
   tapLog,
   toServerDateTime,
 } from '../utils';
-import { LocalStorageService } from '../local-storage.service';
+import { LocalStorageService } from '../services/local-storage.service';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
 import {
