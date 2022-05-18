@@ -8,7 +8,7 @@ import { LocalStorageService } from '../services/local-storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class TripPersistanceService {
+export class LocationsStorageService {
   private storage =
     this.localStorageService.getStorageOf<TripPart>('locations');
 

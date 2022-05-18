@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators';
 import { BackgroundTrackingService } from './background-tracking.service';
 import { CarPoolingService } from './carpooling/carpooling.service';
-import { TripPersistanceService } from './trip-persistance.service';
+import { LocationsStorageService } from './locations-storage.service';
 import {
   NO_TRIP_STARTED,
   TransportType,
@@ -49,7 +49,7 @@ export class TripService {
   );
 
   constructor(
-    private tripPersistanceService: TripPersistanceService,
+    private tripPersistanceService: LocationsStorageService,
     private backgroundTrackingService: BackgroundTrackingService,
     private carpoolingService: CarPoolingService
   ) {
