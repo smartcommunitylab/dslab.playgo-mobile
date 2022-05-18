@@ -1,29 +1,41 @@
 import { Injectable } from '@angular/core';
+import { LocalStorageRefService } from './services/local-storage-ref.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
-  constructor() {
+  private storage: Storage;
+  constructor(private localStorageRefService: LocalStorageRefService) {
+    this.storage = this.localStorageRefService.getStorageImplementation();
     // TODO:
     // clear local storage automatically, after new app version (or code push version)
     // for consistency.
   }
 
   public getStorageOf<T = never>(localStorageKey: string) {
-    return new LocalStorage<T>('playgo-storage' + localStorageKey);
+    return new LocalStorage<T>(
+      'playgo-storage-' + localStorageKey,
+      this.storage
+    );
+  }
+  public clearAll() {
+    this.storage.clear();
   }
 }
 class LocalStorage<T> {
-  constructor(private storageKey: string) {}
+  constructor(private storageKey: string, private storage: Storage) {}
   set(data: T | null) {
     // hmm we could maybe use some sort of compression here
     // https://pieroxy.net/blog/pages/lz-string/index.html
-    localStorage.setItem(this.storageKey, JSON.stringify(data || null));
+    this.storage.setItem(this.storageKey, JSON.stringify(data || null));
   }
   get(): T | null {
-    const stringVal = localStorage.getItem(this.storageKey);
+    const stringVal = this.storage.getItem(this.storageKey);
     return JSON.parse(stringVal);
+  }
+  clear() {
+    this.storage.removeItem(this.storageKey);
   }
 }
 
