@@ -4,7 +4,7 @@ import { IUser } from '../model/user.model';
 import { LocalStorageRefService } from './local-storage-ref.service';
 
 @Injectable({ providedIn: 'root' })
-export class LocalStorageService {
+export class UserStorageService {
   private localStorage: Storage;
 
   private userSubject = new BehaviorSubject<IUser>(null);
