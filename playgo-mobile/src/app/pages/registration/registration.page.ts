@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
-import { TranslateService } from '@ngx-translate/core';
-import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { TerritoryService } from 'src/app/core/shared/services/territory.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { readAsBase64 } from 'src/app/core/shared/utils';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registration',
@@ -28,7 +27,9 @@ export class RegistrationPage implements OnInit {
     public formBuilder: FormBuilder,
     private navCtrl: NavController,
     private sanitizer: DomSanitizer,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private alertController: AlertController,
+    private translate: TranslateService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -81,38 +82,57 @@ export class RegistrationPage implements OnInit {
   async registrationSubmit() {
     this.isSubmitted = true;
     if (!this.registrationForm.valid) {
-      console.log('Please provide all the required values!');
       return false;
     } else {
-      console.log(this.registrationForm.value);
-      //register user
-      try {
-        this.userService
-          .registerPlayer(this.registrationForm.value)
-          .then(async () => {
-            if (!this.image) {
-              await this.userService.uploadAvatar(
-                await fetch('assets/images/registration/generic_user.png').then(
-                  (r) => r.blob()
-                )
-              );
-            } else {
-              await this.userService.uploadAvatar(
-                await readAsBase64(this.image)
-              );
+      const header = await this.translate.instant('registration.confirm.header');
+      const message = await this.translate.instant('registration.confirm.message', { nickname: 'John', territory: 'France' });
+      const alert = await this.alertController.create({
+        cssClass: 'modalConfirm',
+        header,
+        message,
+        buttons: [
+          {
+            text: await this.translate.instant('modal.cancel'),
+            handler: (blah) => {
+              console.log('Confirm Cancel: blah');
             }
-            //restart the status and load the home
-            this.userService.startService();
-            this.navCtrl.navigateRoot('/pages/tabs/home');
-          })
-          .catch((error: any) => {
-            // this.errorService.showAlert(error);
-            console.log(error);
-          });
-      } catch (error) {
-        // this.errorService.showAlert(error);
-        console.log(error);
-      }
+          }, {
+            text: await this.translate.instant('modal.ok'),
+            handler: () => {
+              this.submitUser();
+            }
+          }
+        ]
+      });
+
+      await alert.present();
+
+    }
+  }
+  submitUser() {
+    try {
+      this.userService
+        .registerPlayer(this.registrationForm.value)
+        .then(async () => {
+          if (!this.image) {
+            await this.userService.uploadAvatar(
+              await fetch('assets/images/registration/generic_user.png').then(
+                (r) => r.blob()
+              )
+            );
+          } else {
+            await this.userService.uploadAvatar(
+              await readAsBase64(this.image)
+            );
+          }
+          this.userService.startService();
+          this.navCtrl.navigateRoot('/pages/tabs/home');
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
     }
   }
 }

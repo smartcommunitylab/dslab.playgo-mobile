@@ -62,7 +62,11 @@
     },
     "privacyLink": "Privacy Policy",
     "privacy": "Accetto il trattamento dei miei dati riportato nella privacy policy",
-    "sumbmitButton": "Registrati"
+    "sumbmitButton": "Registrati",
+    "confirm": {
+      "header": "Conferma registrazione",
+      "message": "<strong>{{nickname}} </strong> sei veramente sicuro di iscriverti al gioco Play&go per il seguente territorio?<br><h1> {{territory}}</h1>"
+    }
   },
   "modal": {
     "cancel": "IT: Cancel",
