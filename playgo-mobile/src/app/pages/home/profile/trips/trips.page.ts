@@ -22,7 +22,12 @@ import {
   TransportType,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
-import { groupByConsecutiveValues, tapLog } from 'src/app/core/shared/utils';
+import {
+  groupByConsecutiveValues,
+  tapLog,
+  toServerDateOnly,
+  toServerDateTime,
+} from 'src/app/core/shared/utils';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 import {
@@ -30,6 +35,8 @@ import {
   TripLocation,
 } from 'src/app/core/shared/tracking/background-tracking.service';
 import { TripService } from 'src/app/core/shared/tracking/trip.service';
+import { LocalTripsService } from 'src/app/core/shared/tracking/local-trips.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-trips',
@@ -55,7 +62,8 @@ export class TripsPage implements OnInit {
 
   /* filled from the infinite scroll component */
   public serverTripsSubject = new Subject<TrackedInstanceInfo[]>();
-  private serverTrips$: Observable<ServerOrLocalTrip[]> =
+  /** trips older than 1 month - available only online as infinite scroll paging*/
+  private deepPastTrips$: Observable<ServerOrLocalTrip[]> =
     this.serverTripsSubject.pipe(
       map((trips) =>
         trips.map((trip) => ({
@@ -66,6 +74,22 @@ export class TripsPage implements OnInit {
       startWith([])
     );
 
+  /**
+   * Live list of recent trips - changing as user created new trips.
+   * If there is no connection, they are loaded from local storage.
+   */
+  private recentTrips$: Observable<ServerOrLocalTrip[]> =
+    this.localTripsService.localDataChanges$.pipe(
+      map((storableTrips) =>
+        storableTrips.map((trip) => ({
+          isFinished: true,
+          isLocal: trip.status !== 'fromServer',
+          ...trip.tripData,
+        }))
+      )
+    );
+
+  /** Content of plugin DB locations represented as trips */
   private notSynchronizedTrips$: Observable<TrackedInstanceInfo[]> =
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
       map((notSynchronizedLocations: TripLocation[]) => {
@@ -94,7 +118,7 @@ export class TripsPage implements OnInit {
       })
     );
 
-  private localTrips$: Observable<ServerOrLocalTrip[]> = combineLatest([
+  private fromPluginTrips$: Observable<ServerOrLocalTrip[]> = combineLatest([
     this.notSynchronizedTrips$,
     this.tripService.isInTrip$,
   ]).pipe(
@@ -112,10 +136,15 @@ export class TripsPage implements OnInit {
   );
 
   private trips$: Observable<ServerOrLocalTrip[]> = combineLatest([
-    this.serverTrips$,
-    this.localTrips$,
+    this.fromPluginTrips$,
+    this.recentTrips$,
+    this.deepPastTrips$,
   ]).pipe(
-    map(([serverTrips, localTrips]) => [...localTrips, ...serverTrips]),
+    map(([fromPluginTrips, recentTrips, deepPastTrips]) => [
+      ...fromPluginTrips,
+      ...recentTrips,
+      ...deepPastTrips,
+    ]),
     distinctUntilChanged(isEqual)
   );
 
@@ -129,7 +158,8 @@ export class TripsPage implements OnInit {
     private errorService: ErrorService,
     private trackControllerService: TrackControllerService,
     private backgroundTrackingService: BackgroundTrackingService,
-    private tripService: TripService
+    private tripService: TripService,
+    private localTripsService: LocalTripsService
   ) {}
 
   trackGroup: TrackByFunction<TripGroup> = (index: number, group: TripGroup) =>
@@ -198,7 +228,11 @@ export class TripsPage implements OnInit {
   ): Observable<PageableResponse<TrackedInstanceInfo>> {
     return this.trackControllerService.getTrackedInstanceInfoListUsingGET(
       pageRequest.page,
-      pageRequest.size
+      pageRequest.size,
+      toServerDateTime(DateTime.fromMillis(0)), //from
+      null, //sort
+      // TODO: check +-1 day errors!!
+      toServerDateTime(this.localTripsService.localDataFromDate) //to
     );
   }
 }

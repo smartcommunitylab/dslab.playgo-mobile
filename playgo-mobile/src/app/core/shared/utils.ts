@@ -101,7 +101,7 @@ export function toServerDateTime(dateTime: DateTime): string {
     );
     throw new Error('Invalid dateTime');
   }
-  return dateTime.toUTC().toFormat('yyyy-MM-dd HH:mm:SSS');
+  return dateTime.toUTC().toFormat('yyyy-MM-dd HH:mm:S');
 }
 
 export function toServerDateOnly(dateTime: DateTime): string {

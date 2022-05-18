@@ -65,7 +65,8 @@ export class LocalTripsService {
     this.localStorageService.getStorageOf<StorableTrip[]>('trips');
 
   public localDataFromDate = DateTime.local()
-    .minus({ month: 1 })
+    // .minus({ month: 1 })
+    .minus({ days: 7 })
     .toUTC()
     .startOf('day');
 
@@ -85,8 +86,10 @@ export class LocalTripsService {
   private pushNotification$: Observable<void> = NEVER;
 
   private appResumed$: Observable<void> = NEVER;
-  private appStateChanged$: Observable<void> = this.appResumed$.pipe(
-    startWith(undefined as void)
+  private appStartedSubject = new Subject<void>();
+  private appStateChanged$: Observable<void> = merge(
+    this.appResumed$,
+    this.appStartedSubject
   );
 
   private networkStatusChanged$: Observable<void> = NEVER;
@@ -234,6 +237,10 @@ export class LocalTripsService {
 
   public locationSynchronizedToServer(locations: TripLocation[]): void {
     this.justSynchronizedLocationsSubject.next(locations);
+  }
+
+  public appStarted() {
+    this.appStartedSubject.next();
   }
 
   private initService() {

@@ -3,7 +3,7 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { async, TestBed, waitForAsync } from '@angular/core/testing';
 import { DateTime } from 'luxon';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, timer } from 'rxjs';
 import { delay, elementAt, first } from 'rxjs/operators';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { PageTrackedInstanceInfo } from '../../api/generated/model/pageTrackedInstanceInfo';
@@ -136,6 +136,26 @@ describe('LocalTripsService', () => {
     ).toHaveBeenCalled();
   });
 
+  it('Before app start no api should be called', waitForAsync(async () => {
+    prepareService({
+      storageData: tripsStub.onePendingAndOneReturned,
+      firstServerData: tripsStub.empty,
+      runAppReadyTrigger: false,
+    });
+
+    localTripsService.localDataChanges$.subscribe((val) =>
+      console.log('localDataChanges$.subscribe', val)
+    );
+
+    await timer(1000).toPromise();
+
+    expect(
+      trackControllerServiceStub.getTrackedInstanceInfoListUsingGET
+    ).not.toHaveBeenCalled();
+
+    // localTripsService.appStarted();
+  }));
+
   it('Data from server should be merged with local data - add new', waitForAsync(async () => {
     const newData: ServerTripStub = {
       id: 'id_of_new_trip_one_day_ago',
@@ -231,18 +251,33 @@ describe('LocalTripsService', () => {
 
   it('should store trips to storage', () => {});
 
-  function prepareService(opts: {
+  // function prepareService(opts: {
+  //   storageData?: StorableTrip[] = null;
+  //   firstServerData?: ServerTripStub[] = [];
+  //   runInit?: boolean = true;
+  //   runAppReadyTrigger?: boolean = true;
+  // }) {
+  function prepareService({
+    storageData = null,
+    firstServerData = [],
+    runInit = true,
+    runAppReadyTrigger = true,
+  }: {
     storageData?: StorableTrip[];
     firstServerData?: ServerTripStub[];
     runInit?: boolean;
+    runAppReadyTrigger?: boolean;
   }) {
-    storageMock.get.and.returnValue(opts.storageData || null);
+    storageMock.get.and.returnValue(storageData);
     trackControllerServiceStub.getTrackedInstanceInfoListUsingGET.and.returnValue(
-      asServerData(opts.firstServerData || [])
+      asServerData(firstServerData)
     );
 
-    if (opts.runInit !== false) {
+    if (runInit) {
       serviceInitTriggerSubject.next();
+    }
+    if (runAppReadyTrigger) {
+      localTripsService.appStarted();
     }
   }
 });
