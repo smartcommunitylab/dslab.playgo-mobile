@@ -38,6 +38,7 @@
       "territory": "Territorio",
       "select": "Seleziona il territorio"
     },
+    "infoTerritory": "Il tuo territorio influenzerà le tue campagne. Per favore seleziona il tuo territorio",
     "form": {
       "nameRequired": "Il nome é richiesto",
       "nameMinLength": "La lunghezza minima é di 2 caratteri",
@@ -48,8 +49,19 @@
       "nicknameRequired": "Il nickname é richiesto",
       "nicknameMinLength": "La lunghezza minima é di 2 caratteri",
       "languageRequired": "Il linguaggio é richiesto",
-      "territoryRequired": "Il territorio é richiesto"
+      "territoryRequired": "Il territorio é richiesto",
+      "privacyRequired": "La privacy é richiesta"
     },
+    "territoryPopup": {
+      "header": "Territorio",
+      "message": "Lorem ipsum"
+    },
+    "privacyPopup": {
+      "header": "Privacy",
+      "message": "Lorem ipsum"
+    },
+    "privacyLink": "Privacy Policy",
+    "privacy": "Accetto il trattamento dei miei dati riportato nella privacy policy",
     "sumbmitButton": "Registrati"
   },
   "modal": {

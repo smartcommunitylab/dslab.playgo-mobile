@@ -24,13 +24,11 @@ export class RegistrationPage implements OnInit {
   image: Photo;
   constructor(
     private userService: UserService,
-    private errorService: ErrorService,
-    private alertService: AlertService,
-    private translateService: TranslateService,
     private territoryService: TerritoryService,
     public formBuilder: FormBuilder,
     private navCtrl: NavController,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private alertService: AlertService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -39,6 +37,8 @@ export class RegistrationPage implements OnInit {
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      givenName: ['', [Validators.required]],
       mail: [
         '',
         [
@@ -49,6 +49,8 @@ export class RegistrationPage implements OnInit {
       nickname: ['', [Validators.required, Validators.minLength(2)]],
       language: ['', [Validators.required]],
       territoryId: ['', [Validators.required]],
+      privacy: [false, Validators.requiredTrue]
+
     });
   }
   async changeAvatar() {
@@ -64,6 +66,16 @@ export class RegistrationPage implements OnInit {
   //computed errorcontrol
   get errorControl() {
     return this.registrationForm.controls;
+  }
+  openTerritoryPopup() {
+    this.alertService.presentAlert('registration.territoryPopup.header',
+      'registration.territoryPopup.message',
+      'modalConfirm');
+  }
+  openPrivacyPopup() {
+    this.alertService.presentAlert('registration.privacyPopup.header',
+      'registration.privacyPopup.message',
+      'modalConfirm');
   }
 
   async registrationSubmit() {
