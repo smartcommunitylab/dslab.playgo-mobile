@@ -1,38 +1,30 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { LocalStorageService } from '../local-storage.service';
 import { IUser } from '../model/user.model';
-import { LocalStorageRefService } from './local-storage-ref.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserStorageService {
-  private localStorage: Storage;
+  private storage = this.localStorageService.getStorageOf<IUser>('user');
 
   private userSubject = new BehaviorSubject<IUser>(null);
   user$ = this.userSubject.asObservable();
 
-  constructor(private localStorageRefService: LocalStorageRefService) {
-    this.localStorage = localStorageRefService.localStorage;
-  }
+  constructor(private localStorageService: LocalStorageService) {}
 
   setUser(user: IUser): void {
-    const jsonData = JSON.stringify(user);
-    this.localStorage.setItem('user', jsonData);
+    this.storage.set(user);
     this.userSubject.next(user);
   }
 
   loadUser(): Promise<IUser> {
-    const data = JSON.parse(this.localStorage.getItem('user'));
-    this.userSubject.next(data);
-    return Promise.resolve(data);
+    const user = this.storage.get();
+    this.userSubject.next(user);
+    return Promise.resolve(user);
   }
 
   clearUser() {
-    this.localStorage.removeItem('user');
-    this.userSubject.next(null);
-  }
-
-  clearAllLocalStorage(): void {
-    this.localStorage.clear();
+    this.storage.clear();
     this.userSubject.next(null);
   }
 }
