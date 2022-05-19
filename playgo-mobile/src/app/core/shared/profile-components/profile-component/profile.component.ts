@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 import { IUser } from 'src/app/core/shared/model/user.model';
@@ -25,7 +25,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private campaignService: CampaignService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -45,6 +46,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subProf.unsubscribe();
     this.subStat.unsubscribe();
     this.subCamp.unsubscribe();
+  }
+  navigateToProfile() {
+    this.navCtrl.navigateRoot('/pages/tabs/profile');
   }
   async openModal() {
     const modal = await this.modalController.create({

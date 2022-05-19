@@ -6,7 +6,7 @@
     <h3>{{ profile.nickname }}</h3>
     <p *ngIf="editable">{{ profile.mail }}</p>
   </ion-label>
-  <ion-icon slot="end" name="cog" *ngIf="!editable"></ion-icon>
+  <ion-icon slot="end" name="cog" *ngIf="!editable" (click)="navigateToProfile()"></ion-icon>
   <!-- <ion-button expand="block" (click)="openModal()" *ngIf="editable">{{
     "profile.changeButton" | translate
     }}</ion-button> -->
