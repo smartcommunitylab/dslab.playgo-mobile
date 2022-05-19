@@ -29,16 +29,16 @@ export class TrackControllerService {
    *
    * @param page Results page you want to retrieve (0..N)
    * @param size Number of records per page
-   * @param dateFrom dateFrom
+   * @param dateFrom yyyy-MM-dd HH:mm:ss
    * @param sort Sorting option: field,[asc,desc]
-   * @param dateTo dateTo
+   * @param dateTo yyyy-MM-dd HH:mm:ss
    */
   public getTrackedInstanceInfoListUsingGET(
     page: number,
     size: number,
-    dateFrom?: string,
+    dateFrom?: Date,
     sort?: string,
-    dateTo?: string
+    dateTo?: Date
   ): Observable<PageTrackedInstanceInfo> {
     return this.http.request<PageTrackedInstanceInfo>(
       'get',

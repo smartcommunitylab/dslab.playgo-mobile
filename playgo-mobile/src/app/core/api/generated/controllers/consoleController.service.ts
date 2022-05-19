@@ -16,8 +16,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { PagePlayerInfoConsole } from '../model/pagePlayerInfoConsole';
-import { PageTrackedInstance } from '../model/pageTrackedInstance';
+import { PageTrackedInstanceConsole } from '../model/pageTrackedInstanceConsole';
 import { PlayerRole } from '../model/playerRole';
+import { TrackedInstancePoly } from '../model/trackedInstancePoly';
 
 @Injectable({
   providedIn: 'root',
@@ -119,6 +120,28 @@ export class ConsoleControllerService {
   }
 
   /**
+   * getTrackedInstanceDetail
+   *
+   * @param territoryId territoryId
+   * @param trackId trackId
+   */
+  public getTrackedInstanceDetailUsingGET(
+    territoryId: string,
+    trackId: string
+  ): Observable<TrackedInstancePoly> {
+    return this.http.request<TrackedInstancePoly>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/console/track/detail`,
+      {
+        params: removeNullOrUndefined({
+          territoryId,
+          trackId,
+        }),
+      }
+    );
+  }
+
+  /**
    * removeCampaignManager
    *
    * @param userName userName
@@ -203,8 +226,8 @@ export class ConsoleControllerService {
    * @param trackId trackId
    * @param playerId playerId
    * @param modeType modeType
-   * @param dateFrom dateFrom
-   * @param dateTo dateTo
+   * @param dateFrom yyyy-MM-dd HH:mm:ss
+   * @param dateTo yyyy-MM-dd HH:mm:ss
    * @param campaignId campaignId
    * @param status status
    */
@@ -220,8 +243,8 @@ export class ConsoleControllerService {
     dateTo?: Date,
     campaignId?: string,
     status?: string
-  ): Observable<PageTrackedInstance> {
-    return this.http.request<PageTrackedInstance>(
+  ): Observable<PageTrackedInstanceConsole> {
+    return this.http.request<PageTrackedInstanceConsole>(
       'get',
       environment.serverUrl.api + `/playandgo/api/console/track/search`,
       {
