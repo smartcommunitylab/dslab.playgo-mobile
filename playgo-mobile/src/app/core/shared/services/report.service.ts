@@ -24,7 +24,7 @@ export class ReportService {
   constructor(
     private reportControllerService: ReportControllerService,
     private gameController: GameControllerService
-  ) {}
+  ) { }
 
   getCo2Stats(
     campaignId?,
@@ -32,15 +32,16 @@ export class ReportService {
     fromDate?: any,
     toDate?: any
   ): Promise<CampaignPlacing> {
-    throw new Error('API HAS CHANGED!');
-    // return this.reportControllerService
-    //   .getPlayerCampaingPlacingByCo2UsingGET(
-    //     campaignId,
-    //     playerId,
-    //     fromDate,
-    //     toDate
-    //   )
-    //   .toPromise();
+    return this.reportControllerService
+      .getPlayerCampaingPlacingByTransportModeUsingGET(
+        campaignId,
+        playerId,
+        'co2',
+        null,
+        fromDate,
+        toDate
+      )
+      .toPromise();
   }
   getGameStatus(campaignId: any): Promise<PlayerStatus> {
     return this.gameController
@@ -53,15 +54,16 @@ export class ReportService {
     fromDate?: any,
     toDate?: any
   ): Promise<CampaignPlacing> {
-    throw new Error('API HAS CHANGED!');
-    // return this.reportControllerService
-    //   .getPlayerCampaingPlacingByCo2UsingGET(
-    //     campaignId,
-    //     playerId,
-    //     fromDate,
-    //     toDate
-    //   )
-    //   .toPromise();
+    return this.reportControllerService
+      .getPlayerCampaingPlacingByTransportModeUsingGET(
+        campaignId,
+        playerId,
+        'co2',
+        null,
+        fromDate,
+        toDate
+      )
+      .toPromise();
   }
   getTransportStats(
     fromDate?: any,
