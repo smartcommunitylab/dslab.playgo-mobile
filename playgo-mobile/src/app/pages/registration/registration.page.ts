@@ -97,33 +97,17 @@ export class RegistrationPage implements OnInit {
     if (!this.registrationForm.valid) {
       return false;
     } else {
-      const header = await this.translate.instant('registration.confirm.header');
-      const message = await this.translate.instant('registration.confirm.message',
+      const res = await this.alertService.confirmAlert('registration.confirm.header',
         {
-          nickname: this.registrationForm.value.nickname,
-          territory: this.registrationForm.value.territory
-        });
-      const alert = await this.alertController.create({
-        cssClass: 'modalConfirm',
-        header,
-        message,
-        buttons: [
-          {
-            text: await this.translate.instant('modal.cancel'),
-            handler: (blah) => {
-              console.log('Confirm Cancel: blah');
-            }
-          }, {
-            text: await this.translate.instant('modal.ok'),
-            handler: () => {
-              this.submitUser();
-            }
+          key: 'registration.confirm.message', interpolateParams: {
+            nickname: this.registrationForm.value.nickname,
+            territory: (this.territoryList.find(territory => territory.territoryId === this.registrationForm.value.territoryId)).name
           }
-        ]
-      });
-
-      await alert.present();
-
+        },
+        'modalConfirm');
+      if (res) {
+        this.submitUser();
+      }
     }
   }
   submitUser() {

@@ -115,6 +115,6 @@ export class AlertService {
 
 export function normalizeTranslateKey(
   key: TranslateKeyWithParams
-): [string, Record<'string', 'string'>] {
+): [string, Record<string, string>] {
   return isString(key) ? [key, null] : [key.key, key.interpolateParams];
 }

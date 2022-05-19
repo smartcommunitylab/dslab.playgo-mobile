@@ -18,7 +18,7 @@ export class AuthGuardService implements CanActivate {
     private auth: AuthService,
     private userService: UserService,
     private navCtrl: NavController
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -31,6 +31,13 @@ export class AuthGuardService implements CanActivate {
         if (!isAuthenticated) {
           this.navCtrl.navigateRoot('login');
           this.userService.logout();
+        }
+        if (isAuthenticated) {
+          this.userService.isUserRegistered().then((isRegistered) => {
+            if (!isRegistered) {
+              this.navCtrl.navigateRoot('/pages/registration');
+            }
+          });
         }
       })
     );
