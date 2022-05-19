@@ -9,20 +9,21 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { CampaignDetail } from './campaignDetail';
 import { Image } from './image';
 
 export interface Campaign {
   active?: boolean;
+  banner?: Image;
   campaignId?: string;
   communications?: boolean;
   dateFrom?: string;
   dateTo?: string;
   description?: string;
+  details?: Array<CampaignDetail>;
   gameId?: string;
   logo?: Image;
   name?: string;
-  privacy?: string;
-  rules?: string;
   startDayOfWeek?: number;
   territoryId?: string;
   type?: Campaign.TypeEnum;

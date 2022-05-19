@@ -13,4 +13,5 @@
 export interface Image {
   contentType?: string;
   image?: string;
+  url?: string;
 }

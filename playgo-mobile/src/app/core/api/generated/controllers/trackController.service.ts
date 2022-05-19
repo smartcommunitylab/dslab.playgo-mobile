@@ -32,13 +32,15 @@ export class TrackControllerService {
    * @param dateFrom yyyy-MM-dd HH:mm:ss
    * @param sort Sorting option: field,[asc,desc]
    * @param dateTo yyyy-MM-dd HH:mm:ss
+   * @param campaignId campaignId
    */
   public getTrackedInstanceInfoListUsingGET(
     page: number,
     size: number,
     dateFrom?: Date,
     sort?: string,
-    dateTo?: Date
+    dateTo?: Date,
+    campaignId?: string
   ): Observable<PageTrackedInstanceInfo> {
     return this.http.request<PageTrackedInstanceInfo>(
       'get',
@@ -50,6 +52,7 @@ export class TrackControllerService {
           size,
           sort,
           dateTo,
+          campaignId,
         }),
       }
     );
@@ -59,9 +62,11 @@ export class TrackControllerService {
    * getTrackedInstanceInfo
    *
    * @param trackedInstanceId trackedInstanceId
+   * @param campaignId campaignId
    */
   public getTrackedInstanceInfoUsingGET(
-    trackedInstanceId: string
+    trackedInstanceId: string,
+    campaignId?: string
   ): Observable<TrackedInstanceInfo> {
     return this.http.request<TrackedInstanceInfo>(
       'get',
@@ -69,7 +74,11 @@ export class TrackControllerService {
         `/playandgo/api/track/player/${encodeURIComponent(
           String(trackedInstanceId)
         )}`,
-      {}
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+        }),
+      }
     );
   }
 
