@@ -1,5 +1,5 @@
 import { Component, OnInit, TrackByFunction } from '@angular/core';
-import { first, isEqual, last } from 'lodash-es';
+import { clone, cloneDeep, first, isEqual, last, sortBy } from 'lodash-es';
 import { combineLatest, Observable, Subject, throwError } from 'rxjs';
 import {
   catchError,
@@ -22,7 +22,12 @@ import {
   TransportType,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
-import { groupByConsecutiveValues, tapLog } from 'src/app/core/shared/utils';
+import {
+  groupByConsecutiveValues,
+  tapLog,
+  toServerDateOnly,
+  toServerDateTime,
+} from 'src/app/core/shared/utils';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 import {
@@ -30,6 +35,8 @@ import {
   TripLocation,
 } from 'src/app/core/shared/tracking/background-tracking.service';
 import { TripService } from 'src/app/core/shared/tracking/trip.service';
+import { LocalTripsService } from 'src/app/core/shared/tracking/local-trips.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-trips',
@@ -55,56 +62,79 @@ export class TripsPage implements OnInit {
 
   /* filled from the infinite scroll component */
   public serverTripsSubject = new Subject<TrackedInstanceInfo[]>();
-  private serverTrips$: Observable<ServerOrLocalTrip[]> =
+  /** trips older than 1 month - available only online as infinite scroll paging*/
+  private deepPastTrips$: Observable<ServerOrLocalTrip[]> =
     this.serverTripsSubject.pipe(
       map((trips) =>
         trips.map((trip) => ({
           ...trip,
-          isLocal: false,
+          status: trip.validity,
         }))
       ),
       startWith([])
     );
 
+  /**
+   * Live list of recent trips - changing as user created new trips.
+   * If there is no connection, they are loaded from local storage.
+   */
+  private recentTrips$: Observable<ServerOrLocalTrip[]> =
+    this.localTripsService.localDataChanges$.pipe(
+      map((storableTrips) =>
+        storableTrips.map((trip) => ({
+          status:
+            trip.status === 'fromServer'
+              ? trip.tripData.validity
+              : 'NOT_SYNCHRONIZED',
+          ...trip.tripData,
+        }))
+      )
+    );
+
+  /** Content of plugin DB locations represented as trips */
   private notSynchronizedTrips$: Observable<TrackedInstanceInfo[]> =
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
+      tapLog('SORT: notSynchronizedLocations$'),
       map((notSynchronizedLocations: TripLocation[]) => {
         const tripLocations = notSynchronizedLocations.filter(
           (location) => location.transportType
         );
-        return groupByConsecutiveValues(tripLocations, 'transportType').map(
-          ({ group, values }) => {
-            const transportType = group;
-            const locations = values;
-            const representativeLocation = first(locations);
-            const trip: TrackedInstanceInfo = {
-              campaigns: [],
-              distance: 0,
-              startTime: first(locations).date,
-              endTime: last(locations).date,
-              modeType: group,
-              multimodalId: representativeLocation.multimodalId,
-              polyline: '',
-              trackedInstanceId: `localId_${transportType}_${representativeLocation.date}`,
-              validity: null,
-            };
-            return trip;
-          }
-        );
+        const locationsAsTrips = groupByConsecutiveValues(
+          tripLocations,
+          'transportType'
+        ).map(({ group, values }) => {
+          const transportType = group;
+          const locations = values;
+          const representativeLocation = first(locations);
+          const trip: TrackedInstanceInfo = {
+            campaigns: [],
+            distance: 0,
+            startTime: first(locations).date,
+            endTime: last(locations).date,
+            modeType: group,
+            multimodalId: representativeLocation.multimodalId,
+            polyline: '',
+            trackedInstanceId: `localId_${transportType}_${representativeLocation.date}`,
+            validity: null,
+          };
+          return trip;
+        });
+        return this.sortTrips(locationsAsTrips);
       })
     );
 
-  private localTrips$: Observable<ServerOrLocalTrip[]> = combineLatest([
+  private fromPluginTrips$: Observable<ServerOrLocalTrip[]> = combineLatest([
     this.notSynchronizedTrips$,
     this.tripService.isInTrip$,
   ]).pipe(
     map(([notSynchronizedTrips, isInTrip]) =>
       notSynchronizedTrips.map((notSynchronizedTrip, idx) => {
-        const isLast = idx === notSynchronizedTrips.length - 1;
+        const isFirst = idx === 0;
+        const isFinished = !isFirst || !isInTrip;
+        const status: Status = isFinished ? 'NOT_SYNCHRONIZED' : 'ONGOING';
         return {
           ...notSynchronizedTrip,
-          isFinished: !isLast || !isInTrip,
-          isLocal: true,
+          status,
         };
       })
     ),
@@ -112,10 +142,16 @@ export class TripsPage implements OnInit {
   );
 
   private trips$: Observable<ServerOrLocalTrip[]> = combineLatest([
-    this.serverTrips$,
-    this.localTrips$,
+    this.fromPluginTrips$,
+    this.recentTrips$,
+    this.deepPastTrips$,
   ]).pipe(
-    map(([serverTrips, localTrips]) => [...localTrips, ...serverTrips]),
+    map(([fromPluginTrips, recentTrips, deepPastTrips]) => [
+      ...fromPluginTrips.map((t) => ({ ...t, source: 'fromPluginTrips' })),
+      ...recentTrips.map((t) => ({ ...t, source: 'recentTrips' })),
+      ...deepPastTrips.map((t) => ({ ...t, source: 'deepPastTrips' })),
+    ]),
+    map((trips) => this.sortTrips(trips)),
     distinctUntilChanged(isEqual)
   );
 
@@ -129,7 +165,8 @@ export class TripsPage implements OnInit {
     private errorService: ErrorService,
     private trackControllerService: TrackControllerService,
     private backgroundTrackingService: BackgroundTrackingService,
-    private tripService: TripService
+    private tripService: TripService,
+    private localTripsService: LocalTripsService
   ) {}
 
   trackGroup: TrackByFunction<TripGroup> = (index: number, group: TripGroup) =>
@@ -198,13 +235,29 @@ export class TripsPage implements OnInit {
   ): Observable<PageableResponse<TrackedInstanceInfo>> {
     return this.trackControllerService.getTrackedInstanceInfoListUsingGET(
       pageRequest.page,
-      pageRequest.size
+      pageRequest.size,
+      toServerDateTime(DateTime.fromMillis(0)) as unknown as Date, //from - older
+      null, //sort
+      // TODO: check +-1 day errors!!
+      toServerDateTime(
+        this.localTripsService.localDataFromDate
+      ) as unknown as Date //to - newer
+    );
+  }
+
+  private sortTrips(trips: TrackedInstanceInfo[]): TrackedInstanceInfo[] {
+    // sort by date. First the ones with the most recent date, then the ones with the oldest date
+    // aka: sort desc by timestamp
+    return sortBy(
+      trips,
+      (trip) => -new Date(trip.endTime || trip.startTime).getTime()
     );
   }
 }
+type Status = TrackedInstanceInfo.ValidityEnum | 'NOT_SYNCHRONIZED' | 'ONGOING';
+
 export interface ServerOrLocalTrip extends TrackedInstanceInfo {
-  isLocal: boolean;
-  isFinished?: boolean;
+  status: Status;
 }
 
 interface MultiTrip {

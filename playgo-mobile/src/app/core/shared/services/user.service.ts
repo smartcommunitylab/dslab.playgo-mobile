@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
 import { TransportType } from '../tracking/trip.model';
-import { LocalStorageService } from './local-storage.service';
+import { UserStorageService } from './user-storage.service';
 import { TerritoryService } from './territory.service';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
@@ -76,7 +76,7 @@ export class UserService {
     private translateService: TranslateService,
     private reportService: ReportService,
     private territoryService: TerritoryService,
-    private localStorageService: LocalStorageService,
+    private localStorageService: UserStorageService,
     private navCtrl: NavController,
     private authService: AuthService,
     private http: HttpClient,

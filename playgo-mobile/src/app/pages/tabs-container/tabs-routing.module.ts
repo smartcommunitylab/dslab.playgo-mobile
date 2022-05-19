@@ -20,6 +20,11 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'trips',
+        loadChildren: () =>
+          import('../trips/trips.module').then((m) => m.TripsPageModule),
+      },
+      {
         path: '',
         redirectTo: '/pages/tabs/home',
         pathMatch: 'full',

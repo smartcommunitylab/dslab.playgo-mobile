@@ -4,8 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { InfiniteScrollComponent } from './infinite-scroll.component';
 
 describe('InfiniteScrollComponent', () => {
-  let component: InfiniteScrollComponent;
-  let fixture: ComponentFixture<InfiniteScrollComponent>;
+  let component: InfiniteScrollComponent<any>;
+  let fixture: ComponentFixture<InfiniteScrollComponent<any>>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

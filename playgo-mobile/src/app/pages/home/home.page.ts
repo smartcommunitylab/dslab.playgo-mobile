@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher, NavController } from '@ionic/angular';
 import { AuthService, IAuthAction, AuthActions } from 'ionic-appauth';
-import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';
+import { UserStorageService } from 'src/app/core/shared/services/user-storage.service';
 import { Subscription } from 'rxjs';
 import { AppVersionService } from 'src/app/core/app-version.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -22,7 +22,7 @@ export class HomePage implements OnInit, OnDestroy {
     private auth: AuthService,
     private navCtrl: NavController,
     private userService: UserService,
-    private localStorageService: LocalStorageService,
+    private localStorageService: UserStorageService,
     private router: Router,
     public appVersionService: AppVersionService
   ) { }

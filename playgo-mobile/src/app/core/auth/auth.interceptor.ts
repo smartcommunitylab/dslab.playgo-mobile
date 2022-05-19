@@ -8,7 +8,7 @@ import {
 import { from, Observable, ReplaySubject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from 'ionic-appauth';
-import { LocalStorageService } from '../shared/services/local-storage.service';
+import { UserStorageService } from '../shared/services/user-storage.service';
 import { NavController } from '@ionic/angular';
 // import { UserService } from '../shared/services/user.service';
 @Injectable()
@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     //private userService: UserService
-    private localStorageService: LocalStorageService,
+    private localStorageService: UserStorageService,
     private navCtrl: NavController
   ) {
     this.urlsToNotUse = [];

@@ -18,6 +18,7 @@ import { ServerOrLocalTrip } from '../trips.page';
   styleUrls: ['./trip-card.component.scss'],
 })
 export class TripCardComponent implements OnInit, OnChanges {
+  simpleId = simpleId;
   transportTypeLabels = transportTypeLabels;
   transportTypeIcons = transportTypeIcons;
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -39,12 +40,16 @@ export class TripCardComponent implements OnInit, OnChanges {
   ) {}
 
   openDetail() {
-    if (this.trip.isLocal) {
+    if (this.isLocal(this.trip)) {
       return;
     }
-    this.router.navigate(['../trip-detail', this.trip.trackedInstanceId], {
+    this.router.navigate([this.trip.trackedInstanceId], {
       relativeTo: this.route,
     });
+  }
+
+  isLocal(trip: ServerOrLocalTrip): boolean {
+    return trip.status === 'NOT_SYNCHRONIZED' || trip.status === 'ONGOING';
   }
 
   ngOnInit() {
@@ -62,4 +67,12 @@ export class TripCardComponent implements OnInit, OnChanges {
       return label;
     });
   }
+}
+
+const idMap = new Map<any, number>();
+function simpleId(realId: string) {
+  if (!idMap.has(realId)) {
+    idMap.set(realId, idMap.size);
+  }
+  return 'id_' + idMap.get(realId);
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import {
   BackgroundGeolocation,
   State,
@@ -50,7 +51,9 @@ export class BackgroundGeolocationMock {
   }
   @mockMethod({ async: true })
   public static async sync() {
+    const locations = BackgroundGeolocationMock.locations;
     BackgroundGeolocationMock.locations = [];
+    return locations;
   }
   @mockMethod({ async: true })
   public static async getLocations() {

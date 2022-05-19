@@ -17,7 +17,7 @@ import {
   transportTypeLabels,
   transportTypes,
 } from 'src/app/core/shared/tracking/trip.model';
-import { tapLog } from 'src/app/core/shared/utils';
+import { tapLog, toServerDateOnly } from 'src/app/core/shared/utils';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -214,7 +214,7 @@ export class LeaderboardPage implements OnInit {
     // When we round reference date to the start of the day, than we get this period
     // from beginning of the day to now, where events affecting this period will
     // cause inconsistent data between the loaded pages of pagination.
-    return dateTime.toUTC().toFormat('yyyy-MM-dd');
+    return toServerDateOnly(dateTime);
   }
 
   ngOnInit() {}
