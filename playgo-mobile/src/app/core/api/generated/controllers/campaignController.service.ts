@@ -158,6 +158,28 @@ export class CampaignControllerService {
   }
 
   /**
+   * uploadCampaignBanner
+   *
+   * @param campaignId campaignId
+   * @param body
+   */
+  public uploadCampaignBannerUsingPOST(
+    campaignId: string,
+    body?: Object
+  ): Observable<Image> {
+    return this.http.request<Image>(
+      'post',
+      environment.serverUrl.api +
+        `/playandgo/api/campaign/${encodeURIComponent(
+          String(campaignId)
+        )}/banner`,
+      {
+        body,
+      }
+    );
+  }
+
+  /**
    * uploadCampaignLogo
    *
    * @param campaignId campaignId
