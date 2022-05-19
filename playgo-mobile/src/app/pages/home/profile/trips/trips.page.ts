@@ -229,10 +229,12 @@ export class TripsPage implements OnInit {
     return this.trackControllerService.getTrackedInstanceInfoListUsingGET(
       pageRequest.page,
       pageRequest.size,
-      toServerDateTime(DateTime.fromMillis(0)), //from
+      toServerDateTime(DateTime.fromMillis(0)) as unknown as Date, //from - older
       null, //sort
       // TODO: check +-1 day errors!!
-      toServerDateTime(this.localTripsService.localDataFromDate) //to
+      toServerDateTime(
+        this.localTripsService.localDataFromDate
+      ) as unknown as Date //to - newer
     );
   }
 }

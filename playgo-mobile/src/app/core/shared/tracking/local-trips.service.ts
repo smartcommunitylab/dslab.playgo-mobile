@@ -272,9 +272,9 @@ export class LocalTripsService {
       .getTrackedInstanceInfoListUsingGET(
         0,
         10000,
-        toServerDateTime(from),
+        toServerDateTime(from) as unknown as Date,
         null,
-        toServerDateTime(to)
+        toServerDateTime(to) as unknown as Date
       )
       .pipe(
         tapLog('LT: data from server!'),
