@@ -53,6 +53,19 @@ export class RegistrationPage implements OnInit {
       privacy: [false, Validators.requiredTrue]
 
     });
+    this.userService.getAACUserInfo().then((user) => {
+      if (user) {
+        if (user.email) {
+          this.registrationForm.patchValue({ mail: user.email });
+        }
+        if (user.given_name) {
+          this.registrationForm.patchValue({ name: user.given_name });
+        }
+        if (user.family_name) {
+          this.registrationForm.patchValue({ givenName: user.family_name });
+        }
+      }
+    });
   }
   async changeAvatar() {
     console.log('changing avatar');
@@ -85,7 +98,11 @@ export class RegistrationPage implements OnInit {
       return false;
     } else {
       const header = await this.translate.instant('registration.confirm.header');
-      const message = await this.translate.instant('registration.confirm.message', { nickname: 'John', territory: 'France' });
+      const message = await this.translate.instant('registration.confirm.message',
+        {
+          nickname: this.registrationForm.value.nickname,
+          territory: this.registrationForm.value.territory
+        });
       const alert = await this.alertController.create({
         cssClass: 'modalConfirm',
         header,

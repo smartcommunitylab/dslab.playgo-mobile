@@ -1,38 +1,35 @@
-<ion-card>
-  <ion-card-content>
-    <ion-item *ngIf="profile">
-      <ion-avatar slot="start" *ngIf="profile.avatar">
-        <img [src]="profile.avatar.avatarDataSmall" title=" avatar" />
-      </ion-avatar>
-      <ion-label>
-        <h3>{{ profile.nickname }}</h3>
-        <p>{{ profile.mail }}</p>
-      </ion-label>
-      <ion-button expand="block" (click)="openModal()" *ngIf="editable">{{
-        "profile.changeButton" | translate
-      }}</ion-button>
-    </ion-item>
-    <ion-item *ngIf="showStatus && status">
-      <ion-label>
-        <p>
-          {{
-            "profile.status.travels"
-              | translate: { totalTravels: status.travels }
-          }}
-        </p>
-        <p>
-          {{
-            "profile.status.activityDays"
-              | translate: { activityDays: status.activityDays }
-          }}
-        </p>
-        <p>
-          {{
-            "profile.status.myCampaigns"
-              | translate: { myCampaigns: numMyCampaigns }
-          }}
-        </p>
-      </ion-label>
-    </ion-item>
-  </ion-card-content>
-</ion-card>
+<ion-item *ngIf="profile">
+  <ion-avatar slot="start" *ngIf="profile.avatar">
+    <img [src]="profile.avatar.avatarDataSmall" title=" avatar" />
+  </ion-avatar>
+  <ion-label>
+    <h3>{{ profile.nickname }}</h3>
+    <p *ngIf="editable">{{ profile.mail }}</p>
+  </ion-label>
+  <ion-icon slot="end" name="cog" *ngIf="!editable"></ion-icon>
+  <!-- <ion-button expand="block" (click)="openModal()" *ngIf="editable">{{
+    "profile.changeButton" | translate
+    }}</ion-button> -->
+</ion-item>
+<ion-item *ngIf="editable">
+  <ion-label>
+    <p>
+      {{
+      "profile.status.travels"
+      | translate: { totalTravels: status.travels }
+      }}
+    </p>
+    <p>
+      {{
+      "profile.status.activityDays"
+      | translate: { activityDays: status.activityDays }
+      }}
+    </p>
+    <p>
+      {{
+      "profile.status.myCampaigns"
+      | translate: { myCampaigns: numMyCampaigns }
+      }}
+    </p>
+  </ion-label>
+</ion-item>

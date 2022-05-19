@@ -117,7 +117,14 @@ export class UserService {
       )
       .toPromise();
   }
-
+  getAACUserInfo(): Promise<any> {
+    return this.http
+      .request(
+        'GET',
+        environment.authConfig.server_host + '/userinfo'
+      )
+      .toPromise();
+  }
   registerLocale(locale: string) {
     if (!locale) {
       return;

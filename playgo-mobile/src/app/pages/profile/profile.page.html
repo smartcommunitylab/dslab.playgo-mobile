@@ -1,13 +1,7 @@
-<app-header
-  title="{{ 'profileTitle' | translate }}"
-  [backButton]="false"
-></app-header>
+<app-header title="{{ 'profileTitle' | translate }}" [backButton]="false"></app-header>
 
 <ion-content [fullscreen]="true">
-  <app-profile-component
-    [editable]="true"
-    [showStatus]="true"
-  ></app-profile-component>
+  <app-profile-component [editable]="true" [showStatus]="true"></app-profile-component>
   <app-general-statistics></app-general-statistics>
   <ion-card (click)="navigateTo('trips')">
     <ion-card-content>

@@ -16,7 +16,6 @@ import { ChangeProfileModalPage } from '../change-profile-component/changeProfil
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   @Input() editable = false;
-  @Input() showStatus = true;
   profile: IUser;
   status: PlayerStatus;
   subStat: Subscription;
@@ -27,7 +26,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private campaignService: CampaignService,
     private modalController: ModalController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.subProf = this.userService.userProfile$.subscribe((profile) => {
@@ -60,7 +59,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         //save new profile
         try {
           this.userService.updatePlayer(this.profile);
-        } catch (e) {}
+        } catch (e) { }
       } else {
         //not save and show hi
       }
