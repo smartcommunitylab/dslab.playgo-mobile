@@ -231,14 +231,18 @@ export class BackgroundTrackingService {
       },
     });
 
-    // this call will fail, if the network is not available
-    const locationSentToServer: Location[] =
-      ((await this.backgroundGeolocationPlugin.sync()) as Location[]) || [];
+    const locationSentToServer =
+      await this.backgroundGeolocationPlugin.getLocations();
 
-    console.log('sync sent', locationSentToServer);
+    // .sync call will fail, if the network is not available
+    // I dont know why is seems that it is not possible to get list of locations
+    // that was really sent...
+    await this.backgroundGeolocationPlugin.sync();
+
     this.localTripsService.locationSynchronizedToServer(
       locationSentToServer.map(TripLocation.fromLocation)
     );
+    this.possibleLocationsChangeSubject.next();
   }
 
   private async setExtrasAndForceLocation(
