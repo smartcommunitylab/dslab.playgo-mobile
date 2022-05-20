@@ -1,15 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { UserService } from 'src/app/core/shared/services/user.service';
-import { Territory, TerritoryData } from '../../model/territory.model';
+import { Territory } from '../../model/territory.model';
 import { CampaignService } from '../../services/campaign.service';
 import { readAsBase64 } from '../../utils';
 
-import { ChangeProfileModalPage } from '../change-profile-component/changeProfile.component';
 
 @Component({
   selector: 'app-profile-component',
@@ -30,7 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private campaignService: CampaignService,
     private navCtrl: NavController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.subProf = this.userService.userProfile$.subscribe((profile) => {

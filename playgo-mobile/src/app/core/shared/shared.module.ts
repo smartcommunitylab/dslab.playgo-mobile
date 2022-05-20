@@ -4,7 +4,6 @@ import { MyCampaignCardComponent } from './campaigns/my-campaign-card/my-campaig
 import { PublicCampaignCardComponent } from './campaigns/public-campaign-card/public-campaign-card.component';
 import { LocalDatePipe } from './pipes/localDate.pipe';
 import { LocalNumberPipe } from './pipes/localNumber.pipe';
-import { ChangeProfileModalPage } from './profile-components/change-profile-component/changeProfile.component';
 import { SingleMeanStatisticComponent } from './profile-components/general-statistics-component/single-mean-statistic-component/single-mean-statistic.component';
 import { TotalStatisticsComponent } from './profile-components/general-statistics-component/total-statistics-component/total-statistics.component';
 import { ProfileComponent } from './profile-components/profile-component/profile.component';
@@ -19,6 +18,7 @@ import {
 import { HeaderComponent } from './layout/header/header.component';
 import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-number.component';
 import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-campaign-stat.component';
+import { PrivacyModalPage } from 'src/app/pages/home/profile/privacy-modal/privacyModal.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
@@ -28,7 +28,7 @@ import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-c
     PublicCampaignCardComponent,
     HeaderComponent,
     ProfileComponent,
-    ChangeProfileModalPage,
+    PrivacyModalPage,
     SingleMeanStatisticComponent,
     TotalStatisticsComponent,
     LocalDatePipe,
@@ -45,6 +45,7 @@ import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-c
     MainCampaignStatComponent,
     PublicCampaignCardComponent,
     ProfileComponent,
+    PrivacyModalPage,
     LocalDatePipe,
     HeaderComponent,
     SingleMeanStatisticComponent,
@@ -56,4 +57,4 @@ import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-c
     OrdinalNumberComponent,
   ],
 })
-export class PlayGoSharedModule {}
+export class PlayGoSharedModule { }
