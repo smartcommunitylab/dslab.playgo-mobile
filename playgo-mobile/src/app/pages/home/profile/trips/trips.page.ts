@@ -141,9 +141,9 @@ export class TripsPage implements OnInit {
     this.deepPastTrips$,
   ]).pipe(
     map(([fromPluginTrips, recentTrips, deepPastTrips]) => [
-      ...fromPluginTrips,
-      ...recentTrips,
-      ...deepPastTrips,
+      ...fromPluginTrips.map((t) => ({ ...t, source: 'fromPluginTrips' })),
+      ...recentTrips.map((t) => ({ ...t, source: 'recentTrips' })),
+      ...deepPastTrips.map((t) => ({ ...t, source: 'deepPastTrips' })),
     ]),
     distinctUntilChanged(isEqual)
   );

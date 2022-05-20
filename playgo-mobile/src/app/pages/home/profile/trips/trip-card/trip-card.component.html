@@ -1,4 +1,9 @@
 <div *ngIf="trip" button (click)="openDetail()" detail>
+  <small
+    >{{ $any(trip).source }} {{ simpleId(trip.clientId) }}
+    {{ trip.clientId }}</small
+  >
+  <br />
   <strong>{{ transportTypeLabels[trip.modeType] | translate }}</strong>
   <div *ngIf="!multiModalTrip">
     <div *ngIf="isOneDayTrip">

@@ -18,6 +18,7 @@ import { ServerOrLocalTrip } from '../trips.page';
   styleUrls: ['./trip-card.component.scss'],
 })
 export class TripCardComponent implements OnInit, OnChanges {
+  simpleId = simpleId;
   transportTypeLabels = transportTypeLabels;
   transportTypeIcons = transportTypeIcons;
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -62,4 +63,12 @@ export class TripCardComponent implements OnInit, OnChanges {
       return label;
     });
   }
+}
+
+const idMap = new Map<any, number>();
+function simpleId(realId: string) {
+  if (!idMap.has(realId)) {
+    idMap.set(realId, idMap.size);
+  }
+  return 'id_' + idMap.get(realId);
 }
