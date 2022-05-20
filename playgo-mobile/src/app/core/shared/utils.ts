@@ -101,7 +101,9 @@ export function toServerDateTime(dateTime: DateTime): string {
     );
     throw new Error('Invalid dateTime');
   }
-  return dateTime.toUTC().toFormat('yyyy-MM-dd HH:mm:S');
+  // ou no! Server is not using UTC :(
+  // return dateTime.toUTC().toFormat('yyyy-MM-dd HH:mm:ss');
+  return dateTime.toLocal().toFormat('yyyy-MM-dd HH:mm:ss');
 }
 
 export function toServerDateOnly(dateTime: DateTime): string {
@@ -117,5 +119,7 @@ export function toServerDateOnly(dateTime: DateTime): string {
     );
     throw new Error('Invalid dateTime');
   }
-  return dateTime.toUTC().toFormat('yyyy-MM-dd');
+  // ou no! Server is not using UTC :(
+  // return dateTime.toUTC().toFormat('yyyy-MM-dd');
+  return dateTime.toLocal().toFormat('yyyy-MM-dd');
 }
