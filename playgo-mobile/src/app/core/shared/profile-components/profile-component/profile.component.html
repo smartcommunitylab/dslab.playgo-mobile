@@ -1,35 +1,49 @@
-<ion-item *ngIf="profile">
-  <ion-avatar slot="start" *ngIf="profile.avatar">
-    <img [src]="profile.avatar.avatarDataSmall" title=" avatar" />
-  </ion-avatar>
-  <ion-label>
-    <h3>{{ profile.nickname }}</h3>
-    <p *ngIf="editable">{{ profile.mail }}</p>
-  </ion-label>
-  <ion-icon slot="end" name="cog" *ngIf="!editable" (click)="navigateToProfile()"></ion-icon>
-  <!-- <ion-button expand="block" (click)="openModal()" *ngIf="editable">{{
-    "profile.changeButton" | translate
-    }}</ion-button> -->
-</ion-item>
-<ion-item *ngIf="editable">
-  <ion-label>
-    <p>
-      {{
-      "profile.status.travels"
-      | translate: { totalTravels: status.travels }
-      }}
-    </p>
-    <p>
-      {{
-      "profile.status.activityDays"
-      | translate: { activityDays: status.activityDays }
-      }}
-    </p>
-    <p>
-      {{
-      "profile.status.myCampaigns"
-      | translate: { myCampaigns: numMyCampaigns }
-      }}
-    </p>
-  </ion-label>
-</ion-item>
+<div *ngIf="profile">
+  <div *ngIf="!editable; then homeProfile; else editingProfile"></div>
+  <ng-template #homeProfile>
+    <ion-item>
+      <ion-avatar slot="start" class="avatar">
+        <img [src]="profile.avatar.avatarDataSmall" title="{{ 'registration.avatar.title' | translate }}" />
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ profile.nickname }}</h3>
+      </ion-label>
+      <ion-icon slot="end" name="cog" (click)="goToProfile()"></ion-icon>
+    </ion-item>
+  </ng-template>
+
+  <ng-template #editingProfile>
+    <ion-item>
+      <div class="avatar-container">
+        <ion-avatar class="avatar">
+          <img [src]="profile.avatar.avatarData" title="{{ 'registration.avatar.title' | translate }}" />
+        </ion-avatar>
+        <ion-icon class="avatar-cange" name="camera-outline" (click)="changeAvatar()"></ion-icon>
+      </div>
+      <ion-label>
+        <h3>{{ profile.nickname }}</h3>
+        <p>{{ "profile.mail" | translate }}{{ profile.mail }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>{{ "profile.activeFrom" | translate }} {{ activeFrom }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>{{ "profile.territory" | translate }} {{ territory.name }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>
+          {{
+          "profile.status.myCampaigns"
+          | translate: { myCampaigns: numMyCampaigns }
+          }}
+        </p>
+      </ion-label>
+    </ion-item>
+  </ng-template>
+</div>

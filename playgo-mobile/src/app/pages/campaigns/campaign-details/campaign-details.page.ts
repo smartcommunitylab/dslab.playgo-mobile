@@ -53,7 +53,6 @@ export class CampaignDetailsPage implements OnInit {
       default:
         return true;
     }
-
   }
   unsubscribeCampaign() {
     this.campaignService

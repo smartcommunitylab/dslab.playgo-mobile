@@ -87,6 +87,14 @@
     }
   },
   "profile": {
+    "mail": "Email: ",
+    "activeFrom": "Attivo dal: ",
+    "territory": "Territorio: ",
+    "blacklistedUser": "Blacklist utente",
+    "Faq": "FAQ",
+    "Help": "Help",
+    "Privacy": "Privacy",
+    "deleteAccount": "Elimina account",
     "changeButton": "Modifica",
     "change": {
       "modalTitle": "Modifica Profilo",

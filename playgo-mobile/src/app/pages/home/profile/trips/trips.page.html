@@ -1,10 +1,19 @@
-<app-header title="{{'tripsTitle' | translate}}" [defaultHref]="'/pages/tabs/profile'"></app-header>
+<app-header
+  title="{{'tripsTitle' | translate}}"
+  [defaultHref]="'/pages/tabs/home/profile'"
+></app-header>
 
 <ion-content>
-  <app-infinite-scroll [allItemsInTemplate]="true" [response]="tripsResponse$ | async"
-    (request)="scrollRequestSubject.next($event)" (items)="serverTripsSubject.next($event)">
+  <app-infinite-scroll
+    [allItemsInTemplate]="true"
+    [response]="tripsResponse$ | async"
+    (request)="scrollRequestSubject.next($event)"
+    (items)="serverTripsSubject.next($event)"
+  >
     <ng-template appInfiniteScrollContent>
-      <ng-container *ngFor="let tripGroup of groupedTrips$ | async; trackBy: trackGroup">
+      <ng-container
+        *ngFor="let tripGroup of groupedTrips$ | async; trackBy: trackGroup"
+      >
         <ion-card>
           <ion-card-header>
             <ion-card-title>
@@ -12,10 +21,16 @@
             </ion-card-title>
           </ion-card-header>
         </ion-card>
-        <ion-card *ngFor="let multiTrip of tripGroup.tripsInSameMonth; trackBy: trackMultiTrip">
+        <ion-card
+          *ngFor="let multiTrip of tripGroup.tripsInSameMonth; trackBy: trackMultiTrip"
+        >
           <!-- {{ multiTrip.multimodalId }} -->
-          <app-trip-card *ngIf="multiTrip.trips.length === 1" [trip]="multiTrip.trips[0]"
-            [isOneDayTrip]="multiTrip.isOneDayTrip" [multiModalTrip]="false"></app-trip-card>
+          <app-trip-card
+            *ngIf="multiTrip.trips.length === 1"
+            [trip]="multiTrip.trips[0]"
+            [isOneDayTrip]="multiTrip.isOneDayTrip"
+            [multiModalTrip]="false"
+          ></app-trip-card>
 
           <ng-container *ngIf="multiTrip.trips.length !== 1">
             <ion-item-divider>
@@ -33,8 +48,14 @@
               </ion-label>
             </ion-item-divider>
 
-            <ng-container *ngFor="let trip of multiTrip.trips; trackBy: trackTrip">
-              <app-trip-card [trip]="trip" [isOneDayTrip]="multiTrip.isOneDayTrip" [multiModalTrip]="true">
+            <ng-container
+              *ngFor="let trip of multiTrip.trips; trackBy: trackTrip"
+            >
+              <app-trip-card
+                [trip]="trip"
+                [isOneDayTrip]="multiTrip.isOneDayTrip"
+                [multiModalTrip]="true"
+              >
               </app-trip-card>
             </ng-container>
           </ng-container>

@@ -1,4 +1,8 @@
-<app-header [title]="titlePage" [color]="colorCampaign" [defaultHref]="'/pages/tabs/campaigns'"></app-header>
+<app-header
+  [title]="titlePage"
+  [color]="colorCampaign"
+  [defaultHref]="'/pages/tabs/campaigns'"
+></app-header>
 <ion-content [fullscreen]="true" *ngIf="campaign">
   <ion-avatar class="avatar-campaign">
     <img [src]="imagePath" title="campaign logo" />
@@ -12,7 +16,9 @@
       </app-main-campaign-stat> -->
     </ion-card-content>
   </ion-card>
-  <ion-card [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaign.campaignId]">
+  <ion-card
+    [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaign.campaignId]"
+  >
     <ion-item>
       <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
       <ion-icon name="arrow-forward" end></ion-icon>

@@ -22,7 +22,7 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subStat = this.userService.userStatus$.subscribe((status) => {
+    this.subStat = this.userService.userProfile$.subscribe((profile) => {
       // this.status = status;
       this.reportService
         .getGameStatus(this.campaignContainer.campaign.campaignId)
@@ -32,7 +32,7 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
       this.reportService
         .getGameStats(
           this.campaignContainer.campaign.campaignId,
-          status.playerId,
+          profile.playerId,
           DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
           DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd')
         )

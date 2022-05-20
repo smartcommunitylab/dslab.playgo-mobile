@@ -6,6 +6,7 @@ import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { DateTime } from 'luxon';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { Player } from 'src/app/core/api/generated/model/player';
 
 @Component({
   selector: 'app-home-campaign-personal',
@@ -15,7 +16,7 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
   subStat: Subscription;
-  status: PlayerStatus;
+  profile: Player;
   reportWeekStat: CampaignPlacing;
   constructor(
     private userService: UserService,
@@ -23,12 +24,12 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subStat = this.userService.userStatus$.subscribe((status) => {
-      this.status = status;
+    this.subStat = this.userService.userProfile$.subscribe((profile) => {
+      this.profile = profile;
       this.reportService
         .getCo2Stats(
           this.campaignContainer.campaign.campaignId,
-          this.status.playerId,
+          this.profile.playerId,
           DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
           DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd')
         )

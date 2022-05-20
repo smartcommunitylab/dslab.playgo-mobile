@@ -1,13 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { Camera, CameraResultType, Photo } from '@capacitor/camera';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { Territory } from '../../model/territory.model';
 import { CampaignService } from '../../services/campaign.service';
-// import { IStatus } from '../../model/status.model';
-// import { CampaignService } from '../../services/campaign.service';
-import { ChangeProfileModalPage } from '../change-profile-component/changeProfile.component';
+import { readAsBase64 } from '../../utils';
+
 
 @Component({
   selector: 'app-profile-component',
@@ -16,16 +16,17 @@ import { ChangeProfileModalPage } from '../change-profile-component/changeProfil
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   @Input() editable = false;
+  image: Photo;
   profile: IUser;
-  status: PlayerStatus;
-  subStat: Subscription;
   subProf: Subscription;
+  subTerritory: Subscription;
   subCamp: Subscription;
   numMyCampaigns: number;
+  territory: Territory;
+  activeFrom: string;
   constructor(
     private userService: UserService,
     private campaignService: CampaignService,
-    private modalController: ModalController,
     private navCtrl: NavController
   ) { }
 
@@ -33,41 +34,39 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subProf = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
     });
-    this.subStat = this.userService.userStatus$.subscribe((status) => {
-      this.status = status;
-    });
+    this.subTerritory = this.userService.userProfileTerritory$.subscribe(
+      (territory) => {
+        this.territory = territory;
+      }
+    );
     this.subCamp = this.campaignService.myCampaigns$.subscribe(
       (myCampaigns) => {
-        this.numMyCampaigns = myCampaigns.length;
+        this.numMyCampaigns = myCampaigns?.length;
+        this.activeFrom = myCampaigns.find(
+          (camp) => camp.campaign?.type === 'personal'
+        ).subscription?.registrationDate;
       }
     );
   }
   ngOnDestroy() {
     this.subProf.unsubscribe();
-    this.subStat.unsubscribe();
     this.subCamp.unsubscribe();
   }
-  navigateToProfile() {
-    this.navCtrl.navigateRoot('/pages/tabs/profile');
+  async changeAvatar() {
+    this.image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+    });
+    const avatarData = await this.userService.uploadAvatar(
+      await readAsBase64(this.image)
+    );
+    if (avatarData) {
+      this.userService.updateImages();
+    }
   }
-  async openModal() {
-    const modal = await this.modalController.create({
-      component: ChangeProfileModalPage,
-      componentProps: {
-        profile: this.profile,
-      },
-    });
 
-    modal.onDidDismiss().then((profileResponse) => {
-      if (profileResponse !== null) {
-        //save new profile
-        try {
-          this.userService.updatePlayer(this.profile);
-        } catch (e) { }
-      } else {
-        //not save and show hi
-      }
-    });
-    return await modal.present();
+  goToProfile() {
+    this.navCtrl.navigateRoot('/pages/tabs/home/profile');
   }
 }

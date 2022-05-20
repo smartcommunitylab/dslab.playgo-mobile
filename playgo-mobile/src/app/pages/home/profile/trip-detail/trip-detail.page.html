@@ -1,14 +1,22 @@
-<app-header title="{{'tripDetailTitle' | translate}} " [defaultHref]="'/pages/tabs/profile/trips'"></app-header>
+<app-header
+  title="{{'tripDetailTitle' | translate}} "
+  [defaultHref]="'/pages/tabs/home/profile/trips'"
+></app-header>
 
 <ion-content>
   <ng-container *ngIf="tripDetails">
-    <app-trip-detail-map *ngIf="showMap" [tripParts]="tripDetails"></app-trip-detail-map>
+    <app-trip-detail-map
+      *ngIf="showMap"
+      [tripParts]="tripDetails"
+    ></app-trip-detail-map>
     <div>
       <ion-card>
         <ion-grid>
           <ion-row>
             <ion-col *ngFor="let tripPart of tripDetails" size="6">
-              <ion-icon [name]="transportTypeIcons[tripPart.modeType]"></ion-icon>
+              <ion-icon
+                [name]="transportTypeIcons[tripPart.modeType]"
+              ></ion-icon>
               {{ transportTypeLabels[tripPart.modeType] | translate }}
               <div>
                 {{ 'trip_detail.start' |translate}}: {{tripPart.startTime |

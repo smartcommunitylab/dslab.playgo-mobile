@@ -8,26 +8,26 @@
     </app-main-campaign-stat> -->
     <p *ngIf="status?.registrationDate">
       {{
-      "campaigns.homewidgets.personal.active"
-      | translate: { startDate: status.registrationDate }
+        "campaigns.homewidgets.personal.active"
+          | translate: { startDate: status.registrationDate }
       }}
     </p>
     <p *ngIf="status?.co2">
       {{
-      "campaigns.homewidgets.personal.totalco2"
-      | translate: { totalCO2: status.co2 }
+        "campaigns.homewidgets.personal.totalco2"
+          | translate: { totalCO2: status.co2 }
       }}
     </p>
     <p *ngIf="reportWeekStat?.value">
       {{
-      "campaigns.homewidgets.personal.weeklyco2"
-      | translate: { weeklyCO2: reportWeekStat.value }
+        "campaigns.homewidgets.personal.weeklyco2"
+          | translate: { weeklyCO2: reportWeekStat.value }
       }}
     </p>
     <p *ngIf="reportWeekStat?.position">
       {{
-      "campaigns.homewidgets.personal.weeklyRanking"
-      | translate: { weeklyRanking: reportWeekStat.position }
+        "campaigns.homewidgets.personal.weeklyRanking"
+          | translate: { weeklyRanking: reportWeekStat.position }
       }}
     </p>
   </ion-card-content>

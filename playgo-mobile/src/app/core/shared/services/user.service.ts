@@ -1,7 +1,7 @@
 import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { merge, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, merge, Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
@@ -27,16 +27,16 @@ import {
 import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { IStatus } from '../model/status.model';
 import { isEqual } from 'lodash-es';
+import { Territory, TerritoryData } from '../model/territory.model';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userLocale: string;
   private userProfile: IUser = null;
-  private userStatus: PlayerStatus = null;
   public initUserProfile$: Observable<IUser> = this.authService.token$.pipe(
     filter((token) => token !== null),
     first(),
     switchMap(() => this.getUserProfile()),
-    shareReplay()
+    shareReplay(1)
   );
   public userProfileRefresher$ = new ReplaySubject<IUser>(1);
 
@@ -44,32 +44,34 @@ export class UserService {
     this.initUserProfile$,
     this.userProfileRefresher$
   );
-  userProfile$ = this.userProfileCouldBeChanged$.pipe(
+  userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
     switchMap(() => this.getUserProfile()),
     distinctUntilChanged(isEqual),
-    shareReplay()
+    shareReplay(1)
   );
 
-  public initUserStatus$: Observable<PlayerStatus> =
-    this.authService.token$.pipe(
-      filter((token) => token !== null),
-      first(),
-      switchMap(() => this.getUserStatus()),
-      shareReplay()
-    );
   public userStatusRefresher$ = new ReplaySubject<PlayerStatus>(1);
-
-  private userStatusCouldBeChanged$ = merge(
-    this.initUserStatus$,
-    this.userStatusRefresher$
+  public userProfileTerritory$: Observable<Territory> = combineLatest([
+    this.userProfile$,
+    this.territoryService.territories$,
+  ]).pipe(
+    map(([userProfile, territories]) =>
+      territories.find(
+        (territory) => territory.territoryId === userProfile.territoryId
+      )
+    )
   );
-  userStatus$ = this.userStatusCouldBeChanged$.pipe(
-    switchMap(() => this.getUserStatus()),
-    distinctUntilChanged(isEqual),
-    shareReplay()
+  public userProfileMeans$: Observable<TransportType[]> = combineLatest([
+    this.userProfile$,
+    this.territoryService.territories$,
+  ]).pipe(
+    map(
+      ([userProfile, territories]) =>
+        territories.find(
+          (territory) => territory.territoryId === userProfile.territoryId
+        ).territoryData.means
+    )
   );
-  public userProfileMeans$: Observable<TransportType[]> = this.userStatus$.pipe(
-    map((status) => status.territory.territoryData.means));
   constructor(
     private translateService: TranslateService,
     private reportService: ReportService,
@@ -79,7 +81,7 @@ export class UserService {
     private authService: AuthService,
     private http: HttpClient,
     private playerControllerService: PlayerControllerService
-  ) { }
+  ) {}
   set locale(value: string) {
     this.userLocale = value;
   }
@@ -119,10 +121,7 @@ export class UserService {
   }
   getAACUserInfo(): Promise<any> {
     return this.http
-      .request(
-        'GET',
-        environment.authConfig.server_host + '/userinfo'
-      )
+      .request('GET', environment.authConfig.server_host + '/userinfo')
       .toPromise();
   }
   registerLocale(locale: string) {
@@ -180,19 +179,19 @@ export class UserService {
     }
     return Promise.resolve(user);
   }
-  private async getUserStatus(): Promise<PlayerStatus> {
-    //get user status
-    const status = await this.reportService.getStatus();
-    if (status) {
-      this.userStatus = status;
-      // this.userStatusSubject.next(this.userStatus);
-    }
-    return Promise.resolve(status);
-  }
+  // private async getUserStatus(): Promise<PlayerStatus> {
+  //   //get user status
+  //   const status = await this.reportService.getStatus();
+  //   if (status) {
+  //     this.userStatus = status;
+  //     // this.userStatusSubject.next(this.userStatus);
+  //   }
+  //   return Promise.resolve(status);
+  // }
   public async startService() {
     //get user profile with avatars
     await this.getUserProfile();
-    await this.getUserStatus();
+    // await this.getUserStatus();
   }
   async updateImages() {
     //check if the avatar is present
