@@ -1,11 +1,11 @@
-import { IAvatar } from './avatar.model';
+import { Avatar } from '../../api/generated/model/avatar';
 
 export interface IUser {
   playerId?: string;
   nickname?: string;
   language?: string;
   mail?: string;
-  avatar?: IAvatar;
+  avatar?: any;
   territoryId?: string;
 }
 export class User implements IUser {
@@ -14,7 +14,7 @@ export class User implements IUser {
     public nickname?: string,
     public language?: string,
     public mail?: string,
-    public avatar?: IAvatar,
+    public avatar?: any,
     public territoryId?: string
-  ) {}
+  ) { }
 }

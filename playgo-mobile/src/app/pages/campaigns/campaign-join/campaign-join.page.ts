@@ -35,7 +35,8 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result) {
           this.campaign = result;
-          this.imagePath = 'data:image/jpg;base64,' + this.campaign.logo.image;
+          this.imagePath = this.campaign.logo.url ? this.campaign.logo.url :
+            'data:image/jpg;base64,' + this.campaign.logo.image;
         }
       });
   }

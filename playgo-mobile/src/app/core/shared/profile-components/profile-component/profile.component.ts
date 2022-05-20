@@ -62,7 +62,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
       await readAsBase64(this.image)
     );
     if (avatarData) {
-      this.userService.updateImages();
+      this.userService.updateImages(avatarData);
+      //TODO update doesn't work
+      this.profile.avatar = avatarData;
     }
   }
 

@@ -31,7 +31,8 @@ export class CampaignDetailsPage implements OnInit {
       this.campaign = result;
       this.titlePage = this.campaign.name;
       this.colorCampaign = this.campaign.type;
-      this.imagePath = 'data:image/jpg;base64,' + this.campaign.logo.image;
+      this.imagePath = this.campaign.logo.url ? this.campaign.logo.url :
+        'data:image/jpg;base64,' + this.campaign.logo.image;
     });
   }
   getCampaign() {

@@ -5,20 +5,19 @@
   <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)" #refresher>
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div class="background-gradient">
-    <div class="campaigns-container">
-      <h5>{{'campaigns.myCampaigns' | translate}}</h5>
-      <hr />
-    </div>
-    <div>
-      <app-my-campaign></app-my-campaign>
-    </div>
-    <div>
-      <h5>{{'campaigns.allCampaigns' | translate}}</h5>
-      <hr />
-    </div>
-    <div>
-      <app-all-campaign></app-all-campaign>
-    </div>
+  <ion-segment color="playgo" [(ngModel)]=" selectedSegment" (ionChange)="segmentChanged($event)" scrollable>
+    <ion-segment-button value="myCampaigns" checked>
+      <ion-label>{{'campaigns.myCampaigns' | translate}}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="publicCampaigns">
+      <ion-label>{{'campaigns.allCampaigns' | translate}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="selectedSegment==='myCampaigns'">
+    <app-my-campaign></app-my-campaign>
+  </div>
+  <div *ngIf="selectedSegment==='publicCampaigns'">
+    <app-all-campaign></app-all-campaign>
   </div>
 </ion-content>

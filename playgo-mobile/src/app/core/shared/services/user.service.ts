@@ -8,12 +8,12 @@ import localeItalian from '@angular/common/locales/it';
 import { TransportType } from '../tracking/trip.model';
 import { LocalStorageService } from './local-storage.service';
 import { TerritoryService } from './territory.service';
-import { Avatar } from '../model/avatar.model';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'ionic-appauth';
 import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
+import { Avatar } from '../../api/generated/model/avatar';
 import { Player } from '../../api/generated/model/player';
 import {
   distinctUntilChanged,
@@ -50,7 +50,7 @@ export class UserService {
     shareReplay(1)
   );
 
-  public userStatusRefresher$ = new ReplaySubject<PlayerStatus>(1);
+  // public userStatusRefresher$ = new ReplaySubject<PlayerStatus>(1);
   public userProfileTerritory$: Observable<Territory> = combineLatest([
     this.userProfile$,
     this.territoryService.territories$,
@@ -81,7 +81,7 @@ export class UserService {
     private authService: AuthService,
     private http: HttpClient,
     private playerControllerService: PlayerControllerService
-  ) {}
+  ) { }
   set locale(value: string) {
     this.userLocale = value;
   }
@@ -96,29 +96,21 @@ export class UserService {
       .uploadPlayerAvatarUsingPOST(formData)
       .toPromise();
   }
-  getAvatar(): Promise<any> {
-    return this.http
-      .request(
-        'GET',
-        environment.serverUrl.apiUrl + environment.serverUrl.avatar,
-        {
-          responseType: 'blob',
-        }
-      )
-      .toPromise();
+  getAvatar(): Promise<Avatar> {
+    return this.playerControllerService.getPlayerAvatarDataUsingGET().toPromise();
   }
 
-  getAvatarSmall(): Promise<any> {
-    return this.http
-      .request(
-        'GET',
-        environment.serverUrl.apiUrl + environment.serverUrl.avatarSmall,
-        {
-          responseType: 'blob',
-        }
-      )
-      .toPromise();
-  }
+  // getAvatarSmall(): Promise<any> {
+  //   return this.http
+  //     .request(
+  //       'GET',
+  //       environment.serverUrl.apiUrl + environment.serverUrl.avatarSmall,
+  //       {
+  //         responseType: 'blob',
+  //       }
+  //     )
+  //     .toPromise();
+  // }
   getAACUserInfo(): Promise<any> {
     return this.http
       .request('GET', environment.authConfig.server_host + '/userinfo')
@@ -156,26 +148,24 @@ export class UserService {
       console.log(e);
     }
     //check if the avatar is present
-    let avatarImage = null;
-    let avatarImageSmall = null;
+    let avatar = null;
+    // let avatarImageSmall = null;
     try {
-      avatarImage = await this.getAvatar();
-      avatarImageSmall = await this.getAvatarSmall();
+      avatar = await this.getAvatar();
+      // avatarImageSmall = await this.getAvatarSmall();
     } catch (e) {
-      if (!avatarImage) {
-        avatarImage = await fetch(
+      if (!avatar) {
+        avatar.avatarSmallUrl = await fetch(
           'assets/images/registration/generic_user.png'
         ).then((r) => r.blob());
-      }
-      if (!avatarImageSmall) {
-        avatarImageSmall = await fetch(
+        avatar.avatarUrl = await fetch(
           'assets/images/registration/generic_user.png'
         ).then((r) => r.blob());
       }
     }
     if (user) {
       this.userProfile = user;
-      this.processUser(user, avatarImage, avatarImageSmall);
+      this.processUser(user, avatar);
     }
     return Promise.resolve(user);
   }
@@ -193,65 +183,71 @@ export class UserService {
     await this.getUserProfile();
     // await this.getUserStatus();
   }
-  async updateImages() {
+  async updateImages(avatar) {
     //check if the avatar is present
-    let avatarImage = null;
-    let avatarImageSmall = null;
-    try {
-      avatarImage = await this.getAvatar();
-      avatarImageSmall = await this.getAvatarSmall();
-    } catch (e) {
-      if (!avatarImage) {
-        avatarImage = await fetch(
-          'assets/images/registration/generic_user.png'
-        ).then((r) => r.blob());
-      }
-      if (!avatarImageSmall) {
-        avatarImageSmall = await fetch(
-          'assets/images/registration/generic_user.png'
-        ).then((r) => r.blob());
-      }
-    }
-    this.processUser(this.userProfile, avatarImage, avatarImageSmall);
+    // let avatar = null;
+    // try {
+    //   // avatar = await this.getAvatar();
+    //   // avatarImageSmall = await this.getAvatarSmall();
+    // } catch (e) {
+    //   if (!avatar) {
+    //     avatar.avatarSmallUrl = await fetch(
+    //       'assets/images/registration/generic_user.png'
+    //     ).then((r) => r.blob());
+    //     avatar.avatarUrl = await fetch(
+    //       'assets/images/registration/generic_user.png'
+    //     ).then((r) => r.blob());
+    //   }
+
+    // }
+    this.processUser(this.userProfile, avatar);
   }
-  processUser(user: IUser, avatar?: Blob, avatarSmall?: Blob) {
+  processUser(user: IUser, avatar?: any) {
     if (avatar) {
-      this.setUserAvatar(user, avatar, avatarSmall);
+      this.setUserAvatar(user, avatar);
     }
     this.setUserProfileMeans(user.territoryId);
     this.registerLocale(user.language);
+    // this.userProfileRefresher$.next(user);
   }
-  setUserAvatar(user: IUser, avatar: Blob, avatarSmall: Blob) {
-    this.createImageFromBlob(user, avatar, avatarSmall);
+  setUserAvatar(user: IUser, avatar: any) {
+    //this.createImageFromBlob(user, avatar, avatarSmall);
+    // if (!user.avatar) {
+    //   user.avatar = {};
+    // }
+    user.avatar = avatar;
+
+    // user.avatar.avatarData = avatar.avatarUrl;
+    // user.avatar.avatarDataSmall = avatar.avatarSmallUrl;
   }
-  createImageFromBlob(user: IUser, userimage: Blob, userimageSmall: Blob) {
-    const reader = new FileReader();
-    reader.addEventListener(
-      'load',
-      () => {
-        if (!user.avatar) {
-          user.avatar = new Avatar();
-        }
-        user.avatar.avatarData = reader.result;
-      },
-      false
-    );
-    const readerSmall = new FileReader();
-    readerSmall.addEventListener(
-      'load',
-      () => {
-        if (!user.avatar) {
-          user.avatar = new Avatar();
-        }
-        user.avatar.avatarDataSmall = reader.result;
-      },
-      false
-    );
-    if (userimage) {
-      reader.readAsDataURL(userimage);
-      readerSmall.readAsDataURL(userimageSmall);
-    }
-  }
+  // createImageFromBlob(user: IUser, userimage: Blob, userimageSmall: Blob) {
+  //   const reader = new FileReader();
+  //   reader.addEventListener(
+  //     'load',
+  //     () => {
+  //       if (!user.avatar) {
+  //         user.avatar = new Avatar();
+  //       }
+  //       user.avatar.avatarData = reader.result;
+  //     },
+  //     false
+  //   );
+  //   const readerSmall = new FileReader();
+  //   readerSmall.addEventListener(
+  //     'load',
+  //     () => {
+  //       if (!user.avatar) {
+  //         user.avatar = new Avatar();
+  //       }
+  //       user.avatar.avatarDataSmall = reader.result;
+  //     },
+  //     false
+  //   );
+  //   if (userimage) {
+  //     reader.readAsDataURL(userimage);
+  //     readerSmall.readAsDataURL(userimageSmall);
+  //   }
+  // }
   async setUserProfileMeans(territoryId: string): Promise<TransportType[]> {
     //get territories means and set available means userProfileMeans$
     const userTerritory = await this.territoryService

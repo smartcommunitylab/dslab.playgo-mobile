@@ -2,17 +2,17 @@
 
 <ion-card button="join" (click)="detailCampaign()" class="ion-card">
   <ion-card-header [color]="containerCampaign.campaign.type">
-    <strong> {{ containerCampaign.campaign.name }}</strong>
+    <ion-item lines="none">
+      <ion-avatar>
+        <img [src]="imagePath" />
+      </ion-avatar>
+      <strong> {{ containerCampaign.campaign.name }}</strong>
+    </ion-item>
   </ion-card-header>
   <ion-card-content>
-    <ion-avatar>
-      <img [src]="imagePath" />
-    </ion-avatar>
+
     <div>
-      <app-main-campaign-stat
-        [campaign]="containerCampaign.campaign"
-        [type]="containerCampaign.campaign.type"
-      >
+      <app-main-campaign-stat>
       </app-main-campaign-stat>
     </div>
   </ion-card-content>

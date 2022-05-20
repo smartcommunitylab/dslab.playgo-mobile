@@ -25,7 +25,7 @@ export class HomePage implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private router: Router,
     public appVersionService: AppVersionService
-  ) {}
+  ) { }
 
   campagins() {
     this.router.navigateByUrl('/campaigns');
@@ -60,7 +60,7 @@ export class HomePage implements OnInit, OnDestroy {
   refresh() {
     //update status and profile
     this.userService.userProfileRefresher$.next();
-    this.userService.userStatusRefresher$.next();
+    // this.userService.userStatusRefresher$.next();
   }
   private onSignOutSuccess(action: IAuthAction) {
     if (action.action === AuthActions.SignOutSuccess) {

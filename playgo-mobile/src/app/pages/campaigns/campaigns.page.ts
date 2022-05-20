@@ -14,7 +14,7 @@ export class CampaignsPage implements OnInit, OnDestroy {
   selectedSegment?: string;
   sub: Subscription;
 
-  constructor(private campaignService: CampaignService) {}
+  constructor(private campaignService: CampaignService) { }
 
   ngOnInit(): void {
     this.selectedSegment = 'myCampaigns';
@@ -23,6 +23,9 @@ export class CampaignsPage implements OnInit, OnDestroy {
         this.refresher.complete();
       }
     );
+  }
+  segmentChanged(ev: any) {
+    console.log('Segment changed', ev);
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
