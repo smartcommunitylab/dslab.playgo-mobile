@@ -7,18 +7,16 @@ describe('GeneralStatisticsComponent', () => {
   let component: GeneralStatisticsComponent;
   let fixture: ComponentFixture<GeneralStatisticsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [GeneralStatisticsComponent],
-        imports: [IonicModule.forRoot()],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [GeneralStatisticsComponent],
+      imports: [IonicModule.forRoot()],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(GeneralStatisticsComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(GeneralStatisticsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

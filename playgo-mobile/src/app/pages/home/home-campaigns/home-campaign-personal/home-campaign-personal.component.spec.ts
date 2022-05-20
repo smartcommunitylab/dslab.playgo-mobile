@@ -7,18 +7,16 @@ describe('MyCampaignsWidgetComponent', () => {
   let component: HomeCampaignPersonalComponent;
   let fixture: ComponentFixture<HomeCampaignPersonalComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [HomeCampaignPersonalComponent],
-        imports: [IonicModule.forRoot()],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [HomeCampaignPersonalComponent],
+      imports: [IonicModule.forRoot()],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(HomeCampaignPersonalComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(HomeCampaignPersonalComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

@@ -43,8 +43,9 @@ export class AuthInterceptor implements HttpInterceptor {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         setHeaders: {
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          Authorization: `${token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
-            } ${token.accessToken}`,
+          Authorization: `${
+            token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
+          } ${token.accessToken}`,
           // eslint-disable-next-line @typescript-eslint/naming-convention
           Accept: '*/*',
         },

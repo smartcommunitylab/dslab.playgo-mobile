@@ -50,8 +50,7 @@ export class RegistrationPage implements OnInit {
       nickname: ['', [Validators.required, Validators.minLength(2)]],
       language: ['', [Validators.required]],
       territoryId: ['', [Validators.required]],
-      privacy: [false, Validators.requiredTrue]
-
+      privacy: [false, Validators.requiredTrue],
     });
     this.userService.getAACUserInfo().then((user) => {
       if (user) {
@@ -68,7 +67,6 @@ export class RegistrationPage implements OnInit {
     });
   }
   async changeAvatar() {
-    console.log('changing avatar');
     this.image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -82,14 +80,18 @@ export class RegistrationPage implements OnInit {
     return this.registrationForm.controls;
   }
   openTerritoryPopup() {
-    this.alertService.presentAlert('registration.territoryPopup.header',
+    this.alertService.presentAlert(
+      'registration.territoryPopup.header',
       'registration.territoryPopup.message',
-      'modalConfirm');
+      'modalConfirm'
+    );
   }
   openPrivacyPopup() {
-    this.alertService.presentAlert('registration.privacyPopup.header',
+    this.alertService.presentAlert(
+      'registration.privacyPopup.header',
       'registration.privacyPopup.message',
-      'modalConfirm');
+      'modalConfirm'
+    );
   }
 
   async registrationSubmit() {
@@ -97,14 +99,21 @@ export class RegistrationPage implements OnInit {
     if (!this.registrationForm.valid) {
       return false;
     } else {
-      const res = await this.alertService.confirmAlert('registration.confirm.header',
+      const res = await this.alertService.confirmAlert(
+        'registration.confirm.header',
         {
-          key: 'registration.confirm.message', interpolateParams: {
+          key: 'registration.confirm.message',
+          interpolateParams: {
             nickname: this.registrationForm.value.nickname,
-            territory: (this.territoryList.find(territory => territory.territoryId === this.registrationForm.value.territoryId)).name
-          }
+            territory: this.territoryList.find(
+              (territory) =>
+                territory.territoryId ===
+                this.registrationForm.value.territoryId
+            ).name,
+          },
         },
-        'modalConfirm');
+        'modalConfirm'
+      );
       if (res) {
         this.submitUser();
       }
@@ -122,9 +131,7 @@ export class RegistrationPage implements OnInit {
               )
             );
           } else {
-            await this.userService.uploadAvatar(
-              await readAsBase64(this.image)
-            );
+            await this.userService.uploadAvatar(await readAsBase64(this.image));
           }
           this.userService.startService();
           this.navCtrl.navigateRoot('/pages/tabs/home');

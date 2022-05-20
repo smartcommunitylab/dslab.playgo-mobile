@@ -19,12 +19,12 @@ export class ReportService {
     switchMap((config) =>
       this.getTransportStats(config.fromDate, config.toDate, config.group)
     ),
-    shareReplay()
+    shareReplay(1)
   );
   constructor(
     private reportControllerService: ReportControllerService,
     private gameController: GameControllerService
-  ) { }
+  ) {}
 
   getCo2Stats(
     campaignId?,

@@ -56,4 +56,4 @@ import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-c
     OrdinalNumberComponent,
   ],
 })
-export class PlayGoSharedModule { }
+export class PlayGoSharedModule {}

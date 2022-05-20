@@ -19,7 +19,7 @@ export class TerritoryService {
   public territories$: Observable<ITerritory[]> = this.trigger$.pipe(
     startWith(0),
     switchMap((num) => this.getTerritories().pipe(catchError((err) => of([])))),
-    shareReplay()
+    shareReplay(1)
   );
 
   constructor(private authHttpService: AuthHttpService) {

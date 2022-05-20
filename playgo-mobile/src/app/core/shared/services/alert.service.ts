@@ -19,7 +19,7 @@ export class AlertService {
     private loadingController: LoadingController,
     private alertController: AlertController,
     private translateService: TranslateService
-  ) { }
+  ) {}
   public async showToast(messageTranslateKey: TranslateKeyWithParams) {
     const message = await this.translate(messageTranslateKey);
     this.toast = await this.toastController.create({
@@ -29,7 +29,6 @@ export class AlertService {
     });
     this.toast.present();
   }
-
 
   public async presentAlert(
     headerTranslateKey: TranslateKeyWithParams,
@@ -103,7 +102,7 @@ export class AlertService {
 
     await this.loading.present();
   }
-  public async dismissLoading() { }
+  public async dismissLoading() {}
 
   private async translate(key: TranslateKeyWithParams): Promise<string> {
     const translated = await this.translateService

@@ -7,18 +7,16 @@ describe('TripDetailMapComponent', () => {
   let component: TripDetailMapComponent;
   let fixture: ComponentFixture<TripDetailMapComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [TripDetailMapComponent],
-        imports: [IonicModule.forRoot()],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [TripDetailMapComponent],
+      imports: [IonicModule.forRoot()],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(TripDetailMapComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(TripDetailMapComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

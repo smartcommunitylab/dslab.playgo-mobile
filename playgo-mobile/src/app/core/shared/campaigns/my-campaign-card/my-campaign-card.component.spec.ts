@@ -7,18 +7,16 @@ describe('CampaignCardComponent', () => {
   let component: MyCampaignCardComponent;
   let fixture: ComponentFixture<MyCampaignCardComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MyCampaignCardComponent],
-        imports: [IonicModule.forRoot()],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MyCampaignCardComponent],
+      imports: [IonicModule.forRoot()],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MyCampaignCardComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(MyCampaignCardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

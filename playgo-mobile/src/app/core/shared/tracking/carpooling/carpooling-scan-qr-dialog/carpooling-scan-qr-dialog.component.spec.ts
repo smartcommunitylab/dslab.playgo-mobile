@@ -7,18 +7,16 @@ describe('CarpoolingScanQRDialogComponent', () => {
   let component: CarpoolingScanQRDialogComponent;
   let fixture: ComponentFixture<CarpoolingScanQRDialogComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [CarpoolingScanQRDialogComponent],
-        imports: [IonicModule.forRoot()],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CarpoolingScanQRDialogComponent],
+      imports: [IonicModule.forRoot()],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(CarpoolingScanQRDialogComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(CarpoolingScanQRDialogComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

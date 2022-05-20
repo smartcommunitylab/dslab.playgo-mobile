@@ -25,7 +25,7 @@ export class CampaignService {
       filter((profile) => profile !== null),
       first(),
       switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
-      shareReplay()
+      shareReplay(1)
     );
 
   public allCampaigns$: Observable<Campaign[]> =
@@ -35,7 +35,7 @@ export class CampaignService {
       switchMap((territoryId) =>
         this.campaignControllerService.getCampaignsUsingGET(territoryId)
       ),
-      shareReplay()
+      shareReplay(1)
     );
   private playerCampaignUnSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
   private playerCampaignSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
@@ -49,7 +49,7 @@ export class CampaignService {
 
   myCampaigns$ = this.campaignsCouldBeChanged$.pipe(
     switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
-    shareReplay()
+    shareReplay(1)
   );
 
   constructor(

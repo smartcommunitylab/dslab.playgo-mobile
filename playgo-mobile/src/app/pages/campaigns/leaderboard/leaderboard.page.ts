@@ -109,7 +109,7 @@ export class LeaderboardPage implements OnInit {
     );
   unitLabelKey$: Observable<TranslateKey> = this.selectedLeaderboardType$.pipe(
     map((leaderboardType) => leaderboardType.unitLabelKey),
-    shareReplay()
+    shareReplay(1)
   );
 
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();

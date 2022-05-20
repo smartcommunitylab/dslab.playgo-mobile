@@ -6,11 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-campaign-stat.component.scss'],
 })
 export class MainCampaignStatComponent implements OnInit {
+  constructor() {}
 
-
-  constructor() { }
-
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

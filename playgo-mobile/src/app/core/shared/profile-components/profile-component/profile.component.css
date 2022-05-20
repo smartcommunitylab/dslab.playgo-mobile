@@ -1,0 +1,16 @@
+.avatar {
+  background-color: white;
+  margin: auto;
+}
+.avatar-container {
+  margin: 33px;
+  position: relative;
+}
+.avatar-cange {
+  background-color: var(--ion-color-primary);
+  border-radius: 16px;
+  padding: 8px;
+  position: absolute;
+  bottom: -10%;
+  left: 80%;
+}
