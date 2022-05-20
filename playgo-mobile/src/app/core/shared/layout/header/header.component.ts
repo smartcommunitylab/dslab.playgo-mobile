@@ -10,9 +10,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   @Input() title: string;
   @Input() backButton = true;
   @Input() color = 'playgo';
-  @Input() parallaxUrlImg: string;
   @Input() defaultHref = '/';
-  @Input() content: any;
   constructor(private navCtrl: NavController) { }
 
   ngOnInit() { }
