@@ -8,7 +8,6 @@ import { codePush } from 'capacitor-codepush';
 import { environment } from 'src/environments/environment';
 import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
 import { AppVersionService } from './core/app-version.service';
-import { LocalTripsService } from './core/shared/tracking/local-trips.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +20,6 @@ export class AppComponent implements AfterContentInit {
     private platform: Platform,
     private auth: AuthService,
     private backgroundTrackingService: BackgroundTrackingService,
-    private localTripsService: LocalTripsService,
     private appVersionService: AppVersionService
   ) {
     this.initializeApp();
@@ -52,6 +50,5 @@ export class AppComponent implements AfterContentInit {
   }
   ngAfterContentInit() {
     this.backgroundTrackingService.start();
-    this.localTripsService.appStarted();
   }
 }

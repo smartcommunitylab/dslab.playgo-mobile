@@ -39,6 +39,7 @@ import {
   BackgroundTrackingService,
   TripLocation,
 } from './background-tracking.service';
+import { AppStatusService } from '../services/app-status.service';
 
 @Injectable({
   providedIn: 'root',
@@ -86,20 +87,19 @@ export class LocalTripsService {
   private pushNotification$: Observable<void> = NEVER;
 
   private appResumed$: Observable<void> = NEVER;
-  private appStartedSubject = new Subject<void>();
   private appStateChanged$: Observable<void> = merge(
     this.appResumed$,
-    this.appStartedSubject
+    this.appStatusService.appReady$
   );
 
   private networkStatusChanged$: Observable<void> = NEVER;
 
   private softTrigger$: Observable<void> = merge(
-    this.afterSyncTimer$.pipe(tapLog('this.afterSyncTimer')),
-    this.appStateChanged$.pipe(tapLog('this.appStateChanged')),
-    this.networkStatusChanged$.pipe(tapLog('this.networkStatusChanged')),
-    this.pushNotification$.pipe(tapLog('this.pushNotification')),
-    debugTriggers.soft.pipe(tapLog('debugTriggers.soft'))
+    this.afterSyncTimer$.pipe(tapLog('LT: this.afterSyncTimer')),
+    this.appStateChanged$.pipe(tapLog('LT: this.appStateChanged')),
+    this.networkStatusChanged$.pipe(tapLog('LT: this.networkStatusChanged')),
+    this.pushNotification$.pipe(tapLog('LT: this.pushNotification')),
+    debugTriggers.soft.pipe(tapLog('LT: debugTriggers.soft'))
   ).pipe(throttleTime(500));
 
   private hardTrigger$: Observable<void> = merge(
@@ -127,8 +127,8 @@ export class LocalTripsService {
 
   private dataFromPluginDB$: Observable<StorableTrip[]> =
     this.justSynchronizedLocationsSubject.pipe(
-      map((notSynchronizedLocations: TripLocation[]) => {
-        const tripLocations = notSynchronizedLocations.filter(
+      map((synchronizedLocations: TripLocation[]) => {
+        const tripLocations = synchronizedLocations.filter(
           (location) => location.idTrip
         );
         return groupByConsecutiveValues(tripLocations, 'idTrip').map(
@@ -160,7 +160,7 @@ export class LocalTripsService {
 
         trips.map((trip) => ({
           id: trip.clientId,
-          status: 'inPluginDB',
+          status: 'syncedButNotReturnedFromServer',
           date: DateTime.fromJSDate(trip.endTime).toISODate(),
           tripData: trip,
         }))
@@ -226,6 +226,7 @@ export class LocalTripsService {
 
   constructor(
     private initStream: InitServiceStream,
+    private appStatusService: AppStatusService,
     private localStorageService: LocalStorageService,
     private trackControllerService: TrackControllerService
   ) {
@@ -239,12 +240,8 @@ export class LocalTripsService {
     this.justSynchronizedLocationsSubject.next(locations);
   }
 
-  public appStarted() {
-    this.appStartedSubject.next();
-  }
-
   private initService() {
-    console.log('TEST: initService triggered!!');
+    console.log('LT: initService triggered!!');
     this.localDataChanges$.subscribe((trips) => {
       // for creating lastLocalData$ observable
       this.localDataSubject.next(trips);
@@ -307,33 +304,35 @@ export class LocalTripsService {
     const localOnlyTrips = lastLocalTrips.filter(
       (localTrip) => !some(serverOrPluginTrips, { id: localTrip.id })
     );
-    const newLocalData = sortBy(
-      [...serverOrPluginTrips, ...localOnlyTrips],
-      'date'
-    );
-    return newLocalData;
+    return this.sortTrips([...serverOrPluginTrips, ...localOnlyTrips]);
+  }
+
+  private sortTrips(trips: StorableTrip[]): StorableTrip[] {
+    // sort by date. First the ones with the most recent date, then the ones with the oldest date
+    // aka: sort desc by timestamp
+    return sortBy(trips, (trip) => -DateTime.fromISO(trip.date).valueOf());
   }
 
   private findPeriodFromDate(trips: StorableTrip[]): DateTime | NOW {
-    // take oldest pending trip
-    const lastPendingTrip = find(trips, {
+    // take oldest pending trip - aka with last index
+    const oldestPendingTrip = findLast(trips, {
       status: 'syncedButNotReturnedFromServer',
     });
-    if (lastPendingTrip) {
-      console.log('LT: findPeriodFromDate: lastPendingTrip', lastPendingTrip);
-      return DateTime.fromISO(lastPendingTrip.date);
+    if (oldestPendingTrip) {
+      console.log('LT: findPeriodFromDate: lastPendingTrip', oldestPendingTrip);
+      return DateTime.fromISO(oldestPendingTrip.date);
     }
-    // take newest not pending trip
-    const firstNotPendingTrip = findLast(trips, {
-      status: 'syncedButNotReturnedFromServer',
+    // take newest not pending trip - aka with first index
+    const newestNotPendingTrip = find(trips, {
+      status: 'fromServer',
     });
 
-    if (firstNotPendingTrip) {
+    if (newestNotPendingTrip) {
       console.log(
         'LT: findPeriodFromDate: firstNotPendingTrip',
-        firstNotPendingTrip
+        newestNotPendingTrip
       );
-      return DateTime.fromISO(firstNotPendingTrip.date).plus({
+      return DateTime.fromISO(newestNotPendingTrip.date).plus({
         millisecond: 1,
       });
     }
@@ -360,7 +359,7 @@ export class LocalTripsService {
 
 export interface StorableTrip {
   id: string;
-  status: 'inPluginDB' | 'syncedButNotReturnedFromServer' | 'fromServer';
+  status: 'syncedButNotReturnedFromServer' | 'fromServer';
   date: string;
   tripData?: TrackedInstanceInfo;
 }

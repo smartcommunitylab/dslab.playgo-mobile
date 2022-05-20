@@ -8,6 +8,7 @@ import { delay, elementAt, first } from 'rxjs/operators';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { PageTrackedInstanceInfo } from '../../api/generated/model/pageTrackedInstanceInfo';
 import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
+import { AppStatusService } from '../services/app-status.service';
 import {
   LocalStorageService,
   LocalStorageType,
@@ -31,13 +32,13 @@ describe('LocalTripsService', () => {
     const onePendingAndOneReturned: StorableTrip[] = [
       {
         status: 'syncedButNotReturnedFromServer',
-        id: 'id_of_trip_three_days_ago',
-        date: threeDaysAgo,
+        id: 'id_of_trip_two_days_ago',
+        date: twoDaysAgo,
       },
       {
         status: 'fromServer',
-        id: 'id_of_trip_two_days_ago',
-        date: twoDaysAgo,
+        id: 'id_of_trip_three_days_ago',
+        date: threeDaysAgo,
       },
     ];
     const empty: StorableTrip[] = [];
@@ -70,6 +71,7 @@ describe('LocalTripsService', () => {
   let storageMock: jasmine.SpyObj<LocalStorageOfTrips>;
   let trackControllerServiceStub: jasmine.SpyObj<TrackControllerService>;
   let serviceInitTriggerSubject: Subject<void>;
+  let appReadyTriggerSubject: Subject<void>;
 
   beforeEach(() => {
     storageMock = jasmine.createSpyObj('LocalStorage', ['get', 'set']);
@@ -78,6 +80,8 @@ describe('LocalTripsService', () => {
       'TrackControllerService',
       ['getTrackedInstanceInfoListUsingGET']
     );
+
+    appReadyTriggerSubject = new Subject<void>();
 
     serviceInitTriggerSubject = new Subject<void>();
 
@@ -98,6 +102,12 @@ describe('LocalTripsService', () => {
         {
           provide: TrackControllerService,
           useValue: trackControllerServiceStub,
+        },
+        {
+          provide: AppStatusService,
+          useValue: {
+            appReady$: appReadyTriggerSubject.asObservable(),
+          },
         },
       ],
     });
@@ -121,11 +131,14 @@ describe('LocalTripsService', () => {
   it('initial data should be triggered', waitForAsync(async () => {
     prepareService({ storageData: tripsStub.onePendingAndOneReturned });
 
-    const firstDataReported = await localTripsService.localDataChanges$
-      .pipe(first())
-      .toPromise();
+    const firstDataReported: StorableTrip[] =
+      await localTripsService.localDataChanges$.pipe(first()).toPromise();
     expect(firstDataReported).toEqual(
       tripsStub.onePendingAndOneReturned as any
+    );
+    // first element should be newer than second
+    expect(new Date(firstDataReported[1].date)).toBeBefore(
+      new Date(firstDataReported[0].date)
     );
   }));
 
@@ -172,7 +185,7 @@ describe('LocalTripsService', () => {
       .toPromise();
 
     expect(reportedData).toBeArrayOfSize(3);
-    expect(reportedData[2]).toEqual(
+    expect(reportedData[0]).toEqual(
       jasmine.objectContaining({
         id: 'id_of_new_trip_one_day_ago',
         date: oneDayAgo,
@@ -202,8 +215,8 @@ describe('LocalTripsService', () => {
       storageData: tripsStub.onePendingAndOneReturned,
       firstServerData: [
         {
-          id: 'id_of_trip_three_days_ago',
-          date: threeDaysAgo,
+          id: 'id_of_trip_two_days_ago',
+          date: twoDaysAgo,
         },
       ],
     });
@@ -216,8 +229,8 @@ describe('LocalTripsService', () => {
     expect(reportedData[0]).toEqual(
       jasmine.objectContaining({
         status: 'fromServer',
-        id: 'id_of_trip_three_days_ago',
-        date: threeDaysAgo,
+        id: 'id_of_trip_two_days_ago',
+        date: twoDaysAgo,
       } as Partial<StorableTrip>)
     );
   }));
@@ -277,7 +290,7 @@ describe('LocalTripsService', () => {
       serviceInitTriggerSubject.next();
     }
     if (runAppReadyTrigger) {
-      localTripsService.appStarted();
+      appReadyTriggerSubject.next();
     }
   }
 });
