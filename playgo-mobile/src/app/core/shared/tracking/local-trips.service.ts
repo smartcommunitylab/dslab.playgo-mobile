@@ -71,18 +71,21 @@ export class LocalTripsService {
     .toUTC()
     .startOf('day');
 
+  private justSynchronizedLocationsSubject: Subject<TripLocation[]> =
+    new Subject();
+
   private explicitReload$: Observable<void> = NEVER;
 
-  private syncedTrips: Observable<StorableTrip[]> = NEVER;
-  private afterSyncTimer$: Observable<void> = this.syncedTrips.pipe(
-    switchMap(() =>
-      intervalBackoff({
-        initialInterval: 1000,
-        maxInterval: 30 * 1000,
-      })
-    ),
-    mapTo(undefined)
-  );
+  private afterSyncTimer$: Observable<void> =
+    this.justSynchronizedLocationsSubject.pipe(
+      switchMap(() =>
+        intervalBackoff({
+          initialInterval: 1000,
+          maxInterval: 30 * 1000,
+        })
+      ),
+      mapTo(undefined)
+    );
 
   private pushNotification$: Observable<void> = NEVER;
 
@@ -121,9 +124,6 @@ export class LocalTripsService {
     this.initialLocalData$,
     this.localDataSubject
   );
-
-  private justSynchronizedLocationsSubject: Subject<TripLocation[]> =
-    new Subject();
 
   private dataFromPluginDB$: Observable<StorableTrip[]> =
     this.justSynchronizedLocationsSubject.pipe(
