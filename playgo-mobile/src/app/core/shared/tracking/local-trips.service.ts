@@ -25,7 +25,17 @@ import {
 } from 'rxjs/operators';
 import { intervalBackoff } from 'backoff-rxjs';
 import { DateTime } from 'luxon';
-import { find, findLast, first, isEqual, last, some, sortBy } from 'lodash-es';
+import {
+  find,
+  findLast,
+  first,
+  isEqual,
+  last,
+  min,
+  minBy,
+  some,
+  sortBy,
+} from 'lodash-es';
 import {
   groupByConsecutiveValues,
   startFrom,
@@ -97,22 +107,22 @@ export class LocalTripsService {
 
   private networkStatusChanged$: Observable<void> = NEVER;
 
-  private softTrigger$: Observable<void> = merge(
+  private softTrigger$: Observable<TriggerType> = merge(
     this.afterSyncTimer$.pipe(tapLog('LT: this.afterSyncTimer')),
     this.appStateChanged$.pipe(tapLog('LT: this.appStateChanged')),
     this.networkStatusChanged$.pipe(tapLog('LT: this.networkStatusChanged')),
     this.pushNotification$.pipe(tapLog('LT: this.pushNotification')),
     debugTriggers.soft.pipe(tapLog('LT: debugTriggers.soft'))
-  ).pipe(throttleTime(500));
+  ).pipe(throttleTime(500), mapTo('RELOAD_ONLY_PENDING'));
 
-  private hardTrigger$: Observable<void> = merge(
+  private hardTrigger$: Observable<TriggerType> = merge(
     this.explicitReload$,
     debugTriggers.hard
-  );
+  ).pipe(mapTo('RELOAD_WHOLE_PERIOD'));
 
-  private trigger$: Observable<boolean> = merge(
-    this.softTrigger$.pipe(mapTo(false)),
-    this.hardTrigger$.pipe(mapTo(true))
+  private trigger$: Observable<TriggerType> = merge(
+    this.softTrigger$,
+    this.hardTrigger$
   ).pipe();
 
   private initialLocalData$ = defer(() => {
@@ -170,8 +180,8 @@ export class LocalTripsService {
   private dataFromServer$: Observable<StorableTrip[]> = this.trigger$.pipe(
     tapLog('LT: trigger$'),
     withLatestFrom(this.lastLocalData$),
-    map(([force, lastLocalData]) =>
-      force ? this.localDataFromDate : this.findPeriodFromDate(lastLocalData)
+    map(([triggerType, lastLocalData]) =>
+      this.findPeriodFromDate(lastLocalData, triggerType)
     ),
     switchMap((periodFromDate) => this.loadDataFromServer(periodFromDate))
   );
@@ -310,31 +320,66 @@ export class LocalTripsService {
     return sortBy(trips, (trip) => -DateTime.fromISO(trip.date).valueOf());
   }
 
-  private findPeriodFromDate(trips: StorableTrip[]): DateTime | NOW {
-    // take oldest pending trip - aka with last index
+  private findPeriodFromDate(
+    trips: StorableTrip[],
+    triggerType: TriggerType
+  ): DateTime | NOW {
+    if (triggerType === 'RELOAD_WHOLE_PERIOD') {
+      return this.localDataFromDate;
+    }
+
+    // find oldest pending trip - aka with last index
     const oldestPendingTrip = findLast(trips, {
       status: 'syncedButNotReturnedFromServer',
     });
+
+    let oldestPendingTripDate = null;
     if (oldestPendingTrip) {
-      console.log('LT: findPeriodFromDate: lastPendingTrip', oldestPendingTrip);
-      return DateTime.fromISO(oldestPendingTrip.date);
+      oldestPendingTripDate = DateTime.fromISO(oldestPendingTrip.date).minus({
+        minutes: 1,
+      });
     }
-    // take newest not pending trip - aka with first index
+
+    // find newest not pending trip - aka with first index
     const newestNotPendingTrip = find(trips, {
       status: 'fromServer',
     });
 
+    let newestNotPendingTripDate = null;
     if (newestNotPendingTrip) {
-      console.log(
-        'LT: findPeriodFromDate: firstNotPendingTrip',
-        newestNotPendingTrip
-      );
-      return DateTime.fromISO(newestNotPendingTrip.date).plus({
-        millisecond: 1,
+      newestNotPendingTripDate = DateTime.fromISO(
+        newestNotPendingTrip.date
+      ).plus({
+        minutes: 1,
       });
     }
 
-    console.log('LT: findPeriodFromDate: whole period');
+    console.log(
+      'oldestPendingTripDate',
+      oldestPendingTripDate,
+      oldestPendingTrip
+    );
+    console.log(
+      'newestNotPendingTripDate',
+      newestNotPendingTripDate,
+      newestNotPendingTrip
+    );
+
+    if (triggerType === 'RELOAD_FROM_LAST_TRIP') {
+      const oldestTripDate = findOldest([
+        oldestPendingTripDate,
+        newestNotPendingTripDate,
+      ]);
+
+      console.log('oldestTripDate', oldestTripDate);
+
+      return oldestTripDate || this.localDataFromDate;
+    }
+
+    if (triggerType === 'RELOAD_ONLY_PENDING') {
+      return oldestPendingTripDate || NOW;
+    }
+
     return this.localDataFromDate;
   }
 
@@ -354,6 +399,12 @@ export class LocalTripsService {
   }
 }
 
+function findOldest(dates: DateTime[]): DateTime {
+  return minBy(dates, (date) =>
+    date ? date.valueOf() : Number.POSITIVE_INFINITY
+  );
+}
+
 export interface StorableTrip {
   id: string;
   status: 'syncedButNotReturnedFromServer' | 'fromServer';
@@ -363,3 +414,8 @@ export interface StorableTrip {
 
 const NOW = 'NOW' as const;
 type NOW = typeof NOW;
+
+type TriggerType =
+  | 'RELOAD_WHOLE_PERIOD'
+  | 'RELOAD_ONLY_PENDING'
+  | 'RELOAD_FROM_LAST_TRIP';
