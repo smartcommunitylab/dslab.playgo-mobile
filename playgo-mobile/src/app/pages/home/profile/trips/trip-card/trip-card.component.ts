@@ -43,7 +43,7 @@ export class TripCardComponent implements OnInit, OnChanges {
     if (this.trip.isLocal) {
       return;
     }
-    this.router.navigate(['../trip-detail', this.trip.trackedInstanceId], {
+    this.router.navigate([this.trip.trackedInstanceId], {
       relativeTo: this.route,
     });
   }

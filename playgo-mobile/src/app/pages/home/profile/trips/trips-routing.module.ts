@@ -8,6 +8,13 @@ const routes: Routes = [
     path: '',
     component: TripsPage,
   },
+  {
+    path: ':id',
+    loadChildren: () =>
+      import('./trip-detail/trip-detail.module').then(
+        (m) => m.TripDetailPageModule
+      ),
+  },
 ];
 
 @NgModule({
