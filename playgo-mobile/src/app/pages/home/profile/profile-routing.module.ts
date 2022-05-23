@@ -7,11 +7,6 @@ const routes: Routes = [
     path: '',
     component: ProfilePage,
   },
-  {
-    path: 'trips',
-    loadChildren: () =>
-      import('./trips/trips.module').then((m) => m.TripsPageModule),
-  },
 ];
 
 @NgModule({
