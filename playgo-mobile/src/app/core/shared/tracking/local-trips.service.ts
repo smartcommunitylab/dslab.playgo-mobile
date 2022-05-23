@@ -71,13 +71,13 @@ export class LocalTripsService {
     .toUTC()
     .startOf('day');
 
-  private justSynchronizedLocationsSubject: Subject<TripLocation[]> =
-    new Subject();
+  private justSynchronizedLocations$ =
+    this.backgroundTrackingService.synchronizedLocations$;
 
   private explicitReload$: Observable<void> = NEVER;
 
   private afterSyncTimer$: Observable<void> =
-    this.justSynchronizedLocationsSubject.pipe(
+    this.justSynchronizedLocations$.pipe(
       switchMap(() =>
         intervalBackoff({
           initialInterval: 1000,
@@ -126,7 +126,7 @@ export class LocalTripsService {
   );
 
   private dataFromPluginDB$: Observable<StorableTrip[]> =
-    this.justSynchronizedLocationsSubject.pipe(
+    this.justSynchronizedLocations$.pipe(
       map((synchronizedLocations: TripLocation[]) => {
         const tripLocations = synchronizedLocations.filter(
           (location) => location.idTrip
@@ -228,16 +228,13 @@ export class LocalTripsService {
     private initStream: InitServiceStream,
     private appStatusService: AppStatusService,
     private localStorageService: LocalStorageService,
-    private trackControllerService: TrackControllerService
+    private trackControllerService: TrackControllerService,
+    private backgroundTrackingService: BackgroundTrackingService
   ) {
     console.log('TEST', initStream);
     initStream.get().subscribe(() => {
       this.initService();
     });
-  }
-
-  public locationSynchronizedToServer(locations: TripLocation[]): void {
-    this.justSynchronizedLocationsSubject.next(locations);
   }
 
   private initService() {

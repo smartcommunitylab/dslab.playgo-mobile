@@ -42,7 +42,6 @@ import {
 import { runInZone, tapLog } from '../utils';
 import { AuthHttpService } from '../../auth/auth-http.service';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
-import { LocalTripsService } from './local-trips.service';
 
 @Injectable({
   providedIn: 'root',
@@ -123,13 +122,16 @@ export class BackgroundTrackingService {
     this.currentLocation$
   ).pipe(distinctUntilChanged(isEqual), shareReplay(1));
 
+  private synchronizedLocationsSubject = new ReplaySubject<TripLocation[]>(1);
+  public synchronizedLocations$ =
+    this.synchronizedLocationsSubject.asObservable();
+
   constructor(
     @Inject(BackgroundGeolocationInternal)
     private backgroundGeolocationPlugin: typeof BackgroundGeolocationInternal,
     private alertService: AlertService,
     private authHttpService: AuthHttpService,
     private playerControllerService: PlayerControllerService,
-    private localTripsService: LocalTripsService,
     private zone: NgZone
   ) {
     // FIXME: debug only
@@ -239,7 +241,7 @@ export class BackgroundTrackingService {
     // that was really sent...
     await this.backgroundGeolocationPlugin.sync();
 
-    this.localTripsService.locationSynchronizedToServer(
+    this.synchronizedLocationsSubject.next(
       locationSentToServer.map(TripLocation.fromLocation)
     );
     this.possibleLocationsChangeSubject.next();
