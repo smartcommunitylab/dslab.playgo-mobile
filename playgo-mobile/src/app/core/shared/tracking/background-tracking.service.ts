@@ -100,7 +100,7 @@ export class BackgroundTrackingService {
     shareReplay(1)
   );
 
-  public currentTripLocations$: Observable<TripLocation[]> = combineLatest([
+  public currentTripLocations$ = combineLatest([
     this.notSynchronizedLocations$,
     this.currentExtrasSubject, //FIXME: better!
   ]).pipe(
@@ -121,6 +121,10 @@ export class BackgroundTrackingService {
     ),
     this.currentLocation$
   ).pipe(distinctUntilChanged(isEqual), shareReplay(1));
+
+  private synchronizedLocationsSubject = new ReplaySubject<TripLocation[]>(1);
+  public synchronizedLocations$ =
+    this.synchronizedLocationsSubject.asObservable();
 
   constructor(
     @Inject(BackgroundGeolocationInternal)
@@ -228,7 +232,19 @@ export class BackgroundTrackingService {
         accessToken: token.accessToken,
       },
     });
+
+    const locationSentToServer =
+      await this.backgroundGeolocationPlugin.getLocations();
+
+    // .sync call will fail, if the network is not available
+    // I dont know why is seems that it is not possible to get list of locations
+    // that was really sent...
     await this.backgroundGeolocationPlugin.sync();
+
+    this.synchronizedLocationsSubject.next(
+      locationSentToServer.map(TripLocation.fromLocation)
+    );
+    this.possibleLocationsChangeSubject.next();
   }
 
   private async setExtrasAndForceLocation(
@@ -286,6 +302,7 @@ export class BackgroundTrackingService {
 export class TripLocation {
   transportType: TransportType;
   multimodalId: string;
+  idTrip: string;
   latitude: number;
   longitude: number;
   date: Date;
@@ -299,6 +316,7 @@ export class TripLocation {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       multimodalId: extras.multimodalId,
+      idTrip: extras.idTrip,
       transportType: extras.transportType,
     });
   }

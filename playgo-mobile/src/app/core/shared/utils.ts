@@ -1,7 +1,14 @@
 import { NgZone } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { initial, last, tail, zip } from 'lodash-es';
-import { Observable, OperatorFunction } from 'rxjs';
+import { initial, isNil, last, tail, zip } from 'lodash-es';
+import { DateTime } from 'luxon';
+import {
+  concat,
+  Observable,
+  ObservableInput,
+  ObservedValueOf,
+  OperatorFunction,
+} from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export const isNotConstant =
@@ -46,6 +53,12 @@ export function runInZone<T>(zone: NgZone): OperatorFunction<T, T> {
       return source.subscribe(onNext, onError, onComplete);
     });
 }
+export function startFrom<T, O extends ObservableInput<any>>(
+  start: O
+): OperatorFunction<T, T | ObservedValueOf<O>> {
+  return (source: Observable<T>) => concat(start, source);
+}
+
 export async function readAsBase64(photo: Photo) {
   // Fetch the photo, read as a blob, then convert to base64 format
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -73,4 +86,40 @@ export async function time(ms: number): Promise<void> {
   await new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+}
+
+export function toServerDateTime(dateTime: DateTime): string {
+  if (isNil(dateTime)) {
+    return '';
+  }
+  if (!dateTime.isValid) {
+    console.error(
+      'Invalid dateTime',
+      dateTime,
+      dateTime.invalidReason,
+      dateTime.invalidExplanation
+    );
+    throw new Error('Invalid dateTime');
+  }
+  // ou no! Server is not using UTC :(
+  // return dateTime.toUTC().toFormat('yyyy-MM-dd HH:mm:ss');
+  return dateTime.toLocal().toFormat('yyyy-MM-dd HH:mm:ss');
+}
+
+export function toServerDateOnly(dateTime: DateTime): string {
+  if (isNil(dateTime)) {
+    return '';
+  }
+  if (!dateTime.isValid) {
+    console.error(
+      'Invalid dateTime',
+      dateTime,
+      dateTime.invalidReason,
+      dateTime.invalidExplanation
+    );
+    throw new Error('Invalid dateTime');
+  }
+  // ou no! Server is not using UTC :(
+  // return dateTime.toUTC().toFormat('yyyy-MM-dd');
+  return dateTime.toLocal().toFormat('yyyy-MM-dd');
 }

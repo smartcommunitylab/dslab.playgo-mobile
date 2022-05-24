@@ -1,38 +1,42 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { IUser } from '../model/user.model';
 import { LocalStorageRefService } from './local-storage-ref.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class LocalStorageService {
-  private localStorage: Storage;
-
-  private userSubject = new BehaviorSubject<IUser>(null);
-  user$ = this.userSubject.asObservable();
-
+  private storage: Storage;
   constructor(private localStorageRefService: LocalStorageRefService) {
-    this.localStorage = localStorageRefService.localStorage;
+    this.storage = this.localStorageRefService.getStorageImplementation();
+    // TODO:
+    // clear local storage automatically, after new app version (or code push version)
+    // for consistency.
   }
 
-  setUser(user: IUser): void {
-    const jsonData = JSON.stringify(user);
-    this.localStorage.setItem('user', jsonData);
-    this.userSubject.next(user);
+  public getStorageOf<T = never>(localStorageKey: string) {
+    return new LocalStorage<T>(
+      'playgo-storage-' + localStorageKey,
+      this.storage
+    );
   }
-
-  loadUser(): Promise<IUser> {
-    const data = JSON.parse(this.localStorage.getItem('user'));
-    this.userSubject.next(data);
-    return Promise.resolve(data);
-  }
-
-  clearUser() {
-    this.localStorage.removeItem('user');
-    this.userSubject.next(null);
-  }
-
-  clearAllLocalStorage(): void {
-    this.localStorage.clear();
-    this.userSubject.next(null);
+  public clearAll() {
+    this.storage.clear();
   }
 }
+class LocalStorage<T> {
+  constructor(private storageKey: string, private storage: Storage) {}
+  set(data: T | null) {
+    // hmm we could maybe use some sort of compression here
+    // https://pieroxy.net/blog/pages/lz-string/index.html
+    this.storage.setItem(this.storageKey, JSON.stringify(data || null));
+  }
+  get(): T | null {
+    const stringVal = this.storage.getItem(this.storageKey);
+    return JSON.parse(stringVal);
+  }
+  clear() {
+    this.storage.removeItem(this.storageKey);
+  }
+}
+
+export type LocalStorageType<T> = LocalStorage<T>;
