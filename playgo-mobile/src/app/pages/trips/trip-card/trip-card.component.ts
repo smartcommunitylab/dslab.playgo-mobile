@@ -40,12 +40,16 @@ export class TripCardComponent implements OnInit, OnChanges {
   ) {}
 
   openDetail() {
-    if (this.trip.isLocal) {
+    if (this.isLocal(this.trip)) {
       return;
     }
     this.router.navigate([this.trip.trackedInstanceId], {
       relativeTo: this.route,
     });
+  }
+
+  isLocal(trip: ServerOrLocalTrip): boolean {
+    return trip.status === 'NOT_SYNCHRONIZED' || trip.status === 'ONGOING';
   }
 
   ngOnInit() {

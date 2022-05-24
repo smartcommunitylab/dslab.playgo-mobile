@@ -68,7 +68,7 @@ export class TripsPage implements OnInit {
       map((trips) =>
         trips.map((trip) => ({
           ...trip,
-          isLocal: false,
+          status: trip.validity,
         }))
       ),
       startWith([])
@@ -82,8 +82,10 @@ export class TripsPage implements OnInit {
     this.localTripsService.localDataChanges$.pipe(
       map((storableTrips) =>
         storableTrips.map((trip) => ({
-          isFinished: true,
-          isLocal: trip.status !== 'fromServer',
+          status:
+            trip.status === 'fromServer'
+              ? trip.tripData.validity
+              : 'NOT_SYNCHRONIZED',
           ...trip.tripData,
         }))
       )
@@ -128,10 +130,11 @@ export class TripsPage implements OnInit {
     map(([notSynchronizedTrips, isInTrip]) =>
       notSynchronizedTrips.map((notSynchronizedTrip, idx) => {
         const isFirst = idx === 0;
+        const isFinished = !isFirst || !isInTrip;
+        const status: Status = isFinished ? 'NOT_SYNCHRONIZED' : 'ONGOING';
         return {
           ...notSynchronizedTrip,
-          isFinished: !isFirst || !isInTrip,
-          isLocal: true,
+          status,
         };
       })
     ),
@@ -251,9 +254,10 @@ export class TripsPage implements OnInit {
     );
   }
 }
+type Status = TrackedInstanceInfo.ValidityEnum | 'NOT_SYNCHRONIZED' | 'ONGOING';
+
 export interface ServerOrLocalTrip extends TrackedInstanceInfo {
-  isLocal: boolean;
-  isFinished?: boolean;
+  status: Status;
 }
 
 interface MultiTrip {
