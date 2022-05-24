@@ -3,7 +3,7 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { async, TestBed, waitForAsync } from '@angular/core/testing';
 import { DateTime } from 'luxon';
-import { Observable, of, Subject, timer } from 'rxjs';
+import { NEVER, Observable, of, ReplaySubject, Subject, timer } from 'rxjs';
 import { delay, elementAt, first } from 'rxjs/operators';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { PageTrackedInstanceInfo } from '../../api/generated/model/pageTrackedInstanceInfo';
@@ -14,7 +14,10 @@ import {
   LocalStorageType,
 } from '../services/local-storage.service';
 import { tapLog } from '../utils';
-import { TripLocation } from './background-tracking.service';
+import {
+  BackgroundTrackingService,
+  TripLocation,
+} from './background-tracking.service';
 
 import {
   InitServiceStream,
@@ -72,6 +75,7 @@ describe('LocalTripsService', () => {
   let trackControllerServiceStub: jasmine.SpyObj<TrackControllerService>;
   let serviceInitTriggerSubject: Subject<void>;
   let appReadyTriggerSubject: Subject<void>;
+  let synchronizedLocationsSubject: Subject<TripLocation[]>;
 
   beforeEach(() => {
     storageMock = jasmine.createSpyObj('LocalStorage', ['get', 'set']);
@@ -84,6 +88,8 @@ describe('LocalTripsService', () => {
     appReadyTriggerSubject = new Subject<void>();
 
     serviceInitTriggerSubject = new Subject<void>();
+
+    synchronizedLocationsSubject = new ReplaySubject<TripLocation[]>();
 
     TestBed.configureTestingModule({
       providers: [
@@ -107,6 +113,12 @@ describe('LocalTripsService', () => {
           provide: AppStatusService,
           useValue: {
             appReady$: appReadyTriggerSubject.asObservable(),
+          },
+        },
+        {
+          provide: BackgroundTrackingService,
+          useValue: {
+            synchronizedLocations$: synchronizedLocationsSubject,
           },
         },
       ],
@@ -241,7 +253,7 @@ describe('LocalTripsService', () => {
       firstServerData: [],
     });
 
-    localTripsService.locationSynchronizedToServer(locationsStub.walkOneDayAgo);
+    synchronizedLocationsSubject.next(locationsStub.walkOneDayAgo);
 
     const reportedData = await localTripsService.localDataChanges$
 
