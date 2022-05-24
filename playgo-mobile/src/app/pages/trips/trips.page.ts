@@ -1,5 +1,5 @@
 import { Component, OnInit, TrackByFunction } from '@angular/core';
-import { first, isEqual, last } from 'lodash-es';
+import { clone, cloneDeep, first, isEqual, last, sortBy } from 'lodash-es';
 import { combineLatest, Observable, Subject, throwError } from 'rxjs';
 import {
   catchError,
@@ -92,29 +92,32 @@ export class TripsPage implements OnInit {
   /** Content of plugin DB locations represented as trips */
   private notSynchronizedTrips$: Observable<TrackedInstanceInfo[]> =
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
+      tapLog('SORT: notSynchronizedLocations$'),
       map((notSynchronizedLocations: TripLocation[]) => {
         const tripLocations = notSynchronizedLocations.filter(
           (location) => location.transportType
         );
-        return groupByConsecutiveValues(tripLocations, 'transportType').map(
-          ({ group, values }) => {
-            const transportType = group;
-            const locations = values;
-            const representativeLocation = first(locations);
-            const trip: TrackedInstanceInfo = {
-              campaigns: [],
-              distance: 0,
-              startTime: first(locations).date,
-              endTime: last(locations).date,
-              modeType: group,
-              multimodalId: representativeLocation.multimodalId,
-              polyline: '',
-              trackedInstanceId: `localId_${transportType}_${representativeLocation.date}`,
-              validity: null,
-            };
-            return trip;
-          }
-        );
+        const locationsAsTrips = groupByConsecutiveValues(
+          tripLocations,
+          'transportType'
+        ).map(({ group, values }) => {
+          const transportType = group;
+          const locations = values;
+          const representativeLocation = first(locations);
+          const trip: TrackedInstanceInfo = {
+            campaigns: [],
+            distance: 0,
+            startTime: first(locations).date,
+            endTime: last(locations).date,
+            modeType: group,
+            multimodalId: representativeLocation.multimodalId,
+            polyline: '',
+            trackedInstanceId: `localId_${transportType}_${representativeLocation.date}`,
+            validity: null,
+          };
+          return trip;
+        });
+        return this.sortTrips(locationsAsTrips);
       })
     );
 
@@ -124,10 +127,10 @@ export class TripsPage implements OnInit {
   ]).pipe(
     map(([notSynchronizedTrips, isInTrip]) =>
       notSynchronizedTrips.map((notSynchronizedTrip, idx) => {
-        const isLast = idx === notSynchronizedTrips.length - 1;
+        const isFirst = idx === 0;
         return {
           ...notSynchronizedTrip,
-          isFinished: !isLast || !isInTrip,
+          isFinished: !isFirst || !isInTrip,
           isLocal: true,
         };
       })
@@ -145,6 +148,7 @@ export class TripsPage implements OnInit {
       ...recentTrips.map((t) => ({ ...t, source: 'recentTrips' })),
       ...deepPastTrips.map((t) => ({ ...t, source: 'deepPastTrips' })),
     ]),
+    map((trips) => this.sortTrips(trips)),
     distinctUntilChanged(isEqual)
   );
 
@@ -235,6 +239,15 @@ export class TripsPage implements OnInit {
       toServerDateTime(
         this.localTripsService.localDataFromDate
       ) as unknown as Date //to - newer
+    );
+  }
+
+  private sortTrips(trips: TrackedInstanceInfo[]): TrackedInstanceInfo[] {
+    // sort by date. First the ones with the most recent date, then the ones with the oldest date
+    // aka: sort desc by timestamp
+    return sortBy(
+      trips,
+      (trip) => -new Date(trip.endTime || trip.startTime).getTime()
     );
   }
 }
