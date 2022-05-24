@@ -39,7 +39,6 @@ import {
 import {
   groupByConsecutiveValues,
   startFrom,
-  tapLog,
   toServerDateTime,
 } from '../utils';
 import { LocalStorageService } from '../services/local-storage.service';
@@ -59,14 +58,6 @@ export class InitServiceStream {
     return of(undefined);
   }
 }
-
-const debugTriggers = {
-  hard: new Subject<any>(),
-  soft: new Subject<any>(),
-};
-const debugRefTime = DateTime.now();
-
-(window as any).debugTriggers = debugTriggers;
 
 @Injectable({
   providedIn: 'root',
@@ -100,30 +91,22 @@ export class LocalTripsService {
   private pushNotification$: Observable<void> = NEVER;
 
   private appResumed$: Observable<void> = NEVER;
-  private appStateChanged$: Observable<void> = merge(
-    this.appResumed$,
-    this.appStatusService.appReady$
-  );
 
   private networkStatusChanged$: Observable<void> = NEVER;
 
   private reloadPendingTrigger$: Observable<TriggerType> = merge(
-    this.afterSyncTimer$.pipe(tapLog('LT: this.afterSyncTimer')),
-    this.appResumed$.pipe(tapLog('LT: this.appResumed')),
-    this.networkStatusChanged$.pipe(tapLog('LT: this.networkStatusChanged')),
-    this.pushNotification$.pipe(tapLog('LT: this.pushNotification')),
-    debugTriggers.soft.pipe(tapLog('LT: debugTriggers.soft'))
+    this.afterSyncTimer$,
+    this.appResumed$,
+    this.networkStatusChanged$,
+    this.pushNotification$
   ).pipe(throttleTime(500), mapTo('RELOAD_ONLY_PENDING'));
 
   private reloadFromLastTripTrigger$: Observable<TriggerType> = merge(
-    this.appStatusService.appReady$.pipe(
-      tapLog('LT: this.appStatusService.appReady$')
-    )
+    this.appStatusService.appReady$
   ).pipe(mapTo('RELOAD_FROM_LAST_TRIP'));
 
   private reloadAllTrigger$: Observable<TriggerType> = merge(
-    this.explicitReload$,
-    debugTriggers.hard
+    this.explicitReload$
   ).pipe(mapTo('RELOAD_WHOLE_PERIOD'));
 
   private trigger$: Observable<TriggerType> = merge(
@@ -170,11 +153,6 @@ export class LocalTripsService {
         );
       }),
       map((trips: TrackedInstanceInfo[]) =>
-        //id: string;
-        //status: 'inPluginDB' | 'syncedButNotReturnedFromServer' | 'fromServer';
-        //date: string;
-        //tripData?: TrackedInstanceInfo;
-
         trips.map((trip) => ({
           id: trip.clientId,
           status: 'syncedButNotReturnedFromServer',
@@ -185,7 +163,6 @@ export class LocalTripsService {
     );
 
   private dataFromServer$: Observable<StorableTrip[]> = this.trigger$.pipe(
-    tapLog('LT: trigger$'),
     withLatestFrom(this.lastLocalData$),
     map(([triggerType, lastLocalData]) =>
       this.findPeriodFromDate(lastLocalData, triggerType)
@@ -203,17 +180,11 @@ export class LocalTripsService {
     ),
     startFrom(this.initialLocalData$),
 
-    tapLog('LT: localData$'),
     shareReplay(1)
   );
 
   public localDataChanges$: Observable<StorableTrip[]> = this.localData$.pipe(
-    distinctUntilChanged((a, b) => {
-      const res = isEqual(a, b);
-      console.log('LT: distinctUntilChanged - local data', a, b, res);
-      return res;
-    }),
-    tapLog('LT: localDataChanges$')
+    distinctUntilChanged(isEqual)
   );
 
   public newTripsTrigger$: Observable<void> = this.localData$.pipe(
@@ -221,21 +192,12 @@ export class LocalTripsService {
     withLatestFrom(this.trigger$),
     map(([data, isForceTrigger]) => ({ data, isForceTrigger })),
     distinctUntilChanged((previous, current) => {
-      console.log('LT: distinctUntilChanged - trigger', current, previous);
       if (!current || !previous) {
-        console.log('LT: distinctUntilChanged - trigger', false, 0);
-
         return false;
       }
       if (current.isForceTrigger) {
-        console.log('LT: distinctUntilChanged - trigger', false, 1);
         return false;
       }
-      console.log(
-        'LT: distinctUntilChanged - trigger',
-        isEqual(current.data, previous.data),
-        2
-      );
       return isEqual(current.data, previous.data);
     }),
     mapTo(undefined)
@@ -248,14 +210,12 @@ export class LocalTripsService {
     private trackControllerService: TrackControllerService,
     private backgroundTrackingService: BackgroundTrackingService
   ) {
-    console.log('TEST', initStream);
     initStream.get().subscribe(() => {
       this.initService();
     });
   }
 
   private initService() {
-    console.log('LT: initService triggered!!');
     this.localDataChanges$.subscribe((trips) => {
       // for creating lastLocalData$ observable
       this.localDataSubject.next(trips);
@@ -273,12 +233,6 @@ export class LocalTripsService {
       return of([]);
     }
 
-    console.log(
-      'LT: loadDataFromServer',
-      toServerDateTime(from),
-      toServerDateTime(to)
-    );
-
     return this.trackControllerService
       .getTrackedInstanceInfoListUsingGET(
         0,
@@ -288,7 +242,6 @@ export class LocalTripsService {
         toServerDateTime(to) as unknown as Date
       )
       .pipe(
-        tapLog('LT: data from server!'),
         map((pageResult) => pageResult.content),
         map((serverTrips) =>
           serverTrips.map((serverTrip) => {
@@ -301,13 +254,7 @@ export class LocalTripsService {
             return localTrip;
           })
         ),
-        catchError((e) => {
-          console.error(
-            'LT: loading of some part of last month of trips failed!',
-            e
-          );
-          return of([]);
-        })
+        catchError((e) => of([]))
       );
   }
 
@@ -365,24 +312,11 @@ export class LocalTripsService {
       });
     }
 
-    console.log(
-      'oldestPendingTripDate',
-      oldestPendingTripDate,
-      oldestPendingTrip
-    );
-    console.log(
-      'newestNotPendingTripDate',
-      newestNotPendingTripDate,
-      newestNotPendingTrip
-    );
-
     if (triggerType === 'RELOAD_FROM_LAST_TRIP') {
       const oldestTripDate = findOldest([
         oldestPendingTripDate,
         newestNotPendingTripDate,
       ]);
-
-      console.log('oldestTripDate', oldestTripDate);
 
       return oldestTripDate || fromDate.forWholePeriod;
     }
@@ -405,7 +339,6 @@ export class LocalTripsService {
   }
 
   private storeTripsToStorage(trips: StorableTrip[]): void {
-    console.log('LT: storeTripsToStorage', trips);
     this.storage.set(trips);
   }
 }
