@@ -107,23 +107,30 @@ export class LocalTripsService {
 
   private networkStatusChanged$: Observable<void> = NEVER;
 
-  private softTrigger$: Observable<TriggerType> = merge(
+  private reloadPendingTrigger$: Observable<TriggerType> = merge(
     this.afterSyncTimer$.pipe(tapLog('LT: this.afterSyncTimer')),
-    this.appStateChanged$.pipe(tapLog('LT: this.appStateChanged')),
+    this.appResumed$.pipe(tapLog('LT: this.appResumed')),
     this.networkStatusChanged$.pipe(tapLog('LT: this.networkStatusChanged')),
     this.pushNotification$.pipe(tapLog('LT: this.pushNotification')),
     debugTriggers.soft.pipe(tapLog('LT: debugTriggers.soft'))
   ).pipe(throttleTime(500), mapTo('RELOAD_ONLY_PENDING'));
 
-  private hardTrigger$: Observable<TriggerType> = merge(
+  private reloadFromLastTripTrigger$: Observable<TriggerType> = merge(
+    this.appStatusService.appReady$.pipe(
+      tapLog('LT: this.appStatusService.appReady$')
+    )
+  ).pipe(mapTo('RELOAD_FROM_LAST_TRIP'));
+
+  private reloadAllTrigger$: Observable<TriggerType> = merge(
     this.explicitReload$,
     debugTriggers.hard
   ).pipe(mapTo('RELOAD_WHOLE_PERIOD'));
 
   private trigger$: Observable<TriggerType> = merge(
-    this.softTrigger$,
-    this.hardTrigger$
-  ).pipe();
+    this.reloadPendingTrigger$,
+    this.reloadFromLastTripTrigger$,
+    this.reloadAllTrigger$
+  );
 
   private initialLocalData$ = defer(() => {
     const trips = this.getTripsFromStorage(this.localDataFromDate);
@@ -324,8 +331,12 @@ export class LocalTripsService {
     trips: StorableTrip[],
     triggerType: TriggerType
   ): DateTime | NOW {
+    const fromDate = {
+      forWholePeriod: this.localDataFromDate,
+      forEmptyPeriod: NOW,
+    };
     if (triggerType === 'RELOAD_WHOLE_PERIOD') {
-      return this.localDataFromDate;
+      return fromDate.forWholePeriod;
     }
 
     // find oldest pending trip - aka with last index
@@ -373,11 +384,11 @@ export class LocalTripsService {
 
       console.log('oldestTripDate', oldestTripDate);
 
-      return oldestTripDate || this.localDataFromDate;
+      return oldestTripDate || fromDate.forWholePeriod;
     }
 
     if (triggerType === 'RELOAD_ONLY_PENDING') {
-      return oldestPendingTripDate || NOW;
+      return oldestPendingTripDate || fromDate.forEmptyPeriod;
     }
 
     return this.localDataFromDate;
