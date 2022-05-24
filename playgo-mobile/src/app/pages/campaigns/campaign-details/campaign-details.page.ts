@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,7 @@ export class CampaignDetailsPage implements OnInit {
   imagePath: SafeResourceUrl;
   titlePage = '';
   colorCampaign = null;
+  @ViewChild('ionContent') ionContent: ElementRef;
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,

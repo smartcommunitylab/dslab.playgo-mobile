@@ -19,6 +19,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-number.component';
 import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-campaign-stat.component';
 import { PrivacyModalPage } from 'src/app/pages/home/profile/privacy-modal/privacyModal.component';
+import { ParallaxDirective } from './directives/parallax-header.directive';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
@@ -35,6 +36,7 @@ import { PrivacyModalPage } from 'src/app/pages/home/profile/privacy-modal/priva
     LocalNumberPipe,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
+    ParallaxDirective,
     OrdinalNumberComponent,
   ],
   entryComponents: [],
@@ -54,6 +56,7 @@ import { PrivacyModalPage } from 'src/app/pages/home/profile/privacy-modal/priva
     TrackingModule,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
+    ParallaxDirective,
     OrdinalNumberComponent,
   ],
 })

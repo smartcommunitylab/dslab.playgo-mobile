@@ -1,5 +1,14 @@
-<app-header></app-header>
-
+<ion-header parallax [imageUrl]="campaign?.banner?.url" height="30vh">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/pages/tabs/campaigns'">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <span>{{ campaign?.name }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-content *ngIf="campaign">
@@ -7,10 +16,7 @@
         <img [src]="imagePath" title="campaign avatar" />
       </ion-avatar>
       <div>{{campaign.name}}</div>
-      <ion-button
-        [disabled]="campaign.type!=='city'"
-        (click)="joinCampaign(campaign)"
-        >{{'campaigns.join'|translate}}
+      <ion-button [disabled]="campaign.type!=='city'" (click)="joinCampaign(campaign)">{{'campaigns.join'|translate}}
       </ion-button>
       <div [innerHTML]="campaign.description"></div>
     </ion-card-content>

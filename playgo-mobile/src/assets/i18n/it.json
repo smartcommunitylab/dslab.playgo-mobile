@@ -74,6 +74,7 @@
     "alert_title": "IT: Alert"
   },
   "tracking": {
+    "choose_means": "Seleziona una mezzo per tracciare",
     "continue_low_accuracy_prompt": "IT: Low accuracy detected! Do you want to continue?",
     "show_current_location": "IT: Show me where I am",
     "car": {

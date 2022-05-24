@@ -6,14 +6,15 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [TranslateModule],
+  imports: [
+    TranslateModule
+  ],
   exports: [
     FormsModule,
     CommonModule,
     IonicModule,
     ReactiveFormsModule,
     HttpClientModule,
-    TranslateModule,
-  ],
+    TranslateModule],
 })
-export class PlayGoSharedLibsModule {}
+export class PlayGoSharedLibsModule { }

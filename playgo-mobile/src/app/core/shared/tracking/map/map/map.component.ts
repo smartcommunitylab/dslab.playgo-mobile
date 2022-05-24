@@ -122,9 +122,9 @@ export class MapComponent implements OnInit {
       })
     )
   );
-  constructor(private backgroundTrackingService: BackgroundTrackingService) {}
+  constructor(private backgroundTrackingService: BackgroundTrackingService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onMapReady(mapInstance: Map) {
     (window as any).mapInstance = mapInstance;

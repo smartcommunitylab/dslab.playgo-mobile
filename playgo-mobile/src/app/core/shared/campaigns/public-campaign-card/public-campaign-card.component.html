@@ -2,22 +2,25 @@
 <div>
   <ion-card class="ion-card">
     <ion-card-header [color]="campaign.type">
-      <strong> {{ campaign.name }}</strong>
+      <ion-item lines="none">
+        <ion-avatar style="margin: 2px">
+          <img [src]="imagePath" />
+        </ion-avatar>
+        <ion-label>
+          <h3>{{ campaign.name }}</h3>
+          <p>{{ campaign.dateFrom }} - {{ campaign.dateTo }}</p>
+        </ion-label>
+      </ion-item>
+
     </ion-card-header>
-    <div *ngIf="campaign.logo.image">
+    <!-- <div *ngIf="campaign.logo.image">
       <ion-avatar style="margin: 2px">
         <img [src]="imagePath" />
       </ion-avatar>
-    </div>
-    <ion-card-subtitle>
-      <div>{{ campaign.dateFrom }} - {{ campaign.dateTo }}</div>
-      <div>{{ campaign.type }}</div>
-    </ion-card-subtitle>
+    </div> -->
+
     <ion-card-content [innerHTML]="campaign.description"> </ion-card-content>
-    <ion-button
-      style="margin-left: 18px; margin-bottom: 6px"
-      (click)="joinCamp()"
-      >{{ "join" | translate }}
+    <ion-button style="margin-left: 18px; margin-bottom: 6px" (click)="joinCamp()">{{ "join" | translate }}
     </ion-button>
   </ion-card>
 </div>

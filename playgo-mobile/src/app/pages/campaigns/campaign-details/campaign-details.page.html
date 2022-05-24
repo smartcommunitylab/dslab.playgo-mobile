@@ -1,9 +1,24 @@
-<app-header
-  [title]="titlePage"
-  [color]="colorCampaign"
-  [defaultHref]="'/pages/tabs/campaigns'"
-></app-header>
-<ion-content [fullscreen]="true" *ngIf="campaign">
+<!-- <app-header [title]="titlePage" [color]="colorCampaign" [defaultHref]="'/pages/tabs/campaigns'"></app-header> -->
+<!-- <ion-header parallax [imageUrl]="campaign.banner.url" height="30vh">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Parallax Header </ion-title>
+  </ion-toolbar>
+</ion-header> -->
+<ion-header parallax [imageUrl]="campaign?.banner?.url" height="30vh" [color]="colorCampaign">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/pages/tabs/campaigns'">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <span>{{ titlePage }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" *ngIf="campaign" [scrollEvents]="true">
   <ion-avatar class="avatar-campaign">
     <img [src]="imagePath" title="campaign logo" />
   </ion-avatar>
@@ -16,9 +31,7 @@
       </app-main-campaign-stat> -->
     </ion-card-content>
   </ion-card>
-  <ion-card
-    [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaign.campaignId]"
-  >
+  <ion-card [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaign.campaignId]">
     <ion-item>
       <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
       <ion-icon name="arrow-forward" end></ion-icon>

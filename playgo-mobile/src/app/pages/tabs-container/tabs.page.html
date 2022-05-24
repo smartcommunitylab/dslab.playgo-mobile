@@ -1,8 +1,9 @@
 <ion-tabs class="scanner-hide">
-  <app-tracking-quick-control
+  <app-tracking-main-control></app-tracking-main-control>
+  <!-- <app-tracking-quick-control
     *ngIf="(isHome$|async) === false"
-  ></app-tracking-quick-control>
-  <ion-tab-bar slot="bottom">
+  ></app-tracking-quick-control> -->
+  <ion-tab-bar slot="bottom" color="playgo">
     <ion-tab-button tab="home">
       <ion-icon name="triangle"></ion-icon>
       <ion-label>{{'homeTtle'|translate}}</ion-label>

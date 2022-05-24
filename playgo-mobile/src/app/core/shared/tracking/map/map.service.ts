@@ -56,6 +56,8 @@ export class MapService {
     // modal is not reused
     this.modal = await this.modalController.create({
       component: MapComponent,
+      // breakpoints: [0, 0.2, 0.5, 1],
+      // initialBreakpoint: 0.2,
     });
     await this.modal.present();
   }
