@@ -179,7 +179,7 @@ export class LeaderboardPage implements OnInit {
     private route: ActivatedRoute,
     private reportControllerService: ReportControllerService,
     private userService: UserService
-  ) {}
+  ) { }
 
   getPeriods(referenceDate: DateTime): Period[] {
     return [
@@ -217,7 +217,7 @@ export class LeaderboardPage implements OnInit {
     return toServerDateOnly(dateTime);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }
 const minusInfDate = DateTime.fromMillis(0);
 

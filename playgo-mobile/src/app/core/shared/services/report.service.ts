@@ -24,7 +24,7 @@ export class ReportService {
   constructor(
     private reportControllerService: ReportControllerService,
     private gameController: GameControllerService
-  ) {}
+  ) { }
 
   getCo2Stats(
     campaignId?,
@@ -63,6 +63,18 @@ export class ReportService {
         fromDate,
         toDate
       )
+      .toPromise();
+  }
+  getTransportStatsByMeans(
+    campaignId: string,
+    metric: string,
+    groupMode?: string,
+    mean?: string,
+    fromDate?: any,
+    toDate?: any,
+  ): Promise<TransportStats[]> {
+    return this.reportControllerService
+      .getPlayerTransportStatsUsingGET(campaignId, metric, groupMode, mean, fromDate, toDate)
       .toPromise();
   }
   getTransportStats(

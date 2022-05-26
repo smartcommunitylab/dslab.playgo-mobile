@@ -1,11 +1,17 @@
 <ion-card>
   <ion-card-header color="city">
-    <ion-card-title>{{ campaignContainer.campaign.name }}</ion-card-title>
+    <ion-item lines="none" color="city">
+      <ion-avatar>
+        <img [src]="imagePath" />
+      </ion-avatar>
+      <strong> {{ campaignContainer.campaign.name }}</strong>
+    </ion-item>
   </ion-card-header>
   <ion-card-content>
-    <!-- <app-main-campaign-stat [campaign]="campaignContainer.campaign" [type]="campaignContainer.campaign.type">
-    </app-main-campaign-stat> -->
-    {{ campaignStatus | json }}
-    {{ reportWeekStat | json }}
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
+      [reportWeekStat]="reportWeekStat">
+    </app-main-campaign-stat>
+    <!-- {{ campaignStatus | json }}
+    {{ reportWeekStat | json }} -->
   </ion-card-content>
 </ion-card>

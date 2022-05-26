@@ -124,7 +124,12 @@
       "meansTravel": "{{totalTravel}} viaggi",
       "meansDuration": "{{totalDuration}} h",
       "meansDistance": "{{totalDistance}} Km",
-      "changePeriodButton": "Cambia periodo"
+      "changePeriodButton": "Cambia periodo",
+      "chart": {
+        "week": "Settimana",
+        "month": "Mese",
+        "year": "Anno"
+      }
     }
   },
   "trip_detail": {
@@ -166,6 +171,7 @@
     "myCampaigns": "Le mie campagne",
     "allCampaigns": "Tutte le campagne",
     "detail": {
+      "stats": "Statistiche",
       "generalStat": "Generale",
       "signal": "Segnala e conatta il supporto",
       "unsubscribe": "Disiscriviti",
@@ -181,6 +187,49 @@
         "totalco2": "CO2 risparmiata: {{totalCO2}}",
         "weeklyco2": "CO2 settimanale: {{weeklyCO2}}",
         "weklyRanking": "Posizione in classifica: {{weeklyRanking}}"
+      }
+    },
+    "stats": {
+      "prova": "Prova",
+      "filter": {
+        "unit": {
+          "km": {
+            "label": "Km",
+            "unit": "km"
+          },
+          "co2": {
+            "label": "CO2",
+            "unit": "co2"
+          }
+        },
+        "means": {
+          "car": {
+            "label": "Macchina",
+            "unit": "car"
+          },
+          "bike": {
+            "label": "Bici",
+            "unit": "bike"
+          },
+          "walk": {
+            "label": "Corsa",
+            "unit": "walk"
+          },
+          "boat": {
+            "label": "Barca",
+            "unit": "boat"
+          },
+          "train": {
+            "label": "Treno",
+            "unit": "train"
+          },
+          "bus": {
+            "label": "Autobus",
+            "unit": "bus"
+          }
+        },
+        "mean_type": "Mezzo",
+        "unit_type": "Unità"
       }
     },
     "leaderboard": {

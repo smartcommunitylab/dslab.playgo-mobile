@@ -16,12 +16,15 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   subStat: Subscription;
   campaignStatus: PlayerStatus;
   reportWeekStat: CampaignPlacing;
+  imagePath: string;
   constructor(
     private userService: UserService,
     private reportService: ReportService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.imagePath = this.campaignContainer.campaign.logo.url ? this.campaignContainer.campaign.logo.url :
+      'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
       // this.status = status;
       this.reportService

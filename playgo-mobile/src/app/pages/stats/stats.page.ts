@@ -10,6 +10,7 @@ import {
   AlertController,
   IonInfiniteScroll,
   IonRefresher,
+  SelectCustomEvent,
 } from '@ionic/angular';
 import {
   ArcElement,
@@ -23,167 +24,161 @@ import {
   LineElement,
   PointElement,
 } from 'chart.js';
-import { Subscription } from 'rxjs';
-import { ReportService } from 'src/app/core/shared/services/report.service';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { DateTime } from 'luxon';
+import { distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { transportTypes, transportTypeLabels } from 'src/app/core/shared/tracking/trip.model';
+import { TranslateKey } from 'src/app/core/shared/type.utils';
+import { ActivatedRoute } from '@angular/router';
+import { isEqual } from 'lodash-es';
+import { UserService } from 'src/app/core/shared/services/user.service';
+import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
+import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
+
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.page.html',
   styleUrls: ['./stats.page.scss'],
 })
-export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
+export class StatsPage implements OnInit, AfterViewInit {
   @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
 
-  subStat: Subscription;
+  selectedSegment?: string;
   barChart: any;
-  periodSelected: 'total' | 'week' | 'month' | 'today' = 'total';
   stats: any;
   selectedConf: any;
+  statMeanChangedSubject = new Subject<
+    SelectCustomEvent<StatMeanType>
+  >();
+  statUnitChangedSubject = new Subject<SelectCustomEvent<StatUnitType>>();
+  allStatsMeanTypes: StatMeanType[] = [
+    {
+      labelKey: 'campaigns.stats.filter.means.car.label',
+      unitKey: 'car'
+    },
+    {
+      labelKey: 'campaigns.stats.filter.means.bike.label',
+      unitKey: 'bike'
+    },
+    {
+      labelKey: 'campaigns.stats.filter.means.walk.label',
+      unitKey: 'walk'
+    },
+    {
+      labelKey: 'campaigns.stats.filter.means.boat.label',
+      unitKey: 'boat'
+    },
+    {
+      labelKey: 'campaigns.stats.filter.means.train.label',
+      unitKey: 'train'
+    },
+    {
+      labelKey: 'campaigns.stats.filter.means.bus.label',
+      unitKey: 'bus'
+    }
+  ];
+  allStatsUnitTypes: StatUnitType[] = [
+    {
+      labelKey: 'campaigns.stats.filter.unit.km.label',
+      unitKey: 'km'
+    },
+    {
+      labelKey: 'campaigns.stats.filter.unit.co2.label',
+      unitKey: 'co2'
+    }
+  ];
+  selectedStatMeanType$: Observable<StatMeanType> =
+    this.statMeanChangedSubject.pipe(
+      map((event) => event.detail.value),
+      startWith(this.allStatsMeanTypes[0]),
+      shareReplay(1)
+    );
+  selectedStatUnitType$: Observable<StatUnitType> =
+    this.statUnitChangedSubject.pipe(
+      map((event) => event.detail.value),
+      startWith(this.allStatsUnitTypes[0]),
+      shareReplay(1)
+    );
+  campaignId$: Observable<string> = this.route.params.pipe(
+    map((params) => params.id,
+      shareReplay(1))
+  );
+  statsMeanTypes$: Observable<StatMeanType[]> = this.campaignId$.pipe(
+    map(() => this.allStatsMeanTypes,
+      shareReplay(1))
+  );
+  statsUnitTypes$: Observable<StatUnitType[]> = this.campaignId$.pipe(
+    map(() => this.allStatsUnitTypes,
+      shareReplay(1))
+  );
+  playerId$ = this.userService.userProfile$.pipe(
+    map((userProfile) => userProfile.playerId,
+      shareReplay(1))
+  );
+  filterOptions$ = combineLatest([
+    this.selectedStatMeanType$,
+    this.selectedStatUnitType$,
+    this.campaignId$,
+    // FIXME: investigate why this is needed.
+    this.playerId$.pipe(distinctUntilChanged(isEqual)),
+  ]).pipe(
+    map(([meanType, unitType, campaignId, playerId]) => ({
+      meanType,
+      unitType,
+      campaignId,
+      playerId,
+    }))
+  );
+
+  //TODO typing
+  statResponse$: Observable<TransportStat[]> =
+    this.filterOptions$.pipe(
+      switchMap(({ meanType, unitType, campaignId }) => this.reportService.getPlayerTransportStatsUsingGET(
+        campaignId,
+        unitType.unitKey,
+        'week',
+        meanType.unitKey,
+        DateTime.utc().minus({ week: 20 }).toFormat('yyyy-MM-dd'),
+        DateTime.utc().toFormat('yyyy-MM-dd')
+      )
+      )
+    );
   constructor(
+    private route: ActivatedRoute,
     private alertController: AlertController,
-    private reportService: ReportService
-  ) {}
+    private reportService: ReportControllerService,
+    private userService: UserService
+  ) { }
   ngOnInit() {
-    this.subStat = this.reportService.userStats$.subscribe((stats) => {
-      if (stats) {
-        this.stats = stats;
-      }
-      if (this.barChart) {
-        this.barChart.destroy();
-      }
-      console.log(stats);
-      this.barChartMethod(stats);
-      this.refresher.complete();
-    });
+    this.selectedSegment = 'week';
+    // this.subStat = this.reportService.userStats$.subscribe((stats) => {
+    //   if (stats) {
+    //     this.stats = stats;
+    //   }
+    //   if (this.barChart) {
+    //     this.barChart.destroy();
+    //   }
+    //   console.log(stats);
+    //   this.barChartMethod(stats);
+    //   this.refresher.complete();
+    // });
   }
-  ngOnDestroy() {
-    this.subStat.unsubscribe();
+  segmentChanged(ev: any) {
+    console.log('Segment changed, change the selected period', ev);
   }
-  // When we try to call our chart to initialize methods in ngOnInit() it shows an error nativeElement of undefined.
-  // So, we need to call all chart methods in ngAfterViewInit() where @ViewChild and @ViewChildren will be resolved.
+  // ngOnDestroy() {
+  //   this.subStat.unsubscribe();
+  // }
   ngAfterViewInit() {
     //init selection
     // eslint-disable-next-line max-len
-    this.reportService.userStatsHasChanged$.next(this.getConfByData());
-    // this.barChartMethod();
-  }
-  loadNewStat(event) {
-    this.reportService.userStatsHasChanged$.next(
-      this.getConfByData(this.selectedConf)
-    );
-  }
-  refresh() {
-    this.reportService.userStatsHasChanged$.next(
-      this.getConfByData(this.selectedConf)
-    );
-  }
-  async dialogChangePeriod() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Seleziona un periodo',
-      inputs: [
-        {
-          name: 'complex',
-          type: 'radio',
-          label: 'Complessivo',
-          value: 'total',
-          handler: () => {
-            this.periodSelected = 'total';
-          },
-          checked: this.isSelected('total'),
-        },
-        {
-          name: 'week',
-          type: 'radio',
-          label: 'Questa settimana',
-          value: 'week',
-          handler: () => {
-            this.periodSelected = 'week';
-          },
-          checked: this.isSelected('week'),
-        },
-        {
-          name: 'month',
-          type: 'radio',
-          label: 'Questo mese',
-          value: 'month',
-          handler: () => {
-            this.periodSelected = 'month';
-          },
-          checked: this.isSelected('month'),
-        },
-        {
-          name: 'today',
-          type: 'radio',
-          label: 'Oggi',
-          value: 'today',
-          handler: () => {
-            this.periodSelected = 'today';
-          },
-          checked: this.isSelected('today'),
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('selected cancel');
-          },
-        },
-        {
-          text: 'Ok',
-          handler: (data: any) => {
-            // getThestat and build the charts
-            console.log('Saved Information', data);
-            this.selectedConf = data;
-            //destroy old and rebuild new chart
-            //trigger change stats
-            // parse selections and make the call
-            this.reportService.userStatsHasChanged$.next(
-              this.getConfByData(this.selectedConf)
-            );
-          },
-        },
-      ],
-    });
-    await alert.present();
+    // this.reportService.userStatsHasChanged$.next(this.getConfByData());
+    this.barChartMethod();
   }
 
-  getConfByData(data?: any): any {
-    if (data === 'total') {
-      this.disableInfiniteScroll();
-      // eslint-disable-next-line max-len
-      return {
-        fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-        toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-      };
-    } else {
-      this.enableInfiniteScroll();
-      // eslint-disable-next-line max-len
-      return {
-        fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-        toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-        group: data,
-      };
-    }
-    // eslint-disable-next-line max-len
-    // return { fromDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), toDate: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'), ...(data !== 'total' && { group: data }) };
-  }
-  isSelected(arg0: string): boolean {
-    return this.periodSelected === arg0;
-  }
-
-  disableInfiniteScroll() {
-    this.infiniteScroll.disabled = true;
-  }
-  enableInfiniteScroll() {
-    this.infiniteScroll.disabled = false;
-  }
   barChartMethod(stats?: any) {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
@@ -233,3 +228,42 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 }
+//TODO TranslateKey
+type StatMeanType = {
+  labelKey: string;
+  unitKey: string;
+  // playerApi: PlayerApi;
+  // leaderboardApi: StatApi;
+};
+type StatUnitType = {
+  labelKey: string;
+  unitKey: string;
+  // playerApi: PlayerApi;
+  // leaderboardApi: StatApi;
+};
+
+type PlayerApi = (
+  campaignId: string,
+  playerId: string,
+  dateFrom: string,
+  dateTo: string
+) => Observable<any>;
+
+type StatApi = (
+  campaignId: string,
+  page?: number,
+  size?: number,
+  sort?: string,
+  dateFrom?: string,
+  dateTo?: string
+) => Observable<any>;
+
+type Period = {
+  labelKey: TranslateKey;
+  from: string;
+  to: string;
+};
+
+// function bind<F extends (...args: any) => any>(f: F, thisValue: any): F {
+//   return f.bind(thisValue);
+// }

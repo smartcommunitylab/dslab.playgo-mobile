@@ -1,37 +1,38 @@
 <app-header title="{{ 'report.stats.title' | translate }}"></app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-refresher slot="fixed" (ionRefresh)="refresh()" #refresher>
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="refresh()" #refresher>
     <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  <div class="ion-padding">
-    <ion-card>
-      <ion-card-header>
-        <span>{{ 'report.stats.period' | translate }} {{periodSelected}}</span>
-        <ion-button (click)="dialogChangePeriod()"
-          >{{ 'report.stats.changePeriodButton' | translate }}
-        </ion-button>
-      </ion-card-header>
-
-      <ion-card-content>
-        <!-- if total single element -->
-        {{stats | json}}
-        <ion-list> </ion-list>
-        <ion-infinite-scroll
-          threshold="100px"
-          (ionInfinite)="loadNewStat($event)"
-        >
-          <ion-infinite-scroll-content
-            loadingSpinner="bubbles"
-            loadingText="Loading more data..."
-          >
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-        <canvas
-          #barCanvas
-          style="position: relative; height: 20vh; width: 40vw"
-        ></canvas>
-      </ion-card-content>
-    </ion-card>
-  </div>
+  </ion-refresher> -->
+  <ion-item>
+    <ion-label>{{ 'campaigns.stats.filter.mean_type' | translate
+      }}</ion-label>
+    <ion-select (ionChange)="statMeanChangedSubject.next($any($event))" [value]="selectedStatMeanType$ | async">
+      <ion-select-option *ngFor="let statMeanType of statsMeanTypes$|async" [value]="statMeanType">
+        {{statMeanType.labelKey |translate}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'campaigns.stats.filter.unit_type' | translate
+      }}</ion-label>
+    <ion-select (ionChange)="statUnitChangedSubject.next($any($event))" [value]="selectedStatUnitType$ | async">
+      <ion-select-option *ngFor="let statUnitType of statsUnitTypes$|async" [value]="statUnitType">
+        {{statUnitType.labelKey | translate}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-segment color="playgo" [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)" scrollable>
+    <ion-segment-button value="week" checked>
+      <ion-label>{{'report.stats.chart.week' | translate}}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="month">
+      <ion-label>{{'report.stats.chart.month' | translate}}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="year">
+      <ion-label>{{'report.stats.chart.year' | translate}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  {{statResponse$ | async | json }}
+  <canvas #barCanvas style="position: relative; height: 20vh; width: 40vw"></canvas>
 </ion-content>

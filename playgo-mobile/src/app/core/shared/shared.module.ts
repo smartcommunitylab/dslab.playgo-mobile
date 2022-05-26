@@ -4,8 +4,8 @@ import { MyCampaignCardComponent } from './campaigns/my-campaign-card/my-campaig
 import { PublicCampaignCardComponent } from './campaigns/public-campaign-card/public-campaign-card.component';
 import { LocalDatePipe } from './pipes/localDate.pipe';
 import { LocalNumberPipe } from './pipes/localNumber.pipe';
-import { SingleMeanStatisticComponent } from './profile-components/general-statistics-component/single-mean-statistic-component/single-mean-statistic.component';
-import { TotalStatisticsComponent } from './profile-components/general-statistics-component/total-statistics-component/total-statistics.component';
+import { SingleMeanStatisticComponent } from '../../pages/campaigns/campaign-details/general-statistics-component/single-mean-statistic-component/single-mean-statistic.component';
+import { TotalStatisticsComponent } from '../../pages/campaigns/campaign-details/general-statistics-component/total-statistics-component/total-statistics.component';
 import { ProfileComponent } from './profile-components/profile-component/profile.component';
 import { AlertService } from './services/alert.service';
 import { LocalStorageRefService } from './services/local-storage-ref.service';

@@ -1,34 +1,39 @@
 <ion-card>
   <ion-card-header color="personal">
-    <ion-card-title>{{ campaignContainer.campaign.name }}</ion-card-title>
+    <ion-item lines="none" color="personal">
+      <ion-avatar>
+        <img [src]="imagePath" />
+      </ion-avatar>
+      <strong> {{ campaignContainer.campaign.name }}</strong>
+    </ion-item>
   </ion-card-header>
   <!-- <ion-card-content *ngIf="status && reportWeekStat"> -->
-  <ion-card-content>
-    <!-- <app-main-campaign-stat [campaign]="campaignContainer.campaign" [type]="campaignContainer.campaign.type">
-    </app-main-campaign-stat> -->
-    <p *ngIf="status?.registrationDate">
+  <ion-card-content color="personal-tint">
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [reportWeekStat]="reportWeekStat">
+    </app-main-campaign-stat>
+    <!-- <p *ngIf="status?.registrationDate">
       {{
-        "campaigns.homewidgets.personal.active"
-          | translate: { startDate: status.registrationDate }
+      "campaigns.homewidgets.personal.active"
+      | translate: { startDate: status.registrationDate }
       }}
     </p>
     <p *ngIf="status?.co2">
       {{
-        "campaigns.homewidgets.personal.totalco2"
-          | translate: { totalCO2: status.co2 }
+      "campaigns.homewidgets.personal.totalco2"
+      | translate: { totalCO2: status.co2 }
       }}
     </p>
     <p *ngIf="reportWeekStat?.value">
       {{
-        "campaigns.homewidgets.personal.weeklyco2"
-          | translate: { weeklyCO2: reportWeekStat.value }
+      "campaigns.homewidgets.personal.weeklyco2"
+      | translate: { weeklyCO2: reportWeekStat.value }
       }}
     </p>
     <p *ngIf="reportWeekStat?.position">
       {{
-        "campaigns.homewidgets.personal.weeklyRanking"
-          | translate: { weeklyRanking: reportWeekStat.position }
+      "campaigns.homewidgets.personal.weeklyRanking"
+      | translate: { weeklyRanking: reportWeekStat.position }
       }}
-    </p>
+    </p> -->
   </ion-card-content>
 </ion-card>

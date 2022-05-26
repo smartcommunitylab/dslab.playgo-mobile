@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 
 @Component({
   selector: 'app-main-campaign-stat',
@@ -6,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-campaign-stat.component.scss'],
 })
 export class MainCampaignStatComponent implements OnInit {
-  constructor() {}
+  @Input() campaignContainer: PlayerCampaign;
+  @Input() status?: PlayerStatus;
+  @Input() reportWeekStat?: CampaignPlacing;
 
-  ngOnInit() {}
+  constructor() { }
+
+  ngOnInit() { }
 }

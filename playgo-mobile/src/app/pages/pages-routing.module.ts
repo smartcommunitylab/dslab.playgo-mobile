@@ -17,7 +17,7 @@ import { RouterModule } from '@angular/router';
           ),
       },
       {
-        path: 'stats',
+        path: 'stats/:id',
         loadChildren: () =>
           import('./stats/stats.module').then((m) => m.StatsPageModule),
       },

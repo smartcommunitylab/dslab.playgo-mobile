@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 
@@ -13,7 +13,7 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 })
 export class CampaignDetailsPage implements OnInit {
   id: string;
-  campaign?: Campaign;
+  campaignContainer?: PlayerCampaign;
   imagePath: SafeResourceUrl;
   titlePage = '';
   colorCampaign = null;
@@ -28,22 +28,22 @@ export class CampaignDetailsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.campaignService.getCampaignDetailsById(this.id).subscribe((result) => {
-      this.campaign = result;
-      this.titlePage = this.campaign.name;
-      this.colorCampaign = this.campaign.type;
-      this.imagePath = this.campaign.logo.url ? this.campaign.logo.url :
-        'data:image/jpg;base64,' + this.campaign.logo.image;
+    this.campaignService.myCampaigns$.subscribe((campaigns) => {
+      this.campaignContainer = campaigns.find((campaignContainer) => campaignContainer.campaign.campaignId === this.id);
+      this.titlePage = this.campaignContainer.campaign.name;
+      this.colorCampaign = this.campaignContainer.campaign.type;
+      this.imagePath = this.campaignContainer.campaign.logo.url ? this.campaignContainer.campaign.logo.url :
+        'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
     });
   }
   getCampaign() {
-    return JSON.stringify(this.campaign);
+    return JSON.stringify(this.campaignContainer.campaign);
   }
   isPersonal() {
-    return this.campaign.type === 'personal';
+    return this.campaignContainer.campaign.type === 'personal';
   }
   campaignHasPrizes() {
-    switch (this.campaign.type) {
+    switch (this.campaignContainer.campaign.type) {
       case 'personal':
         return false;
       case 'school':
@@ -58,7 +58,7 @@ export class CampaignDetailsPage implements OnInit {
   }
   unsubscribeCampaign() {
     this.campaignService
-      .unsubscribeCampaign(this.campaign.campaignId)
+      .unsubscribeCampaign(this.campaignContainer.campaign.campaignId)
       .subscribe((result) => {
         this.alertService.showToast(
           this.translateService.instant('campaign.unregistered')

@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
-import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { DateTime } from 'luxon';
@@ -18,12 +17,15 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   subStat: Subscription;
   profile: Player;
   reportWeekStat: CampaignPlacing;
+  imagePath: string;
   constructor(
     private userService: UserService,
     private reportService: ReportService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.imagePath = this.campaignContainer.campaign.logo.url ? this.campaignContainer.campaign.logo.url :
+      'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
       this.reportService
@@ -31,7 +33,7 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId,
           DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd')
+          DateTime.utc().toFormat('yyyy-MM-dd')
         )
         .then((stats) => {
           this.reportWeekStat = stats;

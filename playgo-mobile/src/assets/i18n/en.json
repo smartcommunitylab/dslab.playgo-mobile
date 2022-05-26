@@ -117,14 +117,17 @@
     }
   },
   "report": {
-    "stats": {
-      "title": "Activity details",
-      "period": "Period",
-      "total": "Total:",
-      "meansTravel": "{{totalTravel}} journeys",
-      "meansDuration": "{{totalDuration}} h",
-      "meansDistance": "{{totalDistance}} Km",
-      "changePeriodButton": "Change period"
+    "title": "Activity details",
+    "period": "Period",
+    "total": "Total:",
+    "meansTravel": "{{totalTravel}} journeys",
+    "meansDuration": "{{totalDuration}} h",
+    "meansDistance": "{{totalDistance}} Km",
+    "changePeriodButton": "Change period",
+    "chart": {
+      "week": "Week",
+      "month": "Month",
+      "year": "Year"
     }
   },
   "trip_detail": {
@@ -166,6 +169,7 @@
     "registered": "Registered",
     "unregistered": "Unregistered",
     "detail": {
+      "stats": "Statistics",
       "generalStat": "General",
       "signal": "Contacts and support",
       "prizes": "Prizes",
@@ -181,6 +185,48 @@
         "totalco2": "Total CO2: {{totalCO2}}",
         "weeklyco2": "Weekly CO2: {{weeklyCO2}}",
         "weeklyRanking": "Weekly ranking: {{weeklyRanking}}"
+      }
+    },
+    "stats": {
+      "filter": {
+        "unit": {
+          "km": {
+            "label": "Km",
+            "unit": "km"
+          },
+          "co2": {
+            "label": "CO2",
+            "unit": "co2"
+          }
+        },
+        "means": {
+          "car": {
+            "label": "Car",
+            "unit": "car"
+          },
+          "bike": {
+            "label": "Bike",
+            "unit": "bike"
+          },
+          "walk": {
+            "label": "Walk",
+            "unit": "walk"
+          },
+          "boat": {
+            "label": "Boat",
+            "unit": "boat"
+          },
+          "bus": {
+            "label": "Bus",
+            "unit": "bus"
+          },
+          "train": {
+            "label": "Train",
+            "unit": "train"
+          }
+        },
+        "mean_type": "Mean",
+        "unit_type": "Unit"
       }
     },
     "leaderboard": {

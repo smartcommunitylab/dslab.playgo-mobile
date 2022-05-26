@@ -1,2 +1,24 @@
-<!-- my campaign -->
-<div>general stat</div>
+<!-- stat  -->
+<div>
+    <ion-grid>
+        <ion-row *ngIf="reportWeekStat">
+            <ion-col>
+                {{reportWeekStat |json}}
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="reportWeekStat">
+            <ion-col>
+                {{reportWeekStat |json}}
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="status">
+            <ion-col>
+                <!-- {{status |json}} -->
+                <div>
+                    <span>Livello x</span><span>Punti y</span>
+                    <ion-progress-bar [color]="campaignContainer.campaign.type" value="0.5"></ion-progress-bar>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>

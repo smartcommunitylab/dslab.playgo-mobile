@@ -7,7 +7,7 @@
     <ion-title> Parallax Header </ion-title>
   </ion-toolbar>
 </ion-header> -->
-<ion-header parallax [imageUrl]="campaign?.banner?.url" height="30vh" [color]="colorCampaign">
+<ion-header parallax [imageUrl]="campaignContainer.campaign?.banner?.url" height="30vh" [color]="colorCampaign">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="'/pages/tabs/campaigns'">
@@ -18,23 +18,29 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true" *ngIf="campaign" [scrollEvents]="true">
+<ion-content [fullscreen]="true" *ngIf="campaignContainer" [scrollEvents]="true">
   <ion-avatar class="avatar-campaign">
     <img [src]="imagePath" title="campaign logo" />
   </ion-avatar>
   <ion-card>
-    <ion-card-header>
+    <!-- <ion-card-header>
       {{'campaigns.detail.generalStat'|translate}}
-    </ion-card-header>
-    <ion-card-content>
-      <!-- <app-main-campaign-stat [campaign]="campaign" [type]="campaign.type">
-      </app-main-campaign-stat> -->
-    </ion-card-content>
+    </ion-card-header> -->
+    <!-- <ion-card-content>
+      <app-main-campaign-stat [campaignContainer]="campaignContainer">
+      </app-main-campaign-stat>
+    </ion-card-content> -->
   </ion-card>
-  <ion-card [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaign.campaignId]">
+  <ion-card [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaignContainer.campaign.campaignId]">
     <ion-item>
       <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
       <ion-icon name="arrow-forward" end></ion-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card [routerLink]="['/pages/stats/'+campaignContainer.campaign.campaignId]">
+    <ion-item>
+      <ion-label>{{'campaigns.detail.stats'|translate}} </ion-label>
+      <ion-icon name="stats-chart-outline" end></ion-icon>
     </ion-item>
   </ion-card>
   <ion-card *ngIf="campaignHasPrizes()">
@@ -55,12 +61,12 @@
     </ion-item>
     <ion-card-content> Sfideeeee </ion-card-content>
   </ion-card>
-  <ion-card *ngIf="campaign.description">
+  <ion-card *ngIf="campaignContainer.campaign.description">
     <ion-card-title>
       {{'campaigns.detail.description'|translate}}
     </ion-card-title>
     <ion-card-content>
-      <div [innerHTML]="campaign.description"></div>
+      <div [innerHTML]="campaignContainer.campaign.description"></div>
     </ion-card-content>
   </ion-card>
   <ion-card>
