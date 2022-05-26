@@ -36,7 +36,7 @@ export class ExternalControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/ext/campaign/game/placing`,
       {
-        body,
+        body: body,
         params: removeNullOrUndefined({
           campaignId,
         }),
@@ -61,7 +61,7 @@ export class ExternalControllerService {
       environment.serverUrl.api +
         `/playandgo/api/ext/campaign/subscribe/territory`,
       {
-        body,
+        body: body,
         params: removeNullOrUndefined({
           campaignId,
           nickname,
@@ -87,7 +87,7 @@ export class ExternalControllerService {
       environment.serverUrl.api +
         `/playandgo/api/ext/campaign/unsubscribe/territory`,
       {
-        body,
+        body: body,
         params: removeNullOrUndefined({
           campaignId,
           nickname,

@@ -264,6 +264,43 @@ export class ConsoleControllerService {
       }
     );
   }
+
+  /**
+   * updateValidationResult
+   *
+   * @param trackId trackId
+   * @param validity validity
+   * @param modeType modeType
+   * @param distance distance
+   * @param duration duration
+   * @param errorType errorType
+   * @param note note
+   */
+  public updateValidationResultUsingGET(
+    trackId: string,
+    validity: string,
+    modeType?: string,
+    distance?: number,
+    duration?: number,
+    errorType?: string,
+    note?: string
+  ): Observable<any> {
+    return this.http.request<any>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/console/track/update`,
+      {
+        params: removeNullOrUndefined({
+          trackId,
+          validity,
+          modeType,
+          distance,
+          duration,
+          errorType,
+          note,
+        }),
+      }
+    );
+  }
 }
 
 function removeNullOrUndefined(obj: any) {

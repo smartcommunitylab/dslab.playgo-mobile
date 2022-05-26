@@ -167,7 +167,7 @@ export class TripsPage implements OnInit {
     private backgroundTrackingService: BackgroundTrackingService,
     private tripService: TripService,
     private localTripsService: LocalTripsService
-  ) {}
+  ) { }
 
   trackGroup: TrackByFunction<TripGroup> = (index: number, group: TripGroup) =>
     group.monthDate;
@@ -182,7 +182,7 @@ export class TripsPage implements OnInit {
     trip: ServerOrLocalTrip
   ) => trip.trackedInstanceId;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   private groupTrips(allTrips: ServerOrLocalTrip[]): TripGroup[] {
     const groupedByMultimodalId = groupByConsecutiveValues(

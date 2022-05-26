@@ -31,6 +31,7 @@ export interface ValidationStatus {
   splitMinFastDurationThreshold?: number;
   splitSpeedThreshold?: number;
   splitStopTimeThreshold?: number;
+  toCheck?: boolean;
   tripType?: ValidationStatus.TripTypeEnum;
   validationOutcome?: ValidationStatus.ValidationOutcomeEnum;
   validityThreshold?: number;
