@@ -1,0 +1,57 @@
+<div
+  *ngIf="statistics && statistics.length > 0; else empty_stat"
+  (click)="openStats()"
+>
+  <ion-card>
+    <ion-card-header>
+      <ion-label>
+        <strong>{{ "generalStatistics" | translate }}</strong>
+      </ion-label>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row *ngFor="let meanStat of statistics">
+          <ion-col>
+            <ion-label
+              >{{ "report.stats.period" | translate }}
+              {{ fromDate | localDate }} {{ toDate | localDate }}
+            </ion-label>
+            <app-single-mean-statistic
+              [meanStat]="meanStat"
+              [percentage]="getPercentage(statistics, meanStat)"
+            >
+            </app-single-mean-statistic>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label>{{ "report.stats.total" | translate }} </ion-label>
+            <app-total-statistics
+              [totalStat]="statistics"
+            ></app-total-statistics>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</div>
+<ng-template #empty_stat>
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-label>
+                <strong>{{ "generalStatistics" | translate }}</strong>
+              </ion-label>
+            </ion-card-header>
+            <ion-card-content>
+              {{ "noStatistics" | translate }}
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ng-template>
