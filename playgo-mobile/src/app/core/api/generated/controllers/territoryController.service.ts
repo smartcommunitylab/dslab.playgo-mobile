@@ -74,7 +74,7 @@ export class TerritoryControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/territory`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -89,7 +89,7 @@ export class TerritoryControllerService {
       'put',
       environment.serverUrl.api + `/playandgo/api/territory`,
       {
-        body,
+        body: body,
       }
     );
   }

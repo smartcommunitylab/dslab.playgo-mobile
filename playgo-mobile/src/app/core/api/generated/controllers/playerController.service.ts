@@ -34,7 +34,7 @@ export class PlayerControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/player`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -71,23 +71,11 @@ export class PlayerControllerService {
   }
 
   /**
-   * getPlayerAvatarDataSmall
+   * getPlayerAvatar
    *
    */
-  public getPlayerAvatarDataSmallUsingGET(): Observable<any> {
-    return this.http.request<any>(
-      'get',
-      environment.serverUrl.api + `/playandgo/api/player/avatar/small`,
-      {}
-    );
-  }
-
-  /**
-   * getPlayerAvatarData
-   *
-   */
-  public getPlayerAvatarDataUsingGET(): Observable<any> {
-    return this.http.request<any>(
+  public getPlayerAvatarUsingGET(): Observable<Avatar> {
+    return this.http.request<Avatar>(
       'get',
       environment.serverUrl.api + `/playandgo/api/player/avatar`,
       {}
@@ -130,7 +118,7 @@ export class PlayerControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/player/register`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -164,7 +152,7 @@ export class PlayerControllerService {
       'put',
       environment.serverUrl.api + `/playandgo/api/player/profile`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -179,7 +167,7 @@ export class PlayerControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/player/avatar`,
       {
-        body,
+        body: body,
       }
     );
   }

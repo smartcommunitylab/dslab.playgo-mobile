@@ -60,7 +60,7 @@ export class CommunicationAccountControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/app/register`,
       {
-        body,
+        body: body,
       }
     );
   }

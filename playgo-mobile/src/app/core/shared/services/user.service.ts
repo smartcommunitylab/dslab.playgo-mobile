@@ -97,7 +97,7 @@ export class UserService {
       .toPromise();
   }
   getAvatar(): Promise<Avatar> {
-    return this.playerControllerService.getPlayerAvatarDataUsingGET().toPromise();
+    return this.playerControllerService.getPlayerAvatarUsingGET().toPromise();
   }
 
   // getAvatarSmall(): Promise<any> {
