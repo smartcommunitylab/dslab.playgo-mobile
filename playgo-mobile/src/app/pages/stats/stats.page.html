@@ -22,8 +22,12 @@
       </ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-segment color="playgo" [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)" scrollable>
-    <ion-segment-button value="week" checked>
+  <ion-segment color="playgo" [(ngModel)]="selectedSegment"
+    (ionChange)="segmentChanged($event); statPeriodChangedSubject.next($any($event))" scrollable>
+    <ion-segment-button *ngFor="let period of periods" [value]="period" checked>
+      <ion-label>{{period.labelKey| translate}}</ion-label>
+    </ion-segment-button>
+    <!-- <ion-segment-button value="week" checked>
       <ion-label>{{'report.stats.chart.week' | translate}}</ion-label>
     </ion-segment-button>
     <ion-segment-button value="month">
@@ -31,7 +35,7 @@
     </ion-segment-button>
     <ion-segment-button value="year">
       <ion-label>{{'report.stats.chart.year' | translate}}</ion-label>
-    </ion-segment-button>
+    </ion-segment-button> -->
   </ion-segment>
   {{statResponse$ | async | json }}
   <canvas #barCanvas style="position: relative; height: 20vh; width: 40vw"></canvas>

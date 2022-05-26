@@ -2,12 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import {
-  AlertController,
   IonInfiniteScroll,
   IonRefresher,
   SelectCustomEvent,
@@ -24,11 +22,9 @@ import {
   LineElement,
   PointElement,
 } from 'chart.js';
-import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { DateTime } from 'luxon';
 import { distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { transportTypes, transportTypeLabels } from 'src/app/core/shared/tracking/trip.model';
-import { TranslateKey } from 'src/app/core/shared/type.utils';
 import { ActivatedRoute } from '@angular/router';
 import { isEqual } from 'lodash-es';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -90,6 +86,7 @@ export class StatsPage implements OnInit, AfterViewInit {
       unitKey: 'co2'
     }
   ];
+
   selectedStatMeanType$: Observable<StatMeanType> =
     this.statMeanChangedSubject.pipe(
       map((event) => event.detail.value),
@@ -100,6 +97,15 @@ export class StatsPage implements OnInit, AfterViewInit {
     this.statUnitChangedSubject.pipe(
       map((event) => event.detail.value),
       startWith(this.allStatsUnitTypes[0]),
+      shareReplay(1)
+    );
+  referenceDate = DateTime.local();
+  periods = this.getPeriods(this.referenceDate);
+  statPeriodChangedSubject = new Subject<SelectCustomEvent<Period>>();
+  selectedPeriod$: Observable<Period> =
+    this.statPeriodChangedSubject.pipe(
+      map((event) => event.detail.value),
+      startWith(this.periods[0]),
       shareReplay(1)
     );
   campaignId$: Observable<string> = this.route.params.pipe(
@@ -121,13 +127,15 @@ export class StatsPage implements OnInit, AfterViewInit {
   filterOptions$ = combineLatest([
     this.selectedStatMeanType$,
     this.selectedStatUnitType$,
+    this.selectedPeriod$,
     this.campaignId$,
     // FIXME: investigate why this is needed.
     this.playerId$.pipe(distinctUntilChanged(isEqual)),
   ]).pipe(
-    map(([meanType, unitType, campaignId, playerId]) => ({
+    map(([meanType, unitType, period, campaignId, playerId]) => ({
       meanType,
       unitType,
+      period,
       campaignId,
       playerId,
     }))
@@ -136,49 +144,52 @@ export class StatsPage implements OnInit, AfterViewInit {
   //TODO typing
   statResponse$: Observable<TransportStat[]> =
     this.filterOptions$.pipe(
-      switchMap(({ meanType, unitType, campaignId }) => this.reportService.getPlayerTransportStatsUsingGET(
+      switchMap(({ meanType, unitType, period, campaignId }) => this.reportService.getPlayerTransportStatsUsingGET(
         campaignId,
         unitType.unitKey,
-        'week',
+        period.group,
         meanType.unitKey,
-        DateTime.utc().minus({ week: 20 }).toFormat('yyyy-MM-dd'),
-        DateTime.utc().toFormat('yyyy-MM-dd')
+        period.from,
+        period.to
       )
       )
     );
   constructor(
     private route: ActivatedRoute,
-    private alertController: AlertController,
     private reportService: ReportControllerService,
     private userService: UserService
   ) { }
   ngOnInit() {
     this.selectedSegment = 'week';
-    // this.subStat = this.reportService.userStats$.subscribe((stats) => {
-    //   if (stats) {
-    //     this.stats = stats;
-    //   }
-    //   if (this.barChart) {
-    //     this.barChart.destroy();
-    //   }
-    //   console.log(stats);
-    //   this.barChartMethod(stats);
-    //   this.refresher.complete();
-    // });
   }
   segmentChanged(ev: any) {
     console.log('Segment changed, change the selected period', ev);
   }
-  // ngOnDestroy() {
-  //   this.subStat.unsubscribe();
-  // }
   ngAfterViewInit() {
-    //init selection
-    // eslint-disable-next-line max-len
-    // this.reportService.userStatsHasChanged$.next(this.getConfByData());
     this.barChartMethod();
   }
-
+  getPeriods(referenceDate: DateTime): Period[] {
+    return [
+      {
+        labelKey: 'campaigns.stats.filter.period.week',
+        group: 'day',
+        from: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
+        to: DateTime.utc().toFormat('yyyy-MM-dd')
+      },
+      {
+        labelKey: 'campaigns.stats.filter.period.month',
+        group: 'week',
+        from: DateTime.utc().minus({ month: 1 }).toFormat('yyyy-MM-dd'),
+        to: DateTime.utc().toFormat('yyyy-MM-dd')
+      },
+      {
+        labelKey: 'campaigns.stats.filter.period.year',
+        group: 'month',
+        from: DateTime.utc().minus({ year: 1 }).toFormat('yyyy-MM-dd'),
+        to: DateTime.utc().toFormat('yyyy-MM-dd')
+      }
+    ];
+  }
   barChartMethod(stats?: any) {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
@@ -228,42 +239,20 @@ export class StatsPage implements OnInit, AfterViewInit {
     });
   }
 }
-//TODO TranslateKey
+//TODO TranslateKey instead string
 type StatMeanType = {
   labelKey: string;
   unitKey: string;
-  // playerApi: PlayerApi;
-  // leaderboardApi: StatApi;
+
 };
 type StatUnitType = {
   labelKey: string;
   unitKey: string;
-  // playerApi: PlayerApi;
-  // leaderboardApi: StatApi;
 };
 
-type PlayerApi = (
-  campaignId: string,
-  playerId: string,
-  dateFrom: string,
-  dateTo: string
-) => Observable<any>;
-
-type StatApi = (
-  campaignId: string,
-  page?: number,
-  size?: number,
-  sort?: string,
-  dateFrom?: string,
-  dateTo?: string
-) => Observable<any>;
-
 type Period = {
-  labelKey: TranslateKey;
+  labelKey: string;
+  group: string;
   from: string;
   to: string;
 };
-
-// function bind<F extends (...args: any) => any>(f: F, thisValue: any): F {
-//   return f.bind(thisValue);
-// }

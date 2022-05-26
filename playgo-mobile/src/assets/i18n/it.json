@@ -192,6 +192,11 @@
     "stats": {
       "prova": "Prova",
       "filter": {
+        "period": {
+          "week": "Settimana",
+          "month": "Mese",
+          "year": "Anno"
+        },
         "unit": {
           "km": {
             "label": "Km",
