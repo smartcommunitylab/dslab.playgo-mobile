@@ -100,12 +100,12 @@ export class StatsPage implements OnInit, AfterViewInit {
       shareReplay(1)
     );
   referenceDate = DateTime.local();
-  periods = this.getPeriods(this.referenceDate);
+  initPeriods = this.getPeriods(this.referenceDate);
   statPeriodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> =
     this.statPeriodChangedSubject.pipe(
       map((event) => event.detail.value),
-      startWith(this.periods[0]),
+      startWith(this.initPeriods[0]),
       shareReplay(1)
     );
   campaignId$: Observable<string> = this.route.params.pipe(
@@ -173,20 +173,20 @@ export class StatsPage implements OnInit, AfterViewInit {
       {
         labelKey: 'campaigns.stats.filter.period.week',
         group: 'day',
-        from: DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-        to: DateTime.utc().toFormat('yyyy-MM-dd')
+        from: referenceDate.minus({ week: 1 }).toFormat('yyyy-MM-dd'),
+        to: referenceDate.toFormat('yyyy-MM-dd')
       },
       {
         labelKey: 'campaigns.stats.filter.period.month',
         group: 'week',
-        from: DateTime.utc().minus({ month: 1 }).toFormat('yyyy-MM-dd'),
-        to: DateTime.utc().toFormat('yyyy-MM-dd')
+        from: referenceDate.minus({ month: 1 }).toFormat('yyyy-MM-dd'),
+        to: referenceDate.toFormat('yyyy-MM-dd')
       },
       {
         labelKey: 'campaigns.stats.filter.period.year',
         group: 'month',
-        from: DateTime.utc().minus({ year: 1 }).toFormat('yyyy-MM-dd'),
-        to: DateTime.utc().toFormat('yyyy-MM-dd')
+        from: referenceDate.minus({ year: 1 }).toFormat('yyyy-MM-dd'),
+        to: referenceDate.toFormat('yyyy-MM-dd')
       }
     ];
   }

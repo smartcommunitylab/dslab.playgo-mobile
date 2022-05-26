@@ -37,6 +37,9 @@
       <ion-label>{{'report.stats.chart.year' | translate}}</ion-label>
     </ion-segment-button> -->
   </ion-segment>
+  <div>
+    {{selectedPeriod$| async | json }}
+  </div>
   {{statResponse$ | async | json }}
   <canvas #barCanvas style="position: relative; height: 20vh; width: 40vw"></canvas>
 </ion-content>
