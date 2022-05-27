@@ -28,15 +28,15 @@ export class ExternalControllerService {
    * @param campaignId campaignId
    * @param body
    */
-  public getCampaignPlacingUsingGET(
+  public getCampaignPlacingUsingPOST(
     campaignId: string,
     body?: Array<string>
   ): Observable<{ [key: string]: number }> {
     return this.http.request<{ [key: string]: number }>(
-      'get',
+      'post',
       environment.serverUrl.api + `/playandgo/api/ext/campaign/game/placing`,
       {
-        body: body,
+        body,
         params: removeNullOrUndefined({
           campaignId,
         }),
@@ -61,7 +61,7 @@ export class ExternalControllerService {
       environment.serverUrl.api +
         `/playandgo/api/ext/campaign/subscribe/territory`,
       {
-        body: body,
+        body,
         params: removeNullOrUndefined({
           campaignId,
           nickname,
@@ -87,7 +87,7 @@ export class ExternalControllerService {
       environment.serverUrl.api +
         `/playandgo/api/ext/campaign/unsubscribe/territory`,
       {
-        body: body,
+        body,
         params: removeNullOrUndefined({
           campaignId,
           nickname,
