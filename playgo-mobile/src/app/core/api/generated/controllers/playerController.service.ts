@@ -34,7 +34,7 @@ export class PlayerControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/player`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -118,7 +118,7 @@ export class PlayerControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/player/register`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -152,7 +152,7 @@ export class PlayerControllerService {
       'put',
       environment.serverUrl.api + `/playandgo/api/player/profile`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -167,7 +167,7 @@ export class PlayerControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/player/avatar`,
       {
-        body: body,
+        body,
       }
     );
   }
