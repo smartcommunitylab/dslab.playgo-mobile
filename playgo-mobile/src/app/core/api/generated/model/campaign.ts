@@ -17,8 +17,8 @@ export interface Campaign {
   banner?: Image;
   campaignId?: string;
   communications?: boolean;
-  dateFrom?: string;
-  dateTo?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
   description?: string;
   details?: Array<CampaignDetail>;
   gameId?: string;
