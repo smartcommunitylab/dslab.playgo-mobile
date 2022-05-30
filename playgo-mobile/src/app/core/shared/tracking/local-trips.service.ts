@@ -153,7 +153,7 @@ export class LocalTripsService {
         trips.map((trip) => ({
           id: trip.clientId,
           status: 'syncedButNotReturnedFromServer',
-          date: DateTime.fromJSDate(trip.endTime).toISODate(),
+          date: DateTime.fromMillis(trip.endTime).toISODate(),
           tripData: trip,
         }))
       )
