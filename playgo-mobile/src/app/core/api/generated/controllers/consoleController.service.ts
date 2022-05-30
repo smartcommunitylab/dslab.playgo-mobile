@@ -226,8 +226,8 @@ export class ConsoleControllerService {
    * @param trackId trackId
    * @param playerId playerId
    * @param modeType modeType
-   * @param dateFrom yyyy-MM-dd HH:mm:ss
-   * @param dateTo yyyy-MM-dd HH:mm:ss
+   * @param dateFrom UTC millis
+   * @param dateTo UTC millis
    * @param campaignId campaignId
    * @param status status
    */
@@ -239,8 +239,8 @@ export class ConsoleControllerService {
     trackId?: string,
     playerId?: string,
     modeType?: string,
-    dateFrom?: Date,
-    dateTo?: Date,
+    dateFrom?: number,
+    dateTo?: number,
     campaignId?: string,
     status?: string
   ): Observable<PageTrackedInstanceConsole> {
