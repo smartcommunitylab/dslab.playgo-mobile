@@ -22,6 +22,7 @@ java -jar \
   -l typescript-angular \
   --template-dir ./src/app/core/api/templates/ \
   -o ./src/app/core/api/generated \
+  --type-mappings Date=number \
 
 # clean unwanted files
 

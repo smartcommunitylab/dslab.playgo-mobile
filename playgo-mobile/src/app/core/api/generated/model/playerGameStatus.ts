@@ -19,5 +19,5 @@ export interface PlayerGameStatus {
   nickname?: string;
   playerId?: string;
   score?: number;
-  updateTime?: Date;
+  updateTime?: number;
 }

@@ -16,7 +16,7 @@ export interface PlayerStatus {
   activityDays?: number;
   co2?: number;
   playerId?: string;
-  registrationDate?: Date;
+  registrationDate?: number;
   territory?: Territory;
   transportStatsList?: Array<TransportStats>;
   travels?: number;
