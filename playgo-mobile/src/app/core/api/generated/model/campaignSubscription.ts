@@ -16,7 +16,7 @@ export interface CampaignSubscription {
   id?: string;
   mail?: string;
   playerId?: string;
-  registrationDate?: Date;
+  registrationDate?: number;
   sendMail?: boolean;
   territoryId?: string;
 }

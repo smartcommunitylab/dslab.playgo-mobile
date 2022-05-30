@@ -25,7 +25,7 @@ export interface TrackedInstance {
   note?: string;
   overriddenDistances?: { [key: string]: number };
   sharedTravelId?: string;
-  startTime?: Date;
+  startTime?: number;
   started?: boolean;
   suspect?: boolean;
   territoryId?: string;

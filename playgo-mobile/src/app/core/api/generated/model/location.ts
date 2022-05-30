@@ -20,6 +20,6 @@ export interface Location {
   extras?: any;
   geofence?: any;
   isMoving?: boolean;
-  timestamp?: Date;
+  timestamp?: number;
   uuid?: string;
 }
