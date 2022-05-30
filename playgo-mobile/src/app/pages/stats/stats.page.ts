@@ -38,14 +38,14 @@ import { ReportControllerService } from 'src/app/core/api/generated/controllers/
   styleUrls: ['./stats.page.scss'],
 })
 export class StatsPage implements OnInit, AfterViewInit {
+
   @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
 
-  selectedSegment?: string;
+  selectedSegment?: Period;
   barChart: any;
   stats: any;
-  selectedConf: any;
   statMeanChangedSubject = new Subject<
     SelectCustomEvent<StatMeanType>
   >();
@@ -100,12 +100,18 @@ export class StatsPage implements OnInit, AfterViewInit {
       shareReplay(1)
     );
   referenceDate = DateTime.local();
-  initPeriods = this.getPeriods(this.referenceDate);
-  statPeriodChangedSubject = new Subject<SelectCustomEvent<Period>>();
+  // initPeriods = this.getPeriods(this.referenceDate);
+  periods = this.getPeriods(this.referenceDate);
+  selectedPeriod = this.periods[0];
+  statPeriodChangedSubject = new Subject<Period>();
   selectedPeriod$: Observable<Period> =
     this.statPeriodChangedSubject.pipe(
-      map((event) => event.detail.value),
-      startWith(this.initPeriods[0]),
+      map((period) => {
+        console.log(period.group);
+        this.selectedPeriod = period;
+        return this.getPeriodByReference(period);
+      }),
+      startWith(this.periods[0]),
       shareReplay(1)
     );
   campaignId$: Observable<string> = this.route.params.pipe(
@@ -160,7 +166,10 @@ export class StatsPage implements OnInit, AfterViewInit {
     private userService: UserService
   ) { }
   ngOnInit() {
-    this.selectedSegment = 'week';
+    this.selectedSegment = this.periods[0];
+  }
+  getPeriodByReference(value: Period): any {
+    return this.periods.find((period) => period.group === value.group);
   }
   segmentChanged(ev: any) {
     console.log('Segment changed, change the selected period', ev);
@@ -168,25 +177,44 @@ export class StatsPage implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.barChartMethod();
   }
+  backPeriod() {
+    //change referenceDate
+    this.referenceDate = this.referenceDate.plus({ [this.selectedPeriod.add]: -1 });
+    //only get but it doesn't write on subject
+    this.periods = this.getPeriods(this.referenceDate);
+    const tabIndex = this.periods.findIndex((period) => period.group === this.selectedPeriod.group);
+    this.selectedSegment = this.periods[tabIndex];
+    this.statPeriodChangedSubject.next(this.periods[tabIndex]);
+  }
+  forwardPeriod() {
+    this.referenceDate = this.referenceDate.plus({ [this.selectedPeriod.add]: 1 });
+    this.periods = this.getPeriods(this.referenceDate);
+    const tabIndex = this.periods.findIndex((period) => period.group === this.selectedPeriod.group);
+    this.selectedSegment = this.periods[tabIndex];
+    this.statPeriodChangedSubject.next(this.periods[tabIndex]);
+  }
   getPeriods(referenceDate: DateTime): Period[] {
     return [
       {
         labelKey: 'campaigns.stats.filter.period.week',
         group: 'day',
-        from: referenceDate.minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-        to: referenceDate.toFormat('yyyy-MM-dd')
+        add: 'week',
+        from: referenceDate.startOf('week').toFormat('yyyy-MM-dd'),
+        to: referenceDate.endOf('week').toFormat('yyyy-MM-dd')
       },
       {
         labelKey: 'campaigns.stats.filter.period.month',
         group: 'week',
-        from: referenceDate.minus({ month: 1 }).toFormat('yyyy-MM-dd'),
-        to: referenceDate.toFormat('yyyy-MM-dd')
+        add: 'month',
+        from: referenceDate.startOf('month').toFormat('yyyy-MM-dd'),
+        to: referenceDate.endOf('month').toFormat('yyyy-MM-dd')
       },
       {
         labelKey: 'campaigns.stats.filter.period.year',
         group: 'month',
-        from: referenceDate.minus({ year: 1 }).toFormat('yyyy-MM-dd'),
-        to: referenceDate.toFormat('yyyy-MM-dd')
+        add: 'year',
+        from: referenceDate.startOf('year').toFormat('yyyy-MM-dd'),
+        to: referenceDate.endOf('month').toFormat('yyyy-MM-dd')
       }
     ];
   }
@@ -252,6 +280,7 @@ type StatUnitType = {
 
 type Period = {
   labelKey: string;
+  add: string;
   group: string;
   from: string;
   to: string;

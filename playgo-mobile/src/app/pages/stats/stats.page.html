@@ -23,7 +23,7 @@
     </ion-select>
   </ion-item>
   <ion-segment color="playgo" [(ngModel)]="selectedSegment"
-    (ionChange)="segmentChanged($event); statPeriodChangedSubject.next($any($event))" scrollable>
+    (ionChange)="segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)" scrollable>
     <ion-segment-button *ngFor="let period of periods" [value]="period" checked>
       <ion-label>{{period.labelKey| translate}}</ion-label>
     </ion-segment-button>
@@ -37,9 +37,21 @@
       <ion-label>{{'report.stats.chart.year' | translate}}</ion-label>
     </ion-segment-button> -->
   </ion-segment>
-  <div>
-    {{selectedPeriod$| async | json }}
-  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="backPeriod()">
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col>{{selectedPeriod$| async | json }}</ion-col>
+      <ion-col>
+        <ion-button (click)="forwardPeriod()">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   {{statResponse$ | async | json }}
   <canvas #barCanvas style="position: relative; height: 20vh; width: 40vw"></canvas>
 </ion-content>
