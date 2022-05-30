@@ -1,13 +1,14 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { NavController } from '@ionic/angular';
+import { DateTime } from 'luxon';
 import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { Territory } from '../../model/territory.model';
 import { CampaignService } from '../../services/campaign.service';
+import { fromServerDate, getServerTimeZone } from '../../time.utils';
 import { readAsBase64 } from '../../utils';
-
 
 @Component({
   selector: 'app-profile-component',
@@ -28,7 +29,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private campaignService: CampaignService,
     private navCtrl: NavController
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.subProf = this.userService.userProfile$.subscribe((profile) => {
@@ -42,9 +43,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subCamp = this.campaignService.myCampaigns$.subscribe(
       (myCampaigns) => {
         this.numMyCampaigns = myCampaigns?.length;
-        this.activeFrom = myCampaigns.find(
+        const activeFromMillis = myCampaigns.find(
           (camp) => camp.campaign?.type === 'personal'
         ).subscription?.registrationDate;
+        if (activeFromMillis) {
+          this.activeFrom = fromServerDate(activeFromMillis)
+            .toLocal()
+            .toLocaleString(DateTime.DATE_SHORT);
+        } else {
+          this.activeFrom = null;
+        }
       }
     );
   }

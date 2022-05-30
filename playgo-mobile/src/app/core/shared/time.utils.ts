@@ -68,3 +68,15 @@ export function toServerDateOnly(dateTime: DateTime): string {
 
   return dateTime.setZone(getServerTimeZone()).toFormat('yyyy-MM-dd');
 }
+
+/**
+ * Converts server milliseconds to DateTime. Keeps null as null.
+ * Only problem is that generated models has Date fields, but in runtime, they are
+ * numbers.
+ */
+export function fromServerDate(dateTime: Date | number) {
+  if (!dateTime) {
+    return null;
+  }
+  return DateTime.fromJSDate(new Date(dateTime));
+}
