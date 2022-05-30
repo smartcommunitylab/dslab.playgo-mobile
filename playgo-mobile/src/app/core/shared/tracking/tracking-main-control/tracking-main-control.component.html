@@ -1,8 +1,11 @@
 <div class="tracking-container ion-text-center">
-  <div *ngIf="(tripService.isInTrip$ | async); else chooseMean">
+  <div *ngIf="tripService.isInTrip$ | async; else chooseMean">
     <!-- <div>backgroundTrackingService.accuracy$</div>
   <div>{{ backgroundTrackingService.accuracy$ | async }}</div> -->
-    <div *ngIf="backgroundTrackingService.lowAccuracy$ | async" style="color: orange">
+    <div
+      *ngIf="backgroundTrackingService.lowAccuracy$ | async"
+      style="color: orange"
+    >
       Low accuracy!
     </div>
     <!-- <div>backgroundTrackingService.isPowerSaveMode$</div>
@@ -15,12 +18,10 @@
     <!-- <div>type</div> -->
     <!-- <div>{{ (tripService.activeTransportType$ | async) }}</div> -->
     <ion-icon [name]="tripService.activeTransportType$ | async"></ion-icon>
-    <!-- (tripService.activeTransportType$ | async) -->
+    timeInTripPart: {{ timeInTripPart$ | async }}
   </div>
   <ng-template #chooseMean>
-
-    {{'tracking.choose_means'| translate}}
+    {{ "tracking.choose_means" | translate }}
   </ng-template>
 </div>
-<app-tracking-buttons size="default">
-</app-tracking-buttons>
+<app-tracking-buttons size="default"> </app-tracking-buttons>
