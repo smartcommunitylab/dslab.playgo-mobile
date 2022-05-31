@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import {
   AfterViewInit,
   Component,
@@ -24,7 +25,7 @@ import {
   PointElement,
 } from 'chart.js';
 import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
-import { DateTime } from 'luxon';
+import { DateTime, DateTimeUnit, Interval } from 'luxon';
 import { distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { isEqual } from 'lodash-es';
@@ -156,8 +157,8 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         unitType.unitKey,
         period.group,
         meanType.unitKey,
-        period.from,
-        period.to
+        period.from.toFormat('yyyy-MM-dd'),
+        period.to.toFormat('yyyy-MM-dd')
       )
       )
     );
@@ -209,22 +210,22 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         labelKey: 'campaigns.stats.filter.period.week',
         group: 'day',
         add: 'week',
-        from: referenceDate.startOf('week').toFormat('yyyy-MM-dd'),
-        to: referenceDate.endOf('week').toFormat('yyyy-MM-dd')
+        from: referenceDate.startOf('week'),
+        to: referenceDate.endOf('week')
       },
       {
         labelKey: 'campaigns.stats.filter.period.month',
         group: 'week',
         add: 'month',
-        from: referenceDate.startOf('month').toFormat('yyyy-MM-dd'),
-        to: referenceDate.endOf('month').toFormat('yyyy-MM-dd')
+        from: referenceDate.startOf('month'),
+        to: referenceDate.endOf('month')
       },
       {
         labelKey: 'campaigns.stats.filter.period.year',
         group: 'month',
         add: 'year',
-        from: referenceDate.startOf('year').toFormat('yyyy-MM-dd'),
-        to: referenceDate.endOf('month').toFormat('yyyy-MM-dd')
+        from: referenceDate.startOf('year'),
+        to: referenceDate.endOf('year')
       }
     ];
   }
@@ -237,7 +238,26 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   //   }
   // }
 
-
+  daysFromInterval(): Array<DateTime> {
+    const retArr = [];
+    const start = this.selectedPeriod.from;
+    const end = this.selectedPeriod.to;
+    const interval = Interval.fromDateTimes(start, end);
+    let cursor = interval.start;
+    while (cursor < interval.end) {
+      retArr.push(cursor);
+      cursor = cursor.plus({ [this.selectedPeriod.group]: 1 });
+    }
+    return retArr;
+  }
+  valuesFromStat(arrOfPeriod: DateTime[], stats: any): Array<number> {
+    //  check if stats[i] is part of arrOfPeriod
+    const retArr = [];
+    for (let period of arrOfPeriod) {
+      retArr.push(Math.random());
+    }
+    return retArr;
+  }
   barChartMethod(stats?: any) {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
@@ -261,16 +281,18 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         chartExist.destroy();
       }
     }
+
     //build using stats and this.selectedPeriod
-    // let arrOf
+    const arrOfPeriod = this.daysFromInterval();
+    const arrOfValues = this.valuesFromStat(arrOfPeriod, stats);
+
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       data: {
-        labels: ['BJddddddP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP', 'BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
+        labels: arrOfPeriod.map((period) => period.toFormat('dd/MM/yyyy')),
         datasets: [
           {
-            label: '# of Votes',
-            data: [200, 50, 30, 15, 20, 34, 200, 50, 30, 15, 20, 34],
+            data: arrOfValues,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -305,6 +327,8 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       },
     });
   }
+
+
 }
 //TODO TranslateKey instead string
 type StatMeanType = {
@@ -320,7 +344,7 @@ type StatUnitType = {
 type Period = {
   labelKey: string;
   add: string;
-  group: string;
-  from: string;
-  to: string;
+  group: DateTimeUnit;
+  from: DateTime;
+  to: DateTime;
 };
