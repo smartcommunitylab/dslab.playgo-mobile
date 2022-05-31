@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -22,7 +23,7 @@ import {
   LineElement,
   PointElement,
 } from 'chart.js';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { DateTime } from 'luxon';
 import { distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -37,7 +38,7 @@ import { ReportControllerService } from 'src/app/core/api/generated/controllers/
   templateUrl: './stats.page.html',
   styleUrls: ['./stats.page.scss'],
 })
-export class StatsPage implements OnInit, AfterViewInit {
+export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -45,7 +46,7 @@ export class StatsPage implements OnInit, AfterViewInit {
 
   selectedSegment?: Period;
   barChart: any;
-  stats: any;
+  statsSubs: Subscription;
   statMeanChangedSubject = new Subject<
     SelectCustomEvent<StatMeanType>
   >();
@@ -164,9 +165,18 @@ export class StatsPage implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private reportService: ReportControllerService,
     private userService: UserService
-  ) { }
+  ) {
+    this.statsSubs = this.statResponse$.subscribe((stats) => {
+      console.log('new stats' + stats);
+      this.barChartMethod(stats);
+    });
+  }
+
   ngOnInit() {
     this.selectedSegment = this.periods[0];
+  }
+  ngOnDestroy() {
+    this.statsSubs.unsubscribe();
   }
   getPeriodByReference(value: Period): any {
     return this.periods.find((period) => period.group === value.group);
@@ -175,7 +185,7 @@ export class StatsPage implements OnInit, AfterViewInit {
     console.log('Segment changed, change the selected period', ev);
   }
   ngAfterViewInit() {
-    this.barChartMethod();
+    //this.barChartMethod();
   }
   backPeriod() {
     //change referenceDate
@@ -218,6 +228,16 @@ export class StatsPage implements OnInit, AfterViewInit {
       }
     ];
   }
+  // adjust this for your exact needs
+  // days(interval, timePeriod) {
+  //   let cursor = interval.start.startOf(timePeriod);
+  //   while (cursor < interval.end) {
+  //     yield cursor;
+  //     cursor = cursor.plus({ [timePeriod]: 1 });
+  //   }
+  // }
+
+
   barChartMethod(stats?: any) {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
@@ -235,16 +255,29 @@ export class StatsPage implements OnInit, AfterViewInit {
     );
     if (!this.barCanvas) {
       return;
+    } else {
+      const chartExist = Chart.getChart('statsChart');
+      if (chartExist !== undefined) {
+        chartExist.destroy();
+      }
     }
+    //build using stats and this.selectedPeriod
+    // let arrOf
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       data: {
-        labels: ['BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
+        labels: ['BJddddddP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP', 'BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
         datasets: [
           {
             label: '# of Votes',
-            data: [200, 50, 30, 15, 20, 34],
+            data: [200, 50, 30, 15, 20, 34, 200, 50, 30, 15, 20, 34],
             backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
               'rgba(255, 206, 86, 0.2)',
@@ -253,6 +286,12 @@ export class StatsPage implements OnInit, AfterViewInit {
               'rgba(255, 159, 64, 0.2)',
             ],
             borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
               'rgba(255,99,132,1)',
               'rgba(54, 162, 235, 1)',
               'rgba(255, 206, 86, 1)',
