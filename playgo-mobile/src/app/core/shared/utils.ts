@@ -44,14 +44,24 @@ export function tapLog<T>(...logMsgs: any[]) {
 }
 
 export function runInZone<T>(zone: NgZone): OperatorFunction<T, T> {
+  return runInContext(zone.run.bind(zone));
+}
+export function runOutsideAngular<T>(zone: NgZone): OperatorFunction<T, T> {
+  return runInContext(zone.runOutsideAngular.bind(zone));
+}
+
+export function runInContext<T>(
+  contextFunction: NgZone['run']
+): OperatorFunction<T, T> {
   return (source) =>
     new Observable((observer) => {
-      const onNext = (value: T) => zone.run(() => observer.next(value));
-      const onError = (e: any) => zone.run(() => observer.error(e));
-      const onComplete = () => zone.run(() => observer.complete());
+      const onNext = (value: T) => contextFunction(() => observer.next(value));
+      const onError = (e: any) => contextFunction(() => observer.error(e));
+      const onComplete = () => contextFunction(() => observer.complete());
       return source.subscribe(onNext, onError, onComplete);
     });
 }
+
 export function startFrom<T, O extends ObservableInput<any>>(
   start: O
 ): OperatorFunction<T, T | ObservedValueOf<O>> {

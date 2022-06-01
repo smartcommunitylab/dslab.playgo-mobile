@@ -18,7 +18,7 @@ import {
   takeUntil,
   takeWhile,
 } from 'rxjs/operators';
-import { tapLog } from '../../utils';
+import { runOutsideAngular, tapLog } from '../../utils';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
 import { TripPart, TRIP_END } from '../trip.model';
@@ -35,33 +35,32 @@ export class TrackingMainControlComponent implements DoCheck, OnDestroy {
   private timeElapsedElement: ElementRef;
 
   private isDestroyed$ = new Subject<boolean>();
-  private timeInTripPartOutOfZoneSubject = new Subject<TripPart | TRIP_END>();
-  private timeInTripPart$: Observable<string> =
-    this.timeInTripPartOutOfZoneSubject.pipe(
-      switchMap((tripPart) => {
-        if (!tripPart || tripPart === TRIP_END) {
-          return of(null) as Observable<number>;
-        }
-        const tripStart = tripPart.start || new Date().getTime();
-        return timer(0, 50).pipe(map(() => new Date().getTime() - tripStart));
-      }),
-      map((time) => (time === null ? null : round(time, 1000))),
-      distinctUntilChanged(),
-      map((elapsedTime) => {
-        if (elapsedTime === null) {
-          return '';
-        }
-        return Duration.fromMillis(elapsedTime)
-          .shiftTo('hours', 'minutes', 'seconds')
-          .normalize()
-          .toHuman({
-            maximumFractionDigits: 0,
-            //localeMatcher: 'it',
-          });
-      }),
-      distinctUntilChanged(),
-      takeUntil(this.isDestroyed$)
-    );
+
+  private timeInTripPart$: Observable<string> = this.tripService.tripPart$.pipe(
+    runOutsideAngular(this.zone),
+    switchMap((tripPart) => {
+      if (!tripPart || tripPart === TRIP_END) {
+        return of(null) as Observable<number>;
+      }
+      const tripStart = tripPart.start || new Date().getTime();
+      return timer(0, 50).pipe(map(() => new Date().getTime() - tripStart));
+    }),
+    map((time) => (time === null ? null : round(time, 1000))),
+    distinctUntilChanged(),
+    map((elapsedTime) => {
+      if (elapsedTime === null) {
+        return '';
+      }
+      return Duration.fromMillis(elapsedTime)
+        .shiftTo('hours', 'minutes', 'seconds')
+        .normalize()
+        .toHuman({
+          maximumFractionDigits: 0,
+          //localeMatcher: 'it',
+        });
+    }),
+    distinctUntilChanged()
+  );
 
   constructor(
     private zone: NgZone,
@@ -69,12 +68,6 @@ export class TrackingMainControlComponent implements DoCheck, OnDestroy {
     public tripService: TripService,
     public backgroundTrackingService: BackgroundTrackingService
   ) {
-    this.tripService.tripPart$.subscribe((tripPart) => {
-      this.zone.runOutsideAngular(() => {
-        this.timeInTripPartOutOfZoneSubject.next(tripPart);
-      });
-    });
-
     this.timeInTripPart$
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe((timeString) => {
@@ -93,7 +86,7 @@ export class TrackingMainControlComponent implements DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
-    console.log('tick!');
+    // console.log('tick!');
   }
 
   ngOnDestroy() {
