@@ -18,7 +18,7 @@
     <!-- <div>type</div> -->
     <!-- <div>{{ (tripService.activeTransportType$ | async) }}</div> -->
     <ion-icon [name]="tripService.activeTransportType$ | async"></ion-icon>
-    timeInTripPart: {{ timeInTripPart$ | async }}
+    timeInTripPart: <span #timeElapsed></span>
   </div>
   <ng-template #chooseMean>
     {{ "tracking.choose_means" | translate }}
