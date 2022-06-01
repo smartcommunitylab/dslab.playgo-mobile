@@ -209,6 +209,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       {
         labelKey: 'campaigns.stats.filter.period.week',
         group: 'day',
+        format: 'dd-MM',
         add: 'week',
         from: referenceDate.startOf('week'),
         to: referenceDate.endOf('week')
@@ -216,6 +217,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       {
         labelKey: 'campaigns.stats.filter.period.month',
         group: 'week',
+        format: 'WW-MMM',
         add: 'month',
         from: referenceDate.startOf('month'),
         to: referenceDate.endOf('month')
@@ -223,6 +225,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       {
         labelKey: 'campaigns.stats.filter.period.year',
         group: 'month',
+        format: 'MM-yyyy',
         add: 'year',
         from: referenceDate.startOf('year'),
         to: referenceDate.endOf('year')
@@ -244,17 +247,43 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     const end = this.selectedPeriod.to;
     const interval = Interval.fromDateTimes(start, end);
     let cursor = interval.start;
+    cursor = cursor.startOf(this.selectedPeriod.group);
     while (cursor < interval.end) {
+      //begin of the element
       retArr.push(cursor);
       cursor = cursor.plus({ [this.selectedPeriod.group]: 1 });
     }
     return retArr;
   }
+  getObjectDate(statPeriod) {
+    //anno - mese o anno numero settimana o anno mese giorno in base alla selezione
+    const periodSplitted = statPeriod.split('-');
+    switch (this.selectedPeriod.group) {
+      case 'day':
+        return { year: periodSplitted[0], month: periodSplitted[1], day: periodSplitted[2] };
+      case 'week':
+        return { weekYear: periodSplitted[0], weekNumber: periodSplitted[1] };
+      case 'month':
+        return { year: periodSplitted[0], month: periodSplitted[1] };
+    }
+  }
   valuesFromStat(arrOfPeriod: DateTime[], stats: any): Array<number> {
     //  check if stats[i] is part of arrOfPeriod
+    let statsArrayDate = stats.map(stat => {
+      console.log(stat);
+      // return DateTime.fromObject({ year: 2022, weekNumber: 10 });
+      return DateTime.fromObject(this.getObjectDate(stat.period));
+    });
+    console.log(statsArrayDate);
     const retArr = [];
     for (let period of arrOfPeriod) {
-      retArr.push(Math.random());
+      //check if statsArrayDate has a period
+      const i = statsArrayDate.findIndex(statPeriod => statPeriod.toISO() === period.toISO());
+      if (i !== -1) {
+        retArr.push(stats[i].value);
+      } else {
+        retArr.push(0);
+      }
     }
     return retArr;
   }
@@ -289,7 +318,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       data: {
-        labels: arrOfPeriod.map((period) => period.toFormat('dd/MM/yyyy')),
+        labels: arrOfPeriod.map((period) => period.toFormat(this.selectedPeriod.format)),
         datasets: [
           {
             data: arrOfValues,
@@ -344,6 +373,7 @@ type StatUnitType = {
 type Period = {
   labelKey: string;
   add: string;
+  format: string;
   group: DateTimeUnit;
   from: DateTime;
   to: DateTime;
