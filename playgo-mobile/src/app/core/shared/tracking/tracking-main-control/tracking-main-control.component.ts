@@ -54,10 +54,7 @@ export class TrackingMainControlComponent implements DoCheck, OnDestroy {
       return Duration.fromMillis(elapsedTime)
         .shiftTo('hours', 'minutes', 'seconds')
         .normalize()
-        .toHuman({
-          maximumFractionDigits: 0,
-          //localeMatcher: 'it',
-        });
+        .toFormat('hh:mm:ss');
     }),
     distinctUntilChanged()
   );
