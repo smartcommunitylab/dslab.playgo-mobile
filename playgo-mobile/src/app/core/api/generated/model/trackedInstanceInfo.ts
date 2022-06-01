@@ -15,11 +15,11 @@ export interface TrackedInstanceInfo {
   campaigns?: Array<CampaignTripInfo>;
   clientId?: string;
   distance?: number;
-  endTime?: Date;
+  endTime?: number;
   modeType?: string;
   multimodalId?: string;
   polyline?: string;
-  startTime?: Date;
+  startTime?: number;
   trackedInstanceId?: string;
   validity?: TrackedInstanceInfo.ValidityEnum;
 }

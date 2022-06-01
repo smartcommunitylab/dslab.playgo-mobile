@@ -17,7 +17,6 @@ export interface TrackedInstance {
   changedValidity?: TrackedInstance.ChangedValidityEnum;
   clientId?: string;
   complete?: boolean;
-  day?: string;
   deviceInfo?: string;
   freeTrackingTransport?: string;
   geolocationEvents?: Array<Geolocation>;
@@ -26,11 +25,10 @@ export interface TrackedInstance {
   note?: string;
   overriddenDistances?: { [key: string]: number };
   sharedTravelId?: string;
-  startTime?: Date;
+  startTime?: number;
   started?: boolean;
   suspect?: boolean;
   territoryId?: string;
-  time?: string;
   toCheck?: boolean;
   userId?: string;
   validating?: boolean;

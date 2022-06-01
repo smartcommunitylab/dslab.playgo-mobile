@@ -22,12 +22,11 @@ import {
   TransportType,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
+import { groupByConsecutiveValues, tapLog } from 'src/app/core/shared/utils';
 import {
-  groupByConsecutiveValues,
-  tapLog,
   toServerDateOnly,
   toServerDateTime,
-} from 'src/app/core/shared/utils';
+} from 'src/app/core/shared/time.utils';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 import {
@@ -167,7 +166,7 @@ export class TripsPage implements OnInit {
     private backgroundTrackingService: BackgroundTrackingService,
     private tripService: TripService,
     private localTripsService: LocalTripsService
-  ) { }
+  ) {}
 
   trackGroup: TrackByFunction<TripGroup> = (index: number, group: TripGroup) =>
     group.monthDate;
@@ -182,7 +181,7 @@ export class TripsPage implements OnInit {
     trip: ServerOrLocalTrip
   ) => trip.trackedInstanceId;
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   private groupTrips(allTrips: ServerOrLocalTrip[]): TripGroup[] {
     const groupedByMultimodalId = groupByConsecutiveValues(
@@ -236,12 +235,10 @@ export class TripsPage implements OnInit {
     return this.trackControllerService.getTrackedInstanceInfoListUsingGET(
       pageRequest.page,
       pageRequest.size,
-      toServerDateTime(DateTime.fromMillis(0)) as unknown as Date, //from - older
+      toServerDateTime(DateTime.fromMillis(0)), //from - older
       null, //sort
       // TODO: check +-1 day errors!!
-      toServerDateTime(
-        this.localTripsService.localDataFromDate
-      ) as unknown as Date //to - newer
+      toServerDateTime(this.localTripsService.localDataFromDate) //to - newer
     );
   }
 

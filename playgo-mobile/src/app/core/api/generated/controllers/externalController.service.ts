@@ -16,6 +16,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { CampaignSubscription } from '../model/campaignSubscription';
+import { PagePlayerInfo } from '../model/pagePlayerInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,37 @@ export class ExternalControllerService {
         body,
         params: removeNullOrUndefined({
           campaignId,
+        }),
+      }
+    );
+  }
+
+  /**
+   * searchPlayers
+   *
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page
+   * @param territory territory
+   * @param sort Sorting option: field,[asc,desc]
+   * @param txt txt
+   */
+  public searchPlayersUsingGET(
+    page: number,
+    size: number,
+    territory: string,
+    sort?: string,
+    txt?: string
+  ): Observable<PagePlayerInfo> {
+    return this.http.request<PagePlayerInfo>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/ext/territory/players`,
+      {
+        params: removeNullOrUndefined({
+          page,
+          size,
+          sort,
+          txt,
+          territory,
         }),
       }
     );

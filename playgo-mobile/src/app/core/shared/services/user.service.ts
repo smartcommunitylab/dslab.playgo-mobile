@@ -81,7 +81,7 @@ export class UserService {
     private authService: AuthService,
     private http: HttpClient,
     private playerControllerService: PlayerControllerService
-  ) { }
+  ) {}
   set locale(value: string) {
     this.userLocale = value;
   }
@@ -148,19 +148,17 @@ export class UserService {
       console.log(e);
     }
     //check if the avatar is present
-    let avatar = null;
+    let avatar: Avatar = null;
     // let avatarImageSmall = null;
     try {
       avatar = await this.getAvatar();
       // avatarImageSmall = await this.getAvatarSmall();
     } catch (e) {
       if (!avatar) {
-        avatar.avatarSmallUrl = await fetch(
-          'assets/images/registration/generic_user.png'
-        ).then((r) => r.blob());
-        avatar.avatarUrl = await fetch(
-          'assets/images/registration/generic_user.png'
-        ).then((r) => r.blob());
+        avatar = {
+          avatarSmallUrl: 'assets/images/registration/generic_user.png',
+          avatarUrl: 'assets/images/registration/generic_user.png',
+        };
       }
     }
     if (user) {

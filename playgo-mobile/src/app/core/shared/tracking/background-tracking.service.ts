@@ -305,14 +305,14 @@ export class TripLocation {
   idTrip: string;
   latitude: number;
   longitude: number;
-  date: Date;
+  date: number;
   constructor(data?: Partial<TripLocation>) {
     Object.assign(this, data || {});
   }
   static fromLocation(location: Location) {
     const extras = (location.extras || {}) as TripExtras;
     return new TripLocation({
-      date: new Date(location.timestamp),
+      date: new Date(location.timestamp).getTime(),
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       multimodalId: extras.multimodalId,

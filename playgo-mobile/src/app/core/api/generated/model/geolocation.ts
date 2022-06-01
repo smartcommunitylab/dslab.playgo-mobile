@@ -18,7 +18,7 @@ export interface Geolocation {
   batteryIsCharging?: boolean;
   batteryLevel?: number;
   certificate?: string;
-  createdAt?: Date;
+  createdAt?: number;
   deviceId?: string;
   deviceModel?: string;
   geocoding?: Array<number>;
@@ -28,7 +28,7 @@ export interface Geolocation {
   latitude?: number;
   longitude?: number;
   multimodalId?: string;
-  recordedAt?: Date;
+  recordedAt?: number;
   sharedTravelId?: string;
   speed?: number;
   travelId?: string;

@@ -36,11 +36,8 @@ import {
   some,
   sortBy,
 } from 'lodash-es';
-import {
-  groupByConsecutiveValues,
-  startFrom,
-  toServerDateTime,
-} from '../utils';
+import { groupByConsecutiveValues, startFrom } from '../utils';
+import { toServerDateTime } from '../time.utils';
 import { LocalStorageService } from '../services/local-storage.service';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
@@ -156,7 +153,7 @@ export class LocalTripsService {
         trips.map((trip) => ({
           id: trip.clientId,
           status: 'syncedButNotReturnedFromServer',
-          date: DateTime.fromJSDate(trip.endTime).toISODate(),
+          date: DateTime.fromMillis(trip.endTime).toISODate(),
           tripData: trip,
         }))
       )
@@ -237,9 +234,9 @@ export class LocalTripsService {
       .getTrackedInstanceInfoListUsingGET(
         0,
         10000,
-        toServerDateTime(from) as unknown as Date,
+        toServerDateTime(from),
         null,
-        toServerDateTime(to) as unknown as Date
+        toServerDateTime(to)
       )
       .pipe(
         map((pageResult) => pageResult.content),

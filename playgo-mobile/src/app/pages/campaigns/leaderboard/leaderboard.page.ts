@@ -17,7 +17,8 @@ import {
   transportTypeLabels,
   transportTypes,
 } from 'src/app/core/shared/tracking/trip.model';
-import { tapLog, toServerDateOnly } from 'src/app/core/shared/utils';
+import { tapLog } from 'src/app/core/shared/utils';
+import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
 import { UserService } from 'src/app/core/shared/services/user.service';

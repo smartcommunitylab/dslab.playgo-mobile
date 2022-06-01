@@ -15,4 +15,5 @@ export interface Territory {
   name?: string;
   territoryData?: any;
   territoryId?: string;
+  timezone?: string;
 }
