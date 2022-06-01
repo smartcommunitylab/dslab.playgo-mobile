@@ -39,13 +39,13 @@
   </ion-segment>
   <ion-grid>
     <ion-row>
-      <ion-col>
+      <ion-col size="2">
         <ion-button (click)="backPeriod()">
           <ion-icon name="chevron-back"></ion-icon>
         </ion-button>
       </ion-col>
-      <ion-col>{{selectedPeriod$| async | json }}</ion-col>
-      <ion-col>
+      <ion-col size="8">{{(selectedPeriod$ | async ).from}}</ion-col>
+      <ion-col size="2">
         <ion-button (click)="forwardPeriod()">
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>
