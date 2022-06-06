@@ -12,6 +12,8 @@ import {
   polyline,
   icon,
   Icon,
+  circle,
+  circleMarker,
 } from 'leaflet';
 import {
   map as _map,
@@ -35,6 +37,7 @@ import {
   map,
   shareReplay,
   take,
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
   BackgroundTrackingService,
@@ -110,21 +113,41 @@ export class MapComponent implements OnInit {
     )
   );
 
-  public currentLocationLayer$: Observable<Layer> = this.currentLatLng$.pipe(
-    map((coordinates) =>
-      marker(coordinates, {
-        icon: icon({
-          ...Icon.Default.prototype.options,
-          iconUrl: 'assets/marker-icon.png',
-          iconRetinaUrl: 'assets/marker-icon-2x.png',
-          shadowUrl: 'assets/marker-shadow.png',
-        }),
-      })
-    )
-  );
-  constructor(private backgroundTrackingService: BackgroundTrackingService) { }
+  public currentLocationMarkerLayer$: Observable<Layer> =
+    this.currentLatLng$.pipe(
+      map(
+        (coordinates) =>
+          circleMarker(coordinates, {
+            radius: 5, // px
+            color: 'blue', // do we want to change colors by mean?
+          })
+        // marker(coordinates, {
+        //   icon: icon({
+        //     ...Icon.Default.prototype.options,
+        //     iconUrl: 'assets/marker-icon.png',
+        //     iconRetinaUrl: 'assets/marker-icon-2x.png',
+        //     shadowUrl: 'assets/marker-shadow.png',
+        //   }),
+        // })
+      )
+    );
 
-  ngOnInit() { }
+  public currentAccuracyMarkerLayers$: Observable<Layer> =
+    this.currentLatLng$.pipe(
+      withLatestFrom(this.backgroundTrackingService.accuracy$),
+      map(([coordinates, accuracy]) =>
+        circle(coordinates, {
+          radius: accuracy, // in meters
+          color: 'black',
+          fillColor: 'black',
+          fillOpacity: 0.1,
+          weight: 1,
+        })
+      )
+    );
+  constructor(private backgroundTrackingService: BackgroundTrackingService) {}
+
+  ngOnInit() {}
 
   onMapReady(mapInstance: Map) {
     (window as any).mapInstance = mapInstance;

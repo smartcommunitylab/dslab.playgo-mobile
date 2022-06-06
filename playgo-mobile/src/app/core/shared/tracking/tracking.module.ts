@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TrackingMainControlComponent } from './tracking-main-control/tracking-main-control.component';
-import { TrackingQuickControlComponent } from './tracking-quick-control/tracking-quick-control.component';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { BackgroundGeolocationMock } from './BackgroundGeolocationMock';
 import { Platform } from '@ionic/angular';
@@ -18,7 +17,6 @@ import { CurrentLocationMapControlComponent } from './map/current-location-map-c
 @NgModule({
   declarations: [
     TrackingMainControlComponent,
-    TrackingQuickControlComponent,
     TrackingButtonsComponent,
     MapComponent,
     CurrentLocationMapControlComponent,
@@ -39,6 +37,6 @@ import { CurrentLocationMapControlComponent } from './map/current-location-map-c
     },
   ],
   imports: [CommonModule, PlayGoSharedLibsModule, LeafletModule, QRCodeModule],
-  exports: [TrackingMainControlComponent, TrackingQuickControlComponent],
+  exports: [TrackingMainControlComponent],
 })
 export class TrackingModule {}

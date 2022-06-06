@@ -1,63 +1,41 @@
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="tracking-button">
+<ion-fab
+  vertical="bottom"
+  horizontal="end"
+  slot="fixed"
+  class="tracking-button"
+>
   <ion-fab-button color="start" close-icon="chevron-down">
     <ion-icon name="play"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="top">
-    <!-- <ion-fab-button (click)="mapService.showMap()" [size]="size" [disabled]="tripService.operationInProgress$ | async"
-      *ngIf="mapButton && (tripService.isInTrip$ | async) === true">
-      <ion-icon slot="icon-only" name="map"></ion-icon>
-    </ion-fab-button> -->
-    <ion-fab-button color="playgo" *ngFor="let eachTransportTypeOption of transportTypeOptions$ | async" [disabled]=" (tripService.operationInProgress$ | async) ||
-    (tripService.activeTransportType$ | async) ===
-      eachTransportTypeOption.transportType
-  " [color]="
-  (tripService.activeTransportType$ | async) ===
-  eachTransportTypeOption.transportType
-    ? 'secondary'
-    : 'playgo'
-" (click)="
-      tripService.changeTransportType(eachTransportTypeOption.transportType)
-    ">
+    <ion-fab-button
+      color="playgo"
+      *ngFor="let eachTransportTypeOption of transportTypeOptions$ | async"
+      [disabled]="
+        (tripService.operationInProgress$ | async) ||
+        (tripService.activeTransportType$ | async) ===
+          eachTransportTypeOption.transportType
+      "
+      [color]="
+        (tripService.activeTransportType$ | async) ===
+        eachTransportTypeOption.transportType
+          ? 'secondary'
+          : 'playgo'
+      "
+      (click)="
+        tripService.changeTransportType(eachTransportTypeOption.transportType)
+      "
+    >
       <ion-icon [name]="eachTransportTypeOption.icon"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button (click)="tripService.stop()" color="danger" [disabled]="tripService.operationInProgress$ | async"
-      *ngIf="(tripService.isInTrip$ | async) === true" [size]="size">
-      <ion-icon name="stop">
-      </ion-icon>
+    <ion-fab-button
+      (click)="tripService.stop()"
+      color="danger"
+      [disabled]="tripService.operationInProgress$ | async"
+      *ngIf="(tripService.isInTrip$ | async) === true"
+      [size]="size"
+    >
+      <ion-icon name="stop"> </ion-icon>
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>
-<!-- <ng-container
-  *ngFor="let eachTransportTypeOption of transportTypeOptions$ | async"
->
-  <ion-button
-    (click)="
-      tripService.changeTransportType(eachTransportTypeOption.transportType)
-    "
-    [size]="size"
-    [disabled]="
-      (tripService.operationInProgress$ | async) ||
-      (tripService.activeTransportType$ | async) ===
-        eachTransportTypeOption.transportType
-    "
-    [color]="
-      (tripService.activeTransportType$ | async) ===
-      eachTransportTypeOption.transportType
-        ? 'secondary'
-        : 'primary'
-    "
-  >
-    <ion-icon slot="icon-only" [name]="eachTransportTypeOption.icon"></ion-icon>
-  </ion-button>
-</ng-container> -->
-<!-- <ion-button (click)="tripService.stop()" color="danger" [disabled]="tripService.operationInProgress$ | async"
-  *ngIf="(tripService.isInTrip$ | async) === true" [size]="size">
-  <ion-icon slot="icon-only" name="stop"></ion-icon>
-</ion-button> -->
-
-<!-- <ion-button (click)="mapService.showMap()" [size]="size" [disabled]="tripService.operationInProgress$ | async"
-  *ngIf="mapButton && (tripService.isInTrip$ | async) === true">
-  <ion-icon slot="icon-only" name="map"></ion-icon>
-</ion-button> -->
-
-<!-- <ion-progress-bar *ngIf="tripService.operationInProgress$ | async" type="indeterminate"></ion-progress-bar> -->

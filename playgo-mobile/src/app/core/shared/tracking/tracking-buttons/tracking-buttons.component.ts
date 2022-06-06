@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { IonButton } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
-import { tapLog } from '../../utils';
 import { MapService } from '../map/map.service';
 import {
   TransportType,
@@ -18,11 +16,6 @@ import { TripService } from '../trip.service';
   styleUrls: ['./tracking-buttons.component.scss'],
 })
 export class TrackingButtonsComponent implements OnInit {
-  @Input()
-  public size: IonButton['size'] = 'default';
-  @Input()
-  public mapButton = true;
-
   public transportTypeOptions$: Observable<
     {
       transportType: TransportType;
