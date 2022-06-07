@@ -60,7 +60,9 @@ export class MapComponent implements OnInit {
 
   private initialLatLng$: Observable<LatLng> =
     this.backgroundTrackingService.lastLocation$.pipe(
+      filter(negate(isNil)),
       first(),
+      tapLog('initialLatLng$'),
       map(locationToCoordinate),
       shareReplay(1)
     );

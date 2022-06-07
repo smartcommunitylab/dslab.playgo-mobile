@@ -2,14 +2,16 @@
   background-color: var(--ion-color-playgo);
   height: 10vh;
   line-height: 10vh;
+  &.tracking-ui-active {
+    height: 70vh;
+  }
   ion-icon {
     font-size: 5vh;
   }
 }
+
 .map-wrapper {
-  position: absolute;
-  top: 15em;
-  bottom: 9em;
-  left: 0;
-  right: 0;
+  position: relative;
+  width: 100%;
+  height: 60vh;
 }

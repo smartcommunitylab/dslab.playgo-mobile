@@ -1,7 +1,10 @@
-<div *ngIf="trackingUIActive" class="map-wrapper">
-  <app-map></app-map>
-</div>
-<div class="tracking-container ion-text-center">
+<div
+  class="tracking-container ion-text-center"
+  [class.tracking-ui-active]="trackingUIActive"
+>
+  <div class="map-wrapper" *ngIf="trackingUIActive">
+    <app-map></app-map>
+  </div>
   <div *ngIf="tripService.isInTrip$ | async; else chooseMean">
     <div
       *ngIf="backgroundTrackingService.lowAccuracy$ | async"
