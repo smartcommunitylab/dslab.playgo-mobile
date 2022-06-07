@@ -3,6 +3,8 @@
   horizontal="end"
   slot="fixed"
   class="tracking-button"
+  [activated]="fabListActive"
+  (click)="toggleFabList()"
 >
   <ion-fab-button color="start" close-icon="chevron-down">
     <ion-icon name="play"></ion-icon>

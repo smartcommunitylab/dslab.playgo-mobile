@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   DoCheck,
   ElementRef,
@@ -25,6 +26,7 @@ import { TripService } from '../trip.service';
   selector: 'app-tracking-stopwatch',
   templateUrl: './tracking-stopwatch.component.html',
   styleUrls: ['./tracking-stopwatch.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackingStopwatchComponent implements DoCheck, OnDestroy {
   @ViewChild('timeElapsed')

@@ -18,4 +18,8 @@
     {{ "tracking.choose_means" | translate }}
   </ng-template>
 </div>
-<app-tracking-buttons size="default"> </app-tracking-buttons>
+<app-tracking-buttons
+  (fabListActivated)="fabListActivated($event)"
+  [fabListActive]="fabListActive"
+>
+</app-tracking-buttons>
