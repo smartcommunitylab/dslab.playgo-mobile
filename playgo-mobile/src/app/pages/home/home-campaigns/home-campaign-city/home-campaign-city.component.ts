@@ -16,6 +16,7 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   subStat: Subscription;
   campaignStatus: PlayerStatus;
   reportWeekStat: CampaignPlacing;
+  reportTotalStat: CampaignPlacing;
   imagePath: string;
   constructor(
     private userService: UserService,
@@ -37,10 +38,18 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
           this.campaignContainer.campaign.campaignId,
           profile.playerId,
           DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd')
+          DateTime.utc().toFormat('yyyy-MM-dd')
         )
         .then((stats) => {
           this.reportWeekStat = stats;
+        });
+      this.reportService
+        .getGameStats(
+          this.campaignContainer.campaign.campaignId,
+          profile.playerId
+        )
+        .then((stats) => {
+          this.reportTotalStat = stats;
         });
     });
   }

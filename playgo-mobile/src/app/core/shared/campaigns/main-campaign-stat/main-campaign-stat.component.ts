@@ -10,8 +10,10 @@ import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 })
 export class MainCampaignStatComponent implements OnInit {
   @Input() campaignContainer: PlayerCampaign;
-  @Input() status?: PlayerStatus;
+  @Input() status?: any;
   @Input() reportWeekStat?: CampaignPlacing;
+  @Input() reportTotalStat?: CampaignPlacing;
+  @Input() what?: string;
 
   constructor() { }
 

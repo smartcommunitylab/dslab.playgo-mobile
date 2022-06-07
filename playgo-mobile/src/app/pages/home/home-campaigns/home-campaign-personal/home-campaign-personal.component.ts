@@ -17,6 +17,7 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   subStat: Subscription;
   profile: Player;
   reportWeekStat: CampaignPlacing;
+  reportTotalStat: CampaignPlacing;
   imagePath: string;
   constructor(
     private userService: UserService,
@@ -37,6 +38,14 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportWeekStat = stats;
+        });
+      this.reportService
+        .getCo2Stats(
+          this.campaignContainer.campaign.campaignId,
+          this.profile.playerId
+        )
+        .then((stats) => {
+          this.reportTotalStat = stats;
         });
     });
   }

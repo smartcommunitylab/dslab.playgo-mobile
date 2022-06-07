@@ -55,11 +55,9 @@ export class ReportService {
     toDate?: any
   ): Promise<CampaignPlacing> {
     return this.reportControllerService
-      .getPlayerCampaingPlacingByTransportModeUsingGET(
+      .getPlayerCampaingPlacingByGameUsingGET(
         campaignId,
         playerId,
-        'co2',
-        null,
         fromDate,
         toDate
       )

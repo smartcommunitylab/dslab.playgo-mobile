@@ -187,6 +187,12 @@
         "totalco2": "CO2 risparmiata: {{totalCO2}}",
         "weeklyco2": "CO2 settimanale: {{weeklyCO2}}",
         "weklyRanking": "Posizione in classifica: {{weeklyRanking}}"
+      },
+      "stat": {
+        "weekposition": "{{position}} in classifica settimanale",
+        "totalposition": "{{position}} in classifica complessiva",
+        "weekvalue": "{{value}}  settimanale",
+        "totalvalue": "{{value}} complessivo"
       }
     },
     "stats": {

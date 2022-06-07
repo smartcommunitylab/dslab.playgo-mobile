@@ -1,22 +1,40 @@
 <!-- stat  -->
 <div>
     <ion-grid>
-        <ion-row *ngIf="reportWeekStat">
-            <ion-col>
-                {{reportWeekStat |json}}
+        <ion-row>
+            <ion-col *ngIf="reportWeekStat">
+                <p>{{
+                    'campaigns.homewidgets.stat.weekposition'|translate : {position:reportWeekStat?.position }
+                    }}</p>
+
+            </ion-col>
+            <ion-col *ngIf="reportTotalStat">
+                <p>{{
+                    'campaigns.homewidgets.stat.totalposition'|translate : {position:reportTotalStat?.position }
+                    }}
+                </p>
             </ion-col>
         </ion-row>
-        <ion-row *ngIf="reportWeekStat">
+        <ion-row>
             <ion-col>
-                {{reportWeekStat |json}}
+                {{what}}
+            </ion-col>
+            <ion-col>
+                <p *ngIf="reportWeekStat">{{
+                    'campaigns.homewidgets.stat.weekvalue'|translate : {value:reportWeekStat?.value }
+                    }}</p>
+                <p *ngIf="reportTotalStat">{{
+                    'campaigns.homewidgets.stat.totalvalue'|translate : {value:reportTotalStat?.value }
+                    }}</p>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="status">
             <ion-col>
-                <!-- {{status |json}} -->
                 <div>
-                    <span>Livello x</span><span>Punti y</span>
-                    <ion-progress-bar [color]="campaignContainer.campaign.type" value="0.5"></ion-progress-bar>
+                    <span>{{status?.level?.levelName}}</span><span>{{status?.score}}</span>
+                    <ion-progress-bar [color]="campaignContainer.campaign.type" [value]="(status?.score -
+                        status?.level?.startLevelScore)/((status?.level?.endLevelScore -
+                        status?.level?.startLevelScore))"></ion-progress-bar>
                 </div>
             </ion-col>
         </ion-row>

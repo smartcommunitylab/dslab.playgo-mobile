@@ -185,6 +185,12 @@
         "totalco2": "Total CO2: {{totalCO2}}",
         "weeklyco2": "Weekly CO2: {{weeklyCO2}}",
         "weeklyRanking": "Weekly ranking: {{weeklyRanking}}"
+      },
+      "stat": {
+        "weekposition": "{{position}} weekly position",
+        "totalposition": "{{position}} total position",
+        "weekvalue": "{{value}} weekly value",
+        "totalvalue": "{{value}} total value"
       }
     },
     "stats": {
