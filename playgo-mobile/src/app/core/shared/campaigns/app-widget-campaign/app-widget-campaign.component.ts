@@ -9,7 +9,7 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 })
 export class WidgetComponent implements OnInit, OnDestroy {
   @Input() campaign: PlayerCampaign;
-
+  @Input() header?: boolean = false;
   constructor(
     private router: Router
   ) { }
