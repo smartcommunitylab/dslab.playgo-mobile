@@ -60,7 +60,9 @@ export class MapComponent implements OnInit {
 
   private initialLatLng$: Observable<LatLng> =
     this.backgroundTrackingService.lastLocation$.pipe(
+      filter(negate(isNil)),
       first(),
+      tapLog('initialLatLng$'),
       map(locationToCoordinate),
       shareReplay(1)
     );
@@ -71,7 +73,8 @@ export class MapComponent implements OnInit {
         tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19, // for lower zooms there are no tiles!
           minZoom: 10,
-          // attribution: '...',
+          attribution:
+            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         }),
       ],
       zoom: 15,
@@ -153,6 +156,7 @@ export class MapComponent implements OnInit {
     (window as any).mapInstance = mapInstance;
     // TODO: invalidateSize on modal show event
     this.mapInstance = mapInstance;
+    this.mapInstance.attributionControl.setPosition('bottomleft');
     setTimeout(() => {
       this.mapInstance.invalidateSize();
     }, 500);

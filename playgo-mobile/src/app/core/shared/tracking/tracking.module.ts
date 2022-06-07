@@ -13,11 +13,13 @@ import { CarpoolingShowQRDialogComponent } from './carpooling/carpooling-show-qr
 import { CarpoolingScanQRDialogComponent } from './carpooling/carpooling-scan-qr-dialog/carpooling-scan-qr-dialog.component';
 import { MapComponent } from './map/map/map.component';
 import { CurrentLocationMapControlComponent } from './map/current-location-map-control/current-location-map-control.component';
+import { TrackingStopwatchComponent } from './tracking-stopwatch/tracking-stopwatch.component';
 
 @NgModule({
   declarations: [
     TrackingMainControlComponent,
     TrackingButtonsComponent,
+    TrackingStopwatchComponent,
     MapComponent,
     CurrentLocationMapControlComponent,
     CarpoolingRoleDialogComponent,

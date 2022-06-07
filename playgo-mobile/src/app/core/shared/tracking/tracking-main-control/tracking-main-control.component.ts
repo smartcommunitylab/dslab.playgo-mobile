@@ -1,93 +1,46 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DoCheck,
-  ElementRef,
-  NgZone,
-  OnDestroy,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
-import { map as _map, round } from 'lodash-es';
-import { DateTime, Duration } from 'luxon';
-import { EMPTY, Observable, of, Subject, Subscription, timer } from 'rxjs';
-import {
-  distinctUntilChanged,
-  map,
-  switchMap,
-  takeUntil,
-  takeWhile,
-} from 'rxjs/operators';
-import { runOutsideAngular, tapLog } from '../../utils';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, mapTo } from 'rxjs/operators';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
-import { TripPart, TRIP_END } from '../trip.model';
+import { TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
 
 @Component({
   selector: 'app-tracking-main-control',
   templateUrl: './tracking-main-control.component.html',
   styleUrls: ['./tracking-main-control.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrackingMainControlComponent implements DoCheck, OnDestroy {
-  @ViewChild('timeElapsed')
-  private timeElapsedElement: ElementRef;
+export class TrackingMainControlComponent {
+  public trackingUIActive = false;
 
-  private isDestroyed$ = new Subject<boolean>();
-
-  private timeInTripPart$: Observable<string> = this.tripService.tripPart$.pipe(
-    runOutsideAngular(this.zone),
-    switchMap((tripPart) => {
-      if (!tripPart || tripPart === TRIP_END) {
-        return of(null) as Observable<number>;
-      }
-      const tripStart = tripPart.start || new Date().getTime();
-      return timer(0, 50).pipe(map(() => new Date().getTime() - tripStart));
-    }),
-    map((time) => (time === null ? null : round(time, 1000))),
-    distinctUntilChanged(),
-    map((elapsedTime) => {
-      if (elapsedTime === null) {
-        return '';
-      }
-      return Duration.fromMillis(elapsedTime)
-        .shiftTo('hours', 'minutes', 'seconds')
-        .normalize()
-        .toFormat('hh:mm:ss');
-    }),
-    distinctUntilChanged()
+  private tripStopped$: Observable<boolean> = this.tripService.tripPart$.pipe(
+    filter((tripPart) => tripPart === TRIP_END),
+    mapTo(false)
   );
 
   constructor(
-    private zone: NgZone,
-    private renderer: Renderer2,
     public tripService: TripService,
     public backgroundTrackingService: BackgroundTrackingService
   ) {
-    this.timeInTripPart$
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((timeString) => {
-        this.renderTime(timeString);
-      });
+    this.tripStopped$.subscribe(() => {
+      this.hideMapAndButtons();
+    });
   }
-
-  renderTime(timeString: string) {
-    if (this.timeElapsedElement) {
-      this.renderer.setProperty(
-        this.timeElapsedElement.nativeElement,
-        'innerHTML',
-        timeString
-      );
+  public fabListActivated(fabListActive: boolean) {
+    if (fabListActive) {
+      this.showMapAndButtons();
+    } else {
+      this.hideMapAndButtons();
     }
   }
 
-  ngDoCheck() {
-    // console.log('tick!');
+  private async showMapAndButtons() {
+    // TODO: animate
+    this.trackingUIActive = true;
   }
-
-  ngOnDestroy() {
-    this.isDestroyed$.next(true);
-    this.isDestroyed$.complete();
+  private async hideMapAndButtons() {
+    // TODO: animate
+    this.trackingUIActive = false;
   }
 }
