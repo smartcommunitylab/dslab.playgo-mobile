@@ -33,7 +33,6 @@
       color="danger"
       [disabled]="tripService.operationInProgress$ | async"
       *ngIf="(tripService.isInTrip$ | async) === true"
-      [size]="size"
     >
       <ion-icon name="stop"> </ion-icon>
     </ion-fab-button>

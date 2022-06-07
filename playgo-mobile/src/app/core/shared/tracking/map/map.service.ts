@@ -5,6 +5,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  mapTo,
   shareReplay,
   startWith,
 } from 'rxjs/operators';
@@ -17,42 +18,22 @@ import { MapComponent } from './map/map.component';
   providedIn: 'root',
 })
 export class MapService {
-  private manualToggleModalSubject = new Subject<boolean>();
   private modal: HTMLIonModalElement;
 
-  private isInNotInitialTrip$: Observable<boolean> =
-    this.tripService.tripPart$.pipe(
-      filter((tripPart) => tripPart === TRIP_END || !tripPart.isInitial),
-      map(isNotConstant(TRIP_END)),
-      distinctUntilChanged(),
-      shareReplay(1)
-    );
-
-  public modalShouldBeOpened$ = merge(
-    this.manualToggleModalSubject,
-    this.isInNotInitialTrip$
-  ).pipe(startWith(false), shareReplay(1));
+  private tripStopped$: Observable<boolean> = this.tripService.tripPart$.pipe(
+    filter((tripPart) => tripPart === TRIP_END),
+    mapTo(false)
+  );
 
   constructor(
     private tripService: TripService,
     private modalController: ModalController
   ) {
-    this.modalShouldBeOpened$.subscribe((shouldBeOpen) =>
-      this.toggleMapModal(shouldBeOpen)
-    );
+    this.tripStopped$.subscribe(() => {
+      this.closeMap();
+    });
   }
-  public showMap() {
-    this.manualToggleModalSubject.next(true);
-  }
-
-  private toggleMapModal(shouldBeOpen: boolean) {
-    if (shouldBeOpen) {
-      this.openMapModal();
-    } else {
-      this.closeMapModal();
-    }
-  }
-  private async openMapModal() {
+  public async showMap() {
     // modal is not reused
     this.modal = await this.modalController.create({
       component: MapComponent,
@@ -61,8 +42,7 @@ export class MapService {
     });
     await this.modal.present();
   }
-
-  private async closeMapModal() {
+  public async closeMap() {
     if (this.modal) {
       this.modal.dismiss();
     }
