@@ -1,3 +1,6 @@
+<div *ngIf="trackingUIActive" class="map-wrapper">
+  <app-map></app-map>
+</div>
 <div class="tracking-container ion-text-center">
   <div *ngIf="tripService.isInTrip$ | async; else chooseMean">
     <div
@@ -20,6 +23,6 @@
 </div>
 <app-tracking-buttons
   (fabListActivated)="fabListActivated($event)"
-  [fabListActive]="fabListActive"
+  [fabListActive]="trackingUIActive"
 >
 </app-tracking-buttons>

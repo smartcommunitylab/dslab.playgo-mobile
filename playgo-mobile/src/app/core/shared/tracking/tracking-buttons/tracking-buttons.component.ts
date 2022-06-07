@@ -61,5 +61,10 @@ export class TrackingButtonsComponent implements OnInit {
     }, 0);
   }
 
+  changeTransportType(event: Event, transportType: TransportType) {
+    event.stopPropagation();
+    this.tripService.changeTransportType(transportType);
+  }
+
   ngOnInit() {}
 }

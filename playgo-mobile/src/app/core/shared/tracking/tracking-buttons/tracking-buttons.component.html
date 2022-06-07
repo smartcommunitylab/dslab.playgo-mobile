@@ -25,7 +25,7 @@
           : 'playgo'
       "
       (click)="
-        tripService.changeTransportType(eachTransportTypeOption.transportType)
+        changeTransportType($event, eachTransportTypeOption.transportType)
       "
     >
       <ion-icon [name]="eachTransportTypeOption.icon"></ion-icon>
