@@ -15,7 +15,7 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
   constructor(
     private campaignService: CampaignService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {
@@ -25,10 +25,5 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-  detailCampaign(campaign) {
-    this.router.navigateByUrl(
-      '/pages/tabs/campaigns/details/' + campaign.campaign.campaignId
-    );
   }
 }

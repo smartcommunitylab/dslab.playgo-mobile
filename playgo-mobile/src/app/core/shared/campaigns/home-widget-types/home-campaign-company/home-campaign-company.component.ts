@@ -8,9 +8,11 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 })
 export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
-  constructor() {}
+  @Input() header?: boolean = false;
 
-  ngOnInit() {}
+  constructor() { }
 
-  ngOnDestroy() {}
+  ngOnInit() { }
+
+  ngOnDestroy() { }
 }

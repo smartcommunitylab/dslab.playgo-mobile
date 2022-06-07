@@ -20,6 +20,11 @@ import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-n
 import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-campaign-stat.component';
 import { PrivacyModalPage } from 'src/app/pages/home/profile/privacy-modal/privacyModal.component';
 import { ParallaxDirective } from './directives/parallax-header.directive';
+import { HomeCampaignCityComponent } from './campaigns/home-widget-types/home-campaign-city/home-campaign-city.component';
+import { HomeCampaignSchoolComponent } from './campaigns/home-widget-types/home-campaign-school/home-campaign-school.component';
+import { HomeCampaignCompanyComponent } from './campaigns/home-widget-types/home-campaign-company/home-campaign-company.component';
+import { HomeCampaignPersonalComponent } from './campaigns/home-widget-types/home-campaign-personal/home-campaign-personal.component';
+import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-campaign.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule, TrackingModule],
@@ -38,6 +43,11 @@ import { ParallaxDirective } from './directives/parallax-header.directive';
     InfiniteScrollContentDirective,
     ParallaxDirective,
     OrdinalNumberComponent,
+    HomeCampaignCityComponent,
+    HomeCampaignSchoolComponent,
+    HomeCampaignCompanyComponent,
+    HomeCampaignPersonalComponent,
+    WidgetComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -58,6 +68,11 @@ import { ParallaxDirective } from './directives/parallax-header.directive';
     InfiniteScrollContentDirective,
     ParallaxDirective,
     OrdinalNumberComponent,
+    HomeCampaignCityComponent,
+    HomeCampaignSchoolComponent,
+    HomeCampaignCompanyComponent,
+    HomeCampaignPersonalComponent,
+    WidgetComponent,
   ],
 })
 export class PlayGoSharedModule { }

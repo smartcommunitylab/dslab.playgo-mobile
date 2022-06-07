@@ -13,6 +13,8 @@ import { DateTime } from 'luxon';
 })
 export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
+  @Input() header?: boolean = false;
+
   subStat: Subscription;
   campaignStatus: PlayerStatus;
   reportWeekStat: CampaignPlacing;

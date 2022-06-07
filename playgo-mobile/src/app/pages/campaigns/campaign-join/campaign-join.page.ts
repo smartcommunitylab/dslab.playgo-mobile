@@ -43,9 +43,9 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-  // getCampaign() {
-  //   return JSON.stringify(this.campaign);
-  // }
+
+
+  //based on the type, change interaction
   joinCampaign(campaign) {
     this.sub = this.campaignService
       .subscribeToCampaign(campaign.campaignId)

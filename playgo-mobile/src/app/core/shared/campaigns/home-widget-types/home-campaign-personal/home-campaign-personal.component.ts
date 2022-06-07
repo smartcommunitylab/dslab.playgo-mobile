@@ -14,6 +14,8 @@ import { Player } from 'src/app/core/api/generated/model/player';
 })
 export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
+  @Input() header?: boolean = false;
+
   subStat: Subscription;
   profile: Player;
   reportWeekStat: CampaignPlacing;

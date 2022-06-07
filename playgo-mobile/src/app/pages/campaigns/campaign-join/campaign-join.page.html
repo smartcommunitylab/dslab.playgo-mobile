@@ -16,7 +16,7 @@
         <img [src]="imagePath" title="campaign avatar" />
       </ion-avatar>
       <div>{{campaign.name}}</div>
-      <ion-button [disabled]="campaign.type!=='city'" (click)="joinCampaign(campaign)">{{'campaigns.join'|translate}}
+      <ion-button (click)="joinCampaign(campaign)">{{'campaigns.join'|translate}}
       </ion-button>
       <div [innerHTML]="campaign.description"></div>
     </ion-card-content>

@@ -22,15 +22,10 @@
   <ion-avatar class="avatar-campaign">
     <img [src]="imagePath" title="campaign logo" />
   </ion-avatar>
-  <ion-card>
-    <!-- <ion-card-header>
-      {{'campaigns.detail.generalStat'|translate}}
-    </ion-card-header> -->
-    <!-- <ion-card-content>
-      <app-main-campaign-stat [campaignContainer]="campaignContainer">
-      </app-main-campaign-stat>
-    </ion-card-content> -->
-  </ion-card>
+  <app-widget-campaign [campaign]="campaignContainer"></app-widget-campaign>
+  <!-- <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
+        [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [what]="'points'"> -->
+  <!-- </app-main-campaign-stat> -->
   <ion-card [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaignContainer.campaign.campaignId]">
     <ion-item>
       <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
