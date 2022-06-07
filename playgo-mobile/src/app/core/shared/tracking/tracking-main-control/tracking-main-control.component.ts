@@ -30,64 +30,9 @@ import { TripService } from '../trip.service';
   styleUrls: ['./tracking-main-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrackingMainControlComponent implements DoCheck, OnDestroy {
-  @ViewChild('timeElapsed')
-  private timeElapsedElement: ElementRef;
-
-  private isDestroyed$ = new Subject<boolean>();
-
-  private timeInTripPart$: Observable<string> = this.tripService.tripPart$.pipe(
-    runOutsideAngular(this.zone),
-    switchMap((tripPart) => {
-      if (!tripPart || tripPart === TRIP_END) {
-        return of(null) as Observable<number>;
-      }
-      const tripStart = tripPart.start || new Date().getTime();
-      return timer(0, 50).pipe(map(() => new Date().getTime() - tripStart));
-    }),
-    map((time) => (time === null ? null : round(time, 1000))),
-    distinctUntilChanged(),
-    map((elapsedTime) => {
-      if (elapsedTime === null) {
-        return '';
-      }
-      return Duration.fromMillis(elapsedTime)
-        .shiftTo('hours', 'minutes', 'seconds')
-        .normalize()
-        .toFormat('hh:mm:ss');
-    }),
-    distinctUntilChanged()
-  );
-
+export class TrackingMainControlComponent {
   constructor(
-    private zone: NgZone,
-    private renderer: Renderer2,
     public tripService: TripService,
     public backgroundTrackingService: BackgroundTrackingService
-  ) {
-    this.timeInTripPart$
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((timeString) => {
-        this.renderTime(timeString);
-      });
-  }
-
-  renderTime(timeString: string) {
-    if (this.timeElapsedElement) {
-      this.renderer.setProperty(
-        this.timeElapsedElement.nativeElement,
-        'innerHTML',
-        timeString
-      );
-    }
-  }
-
-  ngDoCheck() {
-    // console.log('tick!');
-  }
-
-  ngOnDestroy() {
-    this.isDestroyed$.next(true);
-    this.isDestroyed$.complete();
-  }
+  ) {}
 }
