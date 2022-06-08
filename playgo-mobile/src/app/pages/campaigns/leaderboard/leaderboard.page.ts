@@ -19,7 +19,12 @@ import {
   transportTypeLabels,
   transportTypes,
 } from 'src/app/core/shared/tracking/trip.model';
-import { startFrom, tapLog, throwIfNil } from 'src/app/core/shared/utils';
+import {
+  cartesian,
+  startFrom,
+  tapLog,
+  throwIfNil,
+} from 'src/app/core/shared/utils';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
@@ -39,19 +44,29 @@ export class LeaderboardPage implements OnInit {
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
 
+  private metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
+    co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
+    km: 'campaigns.leaderboard.leaderboard_type_unit.km',
+  } as const;
+  private metricToUnitLabel: Record<Metric, TranslateKey> = {
+    co2: 'campaigns.leaderboard.unit.co2',
+    km: 'campaigns.leaderboard.unit.km',
+  } as const;
+
   // we need to keep references the same, because they are used as select values.
   private allLeaderboardTypes: LeaderboardType[] = [
     {
       labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
-      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
-      filter: (campaign: Campaign) => true,
+      numberWithUnitKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
+      filter: (campaign: Campaign) =>
+        campaign.type === 'city' || campaign.type === 'school',
       playerApi: (args) => this.getPlayerPlacingByGame(args),
       leaderboardApi: (args) => this.getLeaderboardByGame(args),
     },
     {
       labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
-      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
-      filter: (campaign: Campaign) => campaign.type === 'city',
+      numberWithUnitKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
+      filter: (campaign: Campaign) => campaign.type !== 'school',
       playerApi: (args) =>
         this.getPlayerPlacingByTransport({
           ...args,
@@ -67,23 +82,26 @@ export class LeaderboardPage implements OnInit {
         }),
     },
 
-    ...transportTypes.map((transportType) => ({
-      labelKey: transportTypeLabels[transportType],
-      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.km' as const,
-      filter: (campaign: Campaign) => true,
-      playerApi: (args) =>
-        this.getPlayerPlacingByTransport({
-          ...args,
-          mean: transportType,
-          metric: 'km',
-        }),
-      leaderboardApi: (args) =>
-        this.getLeaderboardByTransport({
-          ...args,
-          mean: transportType,
-          metric: 'km',
-        }),
-    })),
+    ...cartesian(transportTypes, ['co2', 'km'] as Metric[]).map(
+      ([transportType, metric]) => ({
+        labelKey: transportTypeLabels[transportType],
+        numberWithUnitKey: this.metricToNumberWithUnitLabel[metric],
+        unitLabelKey: this.metricToUnitLabel[metric],
+        filter: (campaign: Campaign) => campaign.type !== 'school',
+        playerApi: (args) =>
+          this.getPlayerPlacingByTransport({
+            ...args,
+            mean: transportType,
+            metric,
+          }),
+        leaderboardApi: (args) =>
+          this.getLeaderboardByTransport({
+            ...args,
+            mean: transportType,
+            metric,
+          }),
+      })
+    ),
   ];
 
   campaignId$: Observable<string> = this.route.params.pipe(
@@ -93,14 +111,12 @@ export class LeaderboardPage implements OnInit {
   );
 
   campaign$ = this.campaignId$.pipe(
-    tapLog('campaignId$'),
     switchMap((campaignId) =>
       this.campaignService.allCampaigns$.pipe(
         map((campaigns) => find(campaigns, { campaignId })),
         throwIfNil(() => new Error('Campaign not found')) // TODO: proper error handling
       )
     ),
-    tapLog('campaign'),
     shareReplay(1)
   );
 
@@ -123,13 +139,13 @@ export class LeaderboardPage implements OnInit {
           map((allLeaderboardTypes) => allLeaderboardTypes[0])
         )
       ),
-      tapLog('selectedLeaderboardType$'),
       shareReplay(1)
     );
-  unitLabelKey$: Observable<TranslateKey> = this.selectedLeaderboardType$.pipe(
-    map((leaderboardType) => leaderboardType.unitLabelKey),
-    shareReplay(1)
-  );
+  numberWithUnitKey$: Observable<TranslateKey> =
+    this.selectedLeaderboardType$.pipe(
+      map((leaderboardType) => leaderboardType.numberWithUnitKey),
+      shareReplay(1)
+    );
 
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> = this.periodChangedSubject.pipe(
@@ -181,7 +197,6 @@ export class LeaderboardPage implements OnInit {
             page: 0,
             size: 10,
           }),
-          tapLog('scrollRequest$'),
           switchMap(({ page, size }) =>
             bind(
               leaderboardType.leaderboardApi,
@@ -327,7 +342,8 @@ const minusInfDate = DateTime.fromMillis(0);
 
 type LeaderboardType = {
   labelKey: TranslateKey;
-  unitLabelKey: TranslateKey;
+  numberWithUnitKey: TranslateKey;
+  unitLabelKey?: TranslateKey;
   playerApi: (args: PlayerPlacingArguments) => Observable<CampaignPlacing>;
   leaderboardApi: (
     args: LeaderboardArguments
@@ -341,6 +357,12 @@ type Period = {
   to: string;
 };
 
+type Metric = 'co2' | 'km';
+
 function bind<F extends (...args: any) => any>(f: F, thisValue: any): F {
   return f.bind(thisValue);
+}
+
+function isType(campaign: Campaign, ...type: Campaign.TypeEnum[]): boolean {
+  return type.some((t) => campaign.type === t);
 }
