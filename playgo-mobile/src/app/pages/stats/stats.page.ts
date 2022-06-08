@@ -211,6 +211,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         group: 'day',
         format: 'dd-MM',
         add: 'week',
+        switchTo: null,
         from: referenceDate.startOf('week'),
         to: referenceDate.endOf('week')
       },
@@ -219,6 +220,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         group: 'week',
         format: 'WW-MMM',
         add: 'month',
+        switchTo: 'day',
         from: referenceDate.startOf('month'),
         to: referenceDate.endOf('month')
       },
@@ -227,6 +229,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         group: 'month',
         format: 'MM-yyyy',
         add: 'year',
+        switchTo: 'week',
         from: referenceDate.startOf('year'),
         to: referenceDate.endOf('year')
       }
@@ -317,6 +320,19 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
 
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
+      options: {
+        onClick: (e) => {
+          const points = this.barChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+
+          if (points.length) {
+            const firstPoint = points[0];
+            const label = this.barChart.data.labels[firstPoint.index];
+            //clicked on label x so I have to switch to that view base on what I'm watching
+            this.changeView(label);
+            //const value = this.barChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+          }
+        }
+      },
       data: {
         labels: arrOfPeriod.map((period) => period.toFormat(this.selectedPeriod.format)),
         datasets: [
@@ -329,6 +345,26 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         ],
       },
     });
+  }
+  changeView(label: any) {
+    // segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)
+    const switchToPeriod: Period = null;
+    switch (this.selectedSegment.group) {
+      case 'month':
+
+        break;
+      case 'week':
+
+        break;
+      case 'day':
+
+        break;
+      default:
+        break;
+    }
+    this.selectedSegment = this.periods.find(a => a.group === this.selectedSegment.switchTo);
+    this.statPeriodChangedSubject.next(this.selectedSegment);
+    console.log('Vado a vedere' + label);
   }
 
 
@@ -348,6 +384,7 @@ type Period = {
   labelKey: string;
   add: string;
   format: string;
+  switchTo: string;
   group: DateTimeUnit;
   from: DateTime;
   to: DateTime;
