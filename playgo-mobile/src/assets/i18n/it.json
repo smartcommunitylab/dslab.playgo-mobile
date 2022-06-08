@@ -192,7 +192,9 @@
         "weekposition": "{{position}} in classifica settimanale",
         "totalposition": "{{position}} in classifica complessiva",
         "weekvalue": "{{value}}  settimanale",
-        "totalvalue": "{{value}} complessivo"
+        "totalvalue": "{{value}} complessivo",
+        "levelName": "Livello : {{levelName}}",
+        "score": "Punti: {{score}}"
       }
     },
     "stats": {

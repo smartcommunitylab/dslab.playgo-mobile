@@ -190,7 +190,9 @@
         "weekposition": "{{position}} weekly position",
         "totalposition": "{{position}} total position",
         "weekvalue": "{{value}} weekly value",
-        "totalvalue": "{{value}} total value"
+        "totalvalue": "{{value}} total value",
+        "levelName": "Level : {{levelName}}",
+        "score": "Points: {{score}}"
       }
     },
     "stats": {
