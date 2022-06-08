@@ -19,8 +19,8 @@ export class PlacingDetailComponent implements OnInit {
     map((userProfile) => userProfile.playerId)
   );
 
-  playerAvatar$ = this.userService.userProfile$.pipe(
-    map((userProfile) => userProfile.avatar.avatarDataSmall)
+  playerAvatarUrl$ = this.userService.userProfile$.pipe(
+    map((userProfile) => userProfile.avatar.avatarSmallUrl)
   );
 
   constructor(private userService: UserService) {}
