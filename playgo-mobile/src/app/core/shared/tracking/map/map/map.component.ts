@@ -28,13 +28,14 @@ import {
   negate,
   isNil,
 } from 'lodash-es';
-import { concat, Observable } from 'rxjs';
+import { concat, merge, Observable, timer } from 'rxjs';
 import {
   delay,
   distinctUntilChanged,
   filter,
   first,
   map,
+  mapTo,
   shareReplay,
   take,
   withLatestFrom,
@@ -45,6 +46,7 @@ import {
 } from '../../background-tracking.service';
 import { TransportType, transportTypeColors } from '../../trip.model';
 import {
+  beforeStartUse,
   getAdjacentPairs,
   groupByConsecutiveValues,
   tapLog,
@@ -58,14 +60,25 @@ import {
 export class MapComponent implements OnInit {
   public mapInstance: Map;
 
-  private initialLatLng$: Observable<LatLng> =
+  private foregroundLatLng$: Observable<LatLng> =
+    this.backgroundTrackingService.coldForegroundLocation$.pipe(
+      map((location) =>
+        latLng(location.coords.latitude, location.coords.longitude)
+      )
+    );
+
+  private initialBackgroundLatLng$: Observable<LatLng> =
     this.backgroundTrackingService.lastLocation$.pipe(
       filter(negate(isNil)),
-      first(),
-      tapLog('initialLatLng$'),
       map(locationToCoordinate),
+      first(),
       shareReplay(1)
     );
+
+  private initialLatLng$: Observable<LatLng> = merge(
+    this.initialBackgroundLatLng$,
+    this.foregroundLatLng$
+  ).pipe(first(), shareReplay(1));
 
   public mapOptions$: Observable<MapOptions> = this.initialLatLng$.pipe(
     map((initLatLng) => ({
@@ -100,21 +113,25 @@ export class MapComponent implements OnInit {
     );
 
   /**
+   *
    * We use "slow" currentTripLocations$ to show marker on the map, so it will
-   * be visually is sync with the colored path. But in the beginning we show
-   * one instant value, so the marker will be present from the first time the map is shown
+   * be visually is sync with the colored path.
+   *
+   * Before tracking starts we show manual locations from timer, and then we take one
+   * location from the database and continue with normal tracked locations.
    *
    * Observable is used for moving the marker, but also to provide data for the
    * "center map" button
    * */
+
   public currentLatLng$: Observable<LatLng> = concat(
-    this.initialLatLng$,
+    this.initialBackgroundLatLng$,
     this.backgroundTrackingService.currentTripLocations$.pipe(
       map(_last),
       filter(negate(isNil)),
       map(locationToCoordinate)
     )
-  );
+  ).pipe(beforeStartUse(this.foregroundLatLng$), shareReplay(1));
 
   public currentLocationMarkerLayer$: Observable<Layer> =
     this.currentLatLng$.pipe(
