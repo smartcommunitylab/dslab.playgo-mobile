@@ -45,85 +45,44 @@ export class LeaderboardPage implements OnInit {
       labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
       unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
       filter: (campaign: Campaign) => true,
-      playerApi:
-        this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET,
-      leaderboardApi:
-        this.reportControllerService.getCampaingPlacingByGameUsingGET,
+      playerApi: (args) => this.getPlayerPlacingByGame(args),
+      leaderboardApi: (args) => this.getLeaderboardByGame(args),
     },
     {
       labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
       unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
       filter: (campaign: Campaign) => campaign.type === 'city',
-      playerApi: (
-        campaignId: string,
-        playerId: string,
-        dateFrom: string,
-        dateTo: string
-      ) =>
-        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
-          campaignId,
-          playerId,
-          'co2', //metric
-          null, //mean
-          dateFrom,
-          dateTo
-        ),
-      leaderboardApi: (
-        campaignId: string,
-        page?: number,
-        size?: number,
-        sort?: string,
-        dateFrom?: string,
-        dateTo?: string
-      ) =>
-        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
-          campaignId,
-          page,
-          size,
-          'co2', //metric
-          sort,
-          null, //mean
-          dateFrom,
-          dateTo
-        ),
+      playerApi: (args) =>
+        this.getPlayerPlacingByTransport({
+          ...args,
+          mean: null,
+          metric: 'co2',
+        }),
+
+      leaderboardApi: (args) =>
+        this.getLeaderboardByTransport({
+          ...args,
+          mean: null,
+          metric: 'co2',
+        }),
     },
 
     ...transportTypes.map((transportType) => ({
       labelKey: transportTypeLabels[transportType],
       unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.km' as const,
       filter: (campaign: Campaign) => true,
-      playerApi: (
-        campaignId: string,
-        playerId: string,
-        dateFrom: string,
-        dateTo: string
-      ) =>
-        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
-          campaignId,
-          playerId,
-          'km', //metric,
-          transportType,
-          dateFrom,
-          dateTo
-        ),
-      leaderboardApi: (
-        campaignId: string,
-        page?: number,
-        size?: number,
-        sort?: string,
-        dateFrom?: string,
-        dateTo?: string
-      ) =>
-        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
-          campaignId,
-          page,
-          size,
-          'km', // metric
-          sort,
-          transportType,
-          dateFrom,
-          dateTo
-        ),
+      playerApi: (args) =>
+        this.getPlayerPlacingByTransport({
+          ...args,
+          mean: transportType,
+          metric: 'km',
+        }),
+      leaderboardApi: (args) =>
+        this.getLeaderboardByTransport({
+          ...args,
+          mean: transportType,
+          metric: 'km',
+        }),
     })),
   ];
 
@@ -200,12 +159,15 @@ export class LeaderboardPage implements OnInit {
 
   playerPosition$: Observable<CampaignPlacing> = this.filterOptions$.pipe(
     switchMap(({ leaderboardType, period, campaignId, playerId }) =>
-      bind(leaderboardType.playerApi, this.reportControllerService)(
+      bind(
+        leaderboardType.playerApi,
+        this
+      )({
         campaignId,
         playerId,
-        period.from,
-        period.to
-      )
+        dateFrom: period.from,
+        dateTo: period.to,
+      })
     )
   );
 
@@ -221,14 +183,17 @@ export class LeaderboardPage implements OnInit {
           }),
           tapLog('scrollRequest$'),
           switchMap(({ page, size }) =>
-            bind(leaderboardType.leaderboardApi, this.reportControllerService)(
+            bind(
+              leaderboardType.leaderboardApi,
+              this.reportControllerService
+            )({
               campaignId,
               page,
               size,
-              null,
-              period.from,
-              period.to
-            )
+              sort: null,
+              dateFrom: period.from,
+              dateTo: period.to,
+            })
           )
         )
       )
@@ -284,32 +249,91 @@ export class LeaderboardPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  // shorthand functions - to avoid relaying on argument position
+
+  getPlayerPlacingByGame(args: PlayerPlacingByGameArguments) {
+    return this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET(
+      args.campaignId,
+      args.playerId,
+      args.dateFrom,
+      args.dateTo
+    );
+  }
+  getLeaderboardByGame(args: LeaderboardByGameArguments) {
+    return this.reportControllerService.getCampaingPlacingByGameUsingGET(
+      args.campaignId,
+      args.page,
+      args.size,
+      args.sort,
+      args.dateFrom,
+      args.dateTo
+    );
+  }
+  getPlayerPlacingByTransport(args: PlayerPlacingByTransportArguments) {
+    return this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
+      args.campaignId,
+      args.playerId,
+      args.metric,
+      args.mean,
+      args.dateFrom,
+      args.dateTo
+    );
+  }
+  getLeaderboardByTransport(args: LeaderboardByTransportArguments) {
+    return this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
+      args.campaignId,
+      args.page,
+      args.size,
+      args.metric,
+      args.sort,
+      args.mean,
+      args.dateFrom,
+      args.dateTo
+    );
+  }
 }
+
+type ArgumentsBase = {
+  campaignId: string;
+  dateFrom: string;
+  dateTo: string;
+};
+
+type PlayerPlacingArguments = ArgumentsBase & {
+  playerId: string;
+};
+
+type LeaderboardArguments = ArgumentsBase & {
+  page: number;
+  size: number;
+  sort: string;
+};
+
+type PlayerPlacingByGameArguments = PlayerPlacingArguments;
+
+type LeaderboardByGameArguments = LeaderboardArguments;
+
+type TransportArguments = {
+  metric: string;
+  mean: string;
+};
+type PlayerPlacingByTransportArguments = PlayerPlacingArguments &
+  TransportArguments;
+type LeaderboardByTransportArguments = LeaderboardArguments &
+  TransportArguments;
+
 const minusInfDate = DateTime.fromMillis(0);
 
 type LeaderboardType = {
   labelKey: TranslateKey;
   unitLabelKey: TranslateKey;
-  playerApi: PlayerApi;
-  leaderboardApi: LeaderboardApi;
+  playerApi: (args: PlayerPlacingArguments) => Observable<CampaignPlacing>;
+  leaderboardApi: (
+    args: LeaderboardArguments
+  ) => Observable<PageCampaignPlacing>;
   filter: (campaign: Campaign) => boolean;
 };
-
-type PlayerApi = (
-  campaignId: string,
-  playerId: string,
-  dateFrom: string,
-  dateTo: string
-) => Observable<CampaignPlacing>;
-
-type LeaderboardApi = (
-  campaignId: string,
-  page?: number,
-  size?: number,
-  sort?: string,
-  dateFrom?: string,
-  dateTo?: string
-) => Observable<PageCampaignPlacing>;
 
 type Period = {
   labelKey: TranslateKey;
