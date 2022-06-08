@@ -10,7 +10,7 @@ import {
   ObservedValueOf,
   OperatorFunction,
 } from 'rxjs';
-import { first, takeUntil, tap } from 'rxjs/operators';
+import { first, map, takeUntil, tap } from 'rxjs/operators';
 
 export const isNotConstant =
   <C>(constant: C) =>
@@ -76,6 +76,20 @@ export function beforeStartUse<T, O extends ObservableInput<any>>(
 ): OperatorFunction<T, T | ObservedValueOf<O>> {
   return (source: Observable<T>) =>
     merge(from(start).pipe(takeUntil(source)), source);
+}
+
+export function throwIfNil<T>(
+  errorFn: (value: T, index: number) => any
+): OperatorFunction<T, Exclude<T, null | undefined>> {
+  return (source: Observable<T>) =>
+    source.pipe(
+      map((value, index) => {
+        if (value === null || value === undefined) {
+          throw errorFn(value, index);
+        }
+        return value as Exclude<T, null | undefined>;
+      })
+    );
 }
 
 export async function readAsBase64(photo: Photo) {

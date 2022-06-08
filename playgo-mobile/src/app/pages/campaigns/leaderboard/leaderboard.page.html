@@ -1,6 +1,6 @@
 <app-header></app-header>
 <ion-content>
-  <ng-container *ngIf="(campaignId$ |async) as campaignId">
+  <ng-container *ngIf="(campaign$ |async) !== null">
     <ion-item>
       <ion-label
         >{{ 'campaigns.leaderboard.filter.leaderboard_type' | translate
