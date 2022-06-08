@@ -38,7 +38,8 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19, // for lower zooms there are no tiles!
         minZoom: 10,
-        // attribution: '...',
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }),
     ],
   };

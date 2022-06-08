@@ -2,7 +2,28 @@
   background-color: var(--ion-color-playgo);
   height: 10vh;
   line-height: 10vh;
+  &.tracking-ui-active {
+    height: 70vh;
+  }
   ion-icon {
     font-size: 5vh;
+  }
+}
+
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  animation-name: showMap;
+  animation-duration: 0.5s;
+  transform: translateY(0px);
+}
+
+@keyframes showMap {
+  from {
+    transform: translateY(70vh);
+  }
+  to {
+    transform: translateY(0px);
   }
 }
