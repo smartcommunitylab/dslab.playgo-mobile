@@ -39,8 +39,97 @@ export class LeaderboardPage implements OnInit {
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
 
+  // we need to keep references the same, because they are used as select values.
+  private allLeaderboardTypes: LeaderboardType[] = [
+    {
+      labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
+      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
+      filter: (campaign: Campaign) => true,
+      playerApi:
+        this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET,
+      leaderboardApi:
+        this.reportControllerService.getCampaingPlacingByGameUsingGET,
+    },
+    {
+      labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
+      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
+      filter: (campaign: Campaign) => campaign.type === 'city',
+      playerApi: (
+        campaignId: string,
+        playerId: string,
+        dateFrom: string,
+        dateTo: string
+      ) =>
+        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
+          campaignId,
+          playerId,
+          'co2', //metric
+          null, //mean
+          dateFrom,
+          dateTo
+        ),
+      leaderboardApi: (
+        campaignId: string,
+        page?: number,
+        size?: number,
+        sort?: string,
+        dateFrom?: string,
+        dateTo?: string
+      ) =>
+        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
+          campaignId,
+          page,
+          size,
+          'co2', //metric
+          sort,
+          null, //mean
+          dateFrom,
+          dateTo
+        ),
+    },
+
+    ...transportTypes.map((transportType) => ({
+      labelKey: transportTypeLabels[transportType],
+      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.km' as const,
+      filter: (campaign: Campaign) => true,
+      playerApi: (
+        campaignId: string,
+        playerId: string,
+        dateFrom: string,
+        dateTo: string
+      ) =>
+        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
+          campaignId,
+          playerId,
+          'km', //metric,
+          transportType,
+          dateFrom,
+          dateTo
+        ),
+      leaderboardApi: (
+        campaignId: string,
+        page?: number,
+        size?: number,
+        sort?: string,
+        dateFrom?: string,
+        dateTo?: string
+      ) =>
+        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
+          campaignId,
+          page,
+          size,
+          'km', // metric
+          sort,
+          transportType,
+          dateFrom,
+          dateTo
+        ),
+    })),
+  ];
+
   campaignId$: Observable<string> = this.route.params.pipe(
     map((params) => params.id),
+    distinctUntilChanged(),
     shareReplay(1)
   );
 
@@ -57,7 +146,8 @@ export class LeaderboardPage implements OnInit {
   );
 
   leaderboardTypes$: Observable<LeaderboardType[]> = this.campaign$.pipe(
-    map((campaign) => this.getLeaderboardTypes(campaign))
+    map((campaign) => this.getLeaderboardTypes(campaign)),
+    shareReplay(1)
   );
 
   leaderboardTypeChangedSubject = new Subject<
@@ -73,7 +163,9 @@ export class LeaderboardPage implements OnInit {
           first(),
           map((allLeaderboardTypes) => allLeaderboardTypes[0])
         )
-      )
+      ),
+      tapLog('selectedLeaderboardType$'),
+      shareReplay(1)
     );
   unitLabelKey$: Observable<TranslateKey> = this.selectedLeaderboardType$.pipe(
     map((leaderboardType) => leaderboardType.unitLabelKey),
@@ -83,7 +175,8 @@ export class LeaderboardPage implements OnInit {
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> = this.periodChangedSubject.pipe(
     map((event) => event.detail.value),
-    startWith(this.periods[0]) // initial select value
+    startWith(this.periods[0]), // initial select value
+    shareReplay(1)
   );
 
   playerId$ = this.userService.userProfile$.pipe(
@@ -151,88 +244,7 @@ export class LeaderboardPage implements OnInit {
   ) {}
 
   getLeaderboardTypes(campaign: Campaign): LeaderboardType[] {
-    return [
-      {
-        labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
-        unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
-        playerApi: (
-          campaignId: string,
-          playerId: string,
-          dateFrom: string,
-          dateTo: string
-        ) =>
-          this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
-            campaignId,
-            playerId,
-            'co2', //metric
-            null, //mean
-            dateFrom,
-            dateTo
-          ),
-        leaderboardApi: (
-          campaignId: string,
-          page?: number,
-          size?: number,
-          sort?: string,
-          dateFrom?: string,
-          dateTo?: string
-        ) =>
-          this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
-            campaignId,
-            page,
-            size,
-            'co2', //metric
-            sort,
-            null, //mean
-            dateFrom,
-            dateTo
-          ),
-      },
-      {
-        labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
-        unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
-        playerApi:
-          this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET,
-        leaderboardApi:
-          this.reportControllerService.getCampaingPlacingByGameUsingGET,
-      },
-      ...transportTypes.map((transportType) => ({
-        labelKey: transportTypeLabels[transportType],
-        unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.km' as const,
-        playerApi: (
-          campaignId: string,
-          playerId: string,
-          dateFrom: string,
-          dateTo: string
-        ) =>
-          this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
-            campaignId,
-            playerId,
-            'km', //metric,
-            transportType,
-            dateFrom,
-            dateTo
-          ),
-        leaderboardApi: (
-          campaignId: string,
-          page?: number,
-          size?: number,
-          sort?: string,
-          dateFrom?: string,
-          dateTo?: string
-        ) =>
-          this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
-            campaignId,
-            page,
-            size,
-            'km', // metric
-            sort,
-            transportType,
-            dateFrom,
-            dateTo
-          ),
-      })),
-    ];
+    return this.allLeaderboardTypes.filter((type) => type.filter(campaign));
   }
 
   getPeriods(referenceDate: DateTime): Period[] {
@@ -280,6 +292,7 @@ type LeaderboardType = {
   unitLabelKey: TranslateKey;
   playerApi: PlayerApi;
   leaderboardApi: LeaderboardApi;
+  filter: (campaign: Campaign) => boolean;
 };
 
 type PlayerApi = (
