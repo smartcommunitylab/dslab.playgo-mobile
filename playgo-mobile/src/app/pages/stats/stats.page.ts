@@ -218,7 +218,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       {
         labelKey: 'campaigns.stats.filter.period.month',
         group: 'week',
-        format: 'WW-MMM',
+        format: 'dd-MM-yyyy',
         add: 'month',
         switchTo: 'day',
         from: referenceDate.startOf('month'),
@@ -351,17 +351,24 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     const switchToPeriod: Period = null;
     switch (this.selectedSegment.group) {
       case 'month':
-
+        label = DateTime.fromFormat(label, 'MM-yyyy').toFormat('yyyy-MM-dd');
         break;
       case 'week':
-
+        label = DateTime.fromFormat(label, 'dd-MM-yyyy').toFormat('yyyy-WW');
         break;
       case 'day':
-
-        break;
+        // label = DateTime.fromFormat(label, 'dd-MM').toFormat('yyyy-MM-dd');
+        return;
       default:
         break;
     }
+    // change reference date
+    //only get but it doesn't write on subject
+    this.referenceDate = DateTime.fromObject(this.getObjectDate(label));
+    this.periods = this.getPeriods(this.referenceDate);
+    //const tabIndex = this.periods.findIndex((period) => period.group === this.selectedPeriod.group);
+    // this.selectedSegment = this.periods[tabIndex];
+    //this.statPeriodChangedSubject.next(this.periods[tabIndex]);
     this.selectedSegment = this.periods.find(a => a.group === this.selectedSegment.switchTo);
     this.statPeriodChangedSubject.next(this.selectedSegment);
     console.log('Vado a vedere' + label);
