@@ -3,12 +3,14 @@ import { Photo } from '@capacitor/camera';
 import { initial, last, tail, zip } from 'lodash-es';
 import {
   concat,
+  from,
+  merge,
   Observable,
   ObservableInput,
   ObservedValueOf,
   OperatorFunction,
 } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { first, takeUntil, tap } from 'rxjs/operators';
 
 export const isNotConstant =
   <C>(constant: C) =>
@@ -66,6 +68,14 @@ export function startFrom<T, O extends ObservableInput<any>>(
   start: O
 ): OperatorFunction<T, T | ObservedValueOf<O>> {
   return (source: Observable<T>) => concat(start, source);
+}
+
+/** like concat, but don't wait to complete */
+export function beforeStartUse<T, O extends ObservableInput<any>>(
+  start: O
+): OperatorFunction<T, T | ObservedValueOf<O>> {
+  return (source: Observable<T>) =>
+    merge(from(start).pipe(takeUntil(source)), source);
 }
 
 export async function readAsBase64(photo: Photo) {

@@ -18,6 +18,7 @@ import {
   Observable,
   ReplaySubject,
   Subject,
+  timer,
 } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -125,6 +126,16 @@ export class BackgroundTrackingService {
   private synchronizedLocationsSubject = new ReplaySubject<TripLocation[]>(1);
   public synchronizedLocations$ =
     this.synchronizedLocationsSubject.asObservable();
+
+  /** manually get locations without starting the tracking */
+  public coldForegroundLocation$: Observable<Location> = timer(0, 10000).pipe(
+    switchMap(() =>
+      this.backgroundGeolocationPlugin.getCurrentPosition({
+        timeout: 1000,
+        persist: false,
+      })
+    )
+  );
 
   constructor(
     @Inject(BackgroundGeolocationInternal)

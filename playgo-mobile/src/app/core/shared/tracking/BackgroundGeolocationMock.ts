@@ -38,7 +38,9 @@ export class BackgroundGeolocationMock {
     const location = BackgroundGeolocationMock.getRandomLocation(
       request.extras
     );
-    BackgroundGeolocationMock.locations.push(location);
+    if (request?.persist !== false) {
+      BackgroundGeolocationMock.locations.push(location);
+    }
     return location;
   }
   @mockMethod({ async: true })
