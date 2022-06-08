@@ -103,6 +103,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     );
   referenceDate = DateTime.local();
   // initPeriods = this.getPeriods(this.referenceDate);
+  totalValue = 0;
   periods = this.getPeriods(this.referenceDate);
   selectedPeriod = this.periods[0];
   statPeriodChangedSubject = new Subject<Period>();
@@ -170,7 +171,11 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
       console.log('new stats' + stats);
       this.barChartMethod(stats);
+      this.setTotal(stats);
     });
+  }
+  setTotal(stats: TransportStat[]) {
+    this.totalValue = stats.map(stat => stat.value).reduce((prev, next) => prev + next, 0);
   }
 
   ngOnInit() {

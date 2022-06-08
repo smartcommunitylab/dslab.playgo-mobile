@@ -27,15 +27,6 @@
     <ion-segment-button *ngFor="let period of periods" [value]="period" checked>
       <ion-label>{{period.labelKey| translate}}</ion-label>
     </ion-segment-button>
-    <!-- <ion-segment-button value="week" checked>
-      <ion-label>{{'report.stats.chart.week' | translate}}</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="month">
-      <ion-label>{{'report.stats.chart.month' | translate}}</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="year">
-      <ion-label>{{'report.stats.chart.year' | translate}}</ion-label>
-    </ion-segment-button> -->
   </ion-segment>
   <ion-grid>
     <ion-row>
@@ -44,7 +35,10 @@
           <ion-icon name="chevron-back"></ion-icon>
         </ion-button>
       </ion-col>
-      <ion-col size="8">{{(selectedPeriod$ | async ).from}}</ion-col>
+      <ion-col size="8">
+        <p class="ion-text-center">{{(selectedPeriod$ | async ).from | localDate}}</p>
+        <p class="ion-text-center">{{totalValue | localNumber}}</p>
+      </ion-col>
       <ion-col size="2">
         <ion-button (click)="forwardPeriod()">
           <ion-icon name="chevron-forward"></ion-icon>
@@ -52,6 +46,5 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  {{statResponse$ | async | json }}
   <canvas #barCanvas style="position: relative; height: 20vh; width: 40vw" id="statsChart"></canvas>
 </ion-content>
