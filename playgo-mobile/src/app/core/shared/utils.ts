@@ -10,7 +10,7 @@ import {
   ObservedValueOf,
   OperatorFunction,
 } from 'rxjs';
-import { first, takeUntil, tap } from 'rxjs/operators';
+import { first, map, takeUntil, tap } from 'rxjs/operators';
 
 export const isNotConstant =
   <C>(constant: C) =>
@@ -78,6 +78,20 @@ export function beforeStartUse<T, O extends ObservableInput<any>>(
     merge(from(start).pipe(takeUntil(source)), source);
 }
 
+export function throwIfNil<T>(
+  errorFn: (value: T, index: number) => any
+): OperatorFunction<T, Exclude<T, null | undefined>> {
+  return (source: Observable<T>) =>
+    source.pipe(
+      map((value, index) => {
+        if (value === null || value === undefined) {
+          throw errorFn(value, index);
+        }
+        return value as Exclude<T, null | undefined>;
+      })
+    );
+}
+
 export async function readAsBase64(photo: Photo) {
   // Fetch the photo, read as a blob, then convert to base64 format
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -100,6 +114,18 @@ export function convertBlobToBase64(blob: Blob): Promise<any> {
  * [1,2,3,4] -> [[1,2], [2,3], [3,4]]
  */
 export const getAdjacentPairs = <T>(a: T[]) => zip(initial(a), tail(a));
+
+type MapCartesian<T extends any[][]> = {
+  [P in keyof T]: T[P] extends Array<infer U> ? U : never;
+};
+/** Create all combinations of input arrays
+ * cartesian(['a', 'b'], [1, 2]) => [['a', 1], ['a', 2], ['b', 1], ['b', 2]]
+ */
+export const cartesian = <T extends any[][]>(...arr: T): MapCartesian<T>[] =>
+  arr.reduce(
+    (a, b) => a.flatMap((c) => b.map((d) => [...c, d])),
+    [[]]
+  ) as MapCartesian<T>[];
 
 export async function time(ms: number): Promise<void> {
   await new Promise((resolve) => {
