@@ -3,7 +3,12 @@
     <ion-card-title>{{ campaignContainer.campaign.name }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
-      [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [what]="'points'"></app-main-campaign-stat>
+    <app-main-campaign-stat
+      [campaignContainer]="campaignContainer"
+      [status]="campaignStatus"
+      [reportWeekStat]="reportWeekStat"
+      [reportTotalStat]="reportTotalStat"
+      [what]="'points'"
+    ></app-main-campaign-stat>
   </ion-card-content>
 </ion-card>

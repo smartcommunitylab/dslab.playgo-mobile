@@ -15,7 +15,7 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() reportTotalStat?: CampaignPlacing;
   @Input() what?: string;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 }

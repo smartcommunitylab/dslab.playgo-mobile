@@ -75,4 +75,4 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     WidgetComponent,
   ],
 })
-export class PlayGoSharedModule { }
+export class PlayGoSharedModule {}

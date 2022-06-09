@@ -26,13 +26,18 @@ import {
 } from 'chart.js';
 import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { DateTime, DateTimeUnit, Interval } from 'luxon';
-import { distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { isEqual } from 'lodash-es';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
-
 
 @Component({
   selector: 'app-stats',
@@ -40,7 +45,6 @@ import { ReportControllerService } from 'src/app/core/api/generated/controllers/
   styleUrls: ['./stats.page.scss'],
 })
 export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
-
   @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
@@ -48,45 +52,43 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   selectedSegment?: Period;
   barChart: any;
   statsSubs: Subscription;
-  statMeanChangedSubject = new Subject<
-    SelectCustomEvent<StatMeanType>
-  >();
+  statMeanChangedSubject = new Subject<SelectCustomEvent<StatMeanType>>();
   statUnitChangedSubject = new Subject<SelectCustomEvent<StatUnitType>>();
   allStatsMeanTypes: StatMeanType[] = [
     {
       labelKey: 'campaigns.stats.filter.means.car.label',
-      unitKey: 'car'
+      unitKey: 'car',
     },
     {
       labelKey: 'campaigns.stats.filter.means.bike.label',
-      unitKey: 'bike'
+      unitKey: 'bike',
     },
     {
       labelKey: 'campaigns.stats.filter.means.walk.label',
-      unitKey: 'walk'
+      unitKey: 'walk',
     },
     {
       labelKey: 'campaigns.stats.filter.means.boat.label',
-      unitKey: 'boat'
+      unitKey: 'boat',
     },
     {
       labelKey: 'campaigns.stats.filter.means.train.label',
-      unitKey: 'train'
+      unitKey: 'train',
     },
     {
       labelKey: 'campaigns.stats.filter.means.bus.label',
-      unitKey: 'bus'
-    }
+      unitKey: 'bus',
+    },
   ];
   allStatsUnitTypes: StatUnitType[] = [
     {
       labelKey: 'campaigns.stats.filter.unit.km.label',
-      unitKey: 'km'
+      unitKey: 'km',
     },
     {
       labelKey: 'campaigns.stats.filter.unit.co2.label',
-      unitKey: 'co2'
-    }
+      unitKey: 'co2',
+    },
   ];
 
   selectedStatMeanType$: Observable<StatMeanType> =
@@ -107,31 +109,26 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   periods = this.getPeriods(this.referenceDate);
   selectedPeriod = this.periods[0];
   statPeriodChangedSubject = new Subject<Period>();
-  selectedPeriod$: Observable<Period> =
-    this.statPeriodChangedSubject.pipe(
-      map((period) => {
-        console.log(period.group);
-        this.selectedPeriod = period;
-        return this.getPeriodByReference(period);
-      }),
-      startWith(this.periods[0]),
-      shareReplay(1)
-    );
+  selectedPeriod$: Observable<Period> = this.statPeriodChangedSubject.pipe(
+    map((period) => {
+      console.log(period.group);
+      this.selectedPeriod = period;
+      return this.getPeriodByReference(period);
+    }),
+    startWith(this.periods[0]),
+    shareReplay(1)
+  );
   campaignId$: Observable<string> = this.route.params.pipe(
-    map((params) => params.id,
-      shareReplay(1))
+    map((params) => params.id, shareReplay(1))
   );
   statsMeanTypes$: Observable<StatMeanType[]> = this.campaignId$.pipe(
-    map(() => this.allStatsMeanTypes,
-      shareReplay(1))
+    map(() => this.allStatsMeanTypes, shareReplay(1))
   );
   statsUnitTypes$: Observable<StatUnitType[]> = this.campaignId$.pipe(
-    map(() => this.allStatsUnitTypes,
-      shareReplay(1))
+    map(() => this.allStatsUnitTypes, shareReplay(1))
   );
   playerId$ = this.userService.userProfile$.pipe(
-    map((userProfile) => userProfile.playerId,
-      shareReplay(1))
+    map((userProfile) => userProfile.playerId, shareReplay(1))
   );
   filterOptions$ = combineLatest([
     this.selectedStatMeanType$,
@@ -151,9 +148,9 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   );
 
   //TODO typing
-  statResponse$: Observable<TransportStat[]> =
-    this.filterOptions$.pipe(
-      switchMap(({ meanType, unitType, period, campaignId }) => this.reportService.getPlayerTransportStatsUsingGET(
+  statResponse$: Observable<TransportStat[]> = this.filterOptions$.pipe(
+    switchMap(({ meanType, unitType, period, campaignId }) =>
+      this.reportService.getPlayerTransportStatsUsingGET(
         campaignId,
         unitType.unitKey,
         period.group,
@@ -161,8 +158,8 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         period.from.toFormat('yyyy-MM-dd'),
         period.to.toFormat('yyyy-MM-dd')
       )
-      )
-    );
+    )
+  );
   constructor(
     private route: ActivatedRoute,
     private reportService: ReportControllerService,
@@ -175,7 +172,9 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     });
   }
   setTotal(stats: TransportStat[]) {
-    this.totalValue = stats.map(stat => stat.value).reduce((prev, next) => prev + next, 0);
+    this.totalValue = stats
+      .map((stat) => stat.value)
+      .reduce((prev, next) => prev + next, 0);
   }
 
   ngOnInit() {
@@ -195,17 +194,25 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   }
   backPeriod() {
     //change referenceDate
-    this.referenceDate = this.referenceDate.plus({ [this.selectedPeriod.add]: -1 });
+    this.referenceDate = this.referenceDate.plus({
+      [this.selectedPeriod.add]: -1,
+    });
     //only get but it doesn't write on subject
     this.periods = this.getPeriods(this.referenceDate);
-    const tabIndex = this.periods.findIndex((period) => period.group === this.selectedPeriod.group);
+    const tabIndex = this.periods.findIndex(
+      (period) => period.group === this.selectedPeriod.group
+    );
     this.selectedSegment = this.periods[tabIndex];
     this.statPeriodChangedSubject.next(this.periods[tabIndex]);
   }
   forwardPeriod() {
-    this.referenceDate = this.referenceDate.plus({ [this.selectedPeriod.add]: 1 });
+    this.referenceDate = this.referenceDate.plus({
+      [this.selectedPeriod.add]: 1,
+    });
     this.periods = this.getPeriods(this.referenceDate);
-    const tabIndex = this.periods.findIndex((period) => period.group === this.selectedPeriod.group);
+    const tabIndex = this.periods.findIndex(
+      (period) => period.group === this.selectedPeriod.group
+    );
     this.selectedSegment = this.periods[tabIndex];
     this.statPeriodChangedSubject.next(this.periods[tabIndex]);
   }
@@ -218,7 +225,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         add: 'week',
         switchTo: null,
         from: referenceDate.startOf('week'),
-        to: referenceDate.endOf('week')
+        to: referenceDate.endOf('week'),
       },
       {
         labelKey: 'campaigns.stats.filter.period.month',
@@ -227,7 +234,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         add: 'month',
         switchTo: 'day',
         from: referenceDate.startOf('month'),
-        to: referenceDate.endOf('month')
+        to: referenceDate.endOf('month'),
       },
       {
         labelKey: 'campaigns.stats.filter.period.year',
@@ -236,8 +243,8 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         add: 'year',
         switchTo: 'week',
         from: referenceDate.startOf('year'),
-        to: referenceDate.endOf('year')
-      }
+        to: referenceDate.endOf('year'),
+      },
     ];
   }
   // adjust this for your exact needs
@@ -268,7 +275,11 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     const periodSplitted = statPeriod.split('-');
     switch (this.selectedPeriod.group) {
       case 'day':
-        return { year: periodSplitted[0], month: periodSplitted[1], day: periodSplitted[2] };
+        return {
+          year: periodSplitted[0],
+          month: periodSplitted[1],
+          day: periodSplitted[2],
+        };
       case 'week':
         return { weekYear: periodSplitted[0], weekNumber: periodSplitted[1] };
       case 'month':
@@ -277,7 +288,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   }
   valuesFromStat(arrOfPeriod: DateTime[], stats: any): Array<number> {
     //  check if stats[i] is part of arrOfPeriod
-    let statsArrayDate = stats.map(stat => {
+    let statsArrayDate = stats.map((stat) => {
       console.log(stat);
       // return DateTime.fromObject({ year: 2022, weekNumber: 10 });
       return DateTime.fromObject(this.getObjectDate(stat.period));
@@ -286,7 +297,9 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     const retArr = [];
     for (let period of arrOfPeriod) {
       //check if statsArrayDate has a period
-      const i = statsArrayDate.findIndex(statPeriod => statPeriod.toISO() === period.toISO());
+      const i = statsArrayDate.findIndex(
+        (statPeriod) => statPeriod.toISO() === period.toISO()
+      );
       if (i !== -1) {
         retArr.push(stats[i].value);
       } else {
@@ -327,7 +340,12 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       type: 'bar',
       options: {
         onClick: (e) => {
-          const points = this.barChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+          const points = this.barChart.getElementsAtEventForMode(
+            e,
+            'nearest',
+            { intersect: true },
+            true
+          );
 
           if (points.length) {
             const firstPoint = points[0];
@@ -336,10 +354,12 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
             this.changeView(label);
             //const value = this.barChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
           }
-        }
+        },
       },
       data: {
-        labels: arrOfPeriod.map((period) => period.toFormat(this.selectedPeriod.format)),
+        labels: arrOfPeriod.map((period) =>
+          period.toFormat(this.selectedPeriod.format)
+        ),
         datasets: [
           {
             data: arrOfValues,
@@ -374,18 +394,17 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     //const tabIndex = this.periods.findIndex((period) => period.group === this.selectedPeriod.group);
     // this.selectedSegment = this.periods[tabIndex];
     //this.statPeriodChangedSubject.next(this.periods[tabIndex]);
-    this.selectedSegment = this.periods.find(a => a.group === this.selectedSegment.switchTo);
+    this.selectedSegment = this.periods.find(
+      (a) => a.group === this.selectedSegment.switchTo
+    );
     this.statPeriodChangedSubject.next(this.selectedSegment);
     console.log('Vado a vedere' + label);
   }
-
-
 }
 //TODO TranslateKey instead string
 type StatMeanType = {
   labelKey: string;
   unitKey: string;
-
 };
 type StatUnitType = {
   labelKey: string;

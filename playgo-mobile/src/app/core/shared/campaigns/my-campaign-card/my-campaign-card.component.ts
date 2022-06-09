@@ -12,17 +12,18 @@ export class MyCampaignCardComponent implements OnInit {
   @Input() containerCampaign: PlayerCampaign;
   imagePath: SafeResourceUrl;
 
-  constructor(private router: Router, private sanitizer: DomSanitizer) { }
+  constructor(private router: Router, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.imagePath = this.containerCampaign.campaign.logo.url ? this.containerCampaign.campaign.logo.url :
-      'data:image/jpg;base64,' + this.containerCampaign.campaign.logo.image;
+    this.imagePath = this.containerCampaign.campaign.logo.url
+      ? this.containerCampaign.campaign.logo.url
+      : 'data:image/jpg;base64,' + this.containerCampaign.campaign.logo.image;
   }
 
   detailCampaign() {
     this.router.navigateByUrl(
       '/pages/tabs/campaigns/details/' +
-      this.containerCampaign.campaign.campaignId
+        this.containerCampaign.campaign.campaignId
     );
   }
 

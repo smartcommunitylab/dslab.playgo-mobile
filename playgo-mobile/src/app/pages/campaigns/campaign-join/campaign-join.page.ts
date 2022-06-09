@@ -35,15 +35,15 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result) {
           this.campaign = result;
-          this.imagePath = this.campaign.logo.url ? this.campaign.logo.url :
-            'data:image/jpg;base64,' + this.campaign.logo.image;
+          this.imagePath = this.campaign.logo.url
+            ? this.campaign.logo.url
+            : 'data:image/jpg;base64,' + this.campaign.logo.image;
         }
       });
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
 
   //based on the type, change interaction
   joinCampaign(campaign) {

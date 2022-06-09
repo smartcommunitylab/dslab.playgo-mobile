@@ -5,7 +5,12 @@
   <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)" #refresher>
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-segment color="playgo" [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)" scrollable>
+  <ion-segment
+    color="playgo"
+    [(ngModel)]="selectedSegment"
+    (ionChange)="segmentChanged($event)"
+    scrollable
+  >
     <ion-segment-button value="myCampaigns" checked>
       <ion-label>{{'campaigns.myCampaigns' | translate}}</ion-label>
     </ion-segment-button>

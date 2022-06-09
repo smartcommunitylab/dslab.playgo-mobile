@@ -25,7 +25,7 @@ export class HomePage implements OnInit, OnDestroy {
     private localStorageService: UserStorageService,
     private router: Router,
     public appVersionService: AppVersionService
-  ) { }
+  ) {}
 
   campagins() {
     this.router.navigateByUrl('/campaigns');

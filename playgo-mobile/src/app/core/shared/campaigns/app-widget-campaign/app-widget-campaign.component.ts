@@ -10,15 +10,11 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 export class WidgetComponent implements OnInit, OnDestroy {
   @Input() campaign: PlayerCampaign;
   @Input() header?: boolean = false;
-  constructor(
-    private router: Router
-  ) { }
+  constructor(private router: Router) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
   detailCampaign(campaign) {
     this.router.navigateByUrl(
       '/pages/tabs/campaigns/details/' + campaign.campaign.campaignId
