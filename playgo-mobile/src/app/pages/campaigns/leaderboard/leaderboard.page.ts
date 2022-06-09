@@ -60,26 +60,34 @@ export class LeaderboardPage implements OnInit {
       numberWithUnitKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
       filter: (campaign: Campaign) =>
         campaign.type === 'city' || campaign.type === 'school',
-      playerApi: (args) => this.getPlayerPlacingByGame(args),
-      leaderboardApi: (args) => this.getLeaderboardByGame(args),
+      playerApi: (args) =>
+        this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET(
+          args
+        ),
+      leaderboardApi: (args) =>
+        this.reportControllerService.getCampaingPlacingByGameUsingGET(args),
     },
     {
       labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
       numberWithUnitKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
       filter: (campaign: Campaign) => campaign.type !== 'school',
       playerApi: (args) =>
-        this.getPlayerPlacingByTransport({
-          ...args,
-          mean: null,
-          metric: 'co2',
-        }),
+        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
+          {
+            ...args,
+            mean: null,
+            metric: 'co2',
+          }
+        ),
 
       leaderboardApi: (args) =>
-        this.getLeaderboardByTransport({
-          ...args,
-          mean: null,
-          metric: 'co2',
-        }),
+        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
+          {
+            ...args,
+            mean: null,
+            metric: 'co2',
+          }
+        ),
     },
 
     ...cartesian(transportTypes, ['co2', 'km'] as Metric[]).map(
@@ -89,17 +97,21 @@ export class LeaderboardPage implements OnInit {
         unitLabelKey: this.metricToUnitLabel[metric],
         filter: (campaign: Campaign) => campaign.type !== 'school',
         playerApi: (args) =>
-          this.getPlayerPlacingByTransport({
-            ...args,
-            mean: transportType,
-            metric,
-          }),
+          this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
+            {
+              ...args,
+              mean: transportType,
+              metric,
+            }
+          ),
         leaderboardApi: (args) =>
-          this.getLeaderboardByTransport({
-            ...args,
-            mean: transportType,
-            metric,
-          }),
+          this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
+            {
+              ...args,
+              mean: transportType,
+              metric,
+            }
+          ),
       })
     ),
   ];
@@ -264,49 +276,6 @@ export class LeaderboardPage implements OnInit {
   }
 
   ngOnInit() {}
-
-  // shorthand functions - to avoid relaying on argument position
-
-  getPlayerPlacingByGame(args: PlayerPlacingByGameArguments) {
-    return this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET(
-      args.campaignId,
-      args.playerId,
-      args.dateFrom,
-      args.dateTo
-    );
-  }
-  getLeaderboardByGame(args: LeaderboardByGameArguments) {
-    return this.reportControllerService.getCampaingPlacingByGameUsingGET(
-      args.campaignId,
-      args.page,
-      args.size,
-      args.sort,
-      args.dateFrom,
-      args.dateTo
-    );
-  }
-  getPlayerPlacingByTransport(args: PlayerPlacingByTransportArguments) {
-    return this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
-      args.campaignId,
-      args.playerId,
-      args.metric,
-      args.mean,
-      args.dateFrom,
-      args.dateTo
-    );
-  }
-  getLeaderboardByTransport(args: LeaderboardByTransportArguments) {
-    return this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
-      args.campaignId,
-      args.page,
-      args.size,
-      args.metric,
-      args.sort,
-      args.mean,
-      args.dateFrom,
-      args.dateTo
-    );
-  }
 }
 
 type ArgumentsBase = {
@@ -324,21 +293,6 @@ type LeaderboardArguments = ArgumentsBase & {
   size: number;
   sort: string;
 };
-
-type PlayerPlacingByGameArguments = PlayerPlacingArguments;
-
-type LeaderboardByGameArguments = LeaderboardArguments;
-
-type TransportArguments = {
-  metric: string;
-  mean: string;
-};
-type PlayerPlacingByTransportArguments = PlayerPlacingArguments &
-  TransportArguments;
-type LeaderboardByTransportArguments = LeaderboardArguments &
-  TransportArguments;
-
-const minusInfDate = DateTime.fromMillis(0);
 
 type LeaderboardType = {
   labelKey: TranslateKey;
