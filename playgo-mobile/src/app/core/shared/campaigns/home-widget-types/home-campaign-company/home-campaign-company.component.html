@@ -1,14 +1,15 @@
 <ion-card>
   <ion-card-header color="company">
-    <ion-card-title>{{ campaignContainer.campaign.name }}</ion-card-title>
+    <ion-item lines="none" color="company">
+      <ion-avatar>
+        <img [src]="imagePath" alt="Avatar" />
+      </ion-avatar>
+      <strong> {{ campaignContainer.campaign.name }}</strong>
+    </ion-item>
   </ion-card-header>
   <ion-card-content>
-    <app-main-campaign-stat
-      [campaignContainer]="campaignContainer"
-      [reportWeekStat]="reportWeekStat"
-      [reportTotalStat]="reportTotalStat"
-      [what]="'km'"
-    >
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [reportWeekStat]="reportWeekStat"
+      [reportTotalStat]="reportTotalStat" [what]="'km'">
     </app-main-campaign-stat>
   </ion-card-content>
 </ion-card>

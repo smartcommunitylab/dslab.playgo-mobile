@@ -1,21 +1,21 @@
 <ion-tabs class="scanner-hide">
   <app-tracking-main-control></app-tracking-main-control>
   <ion-tab-bar slot="bottom" color="playgo">
-    <ion-tab-button tab="home">
+    <ion-tab-button tab="home" (click)="handleTabClick( $event)">
       <ion-icon name="triangle"></ion-icon>
       <ion-label>{{'homeTtle'|translate}}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="campaigns">
+    <ion-tab-button tab="campaigns" (click)="handleTabClick( $event)">
       <ion-icon name="ellipse"></ion-icon>
       <ion-label>{{'campaignsTitle'|translate}}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="trips">
+    <ion-tab-button tab="trips" (click)="handleTabClick( $event)">
       <ion-icon name="square"></ion-icon>
       <ion-label>{{'tripsTitle'|translate}}</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="challenge">
+    <ion-tab-button tab="challenge" (click)="handleTabClick( $event)">
       <ion-icon name="square"></ion-icon>
       <ion-label>{{'challengeTitle'|translate}}</ion-label>
     </ion-tab-button>
