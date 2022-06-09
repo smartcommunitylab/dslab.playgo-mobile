@@ -107,19 +107,16 @@ export class ExternalControllerService {
    *
    * @param campaignId campaignId
    * @param nickname nickname
-   * @param body
    */
   public unsubscribeCampaignByTerritoryUsingDELETE(
     campaignId: string,
-    nickname: string,
-    body?: any
+    nickname: string
   ): Observable<CampaignSubscription> {
     return this.http.request<CampaignSubscription>(
       'delete',
       environment.serverUrl.api +
         `/playandgo/api/ext/campaign/unsubscribe/territory`,
       {
-        body,
         params: removeNullOrUndefined({
           campaignId,
           nickname,

@@ -45,6 +45,34 @@ export class DevControllerService {
   }
 
   /**
+   * subscribeAziendale
+   *
+   * @param campaignId campaignId
+   * @param playerId playerId
+   * @param companyKey companyKey
+   * @param code code
+   */
+  public subscribeAziendaleUsingGET(
+    campaignId: string,
+    playerId: string,
+    companyKey: string,
+    code: string
+  ): Observable<any> {
+    return this.http.request<any>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/dev/azienda/subscribe`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          playerId,
+          companyKey,
+          code,
+        }),
+      }
+    );
+  }
+
+  /**
    * testCampaignPlacingByTransportMode
    *
    */
@@ -53,6 +81,56 @@ export class DevControllerService {
       'get',
       environment.serverUrl.api + `/playandgo/api/dev/test/campaign/placing`,
       {}
+    );
+  }
+
+  /**
+   * unsubscribeAziendale
+   *
+   * @param campaignId campaignId
+   * @param playerId playerId
+   */
+  public unsubscribeAziendaleUsingGET(
+    campaignId: string,
+    playerId: string
+  ): Observable<any> {
+    return this.http.request<any>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/dev/azienda/unsubscribe`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          playerId,
+        }),
+      }
+    );
+  }
+
+  /**
+   * validateAziendale
+   *
+   * @param campaignId campaignId
+   * @param playerId playerId
+   * @param trackedInstanceId trackedInstanceId
+   * @param campaignPlayerTrackId campaignPlayerTrackId
+   */
+  public validateAziendaleUsingGET(
+    campaignId: string,
+    playerId: string,
+    trackedInstanceId: string,
+    campaignPlayerTrackId: string
+  ): Observable<any> {
+    return this.http.request<any>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/dev/azienda/validate`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          playerId,
+          trackedInstanceId,
+          campaignPlayerTrackId,
+        }),
+      }
     );
   }
 }
