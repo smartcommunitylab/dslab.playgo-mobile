@@ -1,26 +1,15 @@
-<app-header
-  title="{{ 'profileTitle' | translate }}"
-  [backButton]="true"
-></app-header>
+<app-header title="{{ 'profileTitle' | translate }}" [backButton]="true"></app-header>
 
 <ion-content [fullscreen]="true">
   <app-profile-component [editable]="true"></app-profile-component>
-  <!-- <app-general-statistics></app-general-statistics> -->
   <ion-row *ngIf="profile">
     <ion-col text-center>
       <ion-item lines="full" color="playgo">
         <ion-label>{{'profile.change.lang.language'|translate}}</ion-label>
-        <ion-select
-          placeholder="{{'profile.change.lang.select'|translate}}"
-          [(ngModel)]="profile.language"
-          (ionChange)="updateLanguage()"
-        >
-          <ion-select-option value="it"
-            >{{'profile.change.lang.it'|translate}}</ion-select-option
-          >
-          <ion-select-option value="en"
-            >{{'profile.change.lang.en'|translate}}</ion-select-option
-          >
+        <ion-select placeholder="{{'profile.change.lang.select'|translate}}" [(ngModel)]="profile.language"
+          (ionChange)="updateLanguage()">
+          <ion-select-option value="it">{{'profile.change.lang.it'|translate}}</ion-select-option>
+          <ion-select-option value="en">{{'profile.change.lang.en'|translate}}</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-col>
@@ -29,9 +18,7 @@
     <ion-col text-center>
       <ion-button expand="block" color="playgo" size="large">
         <ion-icon slot="end" name="people-circle-outline"></ion-icon>
-        <span class="button-left-icon"
-          >{{'profile.blacklistedUser'|translate}}</span
-        >
+        <span class="button-left-icon">{{'profile.blacklistedUser'|translate}}</span>
       </ion-button>
     </ion-col>
   </ion-row>
@@ -53,12 +40,7 @@
   </ion-row>
   <ion-row>
     <ion-col text-center>
-      <ion-button
-        expand="block"
-        color="playgo"
-        size="large"
-        (click)="openPrivacy()"
-      >
+      <ion-button expand="block" color="playgo" size="large" (click)="openPrivacy()">
         <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
         <span class="button-left-icon">{{'profile.Privacy'|translate}}</span>
       </ion-button>
@@ -68,9 +50,7 @@
     <ion-col text-center>
       <ion-button expand="block" color="danger" size="large">
         <ion-icon slot="end" name="trash-outline"></ion-icon>
-        <span class="button-left-icon"
-          >{{'profile.deleteAccount'|translate}}</span
-        >
+        <span class="button-left-icon">{{'profile.deleteAccount'|translate}}</span>
       </ion-button>
     </ion-col>
   </ion-row>

@@ -5,17 +5,14 @@ import { MessageComponent } from '../../../core/shared/profile-components/messag
 import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 import { MyActivityComponent } from 'src/app/core/shared/profile-components/my-activity-component/my-activity.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-// eslint-disable-next-line max-len
-import { GeneralStatisticsComponent } from 'src/app/pages/campaigns/campaign-details/general-statistics-component/general-statistics.component';
 
 @NgModule({
   imports: [PlayGoSharedModule, ProfilePageRoutingModule],
   declarations: [
     MessageComponent,
-    GeneralStatisticsComponent,
     MyActivityComponent,
     ProfilePage,
   ],
-  exports: [MessageComponent, MyActivityComponent, GeneralStatisticsComponent],
+  exports: [MessageComponent, MyActivityComponent],
 })
-export class ProfilePageModule {}
+export class ProfilePageModule { }
