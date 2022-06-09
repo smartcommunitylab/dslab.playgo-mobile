@@ -232,14 +232,13 @@ export class TripsPage implements OnInit {
   getTripsPage(
     pageRequest: PageableRequest
   ): Observable<PageableResponse<TrackedInstanceInfo>> {
-    return this.trackControllerService.getTrackedInstanceInfoListUsingGET(
-      pageRequest.page,
-      pageRequest.size,
-      toServerDateTime(DateTime.fromMillis(0)), //from - older
-      null, //sort
+    return this.trackControllerService.getTrackedInstanceInfoListUsingGET({
+      page: pageRequest.page,
+      size: pageRequest.size,
+      dateFrom: toServerDateTime(DateTime.fromMillis(0)), //from - older
       // TODO: check +-1 day errors!!
-      toServerDateTime(this.localTripsService.localDataFromDate) //to - newer
-    );
+      dateTo: toServerDateTime(this.localTripsService.localDataFromDate), //to - newer
+    });
   }
 
   private sortTrips(trips: TrackedInstanceInfo[]): TrackedInstanceInfo[] {

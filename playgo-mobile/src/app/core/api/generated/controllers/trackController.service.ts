@@ -34,14 +34,15 @@ export class TrackControllerService {
    * @param dateTo UTC millis
    * @param campaignId campaignId
    */
-  public getTrackedInstanceInfoListUsingGET(
-    page: number,
-    size: number,
-    dateFrom?: number,
-    sort?: string,
-    dateTo?: number,
-    campaignId?: string
-  ): Observable<PageTrackedInstanceInfo> {
+  public getTrackedInstanceInfoListUsingGET(args: {
+    page: number;
+    size: number;
+    dateFrom?: number;
+    sort?: string;
+    dateTo?: number;
+    campaignId?: string;
+  }): Observable<PageTrackedInstanceInfo> {
+    const { page, size, dateFrom, sort, dateTo, campaignId } = args;
     return this.http.request<PageTrackedInstanceInfo>(
       'get',
       environment.serverUrl.api + `/playandgo/api/track/player`,
@@ -64,10 +65,11 @@ export class TrackControllerService {
    * @param trackedInstanceId trackedInstanceId
    * @param campaignId campaignId
    */
-  public getTrackedInstanceInfoUsingGET(
-    trackedInstanceId: string,
-    campaignId?: string
-  ): Observable<TrackedInstanceInfo> {
+  public getTrackedInstanceInfoUsingGET(args: {
+    trackedInstanceId: string;
+    campaignId?: string;
+  }): Observable<TrackedInstanceInfo> {
+    const { trackedInstanceId, campaignId } = args;
     return this.http.request<TrackedInstanceInfo>(
       'get',
       environment.serverUrl.api +

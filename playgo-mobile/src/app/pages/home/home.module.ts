@@ -15,4 +15,4 @@ import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
   ],
   exports: [MyCampaignsWidgetComponent, HomeTrackingWidgetComponent],
 })
-export class HomePageModule { }
+export class HomePageModule {}

@@ -31,10 +31,11 @@ export class ConsoleControllerService {
    * @param userName userName
    * @param campaignId campaignId
    */
-  public addCampaignManagerUsingPOST(
-    userName: string,
-    campaignId: string
-  ): Observable<any> {
+  public addCampaignManagerUsingPOST(args: {
+    userName: string;
+    campaignId: string;
+  }): Observable<any> {
+    const { userName, campaignId } = args;
     return this.http.request<any>(
       'post',
       environment.serverUrl.api + `/playandgo/api/console/role/campaign`,
@@ -53,10 +54,11 @@ export class ConsoleControllerService {
    * @param userName userName
    * @param territoryId territoryId
    */
-  public addTerritoryManagerUsingPOST(
-    userName: string,
-    territoryId: string
-  ): Observable<any> {
+  public addTerritoryManagerUsingPOST(args: {
+    userName: string;
+    territoryId: string;
+  }): Observable<any> {
+    const { userName, territoryId } = args;
     return this.http.request<any>(
       'post',
       environment.serverUrl.api + `/playandgo/api/console/role/territory`,
@@ -125,10 +127,11 @@ export class ConsoleControllerService {
    * @param territoryId territoryId
    * @param trackId trackId
    */
-  public getTrackedInstanceDetailUsingGET(
-    territoryId: string,
-    trackId: string
-  ): Observable<TrackedInstancePoly> {
+  public getTrackedInstanceDetailUsingGET(args: {
+    territoryId: string;
+    trackId: string;
+  }): Observable<TrackedInstancePoly> {
+    const { territoryId, trackId } = args;
     return this.http.request<TrackedInstancePoly>(
       'get',
       environment.serverUrl.api + `/playandgo/api/console/track/detail`,
@@ -147,10 +150,11 @@ export class ConsoleControllerService {
    * @param userName userName
    * @param campaignId campaignId
    */
-  public removeCampaignManagerUsingDELETE(
-    userName: string,
-    campaignId: string
-  ): Observable<any> {
+  public removeCampaignManagerUsingDELETE(args: {
+    userName: string;
+    campaignId: string;
+  }): Observable<any> {
+    const { userName, campaignId } = args;
     return this.http.request<any>(
       'delete',
       environment.serverUrl.api + `/playandgo/api/console/role/campaign`,
@@ -169,10 +173,11 @@ export class ConsoleControllerService {
    * @param userName userName
    * @param territoryId territoryId
    */
-  public removeTerritoryManagerUsingDELETE(
-    userName: string,
-    territoryId: string
-  ): Observable<any> {
+  public removeTerritoryManagerUsingDELETE(args: {
+    userName: string;
+    territoryId: string;
+  }): Observable<any> {
+    const { userName, territoryId } = args;
     return this.http.request<any>(
       'delete',
       environment.serverUrl.api + `/playandgo/api/console/role/territory`,
@@ -194,13 +199,14 @@ export class ConsoleControllerService {
    * @param sort Sorting option: field,[asc,desc]
    * @param text text
    */
-  public searchPlayersByTerritoryUsingGET(
-    page: number,
-    size: number,
-    territoryId: string,
-    sort?: string,
-    text?: string
-  ): Observable<PagePlayerInfoConsole> {
+  public searchPlayersByTerritoryUsingGET(args: {
+    page: number;
+    size: number;
+    territoryId: string;
+    sort?: string;
+    text?: string;
+  }): Observable<PagePlayerInfoConsole> {
+    const { page, size, territoryId, sort, text } = args;
     return this.http.request<PagePlayerInfoConsole>(
       'get',
       environment.serverUrl.api + `/playandgo/api/console/player/search`,
@@ -231,19 +237,32 @@ export class ConsoleControllerService {
    * @param campaignId campaignId
    * @param status status
    */
-  public searchTrackedInstanceUsingGET(
-    page: number,
-    size: number,
-    territoryId: string,
-    sort?: string,
-    trackId?: string,
-    playerId?: string,
-    modeType?: string,
-    dateFrom?: number,
-    dateTo?: number,
-    campaignId?: string,
-    status?: string
-  ): Observable<PageTrackedInstanceConsole> {
+  public searchTrackedInstanceUsingGET(args: {
+    page: number;
+    size: number;
+    territoryId: string;
+    sort?: string;
+    trackId?: string;
+    playerId?: string;
+    modeType?: string;
+    dateFrom?: number;
+    dateTo?: number;
+    campaignId?: string;
+    status?: string;
+  }): Observable<PageTrackedInstanceConsole> {
+    const {
+      page,
+      size,
+      territoryId,
+      sort,
+      trackId,
+      playerId,
+      modeType,
+      dateFrom,
+      dateTo,
+      campaignId,
+      status,
+    } = args;
     return this.http.request<PageTrackedInstanceConsole>(
       'get',
       environment.serverUrl.api + `/playandgo/api/console/track/search`,
@@ -276,15 +295,17 @@ export class ConsoleControllerService {
    * @param errorType errorType
    * @param note note
    */
-  public updateValidationResultUsingGET(
-    trackId: string,
-    validity: string,
-    modeType?: string,
-    distance?: number,
-    duration?: number,
-    errorType?: string,
-    note?: string
-  ): Observable<any> {
+  public updateValidationResultUsingGET(args: {
+    trackId: string;
+    validity: string;
+    modeType?: string;
+    distance?: number;
+    duration?: number;
+    errorType?: string;
+    note?: string;
+  }): Observable<any> {
+    const { trackId, validity, modeType, distance, duration, errorType, note } =
+      args;
     return this.http.request<any>(
       'get',
       environment.serverUrl.api + `/playandgo/api/console/track/update`,

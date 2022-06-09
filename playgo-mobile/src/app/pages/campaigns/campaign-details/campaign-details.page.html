@@ -7,7 +7,12 @@
     <ion-title> Parallax Header </ion-title>
   </ion-toolbar>
 </ion-header> -->
-<ion-header parallax [imageUrl]="campaignContainer.campaign?.banner?.url" height="30vh" [color]="colorCampaign">
+<ion-header
+  parallax
+  [imageUrl]="campaignContainer.campaign?.banner?.url"
+  height="30vh"
+  [color]="colorCampaign"
+>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="'/pages/tabs/campaigns'">
@@ -18,21 +23,32 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true" *ngIf="campaignContainer" [scrollEvents]="true">
+<ion-content
+  [fullscreen]="true"
+  *ngIf="campaignContainer"
+  [scrollEvents]="true"
+>
   <ion-avatar class="avatar-campaign">
     <img [src]="imagePath" title="campaign logo" />
   </ion-avatar>
-  <app-widget-campaign [campaign]="campaignContainer" [header]="false"></app-widget-campaign>
+  <app-widget-campaign
+    [campaign]="campaignContainer"
+    [header]="false"
+  ></app-widget-campaign>
   <!-- <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
         [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [what]="'points'"> -->
   <!-- </app-main-campaign-stat> -->
-  <ion-card [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaignContainer.campaign.campaignId]">
+  <ion-card
+    [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaignContainer.campaign.campaignId]"
+  >
     <ion-item>
       <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
       <ion-icon name="arrow-forward" end></ion-icon>
     </ion-item>
   </ion-card>
-  <ion-card [routerLink]="['/pages/stats/'+campaignContainer.campaign.campaignId]">
+  <ion-card
+    [routerLink]="['/pages/stats/'+campaignContainer.campaign.campaignId]"
+  >
     <ion-item>
       <ion-label>{{'campaigns.detail.stats'|translate}} </ion-label>
       <ion-icon name="stats-chart-outline" end></ion-icon>

@@ -15,7 +15,7 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
   constructor(
     private campaignService: CampaignService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {

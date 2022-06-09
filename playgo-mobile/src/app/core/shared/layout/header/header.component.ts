@@ -11,9 +11,9 @@ export class HeaderComponent implements OnInit, OnChanges {
   @Input() backButton = true;
   @Input() color = 'playgo';
   @Input() defaultHref = '/';
-  constructor(private navCtrl: NavController) { }
+  constructor(private navCtrl: NavController) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
   ngOnChanges() {
     console.log(this.title);
   }

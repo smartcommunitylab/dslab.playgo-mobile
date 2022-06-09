@@ -14,7 +14,7 @@ export class CampaignsPage implements OnInit, OnDestroy {
   selectedSegment?: string;
   sub: Subscription;
 
-  constructor(private campaignService: CampaignService) { }
+  constructor(private campaignService: CampaignService) {}
 
   ngOnInit(): void {
     this.selectedSegment = 'myCampaigns';

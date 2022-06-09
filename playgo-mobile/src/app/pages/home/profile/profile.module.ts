@@ -18,4 +18,4 @@ import { GeneralStatisticsComponent } from 'src/app/pages/campaigns/campaign-det
   ],
   exports: [MessageComponent, MyActivityComponent, GeneralStatisticsComponent],
 })
-export class ProfilePageModule { }
+export class ProfilePageModule {}
