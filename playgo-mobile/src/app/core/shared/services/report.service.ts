@@ -93,6 +93,10 @@ export class ReportService {
   ): Promise<TransportStats[]> {
     return this.reportControllerService
       .getPlayerTransportStatsUsingGET({
+        // FIXME: api has changed, and this is not working
+        campaignId: null,
+        metric: null,
+
         dateFrom,
         dateTo,
         groupMode,
