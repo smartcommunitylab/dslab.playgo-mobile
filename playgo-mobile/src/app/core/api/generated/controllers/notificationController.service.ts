@@ -31,12 +31,13 @@ export class NotificationControllerService {
    * @param skip skip
    * @param limit limit
    */
-  public getNotificationsUsingGET(
-    territoryId: string,
-    campaignId?: string,
-    skip?: number,
-    limit?: number
-  ): Observable<PageAnnouncement> {
+  public getNotificationsUsingGET(args: {
+    territoryId: string;
+    campaignId?: string;
+    skip?: number;
+    limit?: number;
+  }): Observable<PageAnnouncement> {
+    const { territoryId, campaignId, skip, limit } = args;
     return this.http.request<PageAnnouncement>(
       'get',
       environment.serverUrl.api +
@@ -60,11 +61,12 @@ export class NotificationControllerService {
    * @param body
    * @param campaignId campaignId
    */
-  public notifyCampaignUsingPOST(
-    territoryId: string,
-    body?: Announcement,
-    campaignId?: string
-  ): Observable<{ [key: string]: string }> {
+  public notifyCampaignUsingPOST(args: {
+    territoryId: string;
+    body?: Announcement;
+    campaignId?: string;
+  }): Observable<{ [key: string]: string }> {
+    const { territoryId, body, campaignId } = args;
     return this.http.request<{ [key: string]: string }>(
       'post',
       environment.serverUrl.api +

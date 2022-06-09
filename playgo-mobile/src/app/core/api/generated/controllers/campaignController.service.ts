@@ -74,10 +74,11 @@ export class CampaignControllerService {
    * @param territoryId territoryId
    * @param type type
    */
-  public getCampaignsUsingGET(
-    territoryId: string,
-    type?: string
-  ): Observable<Array<Campaign>> {
+  public getCampaignsUsingGET(args: {
+    territoryId: string;
+    type?: string;
+  }): Observable<Array<Campaign>> {
+    const { territoryId, type } = args;
     return this.http.request<Array<Campaign>>(
       'get',
       environment.serverUrl.api + `/playandgo/api/campaign`,
@@ -108,10 +109,11 @@ export class CampaignControllerService {
    * @param campaignId campaignId
    * @param body
    */
-  public subscribeCampaignUsingPOST(
-    campaignId: string,
-    body?: any
-  ): Observable<CampaignSubscription> {
+  public subscribeCampaignUsingPOST(args: {
+    campaignId: string;
+    body?: any;
+  }): Observable<CampaignSubscription> {
+    const { campaignId, body } = args;
     return this.http.request<CampaignSubscription>(
       'post',
       environment.serverUrl.api +
@@ -163,10 +165,11 @@ export class CampaignControllerService {
    * @param campaignId campaignId
    * @param body
    */
-  public uploadCampaignBannerUsingPOST(
-    campaignId: string,
-    body?: Object
-  ): Observable<Image> {
+  public uploadCampaignBannerUsingPOST(args: {
+    campaignId: string;
+    body?: Object;
+  }): Observable<Image> {
+    const { campaignId, body } = args;
     return this.http.request<Image>(
       'post',
       environment.serverUrl.api +
@@ -185,10 +188,11 @@ export class CampaignControllerService {
    * @param campaignId campaignId
    * @param body
    */
-  public uploadCampaignLogoUsingPOST(
-    campaignId: string,
-    body?: Object
-  ): Observable<Image> {
+  public uploadCampaignLogoUsingPOST(args: {
+    campaignId: string;
+    body?: Object;
+  }): Observable<Image> {
+    const { campaignId, body } = args;
     return this.http.request<Image>(
       'post',
       environment.serverUrl.api +

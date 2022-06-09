@@ -52,12 +52,13 @@ export class DevControllerService {
    * @param companyKey companyKey
    * @param code code
    */
-  public subscribeAziendaleUsingGET(
-    campaignId: string,
-    playerId: string,
-    companyKey: string,
-    code: string
-  ): Observable<any> {
+  public subscribeAziendaleUsingGET(args: {
+    campaignId: string;
+    playerId: string;
+    companyKey: string;
+    code: string;
+  }): Observable<any> {
+    const { campaignId, playerId, companyKey, code } = args;
     return this.http.request<any>(
       'get',
       environment.serverUrl.api + `/playandgo/api/dev/azienda/subscribe`,
@@ -90,10 +91,11 @@ export class DevControllerService {
    * @param campaignId campaignId
    * @param playerId playerId
    */
-  public unsubscribeAziendaleUsingGET(
-    campaignId: string,
-    playerId: string
-  ): Observable<any> {
+  public unsubscribeAziendaleUsingGET(args: {
+    campaignId: string;
+    playerId: string;
+  }): Observable<any> {
+    const { campaignId, playerId } = args;
     return this.http.request<any>(
       'get',
       environment.serverUrl.api + `/playandgo/api/dev/azienda/unsubscribe`,
@@ -114,12 +116,14 @@ export class DevControllerService {
    * @param trackedInstanceId trackedInstanceId
    * @param campaignPlayerTrackId campaignPlayerTrackId
    */
-  public validateAziendaleUsingGET(
-    campaignId: string,
-    playerId: string,
-    trackedInstanceId: string,
-    campaignPlayerTrackId: string
-  ): Observable<any> {
+  public validateAziendaleUsingGET(args: {
+    campaignId: string;
+    playerId: string;
+    trackedInstanceId: string;
+    campaignPlayerTrackId: string;
+  }): Observable<any> {
+    const { campaignId, playerId, trackedInstanceId, campaignPlayerTrackId } =
+      args;
     return this.http.request<any>(
       'get',
       environment.serverUrl.api + `/playandgo/api/dev/azienda/validate`,

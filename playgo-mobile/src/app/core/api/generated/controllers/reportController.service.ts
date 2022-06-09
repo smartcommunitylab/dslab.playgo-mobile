@@ -36,14 +36,15 @@ export class ReportControllerService {
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
-  public getCampaingPlacingByGameUsingGET(
-    campaignId: string,
-    page: number,
-    size: number,
-    sort?: string,
-    dateFrom?: string,
-    dateTo?: string
-  ): Observable<PageCampaignPlacing> {
+  public getCampaingPlacingByGameUsingGET(args: {
+    campaignId: string;
+    page: number;
+    size: number;
+    sort?: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<PageCampaignPlacing> {
+    const { campaignId, page, size, sort, dateFrom, dateTo } = args;
     return this.http.request<PageCampaignPlacing>(
       'get',
       environment.serverUrl.api + `/playandgo/api/report/campaign/placing/game`,
@@ -72,16 +73,18 @@ export class ReportControllerService {
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
-  public getCampaingPlacingByTransportStatsUsingGET(
-    campaignId: string,
-    page: number,
-    size: number,
-    metric: string,
-    sort?: string,
-    mean?: string,
-    dateFrom?: string,
-    dateTo?: string
-  ): Observable<PageCampaignPlacing> {
+  public getCampaingPlacingByTransportStatsUsingGET(args: {
+    campaignId: string;
+    page: number;
+    size: number;
+    metric: string;
+    sort?: string;
+    mean?: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<PageCampaignPlacing> {
+    const { campaignId, page, size, metric, sort, mean, dateFrom, dateTo } =
+      args;
     return this.http.request<PageCampaignPlacing>(
       'get',
       environment.serverUrl.api +
@@ -109,12 +112,13 @@ export class ReportControllerService {
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
-  public getPlayerCampaingPlacingByGameUsingGET(
-    campaignId: string,
-    playerId: string,
-    dateFrom?: string,
-    dateTo?: string
-  ): Observable<CampaignPlacing> {
+  public getPlayerCampaingPlacingByGameUsingGET(args: {
+    campaignId: string;
+    playerId: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<CampaignPlacing> {
+    const { campaignId, playerId, dateFrom, dateTo } = args;
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
@@ -140,14 +144,15 @@ export class ReportControllerService {
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
-  public getPlayerCampaingPlacingByTransportModeUsingGET(
-    campaignId: string,
-    playerId: string,
-    metric: string,
-    mean?: string,
-    dateFrom?: string,
-    dateTo?: string
-  ): Observable<CampaignPlacing> {
+  public getPlayerCampaingPlacingByTransportModeUsingGET(args: {
+    campaignId: string;
+    playerId: string;
+    metric: string;
+    mean?: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<CampaignPlacing> {
+    const { campaignId, playerId, metric, mean, dateFrom, dateTo } = args;
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
@@ -173,12 +178,13 @@ export class ReportControllerService {
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
-  public getPlayerGameStatsUsingGET(
-    campaignId: string,
-    groupMode: string,
-    dateFrom: string,
-    dateTo: string
-  ): Observable<Array<GameStats>> {
+  public getPlayerGameStatsUsingGET(args: {
+    campaignId: string;
+    groupMode: string;
+    dateFrom: string;
+    dateTo: string;
+  }): Observable<Array<GameStats>> {
+    const { campaignId, groupMode, dateFrom, dateTo } = args;
     return this.http.request<Array<GameStats>>(
       'get',
       environment.serverUrl.api + `/playandgo/api/report/player/game/stats`,
@@ -213,12 +219,13 @@ export class ReportControllerService {
    * @param groupMode groupMode
    * @param mean mean
    */
-  public getPlayerTransportRecordUsingGET(
-    campaignId: string,
-    metric: string,
-    groupMode: string,
-    mean?: string
-  ): Observable<Array<TransportStat>> {
+  public getPlayerTransportRecordUsingGET(args: {
+    campaignId: string;
+    metric: string;
+    groupMode: string;
+    mean?: string;
+  }): Observable<Array<TransportStat>> {
+    const { campaignId, metric, groupMode, mean } = args;
     return this.http.request<Array<TransportStat>>(
       'get',
       environment.serverUrl.api +
@@ -244,14 +251,15 @@ export class ReportControllerService {
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
-  public getPlayerTransportStatsUsingGET(
-    campaignId: string,
-    metric: string,
-    groupMode?: string,
-    mean?: string,
-    dateFrom?: string,
-    dateTo?: string
-  ): Observable<Array<TransportStat>> {
+  public getPlayerTransportStatsUsingGET(args: {
+    campaignId: string;
+    metric: string;
+    groupMode?: string;
+    mean?: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<Array<TransportStat>> {
+    const { campaignId, metric, groupMode, mean, dateFrom, dateTo } = args;
     return this.http.request<Array<TransportStat>>(
       'get',
       environment.serverUrl.api +

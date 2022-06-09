@@ -29,10 +29,11 @@ export class ExternalControllerService {
    * @param campaignId campaignId
    * @param body
    */
-  public getCampaignPlacingUsingPOST(
-    campaignId: string,
-    body?: Array<string>
-  ): Observable<{ [key: string]: number }> {
+  public getCampaignPlacingUsingPOST(args: {
+    campaignId: string;
+    body?: Array<string>;
+  }): Observable<{ [key: string]: number }> {
+    const { campaignId, body } = args;
     return this.http.request<{ [key: string]: number }>(
       'post',
       environment.serverUrl.api + `/playandgo/api/ext/campaign/game/placing`,
@@ -54,13 +55,14 @@ export class ExternalControllerService {
    * @param sort Sorting option: field,[asc,desc]
    * @param txt txt
    */
-  public searchPlayersUsingGET(
-    page: number,
-    size: number,
-    territory: string,
-    sort?: string,
-    txt?: string
-  ): Observable<PagePlayerInfo> {
+  public searchPlayersUsingGET(args: {
+    page: number;
+    size: number;
+    territory: string;
+    sort?: string;
+    txt?: string;
+  }): Observable<PagePlayerInfo> {
+    const { page, size, territory, sort, txt } = args;
     return this.http.request<PagePlayerInfo>(
       'get',
       environment.serverUrl.api + `/playandgo/api/ext/territory/players`,
@@ -83,11 +85,12 @@ export class ExternalControllerService {
    * @param nickname nickname
    * @param body
    */
-  public subscribeCampaignByTerritoryUsingPOST(
-    campaignId: string,
-    nickname: string,
-    body?: any
-  ): Observable<CampaignSubscription> {
+  public subscribeCampaignByTerritoryUsingPOST(args: {
+    campaignId: string;
+    nickname: string;
+    body?: any;
+  }): Observable<CampaignSubscription> {
+    const { campaignId, nickname, body } = args;
     return this.http.request<CampaignSubscription>(
       'post',
       environment.serverUrl.api +
@@ -108,10 +111,11 @@ export class ExternalControllerService {
    * @param campaignId campaignId
    * @param nickname nickname
    */
-  public unsubscribeCampaignByTerritoryUsingDELETE(
-    campaignId: string,
-    nickname: string
-  ): Observable<CampaignSubscription> {
+  public unsubscribeCampaignByTerritoryUsingDELETE(args: {
+    campaignId: string;
+    nickname: string;
+  }): Observable<CampaignSubscription> {
+    const { campaignId, nickname } = args;
     return this.http.request<CampaignSubscription>(
       'delete',
       environment.serverUrl.api +
