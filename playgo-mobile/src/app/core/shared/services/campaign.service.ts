@@ -33,7 +33,7 @@ export class CampaignService {
       map((profile) => profile.territoryId),
       first(),
       switchMap((territoryId) =>
-        this.campaignControllerService.getCampaignsUsingGET(territoryId)
+        this.campaignControllerService.getCampaignsUsingGET({ territoryId })
       ),
       shareReplay(1)
     );
@@ -58,12 +58,14 @@ export class CampaignService {
   ) {}
   subscribeToCampaign(id: string): Observable<CampaignSubscription> {
     //update my campaign list
-    return this.campaignControllerService.subscribeCampaignUsingPOST(id).pipe(
-      map((res) => {
-        this.playerCampaignSubscribed$.next(null);
-        return res;
-      })
-    );
+    return this.campaignControllerService
+      .subscribeCampaignUsingPOST({ campaignId: id })
+      .pipe(
+        map((res) => {
+          this.playerCampaignSubscribed$.next(null);
+          return res;
+        })
+      );
   }
   unsubscribeCampaign(id: string): Observable<CampaignSubscription> {
     //update my campaign list

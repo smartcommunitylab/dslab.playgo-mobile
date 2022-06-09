@@ -17,30 +17,34 @@ export class ReportService {
   public userStatsHasChanged$ = new ReplaySubject<any>(1);
   public userStats$ = this.userStatsHasChanged$.pipe(
     switchMap((config) =>
-      this.getTransportStats(config.fromDate, config.toDate, config.group)
+      this.getTransportStats(
+        config.config.fromDate,
+        config.toDate,
+        config.group
+      )
     ),
     shareReplay(1)
   );
   constructor(
     private reportControllerService: ReportControllerService,
     private gameController: GameControllerService
-  ) { }
+  ) {}
 
   getCo2Stats(
     campaignId?,
     playerId?,
-    fromDate?: any,
-    toDate?: any
+    dateFrom?: any,
+    dateTo?: any
   ): Promise<CampaignPlacing> {
     return this.reportControllerService
-      .getPlayerCampaingPlacingByTransportModeUsingGET(
+      .getPlayerCampaingPlacingByTransportModeUsingGET({
         campaignId,
         playerId,
-        'co2',
-        null,
-        fromDate,
-        toDate
-      )
+        metric: 'co2',
+        mean: null,
+        dateFrom,
+        dateTo,
+      })
       .toPromise();
   }
   getGameStatus(campaignId: any): Promise<PlayerStatus> {
@@ -51,16 +55,16 @@ export class ReportService {
   getGameStats(
     campaignId?,
     playerId?,
-    fromDate?: any,
-    toDate?: any
+    dateFrom?: any,
+    dateTo?: any
   ): Promise<CampaignPlacing> {
     return this.reportControllerService
-      .getPlayerCampaingPlacingByGameUsingGET(
+      .getPlayerCampaingPlacingByGameUsingGET({
         campaignId,
         playerId,
-        fromDate,
-        toDate
-      )
+        dateFrom,
+        dateTo,
+      })
       .toPromise();
   }
   getTransportStatsByMeans(
@@ -68,20 +72,31 @@ export class ReportService {
     metric: string,
     groupMode?: string,
     mean?: string,
-    fromDate?: any,
-    toDate?: any,
+    dateFrom?: any,
+    dateTo?: any
   ): Promise<TransportStats[]> {
     return this.reportControllerService
-      .getPlayerTransportStatsUsingGET(campaignId, metric, groupMode, mean, fromDate, toDate)
+      .getPlayerTransportStatsUsingGET({
+        campaignId,
+        metric,
+        groupMode,
+        mean,
+        dateFrom,
+        dateTo,
+      })
       .toPromise();
   }
   getTransportStats(
-    fromDate?: any,
-    toDate?: any,
-    group?: any
+    dateFrom?: any,
+    dateTo?: any,
+    groupMode?: any
   ): Promise<TransportStats[]> {
     return this.reportControllerService
-      .getPlayerTransportStatsUsingGET(fromDate, toDate, group)
+      .getPlayerTransportStatsUsingGET({
+        dateFrom,
+        dateTo,
+        groupMode,
+      })
       .toPromise();
   }
 

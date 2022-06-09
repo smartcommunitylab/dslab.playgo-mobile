@@ -231,13 +231,12 @@ export class LocalTripsService {
     }
 
     return this.trackControllerService
-      .getTrackedInstanceInfoListUsingGET(
-        0,
-        10000,
-        toServerDateTime(from),
-        null,
-        toServerDateTime(to)
-      )
+      .getTrackedInstanceInfoListUsingGET({
+        page: 0,
+        size: 10000,
+        dateFrom: toServerDateTime(from),
+        dateTo: toServerDateTime(to),
+      })
       .pipe(
         map((pageResult) => pageResult.content),
         map((serverTrips) =>
