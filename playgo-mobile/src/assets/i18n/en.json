@@ -168,6 +168,9 @@
     "allCampaigns": "All campaigns",
     "registered": "Registered",
     "unregistered": "Unregistered",
+    "public": {
+      "last": "Durata:"
+    },
     "joinmodal": {
       "modalTitle": "Subscrive to {{campaignTitle}}",
       "close": "X",

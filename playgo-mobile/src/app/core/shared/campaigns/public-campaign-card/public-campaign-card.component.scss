@@ -39,3 +39,18 @@
   background-color: rgba(0, 0, 0, 0.3);
   border: 2px solid white;
 }
+.header {
+  position: relative;
+  .banner {
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .header-title {
+    position: absolute;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+  }
+}

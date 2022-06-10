@@ -171,6 +171,9 @@
     "unregistered": "Utente disiscritto",
     "myCampaigns": "Le mie campagne",
     "allCampaigns": "Tutte le campagne",
+    "public": {
+      "last": "Durata:"
+    },
     "joinmodal": {
       "modalTitle": "Iscrizione a {{campaignTitle}}",
       "close": "X",

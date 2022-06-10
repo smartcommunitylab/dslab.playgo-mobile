@@ -94,10 +94,8 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
       // console.log('employeeCode' + this.joinCompanyForm.value?.companyPIN + 'companyKey' + );
       const body =
       {
-        campaignData: {
-          companyKey: this.joinCompanyForm.value?.companySelected?.id,
-          employeeCode: this.joinCompanyForm.value?.companyPIN
-        }
+        companyKey: this.joinCompanyForm.value?.companySelected?.code,
+        employeeCode: this.joinCompanyForm.value?.companyPIN
       };
 
       this.sub = this.campaignService

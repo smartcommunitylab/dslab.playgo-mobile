@@ -1,26 +1,29 @@
 <!-- all campaigns -->
 <div>
   <ion-card class="ion-card">
-    <ion-card-header [color]="campaign.type">
-      <ion-item lines="none">
-        <ion-avatar style="margin: 2px">
-          <img [src]="imagePath" />
+    <div class="header">
+      <img [src]="bannerPath" alt="banner" class="banner" />
+      <ion-item lines="none" class="header-title">
+        <ion-avatar style="margin: 2px" slot="end">
+          <img [src]="imagePath" alt="image" />
         </ion-avatar>
         <ion-label>
           <h3>{{ campaign.name }}</h3>
-          <p>{{ campaign.dateFrom }} - {{ campaign.dateTo }}</p>
+          <h4>{{ 'campaigns.blabla' |translate }}</h4>
+          <h4>{{ campaign.dateFrom |localDate }} - {{ campaign.dateTo|localDate }}</h4>
         </ion-label>
       </ion-item>
-
-    </ion-card-header>
-    <!-- <div *ngIf="campaign.logo.image">
-      <ion-avatar style="margin: 2px">
-        <img [src]="imagePath" />
-      </ion-avatar>
-    </div> -->
-
-    <ion-card-content [innerHTML]="campaign.description"> </ion-card-content>
-    <ion-button style="margin-left: 18px; margin-bottom: 6px" (click)="joinCamp()">{{ "join" | translate }}
-    </ion-button>
+    </div>
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12">
+          <ion-card-content [innerHTML]="campaign.description"> </ion-card-content>
+        </ion-col>
+        <ion-col size="12" class="ion-text-center">
+          <ion-button style="margin-left: 18px; margin-bottom: 6px" (click)="joinCamp()">{{ "join" | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card>
 </div>

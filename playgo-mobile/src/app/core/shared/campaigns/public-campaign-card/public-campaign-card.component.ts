@@ -9,11 +9,14 @@ import { Router } from '@angular/router';
 export class PublicCampaignCardComponent implements OnInit {
   @Input() campaign: any; // CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory;
   imagePath: string;
+  bannerPath: string;
   constructor(private router: Router) { }
 
   ngOnInit() {
     this.imagePath = this.campaign.logo.url ? this.campaign.logo.url :
       'data:image/jpg;base64,' + this.campaign.logo.image;
+    this.bannerPath = this.campaign.banner.url ? this.campaign.banner.url :
+      'data:image/jpg;base64,' + this.campaign.banner.image;
   }
 
   joinCamp() {

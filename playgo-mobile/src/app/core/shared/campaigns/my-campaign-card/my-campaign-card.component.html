@@ -1,6 +1,31 @@
 <!-- my campaign -->
+<div>
+  <ion-card (click)="detailCampaign()" class="ion-card">
+    <div class="header">
+      <img [src]="bannerPath" alt="banner" class="banner" />
+      <ion-item lines="none" class="header-title" [color]="containerCampaign.campaign.type">
+        <ion-avatar style="margin: 2px" slot="end">
+          <img [src]="imagePath" alt="image" />
+        </ion-avatar>
+        <ion-label>
+          <h3>{{ containerCampaign.campaign.name }}</h3>
+          <h4>{{ 'campaigns.blabla' |translate }}</h4>
+          <h4>{{ containerCampaign.campaign.dateFrom |localDate }} - {{ containerCampaign.campaign.dateTo|localDate }}
+          </h4>
+        </ion-label>
+      </ion-item>
+    </div>
+    <ion-card-content>
 
-<ion-card button="join" (click)="detailCampaign()" class="ion-card">
+      <div>
+        <app-main-campaign-stat>
+          TBD
+        </app-main-campaign-stat>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+<!-- <ion-card button="join" (click)="detailCampaign()" class="ion-card">
   <ion-card-header [color]="containerCampaign.campaign.type">
     <ion-item lines="none">
       <ion-avatar>
@@ -16,4 +41,4 @@
       </app-main-campaign-stat>
     </div>
   </ion-card-content>
-</ion-card>
+</ion-card> -->

@@ -11,12 +11,15 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 export class MyCampaignCardComponent implements OnInit {
   @Input() containerCampaign: PlayerCampaign;
   imagePath: SafeResourceUrl;
+  bannerPath: SafeResourceUrl;
 
-  constructor(private router: Router, private sanitizer: DomSanitizer) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.imagePath = this.containerCampaign.campaign.logo.url ? this.containerCampaign.campaign.logo.url :
       'data:image/jpg;base64,' + this.containerCampaign.campaign.logo.image;
+    this.bannerPath = this.containerCampaign?.campaign?.banner?.url ? this.containerCampaign?.campaign?.banner?.url :
+      'data:image/jpg;base64,' + this.containerCampaign?.campaign?.banner?.image;
   }
 
   detailCampaign() {
