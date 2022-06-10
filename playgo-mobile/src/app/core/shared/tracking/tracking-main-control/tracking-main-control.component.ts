@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
-import { TRIP_END } from '../trip.model';
+import { transportTypeIcons, TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
 
 @Component({
@@ -12,6 +12,7 @@ import { TripService } from '../trip.service';
   styleUrls: ['./tracking-main-control.component.scss'],
 })
 export class TrackingMainControlComponent {
+  transportTypeIcons = transportTypeIcons;
   public trackingUIActive = false;
 
   private tripStopped$: Observable<boolean> = this.tripService.tripPart$.pipe(
