@@ -37,7 +37,15 @@
 .ion-card {
   color: white;
   background-color: rgba(0, 0, 0, 0.3);
-  border: 2px solid white;
+}
+.company {
+  border: 3px solid var(--ion-color-company);
+}
+.school {
+  border: 3px solid var(--ion-color-school);
+}
+.city {
+  border: 3px solid var(--ion-color-city);
 }
 .header {
   position: relative;
