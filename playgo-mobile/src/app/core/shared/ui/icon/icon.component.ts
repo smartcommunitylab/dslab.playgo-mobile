@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { IconService } from './icon.service';
 
 @Component({
@@ -8,6 +14,7 @@ import { IconService } from './icon.service';
 })
 export class IconComponent implements OnInit, OnChanges {
   @Input() name: string;
+  @Input() color: string;
 
   isSvg: boolean;
   src: string;
