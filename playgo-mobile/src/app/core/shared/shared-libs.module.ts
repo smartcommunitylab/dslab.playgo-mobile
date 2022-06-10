@@ -8,7 +8,6 @@ import { IconComponent } from './ui/icon/icon.component';
 
 @NgModule({
   imports: [TranslateModule],
-  declarations: [IconComponent],
   exports: [
     FormsModule,
     CommonModule,
@@ -16,7 +15,6 @@ import { IconComponent } from './ui/icon/icon.component';
     ReactiveFormsModule,
     HttpClientModule,
     TranslateModule,
-    IconComponent,
   ],
 })
 export class PlayGoSharedLibsModule {}

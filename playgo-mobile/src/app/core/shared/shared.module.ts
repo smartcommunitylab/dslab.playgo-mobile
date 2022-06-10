@@ -22,6 +22,7 @@ import { HomeCampaignSchoolComponent } from './campaigns/home-widget-types/home-
 import { HomeCampaignCompanyComponent } from './campaigns/home-widget-types/home-campaign-company/home-campaign-company.component';
 import { HomeCampaignPersonalComponent } from './campaigns/home-widget-types/home-campaign-personal/home-campaign-personal.component';
 import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-campaign.component';
+import { IconComponent } from './ui/icon/icon.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -43,6 +44,7 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
     WidgetComponent,
+    IconComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -65,6 +67,7 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
     WidgetComponent,
+    IconComponent,
   ],
 })
 export class PlayGoSharedModule {}
