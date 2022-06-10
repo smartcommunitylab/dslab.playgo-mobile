@@ -1,6 +1,6 @@
 import { NgZone } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { initial, last, tail, zip } from 'lodash-es';
+import { flatMap, initial, last, tail, zip } from 'lodash-es';
 import {
   concat,
   from,
@@ -123,7 +123,7 @@ type MapCartesian<T extends any[][]> = {
  */
 export const cartesian = <T extends any[][]>(...arr: T): MapCartesian<T>[] =>
   arr.reduce(
-    (a, b) => a.flatMap((c) => b.map((d) => [...c, d])),
+    (a, b) => flatMap(a, (c) => b.map((d) => [...c, d])),
     [[]]
   ) as MapCartesian<T>[];
 

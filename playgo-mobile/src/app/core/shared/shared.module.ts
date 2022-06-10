@@ -8,7 +8,6 @@ import { ProfileComponent } from './profile-components/profile-component/profile
 import { AlertService } from './services/alert.service';
 import { LocalStorageRefService } from './services/local-storage-ref.service';
 import { PlayGoSharedLibsModule } from './shared-libs.module';
-import { TrackingModule } from './tracking/tracking.module';
 import {
   InfiniteScrollComponent,
   InfiniteScrollContentDirective,
@@ -23,9 +22,10 @@ import { HomeCampaignSchoolComponent } from './campaigns/home-widget-types/home-
 import { HomeCampaignCompanyComponent } from './campaigns/home-widget-types/home-campaign-company/home-campaign-company.component';
 import { HomeCampaignPersonalComponent } from './campaigns/home-widget-types/home-campaign-personal/home-campaign-personal.component';
 import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-campaign.component';
+import { IconComponent } from './ui/icon/icon.component';
 
 @NgModule({
-  imports: [PlayGoSharedLibsModule, TrackingModule],
+  imports: [PlayGoSharedLibsModule],
   declarations: [
     MyCampaignCardComponent,
     MainCampaignStatComponent,
@@ -44,6 +44,7 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
     WidgetComponent,
+    IconComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -57,7 +58,6 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     LocalDatePipe,
     HeaderComponent,
     LocalNumberPipe,
-    TrackingModule,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
     ParallaxDirective,
@@ -67,6 +67,7 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
     WidgetComponent,
+    IconComponent,
   ],
 })
-export class PlayGoSharedModule { }
+export class PlayGoSharedModule {}

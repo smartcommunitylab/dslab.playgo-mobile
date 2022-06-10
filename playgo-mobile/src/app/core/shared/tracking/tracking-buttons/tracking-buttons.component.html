@@ -28,7 +28,7 @@
         changeTransportType($event, eachTransportTypeOption.transportType)
       "
     >
-      <ion-icon [name]="eachTransportTypeOption.icon"></ion-icon>
+      <app-icon [name]="eachTransportTypeOption.icon"></app-icon>
     </ion-fab-button>
     <ion-fab-button
       (click)="tripService.stop()"
