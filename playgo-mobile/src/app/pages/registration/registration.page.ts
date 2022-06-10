@@ -80,17 +80,20 @@ export class RegistrationPage implements OnInit {
     return this.registrationForm.controls;
   }
   openTerritoryPopup() {
-    this.alertService.presentAlert(
-      'registration.territoryPopup.header',
-      'registration.territoryPopup.message',
-      'modalConfirm'
+    this.alertService.presentAlert({
+      headerTranslateKey: 'registration.territoryPopup.header',
+      messageTranslateKey: 'registration.territoryPopup.message',
+      cssClass: 'modalConfirm'
+    }
     );
   }
   openPrivacyPopup() {
     this.alertService.presentAlert(
-      'registration.privacyPopup.header',
-      'registration.privacyPopup.message',
-      'modalConfirm'
+      {
+        headerTranslateKey: 'registration.privacyPopup.header',
+        messageTranslateKey: 'registration.privacyPopup.message',
+        cssClass: 'modalConfirm'
+      }
     );
   }
 

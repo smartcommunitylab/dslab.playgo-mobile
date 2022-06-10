@@ -168,6 +168,29 @@
     "allCampaigns": "All campaigns",
     "registered": "Registered",
     "unregistered": "Unregistered",
+    "joinmodal": {
+      "modalTitle": "Subscrive to {{campaignTitle}}",
+      "close": "X",
+      "companyselection": "Select the company",
+      "companyPIN": "Insert your PIN",
+      "privacyLink": "Read the privacy",
+      "privacy": "Accept the privacy",
+      "privacyRequired": "Privacy is needed",
+      "rulesLink": "Read the rules",
+      "rules": "Accept the rules",
+      "rulesRequired": "Rules is needed",
+      "privacyPopup": {
+        "header": "Privacy"
+      },
+      "rulesPopup": {
+        "header": "Rules"
+      },
+      "codeInfo": {
+        "header": "Codice dipendente",
+        "message": "Lorem ipsum"
+      },
+      "join": "Join"
+    },
     "detail": {
       "stats": "Statistics",
       "generalStat": "General",

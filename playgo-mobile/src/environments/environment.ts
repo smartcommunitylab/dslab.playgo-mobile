@@ -18,6 +18,7 @@ export const environment = {
   serverUrl: {
     api: 'https://backenddev.playngo.it:443',
     apiUrl: 'https://backenddev.playngo.it:443/playandgo/api/',
+    pgaziendeUrl: 'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
     profile: 'player/profile',
     register: 'player/register',
     player: 'player',

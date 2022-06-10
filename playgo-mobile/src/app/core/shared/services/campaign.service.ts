@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { merge, Observable, ReplaySubject } from 'rxjs';
 import {
@@ -9,6 +10,7 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { CampaignControllerService } from '../../api/generated/controllers/campaignController.service';
 import { Campaign } from '../../api/generated/model/campaign';
 import { CampaignSubscription } from '../../api/generated/model/campaignSubscription';
@@ -20,6 +22,7 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class CampaignService {
+
   public initMyCampaigns$: Observable<PlayerCampaign[]> =
     this.userService.userProfile$.pipe(
       filter((profile) => profile !== null),
@@ -54,11 +57,12 @@ export class CampaignService {
 
   constructor(
     private userService: UserService,
-    private campaignControllerService: CampaignControllerService
-  ) {}
-  subscribeToCampaign(id: string): Observable<CampaignSubscription> {
+    private campaignControllerService: CampaignControllerService,
+    private http: HttpClient
+  ) { }
+  subscribeToCampaign(id: string, body?: any): Observable<CampaignSubscription> {
     //update my campaign list
-    return this.campaignControllerService.subscribeCampaignUsingPOST(id).pipe(
+    return this.campaignControllerService.subscribeCampaignUsingPOST(id, body).pipe(
       map((res) => {
         this.playerCampaignSubscribed$.next(null);
         return res;
@@ -76,5 +80,16 @@ export class CampaignService {
   }
   getCampaignDetailsById(id: string): Observable<Campaign> {
     return this.campaignControllerService.getCampaignUsingGET(id);
+  }
+
+  getCompaniesForSubscription(campaignId: string): Observable<CampaignSubscription> {
+    return this.http.request<CampaignSubscription>(
+      'get',
+      environment.serverUrl.pgaziendeUrl +
+      `/campaigns/${encodeURIComponent(
+        String(campaignId)
+      )}/companies`,
+      {}
+    );
   }
 }

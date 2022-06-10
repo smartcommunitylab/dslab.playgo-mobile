@@ -166,10 +166,34 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
+    "xxx": "xxx",
     "registered": "Registrato",
     "unregistered": "Utente disiscritto",
     "myCampaigns": "Le mie campagne",
     "allCampaigns": "Tutte le campagne",
+    "joinmodal": {
+      "modalTitle": "Iscrizione a {{campaignTitle}}",
+      "close": "X",
+      "companyselection": "Seleziona l'azienda con cui iscriverti",
+      "companyPIN": "Inserisci il codice identificativo",
+      "privacyLink": "Leggi l'informativa sulla privacy",
+      "privacy": "Accetto il trattamento dei miei dati riportato nella privacy policy",
+      "privacyRequired": "La privacy é richiesta",
+      "rulesLink": "Leggi il regolamento",
+      "rules": "Accetto il regolamento della campagna",
+      "rulesRequired": "Il regolamento é richiesto",
+      "privacyPopup": {
+        "header": "Privacy"
+      },
+      "rulesPopup": {
+        "header": "Regolamento"
+      },
+      "codeInfo": {
+        "header": "Codice dipendente",
+        "message": "Lorem ipsum"
+      },
+      "join": "Iscriviti"
+    },
     "detail": {
       "stats": "Statistiche",
       "generalStat": "Generale",
