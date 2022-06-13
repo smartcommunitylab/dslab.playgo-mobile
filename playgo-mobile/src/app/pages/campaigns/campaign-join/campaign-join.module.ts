@@ -8,4 +8,4 @@ import { JoinCompanyModalPage } from './join-company/join-company.modal';
   imports: [CampaignJoinPageRoutingModule, PlayGoSharedModule],
   declarations: [CampaignJoinPage, JoinCompanyModalPage],
 })
-export class CampaignJoinPageModule { }
+export class CampaignJoinPageModule {}

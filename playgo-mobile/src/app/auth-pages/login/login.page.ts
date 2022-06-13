@@ -42,7 +42,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   private async onSignInSuccess(action: IAuthAction) {
-    this.alertService.showToast(this.translateService.instant('login.welcome'));
+    this.alertService.showToast({ messageTranslateKey: 'login.welcome' });
     // wait until token is ready
     this.subToken = this.auth.token$.subscribe(async (token) => {
       const userIsRegistered = await this.userService.isUserRegistered();

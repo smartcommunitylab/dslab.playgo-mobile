@@ -63,9 +63,9 @@ export class CampaignDetailsPage implements OnInit {
     this.campaignService
       .unsubscribeCampaign(this.campaignContainer.campaign.campaignId)
       .subscribe((result) => {
-        this.alertService.showToast(
-          this.translateService.instant('campaign.unregistered')
-        );
+        this.alertService.showToast({
+          messageTranslateKey: 'campaigns.unregistered',
+        });
       });
   }
 }

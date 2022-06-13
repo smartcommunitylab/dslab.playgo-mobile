@@ -43,9 +43,9 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
     console.log(JSON.stringify(action));
     if (action.action === AuthActions.SignInSuccess) {
       console.log(action.action);
-      this.alertService.showToast(
-        this.translateService.instant('login.welcome')
-      );
+      this.alertService.showToast({
+        messageTranslateKey: 'login.welcome',
+      });
       // wait until token is ready
       this.subToken = this.auth.token$.subscribe(async (token) => {
         if (token) {

@@ -22,8 +22,6 @@ export class ErrorService {
         errorString: 'errors.defaultErr',
       };
     }
-    this.alertService.showToast(
-      this.translateService.instant(errorFound.errorString)
-    );
+    this.alertService.showToast({ messageString: errorFound.errorString });
   }
 }

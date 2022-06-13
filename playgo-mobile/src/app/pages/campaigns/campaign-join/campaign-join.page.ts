@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, ModalController, NavController } from '@ionic/angular';
+import {
+  LoadingController,
+  ModalController,
+  NavController,
+} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
@@ -62,7 +66,6 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       default:
         break;
     }
-
   }
   openRegisterSchool() {
     throw new Error('Method not implemented.');
@@ -78,19 +81,24 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    this.registerToCompany(campaign, data);
+    //this.registerToCompany(campaign, data);
+    if (data) {
+      //update list of campaign
+      this.back();
+    }
   }
-  registerToCompany(campaign: any, data: any) {
-    this.sub = this.campaignService
-      .subscribeToCampaign(campaign.campaignId, data)
-      .subscribe((result) => {
-        if (result) {
-          this.alertService.showToast(
-            this.translateService.instant('campaigns.registered')
-          );
-        }
-      });
-  }
+
+  // registerToCompany(campaign: any, data: any) {
+  //   this.sub = this.campaignService
+  //     .subscribeToCampaign(campaign.campaignId, data)
+  //     .subscribe((result) => {
+  //       if (result) {
+  //         this.alertService.showToast(
+  //           this.translateService.instant('campaigns.registered')
+  //         );
+  //       }
+  //     });
+  // }
 
   joinIsVisible(campaign) {
     let joinable = false;
@@ -114,9 +122,9 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       .subscribeToCampaign(campaign.campaignId)
       .subscribe((result) => {
         if (result) {
-          this.alertService.showToast(
-            this.translateService.instant('campaigns.registered')
-          );
+          this.alertService.showToast({
+            messageTranslateKey: 'campaigns.registered',
+          });
         }
       });
   }
