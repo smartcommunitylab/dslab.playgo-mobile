@@ -6,17 +6,18 @@
 <ion-content>
   <ng-container *ngIf="tripDetails">
     <app-trip-detail-map
+      style="height: 100%"
       *ngIf="showMap"
       [tripParts]="tripDetails"
     ></app-trip-detail-map>
-    <div>
+    <div class="absolute-wrapper">
       <ion-card>
         <ion-grid>
           <ion-row>
             <ion-col *ngFor="let tripPart of tripDetails" size="6">
-              <ion-icon
+              <app-icon
                 [name]="transportTypeIcons[tripPart.modeType]"
-              ></ion-icon>
+              ></app-icon>
               {{ transportTypeLabels[tripPart.modeType] | translate }}
               <div>
                 {{ 'trip_detail.start' |translate}}: {{tripPart.startTime |

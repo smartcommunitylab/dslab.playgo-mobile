@@ -5,3 +5,9 @@
 .inherit-color {
   color: inherit !important;
 }
+.absolute-wrapper {
+  position: absolute;
+  bottom: 1em;
+  z-index: 1000;
+  width: 100%;
+}
