@@ -5,6 +5,7 @@ import { TrackControllerService } from 'src/app/core/api/generated/controllers/t
 import { CampaignTripInfo } from 'src/app/core/api/generated/model/campaignTripInfo';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import {
   transportTypeIcons,
@@ -26,7 +27,8 @@ export class TripDetailPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private errorService: ErrorService,
-    private trackControllerService: TrackControllerService
+    private trackControllerService: TrackControllerService,
+    public campaignService: CampaignService
   ) {}
 
   async ngOnInit() {

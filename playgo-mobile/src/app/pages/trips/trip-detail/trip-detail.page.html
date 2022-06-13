@@ -39,9 +39,19 @@
           <ion-card-title>{{campaign.campaignName}}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-icon name="leaf"></ion-icon>
+          <ion-text [color]="campaignService.getCampaignColor(campaign)">
+            <ion-icon
+              [name]="campaignService.getCampaignIcon(campaign)"
+            ></ion-icon>
+          </ion-text>
           {{campaign.score}} {{ 'trip_detail.gl_earned_in' | translate }}
-          {{campaign.campaignName}}
+          <ion-text [color]="campaignService.getCampaignColor(campaign)">
+            <a
+              class="inherit-color"
+              [routerLink]="'/pages/tabs/campaigns/details/' + campaign.campaignId"
+              >{{campaign.campaignName}}</a
+            >
+          </ion-text>
         </ion-card-content>
       </ion-card>
     </div>
