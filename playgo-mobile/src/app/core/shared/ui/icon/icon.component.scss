@@ -1,3 +1,9 @@
+:host {
+  font-size: 24px; // default, it is possible to override from outer component
+}
+.material-icons {
+  font-size: inherit;
+}
 ion-icon {
   fill: currentcolor !important;
 }

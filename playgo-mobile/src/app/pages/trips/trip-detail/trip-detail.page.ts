@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { flatMap } from 'lodash-es';
+import { Duration } from 'luxon';
 import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 import { CampaignTripInfo } from 'src/app/core/api/generated/model/campaignTripInfo';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
@@ -18,9 +19,10 @@ import {
   styleUrls: ['./trip-detail.page.scss'],
 })
 export class TripDetailPage implements OnInit {
-  tripDetails: TrackedInstanceInfo[] = null;
+  tripDetail: TrackedInstanceInfo = null;
   campaigns: CampaignTripInfo[];
   showMap: boolean;
+  durationLabel: string;
   transportTypeIcons = transportTypeIcons;
   transportTypeLabels = transportTypeLabels;
 
@@ -35,17 +37,31 @@ export class TripDetailPage implements OnInit {
     const tripId = this.route.snapshot.paramMap.get('id');
     if (tripId) {
       try {
-        const singleTripDetail = await this.getTripDetail(tripId);
-        this.tripDetails = [singleTripDetail];
-        this.showMap = this.tripDetails.some((trip) => trip.polyline);
-        this.campaigns = flatMap(
-          this.tripDetails,
-          (trip: TrackedInstanceInfo) => trip.campaigns
+        this.tripDetail = await this.getTripDetail(tripId);
+        this.showMap = Boolean(this.tripDetail.polyline);
+        this.campaigns = this.tripDetail.campaigns;
+        this.durationLabel = this.formatDuration(
+          this.tripDetail.endTime,
+          this.tripDetail.startTime
         );
       } catch (e) {
         // TODO: incorrect id handling
         this.errorService.showAlert(e);
       }
+    }
+  }
+
+  formatDuration(endTime: number, startTime: number) {
+    const duration = Duration.fromMillis(endTime - startTime).shiftTo(
+      'hours',
+      'minutes'
+    );
+    const hours = duration.hours;
+    const minutes = Math.round(duration.minutes);
+    if (hours > 0) {
+      return `${hours} h ${minutes} min`;
+    } else {
+      return `${minutes} min`;
     }
   }
   async getTripDetail(id: string): Promise<TrackedInstanceInfo> {
