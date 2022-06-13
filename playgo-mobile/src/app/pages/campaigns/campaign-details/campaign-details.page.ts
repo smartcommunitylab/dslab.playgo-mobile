@@ -29,11 +29,14 @@ export class CampaignDetailsPage implements OnInit {
 
   ngOnInit() {
     this.campaignService.myCampaigns$.subscribe((campaigns) => {
-      this.campaignContainer = campaigns.find((campaignContainer) => campaignContainer.campaign.campaignId === this.id);
+      this.campaignContainer = campaigns.find(
+        (campaignContainer) => campaignContainer.campaign.campaignId === this.id
+      );
       this.titlePage = this.campaignContainer.campaign.name;
       this.colorCampaign = this.campaignContainer.campaign.type;
-      this.imagePath = this.campaignContainer.campaign.logo.url ? this.campaignContainer.campaign.logo.url :
-        'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
+      this.imagePath = this.campaignContainer.campaign.logo.url
+        ? this.campaignContainer.campaign.logo.url
+        : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
     });
   }
   getCampaign() {

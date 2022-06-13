@@ -79,3 +79,9 @@ ion-list {
   margin-left: 10px;
   margin-top: 10px;
 }
+
+@import "material-icons/iconfont/material-icons.scss";
+
+$material-icons-font-path: "./" !default;
+$material-icons-font-size: 24px !default;
+$material-icons-font-display: block !default;

@@ -9,18 +9,25 @@
         </ion-avatar>
         <ion-label>
           <h3>{{ campaign.name }}</h3>
-          <h4>{{ 'campaigns.blabla' |translate }}</h4>
-          <h4>{{ campaign.dateFrom |localDate }} - {{ campaign.dateTo|localDate }}</h4>
+          <h4>{{ "campaigns.blabla" | translate }}</h4>
+          <h4>
+            {{ campaign.dateFrom | localDate }} -
+            {{ campaign.dateTo | localDate }}
+          </h4>
         </ion-label>
       </ion-item>
     </div>
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="12">
-          <ion-card-content [innerHTML]="campaign.description"> </ion-card-content>
+          <ion-card-content [innerHTML]="campaign.description">
+          </ion-card-content>
         </ion-col>
         <ion-col size="12" class="ion-text-center">
-          <ion-button style="margin-left: 18px; margin-bottom: 6px" (click)="joinCamp()">{{ "join" | translate }}
+          <ion-button
+            style="margin-left: 18px; margin-bottom: 6px"
+            (click)="joinCamp()"
+            >{{ "join" | translate }}
           </ion-button>
         </ion-col>
       </ion-row>

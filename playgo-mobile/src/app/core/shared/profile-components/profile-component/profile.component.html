@@ -3,7 +3,10 @@
   <ng-template #homeProfile>
     <ion-item>
       <ion-avatar slot="start" class="avatar">
-        <img [src]="profile.avatar.avatarUrl" title="{{ 'registration.avatar.title' | translate }}" />
+        <img
+          [src]="profile.avatar.avatarUrl"
+          title="{{ 'registration.avatar.title' | translate }}"
+        />
       </ion-avatar>
       <ion-label>
         <h3>{{ profile.nickname }}</h3>
@@ -16,9 +19,16 @@
     <ion-item>
       <div class="avatar-container">
         <ion-avatar class="avatar">
-          <img [src]="profile.avatar.avatarUrl" title="{{ 'registration.avatar.title' | translate }}" />
+          <img
+            [src]="profile.avatar.avatarUrl"
+            title="{{ 'registration.avatar.title' | translate }}"
+          />
         </ion-avatar>
-        <ion-icon class="avatar-cange" name="camera-outline" (click)="changeAvatar()"></ion-icon>
+        <ion-icon
+          class="avatar-cange"
+          name="camera-outline"
+          (click)="changeAvatar()"
+        ></ion-icon>
       </div>
       <ion-label>
         <h3>{{ profile.nickname }}</h3>
@@ -39,8 +49,8 @@
       <ion-label>
         <p>
           {{
-          "profile.status.myCampaigns"
-          | translate: { myCampaigns: numMyCampaigns }
+            "profile.status.myCampaigns"
+              | translate: { myCampaigns: numMyCampaigns }
           }}
         </p>
       </ion-label>

@@ -7,12 +7,12 @@
   </ion-label>
   <ng-container *ngIf="(playerId$ | async) === placing.playerId">
     <ion-avatar>
-      <img [src]="playerAvatar$ | async" />
+      <img [src]="playerAvatarUrl$ | async" />
     </ion-avatar>
   </ng-container>
   <ng-container *ngIf="(playerId$ | async) !== placing.playerId">
     <ion-avatar *ngIf="placing.avatar">
-      <img [src]="'data:image/jpg;base64,' + placing.avatar.image" />
+      <img [src]="placing.avatar.url" />
     </ion-avatar>
   </ng-container>
   {{ placing.nickname }}

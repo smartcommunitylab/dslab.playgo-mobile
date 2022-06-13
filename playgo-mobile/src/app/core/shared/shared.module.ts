@@ -4,13 +4,10 @@ import { MyCampaignCardComponent } from './campaigns/my-campaign-card/my-campaig
 import { PublicCampaignCardComponent } from './campaigns/public-campaign-card/public-campaign-card.component';
 import { LocalDatePipe } from './pipes/localDate.pipe';
 import { LocalNumberPipe } from './pipes/localNumber.pipe';
-import { SingleMeanStatisticComponent } from '../../pages/campaigns/campaign-details/general-statistics-component/single-mean-statistic-component/single-mean-statistic.component';
-import { TotalStatisticsComponent } from '../../pages/campaigns/campaign-details/general-statistics-component/total-statistics-component/total-statistics.component';
 import { ProfileComponent } from './profile-components/profile-component/profile.component';
 import { AlertService } from './services/alert.service';
 import { LocalStorageRefService } from './services/local-storage-ref.service';
 import { PlayGoSharedLibsModule } from './shared-libs.module';
-import { TrackingModule } from './tracking/tracking.module';
 import {
   InfiniteScrollComponent,
   InfiniteScrollContentDirective,
@@ -25,9 +22,10 @@ import { HomeCampaignSchoolComponent } from './campaigns/home-widget-types/home-
 import { HomeCampaignCompanyComponent } from './campaigns/home-widget-types/home-campaign-company/home-campaign-company.component';
 import { HomeCampaignPersonalComponent } from './campaigns/home-widget-types/home-campaign-personal/home-campaign-personal.component';
 import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-campaign.component';
+import { IconComponent } from './ui/icon/icon.component';
 
 @NgModule({
-  imports: [PlayGoSharedLibsModule, TrackingModule],
+  imports: [PlayGoSharedLibsModule],
   declarations: [
     MyCampaignCardComponent,
     MainCampaignStatComponent,
@@ -35,8 +33,6 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     HeaderComponent,
     ProfileComponent,
     PrivacyModalPage,
-    SingleMeanStatisticComponent,
-    TotalStatisticsComponent,
     LocalDatePipe,
     LocalNumberPipe,
     InfiniteScrollComponent,
@@ -48,6 +44,7 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
     WidgetComponent,
+    IconComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -60,10 +57,7 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     PrivacyModalPage,
     LocalDatePipe,
     HeaderComponent,
-    SingleMeanStatisticComponent,
-    TotalStatisticsComponent,
     LocalNumberPipe,
-    TrackingModule,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
     ParallaxDirective,
@@ -73,6 +67,7 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
     WidgetComponent,
+    IconComponent,
   ],
 })
-export class PlayGoSharedModule { }
+export class PlayGoSharedModule {}

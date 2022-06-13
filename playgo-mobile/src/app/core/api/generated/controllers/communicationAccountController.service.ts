@@ -30,11 +30,12 @@ export class CommunicationAccountControllerService {
    * @param skip skip
    * @param limit limit
    */
-  public getPlayerNotificationsUsingGET(
-    since?: number,
-    skip?: number,
-    limit?: number
-  ): Observable<PageNotification> {
+  public getPlayerNotificationsUsingGET(args: {
+    since?: number;
+    skip?: number;
+    limit?: number;
+  }): Observable<PageNotification> {
+    const { since, skip, limit } = args;
     return this.http.request<PageNotification>(
       'get',
       environment.serverUrl.api + `/playandgo/api/app/notifications`,

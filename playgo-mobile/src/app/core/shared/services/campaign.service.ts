@@ -22,7 +22,6 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class CampaignService {
-
   public initMyCampaigns$: Observable<PlayerCampaign[]> =
     this.userService.userProfile$.pipe(
       filter((profile) => profile !== null),
@@ -36,7 +35,7 @@ export class CampaignService {
       map((profile) => profile.territoryId),
       first(),
       switchMap((territoryId) =>
-        this.campaignControllerService.getCampaignsUsingGET(territoryId)
+        this.campaignControllerService.getCampaignsUsingGET({ territoryId })
       ),
       shareReplay(1)
     );
@@ -59,15 +58,20 @@ export class CampaignService {
     private userService: UserService,
     private campaignControllerService: CampaignControllerService,
     private http: HttpClient
-  ) { }
-  subscribeToCampaign(id: string, body?: any): Observable<CampaignSubscription> {
+  ) {}
+  subscribeToCampaign(
+    id: string,
+    body?: any
+  ): Observable<CampaignSubscription> {
     //update my campaign list
-    return this.campaignControllerService.subscribeCampaignUsingPOST(id, body).pipe(
-      map((res) => {
-        this.playerCampaignSubscribed$.next(null);
-        return res;
-      })
-    );
+    return this.campaignControllerService
+      .subscribeCampaignUsingPOST({ campaignId: id, body })
+      .pipe(
+        map((res) => {
+          this.playerCampaignSubscribed$.next(null);
+          return res;
+        })
+      );
   }
   unsubscribeCampaign(id: string): Observable<CampaignSubscription> {
     //update my campaign list
@@ -82,13 +86,13 @@ export class CampaignService {
     return this.campaignControllerService.getCampaignUsingGET(id);
   }
 
-  getCompaniesForSubscription(campaignId: string): Observable<CampaignSubscription> {
+  getCompaniesForSubscription(
+    campaignId: string
+  ): Observable<CampaignSubscription> {
     return this.http.request<CampaignSubscription>(
       'get',
       environment.serverUrl.pgaziendeUrl +
-      `/campaigns/${encodeURIComponent(
-        String(campaignId)
-      )}/companies`,
+        `/campaigns/${encodeURIComponent(String(campaignId))}/companies`,
       {}
     );
   }

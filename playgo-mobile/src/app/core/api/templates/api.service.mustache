@@ -27,10 +27,25 @@ export class {{classname}} {
     /**
      * {{summary}}
      * {{notes}}
-     {{#parameters}}* @param {{paramName}} {{description}}
+     {{#parameters}} {{parameters.length}}* @param {{paramName}} {{description}}
      {{/parameters}}
      */
-    public {{nickname}}({{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/parameters}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+    public {{nickname}}(
+      {{#parameters.1}}
+          args:{
+            {{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}; {{/isConstEnumParam}}{{/parameters}}
+          }
+      {{/parameters.1}}
+      {{^parameters.1}}
+        {{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/parameters}}
+      {{/parameters.1}}
+    ): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>
+    {
+        {{#parameters.1}}
+        const {
+          {{#parameters}}{{paramName}} , {{/parameters}}
+        } = args;
+        {{/parameters.1}}
         return this.http.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(
           '{{httpMethod}}',
           environment.serverUrl.api+`{{path}}`,

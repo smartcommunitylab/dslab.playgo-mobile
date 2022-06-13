@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
-import { isEqual, partial } from 'lodash-es';
+import { find, isEqual, partial } from 'lodash-es';
 
 import { combineLatest, Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
+  first,
   map,
   shareReplay,
   startWith,
   switchMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { DateTime } from 'luxon';
 
@@ -17,7 +19,12 @@ import {
   transportTypeLabels,
   transportTypes,
 } from 'src/app/core/shared/tracking/trip.model';
-import { tapLog } from 'src/app/core/shared/utils';
+import {
+  cartesian,
+  startFrom,
+  tapLog,
+  throwIfNil,
+} from 'src/app/core/shared/utils';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
@@ -25,6 +32,8 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 import { TranslateKey } from 'src/app/core/shared/type.utils';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { Campaign } from 'src/app/core/api/generated/model/campaign';
 
 @Component({
   selector: 'app-leaderboard',
@@ -32,71 +41,100 @@ import { TranslateKey } from 'src/app/core/shared/type.utils';
   styleUrls: ['./leaderboard.page.scss'],
 })
 export class LeaderboardPage implements OnInit {
-  allLeaderboardTypes: LeaderboardType[] = [
-    {
-      labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
-      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
-      // FIXME: BROKEN API DESIGN!!
-      playerApi: null as any,
-      // this.reportControllerService.getPlayerCampaingPlacingByCo2UsingGET,
-      leaderboardApi: null as any,
-      // this.reportControllerService.getCampaingPlacingByCo2UsingGET,
-    },
-    {
-      labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
-      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
-      playerApi:
-        this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET,
-      leaderboardApi:
-        this.reportControllerService.getCampaingPlacingByGameUsingGET,
-    },
-    ...transportTypes.map((transportType) => ({
-      labelKey: transportTypeLabels[transportType],
-      unitLabelKey: 'campaigns.leaderboard.leaderboard_type_unit.km' as const,
-      playerApi: (
-        campaignId: string,
-        playerId: string,
-        dateFrom: string,
-        dateTo: string
-      ) =>
-        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
-          campaignId,
-          playerId,
-          null, //metric,
-          transportType,
-          dateFrom,
-          dateTo
-        ),
-      leaderboardApi: (
-        campaignId: string,
-        page?: number,
-        size?: number,
-        sort?: string,
-        dateFrom?: string,
-        dateTo?: string
-      ) =>
-        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
-          campaignId,
-          page,
-          size,
-          null, // metric
-          sort,
-          transportType,
-          dateFrom,
-          dateTo
-        ),
-    })),
-  ];
-
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
 
+  private metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
+    co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
+    km: 'campaigns.leaderboard.leaderboard_type_unit.km',
+  } as const;
+  private metricToUnitLabel: Record<Metric, TranslateKey> = {
+    co2: 'campaigns.leaderboard.unit.co2',
+    km: 'campaigns.leaderboard.unit.km',
+  } as const;
+
+  // we need to keep references the same, because they are used as select values.
+  private allLeaderboardTypes: LeaderboardType[] = [
+    {
+      labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
+      numberWithUnitKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
+      filter: (campaign: Campaign) =>
+        campaign.type === 'city' || campaign.type === 'school',
+      playerApi: (args) =>
+        this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET(
+          args
+        ),
+      leaderboardApi: (args) =>
+        this.reportControllerService.getCampaingPlacingByGameUsingGET(args),
+    },
+    {
+      labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
+      numberWithUnitKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
+      filter: (campaign: Campaign) => campaign.type !== 'school',
+      playerApi: (args) =>
+        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
+          {
+            ...args,
+            mean: null,
+            metric: 'co2',
+          }
+        ),
+
+      leaderboardApi: (args) =>
+        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
+          {
+            ...args,
+            mean: null,
+            metric: 'co2',
+          }
+        ),
+    },
+
+    ...cartesian(transportTypes, ['co2', 'km'] as Metric[]).map(
+      ([transportType, metric]) => ({
+        labelKey: transportTypeLabels[transportType],
+        numberWithUnitKey: this.metricToNumberWithUnitLabel[metric],
+        unitLabelKey: this.metricToUnitLabel[metric],
+        filter: (campaign: Campaign) => campaign.type !== 'school',
+        playerApi: (args) =>
+          this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
+            {
+              ...args,
+              mean: transportType,
+              metric,
+            }
+          ),
+        leaderboardApi: (args) =>
+          this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
+            {
+              ...args,
+              mean: transportType,
+              metric,
+            }
+          ),
+      })
+    ),
+  ];
+
   campaignId$: Observable<string> = this.route.params.pipe(
-    map((params) => params.id)
+    map((params) => params.id),
+    distinctUntilChanged(),
+    shareReplay(1)
   );
 
-  leaderboardTypes$: Observable<LeaderboardType[]> = this.campaignId$.pipe(
-    map(() => this.allLeaderboardTypes)
+  campaign$ = this.campaignId$.pipe(
+    switchMap((campaignId) =>
+      this.campaignService.allCampaigns$.pipe(
+        map((campaigns) => find(campaigns, { campaignId })),
+        throwIfNil(() => new Error('Campaign not found')) // TODO: proper error handling
+      )
+    ),
+    shareReplay(1)
+  );
+
+  leaderboardTypes$: Observable<LeaderboardType[]> = this.campaign$.pipe(
+    map((campaign) => this.getLeaderboardTypes(campaign)),
+    shareReplay(1)
   );
 
   leaderboardTypeChangedSubject = new Subject<
@@ -106,17 +144,26 @@ export class LeaderboardPage implements OnInit {
   selectedLeaderboardType$: Observable<LeaderboardType> =
     this.leaderboardTypeChangedSubject.pipe(
       map((event) => event.detail.value),
-      startWith(this.allLeaderboardTypes[0]) // initial select value
+      startFrom(
+        // initial select value
+        this.leaderboardTypes$.pipe(
+          first(),
+          map((allLeaderboardTypes) => allLeaderboardTypes[0])
+        )
+      ),
+      shareReplay(1)
     );
-  unitLabelKey$: Observable<TranslateKey> = this.selectedLeaderboardType$.pipe(
-    map((leaderboardType) => leaderboardType.unitLabelKey),
-    shareReplay(1)
-  );
+  numberWithUnitKey$: Observable<TranslateKey> =
+    this.selectedLeaderboardType$.pipe(
+      map((leaderboardType) => leaderboardType.numberWithUnitKey),
+      shareReplay(1)
+    );
 
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> = this.periodChangedSubject.pipe(
     map((event) => event.detail.value),
-    startWith(this.periods[0]) // initial select value
+    startWith(this.periods[0]), // initial select value
+    shareReplay(1)
   );
 
   playerId$ = this.userService.userProfile$.pipe(
@@ -140,12 +187,15 @@ export class LeaderboardPage implements OnInit {
 
   playerPosition$: Observable<CampaignPlacing> = this.filterOptions$.pipe(
     switchMap(({ leaderboardType, period, campaignId, playerId }) =>
-      bind(leaderboardType.playerApi, this.reportControllerService)(
+      bind(
+        leaderboardType.playerApi,
+        this
+      )({
         campaignId,
         playerId,
-        period.from,
-        period.to
-      )
+        dateFrom: period.from,
+        dateTo: period.to,
+      })
     )
   );
 
@@ -159,16 +209,18 @@ export class LeaderboardPage implements OnInit {
             page: 0,
             size: 10,
           }),
-          tapLog('scrollRequest$'),
           switchMap(({ page, size }) =>
-            bind(leaderboardType.leaderboardApi, this.reportControllerService)(
+            bind(
+              leaderboardType.leaderboardApi,
+              this.reportControllerService
+            )({
               campaignId,
               page,
               size,
-              null,
-              period.from,
-              period.to
-            )
+              sort: null,
+              dateFrom: period.from,
+              dateTo: period.to,
+            })
           )
         )
       )
@@ -179,8 +231,13 @@ export class LeaderboardPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private reportControllerService: ReportControllerService,
-    private userService: UserService
-  ) { }
+    private userService: UserService,
+    private campaignService: CampaignService
+  ) {}
+
+  getLeaderboardTypes(campaign: Campaign): LeaderboardType[] {
+    return this.allLeaderboardTypes.filter((type) => type.filter(campaign));
+  }
 
   getPeriods(referenceDate: DateTime): Period[] {
     return [
@@ -218,32 +275,35 @@ export class LeaderboardPage implements OnInit {
     return toServerDateOnly(dateTime);
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 }
-const minusInfDate = DateTime.fromMillis(0);
+
+type ArgumentsBase = {
+  campaignId: string;
+  dateFrom: string;
+  dateTo: string;
+};
+
+type PlayerPlacingArguments = ArgumentsBase & {
+  playerId: string;
+};
+
+type LeaderboardArguments = ArgumentsBase & {
+  page: number;
+  size: number;
+  sort: string;
+};
 
 type LeaderboardType = {
   labelKey: TranslateKey;
-  unitLabelKey: TranslateKey;
-  playerApi: PlayerApi;
-  leaderboardApi: LeaderboardApi;
+  numberWithUnitKey: TranslateKey;
+  unitLabelKey?: TranslateKey;
+  playerApi: (args: PlayerPlacingArguments) => Observable<CampaignPlacing>;
+  leaderboardApi: (
+    args: LeaderboardArguments
+  ) => Observable<PageCampaignPlacing>;
+  filter: (campaign: Campaign) => boolean;
 };
-
-type PlayerApi = (
-  campaignId: string,
-  playerId: string,
-  dateFrom: string,
-  dateTo: string
-) => Observable<CampaignPlacing>;
-
-type LeaderboardApi = (
-  campaignId: string,
-  page?: number,
-  size?: number,
-  sort?: string,
-  dateFrom?: string,
-  dateTo?: string
-) => Observable<PageCampaignPlacing>;
 
 type Period = {
   labelKey: TranslateKey;
@@ -251,6 +311,12 @@ type Period = {
   to: string;
 };
 
+type Metric = 'co2' | 'km';
+
 function bind<F extends (...args: any) => any>(f: F, thisValue: any): F {
   return f.bind(thisValue);
+}
+
+function isType(campaign: Campaign, ...type: Campaign.TypeEnum[]): boolean {
+  return type.some((t) => campaign.type === t);
 }

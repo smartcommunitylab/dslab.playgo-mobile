@@ -1,0 +1,4 @@
+<ion-text *ngIf="!isSvg" [color]="color">
+  <i class="material-icons">{{ name }}</i>
+</ion-text>
+<ion-icon *ngIf="isSvg" [src]="src" [color]="color"></ion-icon>

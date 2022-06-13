@@ -13,19 +13,22 @@ export class MyCampaignCardComponent implements OnInit {
   imagePath: SafeResourceUrl;
   bannerPath: SafeResourceUrl;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    this.imagePath = this.containerCampaign.campaign.logo.url ? this.containerCampaign.campaign.logo.url :
-      'data:image/jpg;base64,' + this.containerCampaign.campaign.logo.image;
-    this.bannerPath = this.containerCampaign?.campaign?.banner?.url ? this.containerCampaign?.campaign?.banner?.url :
-      'data:image/jpg;base64,' + this.containerCampaign?.campaign?.banner?.image;
+    this.imagePath = this.containerCampaign.campaign.logo.url
+      ? this.containerCampaign.campaign.logo.url
+      : 'data:image/jpg;base64,' + this.containerCampaign.campaign.logo.image;
+    this.bannerPath = this.containerCampaign?.campaign?.banner?.url
+      ? this.containerCampaign?.campaign?.banner?.url
+      : 'data:image/jpg;base64,' +
+        this.containerCampaign?.campaign?.banner?.image;
   }
 
   detailCampaign() {
     this.router.navigateByUrl(
       '/pages/tabs/campaigns/details/' +
-      this.containerCampaign.campaign.campaignId
+        this.containerCampaign.campaign.campaignId
     );
   }
 

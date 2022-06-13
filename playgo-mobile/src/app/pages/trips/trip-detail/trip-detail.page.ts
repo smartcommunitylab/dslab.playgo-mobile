@@ -48,7 +48,7 @@ export class TripDetailPage implements OnInit {
   }
   async getTripDetail(id: string): Promise<TrackedInstanceInfo> {
     return await this.trackControllerService
-      .getTrackedInstanceInfoUsingGET(id)
+      .getTrackedInstanceInfoUsingGET({ trackedInstanceId: id })
       .toPromise();
   }
 }

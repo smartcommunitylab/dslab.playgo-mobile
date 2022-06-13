@@ -1,6 +1,6 @@
 <app-header></app-header>
 <ion-content>
-  <ng-container *ngIf="(campaignId$ |async) as campaignId">
+  <ng-container *ngIf="(campaign$ |async) !== null">
     <ion-item>
       <ion-label
         >{{ 'campaigns.leaderboard.filter.leaderboard_type' | translate
@@ -15,6 +15,9 @@
           [value]="leaderboardType"
         >
           {{leaderboardType.labelKey |translate}}
+          <span *ngIf="leaderboardType?.unitLabelKey"
+            >[{{ leaderboardType.unitLabelKey | translate }}]</span
+          >
         </ion-select-option>
       </ion-select>
     </ion-item>
@@ -35,7 +38,7 @@
 
     <app-placing-detail
       [placing]="playerPosition$ | async"
-      [unitLabelKey]="unitLabelKey$ | async"
+      [unitLabelKey]="numberWithUnitKey$ | async"
     ></app-placing-detail>
 
     <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
@@ -47,7 +50,7 @@
         <ng-template appInfiniteScrollContent let-placing="item">
           <app-placing-detail
             [placing]="placing"
-            [unitLabelKey]="unitLabelKey$ | async"
+            [unitLabelKey]="numberWithUnitKey$ | async"
           ></app-placing-detail>
         </ng-template>
       </app-infinite-scroll>
