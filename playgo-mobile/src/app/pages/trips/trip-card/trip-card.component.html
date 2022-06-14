@@ -11,8 +11,7 @@
     <span style="text-align: right">
       <span *ngIf="!multiModalTrip">
         <span *ngIf="isOneDayTrip">
-          {{ trip.startTime | localDate: "EEEE, d," }}
-          {{ trip.startTime | localDate: "shortTime" }}
+          {{ trip.startTime | localDate: oneDaySingleTripDateFormat }}
         </span>
         <span *ngIf="!isOneDayTrip">
           <strong
@@ -23,8 +22,7 @@
       </span>
       <span *ngIf="multiModalTrip">
         <span *ngIf="isOneDayTrip">
-          {{ trip.startTime | localDate: "EEEE, d," }}
-          {{ trip.startTime | localDate: "shortTime" }} -
+          {{ trip.startTime | localDate: oneDaySingleTripDateFormat }} -
           {{ trip.endTime | localDate: "shortTime" }}
         </span>
         <span *ngIf="!isOneDayTrip">
