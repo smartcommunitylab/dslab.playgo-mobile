@@ -56,6 +56,7 @@ export class AppComponent implements AfterContentInit {
   loadCustomIcons() {
     const icons = {
       custom_carpooling: '../assets/icon/carpooling.svg',
+      cup: '../assets/icon/cup.svg',
       test: '../assets/icon/adfgadfs.svg',
     };
     this.iconService.registerSvgIcons(icons);

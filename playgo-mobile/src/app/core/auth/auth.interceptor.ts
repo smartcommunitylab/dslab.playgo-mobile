@@ -36,8 +36,8 @@ export class AuthInterceptor implements HttpInterceptor {
   }
   // eslint-disable-next-line @typescript-eslint/ban-types
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    this.spinnerService.show();
     if (this.isValidRequestForInterceptor(req.url)) {
+      this.spinnerService.show();
       return from(this.handle(req, next));
     }
     return next.handle(req);

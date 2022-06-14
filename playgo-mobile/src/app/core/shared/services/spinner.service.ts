@@ -37,7 +37,7 @@ export class SpinnerService {
   private async showLoader() {
     this.isShowingLoader = true;
     this.loader = await this.loadingController.create({
-      duration: 2000,
+      duration: 10000,
     });
     return await this.loader.present();
   }
