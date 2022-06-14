@@ -218,7 +218,8 @@
         "weekvalue": "{{value}} weekly value",
         "totalvalue": "{{value}} total value",
         "levelName": "Level : {{levelName}}",
-        "score": "Points: {{score}}"
+        "score": "Points: {{score}}",
+        "emptystatus": "If you want to see your level and points start to play!"
       }
     },
     "stats": {

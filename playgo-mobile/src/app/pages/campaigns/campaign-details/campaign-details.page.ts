@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
@@ -22,7 +23,7 @@ export class CampaignDetailsPage implements OnInit {
     private route: ActivatedRoute,
     private campaignService: CampaignService,
     private alertService: AlertService,
-    private translateService: TranslateService
+    private navCtrl: NavController
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
@@ -67,5 +68,8 @@ export class CampaignDetailsPage implements OnInit {
           messageTranslateKey: 'campaigns.unregistered',
         });
       });
+  }
+  back() {
+    this.navCtrl.back();
   }
 }

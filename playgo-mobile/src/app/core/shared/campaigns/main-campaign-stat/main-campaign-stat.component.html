@@ -38,8 +38,8 @@
         </p>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="status">
-      <ion-col>
+    <ion-row *ngIf="status !== null; else nullStatus">
+      <ion-col *ngIf="status">
         <div class="ion-text-left">
           <span>{{
             "campaigns.homewidgets.stat.levelName"
@@ -62,5 +62,12 @@
         </div>
       </ion-col>
     </ion-row>
+    <ng-template #nullStatus>
+      <ion-row>
+        <ion-col>
+          {{ "campaigns.homewidgets.stat.emptystatus" | translate }}</ion-col
+        >
+      </ion-row>
+    </ng-template>
   </ion-grid>
 </div>
