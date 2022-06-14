@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -10,8 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthModule } from './core/auth/auth.module';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
-import { Platform } from '@ionic/angular';
-import { BackgroundGeolocationMock } from './core/shared/tracking/BackgroundGeolocationMock';
+import { BackgroundGeolocationMock } from './core/shared/plugin-mocks/BackgroundGeolocationMock';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -38,14 +37,23 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: BackgroundGeolocation,
-      useFactory: (platform: Platform) =>
-        platform.is('desktop')
-          ? // FIXME: only debug!
-            BackgroundGeolocationMock
-          : BackgroundGeolocation,
-      deps: [Platform],
+      useFactory: () =>
+        useMock() ? BackgroundGeolocationMock : BackgroundGeolocation,
     },
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+const useMock = () => isDevMode() && getPlatformId(window) === 'web';
+
+// copied from capacitor core source (it is not exported)
+const getPlatformId = (win: any): 'android' | 'ios' | 'web' => {
+  if (win?.androidBridge) {
+    return 'android';
+  } else if (win?.webkit?.messageHandlers?.bridge) {
+    return 'ios';
+  } else {
+    return 'web';
+  }
+};
