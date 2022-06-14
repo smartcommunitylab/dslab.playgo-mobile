@@ -12,6 +12,7 @@ import {
   transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
+import { formatDurationToHoursAndMinutes } from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-trip-detail',
@@ -40,9 +41,8 @@ export class TripDetailPage implements OnInit {
         this.tripDetail = await this.getTripDetail(tripId);
         this.showMap = Boolean(this.tripDetail.polyline);
         this.campaigns = this.tripDetail.campaigns;
-        this.durationLabel = this.formatDuration(
-          this.tripDetail.endTime,
-          this.tripDetail.startTime
+        this.durationLabel = formatDurationToHoursAndMinutes(
+          this.tripDetail.endTime - this.tripDetail.startTime
         );
       } catch (e) {
         // TODO: incorrect id handling
@@ -51,19 +51,6 @@ export class TripDetailPage implements OnInit {
     }
   }
 
-  formatDuration(endTime: number, startTime: number) {
-    const duration = Duration.fromMillis(endTime - startTime).shiftTo(
-      'hours',
-      'minutes'
-    );
-    const hours = duration.hours;
-    const minutes = Math.round(duration.minutes);
-    if (hours > 0) {
-      return `${hours} h ${minutes} min`;
-    } else {
-      return `${minutes} min`;
-    }
-  }
   async getTripDetail(id: string): Promise<TrackedInstanceInfo> {
     return await this.trackControllerService
       .getTrackedInstanceInfoUsingGET({ trackedInstanceId: id })

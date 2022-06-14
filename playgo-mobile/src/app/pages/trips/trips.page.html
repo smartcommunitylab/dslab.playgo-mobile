@@ -33,21 +33,6 @@
           ></app-trip-card>
 
           <ng-container *ngIf="multiTrip.trips.length !== 1">
-            <ion-item-divider>
-              <ion-label>
-                <strong>
-                  {{ 'multimodal' | translate }}
-                  <span *ngIf="multiTrip.isOneDayTrip">
-                    {{ multiTrip.date | localDate: "mediumDate" }}
-                  </span>
-                  <span *ngIf="!multiTrip.isOneDayTrip">
-                    >{{ multiTrip.startDate | localDate: "d MMMM" }} - {{
-                    multiTrip.endDate | localDate: "d MMMM" }}
-                  </span>
-                </strong>
-              </ion-label>
-            </ion-item-divider>
-
             <ng-container
               *ngFor="let trip of multiTrip.trips; trackBy: trackTrip"
             >

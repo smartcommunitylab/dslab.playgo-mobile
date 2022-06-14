@@ -1,6 +1,7 @@
 import { NgZone } from '@angular/core';
 import { Photo } from '@capacitor/camera';
 import { flatMap, initial, last, tail, zip } from 'lodash-es';
+import { Duration } from 'luxon';
 import {
   concat,
   from,
@@ -131,4 +132,18 @@ export async function time(ms: number): Promise<void> {
   await new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+}
+
+export function formatDurationToHoursAndMinutes(millis: number): string {
+  const duration = Duration.fromMillis(Math.abs(millis)).shiftTo(
+    'hours',
+    'minutes'
+  );
+  const hours = duration.hours;
+  const minutes = Math.round(duration.minutes);
+  if (hours > 0) {
+    return `${hours} h ${minutes} min`;
+  } else {
+    return `${minutes} min`;
+  }
 }

@@ -11,6 +11,7 @@ import {
 } from 'src/app/core/shared/tracking/trip.model';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { ServerOrLocalTrip } from '../trips.page';
+import { formatDurationToHoursAndMinutes } from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-trip-card',
@@ -18,7 +19,6 @@ import { ServerOrLocalTrip } from '../trips.page';
   styleUrls: ['./trip-card.component.scss'],
 })
 export class TripCardComponent implements OnInit, OnChanges {
-  simpleId = simpleId;
   transportTypeLabels = transportTypeLabels;
   transportTypeIcons = transportTypeIcons;
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -30,7 +30,8 @@ export class TripCardComponent implements OnInit, OnChanges {
   @Input() isOneDayTrip = true;
   @Input() multiModalTrip = false;
 
-  campaignsLabels: string[] = [];
+  validCampaignsLabel = '';
+  durationLabel = '';
 
   constructor(
     private router: Router,
@@ -58,21 +59,17 @@ export class TripCardComponent implements OnInit, OnChanges {
     }
   }
   ngOnChanges() {
-    this.campaignsLabels = this.trip.campaigns.map((campaign) => {
-      const pluralForm = this.pluralRules.select(campaign.score);
-      const label = this.translateService.instant(
-        'trip_detail.gl_per_campaign.plural_form_' + pluralForm,
-        campaign
-      );
-      return label;
-    });
-  }
-}
+    const numberOfValidCampaigns = this.trip.campaigns.filter(
+      (campaign) => campaign.score > 0
+    ).length;
+    const pluralForm = this.pluralRules.select(numberOfValidCampaigns);
+    this.validCampaignsLabel = this.translateService.instant(
+      'trip_detail.valid_for_campaigns.plural_form.' + pluralForm,
+      { count: numberOfValidCampaigns }
+    );
 
-const idMap = new Map<any, number>();
-function simpleId(realId: string) {
-  if (!idMap.has(realId)) {
-    idMap.set(realId, idMap.size);
+    this.durationLabel = formatDurationToHoursAndMinutes(
+      this.trip.endTime - this.trip.startTime
+    );
   }
-  return 'id_' + idMap.get(realId);
 }
