@@ -137,7 +137,7 @@
     "start": "Inizio",
     "end": "Fine",
     "distance": "Lunghezza",
-    "gl_earned_in": "GL guadagnate in",
+    "gl_for": "per",
     "valid_for_campaigns": {
       "plural_form": {
         "one": "Valido per {{count}} campagna",

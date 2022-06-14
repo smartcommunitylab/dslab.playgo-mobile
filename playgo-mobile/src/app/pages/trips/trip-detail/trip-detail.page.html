@@ -6,20 +6,19 @@
 <ion-content>
   <ng-container *ngIf="tripDetail">
     <app-trip-detail-map
-      style="height: 100%"
       *ngIf="showMap"
       [tripParts]="[tripDetail]"
     ></app-trip-detail-map>
     <ion-card class="absolute-wrapper">
       <ion-grid>
         <ion-row>
-          <ion-col size="3" style="text-align: center">
+          <ion-col size="3" class="ion-text-center">
             <app-icon
-              style="font-size: 64px"
+              class="big-icon"
               [name]="transportTypeIcons[tripDetail.modeType]"
             ></app-icon>
           </ion-col>
-          <ion-col size="9" style="font-size: 18px">
+          <ion-col size="9">
             <ion-row
               >{{ transportTypeLabels[tripDetail.modeType] | translate
               }}</ion-row
@@ -31,21 +30,23 @@
             </ion-row>
           </ion-col>
         </ion-row>
-        <ion-row *ngFor="let campaign of campaigns" style="font-size: 16px">
+        <ion-row *ngFor="let campaign of campaigns">
           <ion-text [color]="campaignService.getCampaignColor(campaign)">
             <ion-icon
               [name]="campaignService.getCampaignIcon(campaign)"
             ></ion-icon>
           </ion-text>
           <ion-text>
-            {{campaign.score}} {{ 'trip_detail.gl_earned_in' | translate }}
-          </ion-text>
+            {{campaign.score}} {{ 'trip_detail.gl_for' | translate
+            }}&nbsp;</ion-text
+          >
           <ion-text [color]="campaignService.getCampaignColor(campaign)">
             <a
               class="inherit-color"
               [routerLink]="'/pages/tabs/campaigns/details/' + campaign.campaignId"
-              >{{campaign.campaignName}}</a
             >
+              {{campaign.campaignName}}
+            </a>
           </ion-text>
         </ion-row>
       </ion-grid>
