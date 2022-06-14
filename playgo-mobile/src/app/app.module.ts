@@ -11,6 +11,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthModule } from './core/auth/auth.module';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { BackgroundGeolocationMock } from './core/shared/plugin-mocks/BackgroundGeolocationMock';
+import { App } from '@capacitor/app';
+import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -36,9 +38,13 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
-      provide: BackgroundGeolocation,
+      provide: 'BackgroundGeolocationPlugin',
       useFactory: () =>
         useMock() ? BackgroundGeolocationMock : BackgroundGeolocation,
+    },
+    {
+      provide: 'AppPlugin',
+      useFactory: () => (useMock() ? AppPluginMock : App),
     },
   ],
   bootstrap: [AppComponent],
