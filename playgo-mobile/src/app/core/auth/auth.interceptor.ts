@@ -1,4 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,
@@ -6,10 +10,11 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { from, Observable, ReplaySubject, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AuthService } from 'ionic-appauth';
 import { UserStorageService } from '../shared/services/user-storage.service';
 import { NavController } from '@ionic/angular';
+import { SpinnerService } from '../shared/services/spinner.service';
 // import { UserService } from '../shared/services/user.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -24,12 +29,14 @@ export class AuthInterceptor implements HttpInterceptor {
     private authService: AuthService,
     //private userService: UserService
     private localStorageService: UserStorageService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private spinnerService: SpinnerService
   ) {
     this.urlsToNotUse = [];
   }
   // eslint-disable-next-line @typescript-eslint/ban-types
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+    this.spinnerService.show();
     if (this.isValidRequestForInterceptor(req.url)) {
       return from(this.handle(req, next));
     }
@@ -50,15 +57,19 @@ export class AuthInterceptor implements HttpInterceptor {
           Accept: '*/*',
         },
       });
-      //req = req.clone({ headers: req.headers.set('Authorization', `Bearer ${token.accessToken}`) });
     }
     return next
       .handle(req)
       .pipe(
+        map((event: HttpEvent<any>) => {
+          this.spinnerService.hide();
+          return event;
+        }),
         catchError((error: HttpErrorResponse) => {
           if (error instanceof HttpErrorResponse && error.status === 401) {
             return this.handle401Error(req, next);
           }
+          this.spinnerService.hide();
           return throwError(error);
         })
       )
@@ -75,6 +86,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.refreshTokenSubject.next(token.accessToken);
           //change token to request
           request = this.changeToken(token.accessToken, request);
+          this.spinnerService.hide();
           return next.handle(request);
         } else {
           this.isRefreshing = false;
@@ -83,9 +95,11 @@ export class AuthInterceptor implements HttpInterceptor {
           this.authService.signOut();
           this.localStorageService.clearUser();
           this.navCtrl.navigateRoot('login');
+          this.spinnerService.hide();
         }
       } catch (e) {
         this.isRefreshing = false;
+        this.spinnerService.hide();
         return throwError(e);
       }
     }
