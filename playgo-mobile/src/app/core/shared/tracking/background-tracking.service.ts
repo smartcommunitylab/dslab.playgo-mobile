@@ -138,7 +138,7 @@ export class BackgroundTrackingService {
   );
 
   constructor(
-    @Inject(BackgroundGeolocationInternal)
+    @Inject('BackgroundGeolocationPlugin')
     private backgroundGeolocationPlugin: typeof BackgroundGeolocationInternal,
     private alertService: AlertService,
     private authHttpService: AuthHttpService,

@@ -4,47 +4,53 @@
 ></app-header>
 
 <ion-content>
-  <ng-container *ngIf="tripDetails">
+  <ng-container *ngIf="tripDetail">
     <app-trip-detail-map
       *ngIf="showMap"
-      [tripParts]="tripDetails"
+      [tripParts]="[tripDetail]"
     ></app-trip-detail-map>
-    <div>
-      <ion-card>
-        <ion-grid>
-          <ion-row>
-            <ion-col *ngFor="let tripPart of tripDetails" size="6">
-              <ion-icon
-                [name]="transportTypeIcons[tripPart.modeType]"
-              ></ion-icon>
-              {{ transportTypeLabels[tripPart.modeType] | translate }}
-              <div>
-                {{ 'trip_detail.start' |translate}}: {{tripPart.startTime |
-                date:"medium" }}
-              </div>
-              <div>
-                {{ 'trip_detail.end' |translate}}: {{tripPart.endTime |
-                date:"medium" }}
-              </div>
-              <div>
-                {{ 'km' | translate }}: {{tripPart.distance / 1000 | number:
-                '0.0-1' }}
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card>
-      <ion-card *ngFor="let campaign of campaigns">
-        <ion-card-header>
-          <ion-card-title>{{campaign.campaignName}}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-icon name="leaf"></ion-icon>
-          {{campaign.score}} {{ 'trip_detail.gl_earned_in' | translate }}
-          {{campaign.campaignName}}
-        </ion-card-content>
-      </ion-card>
-    </div>
+    <ion-card class="absolute-wrapper">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3" class="ion-text-center">
+            <app-icon
+              class="big-icon"
+              [name]="transportTypeIcons[tripDetail.modeType]"
+            ></app-icon>
+          </ion-col>
+          <ion-col size="9">
+            <ion-row
+              >{{ transportTypeLabels[tripDetail.modeType] | translate
+              }}</ion-row
+            >
+            <ion-row>{{tripDetail.startTime | date:"medium" }}</ion-row>
+            <ion-row>
+              {{tripDetail.distance / 1000 | number: '0.0-1' }} {{ 'km' |
+              translate }} {{ this.durationLabel }}
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let campaign of campaigns">
+          <ion-text [color]="campaignService.getCampaignColor(campaign)">
+            <ion-icon
+              [name]="campaignService.getCampaignIcon(campaign)"
+            ></ion-icon>
+          </ion-text>
+          <ion-text>
+            {{campaign.score}} {{ 'trip_detail.gl_for' | translate
+            }}&nbsp;</ion-text
+          >
+          <ion-text [color]="campaignService.getCampaignColor(campaign)">
+            <a
+              class="inherit-color"
+              [routerLink]="'/pages/tabs/campaigns/details/' + campaign.campaignId"
+            >
+              {{campaign.campaignName}}
+            </a>
+          </ion-text>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
   </ng-container>
-  <ng-container *ngIf="!tripDetails">no_trip</ng-container>
+  <ng-container *ngIf="!tripDetail">no_trip</ng-container>
 </ion-content>

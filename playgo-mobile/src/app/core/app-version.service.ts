@@ -1,5 +1,5 @@
-import { App } from '@capacitor/app';
-import { Injectable } from '@angular/core';
+import { App as AppPluginInternal } from '@capacitor/app';
+import { Inject, Injectable } from '@angular/core';
 import { codePush } from 'capacitor-codepush';
 import { combineLatest, from, Observable, ReplaySubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { tapLog } from './shared/utils';
   providedIn: 'root',
 })
 export class AppVersionService {
-  public version$: Observable<string> = from(App.getInfo()).pipe(
+  public version$: Observable<string> = from(this.appPlugin.getInfo()).pipe(
     map((info) => info.version)
   );
   private syncFinished$ = new ReplaySubject<void>(1);
@@ -28,7 +28,10 @@ export class AppVersionService {
     )
   );
 
-  constructor() {}
+  constructor(
+    @Inject('AppPlugin')
+    private appPlugin: typeof AppPluginInternal
+  ) {}
 
   codePushSyncFinished() {
     this.syncFinished$.next();

@@ -46,6 +46,13 @@ export class TripsPage implements OnInit {
   transportTypeLabels = transportTypeLabels;
   scrollRequestSubject = new Subject<PageableRequest>();
 
+  noMonthOrYearFormat: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
   tripsResponse$: Observable<PageableResponse<TrackedInstanceInfo>> =
     this.scrollRequestSubject.pipe(
       startWith({
