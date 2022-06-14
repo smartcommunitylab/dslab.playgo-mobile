@@ -1,60 +1,43 @@
-<div *ngIf="trip" button (click)="openDetail()" detail>
-  <div>
-    <span style="text-align: left">
+<ion-row button (click)="openDetail()" detail>
+  <ion-col size="4">
+    <div class="ion-text-start" style="font-size: 24px">
       <app-icon
         *ngIf="trip.modeType"
         [name]="transportTypeIcons[trip.modeType]"
-        style="font-size: 32px"
       ></app-icon>
-      {{ transportTypeLabels[trip.modeType] | translate }}
-    </span>
-    <span style="text-align: right">
-      <span *ngIf="!multiModalTrip">
-        <span *ngIf="isOneDayTrip">
-          {{ trip.startTime | localDate: oneDaySingleTripDateFormat }}
-        </span>
-        <span *ngIf="!isOneDayTrip">
-          <strong
-            >{{ trip.startTime | localDate: "mediumDate" }} -
-            {{ trip.endTime | localDate: "mediumDate" }}
-          </strong>
-        </span>
+      <span>
+        {{ transportTypeLabels[trip.modeType] | translate }}
       </span>
-      <span *ngIf="multiModalTrip">
-        <span *ngIf="isOneDayTrip">
-          {{ trip.startTime | localDate: oneDaySingleTripDateFormat }} -
-          {{ trip.endTime | localDate: "shortTime" }}
-        </span>
-        <span *ngIf="!isOneDayTrip">
-          <strong
-            >{{ trip.startTime | localDate: "mediumDate" }} -
-            {{ trip.endTime | localDate: "mediumDate" }}
-          </strong>
-        </span>
+    </div>
+  </ion-col>
+  <ion-col class="ion-text-end">
+    <span *ngIf="!multiModalTrip">
+      <span>
+        {{ trip.startTime | localDate: noMonthOrYearFormat }}
       </span>
     </span>
-  </div>
-  <div>
-    <span>
-      {{ trip.distance / 1000 | number: "0.0-1" }}
-      {{ "km" | translate }} - {{ durationLabel }}
-    </span>
-    <span>
-      <ion-text color="success" *ngIf="trip.status === Validity.VALID">{{
-        validCampaignsLabel
-      }}</ion-text>
-      <ion-text color="danger" *ngIf="trip.status === Validity.INVALID">{{
-        "trip_detail.status.invalid" | translate
-      }}</ion-text>
-      <ion-text color="warning" *ngIf="trip.status === Validity.PENDING">{{
-        "trip_detail.status.pending" | translate
-      }}</ion-text>
-      <ion-text color="warning" *ngIf="trip.status === 'NOT_SYNCHRONIZED'">{{
-        "trip_detail.status.not_synchronized" | translate
-      }}</ion-text>
-      <ion-text color="warning" *ngIf="trip.status === 'ONGOING'">{{
-        "trip_detail.status.not_finished" | translate
-      }}</ion-text>
-    </span>
-  </div>
-</div>
+  </ion-col>
+</ion-row>
+<ion-row button (click)="openDetail()" detail>
+  <ion-col class="ion-text-start">
+    {{ trip.distance / 1000 | number: "0.0-1" }}
+    {{ "km" | translate }} - {{ durationLabel }}
+  </ion-col>
+  <ion-col class="ion-text-end">
+    <ion-text color="success" *ngIf="trip.status === Validity.VALID">{{
+      validCampaignsLabel
+    }}</ion-text>
+    <ion-text color="danger" *ngIf="trip.status === Validity.INVALID">{{
+      "trip_detail.status.invalid" | translate
+    }}</ion-text>
+    <ion-text color="warning" *ngIf="trip.status === Validity.PENDING">{{
+      "trip_detail.status.pending" | translate
+    }}</ion-text>
+    <ion-text color="warning" *ngIf="trip.status === 'NOT_SYNCHRONIZED'">{{
+      "trip_detail.status.not_synchronized" | translate
+    }}</ion-text>
+    <ion-text color="warning" *ngIf="trip.status === 'ONGOING'">{{
+      "trip_detail.status.not_finished" | translate
+    }}</ion-text>
+  </ion-col>
+</ion-row>

@@ -24,26 +24,34 @@
         <ion-card
           *ngFor="let multiTrip of tripGroup.tripsInSameMonth; trackBy: trackMultiTrip"
         >
-          <!-- {{ multiTrip.multimodalId }} -->
-          <app-trip-card
-            *ngIf="multiTrip.trips.length === 1"
-            [trip]="multiTrip.trips[0]"
-            [isOneDayTrip]="multiTrip.isOneDayTrip"
-            [multiModalTrip]="false"
-          ></app-trip-card>
+          <ion-grid>
+            <!-- {{ multiTrip.multimodalId }} -->
+            <app-trip-card
+              *ngIf="multiTrip.trips.length === 1"
+              [trip]="multiTrip.trips[0]"
+              [isOneDayTrip]="multiTrip.isOneDayTrip"
+              [multiModalTrip]="false"
+            ></app-trip-card>
 
-          <ng-container *ngIf="multiTrip.trips.length !== 1">
-            <ng-container
-              *ngFor="let trip of multiTrip.trips; trackBy: trackTrip"
-            >
-              <app-trip-card
-                [trip]="trip"
-                [isOneDayTrip]="multiTrip.isOneDayTrip"
-                [multiModalTrip]="true"
+            <ng-container *ngIf="multiTrip.trips.length !== 1">
+              <ion-row>
+                <ion-col class="ion-text-end">
+                  {{ multiTrip.date | localDate: noMonthOrYearFormat }}
+                </ion-col>
+              </ion-row>
+              <ng-container
+                *ngFor="let trip of multiTrip.trips; trackBy: trackTrip"
               >
-              </app-trip-card>
+                <app-trip-card
+                  *ngIf="trip"
+                  [trip]="trip"
+                  [isOneDayTrip]="multiTrip.isOneDayTrip"
+                  [multiModalTrip]="true"
+                >
+                </app-trip-card>
+              </ng-container>
             </ng-container>
-          </ng-container>
+          </ion-grid>
         </ion-card>
       </ng-container>
     </ng-template>

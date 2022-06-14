@@ -33,12 +33,13 @@ export class TripCardComponent implements OnInit, OnChanges {
   validCampaignsLabel = '';
   durationLabel = '';
 
-  oneDaySingleTripDateFormat: Intl.DateTimeFormatOptions = {
+  noMonthOrYearFormat: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
   };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
