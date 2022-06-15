@@ -31,23 +31,34 @@
           </ion-col>
         </ion-row>
         <ion-row *ngFor="let campaign of campaigns">
-          <ion-text [color]="campaignService.getCampaignColor(campaign)">
-            <ion-icon
-              [name]="campaignService.getCampaignIcon(campaign)"
-            ></ion-icon>
-          </ion-text>
-          <ion-text>
-            {{campaign.score}} {{ 'trip_detail.gl_for' | translate
-            }}&nbsp;</ion-text
-          >
-          <ion-text [color]="campaignService.getCampaignColor(campaign)">
-            <a
-              class="inherit-color"
-              [routerLink]="'/pages/tabs/campaigns/details/' + campaign.campaignId"
+          <ng-container *ngIf="campaign.valid">
+            <ng-container
+              *ngIf="campaign.type === 'personal' || campaign.type === 'company'"
             >
-              {{campaign.campaignName}}
-            </a>
-          </ion-text>
+              {{campaign.distance / 1000 | number: '0.0-1' }} {{ 'km' |
+              translate }} {{ 'trip_detail.gl_for' | translate }}
+            </ng-container>
+            <ng-container
+              *ngIf="campaign.type === 'school' || campaign.type === 'city'"
+            >
+              <ion-text [color]="campaignService.getCampaignColor(campaign)">
+                <ion-icon
+                  [name]="campaignService.getCampaignIcon(campaign)"
+                ></ion-icon>
+              </ion-text>
+              <ion-text>
+                {{campaign.score}} {{ 'trip_detail.gl_for' | translate }}
+              </ion-text>
+            </ng-container>
+            <ion-text [color]="campaignService.getCampaignColor(campaign)">
+              <span>&nbsp;</span>
+              <a
+                class="inherit-color"
+                [routerLink]="'/pages/tabs/campaigns/details/' + campaign.campaignId"
+                >{{campaign.campaignName}}</a
+              >
+            </ion-text>
+          </ng-container>
         </ion-row>
       </ion-grid>
     </ion-card>
