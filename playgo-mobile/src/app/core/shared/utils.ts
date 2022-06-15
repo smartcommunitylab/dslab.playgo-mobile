@@ -6,12 +6,13 @@ import {
   concat,
   from,
   merge,
+  MonoTypeOperatorFunction,
   Observable,
   ObservableInput,
   ObservedValueOf,
   OperatorFunction,
 } from 'rxjs';
-import { first, map, takeUntil, tap } from 'rxjs/operators';
+import { concatMap, filter, first, map, takeUntil, tap } from 'rxjs/operators';
 
 export const isNotConstant =
   <C>(constant: C) =>
@@ -91,6 +92,17 @@ export function throwIfNil<T>(
         return value as Exclude<T, null | undefined>;
       })
     );
+}
+
+export function asyncFilter<T>(
+  predicate: (value: T, index: number) => Promise<boolean>
+): MonoTypeOperatorFunction<T> {
+  return concatMap((value: T, index: number) =>
+    from(predicate(value, index)).pipe(
+      filter(Boolean),
+      map(() => value)
+    )
+  );
 }
 
 export async function readAsBase64(photo: Photo) {
