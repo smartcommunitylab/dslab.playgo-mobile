@@ -27,9 +27,9 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { tapLog } from '../utils';
 import { Sort } from '../../api/generated/model/sort';
 import { SwaggerPageable } from '../../api/generated/model/swaggerPageable';
+import { asyncFilter, tapLog } from '../utils';
 @Directive({
   selector: '[appInfiniteScrollContent]',
 })
@@ -42,16 +42,12 @@ export class InfiniteScrollContentDirective {
   templateUrl: './infinite-scroll.component.html',
   styleUrls: ['./infinite-scroll.component.scss'],
 })
-export class InfiniteScrollComponent<T>
-  implements OnInit, AfterViewChecked, AfterViewInit
-{
+export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
   @ContentChild(InfiniteScrollContentDirective)
   content!: InfiniteScrollContentDirective;
 
   @ViewChild('infiniteScroll')
   private infiniteScrollComponent!: HTMLIonInfiniteScrollElement;
-
-  private scrollElement: HTMLElement;
 
   @Input()
   public allItemsInTemplate = false;
@@ -83,8 +79,8 @@ export class InfiniteScrollComponent<T>
       const notAllDataIsLoaded = page < response.totalPages;
       return this.afterViewChecked.pipe(
         first(),
-        filter(() => {
-          const noScroll = this.hasScroll() === false;
+        asyncFilter(async () => {
+          const noScroll = (await this.hasScroll()) === false;
           const shouldForceLoad = notAllDataIsLoaded && noScroll;
           return shouldForceLoad;
         })
@@ -144,17 +140,15 @@ export class InfiniteScrollComponent<T>
     this.afterViewChecked.next();
   }
 
-  async ngAfterViewInit() {
-    if (this.ionContentElement) {
-      this.scrollElement = await this.ionContentElement.getScrollElement();
-    }
-  }
-
-  hasScroll(): boolean | null {
-    if (!this.scrollElement) {
+  async hasScroll(): Promise<boolean | null> {
+    if (!this.ionContentElement) {
       return null;
     }
-    return this.scrollElement.scrollHeight > this.scrollElement.clientHeight;
+    const scrollElement = await this.ionContentElement.getScrollElement();
+    if (!scrollElement) {
+      return null;
+    }
+    return scrollElement.scrollHeight > scrollElement.clientHeight;
   }
 }
 
