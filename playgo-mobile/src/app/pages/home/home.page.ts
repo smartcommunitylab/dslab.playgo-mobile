@@ -16,23 +16,16 @@ export class HomePage implements OnInit, OnDestroy {
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
   user$ = this.auth.user$;
   events$ = this.auth.events$;
-  sub!: Subscription;
   subProfile!: Subscription;
   constructor(
     private auth: AuthService,
-    private navCtrl: NavController,
     private userService: UserService,
-    private localStorageService: UserStorageService,
     private router: Router,
     public appVersionService: AppVersionService
   ) {}
 
   campagins() {
     this.router.navigateByUrl('/campaigns');
-  }
-
-  public signOut() {
-    this.auth.signOut();
   }
 
   public async getUserInfo(): Promise<void> {
@@ -44,28 +37,18 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sub = this.auth.events$.subscribe((action) =>
-      this.onSignOutSuccess(action)
-    );
     this.subProfile = this.userService.userProfileRefresher$.subscribe(() => {
       this.refresher.complete();
     });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    // this.sub.unsubscribe();
     this.subProfile.unsubscribe();
   }
 
   refresh() {
     //update status and profile
     this.userService.userProfileRefresher$.next();
-    // this.userService.userStatusRefresher$.next();
-  }
-  private onSignOutSuccess(action: IAuthAction) {
-    if (action.action === AuthActions.SignOutSuccess) {
-      this.localStorageService.clearUser();
-      this.navCtrl.navigateRoot('login');
-    }
   }
 }

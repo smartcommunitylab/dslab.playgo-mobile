@@ -7,7 +7,8 @@
   position: relative;
 }
 .avatar-cange {
-  background-color: var(--ion-color-primary);
+  background-color: var(--ion-color-playgo);
+  color: white;
   border-radius: 16px;
   padding: 8px;
   position: absolute;
