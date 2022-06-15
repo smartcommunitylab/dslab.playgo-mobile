@@ -162,7 +162,7 @@ export class LeaderboardPage implements OnInit {
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> = this.periodChangedSubject.pipe(
     map((event) => event.detail.value),
-    startWith(this.periods[0]), // initial select value
+    startWith(find(this.periods, { default: true })), // initial select value
     shareReplay(1)
   );
 
@@ -250,6 +250,7 @@ export class LeaderboardPage implements OnInit {
         labelKey: 'campaigns.leaderboard.period.this_week',
         from: this.toServerDate(referenceDate.startOf('week')),
         to: this.toServerDate(referenceDate),
+        default: true,
       },
       {
         labelKey: 'campaigns.leaderboard.period.this_month',
@@ -309,6 +310,7 @@ type Period = {
   labelKey: TranslateKey;
   from: string;
   to: string;
+  default?: boolean;
 };
 
 type Metric = 'co2' | 'km';
