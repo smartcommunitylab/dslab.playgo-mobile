@@ -24,7 +24,7 @@ import { PlayerCampaign } from '../model/playerCampaign';
   providedIn: 'root',
 })
 export class CampaignControllerService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * addCampaign
    *
@@ -49,7 +49,7 @@ export class CampaignControllerService {
     return this.http.request<Campaign>(
       'delete',
       environment.serverUrl.api +
-      `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
+        `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
       {}
     );
   }
@@ -63,7 +63,7 @@ export class CampaignControllerService {
     return this.http.request<Campaign>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
+        `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
       {}
     );
   }
@@ -117,9 +117,9 @@ export class CampaignControllerService {
     return this.http.request<CampaignSubscription>(
       'post',
       environment.serverUrl.api +
-      `/playandgo/api/campaign/${encodeURIComponent(
-        String(campaignId)
-      )}/subscribe`,
+        `/playandgo/api/campaign/${encodeURIComponent(
+          String(campaignId)
+        )}/subscribe`,
       {
         body,
       }
@@ -137,9 +137,9 @@ export class CampaignControllerService {
     return this.http.request<CampaignSubscription>(
       'put',
       environment.serverUrl.api +
-      `/playandgo/api/campaign/${encodeURIComponent(
-        String(campaignId)
-      )}/unsubscribe`,
+        `/playandgo/api/campaign/${encodeURIComponent(
+          String(campaignId)
+        )}/unsubscribe`,
       {}
     );
   }
@@ -173,9 +173,9 @@ export class CampaignControllerService {
     return this.http.request<Image>(
       'post',
       environment.serverUrl.api +
-      `/playandgo/api/campaign/${encodeURIComponent(
-        String(campaignId)
-      )}/banner`,
+        `/playandgo/api/campaign/${encodeURIComponent(
+          String(campaignId)
+        )}/banner`,
       {
         body,
       }
@@ -196,9 +196,9 @@ export class CampaignControllerService {
     return this.http.request<Image>(
       'post',
       environment.serverUrl.api +
-      `/playandgo/api/campaign/${encodeURIComponent(
-        String(campaignId)
-      )}/logo`,
+        `/playandgo/api/campaign/${encodeURIComponent(
+          String(campaignId)
+        )}/logo`,
       {
         body,
       }
