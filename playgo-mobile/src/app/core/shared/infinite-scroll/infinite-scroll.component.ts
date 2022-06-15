@@ -67,7 +67,7 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
   }
   resetItems$ = new Subject<void>();
 
-  private loadDataEvents$ = new Subject<IonicLoadDataEvent>();
+  private loadDataEvents$ = new Subject<void>();
 
   private afterViewChecked = new Subject<void>();
   private manualLoadWithNoScroll$ = this.response$.pipe(
@@ -97,7 +97,7 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
     this.manualLoadWithNoScroll$
   ).pipe(
     withLatestFrom(this.response$),
-    map(([event, response]) => {
+    map(([, response]) => {
       const page = response.number + 1;
       const size = response.size;
       if (page >= response.totalPages) {
@@ -131,7 +131,7 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
   ) {}
 
   loadData(event) {
-    this.loadDataEvents$.next(event);
+    this.loadDataEvents$.next();
   }
 
   ngOnInit() {}
@@ -151,8 +151,6 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
     return scrollElement.scrollHeight > scrollElement.clientHeight;
   }
 }
-
-interface IonicLoadDataEvent {}
 
 export interface PageableRequest {
   size?: number;
