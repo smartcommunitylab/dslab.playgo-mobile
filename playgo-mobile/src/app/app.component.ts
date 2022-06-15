@@ -57,7 +57,9 @@ export class AppComponent implements AfterContentInit {
     const icons = {
       custom_carpooling: '../assets/icon/carpooling.svg',
       cup: '../assets/icon/cup.svg',
-      test: '../assets/icon/adfgadfs.svg',
+      co2: '../assets/icon/co2.svg',
+      flower: '../assets/icon/flower.svg',
+      shield: '../assets/icon/shield.svg',
     };
     this.iconService.registerSvgIcons(icons);
   }
