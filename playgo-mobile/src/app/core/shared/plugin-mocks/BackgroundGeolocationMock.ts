@@ -8,6 +8,12 @@ import {
 } from '@transistorsoft/capacitor-background-geolocation';
 import { last, mapValues, random, sample } from 'lodash-es';
 import { Config } from 'protractor';
+import { getMockMethodAnnotation } from './mock-utils';
+
+const mockMethod = getMockMethodAnnotation({
+  doLog: false,
+  logPrefix: 'BackgroundGeolocationMock',
+});
 
 export class BackgroundGeolocationMock {
   private static locations: Partial<Location>[] = [];
@@ -123,37 +129,4 @@ export class BackgroundGeolocationMock {
   static {
     BackgroundGeolocationMock.initMockTracking();
   }
-}
-
-async function time(ms) {
-  return new Promise((resolve, reject) => {
-    setTimeout(resolve, ms);
-  });
-}
-function mockMethod(opts: { async: boolean } = { async: false }) {
-  return function (
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-  ) {
-    const targetMethod = descriptor.value;
-    descriptor.value = function (...args: any[]) {
-      // console.log(`BackgroundGeolocationMock.${propertyKey} called:`, ...args);
-      const res = targetMethod.apply(this, args);
-      if (opts.async) {
-        return (async () => {
-          const promiseRes = await res;
-          await time(200);
-          // console.log(
-          //   `BackgroundGeolocationMock.${propertyKey} finished:`,
-          //   promiseRes
-          // );
-          return promiseRes;
-        })();
-      } else {
-        // console.log(`BackgroundGeolocationMock.${propertyKey} result`, res);
-      }
-    };
-    return descriptor;
-  };
 }

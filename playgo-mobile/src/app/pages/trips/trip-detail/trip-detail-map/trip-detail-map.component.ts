@@ -7,6 +7,7 @@ import {
   MapOptions,
   polyline,
   tileLayer,
+  latLngBounds,
 } from 'leaflet';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
@@ -73,7 +74,14 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
       const fullPolyLineCoords = concat(
         tripParts.map((tripPart) => tripPart.polyline)
       );
-      return polyline(fullPolyLineCoords).getBounds();
+      const bounds = polyline(fullPolyLineCoords).getBounds();
+      const southNorthDistance = bounds.getNorth() - bounds.getSouth();
+
+      const boundsWithSpaceForDetail = latLngBounds(
+        latLng(bounds.getNorth() - 2 * southNorthDistance, bounds.getWest()),
+        bounds.getNorthEast()
+      );
+      return boundsWithSpaceForDetail;
     })
   );
 

@@ -13,14 +13,22 @@ import { UserService } from '../services/user.service';
 export class LocalDatePipe implements PipeTransform {
   constructor(private user: UserService) {}
 
-  transform(value: any, format?: string) {
+  transform(value: any, format?: string | Intl.DateTimeFormatOptions) {
     if (!value) {
       return '';
     }
     if (!format) {
       format = 'shortDate';
     }
-
+    if (typeof format !== 'string') {
+      try {
+        return Intl.DateTimeFormat(this.user.locale, format).format(value);
+      } catch (e) {
+        // fallback if there is some problem with Intl
+        return formatDate(value, 'shortDate', this.user.locale);
+      }
+    }
+    // basic string format
     return formatDate(value, format, this.user.locale);
   }
 }

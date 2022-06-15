@@ -1,3 +1,18 @@
 :host {
   height: 100%;
 }
+
+.inherit-color {
+  color: inherit !important;
+}
+.big-icon {
+  font-size: 64px;
+}
+.absolute-wrapper {
+  font-size: 18px;
+  position: absolute;
+  bottom: 1em;
+  z-index: 1000;
+  right: 0;
+  left: 0;
+}

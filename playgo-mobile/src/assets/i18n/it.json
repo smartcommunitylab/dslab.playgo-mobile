@@ -138,10 +138,12 @@
     "start": "Inizio",
     "end": "Fine",
     "distance": "Lunghezza",
-    "gl_earned_in": "GL guadagnate in",
-    "gl_per_campaign": {
-      "plural_form_one": "+ {{score}} Foglia Verde per {{campaignName}}",
-      "plural_form_other": "+ {{score}} Foglie Verdi per  {{campaignName}}"
+    "gl_for": "per",
+    "valid_for_campaigns": {
+      "plural_form": {
+        "one": "Valido per {{count}} campagna",
+        "other": "Valido per {{count}} campagne"
+      }
     },
     "mean": {
       "car": "Macchina",

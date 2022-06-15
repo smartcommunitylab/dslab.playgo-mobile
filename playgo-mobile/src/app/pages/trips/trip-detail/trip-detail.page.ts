@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { flatMap } from 'lodash-es';
+import { Duration } from 'luxon';
 import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 import { CampaignTripInfo } from 'src/app/core/api/generated/model/campaignTripInfo';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import {
   transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
+import { formatDurationToHoursAndMinutes } from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-trip-detail',
@@ -17,28 +20,29 @@ import {
   styleUrls: ['./trip-detail.page.scss'],
 })
 export class TripDetailPage implements OnInit {
-  tripDetails: TrackedInstanceInfo[] = null;
+  tripDetail: TrackedInstanceInfo = null;
   campaigns: CampaignTripInfo[];
   showMap: boolean;
+  durationLabel: string;
   transportTypeIcons = transportTypeIcons;
   transportTypeLabels = transportTypeLabels;
 
   constructor(
     private route: ActivatedRoute,
     private errorService: ErrorService,
-    private trackControllerService: TrackControllerService
+    private trackControllerService: TrackControllerService,
+    public campaignService: CampaignService
   ) {}
 
   async ngOnInit() {
     const tripId = this.route.snapshot.paramMap.get('id');
     if (tripId) {
       try {
-        const singleTripDetail = await this.getTripDetail(tripId);
-        this.tripDetails = [singleTripDetail];
-        this.showMap = this.tripDetails.some((trip) => trip.polyline);
-        this.campaigns = flatMap(
-          this.tripDetails,
-          (trip: TrackedInstanceInfo) => trip.campaigns
+        this.tripDetail = await this.getTripDetail(tripId);
+        this.showMap = Boolean(this.tripDetail.polyline);
+        this.campaigns = this.tripDetail.campaigns;
+        this.durationLabel = formatDurationToHoursAndMinutes(
+          this.tripDetail.endTime - this.tripDetail.startTime
         );
       } catch (e) {
         // TODO: incorrect id handling
@@ -46,6 +50,7 @@ export class TripDetailPage implements OnInit {
       }
     }
   }
+
   async getTripDetail(id: string): Promise<TrackedInstanceInfo> {
     return await this.trackControllerService
       .getTrackedInstanceInfoUsingGET({ trackedInstanceId: id })
