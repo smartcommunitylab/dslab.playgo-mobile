@@ -22,7 +22,11 @@ import {
   TransportType,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
-import { groupByConsecutiveValues, tapLog } from 'src/app/core/shared/utils';
+import {
+  groupByConsecutiveValues,
+  tapLog,
+  trackByProperty,
+} from 'src/app/core/shared/utils';
 import {
   toServerDateOnly,
   toServerDateTime,
@@ -166,6 +170,10 @@ export class TripsPage implements OnInit {
     shareReplay(1)
   );
 
+  trackGroup = trackByProperty<TripGroup>('monthDate');
+  trackMultiTrip = trackByProperty<MultiTrip>('multimodalId');
+  trackTrip = trackByProperty<ServerOrLocalTrip>('trackedInstanceId');
+
   constructor(
     private authHttpService: AuthHttpService,
     private errorService: ErrorService,
@@ -174,19 +182,6 @@ export class TripsPage implements OnInit {
     private tripService: TripService,
     private localTripsService: LocalTripsService
   ) {}
-
-  trackGroup: TrackByFunction<TripGroup> = (index: number, group: TripGroup) =>
-    group.monthDate;
-
-  trackMultiTrip: TrackByFunction<MultiTrip> = (
-    index: number,
-    multiTrip: MultiTrip
-  ) => multiTrip.multimodalId;
-
-  trackTrip: TrackByFunction<ServerOrLocalTrip> = (
-    index: number,
-    trip: ServerOrLocalTrip
-  ) => trip.trackedInstanceId;
 
   ngOnInit() {}
 
