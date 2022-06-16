@@ -28,6 +28,7 @@ import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { IStatus } from '../model/status.model';
 import { isEqual } from 'lodash-es';
 import { Territory, TerritoryData } from '../model/territory.model';
+
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userLocale: string;
@@ -261,7 +262,12 @@ export class UserService {
       .registerPlayerUsingPOST(user)
       .toPromise();
   }
-  async isUserRegistered(): Promise<boolean> {
+  /**
+   * Call api to test if user is registered
+   *
+   * @returns true / false / null = not known
+   */
+  async isUserRegistered(): Promise<boolean | null> {
     try {
       const user = await this.playerControllerService
         .getProfileUsingGET()
@@ -274,10 +280,9 @@ export class UserService {
         return false;
       }
     } catch (e) {
-      {
-        console.log(e);
-        return false;
-      }
+      // toto check local storage
+      console.log(e);
+      return null;
     }
   }
   getProfile(): Promise<Player> {
