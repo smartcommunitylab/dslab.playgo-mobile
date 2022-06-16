@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
-import { AuthActions, AuthService, IAuthAction } from 'ionic-appauth';
+import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/core/shared/model/user.model';
-import { UserStorageService } from 'src/app/core/shared/services/user-storage.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { PrivacyModalPage } from './privacy-modal/privacyModal.component';
 
@@ -18,17 +16,11 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   profile: IUser;
 
   constructor(
-    private auth: AuthService,
-    private navCtrl: NavController,
     private userService: UserService,
-    private localStorageService: UserStorageService,
     private modalController: ModalController
   ) {}
 
   ngOnInit() {
-    this.sub = this.auth.events$.subscribe((action) =>
-      this.onSignOutSuccess(action)
-    );
     this.subProf = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
     });
@@ -39,12 +31,6 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
     this.subProf.unsubscribe();
   }
 
-  private onSignOutSuccess(action: IAuthAction) {
-    if (action.action === AuthActions.SignOutSuccess) {
-      this.localStorageService.clearUser();
-      this.navCtrl.navigateRoot('login');
-    }
-  }
   updateLanguage() {
     this.userService.updatePlayer(this.profile);
   }
@@ -58,7 +44,7 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public signOut() {
-    this.auth.signOut();
+    this.userService.logout();
   }
   ngAfterViewInit() {
     const selects = document.querySelectorAll('.app-alert');

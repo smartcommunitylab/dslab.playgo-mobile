@@ -1,21 +1,21 @@
 import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { combineLatest, merge, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, merge, Observable, of, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
 import { TransportType } from '../tracking/trip.model';
-import { UserStorageService } from './user-storage.service';
 import { TerritoryService } from './territory.service';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
-import { AuthService } from 'ionic-appauth';
+import { AuthActions, AuthService } from 'ionic-appauth';
 import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Avatar } from '../../api/generated/model/avatar';
 import { Player } from '../../api/generated/model/player';
 import {
+  catchError,
   distinctUntilChanged,
   filter,
   first,
@@ -25,6 +25,7 @@ import {
 } from 'rxjs/operators';
 import { isEqual } from 'lodash-es';
 import { Territory } from '../model/territory.model';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -48,6 +49,8 @@ export class UserService {
     distinctUntilChanged(isEqual),
     shareReplay(1)
   );
+
+  private userStorage = this.localStorageService.getStorageOf<IUser>('user');
 
   public userProfileTerritory$: Observable<Territory> = combineLatest([
     this.userProfile$,
@@ -73,12 +76,17 @@ export class UserService {
   constructor(
     private translateService: TranslateService,
     private territoryService: TerritoryService,
-    private localStorageService: UserStorageService,
+    private localStorageService: LocalStorageService,
     private navCtrl: NavController,
     private authService: AuthService,
     private http: HttpClient,
     private playerControllerService: PlayerControllerService
-  ) {}
+  ) {
+    this.authService.events$
+      .pipe(filter(({ action }) => action === AuthActions.SignOutSuccess))
+      .subscribe((action) => this.afterSignOutSuccess());
+  }
+
   set locale(value: string) {
     this.userLocale = value;
   }
@@ -93,8 +101,22 @@ export class UserService {
       .uploadPlayerAvatarUsingPOST(formData)
       .toPromise();
   }
-  getAvatar(): Promise<Avatar> {
-    return this.playerControllerService.getPlayerAvatarUsingGET().toPromise();
+
+  getAvatar(): Promise<IUser['avatar']> {
+    return this.playerControllerService
+      .getPlayerAvatarUsingGET()
+      .pipe(
+        catchError((error) => of(null)),
+        map((partialAvatar) => ({
+          avatarSmallUrl:
+            partialAvatar?.avatarSmallUrl ||
+            'assets/images/registration/generic_user.png',
+          avatarUrl:
+            partialAvatar?.avatarUrl ||
+            'assets/images/registration/generic_user.png',
+        }))
+      )
+      .toPromise();
   }
 
   getAACUserInfo(): Promise<any> {
@@ -122,34 +144,28 @@ export class UserService {
   }
 
   private async getUserProfile(): Promise<IUser> {
-    let user = {};
-    //check if locally present and I'm logged (store in the memory)
+    let user: IUser;
+
     try {
       user = await this.getProfile();
-      if (!user) {
-        //go to registration
-        this.navCtrl.navigateRoot('/pages/registration');
-      }
+      user.avatar = await this.getAvatar();
     } catch (e) {
-      console.log(e);
-    }
-    //check if the avatar is present
-    let avatar: Avatar = null;
-    try {
-      avatar = await this.getAvatar();
-    } catch (e) {
-      if (!avatar) {
-        avatar = {
-          avatarSmallUrl: 'assets/images/registration/generic_user.png',
-          avatarUrl: 'assets/images/registration/generic_user.png',
-        };
+      if (e instanceof Error && e.message === 'offline') {
+        user = this.userStorage.get();
+      } else {
+        throw e;
       }
     }
-    if (user) {
-      this.userProfile = user;
-      this.processUser(user, avatar);
+
+    if (!user) {
+      this.navCtrl.navigateRoot('/pages/registration');
     }
-    return Promise.resolve(user);
+
+    this.userProfile = user;
+    this.processUser(user);
+    // store user with avatar
+    this.userStorage.set(user);
+    return user;
   }
 
   public async startService() {
@@ -157,18 +173,14 @@ export class UserService {
     await this.getUserProfile();
     // await this.getUserStatus();
   }
-  async updateImages(avatar) {
-    this.processUser(this.userProfile, avatar);
+
+  public async updateImages(avatar) {
+    this.userProfile.avatar = avatar;
   }
-  processUser(user: IUser, avatar?: any) {
-    if (avatar) {
-      this.setUserAvatar(user, avatar);
-    }
+
+  processUser(user: IUser) {
     this.setUserProfileMeans(user.territoryId);
     this.registerLocale(user.language);
-  }
-  setUserAvatar(user: IUser, avatar: any) {
-    user.avatar = avatar;
   }
 
   async setUserProfileMeans(territoryId: string): Promise<TransportType[]> {
@@ -190,7 +202,7 @@ export class UserService {
    *
    * @returns true / false / null = not known
    */
-  async isUserRegistered(): Promise<boolean | null> {
+  public async isUserRegistered(): Promise<boolean | null> {
     try {
       const user = await this.playerControllerService
         .getProfileUsingGET()
@@ -222,9 +234,11 @@ export class UserService {
   }
 
   // logout the user from the application and clean the storage
-  logout(): void {
+  public logout(): void {
     this.authService.signOut();
-    this.localStorageService.clearUser();
+  }
+  private afterSignOutSuccess() {
+    this.localStorageService.clearAll();
     this.navCtrl.navigateRoot('login');
   }
 }

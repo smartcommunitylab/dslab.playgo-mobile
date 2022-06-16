@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher, NavController } from '@ionic/angular';
 import { AuthService, IAuthAction, AuthActions } from 'ionic-appauth';
-import { UserStorageService } from 'src/app/core/shared/services/user-storage.service';
 import { Subscription } from 'rxjs';
 import { AppVersionService } from 'src/app/core/app-version.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
