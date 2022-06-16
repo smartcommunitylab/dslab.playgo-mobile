@@ -30,6 +30,7 @@
       (click)="
         changeTransportType($event, eachTransportTypeOption.transportType)
       "
+      class="fab-button-show"
     >
       <app-icon
         class="icon-size-normal"
@@ -41,6 +42,7 @@
       color="danger"
       [disabled]="tripService.operationInProgress$ | async"
       *ngIf="(tripService.isInTrip$ | async) === true"
+      class="fab-button-show"
     >
       <ion-icon name="stop"> </ion-icon>
     </ion-fab-button>
