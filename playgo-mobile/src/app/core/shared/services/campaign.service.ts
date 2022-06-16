@@ -96,4 +96,13 @@ export class CampaignService {
       {}
     );
   }
+
+  /** returns ionic "color". For example "danger" */
+  getCampaignColor(campaign: Campaign): string {
+    return campaign.type;
+  }
+  /** returns ionic icon name. For example "leaf" */
+  getCampaignIcon(campaign: Campaign): string {
+    return 'leaf';
+  }
 }

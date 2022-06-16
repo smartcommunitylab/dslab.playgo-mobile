@@ -1,16 +1,18 @@
 import { NgZone } from '@angular/core';
 import { Photo } from '@capacitor/camera';
 import { flatMap, initial, last, tail, zip } from 'lodash-es';
+import { Duration } from 'luxon';
 import {
   concat,
   from,
   merge,
+  MonoTypeOperatorFunction,
   Observable,
   ObservableInput,
   ObservedValueOf,
   OperatorFunction,
 } from 'rxjs';
-import { first, map, takeUntil, tap } from 'rxjs/operators';
+import { concatMap, filter, first, map, takeUntil, tap } from 'rxjs/operators';
 
 export const isNotConstant =
   <C>(constant: C) =>
@@ -92,6 +94,17 @@ export function throwIfNil<T>(
     );
 }
 
+export function asyncFilter<T>(
+  predicate: (value: T, index: number) => Promise<boolean>
+): MonoTypeOperatorFunction<T> {
+  return concatMap((value: T, index: number) =>
+    from(predicate(value, index)).pipe(
+      filter(Boolean),
+      map(() => value)
+    )
+  );
+}
+
 export async function readAsBase64(photo: Photo) {
   // Fetch the photo, read as a blob, then convert to base64 format
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -131,4 +144,18 @@ export async function time(ms: number): Promise<void> {
   await new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+}
+
+export function formatDurationToHoursAndMinutes(millis: number): string {
+  const duration = Duration.fromMillis(Math.abs(millis)).shiftTo(
+    'hours',
+    'minutes'
+  );
+  const hours = duration.hours;
+  const minutes = Math.round(duration.minutes);
+  if (hours > 0) {
+    return `${hours} h ${minutes} min`;
+  } else {
+    return `${minutes} min`;
+  }
 }

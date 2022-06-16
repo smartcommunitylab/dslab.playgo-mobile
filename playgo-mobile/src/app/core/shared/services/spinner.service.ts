@@ -11,6 +11,7 @@ export class SpinnerService {
   private delay = 200;
   private isLoading = new Subject<boolean>();
   private loader: any;
+
   constructor(public loadingController: LoadingController) {
     this.isLoading.pipe(debounceTime(this.delay)).subscribe((value) => {
       if (value) {

@@ -1,20 +1,27 @@
 /* eslint-disable id-blacklist */
 import {
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
   Component,
   ContentChild,
   Directive,
   EventEmitter,
+  Inject,
   Input,
   OnInit,
+  Optional,
   Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { IonContent } from '@ionic/angular';
 import { isNil, negate } from 'lodash-es';
-import { Observable, Subject } from 'rxjs';
+import { EMPTY, merge, Observable, Subject } from 'rxjs';
 import {
   filter,
   map,
+  first,
   scan,
   startWith,
   switchMap,
@@ -22,6 +29,7 @@ import {
 } from 'rxjs/operators';
 import { Sort } from '../../api/generated/model/sort';
 import { SwaggerPageable } from '../../api/generated/model/swaggerPageable';
+import { asyncFilter, tapLog } from '../utils';
 @Directive({
   selector: '[appInfiniteScrollContent]',
 })
@@ -34,7 +42,7 @@ export class InfiniteScrollContentDirective {
   templateUrl: './infinite-scroll.component.html',
   styleUrls: ['./infinite-scroll.component.scss'],
 })
-export class InfiniteScrollComponent<T> implements OnInit {
+export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
   @ContentChild(InfiniteScrollContentDirective)
   content!: InfiniteScrollContentDirective;
 
@@ -59,12 +67,37 @@ export class InfiniteScrollComponent<T> implements OnInit {
   }
   resetItems$ = new Subject<void>();
 
-  private loadDataEvents$ = new Subject<IonicLoadDataEvent>();
+  private loadDataEvents$ = new Subject<void>();
+
+  private afterViewChecked = new Subject<void>();
+  private manualLoadWithNoScroll$ = this.response$.pipe(
+    switchMap((response) => {
+      if (!response) {
+        return EMPTY;
+      }
+      const page = response.number + 1;
+      const notAllDataIsLoaded = page < response.totalPages;
+      return this.afterViewChecked.pipe(
+        first(),
+        asyncFilter(async () => {
+          const noScroll = (await this.hasScroll()) === false;
+          const shouldForceLoad = notAllDataIsLoaded && noScroll;
+          return shouldForceLoad;
+        })
+      );
+    }),
+    tapLog(
+      'Manually forced load of next page, because there is no scroll to trigger it'
+    )
+  );
 
   @Output()
-  public request: Observable<PageableRequest> = this.loadDataEvents$.pipe(
+  public request: Observable<PageableRequest> = merge(
+    this.loadDataEvents$,
+    this.manualLoadWithNoScroll$
+  ).pipe(
     withLatestFrom(this.response$),
-    map(([event, response]) => {
+    map(([, response]) => {
       const page = response.number + 1;
       const size = response.size;
       if (page >= response.totalPages) {
@@ -93,16 +126,31 @@ export class InfiniteScrollComponent<T> implements OnInit {
   @Output()
   public items = this.items$;
 
-  constructor() {}
+  constructor(
+    @Optional() @Inject(IonContent) private ionContentElement: IonContent
+  ) {}
 
   loadData(event) {
-    this.loadDataEvents$.next(event);
+    this.loadDataEvents$.next();
   }
 
   ngOnInit() {}
-}
 
-interface IonicLoadDataEvent {}
+  ngAfterViewChecked() {
+    this.afterViewChecked.next();
+  }
+
+  async hasScroll(): Promise<boolean | null> {
+    if (!this.ionContentElement) {
+      return null;
+    }
+    const scrollElement = await this.ionContentElement.getScrollElement();
+    if (!scrollElement) {
+      return null;
+    }
+    return scrollElement.scrollHeight > scrollElement.clientHeight;
+  }
+}
 
 export interface PageableRequest {
   size?: number;

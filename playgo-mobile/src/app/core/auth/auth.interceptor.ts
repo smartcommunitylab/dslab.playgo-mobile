@@ -1,25 +1,36 @@
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,
   HttpHandler,
   HttpRequest,
 } from '@angular/common/http';
-import { from, Observable, ReplaySubject, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  from,
+  Observable,
+  ReplaySubject,
+  throwError,
+} from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  filter,
+  finalize,
+  map,
+  take,
+} from 'rxjs/operators';
 import { AuthService } from 'ionic-appauth';
 import { UserStorageService } from '../shared/services/user-storage.service';
 import { NavController } from '@ionic/angular';
 import { SpinnerService } from '../shared/services/spinner.service';
-// import { UserService } from '../shared/services/user.service';
+
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private urlsToNotUse: Array<string>;
   private isRefreshing = false;
+  private tokenRefreshed$ = new BehaviorSubject<boolean>(false);
+
   private refreshTokenSubject: ReplaySubject<any> = new ReplaySubject<any>(
     null
   );
@@ -61,48 +72,56 @@ export class AuthInterceptor implements HttpInterceptor {
     return next
       .handle(req)
       .pipe(
-        map((event: HttpEvent<any>) => {
-          this.spinnerService.hide();
-          return event;
-        }),
+        map((event: HttpEvent<any>) => event),
         catchError((error: HttpErrorResponse) => {
           if (error instanceof HttpErrorResponse && error.status === 401) {
             return this.handle401Error(req, next);
           }
-          this.spinnerService.hide();
           return throwError(error);
+        }),
+        finalize(() => {
+          this.spinnerService.hide();
         })
       )
       .toPromise();
   }
+
   private async handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
-      try {
-        const token = await this.authService.getValidToken();
-        if (token) {
-          this.isRefreshing = false;
-          this.refreshTokenSubject.next(token.accessToken);
-          //change token to request
-          request = this.changeToken(token.accessToken, request);
-          this.spinnerService.hide();
-          return next.handle(request);
-        } else {
-          this.isRefreshing = false;
-          //logout
-          //this.userService.logout();
-          this.authService.signOut();
-          this.localStorageService.clearUser();
-          this.navCtrl.navigateRoot('login');
-          this.spinnerService.hide();
-        }
-      } catch (e) {
-        this.isRefreshing = false;
-        this.spinnerService.hide();
-        return throwError(e);
-      }
+    if (this.isRefreshing) {
+      return this.tokenRefreshed$.pipe(
+        filter(Boolean),
+        take(1),
+        concatMap(async () => {
+          const token = await this.authService.getValidToken();
+          return next.handle(this.changeToken(token.accessToken, request));
+        })
+      );
     }
+
+    this.isRefreshing = true;
+
+    // Reset here so that the following requests wait until the token
+    // comes back from the refreshToken call.
+    this.tokenRefreshed$.next(false);
+
+    return from(this.authService.refreshToken()).pipe(
+      concatMap(async (res) => {
+        const token = await this.authService.getValidToken();
+        this.tokenRefreshed$.next(true);
+        this.refreshTokenSubject.next(token.accessToken);
+        return next.handle(this.changeToken(token.accessToken, request));
+      }),
+      catchError((err) => {
+        this.authService.signOut();
+        this.localStorageService.clearUser();
+        this.navCtrl.navigateRoot('login');
+        return throwError(err);
+      }),
+      finalize(() => {
+        this.spinnerService.hide();
+        this.isRefreshing = false;
+      })
+    );
   }
   changeToken(accessToken: string, request: HttpRequest<any>) {
     return request.clone({

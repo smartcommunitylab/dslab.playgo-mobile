@@ -4,7 +4,7 @@
   "profileTitle": "Profilo",
   "campaignsTitle": "Campagna",
   "tripsTitle": "Lista viaggi",
-  "tripDetailTitle": "IT: Trip Details",
+  "tripDetailTitle": "Dettagli viaggio",
   "login": {
     "labelSignin": "Autenticazione in corso",
     "labelSignout": "Uscita dal sistema",
@@ -69,22 +69,22 @@
     }
   },
   "modal": {
-    "cancel": "IT: Cancel",
-    "ok": "IT: Okay",
-    "alert_title": "IT: Alert"
+    "cancel": "Annulla",
+    "ok": "OK",
+    "alert_title": "Attenzione"
   },
   "tracking": {
     "choose_means": "Seleziona una mezzo per tracciare",
-    "continue_low_accuracy_prompt": "IT: Low accuracy detected! Do you want to continue?",
-    "show_current_location": "IT: Show me where I am",
+    "continue_low_accuracy_prompt": "Bassa precisione rilevata! Vuoi proseguire?",
+    "show_current_location": "Fammi vedere dove sono",
     "car": {
-      "choose_role": "IT: Which mode are you?",
-      "driver": "IT: Driver",
-      "passenger": "IT: Passenger",
-      "manual_code": "IT: Shared trip code:",
-      "manual_code_input_label": "IT: Input code manually:",
-      "manual_code_input_confirm": "IT: OK",
-      "scan": "IT: Scan"
+      "choose_role": "Scegli il tuo ruolo",
+      "driver": "Guidatore",
+      "passenger": "Passeggero",
+      "manual_code": "Condividi il codice del vaggio:",
+      "manual_code_input_label": "Inserisci il codice manualmente:",
+      "manual_code_input_confirm": "Ok",
+      "scan": "Leggilo"
     }
   },
   "profile": {
@@ -138,10 +138,12 @@
     "start": "Inizio",
     "end": "Fine",
     "distance": "Lunghezza",
-    "gl_earned_in": "GL guadagnate in",
-    "gl_per_campaign": {
-      "plural_form_one": "+ {{score}} Foglia Verde per {{campaignName}}",
-      "plural_form_other": "+ {{score}} Foglie Verdi per  {{campaignName}}"
+    "gl_for": "per",
+    "valid_for_campaigns": {
+      "plural_form": {
+        "one": "Valido per {{count}} campagna",
+        "other": "Valido per {{count}} campagne"
+      }
     },
     "mean": {
       "car": "Macchina",
@@ -152,11 +154,11 @@
       "bus": "Autobus"
     },
     "status": {
-      "valid": "IT: Valid",
-      "invalid": "IT: Invalid",
-      "pending": "IT: Pending",
-      "not_synchronized": "IT: Not synchronized",
-      "not_finished": "IT: Ongoing"
+      "valid": "Valido",
+      "invalid": "Non valido",
+      "pending": "In attesa",
+      "not_synchronized": "Non sincronizzato",
+      "not_finished": "In corso"
     }
   },
   "errors": {
