@@ -8,6 +8,7 @@ import { TerritoryService } from 'src/app/core/shared/services/territory.service
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { readAsBase64 } from 'src/app/core/shared/utils';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'ionic-appauth';
 
 @Component({
   selector: 'app-registration',
@@ -28,8 +29,7 @@ export class RegistrationPage implements OnInit {
     private navCtrl: NavController,
     private sanitizer: DomSanitizer,
     private alertService: AlertService,
-    private alertController: AlertController,
-    private translate: TranslateService
+    private auth: AuthService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -143,7 +143,7 @@ export class RegistrationPage implements OnInit {
       console.log(error);
     }
   }
-  back() {
-    this.navCtrl.back();
+  cancel() {
+    this.auth.signOut();
   }
 }

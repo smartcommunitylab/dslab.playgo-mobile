@@ -1,8 +1,13 @@
-<app-header
-  title="{{ 'registration.title' | translate }}"
-  [backButton]="true"
-  [defaultHref]="'/pages/registration'"
-></app-header>
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()"> X </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <span>{{ 'registration.title' | translate }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content color="playgo">
   <form [formGroup]="registrationForm" (ngSubmit)="registrationSubmit()">
     <ion-grid class="ion-margin">
