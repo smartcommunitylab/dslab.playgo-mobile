@@ -190,7 +190,12 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     console.log('Segment changed, change the selected period', ev);
   }
   ngAfterViewInit() {
-    //this.barChartMethod();
+    const selects = document.querySelectorAll('.app-alert');
+    selects.forEach((select) => {
+      (select as any).interfaceOptions = {
+        cssClass: 'app-alert',
+      };
+    });
   }
   backPeriod() {
     //change referenceDate

@@ -4,9 +4,10 @@
   <!-- <ion-refresher slot="fixed" (ionRefresh)="refresh()" #refresher>
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher> -->
-  <ion-item>
+  <ion-item color="playgo">
     <ion-label>{{ 'campaigns.stats.filter.mean_type' | translate }}</ion-label>
     <ion-select
+      class="app-alert"
       (ionChange)="statMeanChangedSubject.next($any($event))"
       [value]="selectedStatMeanType$ | async"
     >
@@ -18,9 +19,10 @@
       </ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-item>
+  <ion-item color="playgo">
     <ion-label>{{ 'campaigns.stats.filter.unit_type' | translate }}</ion-label>
     <ion-select
+      class="app-alert"
       (ionChange)="statUnitChangedSubject.next($any($event))"
       [value]="selectedStatUnitType$ | async"
     >
@@ -33,12 +35,18 @@
     </ion-select>
   </ion-item>
   <ion-segment
-    color="playgo"
+    mode="md"
+    class="app-segment"
     [(ngModel)]="selectedSegment"
     (ionChange)="segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)"
     scrollable
   >
-    <ion-segment-button *ngFor="let period of periods" [value]="period" checked>
+    <ion-segment-button
+      *ngFor="let period of periods"
+      [value]="period"
+      checked
+      class="app-segment-button"
+    >
       <ion-label>{{period.labelKey| translate}}</ion-label>
     </ion-segment-button>
   </ion-segment>

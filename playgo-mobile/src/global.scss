@@ -75,6 +75,15 @@ ion-list {
     background-color: white;
   }
 }
+.app-segment {
+  --background: var(--ion-color-playgo);
+  color: white;
+  .app-segment-button {
+    --background: var(--ion-color-playgo);
+    // --color: grey;
+    --color-checked: white;
+  }
+}
 .button-left-icon {
   width: 100%;
   text-align: left;
@@ -87,6 +96,36 @@ ion-list {
 }
 .icon-size-normal {
   font-size: 22px;
+}
+
+.app-alert {
+  --background: var(--ion-color-playgo);
+
+  .select-interface-option {
+    --button-color: white;
+    --button-color-hover: white;
+    --color: white;
+    --color-hover: white;
+  }
+  .alert-title,
+  .select-interface-option .alert-radio-label,
+  .select-interface-option .alert-checkbox-label,
+  .select-interface-option[aria-checked="true"] .alert-radio-label,
+  .select-interface-option[aria-checked="true"] .alert-checkbox-label {
+    color: white;
+  }
+  [aria-checked="true"].sc-ion-alert-md .alert-radio-icon {
+    border-color: white;
+  }
+  .alert-radio-inner {
+    background-color: white;
+  }
+  .alert-radio-icon {
+    border-color: white;
+  }
+  .alert-button {
+    color: white;
+  }
 }
 
 @import "material-icons/iconfont/material-icons.scss";
