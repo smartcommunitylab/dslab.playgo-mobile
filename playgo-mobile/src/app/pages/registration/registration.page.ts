@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -15,7 +15,7 @@ import { AuthService } from 'ionic-appauth';
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })
-export class RegistrationPage implements OnInit {
+export class RegistrationPage implements OnInit, AfterViewInit {
   territoryList = [];
   registrationForm: FormGroup;
   isSubmitted = false;
@@ -145,5 +145,13 @@ export class RegistrationPage implements OnInit {
   }
   cancel() {
     this.auth.signOut();
+  }
+  ngAfterViewInit() {
+    const selects = document.querySelectorAll('.app-alert');
+    selects.forEach((select) => {
+      (select as any).interfaceOptions = {
+        cssClass: 'app-alert',
+      };
+    });
   }
 }

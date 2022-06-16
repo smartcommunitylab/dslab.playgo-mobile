@@ -1,12 +1,13 @@
 <app-header></app-header>
 <ion-content>
   <ng-container *ngIf="(campaign$ |async) !== null">
-    <ion-item>
+    <ion-item color="playgo">
       <ion-label
         >{{ 'campaigns.leaderboard.filter.leaderboard_type' | translate
         }}</ion-label
       >
       <ion-select
+        class="app-alert"
         (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
         [value]="selectedLeaderboardType$ | async"
       >
@@ -22,11 +23,12 @@
       </ion-select>
     </ion-item>
 
-    <ion-item>
+    <ion-item color="playgo">
       <ion-label
         >{{ 'campaigns.leaderboard.filter.period' | translate }}</ion-label
       >
       <ion-select
+        class="app-alert"
         (ionChange)="periodChangedSubject.next($any($event))"
         [value]="selectedPeriod$ | async"
       >
