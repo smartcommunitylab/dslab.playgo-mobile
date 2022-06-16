@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { AuthActions, AuthService, IAuthAction } from 'ionic-appauth';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { PrivacyModalPage } from './privacy-modal/privacyModal.component';
   templateUrl: 'profile.page.html',
   styleUrls: ['profile.page.scss'],
 })
-export class ProfilePage implements OnInit, OnDestroy {
+export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   subProf: Subscription;
   sub!: Subscription;
   profile: IUser;
@@ -59,5 +59,13 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   public signOut() {
     this.auth.signOut();
+  }
+  ngAfterViewInit() {
+    const selects = document.querySelectorAll('.app-alert');
+    selects.forEach((select) => {
+      (select as any).interfaceOptions = {
+        cssClass: 'app-alert',
+      };
+    });
   }
 }

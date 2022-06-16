@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -8,13 +8,14 @@ import { TerritoryService } from 'src/app/core/shared/services/territory.service
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { readAsBase64 } from 'src/app/core/shared/utils';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'ionic-appauth';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })
-export class RegistrationPage implements OnInit {
+export class RegistrationPage implements OnInit, AfterViewInit {
   territoryList = [];
   registrationForm: FormGroup;
   isSubmitted = false;
@@ -28,8 +29,7 @@ export class RegistrationPage implements OnInit {
     private navCtrl: NavController,
     private sanitizer: DomSanitizer,
     private alertService: AlertService,
-    private alertController: AlertController,
-    private translate: TranslateService
+    private auth: AuthService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -83,18 +83,15 @@ export class RegistrationPage implements OnInit {
     this.alertService.presentAlert({
       headerTranslateKey: 'registration.territoryPopup.header',
       messageTranslateKey: 'registration.territoryPopup.message',
-      cssClass: 'modalConfirm'
-    }
-    );
+      cssClass: 'modalConfirm',
+    });
   }
   openPrivacyPopup() {
-    this.alertService.presentAlert(
-      {
-        headerTranslateKey: 'registration.privacyPopup.header',
-        messageTranslateKey: 'registration.privacyPopup.message',
-        cssClass: 'modalConfirm'
-      }
-    );
+    this.alertService.presentAlert({
+      headerTranslateKey: 'registration.privacyPopup.header',
+      messageTranslateKey: 'registration.privacyPopup.message',
+      cssClass: 'modalConfirm',
+    });
   }
 
   async registrationSubmit() {
@@ -145,5 +142,16 @@ export class RegistrationPage implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+  cancel() {
+    this.auth.signOut();
+  }
+  ngAfterViewInit() {
+    const selects = document.querySelectorAll('.app-alert');
+    selects.forEach((select) => {
+      (select as any).interfaceOptions = {
+        cssClass: 'app-alert',
+      };
+    });
   }
 }

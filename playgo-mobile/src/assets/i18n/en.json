@@ -1,6 +1,6 @@
 {
   "helloWorld": "Hello world",
-  "homeTtle": "Home",
+  "homeTtle": "Play&Go",
   "profileTitle": "Profile",
   "campaignsTitle": "Campaign",
   "tripsTitle": "Trips",
@@ -20,7 +20,7 @@
   },
   "registration": {
     "newUser": "New User. Fill the form with your information",
-    "title": "Registration",
+    "title": "New user",
     "avatar": {
       "title": "Avatar"
     },
@@ -297,7 +297,7 @@
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",
   "join": "Join",
-  "home": "Home",
+  "home": "Play&Go",
   "home_title": "Home",
   "profile_title": "Profile",
   "campaigns_title": "Campaign",

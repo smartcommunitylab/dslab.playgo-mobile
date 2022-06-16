@@ -10,6 +10,7 @@
       <ion-item lines="full" color="playgo">
         <ion-label>{{'profile.change.lang.language'|translate}}</ion-label>
         <ion-select
+          class="app-alert"
           placeholder="{{'profile.change.lang.select'|translate}}"
           [(ngModel)]="profile.language"
           (ionChange)="updateLanguage()"

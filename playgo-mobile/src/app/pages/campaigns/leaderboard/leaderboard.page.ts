@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
 import { find, isEqual, partial } from 'lodash-es';
@@ -40,7 +40,7 @@ import { Campaign } from 'src/app/core/api/generated/model/campaign';
   templateUrl: './leaderboard.page.html',
   styleUrls: ['./leaderboard.page.scss'],
 })
-export class LeaderboardPage implements OnInit {
+export class LeaderboardPage implements OnInit, AfterViewInit {
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
 
@@ -277,6 +277,14 @@ export class LeaderboardPage implements OnInit {
   }
 
   ngOnInit() {}
+  ngAfterViewInit() {
+    const selects = document.querySelectorAll('.app-alert');
+    selects.forEach((select) => {
+      (select as any).interfaceOptions = {
+        cssClass: 'app-alert',
+      };
+    });
+  }
 }
 
 type ArgumentsBase = {

@@ -1,6 +1,6 @@
 {
   "helloWorld": "Ciao mondo",
-  "homeTtle": "Home",
+  "homeTtle": "Play&Go",
   "profileTitle": "Profilo",
   "campaignsTitle": "Campagna",
   "tripsTitle": "Lista viaggi",
@@ -19,8 +19,8 @@
     "subtitle": "App di mobilitá sostenibile"
   },
   "registration": {
+    "title": "Nuovo utente",
     "newUser": "New User. Fill the form with your information",
-    "title": "Registratione",
     "avatar": {
       "title": "Avatar"
     },
@@ -172,8 +172,8 @@
     "xxx": "xxx",
     "registered": "Registrato",
     "unregistered": "Utente disiscritto",
-    "myCampaigns": "Le mie campagne",
-    "allCampaigns": "Tutte le campagne",
+    "myCampaigns": "Le mie",
+    "allCampaigns": "Tutte",
     "public": {
       "last": "Durata:"
     },
@@ -306,7 +306,7 @@
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",
   "join": "Partecipa",
-  "home": "Home",
+  "home": "Play&Go",
   "home_title": "Home",
   "profile_title": "Profilo",
   "campaigns_title": "Campagna",

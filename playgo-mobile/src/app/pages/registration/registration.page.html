@@ -1,7 +1,13 @@
 <ion-header>
-  <ion-toolbar> </ion-toolbar>
+  <ion-toolbar color="playgo">
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()"> X </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <span>{{ 'registration.title' | translate }}</span>
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
-
 <ion-content color="playgo">
   <form [formGroup]="registrationForm" (ngSubmit)="registrationSubmit()">
     <ion-grid class="ion-margin">
@@ -99,6 +105,7 @@
       <ion-item lines="full" color="playgo">
         <ion-label>{{'registration.lang.language'|translate}}</ion-label>
         <ion-select
+          class="app-alert"
           placeholder="{{'registration.lang.select'|translate}}"
           formControlName="language"
         >
@@ -122,6 +129,7 @@
           >{{'registration.territories.territory'|translate}}</ion-label
         >
         <ion-select
+          class="app-alert"
           placeholder="{{'registration.territories.select'|translate}}"
           formControlName="territoryId"
         >
