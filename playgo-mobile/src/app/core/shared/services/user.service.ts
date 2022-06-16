@@ -21,13 +21,10 @@ import {
   first,
   map,
   shareReplay,
-  startWith,
   switchMap,
 } from 'rxjs/operators';
-import { PlayerStatus } from '../../api/generated/model/playerStatus';
-import { IStatus } from '../model/status.model';
 import { isEqual } from 'lodash-es';
-import { Territory, TerritoryData } from '../model/territory.model';
+import { Territory } from '../model/territory.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -45,13 +42,13 @@ export class UserService {
     this.initUserProfile$,
     this.userProfileRefresher$
   );
+
   userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
     switchMap(() => this.getUserProfile()),
     distinctUntilChanged(isEqual),
     shareReplay(1)
   );
 
-  // public userStatusRefresher$ = new ReplaySubject<PlayerStatus>(1);
   public userProfileTerritory$: Observable<Territory> = combineLatest([
     this.userProfile$,
     this.territoryService.territories$,
@@ -75,7 +72,6 @@ export class UserService {
   );
   constructor(
     private translateService: TranslateService,
-    private reportService: ReportService,
     private territoryService: TerritoryService,
     private localStorageService: UserStorageService,
     private navCtrl: NavController,
@@ -101,17 +97,6 @@ export class UserService {
     return this.playerControllerService.getPlayerAvatarUsingGET().toPromise();
   }
 
-  // getAvatarSmall(): Promise<any> {
-  //   return this.http
-  //     .request(
-  //       'GET',
-  //       environment.serverUrl.apiUrl + environment.serverUrl.avatarSmall,
-  //       {
-  //         responseType: 'blob',
-  //       }
-  //     )
-  //     .toPromise();
-  // }
   getAACUserInfo(): Promise<any> {
     return this.http
       .request('GET', environment.authConfig.server_host + '/userinfo')
@@ -150,10 +135,8 @@ export class UserService {
     }
     //check if the avatar is present
     let avatar: Avatar = null;
-    // let avatarImageSmall = null;
     try {
       avatar = await this.getAvatar();
-      // avatarImageSmall = await this.getAvatarSmall();
     } catch (e) {
       if (!avatar) {
         avatar = {
@@ -168,37 +151,13 @@ export class UserService {
     }
     return Promise.resolve(user);
   }
-  // private async getUserStatus(): Promise<PlayerStatus> {
-  //   //get user status
-  //   const status = await this.reportService.getStatus();
-  //   if (status) {
-  //     this.userStatus = status;
-  //     // this.userStatusSubject.next(this.userStatus);
-  //   }
-  //   return Promise.resolve(status);
-  // }
+
   public async startService() {
     //get user profile with avatars
     await this.getUserProfile();
     // await this.getUserStatus();
   }
   async updateImages(avatar) {
-    //check if the avatar is present
-    // let avatar = null;
-    // try {
-    //   // avatar = await this.getAvatar();
-    //   // avatarImageSmall = await this.getAvatarSmall();
-    // } catch (e) {
-    //   if (!avatar) {
-    //     avatar.avatarSmallUrl = await fetch(
-    //       'assets/images/registration/generic_user.png'
-    //     ).then((r) => r.blob());
-    //     avatar.avatarUrl = await fetch(
-    //       'assets/images/registration/generic_user.png'
-    //     ).then((r) => r.blob());
-    //   }
-
-    // }
     this.processUser(this.userProfile, avatar);
   }
   processUser(user: IUser, avatar?: any) {
@@ -207,53 +166,17 @@ export class UserService {
     }
     this.setUserProfileMeans(user.territoryId);
     this.registerLocale(user.language);
-    // this.userProfileRefresher$.next(user);
   }
   setUserAvatar(user: IUser, avatar: any) {
-    //this.createImageFromBlob(user, avatar, avatarSmall);
-    // if (!user.avatar) {
-    //   user.avatar = {};
-    // }
     user.avatar = avatar;
-
-    // user.avatar.avatarData = avatar.avatarUrl;
-    // user.avatar.avatarDataSmall = avatar.avatarSmallUrl;
   }
-  // createImageFromBlob(user: IUser, userimage: Blob, userimageSmall: Blob) {
-  //   const reader = new FileReader();
-  //   reader.addEventListener(
-  //     'load',
-  //     () => {
-  //       if (!user.avatar) {
-  //         user.avatar = new Avatar();
-  //       }
-  //       user.avatar.avatarData = reader.result;
-  //     },
-  //     false
-  //   );
-  //   const readerSmall = new FileReader();
-  //   readerSmall.addEventListener(
-  //     'load',
-  //     () => {
-  //       if (!user.avatar) {
-  //         user.avatar = new Avatar();
-  //       }
-  //       user.avatar.avatarDataSmall = reader.result;
-  //     },
-  //     false
-  //   );
-  //   if (userimage) {
-  //     reader.readAsDataURL(userimage);
-  //     readerSmall.readAsDataURL(userimageSmall);
-  //   }
-  // }
+
   async setUserProfileMeans(territoryId: string): Promise<TransportType[]> {
     //get territories means and set available means userProfileMeans$
     const userTerritory = await this.territoryService
       .getTerritory(territoryId)
       .toPromise();
     return Promise.resolve(userTerritory.territoryData.means);
-    //this.userProfileMeansSubject.next(userTerritory.territoryData.means);
   }
 
   registerPlayer(user: IUser): Promise<IUser> {

@@ -74,7 +74,6 @@ export class AuthInterceptor implements HttpInterceptor {
       .pipe(
         map((event: HttpEvent<any>) => event),
         catchError((error: HttpErrorResponse) => {
-          console.error('api error', error);
           if (error.status === 0 && navigator.onLine === false) {
             return throwError(new Error('offline'));
           }
