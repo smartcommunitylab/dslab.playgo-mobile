@@ -10,6 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
+import { trackByProperty } from '../../utils';
 import {
   TransportType,
   transportTypeIcons,
@@ -28,21 +29,19 @@ export class TrackingButtonsComponent implements OnInit {
   @Output()
   fabListActivated = new EventEmitter<boolean>();
 
-  public transportTypeOptions$: Observable<
-    {
-      transportType: TransportType;
-      icon: string;
-    }[]
-  > = this.userService.userProfileMeans$.pipe(
-    map((userProfileMeans) =>
-      transportTypes
-        .filter((transportType) => userProfileMeans.includes(transportType))
-        .map((transportType) => ({
-          transportType,
-          icon: transportTypeIcons[transportType],
-        }))
-    )
-  );
+  public transportTypeOptions$: Observable<TrackingFabButton[]> =
+    this.userService.userProfileMeans$.pipe(
+      map((userProfileMeans) =>
+        transportTypes
+          .filter((transportType) => userProfileMeans.includes(transportType))
+          .map((transportType) => ({
+            transportType,
+            icon: transportTypeIcons[transportType],
+          }))
+      )
+    );
+
+  trackTransportFabButton = trackByProperty<TrackingFabButton>('transportType');
 
   constructor(
     public tripService: TripService,
@@ -68,3 +67,8 @@ export class TrackingButtonsComponent implements OnInit {
 
   ngOnInit() {}
 }
+
+type TrackingFabButton = {
+  transportType: TransportType;
+  icon: string;
+};

@@ -12,7 +12,10 @@
   <ion-fab-list side="top">
     <ion-fab-button
       color="playgo"
-      *ngFor="let eachTransportTypeOption of transportTypeOptions$ | async"
+      *ngFor="
+        let eachTransportTypeOption of transportTypeOptions$ | async;
+        trackBy: trackTransportFabButton
+      "
       [disabled]="
         (tripService.operationInProgress$ | async) ||
         (tripService.activeTransportType$ | async) ===
@@ -27,6 +30,7 @@
       (click)="
         changeTransportType($event, eachTransportTypeOption.transportType)
       "
+      class="fab-button-show"
     >
       <app-icon
         class="icon-size-normal"
@@ -38,6 +42,7 @@
       color="danger"
       [disabled]="tripService.operationInProgress$ | async"
       *ngIf="(tripService.isInTrip$ | async) === true"
+      class="fab-button-show"
     >
       <ion-icon name="stop"> </ion-icon>
     </ion-fab-button>
