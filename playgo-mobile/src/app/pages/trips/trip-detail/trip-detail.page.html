@@ -23,7 +23,11 @@
               >{{ transportTypeLabels[tripDetail.modeType] | translate
               }}</ion-row
             >
-            <ion-row>{{tripDetail.startTime | date:"medium" }}</ion-row>
+            <ion-row
+              >{{ tripDetail.startTime | localDate: { year:'numeric', month:
+              'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }
+              }}</ion-row
+            >
             <ion-row>
               {{tripDetail.distance / 1000 | number: '0.0-1' }} {{ 'km' |
               translate }} {{ this.durationLabel }}
@@ -31,23 +35,37 @@
           </ion-col>
         </ion-row>
         <ion-row *ngFor="let campaign of campaigns">
-          <ion-text [color]="campaignService.getCampaignColor(campaign)">
-            <ion-icon
-              [name]="campaignService.getCampaignIcon(campaign)"
-            ></ion-icon>
-          </ion-text>
-          <ion-text>
-            {{campaign.score}} {{ 'trip_detail.gl_for' | translate
-            }}&nbsp;</ion-text
-          >
-          <ion-text [color]="campaignService.getCampaignColor(campaign)">
-            <a
-              class="inherit-color"
-              [routerLink]="'/pages/tabs/campaigns/details/' + campaign.campaignId"
+          <ng-container *ngIf="campaign.valid">
+            <ion-col size="3" class="ion-text-right">
+              <ng-container
+                *ngIf="campaign.type === 'personal' || campaign.type === 'company'"
+              >
+                {{campaign.distance / 1000 | number: '0.0-1' }} {{ 'km' |
+                translate }}
+              </ng-container>
+              <ng-container
+                *ngIf="campaign.type === 'school' || campaign.type === 'city'"
+              >
+                <app-icon
+                  [color]="campaignService.getCampaignColor(campaign)"
+                  [name]="campaignService.getCampaignScoreIcon(campaign)"
+                ></app-icon>
+                <ion-text>{{campaign.score}}</ion-text>
+              </ng-container>
+            </ion-col>
+            <ion-col size="auto"
+              >{{ 'trip_detail.gl_for' | translate }}</ion-col
             >
-              {{campaign.campaignName}}
-            </a>
-          </ion-text>
+            <ion-col class="ellipsis">
+              <ion-text [color]="campaignService.getCampaignColor(campaign)">
+                <a
+                  class="inherit-color"
+                  [routerLink]="'/pages/tabs/campaigns/details/' + campaign.campaignId"
+                  >{{campaign.campaignName}}</a
+                >
+              </ion-text>
+            </ion-col>
+          </ng-container>
         </ion-row>
       </ion-grid>
     </ion-card>

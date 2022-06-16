@@ -1,6 +1,6 @@
 <ion-header
   parallax
-  [imageUrl]="campaignContainer.campaign?.banner?.url"
+  [imageUrl]="campaignContainer?.campaign?.banner?.url"
   height="30vh"
 >
   <ion-toolbar [color]="campaignContainer?.campaign?.type">
@@ -25,7 +25,7 @@
     [header]="false"
   ></app-widget-campaign>
   <!-- <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
-        [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [what]="'points'"> -->
+        [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat"> -->
   <!-- </app-main-campaign-stat> -->
   <ion-card
     [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaignContainer.campaign.campaignId]"

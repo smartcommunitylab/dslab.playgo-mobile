@@ -1,4 +1,4 @@
-import { NgZone } from '@angular/core';
+import { NgZone, TrackByFunction } from '@angular/core';
 import { Photo } from '@capacitor/camera';
 import { flatMap, initial, last, tail, zip } from 'lodash-es';
 import { Duration } from 'luxon';
@@ -158,4 +158,8 @@ export function formatDurationToHoursAndMinutes(millis: number): string {
   } else {
     return `${minutes} min`;
   }
+}
+
+export function trackByProperty<T>(property: keyof T): TrackByFunction<T> {
+  return (index: number, item: T) => item[property];
 }

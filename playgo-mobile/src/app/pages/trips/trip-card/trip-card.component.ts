@@ -67,7 +67,7 @@ export class TripCardComponent implements OnInit, OnChanges {
   }
   ngOnChanges() {
     const numberOfValidCampaigns = this.trip.campaigns.filter(
-      (campaign) => campaign.score > 0
+      (campaign) => campaign.valid
     ).length;
     const pluralForm = this.pluralRules.select(numberOfValidCampaigns);
     this.validCampaignsLabel = this.translateService.instant(

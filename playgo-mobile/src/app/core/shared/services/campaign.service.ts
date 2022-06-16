@@ -99,10 +99,46 @@ export class CampaignService {
 
   /** returns ionic "color". For example "danger" */
   getCampaignColor(campaign: Campaign): string {
+    if (!campaign) {
+      return null;
+    }
     return campaign.type;
   }
-  /** returns ionic icon name. For example "leaf" */
-  getCampaignIcon(campaign: Campaign): string {
-    return 'leaf';
+  /** returns app icon name. For example "leaf" */
+  getCampaignTypeIcon(campaign: Campaign): string {
+    if (!campaign) {
+      return null;
+    }
+    if (campaign.type === 'city') {
+      return 'flower';
+    }
+    if (campaign.type === 'company') {
+      return 'co2';
+    }
+    if (campaign.type === 'school') {
+      return 'shield';
+    }
+    if (campaign.type === 'personal') {
+      return 'co2';
+    }
+  }
+
+  /** returns app-icon name. For example "flower" */
+  getCampaignScoreIcon(campaign: Campaign): string {
+    if (!campaign) {
+      return null;
+    }
+    if (campaign.type === 'city') {
+      return 'flower';
+    }
+    if (campaign.type === 'company') {
+      return null;
+    }
+    if (campaign.type === 'school') {
+      return 'shield';
+    }
+    if (campaign.type === 'personal') {
+      return null;
+    }
   }
 }
