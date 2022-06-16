@@ -1,6 +1,6 @@
 {
   "helloWorld": "Ciao mondo",
-  "homeTtle": "Home",
+  "homeTtle": "Play&Go",
   "profileTitle": "Profilo",
   "campaignsTitle": "Campagna",
   "tripsTitle": "Lista viaggi",
@@ -306,7 +306,7 @@
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",
   "join": "Partecipa",
-  "home": "Home",
+  "home": "Play&Go",
   "home_title": "Home",
   "profile_title": "Profilo",
   "campaigns_title": "Campagna",
