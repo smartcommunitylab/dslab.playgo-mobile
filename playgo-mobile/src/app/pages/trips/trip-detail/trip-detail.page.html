@@ -34,7 +34,10 @@
             </ion-row>
           </ion-col>
         </ion-row>
-        <ion-row *ngFor="let campaign of campaigns">
+        <ion-row
+          *ngFor="let campaign of campaigns"
+          class="campaigns-validation"
+        >
           <ng-container *ngIf="campaign.valid">
             <ion-col size="3" class="ion-text-right">
               <ng-container
@@ -54,7 +57,9 @@
               </ng-container>
             </ion-col>
             <ion-col size="auto"
-              >{{ 'trip_detail.gl_for' | translate }}</ion-col
+              ><ion-text
+                >{{ 'trip_detail.gl_for' | translate }}
+              </ion-text></ion-col
             >
             <ion-col class="ellipsis">
               <ion-text [color]="campaignService.getCampaignColor(campaign)">

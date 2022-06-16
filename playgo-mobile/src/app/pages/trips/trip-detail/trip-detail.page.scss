@@ -21,3 +21,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.campaigns-validation > ion-col {
+  display: flex;
+  align-items: center;
+}
+.campaigns-validation > ion-col:first-child {
+  flex-direction: row-reverse;
+}
