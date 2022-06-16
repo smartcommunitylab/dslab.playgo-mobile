@@ -83,18 +83,15 @@ export class RegistrationPage implements OnInit {
     this.alertService.presentAlert({
       headerTranslateKey: 'registration.territoryPopup.header',
       messageTranslateKey: 'registration.territoryPopup.message',
-      cssClass: 'modalConfirm'
-    }
-    );
+      cssClass: 'modalConfirm',
+    });
   }
   openPrivacyPopup() {
-    this.alertService.presentAlert(
-      {
-        headerTranslateKey: 'registration.privacyPopup.header',
-        messageTranslateKey: 'registration.privacyPopup.message',
-        cssClass: 'modalConfirm'
-      }
-    );
+    this.alertService.presentAlert({
+      headerTranslateKey: 'registration.privacyPopup.header',
+      messageTranslateKey: 'registration.privacyPopup.message',
+      cssClass: 'modalConfirm',
+    });
   }
 
   async registrationSubmit() {
@@ -145,5 +142,8 @@ export class RegistrationPage implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+  back() {
+    this.navCtrl.back();
   }
 }

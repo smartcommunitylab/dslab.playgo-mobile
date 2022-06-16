@@ -20,7 +20,7 @@
   },
   "registration": {
     "newUser": "New User. Fill the form with your information",
-    "title": "Registration",
+    "title": "New user",
     "avatar": {
       "title": "Avatar"
     },
