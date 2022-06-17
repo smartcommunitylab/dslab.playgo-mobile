@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { isEqual } from 'lodash-es';
 import { from, interval, Observable, of, ReplaySubject, timer } from 'rxjs';
 import {
   catchError,
+  distinctUntilChanged,
   share,
   shareReplay,
   startWith,
@@ -18,17 +20,17 @@ export class TerritoryService {
   private trigger$: Observable<number> = interval(600000);
   public territories$: Observable<Territory[]> = this.trigger$.pipe(
     startWith(0),
-    switchMap((num) => this.getTerritories().pipe(catchError((err) => of([])))),
+    switchMap((num) => this.getTerritories()),
+    distinctUntilChanged(isEqual),
     shareReplay(1)
   );
 
-  constructor(private territoryControllerService: TerritoryControllerService) {
-    this.territories$.subscribe();
-  }
+  constructor(private territoryControllerService: TerritoryControllerService) {}
+
   getTerritory(territoryId: string): Observable<Territory> {
     return this.territoryControllerService.getTerritoryUsingGET(territoryId);
   }
-  getTerritories(): Observable<Territory[]> {
+  private getTerritories(): Observable<Territory[]> {
     return this.territoryControllerService.getTerritoriesUsingGET();
   }
 }

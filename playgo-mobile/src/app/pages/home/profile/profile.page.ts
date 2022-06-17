@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/core/shared/model/user.model';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { PrivacyModalPage } from './privacy-modal/privacyModal.component';
 
@@ -12,22 +13,22 @@ import { PrivacyModalPage } from './privacy-modal/privacyModal.component';
 })
 export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   subProf: Subscription;
-  sub!: Subscription;
   profile: IUser;
 
   constructor(
     private userService: UserService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
-    this.subProf = this.userService.userProfile$.subscribe((profile) => {
-      this.profile = profile;
-    });
+    this.subProf = this.userService.userProfile$
+      .pipe(this.errorService.showAlertOnError())
+      .subscribe((profile) => {
+        this.profile = profile;
+      });
   }
   ngOnDestroy() {
-    this.sub.unsubscribe();
-
     this.subProf.unsubscribe();
   }
 
