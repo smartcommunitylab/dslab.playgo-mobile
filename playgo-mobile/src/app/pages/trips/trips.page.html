@@ -14,13 +14,11 @@
       <ng-container
         *ngFor="let tripGroup of groupedTrips$ | async; trackBy: trackGroup"
       >
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              {{ tripGroup.monthDate | localDate: "MMMM y" }}
-            </ion-card-title>
-          </ion-card-header>
-        </ion-card>
+        <ion-item-divider color="playgo" sticky class="ion-padding">
+          <ion-label>
+            {{ tripGroup.monthDate | localDate: "MMMM y" }}
+          </ion-label>
+        </ion-item-divider>
         <ion-card
           *ngFor="let multiTrip of tripGroup.tripsInSameMonth; trackBy: trackMultiTrip"
         >

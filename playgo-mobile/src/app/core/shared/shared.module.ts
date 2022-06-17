@@ -23,6 +23,9 @@ import { HomeCampaignCompanyComponent } from './campaigns/home-widget-types/home
 import { HomeCampaignPersonalComponent } from './campaigns/home-widget-types/home-campaign-personal/home-campaign-personal.component';
 import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-campaign.component';
 import { IconComponent } from './ui/icon/icon.component';
+import { GameStatusComponent } from './campaigns/main-campaign-stat/game-status/game-status.component';
+import { RecordStatusComponent } from './campaigns/main-campaign-stat/record-status/record-status.component';
+import { LeaderboardStatusComponent } from './campaigns/main-campaign-stat/leaderboard-status/leaderboard-status.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -43,6 +46,9 @@ import { IconComponent } from './ui/icon/icon.component';
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
+    RecordStatusComponent,
+    GameStatusComponent,
+    LeaderboardStatusComponent,
     WidgetComponent,
     IconComponent,
   ],
@@ -66,7 +72,10 @@ import { IconComponent } from './ui/icon/icon.component';
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
+    GameStatusComponent,
+    RecordStatusComponent,
     WidgetComponent,
+    LeaderboardStatusComponent,
     IconComponent,
   ],
 })

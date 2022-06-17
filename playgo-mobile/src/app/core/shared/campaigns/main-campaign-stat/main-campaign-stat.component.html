@@ -1,4 +1,3 @@
-<!-- TODO  -->
 <div>
   <ion-grid>
     <ion-row>
@@ -44,27 +43,20 @@
       </ion-col>
     </ion-row>
     <ion-row *ngIf="status !== null; else nullStatus">
-      <ion-col *ngIf="status">
-        <div class="ion-text-left">
-          <span>{{
-            "campaigns.homewidgets.stat.levelName"
-              | translate: { levelName: status?.level?.levelName }
-          }}</span>
-          <span>
-            {{
-              "campaigns.homewidgets.stat.score"
-                | translate: { score: status?.score }
-            }}</span
-          >
-          <ion-progress-bar
-            class="level-bar"
-            [color]="campaignContainer.campaign.type"
-            [value]="
-              (status?.score - status?.level?.startLevelScore) /
-              (status?.level?.endLevelScore - status?.level?.startLevelScore)
-            "
-          ></ion-progress-bar>
-        </div>
+      <ion-col>
+        <app-game-status
+          [status]="status"
+          [type]="campaignContainer?.campaign?.type"
+        ></app-game-status>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="record !== null && status !== null">
+      <ion-col>
+        <app-record-status
+          [status]="reportWeekStat"
+          [record]="record"
+          [type]="campaignContainer?.campaign?.type"
+        ></app-record-status>
       </ion-col>
     </ion-row>
     <ng-template #nullStatus>

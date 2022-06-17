@@ -6,6 +6,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 import { DateTime } from 'luxon';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { Player } from 'src/app/core/api/generated/model/player';
+import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 
 @Component({
   selector: 'app-home-campaign-personal',
@@ -19,6 +20,7 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   subStat: Subscription;
   profile: Player;
   reportWeekStat: CampaignPlacing;
+  record: TransportStat;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
   constructor(
@@ -41,6 +43,11 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportWeekStat = stats;
+        });
+      this.reportService
+        .getCo2WeekRecord(this.campaignContainer.campaign.campaignId)
+        .then((record) => {
+          this.record = record[0];
         });
       this.reportService
         .getCo2Stats(

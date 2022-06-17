@@ -53,6 +53,53 @@ export class CampaignService {
     switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
     shareReplay(1)
   );
+  mapFunctionalities = {
+    personal: {
+      challenge: {
+        present: false,
+      },
+      prizes: {
+        present: false,
+      },
+      leaderboard: {
+        present: true,
+      },
+    },
+    school: {
+      challenge: {
+        present: false,
+      },
+      prizes: {
+        present: true,
+      },
+      leaderboard: {
+        present: true,
+        api: 'https://hscdev.playngo.it/playandgo-hsc/publicapi',
+      },
+    },
+    company: {
+      challenge: {
+        present: false,
+      },
+      prizes: {
+        present: true,
+      },
+      leaderboard: {
+        present: false,
+      },
+    },
+    city: {
+      challenge: {
+        present: true,
+      },
+      prizes: {
+        present: true,
+      },
+      leaderboard: {
+        present: true,
+      },
+    },
+  };
 
   constructor(
     private userService: UserService,
@@ -140,5 +187,11 @@ export class CampaignService {
     if (campaign.type === 'personal') {
       return null;
     }
+  }
+  getFunctionalityByType(what: any, type: string) {
+    if (!what || !type) {
+      return false;
+    }
+    return this.mapFunctionalities[type]?.[what];
   }
 }
