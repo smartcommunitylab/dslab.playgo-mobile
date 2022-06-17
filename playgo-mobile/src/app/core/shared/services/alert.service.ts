@@ -19,7 +19,7 @@ export class AlertService {
     private loadingController: LoadingController,
     private alertController: AlertController,
     private translateService: TranslateService
-  ) { }
+  ) {}
   public async showToast(args: {
     messageTranslateKey?: TranslateKeyWithParams;
     messageString?: string;
@@ -27,8 +27,7 @@ export class AlertService {
     let message = '';
     if (args.messageTranslateKey) {
       message = await this.translate(args.messageTranslateKey);
-    }
-    else if (args.messageString) {
+    } else if (args.messageString) {
       message = args.messageString;
     }
     this.toast = await this.toastController.create({
@@ -39,20 +38,17 @@ export class AlertService {
     this.toast.present();
   }
 
-  public async presentAlert(
-    args: {
-      headerTranslateKey?: TranslateKeyWithParams;
-      messageTranslateKey?: TranslateKeyWithParams;
-      cssClass?: string;
-      messageString?: string;
-    }
-  ): Promise<boolean> {
+  public async presentAlert(args: {
+    headerTranslateKey?: TranslateKeyWithParams;
+    messageTranslateKey?: TranslateKeyWithParams;
+    cssClass?: string;
+    messageString?: string;
+  }): Promise<boolean> {
     const header = await this.translate(args.headerTranslateKey);
     let message = '';
     if (args.messageTranslateKey) {
       message = await this.translate(args.messageTranslateKey);
-    }
-    else if (args.messageString) {
+    } else if (args.messageString) {
       message = args.messageString;
     }
     const ok = await this.translate('modal.ok');
@@ -120,7 +116,7 @@ export class AlertService {
 
     await this.loading.present();
   }
-  public async dismissLoading() { }
+  public async dismissLoading() {}
 
   private async translate(key: TranslateKeyWithParams): Promise<string> {
     const translated = await this.translateService
