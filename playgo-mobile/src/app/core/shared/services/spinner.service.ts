@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { debounceTime } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
