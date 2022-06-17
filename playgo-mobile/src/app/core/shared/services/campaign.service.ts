@@ -41,7 +41,7 @@ export class CampaignService {
     );
   private playerCampaignUnSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
   private playerCampaignSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
-  public playerCampaignsRefresher$ = new ReplaySubject<PlayerCampaign>(1);
+  public playerCampaignsRefresher$ = new ReplaySubject<void>(1);
   private campaignsCouldBeChanged$ = merge(
     this.initMyCampaigns$,
     this.playerCampaignSubscribed$,

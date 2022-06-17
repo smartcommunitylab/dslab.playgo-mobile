@@ -38,7 +38,7 @@ export class UserService {
     switchMap(() => this.getUserProfile()),
     shareReplay(1)
   );
-  public userProfileRefresher$ = new ReplaySubject<IUser>(1);
+  public userProfileRefresher$ = new ReplaySubject<void>(1);
 
   private userProfileCouldBeChanged$ = merge(
     this.initUserProfile$,
