@@ -1,7 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isEqual } from 'lodash-es';
-import { from, interval, Observable, of, ReplaySubject, timer } from 'rxjs';
+import {
+  from,
+  interval,
+  Observable,
+  of,
+  ReplaySubject,
+  throwError,
+  timer,
+} from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -10,27 +18,35 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { TerritoryControllerService } from '../../api/generated/controllers/territoryController.service';
 import { Territory } from '../../api/generated/model/territory';
+import { tap } from 'rxjs/operators';
+import { LocalStorageService } from './local-storage.service';
+import { ifOfflineUseStored } from '../utils';
 
 @Injectable({ providedIn: 'root' })
 export class TerritoryService {
-  // private resourceUrl = environment.serverUrl.apiUrl + environment.serverUrl.territory;
+  private territoriesStorage =
+    this.localStorageService.getStorageOf<Territory[]>('territories');
   private trigger$: Observable<number> = interval(600000);
   public territories$: Observable<Territory[]> = this.trigger$.pipe(
     startWith(0),
-    switchMap((num) => this.getTerritories()),
+    switchMap(() =>
+      this.territoryControllerService
+        .getTerritoriesUsingGET()
+        .pipe(ifOfflineUseStored(this.territoriesStorage))
+    ),
     distinctUntilChanged(isEqual),
+    tap((territory) => this.territoriesStorage.set(territory)),
     shareReplay(1)
   );
 
-  constructor(private territoryControllerService: TerritoryControllerService) {}
+  constructor(
+    private territoryControllerService: TerritoryControllerService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   getTerritory(territoryId: string): Observable<Territory> {
     return this.territoryControllerService.getTerritoryUsingGET(territoryId);
-  }
-  private getTerritories(): Observable<Territory[]> {
-    return this.territoryControllerService.getTerritoriesUsingGET();
   }
 }

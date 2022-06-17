@@ -1,6 +1,6 @@
 import { NgZone, TrackByFunction } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { flatMap, initial, last, tail, zip } from 'lodash-es';
+import { flatMap, initial, isNil, last, tail, zip } from 'lodash-es';
 import { Duration } from 'luxon';
 import {
   concat,
@@ -10,9 +10,19 @@ import {
   Observable,
   ObservableInput,
   ObservedValueOf,
+  of,
   OperatorFunction,
 } from 'rxjs';
-import { concatMap, filter, first, map, takeUntil, tap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  filter,
+  first,
+  map,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
+import { LocalStorageType } from './services/local-storage.service';
 
 export const isNotConstant =
   <C>(constant: C) =>
@@ -94,6 +104,27 @@ export function throwIfNil<T>(
     );
 }
 
+export function ifOfflineUseStored<T>(
+  storage: LocalStorageType<T>
+): OperatorFunction<T, T> {
+  return (source: Observable<T>) =>
+    source.pipe(
+      catchError((error: any) => {
+        if (isOfflineError(error)) {
+          const storedValue = storage.get();
+          if (!isNil(storedValue)) {
+            return of(storedValue);
+          }
+        }
+        return throwError(() => error) as Observable<T>;
+      })
+    );
+}
+
+export function isOfflineError(error: any): boolean {
+  return error instanceof Error && error.message === 'offline';
+}
+
 export function asyncFilter<T>(
   predicate: (value: T, index: number) => Promise<boolean>
 ): MonoTypeOperatorFunction<T> {
@@ -162,4 +193,7 @@ export function formatDurationToHoursAndMinutes(millis: number): string {
 
 export function trackByProperty<T>(property: keyof T): TrackByFunction<T> {
   return (index: number, item: T) => item[property];
+}
+function throwError(arg0: () => any): any {
+  throw new Error('Function not implemented.');
 }

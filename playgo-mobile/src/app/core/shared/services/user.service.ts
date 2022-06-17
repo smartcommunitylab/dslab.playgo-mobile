@@ -26,6 +26,7 @@ import {
 import { isEqual } from 'lodash-es';
 import { LocalStorageService } from './local-storage.service';
 import { Territory } from '../../api/generated/model/territory';
+import { isOfflineError } from '../utils';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -150,7 +151,7 @@ export class UserService {
       user = await this.getProfile();
       user.avatar = await this.getAvatar();
     } catch (e) {
-      if (e instanceof Error && e.message === 'offline') {
+      if (isOfflineError(e)) {
         user = this.userStorage.get();
       } else {
         throw e;
