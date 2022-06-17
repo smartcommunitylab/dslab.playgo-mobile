@@ -85,7 +85,7 @@ export class CampaignService {
         present: true,
       },
       leaderboard: {
-        present: true,
+        present: false,
       },
     },
     city: {
