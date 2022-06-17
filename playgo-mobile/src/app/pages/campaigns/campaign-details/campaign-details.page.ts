@@ -46,19 +46,11 @@ export class CampaignDetailsPage implements OnInit {
   isPersonal() {
     return this.campaignContainer.campaign.type === 'personal';
   }
-  campaignHasPrizes() {
-    switch (this.campaignContainer.campaign.type) {
-      case 'personal':
-        return false;
-      case 'school':
-        return true;
-      case 'company':
-        return true;
-      case 'city':
-        return true;
-      default:
-        return true;
-    }
+  campaignHas(what) {
+    return this.campaignService.getFunctionalityByType(
+      what,
+      this.campaignContainer.campaign.type
+    ).present;
   }
   unsubscribeCampaign() {
     this.campaignService

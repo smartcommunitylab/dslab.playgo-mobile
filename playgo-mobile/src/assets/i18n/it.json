@@ -214,8 +214,8 @@
     "homewidgets": {
       "personal": {
         "active": "Attivo dal: {{startDate}}",
-        "totalco2": "CO2 risparmiata: {{totalCO2}}",
-        "weeklyco2": "CO2 settimanale: {{weeklyCO2}}",
+        "totalco2": "CO2 risparmiata: {{totalCO2}} Kg",
+        "weeklyco2": "CO2 settimanale: {{weeklyCO2}} Kg",
         "weklyRanking": "Posizione in classifica: {{weeklyRanking}}"
       },
       "stat": {
@@ -225,7 +225,9 @@
         "totalvalue": "{{value}} complessivo",
         "levelName": "Livello : {{levelName}}",
         "score": "Punti: {{score}}",
-        "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! "
+        "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
+        "status": "{{score}} Kg",
+        "record": "Record: {{record}} Kg"
       }
     },
     "stats": {

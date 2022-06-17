@@ -4,14 +4,14 @@ import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { TransportStats } from '../../api/generated/model/transportStats';
 import { CampaignPlacing } from '../../api/generated/model/campaignPlacing';
 import { GameControllerService } from '../../api/generated/controllers/gameController.service';
+import { TransportStat } from '../../api/generated/model/transportStat';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
-
   constructor(
     private reportControllerService: ReportControllerService,
     private gameController: GameControllerService
-  ) { }
+  ) {}
 
   getCo2Stats(
     campaignId?,
@@ -27,6 +27,16 @@ export class ReportService {
         mean: null,
         dateFrom,
         dateTo,
+      })
+      .toPromise();
+  }
+  getCo2WeekRecord(campaignId?): Promise<TransportStat[]> {
+    return this.reportControllerService
+      .getPlayerTransportRecordUsingGET({
+        campaignId,
+        metric: 'co2',
+        mean: null,
+        groupMode: 'week',
       })
       .toPromise();
   }

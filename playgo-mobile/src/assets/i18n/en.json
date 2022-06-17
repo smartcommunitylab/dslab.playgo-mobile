@@ -222,7 +222,9 @@
         "totalvalue": "{{value}} total value",
         "levelName": "Level : {{levelName}}",
         "score": "Points: {{score}}",
-        "emptystatus": "If you want to see your level and points start to play!"
+        "emptystatus": "If you want to see your level and points start to play!",
+        "status": "{{score}} Kg",
+        "record": "{{record}} weekly record"
       }
     },
     "stats": {
