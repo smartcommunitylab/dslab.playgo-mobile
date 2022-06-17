@@ -24,8 +24,8 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { isEqual } from 'lodash-es';
-import { Territory } from '../model/territory.model';
 import { LocalStorageService } from './local-storage.service';
+import { Territory } from '../../api/generated/model/territory';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -216,7 +216,7 @@ export class UserService {
       }
     } catch (e) {
       // toto check local storage
-      console.log(e);
+      console.error(e);
       return null;
     }
   }

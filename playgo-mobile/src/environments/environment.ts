@@ -17,16 +17,9 @@ export const environment = {
   },
   serverUrl: {
     api: 'https://backenddev.playngo.it:443',
-    apiUrl: 'https://backenddev.playngo.it:443/playandgo/api/',
-    pgaziendeUrl: 'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
-    profile: 'player/profile',
-    register: 'player/register',
-    player: 'player',
-    territory: 'territory',
-    avatar: 'player/avatar',
-    status: '/report/player/status',
-    transportStats: 'report/player/transport/stats',
-    avatarSmall: 'player/avatar/small',
+    apiPath: '/playandgo/api',
+    pgaziendeUrl:
+      'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
   },
   firebaseConfig: {
     apiKey: 'AIzaSyC4jMIUaDnXVITplF2jIjhw2ElgUMillHE',

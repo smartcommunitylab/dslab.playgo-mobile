@@ -9,36 +9,26 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { AuthHttpService } from '../../auth/auth-http.service';
-import { ITerritory } from '../model/territory.model';
+import { TerritoryControllerService } from '../../api/generated/controllers/territoryController.service';
+import { Territory } from '../../api/generated/model/territory';
 
 @Injectable({ providedIn: 'root' })
 export class TerritoryService {
   // private resourceUrl = environment.serverUrl.apiUrl + environment.serverUrl.territory;
   private trigger$: Observable<number> = interval(600000);
-  public territories$: Observable<ITerritory[]> = this.trigger$.pipe(
+  public territories$: Observable<Territory[]> = this.trigger$.pipe(
     startWith(0),
     switchMap((num) => this.getTerritories().pipe(catchError((err) => of([])))),
     shareReplay(1)
   );
 
-  constructor(private authHttpService: AuthHttpService) {
+  constructor(private territoryControllerService: TerritoryControllerService) {
     this.territories$.subscribe();
   }
-  getTerritory(territoryId: string): Observable<ITerritory> {
-    return from(
-      this.authHttpService.request<ITerritory>(
-        'GET',
-        `${environment.serverUrl.territory}/${territoryId}`
-      )
-    );
+  getTerritory(territoryId: string): Observable<Territory> {
+    return this.territoryControllerService.getTerritoryUsingGET(territoryId);
   }
-  getTerritories(): Observable<ITerritory[]> {
-    return from(
-      this.authHttpService.request<ITerritory[]>(
-        'GET',
-        environment.serverUrl.territory
-      )
-    );
+  getTerritories(): Observable<Territory[]> {
+    return this.territoryControllerService.getTerritoriesUsingGET();
   }
 }

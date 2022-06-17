@@ -12,7 +12,6 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthHttpService } from 'src/app/core/auth/auth-http.service';
 import {
   PageableRequest,
   PageableResponse,
@@ -175,7 +174,6 @@ export class TripsPage implements OnInit {
   trackTrip = trackByProperty<ServerOrLocalTrip>('trackedInstanceId');
 
   constructor(
-    private authHttpService: AuthHttpService,
     private errorService: ErrorService,
     private trackControllerService: TrackControllerService,
     private backgroundTrackingService: BackgroundTrackingService,

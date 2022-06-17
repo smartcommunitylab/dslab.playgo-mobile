@@ -22,16 +22,16 @@ import {
 } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   finalize,
   first,
   map,
-  scan,
+  take,
   shareReplay,
   startWith,
   switchMap,
   takeUntil,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import {
   LOW_ACCURACY,
@@ -41,13 +41,20 @@ import {
   UNABLE_TO_GET_POSITION,
 } from './trip.model';
 import { runInZone, tapLog } from '../utils';
-import { AuthHttpService } from '../../auth/auth-http.service';
+import { AuthService } from 'ionic-appauth';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
+import { TokenResponse } from '@openid/appauth';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackgroundTrackingService {
+  private token$: Observable<TokenResponse> = this.authService.token$.pipe(
+    filter((token) => token !== null),
+    shareReplay(1)
+  );
+
   private markAsReady: (val: unknown) => void;
   private isReady = new Promise((resolve, reject) => {
     this.markAsReady = resolve;
@@ -141,7 +148,7 @@ export class BackgroundTrackingService {
     @Inject('BackgroundGeolocationPlugin')
     private backgroundGeolocationPlugin: typeof BackgroundGeolocationInternal,
     private alertService: AlertService,
-    private authHttpService: AuthHttpService,
+    private authService: AuthService,
     private playerControllerService: PlayerControllerService,
     private zone: NgZone
   ) {
@@ -157,7 +164,10 @@ export class BackgroundTrackingService {
   async start() {
     try {
       const config: Config = {
-        url: this.authHttpService.getApiUrl('/track/player/geolocations'),
+        url:
+          environment.serverUrl.api +
+          environment.serverUrl.apiPath +
+          '/track/player/geolocations',
         distanceFilter: 10,
         stopOnTerminate: false,
         startOnBoot: false,
@@ -235,7 +245,7 @@ export class BackgroundTrackingService {
   }
 
   private async trySync(): Promise<void> {
-    const token = await this.authHttpService.getToken();
+    const token = await this.getToken();
     console.log('sync using token', token);
     await this.backgroundGeolocationPlugin.setConfig({
       authorization: {
@@ -256,6 +266,11 @@ export class BackgroundTrackingService {
       locationSentToServer.map(TripLocation.fromLocation)
     );
     this.possibleLocationsChangeSubject.next();
+  }
+
+  /** Waits for the first token available, but later it will return latest token immediately */
+  private async getToken(): Promise<TokenResponse> {
+    return await lastValueForm(this.token$.pipe(take(1)));
   }
 
   private async setExtrasAndForceLocation(
@@ -334,3 +349,8 @@ export class TripLocation {
 }
 
 interface TripExtras extends Extras, Partial<TripPart> {}
+function lastValueForm(
+  arg0: Observable<TokenResponse>
+): TokenResponse | PromiseLike<TokenResponse> {
+  throw new Error('Function not implemented.');
+}

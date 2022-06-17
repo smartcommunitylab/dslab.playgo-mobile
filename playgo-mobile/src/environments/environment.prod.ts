@@ -12,16 +12,10 @@ export const environment = {
     pkce: true,
   },
   serverUrl: {
-    api: 'https://backenddev.playngo.it',
-    apiUrl: 'https://backenddev.playngo.it/playandgo/api/',
-    profile: 'player/profile',
-    register: 'player/register',
-    player: 'player',
-    territory: 'territory',
-    avatar: 'player/avatar',
-    status: '/report/player/status',
-    transportStats: 'report/player/transport/stats',
-    avatarSmall: 'player/avatar/small',
+    api: 'https://backenddev.playngo.it:443',
+    apiPath: '/playandgo/api',
+    pgaziendeUrl:
+      'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
   },
   firebaseConfig: {
     apiKey: 'AIzaSyBBUsW8BpWEgWIe45M34sgPIiCN-ssw4gY',
