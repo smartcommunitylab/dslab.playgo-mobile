@@ -26,18 +26,22 @@ export class NotificationControllerService {
   /**
    * getNotifications
    *
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page
    * @param territoryId territoryId
+   * @param sort Sorting option: field,[asc,desc]
    * @param campaignId campaignId
-   * @param skip skip
-   * @param limit limit
+   * @param channels channels
    */
   public getNotificationsUsingGET(args: {
+    page: number;
+    size: number;
     territoryId: string;
+    sort?: string;
     campaignId?: string;
-    skip?: number;
-    limit?: number;
+    channels?: string;
   }): Observable<PageAnnouncement> {
-    const { territoryId, campaignId, skip, limit } = args;
+    const { page, size, territoryId, sort, campaignId, channels } = args;
     return this.http.request<PageAnnouncement>(
       'get',
       environment.serverUrl.api +
@@ -46,9 +50,11 @@ export class NotificationControllerService {
         )}`,
       {
         params: removeNullOrUndefined({
+          page,
+          size,
+          sort,
           campaignId,
-          skip,
-          limit,
+          channels,
         }),
       }
     );
@@ -65,9 +71,9 @@ export class NotificationControllerService {
     territoryId: string;
     body?: Announcement;
     campaignId?: string;
-  }): Observable<{ [key: string]: string }> {
+  }): Observable<Announcement> {
     const { territoryId, body, campaignId } = args;
-    return this.http.request<{ [key: string]: string }>(
+    return this.http.request<Announcement>(
       'post',
       environment.serverUrl.api +
         `/playandgo/api/console/notifications/${encodeURIComponent(

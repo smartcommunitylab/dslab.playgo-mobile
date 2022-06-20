@@ -13,7 +13,7 @@ import { CampaignDetail } from './campaignDetail';
 import { Image } from './image';
 import { SurveyRequest } from './surveyRequest';
 
-export interface Campaign {
+export interface CampaignRes {
   active?: boolean;
   allSurveys?: { [key: string]: string };
   banner?: Image;
@@ -31,10 +31,10 @@ export interface Campaign {
   startDayOfWeek?: number;
   surveys?: { [key: string]: string };
   territoryId?: string;
-  type?: Campaign.TypeEnum;
+  type?: CampaignRes.TypeEnum;
   validationData?: any;
 }
-export namespace Campaign {
+export namespace CampaignRes {
   export type TypeEnum = 'city' | 'company' | 'personal' | 'school';
   export const TypeEnum = {
     City: 'city' as TypeEnum,
