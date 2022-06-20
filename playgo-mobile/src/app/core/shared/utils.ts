@@ -12,6 +12,7 @@ import {
   ObservedValueOf,
   of,
   OperatorFunction,
+  throwError,
 } from 'rxjs';
 import {
   catchError,
@@ -111,6 +112,7 @@ export function ifOfflineUseStored<T>(
     source.pipe(
       catchError((error: any) => {
         if (isOfflineError(error)) {
+          console.log('using offline mode!');
           const storedValue = storage.get();
           if (!isNil(storedValue)) {
             return of(storedValue);
@@ -134,6 +136,10 @@ export function asyncFilter<T>(
       map(() => value)
     )
   );
+}
+
+export function getDebugStack(): string {
+  return new Error().stack || 'stack not available';
 }
 
 export async function readAsBase64(photo: Photo) {
@@ -193,7 +199,4 @@ export function formatDurationToHoursAndMinutes(millis: number): string {
 
 export function trackByProperty<T>(property: keyof T): TrackByFunction<T> {
   return (index: number, item: T) => item[property];
-}
-function throwError(arg0: () => any): any {
-  throw new Error('Function not implemented.');
 }
