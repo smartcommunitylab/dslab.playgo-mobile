@@ -19,6 +19,7 @@ export class CampaignDetailsPage implements OnInit {
   imagePath: SafeResourceUrl;
   titlePage = '';
   colorCampaign = null;
+  language: string;
   @ViewChild('ionContent') ionContent: ElementRef;
   constructor(
     private route: ActivatedRoute,
@@ -31,12 +32,12 @@ export class CampaignDetailsPage implements OnInit {
   }
 
   ngOnInit() {
+    this.language = this.userService.getLanguage();
     this.campaignService.myCampaigns$.subscribe((campaigns) => {
       this.campaignContainer = campaigns.find(
         (campaignContainer) => campaignContainer.campaign.campaignId === this.id
       );
-      this.titlePage =
-        this.campaignContainer.campaign.name[this.userService.getLanguage()];
+      this.titlePage = this.campaignContainer.campaign.name[this.language];
       this.colorCampaign = this.campaignContainer.campaign.type;
       this.imagePath = this.campaignContainer.campaign.logo.url
         ? this.campaignContainer.campaign.logo.url

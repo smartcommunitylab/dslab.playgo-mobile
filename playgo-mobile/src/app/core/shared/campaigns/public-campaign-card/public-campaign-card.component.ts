@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-public-campaign-card',
@@ -7,12 +9,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./public-campaign-card.component.scss'],
 })
 export class PublicCampaignCardComponent implements OnInit {
-  @Input() campaign: any; // CampaignClass | CampaignCompany | CampaignPersonal | CampaignSchool | CampaignTerritory;
+  @Input() campaign: Campaign;
   imagePath: string;
   bannerPath: string;
-  constructor(private router: Router) {}
+  language: string;
+
+  constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit() {
+    this.language = this.userService.getLanguage();
     this.imagePath = this.campaign.logo.url
       ? this.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaign.logo.image;
