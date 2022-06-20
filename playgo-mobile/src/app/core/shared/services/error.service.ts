@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError, EMPTY, Observable, OperatorFunction } from 'rxjs';
 import { ERRORS } from '../../constants/error.constants';
+import { getDebugStack } from '../utils';
 import { AlertService } from './alert.service';
 
 @Injectable({
@@ -22,6 +24,27 @@ export class ErrorService {
         errorString: 'errors.defaultErr',
       };
     }
-    this.alertService.showToast({ messageString: errorFound.errorString });
+    this.alertService.showToast({
+      messageTranslateKey: errorFound.errorString,
+    });
+  }
+  showAlertOnError<T>(): OperatorFunction<T, T> {
+    //capture the stack trace
+    const originalStack = getDebugStack();
+
+    return (source: Observable<T>) =>
+      source.pipe(
+        catchError((error) => {
+          console.warn(
+            'Error caught and alert shown!',
+            error,
+            'Original stack',
+            originalStack
+          );
+          this.showAlert(error);
+          // return observable used for downstream subscription
+          return EMPTY;
+        })
+      );
   }
 }

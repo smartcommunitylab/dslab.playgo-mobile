@@ -1,44 +1,52 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { from, interval, Observable, of, ReplaySubject, timer } from 'rxjs';
+import { isEqual } from 'lodash-es';
+import {
+  from,
+  interval,
+  Observable,
+  of,
+  ReplaySubject,
+  throwError,
+  timer,
+} from 'rxjs';
 import {
   catchError,
+  distinctUntilChanged,
   share,
   shareReplay,
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { AuthHttpService } from '../../auth/auth-http.service';
-import { ITerritory } from '../model/territory.model';
+import { TerritoryControllerService } from '../../api/generated/controllers/territoryController.service';
+import { Territory } from '../../api/generated/model/territory';
+import { tap } from 'rxjs/operators';
+import { LocalStorageService } from './local-storage.service';
+import { ifOfflineUseStored } from '../utils';
 
 @Injectable({ providedIn: 'root' })
 export class TerritoryService {
-  // private resourceUrl = environment.serverUrl.apiUrl + environment.serverUrl.territory;
+  private territoriesStorage =
+    this.localStorageService.getStorageOf<Territory[]>('territories');
   private trigger$: Observable<number> = interval(600000);
-  public territories$: Observable<ITerritory[]> = this.trigger$.pipe(
+  public territories$: Observable<Territory[]> = this.trigger$.pipe(
     startWith(0),
-    switchMap((num) => this.getTerritories().pipe(catchError((err) => of([])))),
+    switchMap(() =>
+      this.territoryControllerService
+        .getTerritoriesUsingGET()
+        .pipe(ifOfflineUseStored(this.territoriesStorage))
+    ),
+    distinctUntilChanged(isEqual),
+    tap((territory) => this.territoriesStorage.set(territory)),
     shareReplay(1)
   );
 
-  constructor(private authHttpService: AuthHttpService) {
-    this.territories$.subscribe();
-  }
-  getTerritory(territoryId: string): Observable<ITerritory> {
-    return from(
-      this.authHttpService.request<ITerritory>(
-        'GET',
-        `${environment.serverUrl.territory}/${territoryId}`
-      )
-    );
-  }
-  getTerritories(): Observable<ITerritory[]> {
-    return from(
-      this.authHttpService.request<ITerritory[]>(
-        'GET',
-        environment.serverUrl.territory
-      )
-    );
+  constructor(
+    private territoryControllerService: TerritoryControllerService,
+    private localStorageService: LocalStorageService
+  ) {}
+
+  getTerritory(territoryId: string): Observable<Territory> {
+    return this.territoryControllerService.getTerritoryUsingGET(territoryId);
   }
 }

@@ -2,11 +2,12 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { NavController } from '@ionic/angular';
 import { DateTime } from 'luxon';
-import { Subscription } from 'rxjs';
+import { catchError, Subscription } from 'rxjs';
+import { Territory } from 'src/app/core/api/generated/model/territory';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { UserService } from 'src/app/core/shared/services/user.service';
-import { Territory } from '../../model/territory.model';
 import { CampaignService } from '../../services/campaign.service';
+import { ErrorService } from '../../services/error.service';
 import { fromServerDate, getServerTimeZone } from '../../time.utils';
 import { readAsBase64 } from '../../utils';
 
@@ -28,20 +29,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private campaignService: CampaignService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
-    this.subProf = this.userService.userProfile$.subscribe((profile) => {
-      this.profile = profile;
-    });
-    this.subTerritory = this.userService.userProfileTerritory$.subscribe(
-      (territory) => {
+    this.subProf = this.userService.userProfile$
+      .pipe(this.errorService.showAlertOnError())
+      .subscribe((profile) => {
+        this.profile = profile;
+      });
+    this.subTerritory = this.userService.userProfileTerritory$
+      .pipe(this.errorService.showAlertOnError())
+      .subscribe((territory) => {
         this.territory = territory;
-      }
-    );
-    this.subCamp = this.campaignService.myCampaigns$.subscribe(
-      (myCampaigns) => {
+      });
+    this.subCamp = this.campaignService.myCampaigns$
+      .pipe(this.errorService.showAlertOnError())
+      .subscribe((myCampaigns) => {
         this.numMyCampaigns = myCampaigns?.length;
         const activeFromMillis = myCampaigns.find(
           (camp) => camp.campaign?.type === 'personal'
@@ -53,8 +58,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         } else {
           this.activeFrom = null;
         }
-      }
-    );
+      });
   }
   ngOnDestroy() {
     this.subProf.unsubscribe();

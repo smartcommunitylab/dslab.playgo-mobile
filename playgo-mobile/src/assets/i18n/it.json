@@ -164,7 +164,7 @@
   "errors": {
     "userNotFound": "Utente non registrato",
     "nickNameExist": "Questo soprannome é giá registrato",
-    "defaultErr": "Errore generico"
+    "defaultErr": "IT: Server operation failed"
   },
   "campaigns": {
     "title": "Campaigns",
