@@ -20,7 +20,7 @@
 </ion-row>
 <ion-row button (click)="openDetail()" detail>
   <ion-col class="ion-text-start">
-    {{ trip.distance / 1000 | number: "0.0-1" }}
+    {{ trip.distance / 1000 | localNumber: "0.0-1" }}
     {{ "km" | translate }} - {{ durationLabel }}
   </ion-col>
   <ion-col class="ion-text-end">

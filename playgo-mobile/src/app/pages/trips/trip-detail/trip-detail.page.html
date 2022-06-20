@@ -29,7 +29,7 @@
               }}</ion-row
             >
             <ion-row>
-              {{tripDetail.distance / 1000 | number: '0.0-1' }} {{ 'km' |
+              {{tripDetail.distance / 1000 | localNumber: '0.0-1' }} {{ 'km' |
               translate }} {{ this.durationLabel }}
             </ion-row>
           </ion-col>
@@ -43,7 +43,7 @@
               <ng-container
                 *ngIf="campaign.type === 'personal' || campaign.type === 'company'"
               >
-                {{campaign.distance / 1000 | number: '0.0-1' }} {{ 'km' |
+                {{campaign.distance / 1000 | localNumber: '0.0-1' }} {{ 'km' |
                 translate }}
               </ng-container>
               <ng-container

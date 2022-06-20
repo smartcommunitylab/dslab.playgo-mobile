@@ -17,11 +17,11 @@ export class LocalNumberPipe implements PipeTransform {
   transform(value: any, format?: string) {
     if (value == null) {
       return '';
-    } // !value would also react to zeros.
+    }
     if (!format) {
       format = '.2-2';
     }
 
-    return formatNumber(value, this.user.locale, format);
+    return formatNumber(value, this.user.getLocale(), format);
   }
 }

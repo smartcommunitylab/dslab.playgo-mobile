@@ -10,10 +10,10 @@
  * Do not edit the class manually.
  */
 
-export interface Territory {
-  description?: { [key: string]: string };
-  name?: { [key: string]: string };
-  territoryData?: any;
-  territoryId?: string;
-  timezone?: string;
+export interface SurveyRequest {
+  data?: any;
+  end?: number;
+  start?: number;
+  surveyLink?: string;
+  surveyName?: string;
 }

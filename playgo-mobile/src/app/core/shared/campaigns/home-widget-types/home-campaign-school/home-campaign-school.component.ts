@@ -20,12 +20,14 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   reportWeekStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
+  language: string;
   constructor(
     private userService: UserService,
     private reportService: ReportService
   ) {}
 
   ngOnInit() {
+    this.language = this.userService.getLanguage();
     this.imagePath = this.campaignContainer.campaign.logo.url
       ? this.campaignContainer.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
