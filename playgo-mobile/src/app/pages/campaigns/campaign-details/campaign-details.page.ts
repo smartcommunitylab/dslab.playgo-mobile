@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
   selector: 'app-campaign-details',
@@ -23,6 +24,7 @@ export class CampaignDetailsPage implements OnInit {
     private route: ActivatedRoute,
     private campaignService: CampaignService,
     private alertService: AlertService,
+    private userService: UserService,
     private navCtrl: NavController
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
@@ -33,7 +35,8 @@ export class CampaignDetailsPage implements OnInit {
       this.campaignContainer = campaigns.find(
         (campaignContainer) => campaignContainer.campaign.campaignId === this.id
       );
-      this.titlePage = this.campaignContainer.campaign.name;
+      this.titlePage =
+        this.campaignContainer.campaign.name[this.userService.locale];
       this.colorCampaign = this.campaignContainer.campaign.type;
       this.imagePath = this.campaignContainer.campaign.logo.url
         ? this.campaignContainer.campaign.logo.url
