@@ -122,7 +122,7 @@ export function ifOfflineUseStored<T>(
 }
 
 export function isOfflineError(error: any): boolean {
-  return error instanceof Error && error.message === 'offline';
+  return error.status === 0 && navigator.onLine === false;
 }
 
 export function asyncFilter<T>(

@@ -31,6 +31,7 @@ export class ErrorService {
     return (source: Observable<T>) =>
       source.pipe(
         catchError((error) => {
+          console.warn(error);
           this.showAlert(error);
           // return observable used for downstream subscription
           return EMPTY;

@@ -217,7 +217,7 @@ export class UserService {
       }
     } catch (e) {
       // toto check local storage
-      console.error(e);
+      console.warn(e);
       return null;
     }
   }
