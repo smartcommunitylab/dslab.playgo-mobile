@@ -119,16 +119,20 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     shareReplay(1)
   );
   campaignId$: Observable<string> = this.route.params.pipe(
-    map((params) => params.id, shareReplay(1))
+    map((params) => params.id),
+    shareReplay(1)
   );
   statsMeanTypes$: Observable<StatMeanType[]> = this.campaignId$.pipe(
-    map(() => this.allStatsMeanTypes, shareReplay(1))
+    map(() => this.allStatsMeanTypes),
+    shareReplay(1)
   );
   statsUnitTypes$: Observable<StatUnitType[]> = this.campaignId$.pipe(
-    map(() => this.allStatsUnitTypes, shareReplay(1))
+    map(() => this.allStatsUnitTypes),
+    shareReplay(1)
   );
   playerId$ = this.userService.userProfile$.pipe(
-    map((userProfile) => userProfile.playerId, shareReplay(1))
+    map((userProfile) => userProfile.playerId),
+    shareReplay(1)
   );
   filterOptions$ = combineLatest([
     this.selectedStatMeanType$,
