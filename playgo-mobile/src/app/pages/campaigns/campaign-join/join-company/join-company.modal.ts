@@ -46,7 +46,7 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
           this.companies = result;
         }
       });
-    const rules = this.campaign.details[this.userService.locale];
+    const rules = this.campaign.details[this.userService.getLanguage()];
     this.rules = rules.find((detail) => detail.type === 'rules');
     this.privacy = rules.find((detail) => detail.type === 'privacy');
   }

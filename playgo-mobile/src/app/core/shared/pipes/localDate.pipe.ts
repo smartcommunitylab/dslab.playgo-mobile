@@ -11,7 +11,7 @@ import { UserService } from '../services/user.service';
   pure: false,
 })
 export class LocalDatePipe implements PipeTransform {
-  constructor(private user: UserService) {}
+  constructor(private userService: UserService) {}
 
   transform(value: any, format?: string | Intl.DateTimeFormatOptions) {
     if (!value) {
@@ -22,13 +22,15 @@ export class LocalDatePipe implements PipeTransform {
     }
     if (typeof format !== 'string') {
       try {
-        return Intl.DateTimeFormat(this.user.locale, format).format(value);
+        return Intl.DateTimeFormat(this.userService.getLocale(), format).format(
+          value
+        );
       } catch (e) {
         // fallback if there is some problem with Intl
-        return formatDate(value, 'shortDate', this.user.locale);
+        return formatDate(value, 'shortDate', this.userService.getLocale());
       }
     }
     // basic string format
-    return formatDate(value, format, this.user.locale);
+    return formatDate(value, format, this.userService.getLocale());
   }
 }

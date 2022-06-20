@@ -30,9 +30,10 @@ import { isOfflineError } from '../utils';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+  private userLanguage: string;
   private userLocale: string;
   private userProfile: IUser = null;
-  public initUserProfile$: Observable<IUser> = this.authService.token$.pipe(
+  private initUserProfile$: Observable<IUser> = this.authService.token$.pipe(
     filter((token) => token !== null),
     first(),
     switchMap(() => this.getUserProfile()),
@@ -45,7 +46,7 @@ export class UserService {
     this.userProfileRefresher$
   );
 
-  userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
+  public userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
     switchMap(() => this.getUserProfile()),
     distinctUntilChanged(isEqual),
     shareReplay(1)
@@ -63,6 +64,7 @@ export class UserService {
       )
     )
   );
+
   public userProfileMeans$: Observable<TransportType[]> = combineLatest([
     this.userProfile$,
     this.territoryService.territories$,
@@ -88,11 +90,24 @@ export class UserService {
       .subscribe((action) => this.afterSignOutSuccess());
   }
 
-  set locale(value: string) {
-    this.userLocale = value;
+  /**
+   * User language
+   *
+   * Format: 'it' / 'en'
+   * Returned from server.
+   * */
+  public getLanguage(): 'it' | 'en' {
+    return (this.userLanguage as 'it' | 'en') || 'it';
   }
-  get locale(): string {
-    return this.userLocale || 'en-US';
+
+  /**
+   * User locale.
+   *
+   * Format is Unicode Locale Identifier. For example: 'it-IT' or 'en-US'.
+   * Right now derived from the user language.
+   * */
+  public getLocale(): string {
+    return this.userLocale || 'it-IT';
   }
 
   uploadAvatar(file: any): Promise<any> {

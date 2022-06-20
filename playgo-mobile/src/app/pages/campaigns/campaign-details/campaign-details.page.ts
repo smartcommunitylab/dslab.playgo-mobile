@@ -36,7 +36,7 @@ export class CampaignDetailsPage implements OnInit {
         (campaignContainer) => campaignContainer.campaign.campaignId === this.id
       );
       this.titlePage =
-        this.campaignContainer.campaign.name[this.userService.locale];
+        this.campaignContainer.campaign.name[this.userService.getLanguage()];
       this.colorCampaign = this.campaignContainer.campaign.type;
       this.imagePath = this.campaignContainer.campaign.logo.url
         ? this.campaignContainer.campaign.logo.url
