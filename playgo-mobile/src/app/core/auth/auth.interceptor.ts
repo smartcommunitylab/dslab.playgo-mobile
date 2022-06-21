@@ -18,12 +18,15 @@ import {
   filter,
   finalize,
   map,
+  switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 import { AuthService } from 'ionic-appauth';
 import { UserStorageService } from '../shared/services/user-storage.service';
 import { NavController } from '@ionic/angular';
 import { SpinnerService } from '../shared/services/spinner.service';
+import { tapLog } from '../shared/utils';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -46,7 +49,10 @@ export class AuthInterceptor implements HttpInterceptor {
     this.urlsToNotUse = [];
   }
   // eslint-disable-next-line @typescript-eslint/ban-types
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     if (this.isValidRequestForInterceptor(req.url)) {
       this.spinnerService.show();
       return from(this.handle(req, next));
@@ -72,7 +78,6 @@ export class AuthInterceptor implements HttpInterceptor {
     return next
       .handle(req)
       .pipe(
-        map((event: HttpEvent<any>) => event),
         catchError((error: HttpErrorResponse) => {
           if (error instanceof HttpErrorResponse && error.status === 401) {
             return this.handle401Error(req, next);
@@ -86,7 +91,10 @@ export class AuthInterceptor implements HttpInterceptor {
       .toPromise();
   }
 
-  private async handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+  private handle401Error(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     if (this.isRefreshing) {
       return this.tokenRefreshed$.pipe(
         filter(Boolean),
@@ -94,7 +102,8 @@ export class AuthInterceptor implements HttpInterceptor {
         concatMap(async () => {
           const token = await this.authService.getValidToken();
           return next.handle(this.changeToken(token.accessToken, request));
-        })
+        }),
+        concatMap((x) => x)
       );
     }
 
@@ -103,14 +112,14 @@ export class AuthInterceptor implements HttpInterceptor {
     // Reset here so that the following requests wait until the token
     // comes back from the refreshToken call.
     this.tokenRefreshed$.next(false);
-
-    return from(this.authService.refreshToken()).pipe(
-      concatMap(async (res) => {
+    const obs = this.authService.token$.pipe(
+      switchMap(async (res) => {
         const token = await this.authService.getValidToken();
         this.tokenRefreshed$.next(true);
         this.refreshTokenSubject.next(token.accessToken);
         return next.handle(this.changeToken(token.accessToken, request));
       }),
+      concatMap((x) => x),
       catchError((err) => {
         this.authService.signOut();
         this.localStorageService.clearUser();
@@ -122,6 +131,8 @@ export class AuthInterceptor implements HttpInterceptor {
         this.isRefreshing = false;
       })
     );
+    this.authService.refreshToken();
+    return obs;
   }
   changeToken(accessToken: string, request: HttpRequest<any>) {
     return request.clone({

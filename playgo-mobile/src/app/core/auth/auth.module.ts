@@ -10,11 +10,11 @@ import {
 
 import { NgHttpService } from './ng-http.service';
 import { authFactory } from './factories';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
