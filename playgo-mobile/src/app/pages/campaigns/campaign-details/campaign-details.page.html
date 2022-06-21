@@ -5,7 +5,7 @@
 >
   <ion-toolbar [color]="campaignContainer?.campaign?.type">
     <ion-buttons slot="start">
-      <ion-back-button (click)="back()" defaultHref="'pages/tabs/home'">
+      <ion-back-button (click)="back()" defaultHref="'/pages/tabs/home'">
       </ion-back-button>
     </ion-buttons>
     <ion-title class="ion-text-center">
@@ -70,6 +70,20 @@
       <div [innerHTML]="campaignContainer.campaign.description[language]"></div>
     </ion-card-content>
   </ion-card>
+  <div
+    *ngIf="campaignContainer.campaign.details?.[language];then detailTag"
+  ></div>
+  <ng-template #detailTag>
+    <ion-card
+      *ngFor="let detail of campaignContainer.campaign.details?.[language]"
+      (click)="openDetail(detail)"
+    >
+      <ion-item [color]="campaignContainer?.campaign?.type"
+        ><ion-label>{{detail.name}}</ion-label>
+        <ion-icon name="arrow-forward" end> </ion-icon>
+      </ion-item>
+    </ion-card>
+  </ng-template>
   <ion-card>
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.signal'|translate}} </ion-label>
