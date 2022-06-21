@@ -54,7 +54,8 @@
     <ion-item lines="none" *ngIf="territory?.name">
       <ion-label>
         <div>
-          {{ "profile.territory" | translate }}<b>{{ territory.name }}</b>
+          {{ "profile.territory" | translate
+          }}<b>{{ territory.name[language] }}</b>
         </div>
       </ion-label>
     </ion-item>

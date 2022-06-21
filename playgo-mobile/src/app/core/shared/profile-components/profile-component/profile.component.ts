@@ -18,6 +18,7 @@ import { readAsBase64 } from '../../utils';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   @Input() editable = false;
+  language: string;
   image: Photo;
   profile: IUser;
   subProf: Subscription;
@@ -34,6 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.language = this.userService.getLanguage();
     this.subProf = this.userService.userProfile$
       .pipe(this.errorService.showAlertOnError())
       .subscribe((profile) => {
