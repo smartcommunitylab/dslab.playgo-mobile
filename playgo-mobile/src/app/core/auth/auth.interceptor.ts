@@ -112,7 +112,8 @@ export class AuthInterceptor implements HttpInterceptor {
     // Reset here so that the following requests wait until the token
     // comes back from the refreshToken call.
     this.tokenRefreshed$.next(false);
-    const obs = this.authService.token$.pipe(
+    return this.authService.token$.pipe(
+      tap(() => this.authService.refreshToken()),
       switchMap(async (res) => {
         const token = await this.authService.getValidToken();
         this.tokenRefreshed$.next(true);
@@ -131,8 +132,6 @@ export class AuthInterceptor implements HttpInterceptor {
         this.isRefreshing = false;
       })
     );
-    this.authService.refreshToken();
-    return obs;
   }
   changeToken(accessToken: string, request: HttpRequest<any>) {
     return request.clone({
