@@ -60,14 +60,14 @@
     </ion-item>
     <ion-card-content> Sfideeeee </ion-card-content>
   </ion-card>
-  <ion-card *ngIf="campaignContainer.campaign.description">
+  <ion-card *ngIf="campaignContainer.campaign.description?.[language]">
     <ion-card-title>
       <ion-item [color]="campaignContainer?.campaign?.type"
         >{{'campaigns.detail.description'|translate}}
       </ion-item>
     </ion-card-title>
     <ion-card-content>
-      <div [innerHTML]="campaignContainer.campaign.description"></div>
+      <div [innerHTML]="campaignContainer.campaign.description[language]"></div>
     </ion-card-content>
   </ion-card>
   <ion-card>

@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { isEqual } from 'lodash-es';
 import { merge, Observable, ReplaySubject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   first,
   map,
+  tap,
   shareReplay,
   startWith,
   switchMap,
@@ -16,7 +18,9 @@ import { Campaign } from '../../api/generated/model/campaign';
 import { CampaignSubscription } from '../../api/generated/model/campaignSubscription';
 import { PlayerCampaign } from '../../api/generated/model/playerCampaign';
 import { IUser } from '../model/user.model';
+import { LocalStorageService } from './local-storage.service';
 import { UserService } from './user.service';
+import { ifOfflineUseStored } from '../utils';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +45,7 @@ export class CampaignService {
     );
   private playerCampaignUnSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
   private playerCampaignSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
-  public playerCampaignsRefresher$ = new ReplaySubject<PlayerCampaign>(1);
+  public playerCampaignsRefresher$ = new ReplaySubject<void>(1);
   private campaignsCouldBeChanged$ = merge(
     this.initMyCampaigns$,
     this.playerCampaignSubscribed$,
@@ -49,10 +53,20 @@ export class CampaignService {
     this.playerCampaignsRefresher$
   ).pipe(startWith(null));
 
-  myCampaigns$ = this.campaignsCouldBeChanged$.pipe(
-    switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
-    shareReplay(1)
-  );
+  private myCampaignsStorage =
+    this.localStorageService.getStorageOf<PlayerCampaign[]>('myCampaigns');
+  public myCampaigns$: Observable<PlayerCampaign[]> =
+    this.campaignsCouldBeChanged$.pipe(
+      switchMap(() =>
+        this.campaignControllerService
+          .getMyCampaignsUsingGET()
+          .pipe(ifOfflineUseStored(this.myCampaignsStorage))
+      ),
+      distinctUntilChanged(isEqual),
+      tap((myCampaigns) => this.myCampaignsStorage.set(myCampaigns)),
+      shareReplay(1)
+    );
+
   mapFunctionalities = {
     personal: {
       challenge: {
@@ -104,6 +118,7 @@ export class CampaignService {
   constructor(
     private userService: UserService,
     private campaignControllerService: CampaignControllerService,
+    private localStorageService: LocalStorageService,
     private http: HttpClient
   ) {}
   subscribeToCampaign(

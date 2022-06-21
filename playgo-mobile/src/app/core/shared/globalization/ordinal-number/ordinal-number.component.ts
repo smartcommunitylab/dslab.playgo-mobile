@@ -17,7 +17,7 @@ export class OrdinalNumberComponent implements OnInit {
   @Input()
   value: number;
 
-  ordinalPluralRules = new Intl.PluralRules(this.userService.locale, {
+  ordinalPluralRules = new Intl.PluralRules(this.userService.getLocale(), {
     type: 'ordinal',
   });
 

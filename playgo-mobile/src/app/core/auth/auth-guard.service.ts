@@ -34,7 +34,7 @@ export class AuthGuardService implements CanActivate {
         }
         if (isAuthenticated) {
           this.userService.isUserRegistered().then((isRegistered) => {
-            if (!isRegistered) {
+            if (isRegistered === false) {
               this.navCtrl.navigateRoot('/pages/registration');
             }
           });

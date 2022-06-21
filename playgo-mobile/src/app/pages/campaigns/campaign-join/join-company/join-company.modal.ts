@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
   selector: 'app-join-company',
@@ -28,6 +29,7 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private campaignService: CampaignService,
     public formBuilder: FormBuilder,
+    private userService: UserService,
     private translateService: TranslateService
   ) {}
   ngOnInit() {
@@ -44,12 +46,9 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
           this.companies = result;
         }
       });
-    this.rules = this.campaign.details.find(
-      (detail) => detail.type === 'rules'
-    );
-    this.privacy = this.campaign.details.find(
-      (detail) => detail.type === 'privacy'
-    );
+    const rules = this.campaign.details[this.userService.getLanguage()];
+    this.rules = rules.find((detail) => detail.type === 'rules');
+    this.privacy = rules.find((detail) => detail.type === 'privacy');
   }
   ngOnDestroy() {
     this.sub.unsubscribe();

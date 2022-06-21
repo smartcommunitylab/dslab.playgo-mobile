@@ -17,6 +17,7 @@ import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

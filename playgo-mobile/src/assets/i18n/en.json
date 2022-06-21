@@ -162,7 +162,7 @@
   "errors": {
     "userNotFound": "User Not Found",
     "nickNameExist": "This nickname already exists",
-    "defaultErr": "Generic error"
+    "defaultErr": "Server operation failed"
   },
   "campaigns": {
     "title": "Campaigns",

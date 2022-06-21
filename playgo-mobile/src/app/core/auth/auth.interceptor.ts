@@ -23,10 +23,9 @@ import {
   tap,
 } from 'rxjs/operators';
 import { AuthService } from 'ionic-appauth';
-import { UserStorageService } from '../shared/services/user-storage.service';
-import { NavController } from '@ionic/angular';
 import { SpinnerService } from '../shared/services/spinner.service';
 import { tapLog } from '../shared/utils';
+import { UserService } from '../shared/services/user.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -41,9 +40,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.refreshTokenSubject.asObservable();
   constructor(
     private authService: AuthService,
-    //private userService: UserService
-    private localStorageService: UserStorageService,
-    private navCtrl: NavController,
+    private userService: UserService,
     private spinnerService: SpinnerService
   ) {
     this.urlsToNotUse = [];
@@ -122,9 +119,7 @@ export class AuthInterceptor implements HttpInterceptor {
       }),
       concatMap((x) => x),
       catchError((err) => {
-        this.authService.signOut();
-        this.localStorageService.clearUser();
-        this.navCtrl.navigateRoot('login');
+        this.userService.logout();
         return throwError(err);
       }),
       finalize(() => {

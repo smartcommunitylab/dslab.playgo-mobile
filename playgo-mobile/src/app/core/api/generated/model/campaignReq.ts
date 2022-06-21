@@ -11,17 +11,14 @@
  */
 import { CampaignDetail } from './campaignDetail';
 import { Image } from './image';
-import { SurveyRequest } from './surveyRequest';
 
-export interface Campaign {
+export interface CampaignReq {
   active?: boolean;
-  allSurveys?: { [key: string]: string };
   banner?: Image;
   campaignId?: string;
   communications?: boolean;
   dateFrom?: number;
   dateTo?: number;
-  defaultSurvey?: SurveyRequest;
   description?: { [key: string]: string };
   details?: { [key: string]: Array<CampaignDetail> };
   gameId?: string;
@@ -31,10 +28,10 @@ export interface Campaign {
   startDayOfWeek?: number;
   surveys?: { [key: string]: string };
   territoryId?: string;
-  type?: Campaign.TypeEnum;
+  type?: CampaignReq.TypeEnum;
   validationData?: any;
 }
-export namespace Campaign {
+export namespace CampaignReq {
   export type TypeEnum = 'city' | 'company' | 'personal' | 'school';
   export const TypeEnum = {
     City: 'city' as TypeEnum,

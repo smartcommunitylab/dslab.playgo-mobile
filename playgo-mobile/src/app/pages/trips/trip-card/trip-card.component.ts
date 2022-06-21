@@ -24,7 +24,7 @@ export class TripCardComponent implements OnInit, OnChanges {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly Validity = TrackedInstanceInfo.ValidityEnum;
 
-  pluralRules = new Intl.PluralRules(this.user.locale);
+  pluralRules = new Intl.PluralRules(this.userService.getLocale());
 
   @Input() trip: ServerOrLocalTrip;
   @Input() isOneDayTrip = true;
@@ -44,7 +44,7 @@ export class TripCardComponent implements OnInit, OnChanges {
     private router: Router,
     private route: ActivatedRoute,
     private translateService: TranslateService,
-    private user: UserService
+    private userService: UserService
   ) {}
 
   openDetail() {

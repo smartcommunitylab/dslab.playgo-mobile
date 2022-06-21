@@ -14,6 +14,13 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "ImportDeclaration > Literal[value=/rxjs.internal.*/]",
+            "message": "Do not import from internal modules of rxjs"
+          }
+        ],
         "@angular-eslint/component-class-suffix": [
           "error",
           {

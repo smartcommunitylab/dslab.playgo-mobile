@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
   selector: 'app-campaign-details',
@@ -18,22 +19,25 @@ export class CampaignDetailsPage implements OnInit {
   imagePath: SafeResourceUrl;
   titlePage = '';
   colorCampaign = null;
+  language: string;
   @ViewChild('ionContent') ionContent: ElementRef;
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
     private alertService: AlertService,
+    private userService: UserService,
     private navCtrl: NavController
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
 
   ngOnInit() {
+    this.language = this.userService.getLanguage();
     this.campaignService.myCampaigns$.subscribe((campaigns) => {
       this.campaignContainer = campaigns.find(
         (campaignContainer) => campaignContainer.campaign.campaignId === this.id
       );
-      this.titlePage = this.campaignContainer.campaign.name;
+      this.titlePage = this.campaignContainer.campaign.name[this.language];
       this.colorCampaign = this.campaignContainer.campaign.type;
       this.imagePath = this.campaignContainer.campaign.logo.url
         ? this.campaignContainer.campaign.logo.url

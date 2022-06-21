@@ -11,11 +11,14 @@
  */
 
 export interface Announcement {
+  campaignId?: string;
   channels?: Array<Announcement.ChannelsEnum>;
   description?: string;
   from?: string;
   html?: string;
+  id?: string;
   players?: Array<string>;
+  territoryId?: string;
   timestamp?: number;
   title?: string;
   to?: string;

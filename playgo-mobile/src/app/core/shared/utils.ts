@@ -1,6 +1,6 @@
 import { NgZone, TrackByFunction } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { flatMap, initial, last, tail, zip } from 'lodash-es';
+import { flatMap, initial, isNil, last, tail, zip } from 'lodash-es';
 import { Duration } from 'luxon';
 import {
   concat,
@@ -10,9 +10,20 @@ import {
   Observable,
   ObservableInput,
   ObservedValueOf,
+  of,
   OperatorFunction,
+  throwError,
 } from 'rxjs';
-import { concatMap, filter, first, map, takeUntil, tap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  filter,
+  first,
+  map,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
+import { LocalStorageType } from './services/local-storage.service';
 
 export const isNotConstant =
   <C>(constant: C) =>
@@ -94,6 +105,28 @@ export function throwIfNil<T>(
     );
 }
 
+export function ifOfflineUseStored<T>(
+  storage: LocalStorageType<T>
+): OperatorFunction<T, T> {
+  return (source: Observable<T>) =>
+    source.pipe(
+      catchError((error: any) => {
+        if (isOfflineError(error)) {
+          console.log('using offline mode!');
+          const storedValue = storage.get();
+          if (!isNil(storedValue)) {
+            return of(storedValue);
+          }
+        }
+        return throwError(() => error) as Observable<T>;
+      })
+    );
+}
+
+export function isOfflineError(error: any): boolean {
+  return error.status === 0 && navigator.onLine === false;
+}
+
 export function asyncFilter<T>(
   predicate: (value: T, index: number) => Promise<boolean>
 ): MonoTypeOperatorFunction<T> {
@@ -103,6 +136,10 @@ export function asyncFilter<T>(
       map(() => value)
     )
   );
+}
+
+export function getDebugStack(): string {
+  return new Error().stack || 'stack not available';
 }
 
 export async function readAsBase64(photo: Photo) {
