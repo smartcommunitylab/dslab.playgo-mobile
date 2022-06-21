@@ -5,7 +5,8 @@
 >
   <ion-toolbar [color]="campaignContainer?.campaign?.type">
     <ion-buttons slot="start">
-      <ion-back-button (click)="back()"> </ion-back-button>
+      <ion-back-button (click)="back()" defaultHref="'pages/tabs/home'">
+      </ion-back-button>
     </ion-buttons>
     <ion-title class="ion-text-center">
       <span>{{ titlePage }}</span>
