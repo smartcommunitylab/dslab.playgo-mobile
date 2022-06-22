@@ -42,23 +42,22 @@ export class AuthCallbackPage implements OnInit, OnDestroy {
   async postCallback(action: IAuthAction) {
     console.log(JSON.stringify(action));
     if (action.action === AuthActions.SignInSuccess) {
-      console.log(action.action);
       this.alertService.showToast({
         messageTranslateKey: 'login.welcome',
       });
-      // wait until token is ready
-      this.subToken = this.auth.token$.subscribe(async (token) => {
-        if (token) {
-          const userIsRegistered = await this.userService.isUserRegistered();
-          if (userIsRegistered) {
-            this.navCtrl.navigateRoot('/pages/tabs/home');
-          } else {
-            this.navCtrl.navigateRoot('/pages/registration');
-          }
-        } else {
-          console.log('no token');
-        }
-      });
+      const userIsRegistered = await this.userService.isUserRegistered();
+      if (userIsRegistered === true) {
+        this.navCtrl.navigateRoot('/pages/tabs/home');
+      } else if (userIsRegistered === false) {
+        this.navCtrl.navigateRoot('/pages/registration');
+      } else {
+        // api call failed... but token should be there
+        console.error(
+          'failed to check if user is registered after log in!',
+          action
+        );
+        this.navCtrl.navigateRoot('login');
+      }
     }
 
     if (action.action === AuthActions.SignInFailed) {
