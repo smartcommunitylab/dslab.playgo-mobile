@@ -74,6 +74,7 @@
     "alert_title": "Attenzione"
   },
   "tracking": {
+    "low_accuracy": "Bassa precisione!",
     "choose_means": "Seleziona una mezzo per tracciare",
     "continue_low_accuracy_prompt": "Bassa precisione rilevata! Vuoi proseguire?",
     "show_current_location": "Fammi vedere dove sono",
