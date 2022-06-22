@@ -14,6 +14,7 @@ import { filter as _filter, fromPairs, isEqual, last, pick } from 'lodash-es';
 import {
   combineLatest,
   concat,
+  lastValueFrom,
   merge,
   Observable,
   ReplaySubject,
@@ -270,7 +271,7 @@ export class BackgroundTrackingService {
 
   /** Waits for the first token available, but later it will return latest token immediately */
   private async getToken(): Promise<TokenResponse> {
-    return await lastValueForm(this.token$.pipe(take(1)));
+    return await lastValueFrom(this.token$.pipe(take(1)));
   }
 
   private async setExtrasAndForceLocation(
@@ -349,8 +350,3 @@ export class TripLocation {
 }
 
 interface TripExtras extends Extras, Partial<TripPart> {}
-function lastValueForm(
-  arg0: Observable<TokenResponse>
-): TokenResponse | PromiseLike<TokenResponse> {
-  throw new Error('Function not implemented.');
-}
