@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Avatar } from '../../api/generated/model/avatar';
 import { Player } from '../../api/generated/model/player';
+import { tapLog } from '../utils';
 import {
   catchError,
   distinctUntilChanged,
@@ -88,6 +89,17 @@ export class UserService {
     this.authService.events$
       .pipe(filter(({ action }) => action === AuthActions.SignOutSuccess))
       .subscribe((action) => this.afterSignOutSuccess());
+
+    // this.authService.refreshToken() is not throwing error, we need to use global handler :(
+    this.authService.events$
+      .pipe(
+        filter(({ action }) => action === AuthActions.RefreshFailed),
+        tapLog('Getting of refresh token failed!')
+      )
+      .subscribe((action) => {
+        this.logout();
+        this.afterSignOutSuccess();
+      });
   }
 
   /**
