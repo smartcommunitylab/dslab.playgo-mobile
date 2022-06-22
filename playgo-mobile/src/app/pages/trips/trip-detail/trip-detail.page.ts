@@ -7,6 +7,7 @@ import { CampaignTripInfo } from 'src/app/core/api/generated/model/campaignTripI
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
 import {
   transportTypeIcons,
   transportTypeLabels,
@@ -25,15 +26,18 @@ export class TripDetailPage implements OnInit {
   durationLabel: string;
   transportTypeIcons = transportTypeIcons;
   transportTypeLabels = transportTypeLabels;
+  language: string;
 
   constructor(
     private route: ActivatedRoute,
     private errorService: ErrorService,
     private trackControllerService: TrackControllerService,
-    public campaignService: CampaignService
+    public campaignService: CampaignService,
+    private userService: UserService
   ) {}
 
   async ngOnInit() {
+    this.language = this.userService.getLanguage();
     const tripId = this.route.snapshot.paramMap.get('id');
     if (tripId) {
       try {
