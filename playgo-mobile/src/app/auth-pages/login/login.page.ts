@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IAuthAction, AuthActions, AuthService } from 'ionic-appauth';
 import { NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -13,9 +14,8 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 })
 export class LoginPage implements OnInit, OnDestroy {
   events$ = this.auth.events$;
-  sub: Subscription;
-  subToken: Subscription;
 
+  private componentIsDestroyed$ = new Subject<boolean>();
   constructor(
     private auth: AuthService,
     private navCtrl: NavController,
@@ -25,37 +25,18 @@ export class LoginPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sub = this.auth.events$.subscribe((action) => {
-      if (action.action === AuthActions.SignInSuccess) {
-        this.onSignInSuccess(action);
-      }
-    });
+    this.auth.events$
+      .pipe(takeUntil(this.componentIsDestroyed$))
+      .subscribe((action) => {
+        if (action.action === AuthActions.SignInSuccess) {
+          this.userService.onSignInSuccess(action);
+        }
+      });
   }
 
   ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-    if (this.subToken) {
-      this.subToken.unsubscribe();
-    }
-  }
-
-  private async onSignInSuccess(action: IAuthAction) {
-    this.alertService.showToast({ messageTranslateKey: 'login.welcome' });
-    // wait until token is ready
-    this.subToken = this.auth.token$.subscribe(async (token) => {
-      const userIsRegistered = await this.userService.isUserRegistered();
-      if (userIsRegistered) {
-        this.navCtrl.navigateRoot('/pages/tabs/home');
-      } else {
-        this.navCtrl.navigateRoot('/pages/registration');
-      }
-    });
-
-    if (action.action === AuthActions.SignInFailed) {
-      this.navCtrl.navigateRoot('login');
-    }
+    this.componentIsDestroyed$.next(true);
+    this.componentIsDestroyed$.complete();
   }
 
   public signIn() {

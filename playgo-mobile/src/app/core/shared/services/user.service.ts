@@ -9,7 +9,7 @@ import { TransportType } from '../tracking/trip.model';
 import { TerritoryService } from './territory.service';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
-import { AuthActions, AuthService } from 'ionic-appauth';
+import { AuthActions, AuthService, IAuthAction } from 'ionic-appauth';
 import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Avatar } from '../../api/generated/model/avatar';
@@ -28,6 +28,7 @@ import { isEqual } from 'lodash-es';
 import { LocalStorageService } from './local-storage.service';
 import { Territory } from '../../api/generated/model/territory';
 import { isOfflineError } from '../utils';
+import { AlertService } from './alert.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -84,8 +85,10 @@ export class UserService {
     private navCtrl: NavController,
     private authService: AuthService,
     private http: HttpClient,
-    private playerControllerService: PlayerControllerService
+    private playerControllerService: PlayerControllerService,
+    private alertService: AlertService
   ) {
+    // TODO: maybe we should subscribe to this somewhere else...
     this.authService.events$
       .pipe(filter(({ action }) => action === AuthActions.SignOutSuccess))
       .subscribe((action) => this.afterSignOutSuccess());
@@ -268,5 +271,22 @@ export class UserService {
   private afterSignOutSuccess() {
     this.localStorageService.clearAll();
     this.navCtrl.navigateRoot('login');
+  }
+
+  public async onSignInSuccess(action: IAuthAction) {
+    const userIsRegistered = await this.isUserRegistered();
+    if (userIsRegistered === true) {
+      this.alertService.showToast({ messageTranslateKey: 'login.welcome' });
+      this.navCtrl.navigateRoot('/pages/tabs/home');
+    } else if (userIsRegistered === false) {
+      this.navCtrl.navigateRoot('/pages/registration');
+    } else {
+      // api call failed... but token should be there
+      console.error(
+        'failed to check if user is registered after log in!',
+        action
+      );
+      this.navCtrl.navigateRoot('login');
+    }
   }
 }
