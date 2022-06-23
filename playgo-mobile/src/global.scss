@@ -97,7 +97,9 @@ ion-list {
 .icon-size-normal {
   font-size: 22px;
 }
-
+.icon-size-big {
+  font-size: 48px;
+}
 .app-alert {
   --background: var(--ion-color-playgo);
 
@@ -127,7 +129,6 @@ ion-list {
     color: white;
   }
 }
-
 @import "material-icons/iconfont/material-icons.scss";
 
 $material-icons-font-path: "./" !default;

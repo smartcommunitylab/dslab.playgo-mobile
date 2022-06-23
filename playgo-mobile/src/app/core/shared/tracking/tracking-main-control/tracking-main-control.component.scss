@@ -8,8 +8,17 @@
   ion-icon {
     font-size: 5vh;
   }
+  .choose-mean-string {
+    line-height: 10vh;
+  }
 }
-
+.low-accuracy-container {
+  height: 13vh;
+  .low-accuracy {
+    color: orange;
+    font-size: 21px;
+  }
+}
 .map-wrapper {
   position: relative;
   width: 100%;
