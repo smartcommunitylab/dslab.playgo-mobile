@@ -33,40 +33,40 @@ export class AuthInterceptor implements HttpInterceptor {
   }
   // eslint-disable-next-line @typescript-eslint/ban-types
   intercept(
-    req: HttpRequest<any>,
+    request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!this.isValidRequestForInterceptor(req.url)) {
-      return next.handle(req);
+    if (!this.isValidRequestForInterceptor(request.url)) {
+      return next.handle(request);
     }
-    return this.handle(req, next);
+    return this.handle(request, next);
   }
 
-  handle(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  handle(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     return this.sharedToken$.pipe(
       take(1),
       // timeout({ first: 5000 }),
       tap(() => this.spinnerService.show()),
       concatMap((token) => {
-        // TODO: is this always true?
-        if (token) {
-          // If we have a token, we set it to the header
-          req = req.clone({
+        const requestWithToken = request.clone({
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          setHeaders: {
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            setHeaders: {
-              // eslint-disable-next-line @typescript-eslint/naming-convention
-              Authorization: `${
-                token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
-              } ${token.accessToken}`,
-              // eslint-disable-next-line @typescript-eslint/naming-convention
-              Accept: '*/*',
-            },
-          });
-        }
-        return next.handle(req).pipe(
+            Authorization: `${
+              token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
+            } ${token.accessToken}`,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            Accept: '*/*',
+          },
+        });
+
+        return next.handle(requestWithToken).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error instanceof HttpErrorResponse && error.status === 401) {
-              return this.handle401Error(req, next);
+              return this.handle401Error(requestWithToken, next);
             }
             throwError(() => error);
           })
@@ -84,8 +84,8 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return from(this.authService.forceRefreshToken()).pipe(
       concatMap(() => this.sharedToken$.pipe(take(1))),
-      concatMap((token) =>
-        next.handle(this.changeToken(token.accessToken, request))
+      concatMap((newToken) =>
+        next.handle(this.changeToken(newToken.accessToken, request))
       ),
       catchError((err) => {
         this.authService.logoutAfterAuthFailed();
