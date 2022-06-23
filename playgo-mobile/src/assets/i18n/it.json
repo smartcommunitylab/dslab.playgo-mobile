@@ -84,8 +84,12 @@
       "passenger": "Passeggero",
       "manual_code": "Condividi il codice del vaggio:",
       "manual_code_input_label": "Inserisci il codice manualmente:",
-      "manual_code_input_confirm": "Ok",
-      "scan": "Leggilo"
+      "manual_code_input_example": "Es: 12345",
+      "manual_code_input_confirm": "Conferma codice",
+      "or": "oppure scansiona il QR code",
+      "scan": "Leggilo",
+      "showCode": "Mostra questo codice al passeggero",
+      "confirm": "Inizia a guidare"
     }
   },
   "profile": {

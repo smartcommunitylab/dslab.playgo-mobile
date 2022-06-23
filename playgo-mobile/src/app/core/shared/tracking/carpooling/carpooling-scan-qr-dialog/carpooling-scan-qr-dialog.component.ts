@@ -35,6 +35,9 @@ export class CarpoolingScanQRDialogComponent implements OnInit, OnDestroy {
     this.modalController.dismiss({ id });
   }
 
+  close() {
+    this.modalController.dismiss();
+  }
   async startScan() {
     try {
       await BarcodeScanner.checkPermission({ force: true });
