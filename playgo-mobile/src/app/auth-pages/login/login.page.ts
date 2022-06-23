@@ -49,9 +49,6 @@ export class LoginPage implements OnInit, OnDestroy {
       if (userIsRegistered) {
         this.navCtrl.navigateRoot('/pages/tabs/home');
       } else {
-        this.alertService.showToast(
-          this.translateService.instant('registration.newUser')
-        );
         this.navCtrl.navigateRoot('/pages/registration');
       }
     });
@@ -62,6 +59,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   public signIn() {
-    this.auth.signIn();
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    this.auth.signIn({ idp_hint: 'ciao' });
   }
 }

@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
 import { JoinCompanyModalPage } from './join-company/join-company.modal';
 
 @Component({
@@ -23,19 +24,21 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   campaign?: Campaign;
   imagePath: SafeResourceUrl;
   sub: Subscription;
+  language: string;
 
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
     private alertService: AlertService,
-    private translateService: TranslateService,
     private navCtrl: NavController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private userService: UserService
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
 
   ngOnInit() {
+    this.language = this.userService.getLanguage();
     this.sub = this.campaignService
       .getCampaignDetailsById(this.id)
       .subscribe((result) => {

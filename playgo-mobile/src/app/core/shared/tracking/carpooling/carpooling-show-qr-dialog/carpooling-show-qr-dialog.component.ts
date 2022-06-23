@@ -16,6 +16,9 @@ export class CarpoolingShowQRDialogComponent implements OnInit {
   close() {
     this.modalController.dismiss();
   }
+  startAndClose() {
+    this.modalController.dismiss(true);
+  }
 
   ngOnInit() {}
 }

@@ -1,0 +1,37 @@
+<app-header
+  title="{{ 'challenges.challenges'| translate }}"
+  [backButton]="false"
+>
+</app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-segment
+    mode="md"
+    class="app-segment"
+    [(ngModel)]="selectedSegment"
+    (ionChange)="segmentChanged($event)"
+    scrollable
+  >
+    <ion-segment-button
+      value="pastChallenges"
+      checked
+      class="app-segment-button"
+    >
+      <ion-label>{{'challenges.past' | translate}}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button
+      value="activeChallenges"
+      checked
+      class="app-segment-button"
+    >
+      <ion-label>{{'challenges.present' | translate}}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="futureChallenges" class="app-segment-button">
+      <ion-label>{{'challenges.future' | translate}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="selectedSegment==='pastChallenges'">passate</div>
+  <div *ngIf="selectedSegment==='activeChallenges'">presenti</div>
+  <div *ngIf="selectedSegment==='futureChallenges'">future</div>
+</ion-content>

@@ -1,15 +1,46 @@
-<!-- https://cordobo.github.io/angularx-qrcode/ -->
-<qrcode
-  [qrdata]="qrCodePrefix + id"
-  [allowEmptyString]="true"
-  [cssClass]="'center'"
-  [colorDark]="'#000000ff'"
-  [colorLight]="'#ffffffff'"
-  [elementType]="'canvas'"
-  [errorCorrectionLevel]="'M'"
-  [margin]="4"
-  [scale]="1"
-  [width]="300"
-></qrcode>
-{{ "tracking.car.manual_code" | translate }}
-<pre>{{ id }}</pre>
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">{{
+        "campaigns.joinmodal.close" | translate
+      }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar> </ion-header
+><ion-content color="playgo" class="ion-paddings">
+  <div class="ion-text-center ion-padding">
+    <h2>{{ "tracking.car.showCode" | translate | uppercase }}</h2>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <qrcode
+          [qrdata]="qrCodePrefix + id"
+          [allowEmptyString]="true"
+          [cssClass]="'center'"
+          [colorDark]="'#000000ff'"
+          [colorLight]="'#ffffffff'"
+          [elementType]="'canvas'"
+          [errorCorrectionLevel]="'M'"
+          [margin]="4"
+          [scale]="1"
+          [width]="300"
+        ></qrcode>
+      </ion-col>
+    </ion-row>
+    <ion-row class="code-row">
+      <ion-col class="ion-text-end">
+        <p>{{ "tracking.car.manual_code" | translate }}</p>
+      </ion-col>
+      <ion-col>
+        <pre>{{ id }}</pre>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="startAndClose()" color="light" size="large"
+          >{{ "tracking.car.confirm" | translate }}
+        </ion-button></ion-col
+      ></ion-row
+    >
+  </ion-grid>
+</ion-content>

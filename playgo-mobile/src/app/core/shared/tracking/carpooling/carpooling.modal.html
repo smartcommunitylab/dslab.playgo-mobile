@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()"
+        >{{ 'campaigns.joinmodal.close' | translate }}</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="playgo">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center ion-padding">
+        <h2>{{'tracking.car.choose_role'|translate|uppercase}}</h2>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center ion-padding">
+        <ion-button
+          expand="block"
+          shape="round"
+          color="light"
+          (click)="roleChosen('driver')"
+        >
+          <div class="button-role">
+            <app-icon name="driver" class="icon-size-big"></app-icon>
+            <ion-label>{{'tracking.car.driver'|translate}}</ion-label>
+          </div>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center ion-padding">
+        <ion-button
+          expand="block"
+          shape="round"
+          color="light"
+          (click)="roleChosen('passenger')"
+        >
+          <div class="button-role">
+            <app-icon name="passenger" class="icon-size-big"></app-icon>
+            <ion-label>{{'tracking.car.passenger'|translate}}</ion-label>
+          </div>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
