@@ -50,6 +50,8 @@ export class AuthService {
     shareReplay(1)
   );
 
+  private refreshTokenCallPromise: null | Promise<void> = null;
+
   constructor(
     @Inject('IonicAppAuthService')
     private ionicAppAuthService: IonicAppAuthService,
@@ -82,6 +84,13 @@ export class AuthService {
         console.error('auth error', action);
         this.logoutAfterAuthFailed();
       }
+
+      if (
+        action.action === AuthActions.RefreshSuccess ||
+        action.action === AuthActions.RefreshFailed
+      ) {
+        this.refreshTokenCallPromise = null;
+      }
     });
   }
 
@@ -112,10 +121,13 @@ export class AuthService {
 
   public async logoutAfterAuthFailed() {
     alert('You are not longer logged in, please log in again.');
-    await this.ionicAppAuthService.signOut();
-    // redirect should be handled from global event subscription,
-    // but if not, we do it manually
-    this.postLogoutCleanup();
+    try {
+      await this.ionicAppAuthService.signOut();
+    } finally {
+      // redirect should be handled from global event subscription,
+      // but if not, we do it manually
+      this.postLogoutCleanup();
+    }
   }
 
   private postLogoutCleanup() {
@@ -123,8 +135,16 @@ export class AuthService {
     this.navController.navigateRoot('login');
   }
 
+  /**
+   * Uses one time refresh token, to get a new token from aac.
+   *
+   * Function guarantees that the token will be asked only once, even if there are multiple calls.
+   */
   public forceRefreshToken(): Promise<void> {
-    return this.ionicAppAuthService.refreshToken();
+    if (!this.refreshTokenCallPromise) {
+      this.refreshTokenCallPromise = this.ionicAppAuthService.refreshToken();
+    }
+    return this.refreshTokenCallPromise;
   }
 
   /** called from EndSessionPage */

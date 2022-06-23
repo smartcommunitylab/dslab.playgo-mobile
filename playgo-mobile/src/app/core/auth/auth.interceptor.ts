@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpRequest,
 } from '@angular/common/http';
-import { defer, Observable, throwError } from 'rxjs';
+import { Observable, throwError, from } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -16,30 +16,17 @@ import {
 } from 'rxjs/operators';
 import { SpinnerService } from '../shared/services/spinner.service';
 import { tapLog } from '../shared/utils';
-import { UserService } from '../shared/services/user.service';
 import { TokenResponse } from '@openid/appauth';
 import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private urlsToNotUse: Array<string>;
-
-  private tokenIsRefreshed$ = defer(() =>
-    this.authService.forceRefreshToken()
-  ).pipe(
-    tapLog('Asking for a new token, after 401 error'),
-    // We are sharing observable, until there is no 401 request waiting for a new token
-    share({
-      resetOnRefCountZero: true,
-    })
-  );
-
   private sharedToken$: Observable<TokenResponse> =
     this.authService.validToken$;
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
     private spinnerService: SpinnerService
   ) {
     this.urlsToNotUse = [];
@@ -95,7 +82,7 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.tokenIsRefreshed$.pipe(
+    return from(this.authService.forceRefreshToken()).pipe(
       concatMap(() => this.sharedToken$.pipe(take(1))),
       concatMap((token) =>
         next.handle(this.changeToken(token.accessToken, request))
