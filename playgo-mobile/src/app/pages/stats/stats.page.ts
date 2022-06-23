@@ -84,10 +84,12 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     {
       labelKey: 'campaigns.stats.filter.unit.km.label',
       unitKey: 'km',
+      resultLabel: 'Km',
     },
     {
       labelKey: 'campaigns.stats.filter.unit.co2.label',
       unitKey: 'co2',
+      resultLabel: 'Kg',
     },
   ];
 
@@ -418,6 +420,7 @@ type StatMeanType = {
 type StatUnitType = {
   labelKey: string;
   unitKey: string;
+  resultLabel: string;
 };
 
 type Period = {
