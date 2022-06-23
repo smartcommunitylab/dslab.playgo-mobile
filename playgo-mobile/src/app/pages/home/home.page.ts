@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher, NavController } from '@ionic/angular';
-import { AuthService, IAuthAction, AuthActions } from 'ionic-appauth';
 import { Subscription } from 'rxjs';
 import { AppVersionService } from 'src/app/core/app-version.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -13,11 +12,8 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 })
 export class HomePage implements OnInit, OnDestroy {
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
-  user$ = this.auth.user$;
-  events$ = this.auth.events$;
   subProfile!: Subscription;
   constructor(
-    private auth: AuthService,
     private userService: UserService,
     private router: Router,
     public appVersionService: AppVersionService
@@ -25,14 +21,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   campagins() {
     this.router.navigateByUrl('/campaigns');
-  }
-
-  public async getUserInfo(): Promise<void> {
-    this.auth.loadUserInfo();
-  }
-
-  public async refreshToken(): Promise<void> {
-    this.auth.refreshToken();
   }
 
   showNotifications() {

@@ -9,7 +9,6 @@ import { TransportType } from '../tracking/trip.model';
 import { TerritoryService } from './territory.service';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
-import { AuthActions, AuthService, IAuthAction } from 'ionic-appauth';
 import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Avatar } from '../../api/generated/model/avatar';
@@ -29,18 +28,18 @@ import { LocalStorageService } from './local-storage.service';
 import { Territory } from '../../api/generated/model/territory';
 import { isOfflineError } from '../utils';
 import { AlertService } from './alert.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userLanguage: string;
   private userLocale: string;
   private userProfile: IUser = null;
-  private initUserProfile$: Observable<IUser> = this.authService.token$.pipe(
-    filter((token) => token !== null),
-    first(),
-    switchMap(() => this.getUserProfile()),
-    shareReplay(1)
-  );
+  private initUserProfile$: Observable<IUser> =
+    this.authService.isReadyForApi$.pipe(
+      switchMap(() => this.getUserProfile()),
+      shareReplay(1)
+    );
   public userProfileRefresher$ = new ReplaySubject<void>(1);
 
   private userProfileCouldBeChanged$ = merge(
@@ -87,23 +86,7 @@ export class UserService {
     private http: HttpClient,
     private playerControllerService: PlayerControllerService,
     private alertService: AlertService
-  ) {
-    // TODO: maybe we should subscribe to this somewhere else...
-    this.authService.events$
-      .pipe(filter(({ action }) => action === AuthActions.SignOutSuccess))
-      .subscribe((action) => this.afterSignOutSuccess());
-
-    // this.authService.refreshToken() is not throwing error, we need to use global handler :(
-    this.authService.events$
-      .pipe(
-        filter(({ action }) => action === AuthActions.RefreshFailed),
-        tapLog('Getting of refresh token failed!')
-      )
-      .subscribe((action) => {
-        this.logout();
-        this.afterSignOutSuccess();
-      });
-  }
+  ) {}
 
   /**
    * User language
@@ -262,31 +245,5 @@ export class UserService {
       .toPromise();
     this.processUser(user);
     return player;
-  }
-
-  // logout the user from the application and clean the storage
-  public logout(): void {
-    this.authService.signOut();
-  }
-  private afterSignOutSuccess() {
-    this.localStorageService.clearAll();
-    this.navCtrl.navigateRoot('login');
-  }
-
-  public async onSignInSuccess(action: IAuthAction) {
-    const userIsRegistered = await this.isUserRegistered();
-    if (userIsRegistered === true) {
-      this.alertService.showToast({ messageTranslateKey: 'login.welcome' });
-      this.navCtrl.navigateRoot('/pages/tabs/home');
-    } else if (userIsRegistered === false) {
-      this.navCtrl.navigateRoot('/pages/registration');
-    } else {
-      // api call failed... but token should be there
-      console.error(
-        'failed to check if user is registered after log in!',
-        action
-      );
-      this.navCtrl.navigateRoot('login');
-    }
   }
 }

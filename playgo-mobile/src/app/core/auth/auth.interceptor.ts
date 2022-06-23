@@ -5,40 +5,28 @@ import {
   HttpHandler,
   HttpRequest,
 } from '@angular/common/http';
-import {
-  BehaviorSubject,
-  defer,
-  from,
-  lastValueFrom,
-  Observable,
-  ReplaySubject,
-  throwError,
-} from 'rxjs';
+import { defer, Observable, throwError } from 'rxjs';
 import {
   catchError,
   concatMap,
-  filter,
   finalize,
-  map,
-  shareReplay,
-  switchMap,
   take,
-  first,
   share,
   tap,
-  timeout,
 } from 'rxjs/operators';
-import { AuthService } from 'ionic-appauth';
 import { SpinnerService } from '../shared/services/spinner.service';
 import { tapLog } from '../shared/utils';
 import { UserService } from '../shared/services/user.service';
 import { TokenResponse } from '@openid/appauth';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private urlsToNotUse: Array<string>;
 
-  private tokenIsRefreshed$ = defer(() => this.authService.refreshToken()).pipe(
+  private tokenIsRefreshed$ = defer(() =>
+    this.authService.forceRefreshToken()
+  ).pipe(
     tapLog('Asking for a new token, after 401 error'),
     // We are sharing observable, until there is no 401 request waiting for a new token
     share({
@@ -47,11 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
   );
 
   private sharedToken$: Observable<TokenResponse> =
-    this.authService.token$.pipe(
-      filter(Boolean),
-      tapLog('active token'),
-      shareReplay(1)
-    );
+    this.authService.validToken$;
 
   constructor(
     private authService: AuthService,
@@ -113,15 +97,11 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return this.tokenIsRefreshed$.pipe(
       concatMap(() => this.sharedToken$.pipe(take(1))),
-      tap((token) => {
-        // this.tokenRefreshed$.next(true);
-        // this.refreshTokenSubject.next(token.accessToken);
-      }),
       concatMap((token) =>
         next.handle(this.changeToken(token.accessToken, request))
       ),
       catchError((err) => {
-        this.userService.logout();
+        this.authService.logout();
         return throwError(() => err);
       })
     );

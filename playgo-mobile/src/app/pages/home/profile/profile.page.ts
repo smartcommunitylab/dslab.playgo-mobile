@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -17,8 +18,9 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private userService: UserService,
-    private modalController: ModalController,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private authService: AuthService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -45,7 +47,7 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public signOut() {
-    this.userService.logout();
+    this.authService.logout();
   }
   ngAfterViewInit() {
     const selects = document.querySelectorAll('.app-alert');

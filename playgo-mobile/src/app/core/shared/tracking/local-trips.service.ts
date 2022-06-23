@@ -45,7 +45,7 @@ import {
   BackgroundTrackingService,
   TripLocation,
 } from './background-tracking.service';
-import { AppStatusService } from '../services/app-status.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -99,7 +99,7 @@ export class LocalTripsService {
   ).pipe(throttleTime(500), mapTo('RELOAD_ONLY_PENDING'));
 
   private reloadFromLastTripTrigger$: Observable<TriggerType> = merge(
-    this.appStatusService.appReady$
+    this.authService.isReadyForApi$
   ).pipe(mapTo('RELOAD_FROM_LAST_TRIP'));
 
   private reloadAllTrigger$: Observable<TriggerType> = merge(
@@ -202,10 +202,10 @@ export class LocalTripsService {
 
   constructor(
     private initStream: InitServiceStream,
-    private appStatusService: AppStatusService,
     private localStorageService: LocalStorageService,
     private trackControllerService: TrackControllerService,
-    private backgroundTrackingService: BackgroundTrackingService
+    private backgroundTrackingService: BackgroundTrackingService,
+    private authService: AuthService
   ) {
     initStream.get().subscribe(() => {
       this.initService();
