@@ -12,20 +12,7 @@ export const authFactory = (
   browser: Browser,
   storage: StorageBackend
 ) => {
-  const logRequestor: Requestor = {
-    // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-    xhr<T>(settings: JQueryAjaxSettings): Promise<T> {
-      console.warn(
-        'log requestor used in auth service',
-        settings,
-        new Error().stack
-      );
-
-      return requestor.xhr<T>(settings);
-    },
-  };
-  const authService = new AuthService(browser, storage, logRequestor);
-  // const authService = new AuthService(browser, storage, requestor);
+  const authService = new AuthService(browser, storage, requestor);
   authService.authConfig = environment.authConfig;
   if (!platform.is('cordova')) {
     authService.authConfig.redirect_url =

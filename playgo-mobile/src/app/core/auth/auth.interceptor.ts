@@ -75,12 +75,12 @@ export class AuthInterceptor implements HttpInterceptor {
     return next
       .handle(req)
       .pipe(
-        catchError(
-          (error: HttpErrorResponse) => throwError(error)
-          // if (error instanceof HttpErrorResponse && error.status === 401) {
-          //   return this.handle401Error(req, next);
-          // }
-        ),
+        catchError((error: HttpErrorResponse) => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            return this.handle401Error(req, next);
+          }
+          return throwError(error);
+        }),
         finalize(() => {
           this.spinnerService.hide();
         })
@@ -88,46 +88,46 @@ export class AuthInterceptor implements HttpInterceptor {
       .toPromise();
   }
 
-  // private handle401Error(
-  //   request: HttpRequest<any>,
-  //   next: HttpHandler
-  // ): Observable<HttpEvent<any>> {
-  //   if (this.isRefreshing) {
-  //     return this.tokenRefreshed$.pipe(
-  //       filter(Boolean),
-  //       take(1),
-  //       concatMap(async () => {
-  //         const token = await this.authService.getValidToken();
-  //         return next.handle(this.changeToken(token.accessToken, request));
-  //       }),
-  //       concatMap((x) => x)
-  //     );
-  //   }
+  private handle401Error(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    if (this.isRefreshing) {
+      return this.tokenRefreshed$.pipe(
+        filter(Boolean),
+        take(1),
+        concatMap(async () => {
+          const token = await this.authService.getValidToken();
+          return next.handle(this.changeToken(token.accessToken, request));
+        }),
+        concatMap((x) => x)
+      );
+    }
 
-  //   this.isRefreshing = true;
+    this.isRefreshing = true;
 
-  //   // Reset here so that the following requests wait until the token
-  //   // comes back from the refreshToken call.
-  //   this.tokenRefreshed$.next(false);
-  //   return this.authService.token$.pipe(
-  //     // tap(() => this.authService.refreshToken()),
-  //     switchMap(async (res) => {
-  //       const token = await this.authService.getValidToken();
-  //       this.tokenRefreshed$.next(true);
-  //       this.refreshTokenSubject.next(token.accessToken);
-  //       return next.handle(this.changeToken(token.accessToken, request));
-  //     }),
-  //     concatMap((x) => x),
-  //     catchError((err) => {
-  //       this.userService.logout();
-  //       return throwError(err);
-  //     }),
-  //     finalize(() => {
-  //       this.spinnerService.hide();
-  //       this.isRefreshing = false;
-  //     })
-  //   );
-  // }
+    // Reset here so that the following requests wait until the token
+    // comes back from the refreshToken call.
+    this.tokenRefreshed$.next(false);
+    return this.authService.token$.pipe(
+      tap(() => this.authService.refreshToken()),
+      switchMap(async (res) => {
+        const token = await this.authService.getValidToken();
+        this.tokenRefreshed$.next(true);
+        this.refreshTokenSubject.next(token.accessToken);
+        return next.handle(this.changeToken(token.accessToken, request));
+      }),
+      concatMap((x) => x),
+      catchError((err) => {
+        this.userService.logout();
+        return throwError(err);
+      }),
+      finalize(() => {
+        this.spinnerService.hide();
+        this.isRefreshing = false;
+      })
+    );
+  }
   changeToken(accessToken: string, request: HttpRequest<any>) {
     return request.clone({
       headers: request.headers.set('Authorization', `Bearer ${accessToken}`),
