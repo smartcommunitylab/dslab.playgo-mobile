@@ -7,8 +7,7 @@ import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { TerritoryService } from 'src/app/core/shared/services/territory.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { readAsBase64 } from 'src/app/core/shared/utils';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from 'ionic-appauth';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -29,7 +28,7 @@ export class RegistrationPage implements OnInit, AfterViewInit {
     private navCtrl: NavController,
     private sanitizer: DomSanitizer,
     private alertService: AlertService,
-    private auth: AuthService
+    private authService: AuthService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -144,7 +143,7 @@ export class RegistrationPage implements OnInit, AfterViewInit {
     }
   }
   cancel() {
-    this.auth.signOut();
+    this.authService.logout();
   }
   ngAfterViewInit() {
     const selects = document.querySelectorAll('.app-alert');

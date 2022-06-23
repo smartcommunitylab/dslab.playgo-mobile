@@ -9,11 +9,11 @@ import { TransportType } from '../tracking/trip.model';
 import { TerritoryService } from './territory.service';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
-import { AuthActions, AuthService } from 'ionic-appauth';
 import { HttpClient } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Avatar } from '../../api/generated/model/avatar';
 import { Player } from '../../api/generated/model/player';
+import { tapLog } from '../utils';
 import {
   catchError,
   distinctUntilChanged,
@@ -27,18 +27,19 @@ import { isEqual } from 'lodash-es';
 import { LocalStorageService } from './local-storage.service';
 import { Territory } from '../../api/generated/model/territory';
 import { isOfflineError } from '../utils';
+import { AlertService } from './alert.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private userLanguage: string;
   private userLocale: string;
   private userProfile: IUser = null;
-  private initUserProfile$: Observable<IUser> = this.authService.token$.pipe(
-    filter((token) => token !== null),
-    first(),
-    switchMap(() => this.getUserProfile()),
-    shareReplay(1)
-  );
+  private initUserProfile$: Observable<IUser> =
+    this.authService.isReadyForApi$.pipe(
+      switchMap(() => this.getUserProfile()),
+      shareReplay(1)
+    );
   public userProfileRefresher$ = new ReplaySubject<void>(1);
 
   private userProfileCouldBeChanged$ = merge(
@@ -83,12 +84,9 @@ export class UserService {
     private navCtrl: NavController,
     private authService: AuthService,
     private http: HttpClient,
-    private playerControllerService: PlayerControllerService
-  ) {
-    this.authService.events$
-      .pipe(filter(({ action }) => action === AuthActions.SignOutSuccess))
-      .subscribe((action) => this.afterSignOutSuccess());
-  }
+    private playerControllerService: PlayerControllerService,
+    private alertService: AlertService
+  ) {}
 
   /**
    * User language
@@ -247,14 +245,5 @@ export class UserService {
       .toPromise();
     this.processUser(user);
     return player;
-  }
-
-  // logout the user from the application and clean the storage
-  public logout(): void {
-    this.authService.signOut();
-  }
-  private afterSignOutSuccess() {
-    this.localStorageService.clearAll();
-    this.navCtrl.navigateRoot('login');
   }
 }

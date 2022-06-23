@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Platform } from '@ionic/angular';
-import { AuthService } from 'ionic-appauth';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { AfterContentInit, Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
 import { AppVersionService } from './core/app-version.service';
 import { IconService } from './core/shared/ui/icon/icon.service';
+import { AuthService } from './core/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -20,27 +20,27 @@ export class AppComponent implements AfterContentInit {
   constructor(
     private translate: TranslateService,
     private platform: Platform,
-    private auth: AuthService,
     private backgroundTrackingService: BackgroundTrackingService,
     private appVersionService: AppVersionService,
-    private iconService: IconService
+    private iconService: IconService,
+    private authService: AuthService
   ) {
     this.initializeApp();
   }
-  initializeApp() {
+  private async initializeApp() {
     this.translate.setDefaultLang('it');
-    this.platform.ready().then(async () => {
-      //TODO auto check if user is stored with token
-      await this.auth.init();
-      SplashScreen.hide();
-    });
     this.codePushSync();
     this.loadCustomIcons();
+    await this.platform.ready();
+    await Promise.all([
+      this.authService.init(),
+      this.codePushSync(),
+      this.backgroundTrackingService.start(),
+    ]);
+    SplashScreen.hide();
   }
-
   async codePushSync() {
     try {
-      await this.platform.ready();
       let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';
       if (environment.useCodePush) {
         syncStatus = await codePush.sync({});
@@ -66,7 +66,5 @@ export class AppComponent implements AfterContentInit {
     this.iconService.registerSvgIcons(icons);
   }
 
-  ngAfterContentInit() {
-    this.backgroundTrackingService.start();
-  }
+  ngAfterContentInit() {}
 }

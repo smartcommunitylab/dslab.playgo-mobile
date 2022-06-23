@@ -14,6 +14,7 @@ import { filter as _filter, fromPairs, isEqual, last, pick } from 'lodash-es';
 import {
   combineLatest,
   concat,
+  lastValueFrom,
   merge,
   Observable,
   ReplaySubject,
@@ -41,20 +42,15 @@ import {
   UNABLE_TO_GET_POSITION,
 } from './trip.model';
 import { runInZone, tapLog } from '../utils';
-import { AuthService } from 'ionic-appauth';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { TokenResponse } from '@openid/appauth';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackgroundTrackingService {
-  private token$: Observable<TokenResponse> = this.authService.token$.pipe(
-    filter((token) => token !== null),
-    shareReplay(1)
-  );
-
   private markAsReady: (val: unknown) => void;
   private isReady = new Promise((resolve, reject) => {
     this.markAsReady = resolve;
@@ -245,7 +241,7 @@ export class BackgroundTrackingService {
   }
 
   private async trySync(): Promise<void> {
-    const token = await this.getToken();
+    const token = await this.authService.getToken();
     console.log('sync using token', token);
     await this.backgroundGeolocationPlugin.setConfig({
       authorization: {
@@ -266,11 +262,6 @@ export class BackgroundTrackingService {
       locationSentToServer.map(TripLocation.fromLocation)
     );
     this.possibleLocationsChangeSubject.next();
-  }
-
-  /** Waits for the first token available, but later it will return latest token immediately */
-  private async getToken(): Promise<TokenResponse> {
-    return await lastValueForm(this.token$.pipe(take(1)));
   }
 
   private async setExtrasAndForceLocation(
@@ -349,8 +340,3 @@ export class TripLocation {
 }
 
 interface TripExtras extends Extras, Partial<TripPart> {}
-function lastValueForm(
-  arg0: Observable<TokenResponse>
-): TokenResponse | PromiseLike<TokenResponse> {
-  throw new Error('Function not implemented.');
-}

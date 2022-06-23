@@ -2,7 +2,7 @@ import { Platform } from '@ionic/angular';
 import { Requestor, StorageBackend } from '@openid/appauth';
 import { NgModule, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Browser, AuthService } from 'ionic-appauth';
+import { Browser } from 'ionic-appauth';
 import {
   CapacitorBrowser,
   CapacitorSecureStorage,
@@ -34,7 +34,7 @@ import { AuthInterceptor } from './auth.interceptor';
       useClass: CapacitorBrowser,
     },
     {
-      provide: AuthService,
+      provide: 'IonicAppAuthService',
       useFactory: authFactory,
       deps: [Platform, NgZone, Requestor, Browser, StorageBackend],
     },

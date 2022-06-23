@@ -1,20 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { AuthService } from 'ionic-appauth';
-import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   templateUrl: './end-session.page.html',
 })
 export class EndSessionPage implements OnInit {
-  constructor(
-    private auth: AuthService,
-    private navCtrl: NavController,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.auth.endSessionCallback();
-    this.navCtrl.navigateRoot('login');
+    this.authService.endSessionCallback();
   }
 }
