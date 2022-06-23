@@ -32,9 +32,11 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   public async refreshToken(): Promise<void> {
-    this.auth.refreshToken();
+    // this.auth.refreshToken();
   }
-
+  showNotifications() {
+    this.router.navigateByUrl('/pages/notifications');
+  }
   ngOnInit() {
     this.subProfile = this.userService.userProfileRefresher$.subscribe(() => {
       this.refresher.complete();

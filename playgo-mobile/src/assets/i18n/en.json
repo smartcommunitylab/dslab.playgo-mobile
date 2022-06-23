@@ -74,6 +74,7 @@
     "alert_title": "Alert"
   },
   "tracking": {
+    "low_accuracy": "Low accuracy!",
     "choose_means": "Choose means of tracking",
     "continue_low_accuracy_prompt": "Low accuracy detected! Do you want to continue?",
     "show_current_location": "Show me where I am",
@@ -83,8 +84,12 @@
       "passenger": "Passenger",
       "manual_code": "Shared trip code:",
       "manual_code_input_label": "Input code manually:",
+      "manual_code_input_example": "Ex: 12345",
       "manual_code_input_confirm": "OK",
-      "scan": "Scan"
+      "or": "or scan the QR code",
+      "scan": "Scan",
+      "showCode": "Show this code to the passenger",
+      "confirm": "Start to drive"
     }
   },
   "profile": {
@@ -295,6 +300,12 @@
         "km": "{{value}} km"
       }
     }
+  },
+  "challenges": {
+    "challenges": "Challenges",
+    "past": "Past",
+    "present": "Present",
+    "future": "Future"
   },
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",

@@ -17,6 +17,13 @@ import { RouterModule } from '@angular/router';
           ),
       },
       {
+        path: 'notifications',
+        loadChildren: () =>
+          import('./notifications/notifications.module').then(
+            (m) => m.NotificationsPageModule
+          ),
+      },
+      {
         path: 'stats/:id',
         loadChildren: () =>
           import('./stats/stats.module').then((m) => m.StatsPageModule),

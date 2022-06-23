@@ -15,8 +15,11 @@
 		},
 		"CodePush": {
 			"ANDROID_DEPLOY_KEY": "URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog",
-			"___STAGING___ANDROID_DEPLOY_KEY": "URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog",
-			"___PROD___ANDROID_DEPLOY_KEY": "NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog",
+			"IOS_DEPLOY_KEY": "KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog",
+			"___STAGING___ANDROID___DEPLOY_KEY": "URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog",
+			"___PROD______ANDROID___DEPLOY_KEY": "NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog",
+			"___PROD______IOS___DEPLOY_KEY": "zb5HmAnKlI5QKIjJCLjC375GAEsf4ksvOXqog",
+			"___STAGING______IOS___DEPLOY_KEY": "KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog",
 			"SERVER_URL": "https://code-push-server.platform.smartcommunitylab.it"
 		}
 	}

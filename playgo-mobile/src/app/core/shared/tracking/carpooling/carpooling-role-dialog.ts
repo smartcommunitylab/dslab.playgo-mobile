@@ -4,15 +4,8 @@ import { CarpoolingRole } from './carpooling.service';
 
 @Component({
   selector: 'app-carpooling-role-dialog',
-  template: `
-    <div>{{ 'tracking.car.choose_role' | translate }}</div>
-    <ion-button (click)="roleChosen('driver')" size="large">{{
-      'tracking.car.driver' | translate
-    }}</ion-button>
-    <ion-button (click)="roleChosen('passenger')" size="large">{{
-      'tracking.car.passenger' | translate
-    }}</ion-button>
-  `,
+  templateUrl: './carpooling.modal.html',
+  styleUrls: ['./carpooling.modal.scss'],
 })
 export class CarpoolingRoleDialogComponent implements OnInit {
   constructor(private modalController: ModalController) {}
@@ -20,4 +13,7 @@ export class CarpoolingRoleDialogComponent implements OnInit {
     this.modalController.dismiss({ role });
   }
   ngOnInit() {}
+  close() {
+    this.modalController.dismiss();
+  }
 }

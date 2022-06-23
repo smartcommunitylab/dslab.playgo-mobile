@@ -74,6 +74,7 @@
     "alert_title": "Attenzione"
   },
   "tracking": {
+    "low_accuracy": "Bassa precisione!",
     "choose_means": "Seleziona una mezzo per tracciare",
     "continue_low_accuracy_prompt": "Bassa precisione rilevata! Vuoi proseguire?",
     "show_current_location": "Fammi vedere dove sono",
@@ -83,8 +84,12 @@
       "passenger": "Passeggero",
       "manual_code": "Condividi il codice del vaggio:",
       "manual_code_input_label": "Inserisci il codice manualmente:",
-      "manual_code_input_confirm": "Ok",
-      "scan": "Leggilo"
+      "manual_code_input_example": "Es: 12345",
+      "manual_code_input_confirm": "Conferma codice",
+      "or": "oppure scansiona il QR code",
+      "scan": "Leggilo",
+      "showCode": "Mostra questo codice al passeggero",
+      "confirm": "Inizia a guidare"
     }
   },
   "profile": {
@@ -304,6 +309,12 @@
         "km": "{{value}} km"
       }
     }
+  },
+  "challenges": {
+    "challenges": "Sfide",
+    "past": "Passate",
+    "present": "Presenti",
+    "future": "Future"
   },
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",

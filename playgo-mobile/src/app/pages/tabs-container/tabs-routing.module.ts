@@ -25,6 +25,13 @@ const routes: Routes = [
           import('../trips/trips.module').then((m) => m.TripsPageModule),
       },
       {
+        path: 'challenges',
+        loadChildren: () =>
+          import('../challenges/challenges.module').then(
+            (m) => m.ChallengesPageModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/pages/tabs/home',
         pathMatch: 'full',

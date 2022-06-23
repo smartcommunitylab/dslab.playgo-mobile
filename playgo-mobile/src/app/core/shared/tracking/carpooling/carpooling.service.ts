@@ -39,7 +39,7 @@ export class CarPoolingService {
     console.log(role);
     return role;
   }
-  private async showQRDialog(id: string): Promise<void> {
+  private async showQRDialog(id: string): Promise<boolean> {
     const modal = await this.modalController.create({
       component: CarpoolingShowQRDialogComponent,
       componentProps: { id },
@@ -47,7 +47,12 @@ export class CarPoolingService {
 
     await modal.present();
     // TODO: do we allow also dismiss -> throw error?
-    await modal.onWillDismiss();
+    const { data } = await modal.onWillDismiss();
+    if (!data) {
+      throw NO_CONFIRMED;
+    }
+    console.log(data);
+    return data;
   }
 
   private async scanQR(): Promise<string> {
@@ -69,5 +74,6 @@ export type CarpoolingRole = 'driver' | 'passenger';
 export const QR_CODE_PREFIX = 'play&go_carpooling_';
 
 const NO_ROLE_CHOSEN = 'NO_ROLE_CHOSEN' as const;
+const NO_CONFIRMED = 'NO_CONFIRMED' as const;
 const NO_PASSENGER_CARPOOLING_ID = 'NO_PASSENGER_CARPOOLING_ID' as const;
 export const INCORRECT_QR_CODE = 'INCORRECT_QR_CODE' as const;
