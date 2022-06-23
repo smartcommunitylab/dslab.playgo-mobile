@@ -18,6 +18,7 @@ import {
   filter,
   finalize,
   map,
+  shareReplay,
   switchMap,
   take,
   tap,
@@ -26,6 +27,7 @@ import { AuthService } from 'ionic-appauth';
 import { SpinnerService } from '../shared/services/spinner.service';
 import { tapLog } from '../shared/utils';
 import { UserService } from '../shared/services/user.service';
+import { TokenResponse } from '@openid/appauth';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -36,6 +38,13 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject: ReplaySubject<any> = new ReplaySubject<any>(
     null
   );
+
+  private sharedToken$: Observable<any> = this.authService.token$.pipe(
+    map((token, index) => ({ token, index })),
+    tapLog('active token'),
+    shareReplay(1)
+  );
+
   public refreshToken$: Observable<string> =
     this.refreshTokenSubject.asObservable();
   constructor(
@@ -56,8 +65,17 @@ export class AuthInterceptor implements HttpInterceptor {
     }
     return next.handle(req);
   }
+
+  private async getTokenWithoutRefresh() {
+    // TODO: check validity if (!this._tokenSubject.value.isValid(buffer)) {
+    console.log('getTokenWithoutRefresh - start');
+    const { token, index } = await this.sharedToken$.pipe(take(1)).toPromise();
+    console.log('getTokenWithoutRefresh - end');
+    return token;
+  }
+
   async handle(req: HttpRequest<any>, next: HttpHandler) {
-    const token = await this.authService.getValidToken();
+    const token = await this.getTokenWithoutRefresh();
     if (token) {
       // If we have a token, we set it to the header
       req = req.clone({
@@ -97,7 +115,7 @@ export class AuthInterceptor implements HttpInterceptor {
         filter(Boolean),
         take(1),
         concatMap(async () => {
-          const token = await this.authService.getValidToken();
+          const token = await this.getTokenWithoutRefresh();
           return next.handle(this.changeToken(token.accessToken, request));
         }),
         concatMap((x) => x)
@@ -112,7 +130,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.authService.token$.pipe(
       tap(() => this.authService.refreshToken()),
       switchMap(async (res) => {
-        const token = await this.authService.getValidToken();
+        const token = await this.getTokenWithoutRefresh();
         this.tokenRefreshed$.next(true);
         this.refreshTokenSubject.next(token.accessToken);
         return next.handle(this.changeToken(token.accessToken, request));
