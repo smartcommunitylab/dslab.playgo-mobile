@@ -301,6 +301,12 @@
       }
     }
   },
+  "challenges": {
+    "challenges": "Challenges",
+    "past": "Past",
+    "present": "Present",
+    "future": "Future"
+  },
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",
   "join": "Join",

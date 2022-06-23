@@ -1,4 +1,7 @@
-<app-header title="{{ 'campaigns_title' | translate }}" [backButton]="false">
+<app-header
+  title="{{ 'challenges.challenges'| translate }}"
+  [backButton]="false"
+>
 </app-header>
 
 <ion-content [fullscreen]="true">
@@ -14,14 +17,14 @@
       checked
       class="app-segment-button"
     >
-      <ion-label>{{'challenges.active' | translate}}</ion-label>
+      <ion-label>{{'challenges.past' | translate}}</ion-label>
     </ion-segment-button>
     <ion-segment-button
       value="activeChallenges"
       checked
       class="app-segment-button"
     >
-      <ion-label>{{'challenges.active' | translate}}</ion-label>
+      <ion-label>{{'challenges.present' | translate}}</ion-label>
     </ion-segment-button>
     <ion-segment-button value="futureChallenges" class="app-segment-button">
       <ion-label>{{'challenges.future' | translate}}</ion-label>

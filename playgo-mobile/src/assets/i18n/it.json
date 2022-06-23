@@ -310,6 +310,12 @@
       }
     }
   },
+  "challenges": {
+    "challenges": "Sfide",
+    "past": "Passate",
+    "present": "Presenti",
+    "future": "Future"
+  },
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",
   "join": "Partecipa",
