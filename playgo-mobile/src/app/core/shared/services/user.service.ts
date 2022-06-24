@@ -1,7 +1,14 @@
 import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { combineLatest, merge, Observable, of, ReplaySubject } from 'rxjs';
+import {
+  combineLatest,
+  merge,
+  Observable,
+  of,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../model/user.model';
 import localeItalian from '@angular/common/locales/it';
@@ -29,6 +36,7 @@ import { Territory } from '../../api/generated/model/territory';
 import { isOfflineError } from '../utils';
 import { AlertService } from './alert.service';
 import { AuthService } from '../../auth/auth.service';
+import { ErrorService } from './error.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -40,7 +48,7 @@ export class UserService {
       switchMap(() => this.getUserProfile()),
       shareReplay(1)
     );
-  public userProfileRefresher$ = new ReplaySubject<void>(1);
+  public userProfileRefresher$: Subject<void> = new ReplaySubject<void>(1);
 
   private userProfileCouldBeChanged$ = merge(
     this.initUserProfile$,
@@ -85,7 +93,8 @@ export class UserService {
     private authService: AuthService,
     private http: HttpClient,
     private playerControllerService: PlayerControllerService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private errorService: ErrorService
   ) {}
 
   /**
@@ -108,7 +117,7 @@ export class UserService {
     return this.userLocale || 'it-IT';
   }
 
-  uploadAvatar(file: any): Promise<any> {
+  public uploadAvatar(file: any): Promise<any> {
     const formData = new FormData();
     formData.append('data', file);
     return this.playerControllerService
@@ -116,7 +125,7 @@ export class UserService {
       .toPromise();
   }
 
-  getAvatar(): Promise<IUser['avatar']> {
+  private getAvatar(): Promise<IUser['avatar']> {
     return this.playerControllerService
       .getPlayerAvatarUsingGET()
       .pipe(
@@ -133,12 +142,12 @@ export class UserService {
       .toPromise();
   }
 
-  getAACUserInfo(): Promise<any> {
+  public getAACUserInfo(): Promise<any> {
     return this.http
       .request('GET', environment.authConfig.server_host + '/userinfo')
       .toPromise();
   }
-  registerLocale(locale: string) {
+  private registerLocale(locale: string) {
     if (!locale) {
       return;
     }
@@ -176,36 +185,37 @@ export class UserService {
     }
 
     this.userProfile = user;
-    this.processUser(user);
+    await this.processUser(user);
     // store user with avatar
     this.userStorage.set(user);
     return user;
   }
 
-  public async startService() {
+  public async handleAfterUserRegistered() {
     //get user profile with avatars
     await this.getUserProfile();
-    // await this.getUserStatus();
   }
 
   public async updateImages(avatar) {
     this.userProfile.avatar = avatar;
   }
 
-  processUser(user: IUser) {
-    this.setUserProfileMeans(user.territoryId);
+  private async processUser(user: IUser) {
+    await this.setUserProfileMeans(user.territoryId);
     this.registerLocale(user.language);
   }
 
-  async setUserProfileMeans(territoryId: string): Promise<TransportType[]> {
+  private async setUserProfileMeans(
+    territoryId: string
+  ): Promise<TransportType[]> {
     //get territories means and set available means userProfileMeans$
     const userTerritory = await this.territoryService
       .getTerritory(territoryId)
       .toPromise();
-    return Promise.resolve(userTerritory.territoryData.means);
+    return userTerritory.territoryData.means;
   }
 
-  registerPlayer(user: IUser): Promise<IUser> {
+  public registerPlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
     return this.playerControllerService
       .registerPlayerUsingPOST(user)
@@ -234,11 +244,11 @@ export class UserService {
       return null;
     }
   }
-  getProfile(): Promise<Player> {
+  private getProfile(): Promise<Player> {
     return this.playerControllerService.getProfileUsingGET().toPromise();
   }
 
-  async updatePlayer(user: IUser): Promise<Player> {
+  public async updatePlayer(user: IUser): Promise<Player> {
     //TODO update local profile
     const player = await this.playerControllerService
       .updateProfileUsingPUT(user)
