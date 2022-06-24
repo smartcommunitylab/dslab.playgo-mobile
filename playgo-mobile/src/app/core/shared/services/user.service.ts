@@ -43,7 +43,7 @@ export class UserService {
   private userLanguage: string;
   private userLocale: string;
   private userProfile: IUser = null;
-  private initUserProfile$: Observable<IUser> =
+  private initUserProfile$: Observable<IUser | null> =
     this.authService.isReadyForApi$.pipe(
       switchMap(() => this.getUserProfile()),
       shareReplay(1)
@@ -57,6 +57,7 @@ export class UserService {
 
   public userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
     switchMap(() => this.getUserProfile()),
+    filter(Boolean),
     distinctUntilChanged(isEqual),
     shareReplay(1)
   );
@@ -182,6 +183,7 @@ export class UserService {
 
     if (!user) {
       this.navCtrl.navigateRoot('/pages/registration');
+      return;
     }
 
     this.userProfile = user;
