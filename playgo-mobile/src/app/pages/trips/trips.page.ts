@@ -1,6 +1,6 @@
 import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { clone, cloneDeep, first, isEqual, last, sortBy } from 'lodash-es';
-import { combineLatest, Observable, Subject, throwError } from 'rxjs';
+import { combineLatest, EMPTY, Observable, Subject, throwError } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -62,11 +62,11 @@ export class TripsPage implements OnInit {
         page: 0,
         size: 5,
       }),
-      concatMap((scrollRequest) => this.getTripsPage(scrollRequest)),
-      catchError((error) => {
-        this.errorService.showAlert(error);
-        return throwError(error);
-      })
+      concatMap((scrollRequest) =>
+        this.getTripsPage(scrollRequest).pipe(
+          this.errorService.showAlertOnError()
+        )
+      )
     );
 
   /* filled from the infinite scroll component */
@@ -103,7 +103,6 @@ export class TripsPage implements OnInit {
   /** Content of plugin DB locations represented as trips */
   private notSynchronizedTrips$: Observable<TrackedInstanceInfo[]> =
     this.backgroundTrackingService.notSynchronizedLocations$.pipe(
-      tapLog('SORT: notSynchronizedLocations$'),
       map((notSynchronizedLocations: TripLocation[]) => {
         const tripLocations = notSynchronizedLocations.filter(
           (location) => location.transportType
