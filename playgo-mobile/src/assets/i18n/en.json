@@ -165,6 +165,8 @@
     }
   },
   "errors": {
+    "error_header": "Error",
+    "not_recoverable": "Application encountered unrecoverable error, and will be restarted! \n Your trip progress will be saved.",
     "userNotFound": "User Not Found",
     "nickNameExist": "This nickname already exists",
     "defaultErr": "Server operation failed"

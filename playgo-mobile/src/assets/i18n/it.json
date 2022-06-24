@@ -167,6 +167,8 @@
     }
   },
   "errors": {
+    "error_header": "Errore",
+    "not_recoverable": "IT: Application encountered unrecoverable error, and will be restarted! \n Your trip progress will be saved.",
     "userNotFound": "Utente non registrato",
     "nickNameExist": "Questo soprannome é giá registrato",
     "defaultErr": "IT: Server operation failed"
