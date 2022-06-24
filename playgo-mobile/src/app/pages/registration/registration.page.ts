@@ -21,6 +21,8 @@ export class RegistrationPage implements OnInit, AfterViewInit {
   blob: any;
   urlAvatar: string | SafeUrl = 'assets/images/registration/generic_user.png';
   image: Photo;
+  language: string;
+
   constructor(
     private userService: UserService,
     private territoryService: TerritoryService,
@@ -36,6 +38,7 @@ export class RegistrationPage implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.language = this.userService.getLanguage();
     this.registrationForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       givenName: ['', [Validators.required]],
@@ -108,7 +111,7 @@ export class RegistrationPage implements OnInit, AfterViewInit {
               (territory) =>
                 territory.territoryId ===
                 this.registrationForm.value.territoryId
-            ).name,
+            ).name[this.language],
           },
         },
         'modalConfirm'
