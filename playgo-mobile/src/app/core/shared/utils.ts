@@ -106,7 +106,8 @@ export function throwIfNil<T>(
 }
 
 export function ifOfflineUseStored<T>(
-  storage: LocalStorageType<T>
+  storage: LocalStorageType<T>,
+  integrityCheck: (value: T) => boolean = () => true
 ): OperatorFunction<T, T> {
   return (source: Observable<T>) =>
     source.pipe(
@@ -114,7 +115,7 @@ export function ifOfflineUseStored<T>(
         if (isOfflineError(error)) {
           console.log('using offline mode!');
           const storedValue = storage.get();
-          if (!isNil(storedValue)) {
+          if (!isNil(storedValue) && integrityCheck(storedValue)) {
             return of(storedValue);
           }
         }
