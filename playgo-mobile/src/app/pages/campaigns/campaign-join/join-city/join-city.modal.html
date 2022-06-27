@@ -13,49 +13,8 @@
 </ion-header>
 
 <ion-content color="playgo">
-  <form [formGroup]="joinCompanyForm" (ngSubmit)="joinCompanySubmit()">
+  <form [formGroup]="joinCityForm" (ngSubmit)="joinCitySubmit()">
     <ion-grid>
-      <ion-row class="ion-margin-top">
-        <ion-col>
-          <ion-item color="playgo">
-            <ion-label
-              >{{ 'campaigns.joinmodal.companyselection' | translate
-              }}</ion-label
-            >
-            <ion-select
-              [(ngModel)]="companySelected"
-              formControlName="companySelected"
-            >
-              <ion-select-option
-                *ngFor="let company of companies"
-                [value]="company"
-              >
-                {{company.name}}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-margin-top">
-        <ion-col>
-          <ion-item color="playgo">
-            <ion-label position="floating"
-              >{{ 'campaigns.joinmodal.companyPIN' | translate }}</ion-label
-            >
-            <ion-input
-              [(ngModel)]="companyPIN"
-              formControlName="companyPIN"
-            ></ion-input>
-            <ion-icon
-              class="popup-icon"
-              name="information-circle-outline"
-              slot="end"
-              (click)="openCodeInfoPopup()"
-            >
-            </ion-icon>
-          </ion-item>
-        </ion-col>
-      </ion-row>
       <ion-row class="ion-margin-top" *ngIf="privacy">
         <ion-col size="10">
           <ion-label class="privacy-info"
@@ -83,9 +42,9 @@
       </ion-row>
       <div
         class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.privacy.errors"
+        *ngIf="isSubmitted && errorControl?.privacy?.errors"
       >
-        {{'campaigns.joinmodal.privacyRequired'|translate}}
+        <span>{{'campaigns.joinmodal.privacyRequired'|translate}}</span>
       </div>
       <ion-row class="ion-margin-top" *ngIf="rules">
         <ion-col size="10">
@@ -114,9 +73,9 @@
       </ion-row>
       <div
         class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.rules.errors"
+        *ngIf="isSubmitted && errorControl?.rules?.errors"
       >
-        {{'campaigns.joinmodal.rulesRequired'|translate}}
+        <span>{{'campaigns.joinmodal.rulesRequired'|translate}}</span>
       </div>
       <ion-row>
         <ion-col>

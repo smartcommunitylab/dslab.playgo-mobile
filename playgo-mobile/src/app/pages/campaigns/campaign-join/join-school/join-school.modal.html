@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title
+      >{{ 'campaigns.joinmodal.modalTitle' |translate :
+      {campaignTitle:campaign?.name[language]} }}</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button (click)="close()"
+        >{{ 'campaigns.joinmodal.close' | translate }}</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="playgo">
+  <form [formGroup]="joinSchoolForm" (ngSubmit)="joinSchoolSubmit()">
+    <ion-grid>
+      <ion-row class="ion-margin-top" *ngIf="privacy">
+        <ion-col size="10">
+          <ion-label class="privacy-info"
+            >{{'campaigns.joinmodal.privacyLink'|translate}}</ion-label
+          >
+        </ion-col>
+        <ion-col class="ion-text-center" (click)="openPrivacyPopup()">
+          <ion-icon
+            class="popup-icon"
+            name="information-circle-outline"
+          ></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ng-template *ngIf="privacy">
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <ion-item color="playgo">
+              <ion-checkbox
+                slot="start"
+                color="playgo"
+                formControlName="privacy"
+              ></ion-checkbox>
+              <ion-label>{{'campaigns.joinmodal.privacy'|translate}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <div
+          class="error-message ion-padding"
+          *ngIf="isSubmitted && errorControl.privacy.errors"
+        >
+          {{'campaigns.joinmodal.privacyRequired'|translate}}
+        </div>
+      </ng-template>
+      <ng-template *ngIf="rules">
+        <ion-row class="ion-margin-top" *ngIf="rules">
+          <ion-col size="10">
+            <ion-label class="privacy-info"
+              >{{'campaigns.joinmodal.rulesLink'|translate}}</ion-label
+            >
+          </ion-col>
+          <ion-col class="ion-text-center" (click)="openRulesPopup()">
+            <ion-icon
+              class="popup-icon"
+              name="information-circle-outline"
+            ></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-margin-top" *ngIf="rules">
+          <ion-col>
+            <ion-item color="playgo">
+              <ion-checkbox
+                slot="start"
+                color="playgo"
+                formControlName="rules"
+              ></ion-checkbox>
+              <ion-label>{{'campaigns.joinmodal.rules'|translate}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <div
+          class="error-message ion-padding"
+          *ngIf="isSubmitted && errorControl.rules.errors"
+        >
+          {{'campaigns.joinmodal.rulesRequired'|translate}}
+        </div>
+      </ng-template>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" expand="block"
+            >{{'campaigns.joinmodal.join'|translate}}</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

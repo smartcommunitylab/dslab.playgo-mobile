@@ -8,19 +8,15 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
-  selector: 'app-join-company',
-  templateUrl: './join-company.modal.html',
-  styleUrls: ['./join-company.modal.scss'],
+  selector: 'app-join-city',
+  templateUrl: './join-city.modal.html',
+  styleUrls: ['./join-city.modal.scss'],
 })
-export class JoinCompanyModalPage implements OnInit, OnDestroy {
-  joinCompanyForm: FormGroup;
+export class JoinCityModalPage implements OnInit {
+  joinCityForm: FormGroup;
   campaign: Campaign;
-  companies: any;
-  companySelected: any;
-  companyPIN: '';
   privacy: any;
   rules: any;
-  sub: Subscription;
   isSubmitted = false;
   language: string;
 
@@ -36,26 +32,14 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
     const rules = this.campaign.details[this.language];
     this.rules = rules?.find((detail) => detail.type === 'rules');
     this.privacy = rules?.find((detail) => detail.type === 'privacy');
-    this.joinCompanyForm = this.formBuilder.group({
-      companySelected: ['', [Validators.required]],
-      companyPIN: ['', [Validators.required]],
+    this.joinCityForm = this.formBuilder.group({
       ...(this.privacy && { privacy: [false, Validators.requiredTrue] }),
       ...(this.rules && { rules: [false, Validators.requiredTrue] }),
     });
-    this.sub = this.campaignService
-      .getCompaniesForSubscription(this.campaign.campaignId)
-      .subscribe((result) => {
-        if (result) {
-          this.companies = result;
-        }
-      });
-  }
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
   //computed errorcontrol
   get errorControl() {
-    return this.joinCompanyForm.controls;
+    return this.joinCityForm.controls;
   }
   close() {
     this.modalController.dismiss(false);
@@ -83,20 +67,14 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
       cssClass: 'modalConfirm',
     });
   }
-  joinCompanySubmit() {
+  joinCitySubmit() {
     // call join with all params
     this.isSubmitted = true;
-    if (!this.joinCompanyForm.valid) {
+    if (!this.joinCityForm.valid) {
       return false;
     } else {
-      // console.log('employeeCode' + this.joinCompanyForm.value?.companyPIN + 'companyKey' + );
-      const body = {
-        companyKey: this.joinCompanyForm.value?.companySelected?.code,
-        employeeCode: this.joinCompanyForm.value?.companyPIN,
-      };
-
-      this.sub = this.campaignService
-        .subscribeToCampaign(this.campaign.campaignId, body)
+      this.campaignService
+        .subscribeToCampaign(this.campaign.campaignId)
         .subscribe(
           (result) => {
             if (result) {

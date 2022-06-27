@@ -76,6 +76,7 @@ export class CampaignDetailsPage implements OnInit {
         this.alertService.showToast({
           messageTranslateKey: 'campaigns.unregistered',
         });
+        this.navCtrl.back();
       });
   }
   back() {
