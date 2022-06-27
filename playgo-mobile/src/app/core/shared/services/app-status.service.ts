@@ -1,14 +1,29 @@
 import { App as AppPluginInternal } from '@capacitor/app';
 import { Inject, Injectable } from '@angular/core';
 import { codePush } from 'capacitor-codepush';
-import { combineLatest, from, Observable, ReplaySubject } from 'rxjs';
+import {
+  combineLatest,
+  of,
+  fromEvent,
+  from,
+  merge,
+  Observable,
+  ReplaySubject,
+  shareReplay,
+} from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { tapLog } from './shared/utils';
+import { tapLog } from '../utils';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AppVersionService {
+export class AppStatusService {
+  public isOnline$: Observable<boolean> = merge(
+    of(navigator?.onLine),
+    fromEvent(window, 'online').pipe(map(() => true)),
+    fromEvent(window, 'offline').pipe(map(() => false))
+  ).pipe(shareReplay(1));
+
   public version$: Observable<string> = from(this.appPlugin.getInfo()).pipe(
     map((info) => info.version)
   );

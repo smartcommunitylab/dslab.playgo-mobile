@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonRefresher, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { AppVersionService } from 'src/app/core/app-version.service';
+import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private router: Router,
-    public appVersionService: AppVersionService
+    public appStatusService: AppStatusService
   ) {}
 
   campagins() {

@@ -28,6 +28,9 @@ import { ifOfflineUseStored } from '../utils';
 export class TerritoryService {
   private territoriesStorage =
     this.localStorageService.getStorageOf<Territory[]>('territories');
+  private territoryStorage =
+    this.localStorageService.getStorageOf<Territory>('territory');
+
   private trigger$: Observable<number> = interval(600000);
   public territories$: Observable<Territory[]> = this.trigger$.pipe(
     startWith(0),
@@ -47,6 +50,14 @@ export class TerritoryService {
   ) {}
 
   getTerritory(territoryId: string): Observable<Territory> {
-    return this.territoryControllerService.getTerritoryUsingGET(territoryId);
+    return this.territoryControllerService
+      .getTerritoryUsingGET(territoryId)
+      .pipe(
+        ifOfflineUseStored(
+          this.territoryStorage,
+          (territory) => territory.territoryId === territoryId
+        ),
+        tap((territory) => this.territoryStorage.set(territory))
+      );
   }
 }

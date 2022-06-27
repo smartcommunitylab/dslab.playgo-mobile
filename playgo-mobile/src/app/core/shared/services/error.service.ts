@@ -28,6 +28,7 @@ export class ErrorService {
       messageTranslateKey: errorFound.errorString,
     });
   }
+
   showAlertOnError<T>(): OperatorFunction<T, T> {
     //capture the stack trace
     const originalStack = getDebugStack();
@@ -46,5 +47,13 @@ export class ErrorService {
           return EMPTY;
         })
       );
+  }
+  showNotRecoverableAlert(error: any) {
+    console.error('Not recoverable error', error);
+    this.alertService
+      .confirmAlert('errors.error_header', 'errors.not_recoverable')
+      .then(() => {
+        window.location.reload();
+      });
   }
 }

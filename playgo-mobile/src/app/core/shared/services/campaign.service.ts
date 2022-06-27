@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isEqual } from 'lodash-es';
-import { merge, Observable, ReplaySubject } from 'rxjs';
+import { EMPTY, merge, Observable, ReplaySubject, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -11,6 +11,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  catchError,
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { CampaignControllerService } from '../../api/generated/controllers/campaignController.service';
@@ -21,33 +22,29 @@ import { IUser } from '../model/user.model';
 import { LocalStorageService } from './local-storage.service';
 import { UserService } from './user.service';
 import { ifOfflineUseStored } from '../utils';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CampaignService {
-  public initMyCampaigns$: Observable<PlayerCampaign[]> =
+  private initialUserProfile$: Observable<IUser> =
     this.userService.userProfile$.pipe(
       filter((profile) => profile !== null),
-      first(),
-      switchMap(() => this.campaignControllerService.getMyCampaignsUsingGET()),
-      shareReplay(1)
+      first()
     );
 
-  public allCampaigns$: Observable<Campaign[]> =
-    this.userService.userProfile$.pipe(
-      map((profile) => profile.territoryId),
-      first(),
-      switchMap((territoryId) =>
-        this.campaignControllerService.getCampaignsUsingGET({ territoryId })
-      ),
-      shareReplay(1)
-    );
+  public allCampaigns$: Observable<Campaign[]> = this.initialUserProfile$.pipe(
+    switchMap(({ territoryId }) =>
+      this.campaignControllerService.getCampaignsUsingGET({ territoryId })
+    ),
+    shareReplay(1)
+  );
   private playerCampaignUnSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
   private playerCampaignSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
   public playerCampaignsRefresher$ = new ReplaySubject<void>(1);
   private campaignsCouldBeChanged$ = merge(
-    this.initMyCampaigns$,
+    this.initialUserProfile$,
     this.playerCampaignSubscribed$,
     this.playerCampaignUnSubscribed$,
     this.playerCampaignsRefresher$
@@ -58,9 +55,17 @@ export class CampaignService {
   public myCampaigns$: Observable<PlayerCampaign[]> =
     this.campaignsCouldBeChanged$.pipe(
       switchMap(() =>
-        this.campaignControllerService
-          .getMyCampaignsUsingGET()
-          .pipe(ifOfflineUseStored(this.myCampaignsStorage))
+        this.campaignControllerService.getMyCampaignsUsingGET().pipe(
+          ifOfflineUseStored(this.myCampaignsStorage),
+          catchError((err) => {
+            // FIXME: this is not recoverable, app is bricked...
+            // for example new campaign subscription could be added successfully, but
+            // server could not return the list of my campaigns
+            this.errorService.showNotRecoverableAlert(err);
+            console.error(err);
+            return EMPTY;
+          })
+        )
       ),
       distinctUntilChanged(isEqual),
       tap((myCampaigns) => this.myCampaignsStorage.set(myCampaigns)),
@@ -119,7 +124,8 @@ export class CampaignService {
     private userService: UserService,
     private campaignControllerService: CampaignControllerService,
     private localStorageService: LocalStorageService,
-    private http: HttpClient
+    private http: HttpClient,
+    private errorService: ErrorService
   ) {}
   subscribeToCampaign(
     id: string,

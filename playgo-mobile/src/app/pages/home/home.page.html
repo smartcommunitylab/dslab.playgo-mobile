@@ -20,8 +20,8 @@
     </ion-card>
     <app-my-campaigns-widget></app-my-campaigns-widget>
     <div>
-      {{ appVersionService.version$ | async }} | {{
-      appVersionService.codePushLabel$ | async }}
+      {{ appStatusService.version$ | async }} | {{
+      appStatusService.codePushLabel$ | async }}
     </div>
   </div>
 </ion-content>

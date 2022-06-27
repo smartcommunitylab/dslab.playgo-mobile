@@ -135,7 +135,7 @@ export class RegistrationPage implements OnInit, AfterViewInit {
           } else {
             await this.userService.uploadAvatar(await readAsBase64(this.image));
           }
-          this.userService.startService();
+          this.userService.handleAfterUserRegistered();
           this.navCtrl.navigateRoot('/pages/tabs/home');
         })
         .catch((error: any) => {

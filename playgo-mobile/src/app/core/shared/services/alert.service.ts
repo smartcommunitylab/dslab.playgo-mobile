@@ -43,7 +43,7 @@ export class AlertService {
     messageTranslateKey?: TranslateKeyWithParams;
     cssClass?: string;
     messageString?: string;
-  }): Promise<boolean> {
+  }): Promise<void> {
     const header = await this.translate(args.headerTranslateKey);
     let message = '';
     if (args.messageTranslateKey) {
@@ -62,7 +62,7 @@ export class AlertService {
             text: ok,
             id: 'confirm-button',
             handler: () => {
-              resolve(true);
+              resolve();
             },
           },
         ],

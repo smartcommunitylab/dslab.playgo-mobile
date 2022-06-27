@@ -8,4 +8,9 @@
       <span *ngIf="title">{{ title }}</span>
     </ion-title>
   </ion-toolbar>
+  <ion-toolbar color="warning" *ngIf="(isOnline$ | async) === false">
+    <ion-title size="small">
+      {{ "app_offline" | translate }}
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
