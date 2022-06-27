@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isEqual } from 'lodash-es';
-import { merge, Observable, ReplaySubject, throwError } from 'rxjs';
+import { EMPTY, merge, Observable, ReplaySubject, throwError } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -63,7 +63,7 @@ export class CampaignService {
             // server could not return the list of my campaigns
             this.errorService.showNotRecoverableAlert(err);
             console.error(err);
-            return throwError(() => err);
+            return EMPTY;
           })
         )
       ),
