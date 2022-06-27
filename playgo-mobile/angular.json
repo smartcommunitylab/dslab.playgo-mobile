@@ -42,7 +42,7 @@
               "./node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [],
-            "aot": false,
+            "aot": true,
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,

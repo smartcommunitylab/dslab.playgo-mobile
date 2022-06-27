@@ -3,10 +3,10 @@
     <div class="ion-text-start" style="font-size: 24px">
       <app-icon
         *ngIf="trip.modeType"
-        [name]="transportTypeIcons[trip.modeType]"
+        [name]="getTransportTypeIcon(trip.modeType)"
       ></app-icon>
       <span>
-        {{ transportTypeLabels[trip.modeType] | translate }}
+        {{ getTransportTypeLabel(trip.modeType) | translate }}
       </span>
     </div>
   </ion-col>
