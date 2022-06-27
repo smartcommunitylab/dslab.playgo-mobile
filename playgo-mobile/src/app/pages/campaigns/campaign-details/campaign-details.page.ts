@@ -4,10 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { DetailCampaignModalPage } from './detail-modal/detail.modal';
+import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
 
 @Component({
   selector: 'app-campaign-details',
@@ -19,7 +21,7 @@ export class CampaignDetailsPage implements OnInit {
   campaignContainer?: PlayerCampaign;
   imagePath: SafeResourceUrl;
   titlePage = '';
-  colorCampaign = null;
+  colorCampaign: Campaign.TypeEnum = null;
   language: string;
   @ViewChild('ionContent') ionContent: ElementRef;
   constructor(
@@ -46,7 +48,7 @@ export class CampaignDetailsPage implements OnInit {
         : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
     });
   }
-  async openDetail(detail) {
+  async openDetail(detail: CampaignDetail) {
     const modal = await this.modalController.create({
       component: DetailCampaignModalPage,
       cssClass: 'modalConfirm',
@@ -63,11 +65,13 @@ export class CampaignDetailsPage implements OnInit {
   isPersonal() {
     return this.campaignContainer.campaign.type === 'personal';
   }
-  campaignHas(what) {
-    return this.campaignService.getFunctionalityByType(
-      what,
-      this.campaignContainer.campaign.type
-    ).present;
+  campaignHas(what: string): boolean {
+    return (
+      this.campaignService.getFunctionalityByType(
+        what,
+        this.campaignContainer.campaign.type
+      )?.present || false
+    );
   }
   unsubscribeCampaign() {
     this.campaignService

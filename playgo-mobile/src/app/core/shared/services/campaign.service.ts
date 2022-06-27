@@ -72,7 +72,7 @@ export class CampaignService {
       shareReplay(1)
     );
 
-  mapFunctionalities = {
+  mapFunctionalities: Record<string, Record<string, CampaignFunctionality>> = {
     personal: {
       challenge: {
         present: false,
@@ -209,10 +209,17 @@ export class CampaignService {
       return null;
     }
   }
-  getFunctionalityByType(what: any, type: string) {
+  getFunctionalityByType(
+    what: string,
+    type: string
+  ): CampaignFunctionality | null {
     if (!what || !type) {
-      return false;
+      return null;
     }
     return this.mapFunctionalities[type]?.[what];
   }
 }
+export type CampaignFunctionality = {
+  present: boolean;
+  api?: string;
+};

@@ -38,7 +38,7 @@ export function getMockMethodAnnotation({
   };
 }
 
-async function time(ms) {
+async function time(ms: number) {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, ms);
   });

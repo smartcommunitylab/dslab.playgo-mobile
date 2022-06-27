@@ -62,7 +62,7 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
     map((tripParts) =>
       _map(tripParts, (eachPart) =>
         polyline(eachPart.polyline, {
-          color: transportTypeColors[eachPart.modeType],
+          color: transportTypeColors[eachPart.modeType as TransportType],
         })
       )
     ),

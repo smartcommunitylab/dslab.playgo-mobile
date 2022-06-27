@@ -14,10 +14,10 @@ export class ReportService {
   ) {}
 
   getCo2Stats(
-    campaignId?,
-    playerId?,
-    dateFrom?: any,
-    dateTo?: any
+    campaignId?: string,
+    playerId?: string,
+    dateFrom?: string,
+    dateTo?: string
   ): Promise<CampaignPlacing> {
     return this.reportControllerService
       .getPlayerCampaingPlacingByTransportModeUsingGET({
@@ -30,7 +30,7 @@ export class ReportService {
       })
       .toPromise();
   }
-  getCo2WeekRecord(campaignId?): Promise<TransportStat[]> {
+  getCo2WeekRecord(campaignId?: string): Promise<TransportStat[]> {
     return this.reportControllerService
       .getPlayerTransportRecordUsingGET({
         campaignId,
@@ -40,16 +40,16 @@ export class ReportService {
       })
       .toPromise();
   }
-  getGameStatus(campaignId: any): Promise<PlayerStatus> {
+  getGameStatus(campaignId: string): Promise<PlayerStatus> {
     return this.gameController
       .getCampaignGameStatusUsingGET(campaignId)
       .toPromise();
   }
   getGameStats(
-    campaignId?,
-    playerId?,
-    dateFrom?: any,
-    dateTo?: any
+    campaignId?: string,
+    playerId?: string,
+    dateFrom?: string,
+    dateTo?: string
   ): Promise<CampaignPlacing> {
     return this.reportControllerService
       .getPlayerCampaingPlacingByGameUsingGET({
@@ -65,8 +65,8 @@ export class ReportService {
     metric: string,
     groupMode?: string,
     mean?: string,
-    dateFrom?: any,
-    dateTo?: any
+    dateFrom?: string,
+    dateTo?: string
   ): Promise<TransportStats[]> {
     return this.reportControllerService
       .getPlayerTransportStatsUsingGET({

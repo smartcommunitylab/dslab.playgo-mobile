@@ -96,7 +96,7 @@ export class LeaderboardPage implements OnInit, AfterViewInit {
         numberWithUnitKey: this.metricToNumberWithUnitLabel[metric],
         unitLabelKey: this.metricToUnitLabel[metric],
         filter: (campaign: Campaign) => campaign.type !== 'school',
-        playerApi: (args) =>
+        playerApi: (args: PlayerPlacingArguments) =>
           this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
             {
               ...args,
@@ -104,7 +104,7 @@ export class LeaderboardPage implements OnInit, AfterViewInit {
               metric,
             }
           ),
-        leaderboardApi: (args) =>
+        leaderboardApi: (args: LeaderboardArguments) =>
           this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
             {
               ...args,
@@ -324,7 +324,7 @@ type Period = {
 type Metric = 'co2' | 'km';
 
 function bind<F extends (...args: any) => any>(f: F, thisValue: any): F {
-  return f.bind(thisValue);
+  return (f as any).bind(thisValue);
 }
 
 function isType(campaign: Campaign, ...type: Campaign.TypeEnum[]): boolean {
