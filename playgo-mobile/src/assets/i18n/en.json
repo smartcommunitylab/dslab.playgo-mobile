@@ -180,7 +180,7 @@
       "last": "Durata:"
     },
     "joinmodal": {
-      "modalTitle": "Subscrive to {{campaignTitle}}",
+      "modalTitle": "Subscribe to {{campaignTitle}}",
       "close": "X",
       "companyselection": "Select the company",
       "companyPIN": "Insert your PIN",

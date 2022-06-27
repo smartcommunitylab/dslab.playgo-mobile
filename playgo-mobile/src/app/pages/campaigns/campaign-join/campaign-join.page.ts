@@ -12,7 +12,9 @@ import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { JoinCityModalPage } from './join-city/join-city.modal';
 import { JoinCompanyModalPage } from './join-company/join-company.modal';
+import { JoinSchoolModalPage } from './join-school/join-school.modal';
 
 @Component({
   selector: 'app-campaign-join',
@@ -61,7 +63,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         this.registerToCity(campaign);
         break;
       case 'school':
-        this.openRegisterSchool();
+        this.openRegisterSchool(campaign);
         break;
       case 'company':
         this.openRegisterCompany(campaign);
@@ -70,21 +72,34 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         break;
     }
   }
-  openRegisterSchool() {
-    throw new Error('Method not implemented.');
-  }
-  async openRegisterCompany(campaign) {
+  async openRegisterSchool(campaign) {
     const modal = await this.modalController.create({
-      component: JoinCompanyModalPage,
+      component: JoinSchoolModalPage,
       componentProps: {
         campaign,
+        language: this.language,
       },
       cssClass: 'modalConfirm',
       swipeToClose: true,
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    //this.registerToCompany(campaign, data);
+    if (data) {
+      this.back();
+    }
+  }
+  async openRegisterCompany(campaign) {
+    const modal = await this.modalController.create({
+      component: JoinCompanyModalPage,
+      componentProps: {
+        campaign,
+        language: this.language,
+      },
+      cssClass: 'modalConfirm',
+      swipeToClose: true,
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
     if (data) {
       //update list of campaign
       this.back();
@@ -120,16 +135,32 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     }
     return joinable;
   }
-  registerToCity(campaign: Campaign) {
-    this.sub = this.campaignService
-      .subscribeToCampaign(campaign.campaignId)
-      .subscribe((result) => {
-        if (result) {
-          this.alertService.showToast({
-            messageTranslateKey: 'campaigns.registered',
-          });
-        }
-      });
+  async registerToCity(campaign: Campaign) {
+    const modal = await this.modalController.create({
+      component: JoinCityModalPage,
+      componentProps: {
+        campaign,
+        language: this.language,
+      },
+      cssClass: 'modalConfirm',
+      swipeToClose: true,
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    //this.registerToCompany(campaign, data);
+    if (data) {
+      //update list of campaign
+      this.back();
+    }
+    // this.sub = this.campaignService
+    //   .subscribeToCampaign(campaign.campaignId)
+    //   .subscribe((result) => {
+    //     if (result) {
+    //       this.alertService.showToast({
+    //         messageTranslateKey: 'campaigns.registered',
+    //       });
+    //     }
+    //   });
   }
   back() {
     this.navCtrl.back();
