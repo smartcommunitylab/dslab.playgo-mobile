@@ -69,7 +69,7 @@ export class BackgroundGeolocationMock {
   }
 
   @mockMethod()
-  public static onLocation(handler) {
+  public static onLocation(handler: (location: Partial<Location>) => void) {
     BackgroundGeolocationMock.handlers.add(handler);
     return {
       remove: () => {
@@ -82,7 +82,7 @@ export class BackgroundGeolocationMock {
   }
 
   @mockMethod()
-  public static onPowerSaveChange(handler) {
+  public static onPowerSaveChange(handler: any) {
     return {
       remove: () => {},
     };

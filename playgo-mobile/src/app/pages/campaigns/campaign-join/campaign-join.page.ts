@@ -72,7 +72,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         break;
     }
   }
-  async openRegisterSchool(campaign) {
+  async openRegisterSchool(campaign: Campaign) {
     const modal = await this.modalController.create({
       component: JoinSchoolModalPage,
       componentProps: {
@@ -88,7 +88,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       this.back();
     }
   }
-  async openRegisterCompany(campaign) {
+  async openRegisterCompany(campaign: Campaign) {
     const modal = await this.modalController.create({
       component: JoinCompanyModalPage,
       componentProps: {
@@ -118,7 +118,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   //     });
   // }
 
-  joinIsVisible(campaign) {
+  joinIsVisible(campaign: Campaign) {
     let joinable = false;
     switch (campaign.type) {
       case 'city':

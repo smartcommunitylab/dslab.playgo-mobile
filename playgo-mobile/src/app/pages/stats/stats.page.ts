@@ -281,23 +281,32 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     }
     return retArr;
   }
-  getObjectDate(statPeriod) {
+  getObjectDate(statPeriod: string) {
     //anno - mese o anno numero settimana o anno mese giorno in base alla selezione
     const periodSplitted = statPeriod.split('-');
     switch (this.selectedPeriod.group) {
       case 'day':
         return {
-          year: periodSplitted[0],
-          month: periodSplitted[1],
-          day: periodSplitted[2],
+          year: Number(periodSplitted[0]),
+          month: Number(periodSplitted[1]),
+          day: Number(periodSplitted[2]),
         };
       case 'week':
-        return { weekYear: periodSplitted[0], weekNumber: periodSplitted[1] };
+        return {
+          weekYear: Number(periodSplitted[0]),
+          weekNumber: Number(periodSplitted[1]),
+        };
       case 'month':
-        return { year: periodSplitted[0], month: periodSplitted[1] };
+        return {
+          year: Number(periodSplitted[0]),
+          month: Number(periodSplitted[1]),
+        };
     }
   }
-  valuesFromStat(arrOfPeriod: DateTime[], stats: any): Array<number> {
+  valuesFromStat(
+    arrOfPeriod: DateTime[],
+    stats: TransportStat[]
+  ): Array<number> {
     //  check if stats[i] is part of arrOfPeriod
     let statsArrayDate = stats.map((stat) => {
       console.log(stat);
@@ -319,7 +328,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     }
     return retArr;
   }
-  barChartMethod(stats?: any) {
+  barChartMethod(stats?: TransportStat[]) {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
     // eslint-disable-next-line max-len

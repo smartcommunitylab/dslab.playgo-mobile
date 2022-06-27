@@ -77,7 +77,7 @@ export class BackgroundTrackingService {
   );
 
   public isPowerSaveMode$: Observable<boolean> = concat(
-    this.isReady.then(this.backgroundGeolocationPlugin.isPowerSaveMode),
+    this.isReady.then(() => this.backgroundGeolocationPlugin.isPowerSaveMode()),
     this.getPluginObservable(this.backgroundGeolocationPlugin.onPowerSaveChange)
   ).pipe(
     startWith(false),
@@ -250,8 +250,8 @@ export class BackgroundTrackingService {
       },
     });
 
-    const locationSentToServer =
-      await this.backgroundGeolocationPlugin.getLocations();
+    const locationSentToServer: Location[] =
+      (await this.backgroundGeolocationPlugin.getLocations()) as Location[];
 
     // .sync call will fail, if the network is not available
     // I dont know why is seems that it is not possible to get list of locations
@@ -326,7 +326,7 @@ export class TripLocation {
   constructor(data?: Partial<TripLocation>) {
     Object.assign(this, data || {});
   }
-  static fromLocation(location: Location) {
+  static fromLocation(location: Location): TripLocation {
     const extras = (location.extras || {}) as TripExtras;
     return new TripLocation({
       date: new Date(location.timestamp).getTime(),

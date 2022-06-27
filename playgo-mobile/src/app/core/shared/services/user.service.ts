@@ -198,7 +198,7 @@ export class UserService {
     await this.getUserProfile();
   }
 
-  public async updateImages(avatar) {
+  public async updateImages(avatar: any) {
     this.userProfile.avatar = avatar;
   }
 

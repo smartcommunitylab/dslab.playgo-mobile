@@ -130,7 +130,7 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
     @Optional() @Inject(IonContent) private ionContentElement: IonContent
   ) {}
 
-  loadData(event) {
+  loadData(event: any) {
     this.loadDataEvents$.next();
   }
 

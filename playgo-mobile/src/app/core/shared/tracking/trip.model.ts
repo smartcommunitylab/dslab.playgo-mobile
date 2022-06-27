@@ -82,3 +82,31 @@ export const transportTypeLabels: Record<TransportType, TranslateKey> = {
   walk: 'trip_detail.mean.walk',
   boat: 'trip_detail.mean.boat',
 };
+
+export function isTransportType(
+  transportType: string
+): transportType is TransportType {
+  return transportTypes.includes(transportType as TransportType);
+}
+
+export function getTransportTypeIcon(transportType: string): string {
+  if (!isTransportType(transportType)) {
+    console.error(`Unknown transport type: ${transportType}`);
+    return null;
+  }
+  return transportTypeIcons[transportType];
+}
+export function getTransportTypeLabel(transportType: string): TranslateKey {
+  if (!isTransportType(transportType)) {
+    console.error(`Unknown transport type: ${transportType}`);
+    return null;
+  }
+  return transportTypeLabels[transportType];
+}
+export function getTransportTypeColor(transportType: string): string {
+  if (!isTransportType(transportType)) {
+    console.error(`Unknown transport type: ${transportType}`);
+    return null;
+  }
+  return transportTypeColors[transportType];
+}

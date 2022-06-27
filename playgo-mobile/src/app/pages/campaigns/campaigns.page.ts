@@ -30,7 +30,7 @@ export class CampaignsPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-  refreshList(event) {
+  refreshList(event: any) {
     //updatelist maybechanged?
     this.campaignService.playerCampaignsRefresher$.next();
   }

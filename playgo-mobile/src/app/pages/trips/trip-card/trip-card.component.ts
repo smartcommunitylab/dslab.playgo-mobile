@@ -5,9 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { first, flatMap, last } from 'lodash-es';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import {
-  TransportType,
-  transportTypeIcons,
-  transportTypeLabels,
+  getTransportTypeIcon,
+  getTransportTypeLabel,
 } from 'src/app/core/shared/tracking/trip.model';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { ServerOrLocalTrip } from '../trips.page';
@@ -19,8 +18,8 @@ import { formatDurationToHoursAndMinutes } from 'src/app/core/shared/utils';
   styleUrls: ['./trip-card.component.scss'],
 })
 export class TripCardComponent implements OnInit, OnChanges {
-  transportTypeLabels = transportTypeLabels;
-  transportTypeIcons = transportTypeIcons;
+  getTransportTypeLabel = getTransportTypeLabel;
+  getTransportTypeIcon = getTransportTypeIcon;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly Validity = TrackedInstanceInfo.ValidityEnum;
 

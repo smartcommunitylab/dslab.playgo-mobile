@@ -12,7 +12,7 @@ export class TabsPage {
   resetStackTabs = ['home', 'campaigns', 'trips', 'challenge'];
 
   private url$ = this.router.events.pipe(
-    filter((event) => event instanceof NavigationEnd),
+    filter((event: any) => event instanceof NavigationEnd),
     map((event: NavigationEnd) => event.url),
     startWith(this.router.url)
   );
@@ -20,10 +20,13 @@ export class TabsPage {
   public isHome$: Observable<boolean> = this.url$.pipe(
     map((url) => url.startsWith('/pages/tabs/home'))
   );
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
   handleTabClick = (event: MouseEvent) => {
-    const { tab } = event.composedPath().find((element: any) =>
-      element.tagName === 'ION-TAB-BUTTON') as EventTarget & { tab: string };
+    const { tab } = event
+      .composedPath()
+      .find(
+        (element: any) => element.tagName === 'ION-TAB-BUTTON'
+      ) as EventTarget & { tab: string };
 
     if (this.resetStackTabs.includes(tab)) {
       this.router.navigate(['pages/tabs/' + tab]);

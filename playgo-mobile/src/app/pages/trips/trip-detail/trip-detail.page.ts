@@ -9,9 +9,10 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import {
-  transportTypeIcons,
-  transportTypeLabels,
+  getTransportTypeIcon,
+  getTransportTypeLabel,
 } from 'src/app/core/shared/tracking/trip.model';
+
 import { formatDurationToHoursAndMinutes } from 'src/app/core/shared/utils';
 
 @Component({
@@ -24,8 +25,8 @@ export class TripDetailPage implements OnInit {
   campaigns: CampaignTripInfo[];
   showMap: boolean;
   durationLabel: string;
-  transportTypeIcons = transportTypeIcons;
-  transportTypeLabels = transportTypeLabels;
+  getTransportTypeIcon = getTransportTypeIcon;
+  getTransportTypeLabel = getTransportTypeLabel;
   language: string;
 
   constructor(

@@ -8,6 +8,8 @@ import { TerritoryService } from 'src/app/core/shared/services/territory.service
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { readAsBase64 } from 'src/app/core/shared/utils';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { Territory } from 'src/app/core/api/generated/model/territory';
+import { find } from 'lodash-es';
 
 @Component({
   selector: 'app-registration',
@@ -15,7 +17,7 @@ import { AuthService } from 'src/app/core/auth/auth.service';
   styleUrls: ['./registration.page.scss'],
 })
 export class RegistrationPage implements OnInit, AfterViewInit {
-  territoryList = [];
+  territoryList: Territory[] = [];
   registrationForm: FormGroup;
   isSubmitted = false;
   blob: any;
@@ -101,17 +103,17 @@ export class RegistrationPage implements OnInit, AfterViewInit {
     if (!this.registrationForm.valid) {
       return false;
     } else {
+      const territory = find(this.territoryList, {
+        territoryId: this.registrationForm.value.territoryId,
+      });
+      const language = this.userService.getLanguage();
       const res = await this.alertService.confirmAlert(
         'registration.confirm.header',
         {
           key: 'registration.confirm.message',
           interpolateParams: {
             nickname: this.registrationForm.value.nickname,
-            territory: this.territoryList.find(
-              (territory) =>
-                territory.territoryId ===
-                this.registrationForm.value.territoryId
-            ).name[this.language],
+            territory: territory.name[language],
           },
         },
         'modalConfirm'
