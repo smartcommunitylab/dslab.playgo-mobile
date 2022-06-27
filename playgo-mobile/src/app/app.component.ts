@@ -7,7 +7,7 @@ import { BackgroundTrackingService } from './core/shared/tracking/background-tra
 import { codePush } from 'capacitor-codepush';
 import { environment } from 'src/environments/environment';
 import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
-import { AppVersionService } from './core/app-version.service';
+import { AppStatusService } from './core/shared/services/app-status.service';
 import { IconService } from './core/shared/ui/icon/icon.service';
 import { AuthService } from './core/auth/auth.service';
 
@@ -21,7 +21,7 @@ export class AppComponent implements AfterContentInit {
     private translate: TranslateService,
     private platform: Platform,
     private backgroundTrackingService: BackgroundTrackingService,
-    private appVersionService: AppVersionService,
+    private appStatusService: AppStatusService,
     private iconService: IconService,
     private authService: AuthService
   ) {
@@ -49,7 +49,7 @@ export class AppComponent implements AfterContentInit {
     } catch (error) {
       console.error('codePushSync error:', error);
     } finally {
-      this.appVersionService.codePushSyncFinished();
+      this.appStatusService.codePushSyncFinished();
     }
   }
 

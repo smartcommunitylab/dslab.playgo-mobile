@@ -348,6 +348,7 @@
   "adhesionCode": "Codice adesione",
   "generalTier": "Classifica generale",
   "weeklyTier": "Classifica settimanale",
+  "app_offline": "IT: You are offline - but don't worry, you can still play!",
   "number": {
     "ordinal": {
       "other": "{{ordinal}}°"

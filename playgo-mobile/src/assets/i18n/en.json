@@ -339,6 +339,7 @@
   "adhesionCode": "Adhesion code",
   "generalTier": "General tier",
   "weeklyTier": "Weekly tier",
+  "app_offline": "You are offline - but don't worry, you can still play!",
   "number": {
     "ordinal": {
       "one": "{{ordinal}}st",

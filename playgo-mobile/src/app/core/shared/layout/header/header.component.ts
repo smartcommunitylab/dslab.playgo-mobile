@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { AppStatusService } from '../../services/app-status.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +13,17 @@ export class HeaderComponent implements OnInit, OnChanges {
   @Input() backButton = true;
   @Input() color = 'playgo';
   @Input() defaultHref = '/';
-  constructor(private navCtrl: NavController) {}
+
+  isOnline$: Observable<boolean> = this.appStatusService.isOnline$;
+
+  constructor(
+    private navCtrl: NavController,
+    private appStatusService: AppStatusService
+  ) {
+    this.isOnline$.subscribe((isOnline) => {
+      console.log('isOnline', isOnline);
+    });
+  }
 
   ngOnInit() {}
   ngOnChanges() {
