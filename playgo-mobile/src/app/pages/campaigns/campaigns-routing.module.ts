@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CampaignDetailsPage } from './campaign-details/campaign-details.page';
+import { RoutesWithPageSettings } from 'src/app/core/shared/services/page-settings.service';
 import { CampaignsPage } from './campaigns.page';
 
-const routes: Routes = [
+const routes: RoutesWithPageSettings = [
   {
     path: '',
     component: CampaignsPage,
+    data: {
+      title: 'campaigns_title',
+      backButton: false,
+    },
   },
   {
     path: 'details/:id',
