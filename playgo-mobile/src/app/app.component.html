@@ -1,3 +1,10 @@
 <ion-app>
+  <app-header
+    *ngIf="pageSettingsService.pageSettings$ | async as settings"
+    [backButton]="settings.backButton"
+    [color]="settings.color"
+    [defaultHref]="settings.defaultHref"
+    [title]="settings.title"
+  ></app-header>
   <ion-router-outlet></ion-router-outlet>
 </ion-app>

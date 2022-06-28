@@ -5,7 +5,7 @@
       </ion-back-button>
     </ion-buttons>
     <ion-title>
-      <span *ngIf="title">{{ title }}</span>
+      <span *ngIf="title">{{ title | translate }}</span>
     </ion-title>
   </ion-toolbar>
   <ion-toolbar color="warning" *ngIf="(isOnline$ | async) === false">
