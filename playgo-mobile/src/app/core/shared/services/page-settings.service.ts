@@ -10,7 +10,7 @@ import {
   map,
   filter,
 } from 'rxjs';
-import { TranslateKey } from '../type.utils';
+import { TranslateKey, XOR } from '../type.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -81,14 +81,18 @@ function getRouterDataFromRoute(activatedRoute: ActivatedRoute): any {
 export interface PageSettings {
   isOfflinePage?: boolean;
   // header
-  title: TranslateKey;
+  title: TranslateKey | '';
   backButton?: boolean;
   color?: string;
   defaultHref?: string;
 }
 
-interface PageRoute extends Route {
+type PageRoute = Route & {
   data: PageSettings;
-}
+  component: Route['component'];
+};
 
-export type PageRoutes = PageRoute[];
+type NotPageRoute = Omit<Route, 'component'>;
+
+export type RouteWithPageSettings = XOR<PageRoute, NotPageRoute>;
+export type RoutesWithPageSettings = RouteWithPageSettings[];
