@@ -1,4 +1,6 @@
-export const ERRORS = [
+import { TranslateKey } from '../shared/type.utils';
+
+export const ERRORS: KnownError[] = [
   {
     value: 401,
     msg: 'user not found',
@@ -10,3 +12,8 @@ export const ERRORS = [
     errorString: 'errors.nickNameExist',
   },
 ];
+type KnownError = {
+  value: number;
+  msg: string;
+  errorString: TranslateKey;
+};
