@@ -8,6 +8,7 @@ import {
   of,
   ReplaySubject,
   Subject,
+  throwError,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../model/user.model';
@@ -16,7 +17,7 @@ import { TransportType } from '../tracking/trip.model';
 import { TerritoryService } from './territory.service';
 import { ReportService } from './report.service';
 import { NavController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { Avatar } from '../../api/generated/model/avatar';
 import { Player } from '../../api/generated/model/player';
@@ -43,20 +44,25 @@ export class UserService {
   private userLanguage: string;
   private userLocale: string;
   private userProfile: IUser = null;
-  private initUserProfile$: Observable<IUser | null> =
-    this.authService.isReadyForApi$.pipe(
-      switchMap(() => this.getUserProfile()),
-      shareReplay(1)
-    );
+
   public userProfileRefresher$: Subject<void> = new ReplaySubject<void>(1);
 
   private userProfileCouldBeChanged$ = merge(
-    this.initUserProfile$,
-    this.userProfileRefresher$
+    this.authService.isReadyForApi$.pipe(map(() => ({ isFirst: true }))),
+    this.userProfileRefresher$.pipe(map(() => ({ isFirst: false })))
   );
 
   public userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
-    switchMap(() => this.getUserProfile()),
+    switchMap(async (trigger) => {
+      try {
+        await this.getUserProfile();
+      } catch (e) {
+        this.errorService.handleError(
+          e,
+          trigger.isFirst ? 'blocking' : 'normal'
+        );
+      }
+    }),
     filter(Boolean),
     distinctUntilChanged(isEqual),
     shareReplay(1)
@@ -118,6 +124,9 @@ export class UserService {
     return this.userLocale || 'it-IT';
   }
 
+  /**
+   * @throws http error
+   */
   public uploadAvatar(file: any): Promise<any> {
     const formData = new FormData();
     formData.append('data', file);
@@ -126,11 +135,19 @@ export class UserService {
       .toPromise();
   }
 
+  /**
+   * @throws http error
+   */
   private getAvatar(): Promise<IUser['avatar']> {
     return this.playerControllerService
       .getPlayerAvatarUsingGET()
       .pipe(
-        catchError((error) => of(null)),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse && error.status === 404) {
+            return of(null);
+          }
+          return throwError(() => error);
+        }),
         map((partialAvatar) => ({
           avatarSmallUrl:
             partialAvatar?.avatarSmallUrl ||
@@ -143,11 +160,17 @@ export class UserService {
       .toPromise();
   }
 
+  /**
+   * @throws http error
+   */
   public getAACUserInfo(): Promise<any> {
     return this.http
       .request('GET', environment.authConfig.server_host + '/userinfo')
       .toPromise();
   }
+  /**
+   * does not throw http error
+   */
   private registerLocale(locale: string) {
     if (!locale) {
       return;
@@ -167,6 +190,9 @@ export class UserService {
     }
   }
 
+  /**
+   * @throws http error
+   */
   private async getUserProfile(): Promise<IUser> {
     let user: IUser;
 
@@ -193,6 +219,9 @@ export class UserService {
     return user;
   }
 
+  /**
+   * @throws http error
+   */
   public async handleAfterUserRegistered() {
     //get user profile with avatars
     await this.getUserProfile();
@@ -202,11 +231,22 @@ export class UserService {
     this.userProfile.avatar = avatar;
   }
 
+  /**
+   *
+   * @param user
+   * @throws http error
+   */
   private async processUser(user: IUser) {
     await this.setUserProfileMeans(user.territoryId);
     this.registerLocale(user.language);
   }
 
+  /**
+   *
+   * @param territoryId
+   * @returns list of means
+   * @throws http error
+   */
   private async setUserProfileMeans(
     territoryId: string
   ): Promise<TransportType[]> {
@@ -217,6 +257,12 @@ export class UserService {
     return userTerritory.territoryData.means;
   }
 
+  /**
+   *
+   * @param user
+   * @returns
+   * @throws http error
+   */
   public registerPlayer(user: IUser): Promise<IUser> {
     //TODO update local profile
     return this.playerControllerService
@@ -227,6 +273,8 @@ export class UserService {
    * Call api to test if user is registered
    *
    * @returns true / false / null = not known
+   *
+   * does not throw http error
    */
   public async isUserRegistered(): Promise<boolean | null> {
     try {
@@ -246,10 +294,22 @@ export class UserService {
       return null;
     }
   }
+
+  /**
+   *
+   * @returns player profile
+   * @throws http error
+   */
   private getProfile(): Promise<Player> {
     return this.playerControllerService.getProfileUsingGET().toPromise();
   }
 
+  /**
+   *
+   * @param user player profile
+   * @returns updated player profile
+   * @throws http error
+   */
   public async updatePlayer(user: IUser): Promise<Player> {
     //TODO update local profile
     const player = await this.playerControllerService

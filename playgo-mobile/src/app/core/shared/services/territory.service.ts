@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isEqual } from 'lodash-es';
 import {
+  EMPTY,
   from,
   interval,
   Observable,
@@ -23,6 +24,7 @@ import { Territory } from '../../api/generated/model/territory';
 import { tap } from 'rxjs/operators';
 import { LocalStorageService } from './local-storage.service';
 import { ifOfflineUseStored } from '../utils';
+import { ErrorService } from './error.service';
 
 @Injectable({ providedIn: 'root' })
 export class TerritoryService {
@@ -34,11 +36,15 @@ export class TerritoryService {
   private trigger$: Observable<number> = interval(600000);
   public territories$: Observable<Territory[]> = this.trigger$.pipe(
     startWith(0),
-    switchMap(() =>
-      this.territoryControllerService
+    switchMap((triggerId) => {
+      const isFirstCall = triggerId === 0;
+      return this.territoryControllerService
         .getTerritoriesUsingGET()
-        .pipe(ifOfflineUseStored(this.territoriesStorage))
-    ),
+        .pipe(
+          ifOfflineUseStored(this.territoriesStorage),
+          this.errorService.getErrorHandler(isFirstCall ? 'blocking' : 'silent')
+        );
+    }),
     distinctUntilChanged(isEqual),
     tap((territory) => this.territoriesStorage.set(territory)),
     shareReplay(1)
@@ -46,16 +52,22 @@ export class TerritoryService {
 
   constructor(
     private territoryControllerService: TerritoryControllerService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private errorService: ErrorService
   ) {}
 
-  getTerritory(territoryId: string): Observable<Territory> {
+  /**
+   * Gets the territory by id. Works also offline.
+   *
+   * @throws http error
+   */
+  public getTerritory(territoryId: string): Observable<Territory> {
     return this.territoryControllerService
       .getTerritoryUsingGET(territoryId)
       .pipe(
         ifOfflineUseStored(
           this.territoryStorage,
-          (territory) => territory.territoryId === territoryId
+          (storedTerritory) => storedTerritory.territoryId === territoryId
         ),
         tap((territory) => this.territoryStorage.set(territory))
       );
