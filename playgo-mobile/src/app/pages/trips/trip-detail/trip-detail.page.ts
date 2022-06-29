@@ -50,7 +50,7 @@ export class TripDetailPage implements OnInit {
         );
       } catch (e) {
         // TODO: incorrect id handling
-        this.errorService.showAlert(e);
+        this.errorService.handleError(e);
       }
     }
   }

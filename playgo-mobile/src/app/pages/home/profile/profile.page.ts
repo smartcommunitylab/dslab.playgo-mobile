@@ -26,7 +26,7 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.language = this.userService.getLanguage();
     this.subProf = this.userService.userProfile$
-      .pipe(this.errorService.showAlertOnError())
+      .pipe(this.errorService.getErrorHandler())
       .subscribe((profile) => {
         this.profile = profile;
       });

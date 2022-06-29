@@ -64,7 +64,7 @@ export class TripsPage implements OnInit {
       }),
       concatMap((scrollRequest) =>
         this.getTripsPage(scrollRequest).pipe(
-          this.errorService.showAlertOnError()
+          this.errorService.getErrorHandler('normal')
         )
       )
     );

@@ -46,18 +46,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.language = this.userService.getLanguage();
     this.subProf = this.userService.userProfile$
-      .pipe(this.errorService.showAlertOnError())
+      .pipe(this.errorService.getErrorHandler())
       .subscribe((profile) => {
         this.profile = profile;
         this.setLinkPicture(this.profile.avatar.avatarUrl);
       });
     this.subTerritory = this.userService.userProfileTerritory$
-      .pipe(this.errorService.showAlertOnError())
+      .pipe(this.errorService.getErrorHandler())
       .subscribe((territory) => {
         this.territory = territory;
       });
     this.subCamp = this.campaignService.myCampaigns$
-      .pipe(this.errorService.showAlertOnError())
+      .pipe(this.errorService.getErrorHandler())
       .subscribe((myCampaigns) => {
         this.numMyCampaigns = myCampaigns?.length;
         const activeFromMillis = myCampaigns.find(

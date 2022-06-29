@@ -16,48 +16,6 @@ export class ErrorService {
     private translateService: TranslateService
   ) {}
 
-  showAlert(error: any) {
-    let errorFound: any = this.definedErrors.find(
-      (definedError) => definedError.msg === error?.error?.ex
-    );
-    if (!errorFound) {
-      errorFound = {
-        errorString: 'errors.defaultErr',
-      };
-    }
-    this.alertService.showToast({
-      messageTranslateKey: errorFound.errorString,
-    });
-  }
-
-  showAlertOnError<T>(): OperatorFunction<T, T> {
-    //capture the stack trace
-    const originalStack = getDebugStack();
-
-    return (source: Observable<T>) =>
-      source.pipe(
-        catchError((error) => {
-          console.warn(
-            'Error caught and alert shown!',
-            error,
-            'Original stack',
-            originalStack
-          );
-          this.showAlert(error);
-          // return observable used for downstream subscription
-          return EMPTY;
-        })
-      );
-  }
-  showNotRecoverableAlert(error: any) {
-    console.error('Not recoverable error', error);
-    this.alertService
-      .confirmAlert('errors.error_header', 'errors.not_recoverable')
-      .then(() => {
-        window.location.reload();
-      });
-  }
-
   getErrorHandler<T>(
     context: ErrorContextSeverity = 'normal'
   ): OperatorFunction<T, T> {
@@ -148,3 +106,6 @@ export class ErrorService {
  * Territory (needed to get list of means) failed with 404.
  */
 export type ErrorContextSeverity = 'silent' | 'normal' | 'blocking';
+
+// ideas for another severities:
+// 'page_blocking' - this page is broken, redirect home. For example failed load trip detail.
