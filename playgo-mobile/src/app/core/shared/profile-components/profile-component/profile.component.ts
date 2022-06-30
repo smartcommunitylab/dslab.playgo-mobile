@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { NavController } from '@ionic/angular';
 import { DateTime } from 'luxon';
@@ -27,11 +33,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   numMyCampaigns: number;
   territory: Territory;
   activeFrom: string;
+  timeStamp: any;
+  linkPicture: string;
   constructor(
     private userService: UserService,
     private campaignService: CampaignService,
     private navCtrl: NavController,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -40,6 +49,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .pipe(this.errorService.showAlertOnError())
       .subscribe((profile) => {
         this.profile = profile;
+        this.setLinkPicture(this.profile.avatar.avatarUrl);
       });
     this.subTerritory = this.userService.userProfileTerritory$
       .pipe(this.errorService.showAlertOnError())
@@ -79,9 +89,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.userService.updateImages(avatarData);
       //TODO update doesn't work
       this.profile.avatar = avatarData;
+      this.setLinkPicture(this.profile.avatar.avatarUrl);
     }
   }
-
+  public getLinkPicture() {
+    if (this.timeStamp) {
+      return this.linkPicture + '?' + this.timeStamp;
+    }
+    return this.linkPicture;
+  }
+  public setLinkPicture(url: string) {
+    this.linkPicture = url;
+    this.timeStamp = new Date().getTime();
+  }
   goToProfile() {
     this.navCtrl.navigateRoot('/pages/tabs/home/profile');
   }
