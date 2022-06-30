@@ -22,6 +22,7 @@ export class PageSettingsService {
     color: 'playgo',
     defaultHref: '/',
     isOfflinePage: false,
+    customHeader: false,
   };
   private routerPageSettings$: Observable<PageSettings> =
     this.router.events.pipe(
@@ -85,6 +86,7 @@ export interface PageSettings {
   backButton?: boolean;
   color?: string;
   defaultHref?: string;
+  customHeader?: boolean;
 }
 
 type PageRoute = Route & {
