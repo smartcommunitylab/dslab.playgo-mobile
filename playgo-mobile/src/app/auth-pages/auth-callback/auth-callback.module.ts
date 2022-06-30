@@ -7,11 +7,15 @@ import { IonicModule } from '@ionic/angular';
 
 import { AuthCallbackPage } from './auth-callback.page';
 import { PlayGoSharedLibsModule } from 'src/app/core/shared/shared-libs.module';
+import { RoutesWithPageSettings } from 'src/app/core/shared/services/page-settings.service';
 
-const routes: Routes = [
+const routes: RoutesWithPageSettings = [
   {
     path: '',
     component: AuthCallbackPage,
+    data: {
+      title: 'login.labelSignin',
+    },
   },
 ];
 

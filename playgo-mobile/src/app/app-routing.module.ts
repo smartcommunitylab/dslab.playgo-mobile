@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './core/auth/auth-guard.service';
+import { RoutesWithPageSettings } from './core/shared/services/page-settings.service';
 
-const routes: Routes = [
+const routes: RoutesWithPageSettings = [
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   {
     path: 'pages',

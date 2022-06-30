@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { RoutesWithPageSettings } from 'src/app/core/shared/services/page-settings.service';
 
 import { NotificationsPage } from './notifications.page';
 
-const routes: Routes = [
+const routes: RoutesWithPageSettings = [
   {
     path: '',
     component: NotificationsPage,
+    data: {
+      title: 'notifications_title',
+      backButton: true,
+    },
   },
 ];
 
