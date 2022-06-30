@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
   combineLatest,
+  EMPTY,
   merge,
   Observable,
   of,
@@ -55,12 +56,13 @@ export class UserService {
   public userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
     switchMap(async (trigger) => {
       try {
-        await this.getUserProfile();
+        return await this.getUserProfile();
       } catch (e) {
         this.errorService.handleError(
           e,
           trigger.isFirst ? 'blocking' : 'normal'
         );
+        return EMPTY;
       }
     }),
     filter(Boolean),
@@ -143,7 +145,11 @@ export class UserService {
       .getPlayerAvatarUsingGET()
       .pipe(
         catchError((error) => {
-          if (error instanceof HttpErrorResponse && error.status === 404) {
+          if (
+            error instanceof HttpErrorResponse &&
+            (error.status === 404 ||
+              (error.status === 400 && error.error?.ex === 'avatar not found'))
+          ) {
             return of(null);
           }
           return throwError(() => error);
