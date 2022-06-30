@@ -1,4 +1,4 @@
-import { isDevMode, NgModule } from '@angular/core';
+import { ErrorHandler, isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -13,6 +13,7 @@ import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocat
 import { BackgroundGeolocationMock } from './core/shared/plugin-mocks/BackgroundGeolocationMock';
 import { App } from '@capacitor/app';
 import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
+import { GlobalErrorHandler } from './core/shared/services/global-error-handler';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -46,6 +47,10 @@ export function createTranslateLoader(http: HttpClient) {
     {
       provide: 'AppPlugin',
       useFactory: () => (useMock() ? AppPluginMock : App),
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
     },
   ],
   bootstrap: [AppComponent],
