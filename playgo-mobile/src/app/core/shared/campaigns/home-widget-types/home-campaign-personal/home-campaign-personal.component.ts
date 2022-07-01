@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { Player } from 'src/app/core/api/generated/model/player';
 import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
+import { toServerDateOnly } from '../../../time.utils';
 
 @Component({
   selector: 'app-home-campaign-personal',
@@ -40,8 +41,8 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
         .getCo2Stats(
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId,
-          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-          DateTime.utc().toFormat('yyyy-MM-dd')
+          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+          toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
           this.reportWeekStat = stats;
