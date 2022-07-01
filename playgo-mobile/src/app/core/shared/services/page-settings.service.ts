@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {
   BehaviorSubject,
   Observable,
@@ -59,7 +61,20 @@ export class PageSettingsService {
       )
     );
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  private title$: Observable<TranslateKey> = this.pageSettings$.pipe(
+    map((settings) => settings.title || 'home')
+  );
+
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
+    private translateService: TranslateService
+  ) {
+    this.title$.subscribe((title) => {
+      this.titleService.setTitle(this.translateService.instant(title));
+    });
+  }
 
   public set(pageSettings: PageSettings) {
     this.manualPageSettingsSubject.next(pageSettings);
