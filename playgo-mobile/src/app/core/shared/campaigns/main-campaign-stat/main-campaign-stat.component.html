@@ -19,7 +19,7 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="2">
+      <ion-col size="2" *ngIf="reportWeekStat || reportTotalStat">
         <app-icon
           class="icon-size-normal"
           [name]="
