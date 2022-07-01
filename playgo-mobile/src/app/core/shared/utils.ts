@@ -23,6 +23,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { LocalStorageType } from './services/local-storage.service';
 
 export const isNotConstant =
@@ -125,7 +126,13 @@ export function ifOfflineUseStored<T>(
 }
 
 export function isOfflineError(error: any): boolean {
-  return error.status === 0 && navigator.onLine === false;
+  return (
+    (error.status === 0 && navigator.onLine === false) ||
+    // debug offline
+    (environment.production === false &&
+      error.status === 418 &&
+      error.error === 'offline')
+  );
 }
 
 export function asyncFilter<T>(
