@@ -38,6 +38,7 @@ import { isEqual } from 'lodash-es';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
+import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 
 @Component({
   selector: 'app-stats',
@@ -161,8 +162,8 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         metric: unitType.unitKey,
         groupMode: period.group,
         mean: meanType.unitKey,
-        dateFrom: period.from.toFormat('yyyy-MM-dd'),
-        dateTo: period.to.toFormat('yyyy-MM-dd'),
+        dateFrom: toServerDateOnly(period.from),
+        dateTo: toServerDateOnly(period.to),
       })
     )
   );
@@ -231,6 +232,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     return [
       {
         labelKey: 'campaigns.stats.filter.period.week',
+        label: 'dd-MMMM',
         group: 'day',
         format: 'dd-MM',
         add: 'week',
@@ -240,6 +242,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       },
       {
         labelKey: 'campaigns.stats.filter.period.month',
+        label: 'MMMM',
         group: 'week',
         format: 'dd-MM-yyyy',
         add: 'month',
@@ -249,6 +252,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       },
       {
         labelKey: 'campaigns.stats.filter.period.year',
+        label: 'yyyy',
         group: 'month',
         format: 'MM-yyyy',
         add: 'year',
@@ -310,7 +314,6 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     //  check if stats[i] is part of arrOfPeriod
     let statsArrayDate = stats.map((stat) => {
       console.log(stat);
-      // return DateTime.fromObject({ year: 2022, weekNumber: 10 });
       return DateTime.fromObject(this.getObjectDate(stat.period));
     });
     console.log(statsArrayDate);
@@ -391,6 +394,9 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       },
     });
   }
+  getSelectedPeriod() {
+    return this.selectedPeriod.from.toFormat(this.selectedPeriod.label);
+  }
   changeView(label: any) {
     // segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)
     const switchToPeriod: Period = null;
@@ -411,9 +417,6 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     //only get but it doesn't write on subject
     this.referenceDate = DateTime.fromObject(this.getObjectDate(label));
     this.periods = this.getPeriods(this.referenceDate);
-    //const tabIndex = this.periods.findIndex((period) => period.group === this.selectedPeriod.group);
-    // this.selectedSegment = this.periods[tabIndex];
-    //this.statPeriodChangedSubject.next(this.periods[tabIndex]);
     this.selectedSegment = this.periods.find(
       (a) => a.group === this.selectedSegment.switchTo
     );
@@ -434,6 +437,7 @@ type StatUnitType = {
 
 type Period = {
   labelKey: string;
+  label: string;
   add: string;
   format: string;
   switchTo: string;
