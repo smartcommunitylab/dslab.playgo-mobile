@@ -10,7 +10,6 @@ import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
 import { AppStatusService } from './core/shared/services/app-status.service';
 import { IconService } from './core/shared/ui/icon/icon.service';
 import { AuthService } from './core/auth/auth.service';
-import { PageSettingsService } from './core/shared/services/page-settings.service';
 
 @Component({
   selector: 'app-root',
@@ -24,8 +23,7 @@ export class AppComponent implements AfterContentInit {
     private backgroundTrackingService: BackgroundTrackingService,
     private appStatusService: AppStatusService,
     private iconService: IconService,
-    private authService: AuthService,
-    public pageSettingsService: PageSettingsService
+    private authService: AuthService
   ) {
     this.initializeApp();
   }
