@@ -9,7 +9,8 @@ const routes: RoutesWithPageSettings = [
     component: HomePage,
     data: {
       title: 'home',
-      customHeader: true,
+      showNotifications: true,
+      backButton: false,
     },
   },
   {
