@@ -138,29 +138,32 @@ export class UserService {
   }
 
   /**
-   * @throws http error
+   * do not throw http error
    */
   private getAvatar(): Promise<IUser['avatar']> {
+    const avatarDefaults: IUser['avatar'] = {
+      avatarSmallUrl: 'assets/images/registration/generic_user.png',
+      avatarUrl: 'assets/images/registration/generic_user.png',
+    };
+
     return this.playerControllerService
       .getPlayerAvatarUsingGET()
       .pipe(
         catchError((error) => {
           if (
             error instanceof HttpErrorResponse &&
-            (error.status === 404 ||
-              (error.status === 400 && error.error?.ex === 'avatar not found'))
+            (error.status === 404 || error.status === 400) &&
+            error.error?.ex === 'avatar not found'
           ) {
-            return of(null);
+            return of(avatarDefaults);
           }
-          return throwError(() => error);
+          // we do not want to block app completely.
+          this.errorService.handleError(error, 'normal');
+          return of(avatarDefaults);
         }),
-        map((partialAvatar) => ({
-          avatarSmallUrl:
-            partialAvatar?.avatarSmallUrl ||
-            'assets/images/registration/generic_user.png',
-          avatarUrl:
-            partialAvatar?.avatarUrl ||
-            'assets/images/registration/generic_user.png',
+        map((avatar) => ({
+          ...avatarDefaults,
+          ...avatar,
         }))
       )
       .toPromise();
