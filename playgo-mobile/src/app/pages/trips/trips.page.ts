@@ -23,6 +23,7 @@ import {
 } from 'src/app/core/shared/tracking/trip.model';
 import {
   groupByConsecutiveValues,
+  isOfflineError,
   tapLog,
   trackByProperty,
 } from 'src/app/core/shared/utils';
@@ -39,6 +40,7 @@ import {
 import { TripService } from 'src/app/core/shared/tracking/trip.service';
 import { LocalTripsService } from 'src/app/core/shared/tracking/local-trips.service';
 import { DateTime } from 'luxon';
+import { AlertService } from 'src/app/core/shared/services/alert.service';
 
 @Component({
   selector: 'app-trips',
@@ -64,6 +66,16 @@ export class TripsPage implements OnInit {
       }),
       concatMap((scrollRequest) =>
         this.getTripsPage(scrollRequest).pipe(
+          catchError((error) => {
+            if (isOfflineError(error)) {
+              // TODO: show better UX
+              this.alertService.showToast({
+                messageTranslateKey: 'trip_detail.historic_values_offline',
+              });
+              return EMPTY;
+            }
+            throwError(() => error);
+          }),
           this.errorService.getErrorHandler('normal')
         )
       )
@@ -177,7 +189,8 @@ export class TripsPage implements OnInit {
     private trackControllerService: TrackControllerService,
     private backgroundTrackingService: BackgroundTrackingService,
     private tripService: TripService,
-    private localTripsService: LocalTripsService
+    private localTripsService: LocalTripsService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {}

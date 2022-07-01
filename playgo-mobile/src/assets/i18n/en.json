@@ -165,7 +165,8 @@
       "pending": "Pending",
       "not_synchronized": "Not synchronized",
       "not_finished": "Ongoing"
-    }
+    },
+    "historic_values_offline": "To load historic trips, you have to be online."
   },
   "errors": {
     "error_header": "Error",
