@@ -6,6 +6,7 @@ import { Player } from 'src/app/core/api/generated/model/player';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
+import { toServerDateOnly } from '../../../time.utils';
 
 @Component({
   selector: 'app-home-campaign-company',
@@ -37,8 +38,8 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         .getCo2Stats(
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId,
-          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-          DateTime.utc().toFormat('yyyy-MM-dd')
+          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+          toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
           this.reportWeekStat = stats;

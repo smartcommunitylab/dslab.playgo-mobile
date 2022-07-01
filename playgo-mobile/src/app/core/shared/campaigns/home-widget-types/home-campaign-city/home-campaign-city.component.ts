@@ -6,6 +6,7 @@ import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { DateTime } from 'luxon';
+import { toServerDateOnly } from '../../../time.utils';
 @Component({
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
@@ -42,8 +43,8 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
         .getGameStats(
           this.campaignContainer.campaign.campaignId,
           profile.playerId,
-          DateTime.utc().minus({ week: 1 }).toFormat('yyyy-MM-dd'),
-          DateTime.utc().toFormat('yyyy-MM-dd')
+          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+          toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
           this.reportWeekStat = stats;

@@ -15,7 +15,7 @@ import { PrivacyModalPage } from './privacy-modal/privacyModal.component';
 export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   subProf: Subscription;
   profile: IUser;
-
+  language: string;
   constructor(
     private userService: UserService,
     private errorService: ErrorService,
@@ -24,6 +24,7 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    this.language = this.userService.getLanguage();
     this.subProf = this.userService.userProfile$
       .pipe(this.errorService.showAlertOnError())
       .subscribe((profile) => {
