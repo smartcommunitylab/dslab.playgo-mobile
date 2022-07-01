@@ -18,17 +18,14 @@ export class GlobalErrorHandler implements ErrorHandler {
   public handleError(error: any) {
     const originalError = findOriginalError(error);
     // we can only guess what is correct here. We don't have any context. So let's be conservative.
-    if (error instanceof HttpErrorResponse) {
+    if (originalError instanceof HttpErrorResponse) {
       if (!environment.production) {
         console.error(
-          `
-          UNHANDLED HTTP ERROR!!
-          You should never get here!!
-
-          Catch server errors in service or in the component using ErrorService
-        `,
+          'UNHANDLED HTTP ERROR!!\n' +
+            'You should never get here!!\n' +
+            'Catch server errors in service or in the component using ErrorService\n\n',
           error,
-          'Original error:\n',
+          '\n\nOriginal error:\n',
           originalError
         );
       }
@@ -38,11 +35,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     } else {
       if (!environment.production) {
         console.error(
-          `
-          UNHANDLED ERROR!! (probably a javascript bug)
-        `,
+          'UNHANDLED ERROR!! (probably a javascript bug)\n\n',
           error,
-          'Original error:\n',
+          '\n\nOriginal error:\n',
           originalError
         );
       }
@@ -54,12 +49,15 @@ export class GlobalErrorHandler implements ErrorHandler {
 
 /** from angular source code.. */
 function findOriginalError(error: any): Error | null {
-  let e: any = error && getOriginalError(error);
-  while (e && getOriginalError(e)) {
+  let e = error;
+  if (error?.rejection) {
+    e = error.rejection;
+  }
+  while (getOriginalError(e)) {
     e = getOriginalError(e);
   }
 
-  return e || null;
+  return e;
 }
 
 /** from angular source code.. */

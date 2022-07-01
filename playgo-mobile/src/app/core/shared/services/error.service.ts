@@ -73,16 +73,16 @@ export class ErrorService {
     const realSeverity = contextSeverity;
 
     if (realSeverity === 'silent') {
-      console.warn('Error handled silently', error, stack);
+      console.warn('Error handled silently\n', error, stack);
     }
     if (realSeverity === 'normal') {
-      console.error('Error handled by toast', error, stack);
+      console.error('Error handled by toast\n', error, stack);
       this.alertService.showToast({
         messageTranslateKey,
       });
     }
     if (realSeverity === 'blocking') {
-      console.error('ERROR HANDLED BY FULL PAGE RELOAD!', error, stack);
+      console.error('ERROR HANDLED BY FULL PAGE RELOAD!\n', error, stack);
       this.alertService.showToast({
         messageTranslateKey,
       });
