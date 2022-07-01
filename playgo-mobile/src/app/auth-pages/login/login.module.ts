@@ -5,11 +5,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { LoginPage } from './login.page';
 import { PlayGoSharedLibsModule } from 'src/app/core/shared/shared-libs.module';
+import { RoutesWithPageSettings } from 'src/app/core/shared/services/page-settings.service';
 
-const routes: Routes = [
+const routes: RoutesWithPageSettings = [
   {
     path: '',
     component: LoginPage,
+    data: {
+      title: 'login.login_page_title',
+    },
   },
 ];
 

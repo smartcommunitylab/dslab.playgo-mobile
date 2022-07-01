@@ -5,8 +5,13 @@
       </ion-back-button>
     </ion-buttons>
     <ion-title>
-      <span *ngIf="title">{{ title }}</span>
+      <span *ngIf="title">{{ title | translate }}</span>
     </ion-title>
+    <ion-buttons slot="secondary" *ngIf="showNotifications">
+      <ion-button (click)="navigateToNotification()">
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="warning" *ngIf="(isOnline$ | async) === false">
     <ion-title size="small">

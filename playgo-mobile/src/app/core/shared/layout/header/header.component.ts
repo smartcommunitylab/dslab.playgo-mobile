@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AppStatusService } from '../../services/app-status.service';
@@ -13,12 +14,14 @@ export class HeaderComponent implements OnInit, OnChanges {
   @Input() backButton = true;
   @Input() color = 'playgo';
   @Input() defaultHref = '/';
+  @Input() showNotifications = false;
 
   isOnline$: Observable<boolean> = this.appStatusService.isOnline$;
 
   constructor(
     private navCtrl: NavController,
-    private appStatusService: AppStatusService
+    private appStatusService: AppStatusService,
+    private router: Router
   ) {
     this.isOnline$.subscribe((isOnline) => {
       console.log('isOnline', isOnline);
@@ -28,6 +31,9 @@ export class HeaderComponent implements OnInit, OnChanges {
   ngOnInit() {}
   ngOnChanges() {
     console.log(this.title);
+  }
+  navigateToNotification() {
+    this.router.navigateByUrl('/pages/notifications');
   }
   back() {
     if (this.defaultHref) {

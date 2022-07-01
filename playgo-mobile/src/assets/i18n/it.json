@@ -5,7 +5,10 @@
   "campaignsTitle": "Campagna",
   "tripsTitle": "Lista viaggi",
   "tripDetailTitle": "Dettagli viaggio",
+  "notifications_title": "Notifiche",
+  "leaderboard.title": "Classifica",
   "login": {
+    "login_page_title": "Login",
     "labelSignin": "Autenticazione in corso",
     "labelSignout": "Uscita dal sistema",
     "loginCardHeader": "Login",
@@ -176,7 +179,6 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
-    "xxx": "xxx",
     "registered": "Registrato",
     "unregistered": "Utente disiscritto",
     "myCampaigns": "Le mie",
