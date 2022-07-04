@@ -1,10 +1,7 @@
 <ion-row button (click)="openDetail()" detail>
   <ion-col size="4">
-    <div class="ion-text-start" style="font-size: 24px">
-      <app-icon
-        *ngIf="trip.modeType"
-        [name]="getTransportTypeIcon(trip.modeType)"
-      ></app-icon>
+    <div *ngIf="trip.modeType" class="ion-text-start" style="font-size: 24px">
+      <app-icon [name]="getTransportTypeIcon(trip.modeType)"></app-icon>
       <span>
         {{ getTransportTypeLabel(trip.modeType) | translate }}
       </span>
