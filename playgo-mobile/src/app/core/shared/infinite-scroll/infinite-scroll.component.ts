@@ -54,12 +54,16 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
 
   @Input()
   public set response(response: PageableResponse<T>) {
-    this.response$.next(response);
+    if (!isNil(response)) {
+      this.response$.next(response);
+    }
     if (this.infiniteScrollComponent) {
       this.infiniteScrollComponent.complete();
     }
   }
   response$ = new Subject<PageableResponse<T>>();
+  successResponse$: Observable<PageableSuccessResponse<T>> =
+    this.response$.pipe(filter(isPageableSuccessResponse));
 
   @Input()
   public set resetItems(resetItems: symbol) {
@@ -72,7 +76,7 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
   private afterViewChecked = new Subject<void>();
   private manualLoadWithNoScroll$ = this.response$.pipe(
     switchMap((response) => {
-      if (!response) {
+      if (!response || isPageableErrorResponse(response)) {
         return EMPTY;
       }
       const page = response.number + 1;
@@ -96,7 +100,7 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
     this.loadDataEvents$,
     this.manualLoadWithNoScroll$
   ).pipe(
-    withLatestFrom(this.response$),
+    withLatestFrom(this.successResponse$),
     map(([, response]) => {
       const page = response.number + 1;
       const size = response.size;
@@ -113,7 +117,7 @@ export class InfiniteScrollComponent<T> implements OnInit, AfterViewChecked {
   items$: Observable<T[]> = this.resetItems$.pipe(
     startWith(undefined as void),
     switchMap(() =>
-      this.response$.pipe(
+      this.successResponse$.pipe(
         filter(negate(isNil)),
         map((response) => response.content),
         scan((acc, curr) => [...acc, ...curr], []),
@@ -157,7 +161,14 @@ export interface PageableRequest {
   page?: number;
 }
 
-export interface PageableResponse<T> {
+export type PageableResponse<T> =
+  | PageableSuccessResponse<T>
+  | PageableErrorResponse;
+
+export interface PageableErrorResponse {
+  error: any;
+}
+export interface PageableSuccessResponse<T> {
   content?: T[];
   empty?: boolean;
   first?: boolean;
@@ -169,4 +180,15 @@ export interface PageableResponse<T> {
   sort?: Sort;
   totalElements?: number;
   totalPages?: number;
+}
+
+export function isPageableErrorResponse<T>(
+  response: PageableResponse<T>
+): response is PageableErrorResponse {
+  return (response as PageableErrorResponse).error !== undefined;
+}
+export function isPageableSuccessResponse<T>(
+  response: PageableResponse<T>
+): response is PageableSuccessResponse<T> {
+  return !isPageableErrorResponse(response);
 }

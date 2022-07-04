@@ -1,6 +1,13 @@
 import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { clone, cloneDeep, first, isEqual, last, sortBy } from 'lodash-es';
-import { combineLatest, EMPTY, Observable, Subject, throwError } from 'rxjs';
+import {
+  combineLatest,
+  EMPTY,
+  Observable,
+  of,
+  Subject,
+  throwError,
+} from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -72,11 +79,13 @@ export class TripsPage implements OnInit {
               this.alertService.showToast({
                 messageTranslateKey: 'trip_detail.historic_values_offline',
               });
-              return EMPTY;
+            } else {
+              this.errorService.handleError(error);
             }
-            throwError(() => error);
-          }),
-          this.errorService.getErrorHandler('normal')
+            return of({
+              error,
+            });
+          })
         )
       )
     );
