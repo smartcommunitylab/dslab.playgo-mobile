@@ -1,6 +1,13 @@
 import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { clone, cloneDeep, first, isEqual, last, sortBy } from 'lodash-es';
-import { combineLatest, EMPTY, Observable, Subject, throwError } from 'rxjs';
+import {
+  combineLatest,
+  EMPTY,
+  Observable,
+  of,
+  Subject,
+  throwError,
+} from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -23,6 +30,7 @@ import {
 } from 'src/app/core/shared/tracking/trip.model';
 import {
   groupByConsecutiveValues,
+  isOfflineError,
   tapLog,
   trackByProperty,
 } from 'src/app/core/shared/utils';
@@ -39,6 +47,7 @@ import {
 import { TripService } from 'src/app/core/shared/tracking/trip.service';
 import { LocalTripsService } from 'src/app/core/shared/tracking/local-trips.service';
 import { DateTime } from 'luxon';
+import { AlertService } from 'src/app/core/shared/services/alert.service';
 
 @Component({
   selector: 'app-trips',
@@ -64,7 +73,19 @@ export class TripsPage implements OnInit {
       }),
       concatMap((scrollRequest) =>
         this.getTripsPage(scrollRequest).pipe(
-          this.errorService.showAlertOnError()
+          catchError((error) => {
+            if (isOfflineError(error)) {
+              // TODO: show better UX
+              this.alertService.showToast({
+                messageTranslateKey: 'trip_detail.historic_values_offline',
+              });
+            } else {
+              this.errorService.handleError(error);
+            }
+            return of({
+              error,
+            });
+          })
         )
       )
     );
@@ -177,7 +198,8 @@ export class TripsPage implements OnInit {
     private trackControllerService: TrackControllerService,
     private backgroundTrackingService: BackgroundTrackingService,
     private tripService: TripService,
-    private localTripsService: LocalTripsService
+    private localTripsService: LocalTripsService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {}

@@ -138,7 +138,7 @@ export class LocalTripsService {
               distance: 0,
               startTime: first(locations).date,
               endTime: last(locations).date,
-              modeType: group,
+              modeType: representativeLocation.transportType,
               multimodalId: representativeLocation.multimodalId,
               polyline: '',
               trackedInstanceId: `localId_${idTrip}`,

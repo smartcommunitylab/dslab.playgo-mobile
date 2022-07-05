@@ -4,9 +4,11 @@ import { Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { Player } from 'src/app/core/api/generated/model/player';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { ErrorService } from '../../../services/error.service';
 import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
 import { toServerDateOnly } from '../../../time.utils';
+import { isOfflineError } from '../../../utils';
 
 @Component({
   selector: 'app-home-campaign-company',
@@ -24,7 +26,8 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   language: string;
   constructor(
     private userService: UserService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
@@ -43,6 +46,14 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportWeekStat = stats;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.reportWeekStat = null;
+          } else {
+            this.reportWeekStat = null;
+            this.errorService.handleError(error);
+          }
         });
       this.reportService
         .getCo2Stats(
@@ -51,6 +62,14 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportTotalStat = stats;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.reportTotalStat = null;
+          } else {
+            this.reportTotalStat = null;
+            this.errorService.handleError(error);
+          }
         });
     });
   }

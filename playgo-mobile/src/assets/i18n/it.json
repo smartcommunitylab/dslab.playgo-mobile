@@ -167,11 +167,13 @@
       "pending": "In attesa",
       "not_synchronized": "Non sincronizzato",
       "not_finished": "In corso"
-    }
+    },
+    "historic_values_offline": "IT: To load historic trips, you have to be online."
   },
   "errors": {
     "error_header": "Errore",
     "not_recoverable": "IT: Application encountered unrecoverable error, and will be restarted! \n Your trip progress will be saved.",
+    "offline": "IT: This functionality is available only online.",
     "userNotFound": "Utente non registrato",
     "nickNameExist": "Questo soprannome é giá registrato",
     "defaultErr": "IT: Server operation failed"

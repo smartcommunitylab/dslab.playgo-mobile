@@ -165,14 +165,16 @@
       "pending": "Pending",
       "not_synchronized": "Not synchronized",
       "not_finished": "Ongoing"
-    }
+    },
+    "historic_values_offline": "To load historic trips, you have to be online."
   },
   "errors": {
     "error_header": "Error",
     "not_recoverable": "Application encountered unrecoverable error, and will be restarted! \n Your trip progress will be saved.",
-    "userNotFound": "User Not Found",
-    "nickNameExist": "This nickname already exists",
-    "defaultErr": "Server operation failed"
+    "offline": "This functionality is available only online.",
+    "userNotFound": "User Not Found!",
+    "nickNameExist": "This nickname already exists!",
+    "defaultErr": "Server operation failed!"
   },
   "campaigns": {
     "title": "Campaigns",

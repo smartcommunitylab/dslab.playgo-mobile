@@ -4,9 +4,11 @@ import { Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
+import { ErrorService } from '../../../services/error.service';
 import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
 import { toServerDateOnly } from '../../../time.utils';
+import { isOfflineError } from '../../../utils';
 
 @Component({
   selector: 'app-home-campaign-school',
@@ -24,7 +26,8 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   language: string;
   constructor(
     private userService: UserService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
@@ -38,6 +41,14 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
         .getGameStatus(this.campaignContainer.campaign.campaignId)
         .then((campaignStatus) => {
           this.campaignStatus = campaignStatus;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.campaignStatus = null;
+          } else {
+            this.campaignStatus = null;
+            this.errorService.handleError(error);
+          }
         });
       this.reportService
         .getGameStats(
@@ -48,6 +59,14 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportWeekStat = stats;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.reportWeekStat = null;
+          } else {
+            this.reportWeekStat = null;
+            this.errorService.handleError(error);
+          }
         });
       this.reportService
         .getGameStats(
@@ -56,6 +75,14 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportTotalStat = stats;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.reportTotalStat = null;
+          } else {
+            this.reportTotalStat = null;
+            this.errorService.handleError(error);
+          }
         });
     });
   }

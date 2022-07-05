@@ -39,6 +39,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 
 @Component({
   selector: 'app-stats',
@@ -154,23 +155,25 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     }))
   );
 
-  //TODO typing
   statResponse$: Observable<TransportStat[]> = this.filterOptions$.pipe(
     switchMap(({ meanType, unitType, period, campaignId }) =>
-      this.reportService.getPlayerTransportStatsUsingGET({
-        campaignId,
-        metric: unitType.unitKey,
-        groupMode: period.group,
-        mean: meanType.unitKey,
-        dateFrom: toServerDateOnly(period.from),
-        dateTo: toServerDateOnly(period.to),
-      })
+      this.reportService
+        .getPlayerTransportStatsUsingGET({
+          campaignId,
+          metric: unitType.unitKey,
+          groupMode: period.group,
+          mean: meanType.unitKey,
+          dateFrom: toServerDateOnly(period.from),
+          dateTo: toServerDateOnly(period.to),
+        })
+        .pipe(this.errorService.getErrorHandler())
     )
   );
   constructor(
     private route: ActivatedRoute,
     private reportService: ReportControllerService,
-    private userService: UserService
+    private userService: UserService,
+    private errorService: ErrorService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
       console.log('new stats' + stats);

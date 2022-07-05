@@ -45,20 +45,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.language = this.userService.getLanguage();
-    this.subProf = this.userService.userProfile$
-      .pipe(this.errorService.showAlertOnError())
-      .subscribe((profile) => {
-        this.profile = profile;
-        this.setLinkPicture(this.profile.avatar.avatarUrl);
-      });
-    this.subTerritory = this.userService.userProfileTerritory$
-      .pipe(this.errorService.showAlertOnError())
-      .subscribe((territory) => {
+    this.subProf = this.userService.userProfile$.subscribe((profile) => {
+      this.profile = profile;
+      this.setLinkPicture(this.profile.avatar.avatarUrl);
+    });
+    this.subTerritory = this.userService.userProfileTerritory$.subscribe(
+      (territory) => {
         this.territory = territory;
-      });
-    this.subCamp = this.campaignService.myCampaigns$
-      .pipe(this.errorService.showAlertOnError())
-      .subscribe((myCampaigns) => {
+      }
+    );
+    this.subCamp = this.campaignService.myCampaigns$.subscribe(
+      (myCampaigns) => {
         this.numMyCampaigns = myCampaigns?.length;
         const activeFromMillis = myCampaigns.find(
           (camp) => camp.campaign?.type === 'personal'
@@ -70,7 +67,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         } else {
           this.activeFrom = null;
         }
-      });
+      }
+    );
   }
   ngOnDestroy() {
     this.subProf.unsubscribe();

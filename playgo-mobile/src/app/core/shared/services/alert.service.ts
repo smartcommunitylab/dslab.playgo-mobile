@@ -12,14 +12,21 @@ import { TranslateKeyWithParams } from '../type.utils';
   providedIn: 'root',
 })
 export class AlertService {
-  private toast: any;
+  private toast: HTMLIonToastElement;
   private loading: any;
   constructor(
     private toastController: ToastController,
     private loadingController: LoadingController,
     private alertController: AlertController,
     private translateService: TranslateService
-  ) {}
+  ) {
+    // HACK: fix toast not presented when offline, due to lazy loading the toast controller.
+    // Can be removed once #17450 is resolved: https://github.com/ionic-team/ionic/issues/17450
+    this.toastController.create({ animated: false }).then((t) => {
+      t.present();
+      t.dismiss();
+    });
+  }
   public async showToast(args: {
     messageTranslateKey?: TranslateKeyWithParams;
     messageString?: string;
@@ -30,12 +37,19 @@ export class AlertService {
     } else if (args.messageString) {
       message = args.messageString;
     }
-    this.toast = await this.toastController.create({
-      message,
-      duration: 3000,
-      position: 'bottom',
-    });
-    this.toast.present();
+    try {
+      // this can fail if we are offline...
+      this.toast = await this.toastController.create({
+        message,
+        duration: 3000,
+        position: 'bottom',
+      });
+      await this.toast.present();
+    } catch (e) {
+      //..but the fail is somehow so severe, that it will be not caught, here :(
+      console.error('Showing toast failed', e);
+      alert(message);
+    }
   }
 
   public async presentAlert(args: {

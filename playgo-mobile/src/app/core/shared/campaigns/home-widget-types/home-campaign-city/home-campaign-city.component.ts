@@ -7,6 +7,8 @@ import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { DateTime } from 'luxon';
 import { toServerDateOnly } from '../../../time.utils';
+import { ErrorService } from '../../../services/error.service';
+import { isOfflineError } from '../../../utils';
 @Component({
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
@@ -24,7 +26,8 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   language: string;
   constructor(
     private userService: UserService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
@@ -38,7 +41,16 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
         .getGameStatus(this.campaignContainer.campaign.campaignId)
         .then((campaignStatus) => {
           this.campaignStatus = campaignStatus;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.campaignStatus = null;
+          } else {
+            this.campaignStatus = null;
+            this.errorService.handleError(error);
+          }
         });
+
       this.reportService
         .getGameStats(
           this.campaignContainer.campaign.campaignId,
@@ -48,7 +60,16 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportWeekStat = stats;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.reportWeekStat = null;
+          } else {
+            this.reportWeekStat = null;
+            this.errorService.handleError(error);
+          }
         });
+
       this.reportService
         .getGameStats(
           this.campaignContainer.campaign.campaignId,
@@ -56,6 +77,14 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportTotalStat = stats;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.reportTotalStat = null;
+          } else {
+            this.reportTotalStat = null;
+            this.errorService.handleError(error);
+          }
         });
     });
   }

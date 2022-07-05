@@ -1,4 +1,4 @@
-<div *ngIf="messages != undefined && messages.length > 0">
+<div *ngIf="messages?.length > 0">
   <ion-card>
     <ion-card-header>
       <ion-label>
@@ -17,7 +17,7 @@
   </ion-list>
 </div>
 
-<div *ngIf="messages == undefined || messages.length == 0">
+<div *ngIf="!messages || messages.length === 0">
   <ion-grid>
     <ion-row>
       <ion-col>

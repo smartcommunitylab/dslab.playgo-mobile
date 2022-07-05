@@ -5,6 +5,7 @@ import { find, isEqual, partial } from 'lodash-es';
 
 import { combineLatest, Observable, Subject } from 'rxjs';
 import {
+  catchError,
   distinctUntilChanged,
   first,
   map,
@@ -34,6 +35,7 @@ import { ReportControllerService } from 'src/app/core/api/generated/controllers/
 import { TranslateKey } from 'src/app/core/shared/type.utils';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 
 @Component({
   selector: 'app-leaderboard',
@@ -126,7 +128,8 @@ export class LeaderboardPage implements OnInit, AfterViewInit {
     switchMap((campaignId) =>
       this.campaignService.allCampaigns$.pipe(
         map((campaigns) => find(campaigns, { campaignId })),
-        throwIfNil(() => new Error('Campaign not found')) // TODO: proper error handling
+        throwIfNil(() => new Error('Campaign not found')),
+        this.errorService.getErrorHandler()
       )
     ),
     shareReplay(1)
@@ -195,7 +198,7 @@ export class LeaderboardPage implements OnInit, AfterViewInit {
         playerId,
         dateFrom: period.from,
         dateTo: period.to,
-      })
+      }).pipe(this.errorService.getErrorHandler())
     )
   );
 
@@ -220,7 +223,7 @@ export class LeaderboardPage implements OnInit, AfterViewInit {
               sort: null,
               dateFrom: period.from,
               dateTo: period.to,
-            })
+            }).pipe(this.errorService.getErrorHandler())
           )
         )
       )
@@ -232,7 +235,8 @@ export class LeaderboardPage implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private reportControllerService: ReportControllerService,
     private userService: UserService,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private errorService: ErrorService
   ) {}
 
   getLeaderboardTypes(campaign: Campaign): LeaderboardType[] {
