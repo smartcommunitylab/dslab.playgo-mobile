@@ -1,9 +1,10 @@
 import { Platform } from '@ionic/angular';
-import { StorageBackend, Requestor } from '@openid/appauth';
 import { AuthService, Browser } from 'ionic-appauth';
 import { App } from '@capacitor/app';
 import { environment } from 'src/environments/environment';
 import { NgZone } from '@angular/core';
+import { Requestor } from '@openid/appauth/built/xhr';
+import { StorageBackend } from '@openid/appauth/built/storage';
 
 export const authFactory = (
   platform: Platform,

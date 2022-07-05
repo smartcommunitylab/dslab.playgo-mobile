@@ -43,7 +43,6 @@ import {
 } from './trip.model';
 import { runInZone, tapLog } from '../utils';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
-import { TokenResponse } from '@openid/appauth';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/auth.service';
 

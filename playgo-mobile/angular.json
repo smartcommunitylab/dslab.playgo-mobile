@@ -41,6 +41,14 @@
               "src/global.scss",
               "./node_modules/leaflet/dist/leaflet.css"
             ],
+            "allowedCommonJsDependencies": [
+              "angularx-qrcode",
+              "qrcode",
+              "@cordobo/qrcode",
+              "@openid/appauth",
+              "to-px",
+              "code-push"
+            ],
             "scripts": [],
             "aot": true,
             "vendorChunk": true,
