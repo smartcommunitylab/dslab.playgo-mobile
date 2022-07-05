@@ -46,7 +46,8 @@
               "qrcode",
               "@cordobo/qrcode",
               "@openid/appauth",
-              "to-px"
+              "to-px",
+              "code-push"
             ],
             "scripts": [],
             "aot": true,
