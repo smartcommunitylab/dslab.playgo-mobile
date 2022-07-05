@@ -45,7 +45,8 @@
               "angularx-qrcode",
               "qrcode",
               "@cordobo/qrcode",
-              "@openid/appauth"
+              "@openid/appauth",
+              "to-px"
             ],
             "scripts": [],
             "aot": true,
