@@ -15,9 +15,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { SpinnerService } from '../shared/services/spinner.service';
-import { tapLog } from '../shared/utils';
-import { TokenResponse } from '@openid/appauth';
 import { AuthService } from './auth.service';
+import { TokenResponse } from '@openid/appauth/built/token_response';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

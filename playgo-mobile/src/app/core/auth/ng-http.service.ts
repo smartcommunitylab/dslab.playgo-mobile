@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Requestor } from '@openid/appauth';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { XhrSettings } from 'ionic-appauth/lib/cordova';
+import { Requestor } from '@openid/appauth/built/xhr';
 
 @Injectable({
   providedIn: 'root',

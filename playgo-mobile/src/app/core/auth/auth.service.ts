@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { TokenResponse } from '@openid/appauth';
+import { TokenResponse } from '@openid/appauth/built/token_response';
 import {
   AuthService as IonicAppAuthService,
   AuthActions,
