@@ -83,13 +83,13 @@ export class ErrorService {
     }
     if (realSeverity === 'blocking') {
       console.error('ERROR HANDLED BY FULL PAGE RELOAD!\n', error, stack);
-      this.alertService.showToast({
-        messageTranslateKey,
-      });
+
       this.alertService
         .confirmAlert('errors.error_header', 'errors.not_recoverable')
-        .then(() => {
-          window.location.reload();
+        .then((shouldReload) => {
+          if (shouldReload) {
+            window.location.reload();
+          }
         });
     }
   }
