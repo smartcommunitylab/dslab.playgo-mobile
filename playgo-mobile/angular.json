@@ -44,7 +44,8 @@
             "allowedCommonJsDependencies": [
               "angularx-qrcode",
               "qrcode",
-              "@cordobo/qrcode"
+              "@cordobo/qrcode",
+              "@openid/appauth"
             ],
             "scripts": [],
             "aot": true,
