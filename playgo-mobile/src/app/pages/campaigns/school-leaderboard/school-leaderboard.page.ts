@@ -10,6 +10,7 @@ import {
   catchError,
 } from 'rxjs';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { trackByProperty } from 'src/app/core/shared/utils';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -30,6 +31,8 @@ export class SchoolLeaderboardPage implements OnInit {
     ),
     shareReplay(1)
   );
+
+  placingTracking = trackByProperty<SchoolPlacing>('id');
 
   constructor(
     private http: HttpClient,
