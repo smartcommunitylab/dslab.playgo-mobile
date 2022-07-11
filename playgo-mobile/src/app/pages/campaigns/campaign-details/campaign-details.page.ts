@@ -65,6 +65,13 @@ export class CampaignDetailsPage implements OnInit {
   isPersonal() {
     return this.campaignContainer.campaign.type === 'personal';
   }
+  getLeaderboardLink(): [string] {
+    const isSchool = this.campaignContainer.campaign.type === 'school';
+    const page = isSchool ? 'school-leaderboard' : 'leaderboard';
+    const campaignId = this.campaignContainer.campaign.campaignId;
+
+    return [`/pages/tabs/campaigns/${page}/${campaignId}`];
+  }
   campaignHas(what: string): boolean {
     return (
       this.campaignService.getFunctionalityByType(

@@ -33,6 +33,13 @@ const routes: RoutesWithPageSettings = [
         (m) => m.LeaderboardModule
       ),
   },
+  {
+    path: 'school-leaderboard/:id',
+    loadChildren: () =>
+      import('./school-leaderboard/school-leaderboard.module').then(
+        (m) => m.SchoolLeaderboardPageModule
+      ),
+  },
 ];
 
 @NgModule({

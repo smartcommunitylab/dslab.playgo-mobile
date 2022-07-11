@@ -27,7 +27,7 @@
   ></app-widget-campaign>
   <ion-card
     *ngIf="campaignHas('leaderboard')"
-    [routerLink]="['/pages/tabs/campaigns/leaderboard/'+campaignContainer.campaign.campaignId]"
+    [routerLink]="getLeaderboardLink()"
   >
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
