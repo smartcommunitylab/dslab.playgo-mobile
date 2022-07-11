@@ -34,8 +34,11 @@ const routes: RoutesWithPageSettings = [
       ),
   },
   {
-    path: 'school-leaderboard',
-    loadChildren: () => import('./school-leaderboard/school-leaderboard.module').then( m => m.SchoolLeaderboardPageModule)
+    path: 'school-leaderboard/:id',
+    loadChildren: () =>
+      import('./school-leaderboard/school-leaderboard.module').then(
+        (m) => m.SchoolLeaderboardPageModule
+      ),
   },
 ];
 

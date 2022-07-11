@@ -21,6 +21,7 @@ export const environment = {
     apiPath: '/playandgo/api',
     pgaziendeUrl:
       'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
+    hscApi: 'https://hscdev.playngo.it/playandgo-hsc/publicapi',
   },
   firebaseConfig: {
     apiKey: 'AIzaSyC4jMIUaDnXVITplF2jIjhw2ElgUMillHE',
