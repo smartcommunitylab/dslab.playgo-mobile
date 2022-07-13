@@ -178,12 +178,15 @@
     "nickNameExist": "Questo soprannome é giá registrato",
     "defaultErr": "IT: Server operation failed"
   },
-  "offline_page": {
+  "offline": {
     "title": "Offline",
-    "body_1": "Nessuna connessione disponibile!",
-    "body_2": "Questa pagina non può funzionare senza una connessione ad internet",
-    "body_3": "Puoi comunque tracciare i tuoi viaggi e continuare a giocare; i dati verranno inviati quando la connessione sarà ripristinata.",
-    "return_home": "Torna alla homepage"
+    "header": "Puoi continuare a tracciare i tuoi viaggi, ma alcune pagine potrebbero non funzionare!",
+    "page": {
+      "body_1": "Nessuna connessione disponibile!",
+      "body_2": "Questa pagina non può funzionare senza una connessione ad internet",
+      "body_3": "Puoi comunque tracciare i tuoi viaggi e continuare a giocare; i dati verranno inviati quando la connessione sarà ripristinata.",
+      "return_home": "Torna alla homepage"
+    }
   },
   "campaigns": {
     "title": "Campaigns",
@@ -359,7 +362,6 @@
   "adhesionCode": "Codice adesione",
   "generalTier": "Classifica generale",
   "weeklyTier": "Classifica settimanale",
-  "app_offline": "IT: You are offline - but don't worry, you can still play!",
   "number": {
     "ordinal": {
       "other": "{{ordinal}}°"

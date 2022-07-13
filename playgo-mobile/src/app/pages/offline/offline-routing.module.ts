@@ -9,7 +9,7 @@ const routes: RoutesWithPageSettings = [
     path: '',
     component: OfflinePage,
     data: {
-      title: 'offline_page.title',
+      title: 'offline.title',
       isOfflinePage: true,
     },
   },

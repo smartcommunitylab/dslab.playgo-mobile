@@ -14,8 +14,18 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="warning" *ngIf="(isOnline$ | async) === false">
-    <ion-title size="small">
-      {{ "app_offline" | translate }}
-    </ion-title>
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="2">
+          <app-icon name="offline" style="font-size: 200%"> </app-icon>
+        </ion-col>
+        <ion-col size="3" class="ion-text-uppercase">
+          <b>{{ "offline.title" | translate }}</b>
+        </ion-col>
+        <ion-col size="7">
+          {{ "offline.header" | translate }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
