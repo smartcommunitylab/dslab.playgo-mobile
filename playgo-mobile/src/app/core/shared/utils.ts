@@ -125,10 +125,18 @@ export function ifOfflineUseStored<T>(
     );
 }
 
+export function isOffline(): boolean {
+  return (
+    navigator.onLine === false ||
+    // debug offline from console
+    (environment.production === false && (window as any).debugOffline === true)
+  );
+}
+
 export function isOfflineError(error: any): boolean {
   return (
-    (error.status === 0 && navigator.onLine === false) ||
-    // debug offline
+    (error.status === 0 && isOffline()) ||
+    // debug offline from network
     (environment.production === false &&
       error.status === 418 &&
       error.error === 'offline')
