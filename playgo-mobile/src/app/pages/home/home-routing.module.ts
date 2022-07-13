@@ -9,6 +9,7 @@ const routes: RoutesWithPageSettings = [
     component: HomePage,
     data: {
       title: 'home',
+      isOfflinePage: true,
       showNotifications: true,
       backButton: false,
     },
