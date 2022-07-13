@@ -186,6 +186,17 @@
     "public": {
       "last": "Durata:"
     },
+    "offline": {
+      "title": "Offline",
+      "header": "You can continue to track your trips, but some pages may not work!",
+      "page": {
+        "body_1": "No connection available!",
+        "body_2": "This page cannot work without an internet connection",
+        "body_3": "You can still track your trips and play; the data will be sent when the connection is restored.",
+        "return_home": "Return to homepage"
+      }
+    },
+
     "joinmodal": {
       "modalTitle": "Subscribe to {{campaignTitle}}",
       "close": "X",
@@ -344,7 +355,6 @@
   "adhesionCode": "Adhesion code",
   "generalTier": "General tier",
   "weeklyTier": "Weekly tier",
-  "app_offline": "You are offline - but don't worry, you can still play!",
   "number": {
     "ordinal": {
       "one": "{{ordinal}}st",

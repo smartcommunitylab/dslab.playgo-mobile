@@ -62,6 +62,7 @@ export class AppComponent implements AfterContentInit {
       co2: '../assets/icon/co2.svg',
       flower: '../assets/icon/flower.svg',
       shield: '../assets/icon/shield.svg',
+      offline: '../assets/icon/offline.svg',
     };
     this.iconService.registerSvgIcons(icons);
   }

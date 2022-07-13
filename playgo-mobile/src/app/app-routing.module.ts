@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './core/auth/auth-guard.service';
+import { OfflineGuard } from './core/shared/services/offline.guard';
 import { RoutesWithPageSettings } from './core/shared/services/page-settings.service';
 
 const routes: RoutesWithPageSettings = [
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   {
     path: 'pages',
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, OfflineGuard],
+    canActivateChild: [OfflineGuard],
     loadChildren: () =>
       import('./pages/pages-routing.module').then((m) => m.PagesRoutingModule),
   },

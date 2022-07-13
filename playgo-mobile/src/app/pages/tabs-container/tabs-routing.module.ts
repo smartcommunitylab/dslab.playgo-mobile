@@ -32,6 +32,11 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'offline',
+        loadChildren: () =>
+          import('../offline/offline.module').then((m) => m.OfflinePageModule),
+      },
+      {
         path: '',
         redirectTo: '/pages/tabs/home',
         pathMatch: 'full',

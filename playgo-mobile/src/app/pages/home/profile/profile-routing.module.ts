@@ -10,6 +10,7 @@ const routes: RoutesWithPageSettings = [
     data: {
       title: 'profileTitle',
       backButton: true,
+      isOfflinePage: true,
     },
   },
 ];

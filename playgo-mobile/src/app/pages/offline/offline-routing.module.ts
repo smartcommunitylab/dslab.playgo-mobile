@@ -2,24 +2,16 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RoutesWithPageSettings } from 'src/app/core/shared/services/page-settings.service';
 
-import { TripsPage } from './trips.page';
+import { OfflinePage } from './offline.page';
 
 const routes: RoutesWithPageSettings = [
   {
     path: '',
-    component: TripsPage,
+    component: OfflinePage,
     data: {
-      title: 'tripsTitle',
-      defaultHref: '/pages/tabs/home/profile',
+      title: 'offline.title',
       isOfflinePage: true,
     },
-  },
-  {
-    path: ':id',
-    loadChildren: () =>
-      import('./trip-detail/trip-detail.module').then(
-        (m) => m.TripDetailPageModule
-      ),
   },
 ];
 
@@ -27,4 +19,4 @@ const routes: RoutesWithPageSettings = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TripsPageRoutingModule {}
+export class OfflinePageRoutingModule {}
