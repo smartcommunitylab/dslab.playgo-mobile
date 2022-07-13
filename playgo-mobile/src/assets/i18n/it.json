@@ -178,6 +178,11 @@
     "nickNameExist": "Questo soprannome é giá registrato",
     "defaultErr": "IT: Server operation failed"
   },
+  "offline_page": {
+    "title": "IT: Offline",
+    "body": "IT: You are offline. Please connect to the internet to continue.",
+    "button": "IT: Retry"
+  },
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
