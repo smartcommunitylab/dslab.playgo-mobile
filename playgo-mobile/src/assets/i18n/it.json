@@ -179,9 +179,11 @@
     "defaultErr": "IT: Server operation failed"
   },
   "offline_page": {
-    "title": "IT: Offline",
-    "body": "IT: You are offline. Please connect to the internet to continue.",
-    "button": "IT: Retry"
+    "title": "Offline",
+    "body_1": "Nessuna connessione disponibile!",
+    "body_2": "Questa pagina non può funzionare senza una connessione ad internet",
+    "body_3": "Puoi comunque tracciare i tuoi viaggi e continuare a giocare; i dati verranno inviati quando la connessione sarà ripristinata.",
+    "return_home": "Torna alla homepage"
   },
   "campaigns": {
     "title": "Campaigns",
