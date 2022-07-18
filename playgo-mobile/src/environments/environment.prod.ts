@@ -11,6 +11,11 @@ export const environment = {
     automaticSilentRenew: true,
     pkce: true,
   },
+  idp_hint: {
+    facebook: 'koi8jw8x',
+    google: 'Nqoa1EDO',
+    apple: 'owbERvU0',
+  },
   serverUrl: {
     api: 'https://backenddev.playngo.it:443',
     apiPath: '/playandgo/api',
