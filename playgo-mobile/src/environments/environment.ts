@@ -14,7 +14,13 @@ export const environment = {
     end_session_redirect_url: 'it.dslab.playgo://endsession',
     scopes: 'openid email profile offline_access',
     automaticSilentRenew: false,
+    extras: { prompt: 'consent', idp_hint: 'ciao' },
     pkce: true,
+  },
+  idp_hint: {
+    facebook: 'koi8jw8x',
+    google: 'Nqoa1EDO',
+    apple: 'owbERvU0',
   },
   serverUrl: {
     api: 'https://backenddev.playngo.it:443',

@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { TokenResponse } from '@openid/appauth/built/token_response';
+import { StringMap } from '@openid/appauth/built/types';
 import {
   AuthService as IonicAppAuthService,
   AuthActions,
@@ -17,6 +18,7 @@ import {
   first,
   lastValueFrom,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { PlayerControllerService } from '../api/generated/controllers/playerController.service';
 import { AlertService } from '../shared/services/alert.service';
 import { LocalStorageService } from '../shared/services/local-storage.service';
@@ -103,9 +105,18 @@ export class AuthService {
     return await lastValueFrom(this.validToken$.pipe(take(1)));
   }
 
-  public async login(): Promise<void> {
+  public async login(provider?: AuthProvider): Promise<void> {
     // redirect is handled from global event subscription
-    await this.ionicAppAuthService.signIn();
+    await this.ionicAppAuthService.signIn(
+      provider ? this.getExtraIdp(provider) : undefined
+    );
+  }
+  getExtraIdp(provider: AuthProvider): StringMap {
+    if (environment.idp_hint[provider]) {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      return { idp_hint: environment.idp_hint[provider] };
+    }
+    return undefined;
   }
 
   public async logout(): Promise<void> {
@@ -200,3 +211,4 @@ export class AuthService {
     }
   }
 }
+export type AuthProvider = 'facebook' | 'google' | 'apple';
