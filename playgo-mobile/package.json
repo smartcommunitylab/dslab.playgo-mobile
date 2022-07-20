@@ -48,6 +48,7 @@
     "@angular/router": "~13.3.0",
     "@asymmetrik/ngx-leaflet": "^13.0.2",
     "@capacitor-community/barcode-scanner": "^2.1.1",
+    "@capacitor-community/fcm": "^2.0.2",
     "@capacitor-community/firebase-analytics": "^1.0.1",
     "@capacitor-community/http": "^1.4.1",
     "@capacitor/android": "3.5.1",

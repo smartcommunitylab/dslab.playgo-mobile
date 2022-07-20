@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonRefresher, NavController } from '@ionic/angular';
+import { IonRefresher } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
+import { PushNotificationService } from 'src/app/core/shared/services/pushNotification.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private router: Router,
-    public appStatusService: AppStatusService
+    public appStatusService: AppStatusService,
+    private pushNotificationService: PushNotificationService
   ) {}
 
   campagins() {
@@ -30,6 +32,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.subProfile = this.userService.userProfileRefresher$.subscribe(() => {
       this.refresher.complete();
     });
+
+    //init push notification setup after login
+    this.pushNotificationService.initPush();
+    console.log('Initializing HomePage');
   }
 
   ngOnDestroy() {
