@@ -224,14 +224,14 @@ export class BackgroundTrackingService {
   private async sync() {
     try {
       try {
-        this.trySync();
+        await this.trySync();
       } catch (maybe401Error) {
         console.log('Sync failed, trying to get new token');
 
         // maybe sync failed because the token is expired. Let's try to call some
         // api to refresh the token and try again.
         await this.playerControllerService.getProfileUsingGET().toPromise();
-        this.trySync();
+        await this.trySync();
       }
     } catch (e) {
       console.warn('Sync failed, we will try to sync next time', e);
