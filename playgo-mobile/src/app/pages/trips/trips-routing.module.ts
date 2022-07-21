@@ -12,6 +12,7 @@ const routes: RoutesWithPageSettings = [
       title: 'tripsTitle',
       defaultHref: '/pages/tabs/home/profile',
       isOfflinePage: true,
+      showPlayButton: true,
     },
   },
   {

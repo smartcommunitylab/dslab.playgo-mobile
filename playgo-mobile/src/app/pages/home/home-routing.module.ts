@@ -12,6 +12,7 @@ const routes: RoutesWithPageSettings = [
       isOfflinePage: true,
       showNotifications: true,
       backButton: false,
+      showPlayButton: true,
     },
   },
   {
