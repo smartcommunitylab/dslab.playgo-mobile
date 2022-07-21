@@ -1,1 +1,12 @@
-<ion-content color="playgo">Notifiche </ion-content>
+<ion-content color="playgo">
+  notifiche
+  <!-- <app-infinite-scroll
+    [response]="notificationsScrollResponse$ | async"
+    (request)="scrollRequestSubject.next($event)"
+  >
+    <ng-template appInfiniteScrollContent let-notification="item">
+      <app-notification-card *ngIf="notification" [notification]="notification">
+      </app-notification-card>
+    </ng-template>
+  </app-infinite-scroll> -->
+</ion-content>

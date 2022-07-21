@@ -9,17 +9,32 @@ import {
 } from '@capacitor/push-notifications';
 import { FCM } from '@capacitor-community/fcm';
 import { Platform } from '@ionic/angular';
+import { CampaignService } from './campaign.service';
+import { UserService } from './user.service';
+import { tapLog } from '../utils';
+import {
+  combineLatest,
+  first,
+  from,
+  mergeMap,
+  toArray,
+  switchMap,
+  merge,
+  catchError,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PushNotificationService {
+  sub: any;
   notifications: PushNotificationSchema[] = [];
-
+  topicName: any;
   constructor(
-    private router: Router,
     private zone: NgZone,
-    private platform: Platform
+    private platform: Platform,
+    private campaignService: CampaignService,
+    private userService: UserService
   ) {}
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
@@ -40,6 +55,8 @@ export class PushNotificationService {
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration', (token: Token) => {
       console.log('Push registration success, token: ' + token.value);
+      // subscribe to territory and all campaign I have
+      this.registerToTopics();
     });
 
     // Some issue with our setup and push will not work
@@ -66,25 +83,59 @@ export class PushNotificationService {
       }
     );
   }
+  registerToTopics() {
+    console.log('registerToTopics');
+    this.sub = combineLatest([
+      this.campaignService.myCampaigns$,
+      this.userService.userProfileTerritory$,
+    ])
+      .pipe(
+        first(),
+        switchMap(([campaigns, profile]) =>
+          merge(
+            from(campaigns).pipe(
+              tapLog('campaigns'),
+              mergeMap((val) => {
+                console.log(val);
+                return FCM.subscribeTo({
+                  topic: `${profile.territoryId}/${val?.campaign?.campaignId}`,
+                });
+              }),
+              toArray()
+            ),
+            from(FCM.subscribeTo({ topic: profile?.territoryId }))
+          )
+        ),
+        catchError((err) => {
+          throw err;
+        })
+      )
+      .subscribe();
+  }
 
   //topic subscription
   subscribeTopic(topicName: string) {
-    PushNotifications.register()
-      .then(() => {
-        FCM.subscribeTo({ topic: topicName })
+    this.userService.userProfileTerritory$
+      .pipe(first(), tapLog('userProfileTerritory$'))
+      .subscribe((profile) => {
+        FCM.subscribeTo({ topic: `${profile.territoryId}/${topicName}` })
           .then((r) => alert(`subscribed to topic ${topicName}`))
           .catch((err) => console.log(err));
-      })
-      .catch((err) => alert(JSON.stringify(err)));
+      });
   }
   //topic subscription
   unsubscribeTopic(topicName: string) {
-    FCM.unsubscribeFrom({ topic: topicName })
-      .then((r) => alert(`unsubscribed from topic ${topicName}`))
-      .catch((err) => console.log(err));
+    console.log('unsubscribeTopic');
+    this.userService.userProfileTerritory$
+      .pipe(first(), tapLog('userProfileTerritory$'))
+      .subscribe((profile) => {
+        FCM.unsubscribeFrom({ topic: `${profile.territoryId}/${topicName}` })
+          .then((r) => alert(`unsubscribed from topic ${topicName}`))
+          .catch((err) => console.log(err));
 
-    if (this.platform.is('android')) {
-      FCM.deleteInstance();
-    }
+        if (this.platform.is('android')) {
+          FCM.deleteInstance();
+        }
+      });
   }
 }
