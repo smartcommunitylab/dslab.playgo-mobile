@@ -37,7 +37,8 @@
     "prettier:write": "prettier . --write",
     "prettier:check": "prettier . --check",
     "generate-api": "sh ./generate-api.sh",
-    "getVersion": "tsc -v"
+    "getTypescriptVersion": "tsc -v",
+    "postinstall": "node check-node-version.js"
   },
   "dependencies": {
     "@angular/common": "~13.3.0",
