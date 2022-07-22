@@ -2,13 +2,13 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { DateTime } from 'luxon';
 import { toServerDateOnly } from '../../../time.utils';
 import { ErrorService } from '../../../services/error.service';
 import { isOfflineError } from '../../../utils';
+import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
 @Component({
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
@@ -19,7 +19,7 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   @Input() header?: boolean = false;
 
   subStat: Subscription;
-  campaignStatus: PlayerStatus;
+  campaignStatus: PlayerGameStatus;
   reportWeekStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
