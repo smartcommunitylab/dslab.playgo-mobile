@@ -87,7 +87,7 @@ export class PlayerControllerService {
    *
    * @param playerId playerId
    */
-  public getPlayerUsingGET(playerId: string): Observable<Player> {
+  public getPlayerUsingGET1(playerId: string): Observable<Player> {
     return this.http.request<Player>(
       'get',
       environment.serverUrl.api +

@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 import { CampaignPlacing } from '../model/campaignPlacing';
 import { GameStats } from '../model/gameStats';
 import { PageCampaignPlacing } from '../model/pageCampaignPlacing';
-import { PlayerStatus } from '../model/playerStatus';
+import { PlayerStatusReport } from '../model/playerStatusReport';
 import { TransportStat } from '../model/transportStat';
 
 @Injectable({
@@ -178,7 +178,7 @@ export class ReportControllerService {
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
-  public getPlayerGameStatsUsingGET(args: {
+  public getPlayerGameStatsUsingGET1(args: {
     campaignId: string;
     groupMode: string;
     dateFrom: string;
@@ -200,11 +200,11 @@ export class ReportControllerService {
   }
 
   /**
-   * getPlayerStatsu
+   * getPlayerStatus
    *
    */
-  public getPlayerStatsuUsingGET(): Observable<PlayerStatus> {
-    return this.http.request<PlayerStatus>(
+  public getPlayerStatusUsingGET1(): Observable<PlayerStatusReport> {
+    return this.http.request<PlayerStatusReport>(
       'get',
       environment.serverUrl.api + `/playandgo/api/report/player/status`,
       {}

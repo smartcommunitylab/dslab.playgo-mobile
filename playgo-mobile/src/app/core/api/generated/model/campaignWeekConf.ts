@@ -9,14 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { CampaignTripInfo } from './campaignTripInfo';
-import { PlayerInfo } from './playerInfo';
-import { TrackedInstance } from './trackedInstance';
+import { CampaignReward } from './campaignReward';
 
-export interface TrackedInstancePoly {
-  campaigns?: Array<CampaignTripInfo>;
-  playerInfo?: PlayerInfo;
-  routesPolylines?: any;
-  trackPolyline?: string;
-  trackedInstance?: TrackedInstance;
+export interface CampaignWeekConf {
+  campaignId?: string;
+  dateFrom?: number;
+  dateTo?: number;
+  rewards?: Array<CampaignReward>;
+  weekNumber?: number;
 }

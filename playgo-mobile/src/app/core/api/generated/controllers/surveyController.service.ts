@@ -47,29 +47,6 @@ export class SurveyControllerService {
       }
     );
   }
-
-  /**
-   * compileSurvey
-   *
-   * @param surveyName surveyName
-   * @param body
-   */
-  public compileSurveyUsingPOST(args: {
-    surveyName: string;
-    body?: any;
-  }): Observable<any> {
-    const { surveyName, body } = args;
-    return this.http.request<any>(
-      'post',
-      environment.serverUrl.api +
-        `/playandgo/api/survey/compile/${encodeURIComponent(
-          String(surveyName)
-        )}`,
-      {
-        body,
-      }
-    );
-  }
 }
 
 function removeNullOrUndefined(obj: any) {

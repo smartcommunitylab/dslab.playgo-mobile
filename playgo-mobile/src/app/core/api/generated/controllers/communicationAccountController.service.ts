@@ -26,24 +26,27 @@ export class CommunicationAccountControllerService {
   /**
    * getPlayerNotifications
    *
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page
    * @param since since
-   * @param skip skip
-   * @param limit limit
+   * @param sort Sorting option: field,[asc,desc]
    */
   public getPlayerNotificationsUsingGET(args: {
+    page: number;
+    size: number;
     since?: number;
-    skip?: number;
-    limit?: number;
+    sort?: string;
   }): Observable<PageNotification> {
-    const { since, skip, limit } = args;
+    const { page, size, since, sort } = args;
     return this.http.request<PageNotification>(
       'get',
       environment.serverUrl.api + `/playandgo/api/app/notifications`,
       {
         params: removeNullOrUndefined({
+          page,
           since,
-          skip,
-          limit,
+          size,
+          sort,
         }),
       }
     );

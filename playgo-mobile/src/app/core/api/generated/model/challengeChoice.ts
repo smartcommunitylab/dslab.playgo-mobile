@@ -9,14 +9,15 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { CampaignTripInfo } from './campaignTripInfo';
-import { PlayerInfo } from './playerInfo';
-import { TrackedInstance } from './trackedInstance';
 
-export interface TrackedInstancePoly {
-  campaigns?: Array<CampaignTripInfo>;
-  playerInfo?: PlayerInfo;
-  routesPolylines?: any;
-  trackPolyline?: string;
-  trackedInstance?: TrackedInstance;
+export interface ChallengeChoice {
+  modelName?: string;
+  state?: ChallengeChoice.StateEnum;
+}
+export namespace ChallengeChoice {
+  export type StateEnum = 'ACTIVE' | 'AVAILABLE';
+  export const StateEnum = {
+    ACTIVE: 'ACTIVE' as StateEnum,
+    AVAILABLE: 'AVAILABLE' as StateEnum,
+  };
 }

@@ -12,6 +12,7 @@
 
 export interface SurveyRequest {
   data?: any;
+  defaultSurvey?: boolean;
   end?: number;
   start?: number;
   surveyLink?: string;
