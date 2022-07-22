@@ -10,6 +10,7 @@ const routes: RoutesWithPageSettings = [
     data: {
       title: 'campaigns_title',
       backButton: false,
+      showPlayButton: true,
     },
   },
   {

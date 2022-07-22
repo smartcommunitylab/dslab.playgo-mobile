@@ -1,18 +1,36 @@
+.relative-container {
+  position: relative;
+}
 .tracking-container {
-  background-color: var(--ion-color-playgo);
-  height: 10vh;
-  // line-height: 10vh;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+
+  height: 0vh;
+  &.show-tracking-info {
+    height: 10vh;
+  }
   &.tracking-ui-active {
     height: 70vh;
   }
+
+  display: flex;
+  flex-direction: column-reverse;
+
   ion-icon {
     font-size: 5vh;
   }
+
   .choose-mean-string {
     line-height: 10vh;
     font-size: 22px;
   }
 }
+.current-tracking-info {
+  background-color: var(--ion-color-playgo);
+}
+
 .low-accuracy-container {
   height: 13vh;
   .low-accuracy {

@@ -11,6 +11,7 @@ const routes: RoutesWithPageSettings = [
     data: {
       title: 'notifications_title',
       backButton: true,
+      showPlayButton: true,
     },
   },
 ];

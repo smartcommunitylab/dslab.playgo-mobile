@@ -11,6 +11,7 @@ const routes: RoutesWithPageSettings = [
       title: 'profileTitle',
       backButton: true,
       isOfflinePage: true,
+      showPlayButton: true,
     },
   },
 ];
