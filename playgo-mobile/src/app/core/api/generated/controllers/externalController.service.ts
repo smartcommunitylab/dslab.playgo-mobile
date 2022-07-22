@@ -15,8 +15,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { CampaignGroupPlacing } from '../model/campaignGroupPlacing';
 import { CampaignSubscription } from '../model/campaignSubscription';
+import { GameStats } from '../model/gameStats';
 import { PagePlayerInfo } from '../model/pagePlayerInfo';
+import { PlayerInfo } from '../model/playerInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +44,121 @@ export class ExternalControllerService {
         body,
         params: removeNullOrUndefined({
           campaignId,
+        }),
+      }
+    );
+  }
+
+  /**
+   * getCampaingGroupPlacingByGame
+   *
+   * @param campaignId campaignId
+   * @param dateFrom yyyy-MM-dd
+   * @param dateTo yyyy-MM-dd
+   */
+  public getCampaingGroupPlacingByGameUsingGET(args: {
+    campaignId: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<Array<CampaignGroupPlacing>> {
+    const { campaignId, dateFrom, dateTo } = args;
+    return this.http.request<Array<CampaignGroupPlacing>>(
+      'get',
+      environment.serverUrl.api +
+        `/playandgo/api/ext/campaign/game/group/placing`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          dateFrom,
+          dateTo,
+        }),
+      }
+    );
+  }
+
+  /**
+   * getPlayerCampaingGroupPlacingByGame
+   *
+   * @param campaignId campaignId
+   * @param groupId groupId
+   * @param dateFrom yyyy-MM-dd
+   * @param dateTo yyyy-MM-dd
+   */
+  public getPlayerCampaingGroupPlacingByGameUsingGET(args: {
+    campaignId: string;
+    groupId: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<CampaignGroupPlacing> {
+    const { campaignId, groupId, dateFrom, dateTo } = args;
+    return this.http.request<CampaignGroupPlacing>(
+      'get',
+      environment.serverUrl.api +
+        `/playandgo/api/ext/campaign/game/group/placing/player`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          groupId,
+          dateFrom,
+          dateTo,
+        }),
+      }
+    );
+  }
+
+  /**
+   * getPlayerGameStats
+   *
+   * @param campaignId campaignId
+   * @param groupId groupId
+   * @param groupMode groupMode
+   * @param dateFrom yyyy-MM-dd
+   * @param dateTo yyyy-MM-dd
+   */
+  public getPlayerGameStatsUsingGET(args: {
+    campaignId: string;
+    groupId: string;
+    groupMode: string;
+    dateFrom: string;
+    dateTo: string;
+  }): Observable<Array<GameStats>> {
+    const { campaignId, groupId, groupMode, dateFrom, dateTo } = args;
+    return this.http.request<Array<GameStats>>(
+      'get',
+      environment.serverUrl.api +
+        `/playandgo/api/ext/campaign/game/group/stats`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          groupId,
+          groupMode,
+          dateFrom,
+          dateTo,
+        }),
+      }
+    );
+  }
+
+  /**
+   * getPlayer
+   *
+   * @param territory territory
+   * @param playerId playerId
+   */
+  public getPlayerUsingGET(args: {
+    territory: string;
+    playerId: string;
+  }): Observable<PlayerInfo> {
+    const { territory, playerId } = args;
+    return this.http.request<PlayerInfo>(
+      'get',
+      environment.serverUrl.api +
+        `/playandgo/api/ext/territory/players/${encodeURIComponent(
+          String(playerId)
+        )}`,
+      {
+        params: removeNullOrUndefined({
+          territory,
         }),
       }
     );

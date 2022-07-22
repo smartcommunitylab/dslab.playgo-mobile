@@ -16,6 +16,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { PlayerGameStatus } from '../model/playerGameStatus';
+import { PlayerStatus } from '../model/playerStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,23 @@ export class GameControllerService {
     return this.http.request<PlayerGameStatus>(
       'get',
       environment.serverUrl.api + `/playandgo/api/game/campaign`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+        }),
+      }
+    );
+  }
+
+  /**
+   * getPlayerStatus
+   *
+   * @param campaignId campaignId
+   */
+  public getPlayerStatusUsingGET(campaignId: string): Observable<PlayerStatus> {
+    return this.http.request<PlayerStatus>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/game/campaign/status`,
       {
         params: removeNullOrUndefined({
           campaignId,

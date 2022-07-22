@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
 
 @Component({
   selector: 'app-game-status',
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./game-status.component.scss'],
 })
 export class GameStatusComponent implements OnInit {
-  @Input() status?: any = undefined;
+  @Input() status?: PlayerGameStatus = undefined;
   @Input() type?: string;
   constructor() {}
 

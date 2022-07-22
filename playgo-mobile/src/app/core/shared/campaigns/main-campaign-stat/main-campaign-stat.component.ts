@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
+import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
 import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { CampaignService } from '../../services/campaign.service';
 
@@ -12,7 +12,7 @@ import { CampaignService } from '../../services/campaign.service';
 })
 export class MainCampaignStatComponent implements OnInit {
   @Input() campaignContainer: PlayerCampaign;
-  @Input() status?: any = undefined;
+  @Input() status?: PlayerGameStatus = undefined;
   @Input() record?: TransportStat = undefined;
   @Input() reportWeekStat?: CampaignPlacing;
   @Input() reportTotalStat?: CampaignPlacing;
