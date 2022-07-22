@@ -41,11 +41,12 @@ export class CampaignDetailsPage implements OnInit {
       this.campaignContainer = campaigns.find(
         (campaignContainer) => campaignContainer.campaign.campaignId === this.id
       );
-      this.titlePage = this.campaignContainer.campaign.name[this.language];
-      this.colorCampaign = this.campaignContainer.campaign.type;
-      this.imagePath = this.campaignContainer.campaign.logo.url
-        ? this.campaignContainer.campaign.logo.url
-        : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
+      this.titlePage = this.campaignContainer?.campaign?.name[this.language];
+      this.colorCampaign = this.campaignContainer?.campaign?.type;
+      this.imagePath = this.campaignContainer?.campaign?.logo.url
+        ? this.campaignContainer?.campaign?.logo.url
+        : 'data:image/jpg;base64,' +
+          this.campaignContainer?.campaign?.logo.image;
     });
   }
   async openDetail(detail: CampaignDetail) {

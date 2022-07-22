@@ -98,7 +98,7 @@ export class PushNotificationService {
               mergeMap((val) => {
                 console.log(val);
                 return FCM.subscribeTo({
-                  topic: `${profile.territoryId}/${val?.campaign?.campaignId}`,
+                  topic: `${profile.territoryId}-${val?.campaign?.campaignId}`,
                 });
               }),
               toArray()
@@ -111,31 +111,19 @@ export class PushNotificationService {
         })
       )
       .subscribe();
-  }
-
-  //topic subscription
-  subscribeTopic(topicName: string) {
-    this.userService.userProfileTerritory$
-      .pipe(first(), tapLog('userProfileTerritory$'))
-      .subscribe((profile) => {
-        FCM.subscribeTo({ topic: `${profile.territoryId}/${topicName}` })
-          .then((r) => alert(`subscribed to topic ${topicName}`))
-          .catch((err) => console.log(err));
-      });
-  }
-  //topic subscription
-  unsubscribeTopic(topicName: string) {
-    console.log('unsubscribeTopic');
-    this.userService.userProfileTerritory$
-      .pipe(first(), tapLog('userProfileTerritory$'))
-      .subscribe((profile) => {
-        FCM.unsubscribeFrom({ topic: `${profile.territoryId}/${topicName}` })
-          .then((r) => alert(`unsubscribed from topic ${topicName}`))
-          .catch((err) => console.log(err));
-
-        if (this.platform.is('android')) {
-          FCM.deleteInstance();
-        }
-      });
+    this.campaignService.subscribeCampaignAction$.subscribe((topicName) => {
+      this.userService.userProfileTerritory$
+        .pipe(first(), tapLog('userProfileTerritory$'))
+        .subscribe((profile) => {
+          FCM.subscribeTo({ topic: `${profile.territoryId}-${topicName}` });
+        });
+    });
+    this.campaignService.unsubscribeCampaignAction$.subscribe((topicName) => {
+      this.userService.userProfileTerritory$
+        .pipe(first(), tapLog('userProfileTerritory$'))
+        .subscribe((profile) => {
+          FCM.unsubscribeFrom({ topic: `${profile.territoryId}-${topicName}` });
+        });
+    });
   }
 }
