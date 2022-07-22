@@ -3,7 +3,6 @@
     mode="md"
     class="app-segment"
     [(ngModel)]="selectedSegment"
-    (ionChange)="segmentChanged($event)"
     scrollable
   >
     <ion-segment-button
@@ -25,7 +24,25 @@
     </ion-segment-button>
   </ion-segment>
 
-  <div *ngIf="selectedSegment==='pastChallenges'">passate</div>
-  <div *ngIf="selectedSegment==='activeChallenges'">presenti</div>
-  <div *ngIf="selectedSegment==='futureChallenges'">future</div>
+  <div *ngIf="selectedSegment==='pastChallenges'">
+    <ion-card
+      *ngFor="let challenge of (pastChallenges$ | async); trackBy challengeTracking;"
+    >
+      {{ challenge | json }}
+    </ion-card>
+  </div>
+  <div *ngIf="selectedSegment==='activeChallenges'">
+    <ion-card
+      *ngFor="let challenge of (activeChallenges$ | async); trackBy challengeTracking;"
+    >
+      {{ challenge | json }}
+    </ion-card>
+  </div>
+  <div *ngIf="selectedSegment==='futureChallenges'">
+    <ion-card
+      *ngFor="let challenge of (futureChallenges$ | async); trackBy challengeTracking;"
+    >
+      {{ challenge | json }}
+    </ion-card>
+  </div>
 </ion-content>
