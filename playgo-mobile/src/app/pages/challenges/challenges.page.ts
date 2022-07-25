@@ -1,10 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { flatten } from 'lodash-es';
-import { EMPTY, map, merge, Observable, switchMap, tap, toArray } from 'rxjs';
+import {
+  EMPTY,
+  forkJoin,
+  map,
+  merge,
+  Observable,
+  switchMap,
+  tap,
+  toArray,
+} from 'rxjs';
 import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
+import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ChallengeConceptInfo } from 'src/app/core/api/generated/model/challengeConceptInfo';
 import { ChallengesData } from 'src/app/core/api/generated/model/challengesData';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { trackByProperty } from 'src/app/core/shared/utils';
 
 @Component({
@@ -25,16 +37,20 @@ export class ChallengesPage implements OnInit, OnDestroy {
   public allChallenges$: Observable<Challenge[]> =
     this.campaignsWithChallenges$.pipe(
       switchMap((campaigns) =>
-        merge(
-          ...campaigns.map((campaign) =>
-            this.challengeControllerService.getChallengesUsingGET({
-              campaignId: campaign.campaign.campaignId,
-            })
+        forkJoin(
+          campaigns.map((campaign) =>
+            this.challengeControllerService
+              .getChallengesUsingGET({
+                campaignId: campaign.campaign.campaignId,
+              })
+              .pipe(
+                this.errorService.getErrorHandler(),
+                map((response) =>
+                  this.processResponseForOneCampaign(response, campaign)
+                )
+              )
           )
-        ).pipe(
-          toArray(),
-          map((responses) => this.processResponsesForAllCampaigns(responses))
-        )
+        ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
       )
     );
 
@@ -62,27 +78,24 @@ export class ChallengesPage implements OnInit, OnDestroy {
 
   constructor(
     private campaignService: CampaignService,
-    private challengeControllerService: ChallengeControllerService
+    private challengeControllerService: ChallengeControllerService,
+    private errorService: ErrorService
   ) {}
 
-  private processResponsesForAllCampaigns(
-    responses: ChallengeConceptInfo[]
+  private processResponseForOneCampaign(
+    response: ChallengeConceptInfo,
+    campaign: PlayerCampaign
   ): Challenge[] {
-    const challengesPerCampaign = responses.map(
-      (challengesOfAllTypesPerOneCampaignMap: ChallengeConceptInfo) => {
-        const challengesOfAllTypesPerOneCampaign = Object.entries(
-          challengesOfAllTypesPerOneCampaignMap.challengeData
-        ).flatMap(([challengeType, challenges]) =>
-          challenges.map((challenge) => ({
-            ...challenge,
-            challengeType: challengeType as ChallengeType,
-          }))
-        );
-        return challengesOfAllTypesPerOneCampaign;
-      }
+    const challengesOfAllTypesPerOneCampaign = Object.entries(
+      response.challengeData
+    ).flatMap(([challengeType, challenges]) =>
+      challenges.map((challenge) => ({
+        ...challenge,
+        challengeType: challengeType as ChallengeType,
+        campaign: campaign.campaign,
+      }))
     );
-    const challengesForAllCampaigns = flatten(challengesPerCampaign);
-    return challengesForAllCampaigns;
+    return challengesOfAllTypesPerOneCampaign;
   }
 
   ngOnInit(): void {
@@ -94,7 +107,7 @@ export class ChallengesPage implements OnInit, OnDestroy {
 
 interface Challenge extends ChallengesData {
   challengeType: ChallengeType;
-  // TODO: campaign: PlayerCampaign (we will need better operator than merge + toArray)
+  campaign: Campaign;
 }
 
 type ChallengeType = 'ACTIVE' | 'FUTURE' | 'OLD' | 'PROPOSED';
