@@ -10,6 +10,7 @@ const routes: RoutesWithPageSettings = [
     data: {
       title: 'challenges.challenges',
       backButton: false,
+      showPlayButton: true,
     },
   },
 ];

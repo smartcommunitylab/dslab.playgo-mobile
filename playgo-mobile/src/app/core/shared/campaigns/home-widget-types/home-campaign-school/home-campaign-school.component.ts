@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { PlayerStatus } from 'src/app/core/api/generated/model/playerStatus';
+import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
 import { ErrorService } from '../../../services/error.service';
 import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
@@ -19,7 +19,7 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
   @Input() header?: boolean = false;
   subStat: Subscription;
-  campaignStatus: PlayerStatus;
+  campaignStatus: PlayerGameStatus;
   reportWeekStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
   imagePath: string;

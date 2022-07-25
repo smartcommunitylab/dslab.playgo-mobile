@@ -26,6 +26,7 @@ export class PageSettingsService {
     isOfflinePage: false,
     customHeader: false,
     showNotifications: false,
+    showPlayButton: false,
   };
   private routerPageSettings$: Observable<PageSettings> =
     this.router.events.pipe(
@@ -104,6 +105,8 @@ export interface PageSettings {
   defaultHref?: string;
   customHeader?: boolean;
   showNotifications?: boolean;
+  // footer
+  showPlayButton?: boolean;
 }
 
 type PageRoute = Route & {

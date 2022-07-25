@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ReportControllerService } from '../../api/generated/controllers/reportController.service';
-import { PlayerStatus } from '../../api/generated/model/playerStatus';
 import { TransportStats } from '../../api/generated/model/transportStats';
 import { CampaignPlacing } from '../../api/generated/model/campaignPlacing';
 import { GameControllerService } from '../../api/generated/controllers/gameController.service';
 import { TransportStat } from '../../api/generated/model/transportStat';
 import { PlayerStatusReport } from '../../api/generated/model/playerStatusReport';
+import { PlayerGameStatus } from '../../api/generated/model/playerGameStatus';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
@@ -41,8 +41,10 @@ export class ReportService {
       })
       .toPromise();
   }
-  getGameStatus(campaignId: string): Promise<PlayerStatus> {
-    return this.gameController.getPlayerStatusUsingGET(campaignId).toPromise();
+  getGameStatus(campaignId: string): Promise<PlayerGameStatus> {
+    return this.gameController
+      .getCampaignGameStatusUsingGET(campaignId)
+      .toPromise();
   }
   getGameStats(
     campaignId?: string,
@@ -80,6 +82,6 @@ export class ReportService {
   }
 
   getStatus(): Promise<PlayerStatusReport> {
-    return this.reportControllerService.getPlayerStatusUsingGET1().toPromise();
+    return this.reportControllerService.getPlayerStatusUsingGET().toPromise();
   }
 }

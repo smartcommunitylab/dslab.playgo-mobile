@@ -11,6 +11,7 @@ const routes: RoutesWithPageSettings = [
     data: {
       title: '',
       customHeader: true,
+      showPlayButton: true,
     },
   },
 ];

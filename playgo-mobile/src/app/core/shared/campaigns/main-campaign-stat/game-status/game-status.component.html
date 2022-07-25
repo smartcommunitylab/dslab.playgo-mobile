@@ -1,7 +1,7 @@
 <div class="ion-text-left" *ngIf="status">
   <span>{{
     "campaigns.homewidgets.stat.levelName"
-      | translate: { levelName: status?.level?.levelName }
+      | translate: { levelName: status?.levels[0]?.levelName }
   }}</span>
   <span>
     {{
@@ -12,8 +12,8 @@
     class="level-bar"
     [color]="type"
     [value]="
-      (status?.score - status?.level?.startLevelScore) /
-      (status?.level?.endLevelScore - status?.level?.startLevelScore)
+      (status?.score - status?.levels[0]?.startLevelScore) /
+      (status?.levels[0]?.endLevelScore - status?.levels[0]?.startLevelScore)
     "
   ></ion-progress-bar>
 </div>

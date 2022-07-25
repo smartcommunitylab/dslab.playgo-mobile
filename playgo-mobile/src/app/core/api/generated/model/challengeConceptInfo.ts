@@ -12,5 +12,6 @@
 import { ChallengesData } from './challengesData';
 
 export interface ChallengeConceptInfo {
+  canInvite?: boolean;
   challengeData?: { [key: string]: Array<ChallengesData> };
 }
