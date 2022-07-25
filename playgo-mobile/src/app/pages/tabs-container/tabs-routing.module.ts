@@ -6,6 +6,9 @@ const routes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
+    data: {
+      isOfflinePage: true,
+    },
     children: [
       {
         path: 'home',
