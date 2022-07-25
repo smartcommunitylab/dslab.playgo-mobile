@@ -82,6 +82,6 @@ export class ReportService {
   }
 
   getStatus(): Promise<PlayerStatusReport> {
-    return this.reportControllerService.getPlayerStatusUsingGET1().toPromise();
+    return this.reportControllerService.getPlayerStatusUsingGET().toPromise();
   }
 }
