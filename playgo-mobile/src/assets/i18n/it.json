@@ -367,5 +367,8 @@
     "ordinal": {
       "other": "{{ordinal}}°"
     }
+  },
+  "date": {
+    "from_to": "dal {{from}} al {{to}}"
   }
 }

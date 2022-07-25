@@ -1,3 +1,57 @@
 <ion-card>
-  {{ challenge | json }}
+  <ion-card-header [color]="challenge.campaign?.type">
+    <ion-card-title>
+      {{ challenge.campaign.name | languageMap }}
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p>type:{{ challenge.type }}</p>
+    <p [innerHTML]="challenge.challDesc"></p>
+    <p [innerHTML]="challenge.challCompleteDesc"></p>
+
+    <p>challTarget:{{ challenge.challTarget }}</p>
+    <p>otherAttendeeData:{{ challenge.otherAttendeeData | json }}</p>
+
+    <p>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="8">
+            {{
+              "date.from_to"
+                | translate
+                  : {
+                      from: challenge.startDate | localDate,
+                      to: challenge.endDate | localDate
+                    }
+            }}
+          </ion-col>
+          <ion-col size="4">
+            {{ challenge.bonus }}
+            <app-icon
+              [name]="campaignService.getCampaignScoreIcon(challenge.campaign)"
+            ></app-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid></p
+  ></ion-card-content>
 </ion-card>
+<!--
+
+  active?: boolean;
+  bonus?: number;
+  challCompleteDesc?: string;
+  challCompletedDate?: number;
+  challDesc?: string;
+  challId?: string;
+  challTarget?: number;
+  daysToEnd?: number;
+  endDate?: number;
+  otherAttendeeData?: OtherAttendeeData;
+  proposerId?: string;
+  rowStatus?: number;
+  startDate?: number;
+  status?: number;
+  success?: boolean;
+  type?: string;
+  unit?: string;
+ -->

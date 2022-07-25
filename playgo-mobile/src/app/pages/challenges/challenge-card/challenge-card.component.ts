@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { Challenge } from '../challenges.page';
 
 @Component({
@@ -8,7 +9,7 @@ import { Challenge } from '../challenges.page';
 })
 export class ChallengeCardComponent implements OnInit {
   @Input() challenge: Challenge;
-  constructor() {}
+  constructor(public campaignService: CampaignService) {}
 
   ngOnInit() {}
 }

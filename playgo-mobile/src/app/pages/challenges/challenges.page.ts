@@ -6,6 +6,7 @@ import {
   map,
   merge,
   Observable,
+  shareReplay,
   switchMap,
   tap,
   toArray,
@@ -34,8 +35,8 @@ export class ChallengesPage implements OnInit, OnDestroy {
     )
   );
 
-  public allChallenges$: Observable<Challenge[]> =
-    this.campaignsWithChallenges$.pipe(
+  public allChallenges$: Observable<Challenge[]> = this.campaignsWithChallenges$
+    .pipe(
       switchMap((campaigns) =>
         forkJoin(
           campaigns.map((campaign) =>
@@ -52,7 +53,8 @@ export class ChallengesPage implements OnInit, OnDestroy {
           )
         ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
       )
-    );
+    )
+    .pipe(shareReplay(1));
 
   public activeChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
     map((challenges) =>
