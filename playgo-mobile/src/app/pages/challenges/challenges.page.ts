@@ -105,9 +105,9 @@ export class ChallengesPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 }
 
-interface Challenge extends ChallengesData {
+export interface Challenge extends ChallengesData {
   challengeType: ChallengeType;
   campaign: Campaign;
 }
 
-type ChallengeType = 'ACTIVE' | 'FUTURE' | 'OLD' | 'PROPOSED';
+export type ChallengeType = 'ACTIVE' | 'FUTURE' | 'OLD' | 'PROPOSED';

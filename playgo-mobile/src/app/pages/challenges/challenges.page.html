@@ -25,24 +25,24 @@
   </ion-segment>
 
   <div *ngIf="selectedSegment==='pastChallenges'">
-    <ion-card
+    <app-challenge-card
       *ngFor="let challenge of (pastChallenges$ | async); trackBy challengeTracking;"
+      [challenge]="challenge"
     >
-      {{ challenge | json }}
-    </ion-card>
+    </app-challenge-card>
   </div>
   <div *ngIf="selectedSegment==='activeChallenges'">
-    <ion-card
+    <app-challenge-card
       *ngFor="let challenge of (activeChallenges$ | async); trackBy challengeTracking;"
+      [challenge]="challenge"
     >
-      {{ challenge | json }}
-    </ion-card>
+    </app-challenge-card>
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
-    <ion-card
+    <app-challenge-card
       *ngFor="let challenge of (futureChallenges$ | async); trackBy challengeTracking;"
+      [challenge]="challenge"
     >
-      {{ challenge | json }}
-    </ion-card>
+    </app-challenge-card>
   </div>
 </ion-content>
