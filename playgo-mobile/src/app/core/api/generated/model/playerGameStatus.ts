@@ -9,13 +9,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { BadgeCollectionConcept } from './badgeCollectionConcept';
+import { PlayerLevel } from './playerLevel';
 
 export interface PlayerGameStatus {
-  badges?: Array<any>;
+  badges?: Array<BadgeCollectionConcept>;
   campaignId?: string;
-  challenges?: Array<any>;
   id?: string;
-  level?: any;
+  levels?: Array<PlayerLevel>;
   nickname?: string;
   playerId?: string;
   score?: number;

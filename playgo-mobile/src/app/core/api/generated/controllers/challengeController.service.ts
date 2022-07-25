@@ -168,16 +168,16 @@ export class ChallengeControllerService {
   }
 
   /**
-   * getChallengables
+   * getChallengeables
    *
    * @param campaignId campaignId
    */
-  public getChallengablesUsingGET(
+  public getChallengeablesUsingGET(
     campaignId: string
   ): Observable<Array<{ [key: string]: string }>> {
     return this.http.request<Array<{ [key: string]: string }>>(
       'get',
-      environment.serverUrl.api + `/playandgo/api/challenge/challengables`,
+      environment.serverUrl.api + `/playandgo/api/challenge/challengeables`,
       {
         params: removeNullOrUndefined({
           campaignId,

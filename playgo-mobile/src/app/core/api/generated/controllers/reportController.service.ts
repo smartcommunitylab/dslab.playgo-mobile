@@ -203,7 +203,7 @@ export class ReportControllerService {
    * getPlayerStatus
    *
    */
-  public getPlayerStatusUsingGET1(): Observable<PlayerStatusReport> {
+  public getPlayerStatusUsingGET(): Observable<PlayerStatusReport> {
     return this.http.request<PlayerStatusReport>(
       'get',
       environment.serverUrl.api + `/playandgo/api/report/player/status`,
