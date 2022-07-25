@@ -13,7 +13,7 @@
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { PageNotification } from '../model/pageNotification';
 import { UserSignature } from '../model/userSignature';
@@ -26,27 +26,85 @@ export class CommunicationAccountControllerService {
   /**
    * getPlayerNotifications
    *
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page
    * @param since since
-   * @param skip skip
-   * @param limit limit
+   * @param sort Sorting option: field,[asc,desc]
    */
   public getPlayerNotificationsUsingGET(args: {
+    page: number;
+    size: number;
     since?: number;
-    skip?: number;
-    limit?: number;
+    sort?: string;
   }): Observable<PageNotification> {
-    const { since, skip, limit } = args;
-    return this.http.request<PageNotification>(
-      'get',
-      environment.serverUrl.api + `/playandgo/api/app/notifications`,
-      {
-        params: removeNullOrUndefined({
-          since,
-          skip,
-          limit,
-        }),
-      }
-    );
+    const { page, size, since, sort } = args;
+    const pagenotif = {
+      content: [
+        {
+          campaignId: 'string',
+          channelIds: ['string'],
+          content: {},
+          description: 'string',
+          id: 'string',
+          labelIds: ['string'],
+          playerId: 'string',
+          readed: true,
+          starred: true,
+          territoryId: 'string',
+          timestamp: 0,
+          title: 'string',
+          updateTime: 0,
+          version: 0,
+        },
+        {
+          campaignId: 'string',
+          channelIds: ['string'],
+          content: {},
+          description: 'string',
+          id: 'string',
+          labelIds: ['string'],
+          playerId: 'string',
+          readed: true,
+          starred: true,
+          territoryId: 'string',
+          timestamp: 0,
+          title: 'string',
+          updateTime: 0,
+          version: 0,
+        },
+      ],
+      empty: true,
+      first: true,
+      last: true,
+      number: 0,
+      numberOfElements: 0,
+      pageable: {
+        page: 0,
+        size: 0,
+        sort: 'string',
+      },
+      size: 0,
+      sort: {
+        empty: true,
+        sorted: true,
+        unsorted: true,
+      },
+      totalElements: 0,
+      totalPages: 0,
+    };
+    return of(pagenotif);
+    // this.http.request<PageNotification>(
+    //   'get',
+    //   environment.serverUrl.api + `/playandgo/api/app/notifications`,
+    //   {
+    //     params: removeNullOrUndefined({
+    //       page,
+    //       since,
+    //       size,
+    //       sort,
+    //     }),
+    //   }
+    // );
   }
 
   /**
@@ -57,6 +115,7 @@ export class CommunicationAccountControllerService {
   public registerUserToPushUsingPOST(
     body?: UserSignature
   ): Observable<boolean> {
+    console.log('registerUserToPushUsingPOST', body);
     return this.http.request<boolean>(
       'post',
       environment.serverUrl.api + `/playandgo/api/app/register`,

@@ -21,7 +21,9 @@ import {
   switchMap,
   merge,
   catchError,
+  Observable,
 } from 'rxjs';
+import { CommunicationAccountControllerService } from '../../api/generated/controllers/communicationAccountController.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +36,7 @@ export class PushNotificationService {
     private zone: NgZone,
     private platform: Platform,
     private campaignService: CampaignService,
+    private communicationAccountControllerservice: CommunicationAccountControllerService,
     private userService: UserService
   ) {}
   initPush() {
@@ -55,8 +58,17 @@ export class PushNotificationService {
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration', (token: Token) => {
       console.log('Push registration success, token: ' + token.value);
-      // subscribe to territory and all campaign I have
-      this.registerToTopics();
+      //register on our server
+      FCM.getToken().then((fcmtoken) => {
+        if (Capacitor.getPlatform() === 'ios') {
+          console.log('fcmtoken', fcmtoken);
+          this.registerToServer(fcmtoken.token);
+        } else {
+          this.registerToServer(token.value);
+        }
+        // subscribe to territory and all campaign I have
+        this.registerToTopics();
+      });
     });
 
     // Some issue with our setup and push will not work
@@ -82,6 +94,15 @@ export class PushNotificationService {
         alert('Push action performed: ' + JSON.stringify(notification));
       }
     );
+  }
+  async registerToServer(token: string) {
+    console.log('registerToServer', token);
+    await this.communicationAccountControllerservice
+      .registerUserToPushUsingPOST({
+        platform: Capacitor.getPlatform(),
+        registrationId: token,
+      })
+      .toPromise();
   }
   registerToTopics() {
     console.log('registerToTopics');

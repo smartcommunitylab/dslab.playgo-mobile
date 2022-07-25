@@ -1,12 +1,18 @@
-<ion-content color="playgo">
-  notifiche
-  <!-- <app-infinite-scroll
+<app-header
+  [backButton]="true"
+  [color]="'playgo'"
+  [title]=""
+  [showNotifications]="false"
+></app-header>
+<ion-content color="playgo" fullscreen="true">
+  <app-infinite-scroll
     [response]="notificationsScrollResponse$ | async"
     (request)="scrollRequestSubject.next($event)"
   >
     <ng-template appInfiniteScrollContent let-notification="item">
-      <app-notification-card *ngIf="notification" [notification]="notification">
-      </app-notification-card>
+      <app-notification-detail
+        [notification]="notification"
+      ></app-notification-detail>
     </ng-template>
-  </app-infinite-scroll> -->
+  </app-infinite-scroll>
 </ion-content>

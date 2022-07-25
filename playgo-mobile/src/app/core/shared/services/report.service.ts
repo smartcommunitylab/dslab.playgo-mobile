@@ -5,6 +5,7 @@ import { TransportStats } from '../../api/generated/model/transportStats';
 import { CampaignPlacing } from '../../api/generated/model/campaignPlacing';
 import { GameControllerService } from '../../api/generated/controllers/gameController.service';
 import { TransportStat } from '../../api/generated/model/transportStat';
+import { PlayerStatusReport } from '../../api/generated/model/playerStatusReport';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
@@ -41,9 +42,7 @@ export class ReportService {
       .toPromise();
   }
   getGameStatus(campaignId: string): Promise<PlayerStatus> {
-    return this.gameController
-      .getCampaignGameStatusUsingGET(campaignId)
-      .toPromise();
+    return this.gameController.getPlayerStatusUsingGET(campaignId).toPromise();
   }
   getGameStats(
     campaignId?: string,
@@ -80,7 +79,7 @@ export class ReportService {
       .toPromise();
   }
 
-  getStatus(): Promise<PlayerStatus> {
-    return this.reportControllerService.getPlayerStatsuUsingGET().toPromise();
+  getStatus(): Promise<PlayerStatusReport> {
+    return this.reportControllerService.getPlayerStatusUsingGET1().toPromise();
   }
 }

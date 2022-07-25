@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Subject, Observable, switchMap, startWith } from 'rxjs';
 import { CommunicationAccountControllerService } from 'src/app/core/api/generated/controllers/communicationAccountController.service';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
+import { PageNotification } from 'src/app/core/api/generated/model/pageNotification';
 import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
+import { tapLog } from '../../core/shared/utils';
 
 @Component({
   selector: 'app-notifications',
@@ -12,7 +15,7 @@ import { ErrorService } from 'src/app/core/shared/services/error.service';
 })
 export class NotificationsPage implements OnInit {
   scrollRequestSubject = new Subject<PageableRequest>();
-  notificationsScrollResponse$: Observable<PageCampaignPlacing> =
+  notificationsScrollResponse$: Observable<PageNotification> =
     this.scrollRequestSubject.pipe(
       startWith({
         page: 0,
@@ -21,21 +24,18 @@ export class NotificationsPage implements OnInit {
       switchMap(({ page, size }) =>
         this.communicationAccountControllerService
           .getPlayerNotificationsUsingGET({
-            since: 0,
-            skip: page,
-            limit: size,
+            page,
+            size,
+            sort: null,
           })
-          .pipe(this.errorService.getErrorHandler())
+          .pipe(tapLog('notifications'), this.errorService.getErrorHandler())
       )
     );
   constructor(
     private communicationAccountControllerService: CommunicationAccountControllerService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    public pageSettingsService: PageSettingsService
   ) {}
 
   ngOnInit() {}
-}
-
-function bind<F extends (...args: any) => any>(f: F, thisValue: any): F {
-  return (f as any).bind(thisValue);
 }
