@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
-import { PushNotificationService } from 'src/app/core/shared/services/pushNotification.service';
+import { PushNotificationService } from 'src/app/core/shared/services/notifications/pushNotification.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({

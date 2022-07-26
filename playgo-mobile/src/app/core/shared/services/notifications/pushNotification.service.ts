@@ -9,9 +9,9 @@ import {
 } from '@capacitor/push-notifications';
 import { FCM } from '@capacitor-community/fcm';
 import { Platform } from '@ionic/angular';
-import { CampaignService } from './campaign.service';
-import { UserService } from './user.service';
-import { tapLog } from '../utils';
+import { CampaignService } from '../campaign.service';
+import { UserService } from '../user.service';
+import { tapLog } from '../../utils';
 import {
   combineLatest,
   first,
@@ -23,7 +23,7 @@ import {
   catchError,
   Observable,
 } from 'rxjs';
-import { CommunicationAccountControllerService } from '../../api/generated/controllers/communicationAccountController.service';
+import { CommunicationAccountControllerService } from '../../../api/generated/controllers/communicationAccountController.service';
 
 @Injectable({
   providedIn: 'root',
