@@ -4,15 +4,4 @@
   [title]=""
   [showNotifications]="false"
 ></app-header>
-<ion-content color="playgo" fullscreen="true">
-  <app-infinite-scroll
-    [response]="notificationsScrollResponse$ | async"
-    (request)="scrollRequestSubject.next($event)"
-  >
-    <ng-template appInfiniteScrollContent let-notification="item">
-      <app-notification-detail
-        [notification]="notification"
-      ></app-notification-detail>
-    </ng-template>
-  </app-infinite-scroll>
-</ion-content>
+<ion-content color="playgo" fullscreen="true"> Notification </ion-content>

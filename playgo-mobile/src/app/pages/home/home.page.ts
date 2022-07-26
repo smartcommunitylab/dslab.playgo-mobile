@@ -32,10 +32,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.subProfile = this.userService.userProfileRefresher$.subscribe(() => {
       this.refresher.complete();
     });
-
-    //init push notification setup after login
-    this.pushNotificationService.initPush();
-    console.log('Initializing HomePage');
   }
 
   ngOnDestroy() {

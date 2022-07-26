@@ -38,7 +38,6 @@ export class PushNotificationService {
   public notifications$ = this.notificationsSubject.asObservable();
   constructor(
     private zone: NgZone,
-    private platform: Platform,
     private campaignService: CampaignService,
     private communicationAccountControllerservice: CommunicationAccountControllerService,
     private userService: UserService

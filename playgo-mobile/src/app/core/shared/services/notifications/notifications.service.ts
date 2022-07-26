@@ -14,10 +14,12 @@ import {
   tap,
   throttleTime,
 } from 'rxjs';
+import { tapLog } from '../../utils';
 import { CommunicationAccountControllerService } from 'src/app/core/api/generated/controllers/communicationAccountController.service';
 import { ErrorService } from '../error.service';
 import { DateTime } from 'luxon';
 import { PushNotificationService } from './pushNotification.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +29,7 @@ export class NotificationService {
   private storage =
     this.localStorageService.getStorageOf<Notification[]>('notifications');
 
-  private afterSyncTimer$: Observable<void> = interval(60000).pipe(
+  private afterSyncTimer$: Observable<void> = interval(500).pipe(
     map(undefined)
   );
   private appResumed$: Observable<void> = NEVER;
@@ -43,12 +45,14 @@ export class NotificationService {
   ).pipe(throttleTime(500));
 
   public allNotifications$ = this.trigger$.pipe(
+    tapLog('entering allNotifications$'),
     switchMap(() =>
       this.communicationAccountController
         .getPlayerNotificationsUsingGET({ since: this.since })
-        .pipe(this.errorService.getErrorHandler('silent'))
+        .pipe(tapLog('notif'), this.errorService.getErrorHandler('silent'))
     ),
-    map((serverNotifications) => serverNotifications.content),
+    tapLog('got notifications'),
+    map((serverNotifications) => serverNotifications?.content),
     tap(
       (serverNotifications) =>
         (this.since =
@@ -58,6 +62,7 @@ export class NotificationService {
       ...this.storage.get(),
       ...serverNotifications,
     ]),
+    tapLog('allNotifications$'),
     tap((allNotifications) =>
       this.storage.set(
         allNotifications.filter(
@@ -71,13 +76,23 @@ export class NotificationService {
   constructor(
     private localStorageService: LocalStorageService,
     private errorService: ErrorService,
+    private authService: AuthService,
     private communicationAccountController: CommunicationAccountControllerService,
     private pushNotificationService: PushNotificationService
   ) {
-    this.allNotifications$.subscribe((notifications) => {
-      if (notifications === null) {
-        this.storage.set([]);
-      }
+    console.log('NotificationService constructor');
+    this.authService.isReadyForApi$.subscribe(() => {
+      console.log('notification service is ready for api');
+      this.allNotifications$.subscribe((notifications) => {
+        console.log('notifications', notifications);
+        if (notifications === null) {
+          this.storage.set([]);
+        }
+      });
     });
+  }
+  initPush() {
+    console.log('init push');
+    this.pushNotificationService.initPush();
   }
 }

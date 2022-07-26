@@ -14,28 +14,7 @@ import { tapLog } from '../../core/shared/utils';
   styleUrls: ['./notifications.page.scss'],
 })
 export class NotificationsPage implements OnInit {
-  scrollRequestSubject = new Subject<PageableRequest>();
-  notificationsScrollResponse$: Observable<PageNotification> =
-    this.scrollRequestSubject.pipe(
-      startWith({
-        page: 0,
-        size: 10,
-      }),
-      switchMap(({ page, size }) =>
-        this.communicationAccountControllerService
-          .getPlayerNotificationsUsingGET({
-            page,
-            size,
-            sort: null,
-          })
-          .pipe(tapLog('notifications'), this.errorService.getErrorHandler())
-      )
-    );
-  constructor(
-    private communicationAccountControllerService: CommunicationAccountControllerService,
-    private errorService: ErrorService,
-    public pageSettingsService: PageSettingsService
-  ) {}
+  constructor(public pageSettingsService: PageSettingsService) {}
 
   ngOnInit() {}
 }

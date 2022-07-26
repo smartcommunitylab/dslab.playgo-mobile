@@ -10,6 +10,7 @@ import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
 import { AppStatusService } from './core/shared/services/app-status.service';
 import { IconService } from './core/shared/ui/icon/icon.service';
 import { AuthService } from './core/auth/auth.service';
+import { NotificationService } from './core/shared/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent implements AfterContentInit {
     private backgroundTrackingService: BackgroundTrackingService,
     private appStatusService: AppStatusService,
     private iconService: IconService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) {
     this.initializeApp();
   }
@@ -31,13 +33,22 @@ export class AppComponent implements AfterContentInit {
     this.translate.setDefaultLang('it');
     this.codePushSync();
     this.loadCustomIcons();
+    this.pushInit();
     await this.platform.ready();
     await Promise.all([
       this.authService.init(),
       this.codePushSync(),
       this.backgroundTrackingService.start(),
     ]);
+
     SplashScreen.hide();
+  }
+  pushInit() {
+    this.authService.isReadyForApi$.subscribe(() => {
+      //init push notification setup after login
+      this.notificationService.initPush();
+      console.log('Initializing HomePage');
+    });
   }
   async codePushSync() {
     try {
