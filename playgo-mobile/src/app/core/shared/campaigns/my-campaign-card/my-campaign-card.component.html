@@ -12,7 +12,7 @@
           <img [src]="imagePath" alt="image" />
         </ion-avatar>
         <ion-label>
-          <h3>{{ containerCampaign.campaign.name[language] }}</h3>
+          <h3>{{ containerCampaign.campaign.name | languageMap }}</h3>
           <h4>{{ "campaigns.blabla" | translate }}</h4>
           <h4>
             {{ containerCampaign.campaign.dateFrom | localDate }} -

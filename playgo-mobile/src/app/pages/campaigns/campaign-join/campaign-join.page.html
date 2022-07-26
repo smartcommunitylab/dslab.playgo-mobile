@@ -5,7 +5,9 @@
       </ion-back-button>
     </ion-buttons>
     <ion-title>
-      <span ion-class="ion-text-center">{{ campaign?.name[language] }}</span>
+      <span ion-class="ion-text-center"
+        >{{ campaign?.name | languageMap }}</span
+      >
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,7 +17,7 @@
       <ion-avatar class="avatar-campaign">
         <img [src]="imagePath" title="campaign avatar" />
       </ion-avatar>
-      <ion-card-title>{{campaign?.name[language] }}</ion-card-title>
+      <ion-card-title>{{campaign?.name | languageMap }}</ion-card-title>
       <ion-card-subtitle>
         {{ campaign?.dateFrom | localDate }} - {{ campaign?.dateTo | localDate
         }}</ion-card-subtitle
@@ -33,7 +35,7 @@
       </div>
       <div
         class="ion-margin ion-padding ion-text-justify"
-        [innerHTML]="campaign.description[language]"
+        [innerHTML]="campaign.description | languageMap "
       ></div>
     </ion-card-content>
   </ion-card>
