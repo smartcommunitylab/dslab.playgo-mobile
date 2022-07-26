@@ -19,7 +19,7 @@ import { has } from 'lodash-es';
   pure: false,
 })
 export class LanguageMapPipe
-  extends AbstractObservablePipe<LanguageMap, string>
+  extends AbstractObservablePipe<LanguageMap<any>, any>
   implements PipeTransform, OnDestroy
 {
   constructor(
@@ -33,32 +33,31 @@ export class LanguageMapPipe
     super.destroy();
   }
 
-  public transform(value: Record<string, string>): string {
-    return this.doTransform(value as LanguageMap);
+  public transform<O>(value: Record<string, O>): O {
+    return this.doTransform(value as LanguageMap<O>) as O;
   }
 
-  protected transformToObservable(input: LanguageMap): Observable<string> {
+  protected transformToObservable<O>(input: LanguageMap<O>): Observable<O> {
     return this.userService.userLanguage$.pipe(
       map((language) => {
         try {
           return this.format(input, language);
         } catch (e) {
           this.errorService.handleError(e, 'silent');
-          return '';
+          return null;
         }
       })
     );
   }
-  private format(value: LanguageMap, language: Language): string {
+  private format<O>(value: LanguageMap<O>, language: Language): O {
     const languagesToTry: Language[] = [language, 'en', 'it'];
 
     const applicableLanguage = languagesToTry.find((eachLanguage) =>
       has(value, eachLanguage)
     );
-    return applicableLanguage ? value[applicableLanguage] : '';
+    return applicableLanguage ? value[applicableLanguage] : null;
   }
 }
-
-type LanguageMap = Record<Language, string>;
+type LanguageMap<O> = Record<Language, O>;
 
 type Language = 'en' | 'it';
