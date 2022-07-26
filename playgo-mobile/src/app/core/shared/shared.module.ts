@@ -25,6 +25,7 @@ import { WidgetComponent } from './campaigns/app-widget-campaign/app-widget-camp
 import { IconComponent } from './ui/icon/icon.component';
 import { GameStatusComponent } from './campaigns/main-campaign-stat/game-status/game-status.component';
 import { RecordStatusComponent } from './campaigns/main-campaign-stat/record-status/record-status.component';
+import { LanguageMapPipe } from './pipes/languageMap.pipe';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -37,6 +38,7 @@ import { RecordStatusComponent } from './campaigns/main-campaign-stat/record-sta
     PrivacyModalPage,
     LocalDatePipe,
     LocalNumberPipe,
+    LanguageMapPipe,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
     ParallaxDirective,
@@ -60,6 +62,7 @@ import { RecordStatusComponent } from './campaigns/main-campaign-stat/record-sta
     ProfileComponent,
     PrivacyModalPage,
     LocalDatePipe,
+    LanguageMapPipe,
     HeaderComponent,
     LocalNumberPipe,
     InfiniteScrollComponent,
