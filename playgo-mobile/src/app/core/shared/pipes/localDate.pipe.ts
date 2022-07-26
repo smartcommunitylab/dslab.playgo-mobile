@@ -1,5 +1,5 @@
 /**
- * Usage: dateString | localDate:'format'
+ * Usage: date | localDate:'format'
  **/
 
 import {
@@ -10,61 +10,51 @@ import {
 } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { UserService } from '../services/user.service';
-import { takeUntil, map, Subject, switchMap, distinctUntilChanged } from 'rxjs';
-import { isEqual } from 'lodash-es';
+import { map, Observable } from 'rxjs';
 import { ErrorService } from '../services/error.service';
+import { AbstractObservablePipe } from './abstractObservablePipe';
 
 @Pipe({
   name: 'localDate',
   pure: false,
 })
-export class LocalDatePipe implements PipeTransform, OnDestroy {
-  private pipeIsDestroyed$ = new Subject<void>();
-
-  private requestsToTransformSubject = new Subject<{
-    value: any;
-    format: Format;
-  }>();
-  private formattedValue$ = this.requestsToTransformSubject.pipe(
-    distinctUntilChanged(isEqual),
-    switchMap((request) =>
-      this.userService.userLocale$.pipe(
-        map((locale) => {
-          try {
-            return this.format(request.value, request.format, locale);
-          } catch (e) {
-            this.errorService.handleError(e, 'silent');
-            return '';
-          }
-        })
-      )
-    ),
-    takeUntil(this.pipeIsDestroyed$)
-  );
-
-  private formattedValue: string = null;
-
+export class LocalDatePipe
+  extends AbstractObservablePipe<Input, string>
+  implements PipeTransform, OnDestroy
+{
   constructor(
     private userService: UserService,
     private ref: ChangeDetectorRef,
     private errorService: ErrorService
   ) {
-    this.formattedValue$.subscribe((formattedValue) => {
-      this.formattedValue = formattedValue;
-      // We actually do not have any means to output asynchronously value from the pipe,
-      // so we force the change detection, and pipe will be re-evaluated. At this point we have
-      // this.formattedValue set, and we will output it in the pipe. To avoid infinite loop, we use
-      // distinctUntilChanged operator.
-      this.ref.markForCheck();
-    });
+    super(ref);
   }
 
   public transform(value: any, format?: Format) {
-    this.requestsToTransformSubject.next({ value, format });
-    return this.formattedValue;
+    return this.doTransform({ value, format });
   }
 
-  private format(value: any, format?: Format, locale?: string): string {
+  /**
+   * @override
+   */
+  protected transformToObservable(input: Input): Observable<string> {
+    return this.userService.userLocale$.pipe(
+      map((locale) => {
+        try {
+          return this.format(input.value, input.format, locale);
+        } catch (e) {
+          this.errorService.handleError(e, 'silent');
+          return '';
+        }
+      })
+    );
+  }
+
+  private format(
+    value: number | Date,
+    format?: Format,
+    locale?: string
+  ): string {
     if (!value) {
       return '';
     }
@@ -84,9 +74,11 @@ export class LocalDatePipe implements PipeTransform, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.pipeIsDestroyed$.next();
-    this.pipeIsDestroyed$.complete();
+    super.destroy();
   }
 }
-
+type Input = {
+  value: number | Date;
+  format?: Format;
+};
 type Format = string | Intl.DateTimeFormatOptions;
