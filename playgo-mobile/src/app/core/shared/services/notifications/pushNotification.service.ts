@@ -22,6 +22,7 @@ import {
   merge,
   catchError,
   Observable,
+  ReplaySubject,
 } from 'rxjs';
 import { CommunicationAccountControllerService } from '../../../api/generated/controllers/communicationAccountController.service';
 
@@ -32,6 +33,9 @@ export class PushNotificationService {
   sub: any;
   notifications: PushNotificationSchema[] = [];
   topicName: any;
+  private notificationsSubject = new ReplaySubject<void>(1);
+
+  public notifications$ = this.notificationsSubject.asObservable();
   constructor(
     private zone: NgZone,
     private platform: Platform,
@@ -80,6 +84,7 @@ export class PushNotificationService {
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
+        this.notificationsSubject.next();
         alert('Push received: ' + JSON.stringify(notification));
         this.zone.run(() => {
           this.notifications.push(notification);
