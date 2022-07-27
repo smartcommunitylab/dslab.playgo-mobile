@@ -41,4 +41,4 @@ mv ./src/app/core/api/generated/api ./src/app/core/api/generated/controllers
 
 # formatting
 npm run prettier ./src/app/core/api/generated/ -- --write
-# npm run eslint ./src/app/core/api/generated/ -- --fix
+npm run eslint ./src/app/core/api/generated/ -- --fix
