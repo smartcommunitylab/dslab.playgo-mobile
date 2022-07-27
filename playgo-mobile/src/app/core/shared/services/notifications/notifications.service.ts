@@ -30,7 +30,7 @@ export class NotificationService {
     this.localStorageService.getStorageOf<Notification[]>('notifications');
 
   private afterSyncTimer$: Observable<void> = interval(500).pipe(
-    map(undefined)
+    mapTo(undefined)
   );
   private appResumed$: Observable<void> = NEVER;
   private networkStatusChanged$: Observable<void> = NEVER;
