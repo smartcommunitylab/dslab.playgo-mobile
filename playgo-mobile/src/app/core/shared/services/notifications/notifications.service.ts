@@ -4,6 +4,7 @@ import { Notification } from '../../../api/generated/model/notification';
 import {
   catchError,
   EMPTY,
+  filter,
   interval,
   map,
   mapTo,
@@ -25,26 +26,29 @@ import { AuthService } from 'src/app/core/auth/auth.service';
   providedIn: 'root',
 })
 export class NotificationService {
-  private since = 0;
+  private notificationSinceStorage =
+    this.localStorageService.getStorageOf<number>('notificationSince');
+  private since = this.notificationSinceStorage.get() || 0;
   private storage =
     this.localStorageService.getStorageOf<Notification[]>('notifications');
 
-  private afterSyncTimer$: Observable<void> = interval(500).pipe(
-    mapTo(undefined)
-  );
+  // private afterSyncTimer$: Observable<void> = interval(500).pipe(
+  //   mapTo(undefined)
+  // );
   private appResumed$: Observable<void> = NEVER;
   private networkStatusChanged$: Observable<void> = NEVER;
   private pushNotification$: Observable<void> =
     this.pushNotificationService.notifications$;
 
   private trigger$: Observable<void> = merge(
-    this.afterSyncTimer$,
+    // this.afterSyncTimer$,
+    this.authService.isReadyForApi$,
     this.appResumed$,
     this.networkStatusChanged$,
     this.pushNotification$
   ).pipe(throttleTime(500));
 
-  public allNotifications$ = this.trigger$.pipe(
+  public allNotifications$: Observable<Notification[]> = this.trigger$.pipe(
     tapLog('entering allNotifications$'),
     switchMap(() =>
       this.communicationAccountController
@@ -52,27 +56,50 @@ export class NotificationService {
         .pipe(tapLog('notif'), this.errorService.getErrorHandler('silent'))
     ),
     tapLog('got notifications'),
-    map((serverNotifications) => serverNotifications?.content),
-    tap(
-      (serverNotifications) =>
-        (this.since =
-          serverNotifications[serverNotifications.length - 1].timestamp)
-    ),
+    tap((serverNotifications) => {
+      if (serverNotifications.length > 0) {
+        this.since =
+          serverNotifications[0].timestamp -
+          DateTime.local().minus({ hour: 1 }).valueOf();
+        if (this.since < 0) {
+          this.since = 0;
+        }
+        this.notificationSinceStorage.set(this.since);
+      }
+    }),
+    tapLog(`set since`, this.since),
     map((serverNotifications) => [
-      ...this.storage.get(),
+      ...(this.storage.get() || []), //merge and eliminate duplicate based on id
       ...serverNotifications,
     ]),
     tapLog('allNotifications$'),
-    tap((allNotifications) =>
+    map((allNotifications) =>
+      allNotifications.filter(
+        (value, index, self) =>
+          index === self.findIndex((t) => t.id === value.id)
+      )
+    ),
+    // tapLog('allNotificationsWithoutDuplicates'),
+    tap<Notification[]>((allNotificationsWithoutDuplicates) =>
       this.storage.set(
-        allNotifications.filter(
-          (notification) =>
-            notification.timestamp >
-            DateTime.local().minus({ month: 1 }).valueOf()
-        )
+        allNotificationsWithoutDuplicates
+          .filter(
+            (notification: Notification) =>
+              notification.timestamp >
+              DateTime.local().minus({ month: 1 }).valueOf()
+          )
+          .slice(0, MAX_NOTIFICATIONS)
       )
     )
+    // tap<Notification[]>((allNotifications) =>
+    //   this.storage.set(allNotifications.slice(0, MAX_NOTIFICATIONS))
+    // )
   );
+  public unreadNotifications$ = this.allNotifications$.pipe(
+    map((notifications) => notifications.filter((not) => not.readed === false)),
+    tapLog('unreadNotifications$')
+  );
+
   constructor(
     private localStorageService: LocalStorageService,
     private errorService: ErrorService,
@@ -89,10 +116,58 @@ export class NotificationService {
           this.storage.set([]);
         }
       });
+      this.unreadNotifications$.subscribe((notifications) => {
+        console.log('Not read notifications', notifications);
+      });
     });
   }
   initPush() {
     console.log('init push');
     this.pushNotificationService.initPush();
   }
+  public getCampaignNotifications(
+    campaignId: string
+  ): Observable<Notification[]> {
+    return this.allNotifications$.pipe(
+      map((notifications) =>
+        notifications.filter(
+          (notification) =>
+            notification.campaignId === campaignId &&
+            notification.content.type !== 'announcement'
+        )
+      )
+    );
+  }
+  public getUnreadCampaignNotifications(
+    campaignId: string
+  ): Observable<Notification[]> {
+    return this.unreadNotifications$.pipe(
+      map((notifications) =>
+        notifications.filter(
+          (notification) =>
+            notification.campaignId === campaignId &&
+            notification.content.type !== 'announcement'
+        )
+      )
+    );
+  }
+  public getAnnouncementNotifications(): Observable<Notification[]> {
+    return this.allNotifications$.pipe(
+      map((notifications) =>
+        notifications.filter(
+          (notification) => notification.content.type === 'announcement'
+        )
+      )
+    );
+  }
+  public getUnreadAnnouncementNotifications(): Observable<Notification[]> {
+    return this.unreadNotifications$.pipe(
+      map((notifications) =>
+        notifications.filter(
+          (notification) => notification.content.type === 'announcement'
+        )
+      )
+    );
+  }
 }
+export const MAX_NOTIFICATIONS = 500 as const;

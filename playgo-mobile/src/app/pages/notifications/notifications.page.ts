@@ -1,20 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject, Observable, switchMap, startWith } from 'rxjs';
-import { CommunicationAccountControllerService } from 'src/app/core/api/generated/controllers/communicationAccountController.service';
-import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
-import { PageNotification } from 'src/app/core/api/generated/model/pageNotification';
-import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
-import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
-import { tapLog } from '../../core/shared/utils';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Notification } from '../../core/api/generated/model/notification';
+import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.page.html',
   styleUrls: ['./notifications.page.scss'],
 })
-export class NotificationsPage implements OnInit {
-  constructor(public pageSettingsService: PageSettingsService) {}
+export class NotificationsPage implements OnInit, OnDestroy {
+  subNotification: Subscription;
+  notifications: Notification[];
+  constructor(private notificationService: NotificationService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subNotification = this.notificationService
+      .getAnnouncementNotifications()
+      .subscribe((notifications) => {
+        this.notifications = notifications;
+      });
+  }
+  ngOnDestroy() {
+    this.subNotification.unsubscribe();
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -26,6 +26,7 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   record: TransportStat;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
+
   constructor(
     private userService: UserService,
     private reportService: ReportService,

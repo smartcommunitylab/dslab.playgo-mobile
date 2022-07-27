@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { ReportService } from 'src/app/core/shared/services/report.service';
@@ -9,6 +9,8 @@ import { toServerDateOnly } from '../../../time.utils';
 import { ErrorService } from '../../../services/error.service';
 import { isOfflineError } from '../../../utils';
 import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
+import { NotificationService } from '../../../services/notifications/notifications.service';
+import { Notification } from '../../../../api/generated/model/notification';
 @Component({
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
@@ -23,13 +25,20 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   reportWeekStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
+  unreadNotification$: Observable<Notification[]>;
+
   constructor(
     private userService: UserService,
     private reportService: ReportService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
+    this.unreadNotification$ =
+      this.notificationService.getUnreadCampaignNotifications(
+        this.campaignContainer.campaign.campaignId
+      );
     this.imagePath = this.campaignContainer.campaign.logo.url
       ? this.campaignContainer.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;

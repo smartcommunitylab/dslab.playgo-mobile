@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AppStatusService } from '../../services/app-status.service';
-
+import { NotificationService } from '../../services/notifications/notifications.service';
+import { Notification } from '../../../api/generated/model/notification';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -17,11 +18,13 @@ export class HeaderComponent implements OnInit, OnChanges {
   @Input() showNotifications = false;
 
   isOnline$: Observable<boolean> = this.appStatusService.isOnline$;
-
+  unreadNotification$: Observable<Notification[]> =
+    this.notificationService.getUnreadAnnouncementNotifications();
   constructor(
     private navCtrl: NavController,
     private appStatusService: AppStatusService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.isOnline$.subscribe((isOnline) => {
       console.log('isOnline', isOnline);
