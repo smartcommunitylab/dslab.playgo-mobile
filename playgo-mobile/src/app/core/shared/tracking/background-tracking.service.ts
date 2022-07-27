@@ -14,7 +14,7 @@ import { filter as _filter, fromPairs, isEqual, last, pick } from 'lodash-es';
 import {
   combineLatest,
   concat,
-  lastValueFrom,
+  firstValueFrom,
   merge,
   Observable,
   ReplaySubject,
@@ -45,6 +45,7 @@ import { runInZone, tapLog } from '../utils';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/auth.service';
+import { AppStatusService } from '../services/app-status.service';
 
 @Injectable({
   providedIn: 'root',
@@ -82,6 +83,22 @@ export class BackgroundTrackingService {
     startWith(false),
     distinctUntilChanged(),
     tap(NgZone.assertInAngularZone),
+    shareReplay(1)
+  );
+
+  private appAndDeviceInfo$: Observable<DeviceInfo> = combineLatest([
+    this.appStatusService.appInfo$,
+    this.appStatusService.deviceInfo$,
+    this.appStatusService.codePushLabel$,
+  ]).pipe(
+    map(([appInfo, deviceInfo, codePushLabel]) => ({
+      isVirtual: deviceInfo.isVirtual,
+      platform: deviceInfo.platform,
+      version: appInfo.version,
+      codePushLabel,
+      osVersion: deviceInfo.osVersion,
+      model: deviceInfo.model,
+    })),
     shareReplay(1)
   );
 
@@ -145,6 +162,7 @@ export class BackgroundTrackingService {
     private alertService: AlertService,
     private authService: AuthService,
     private playerControllerService: PlayerControllerService,
+    private appStatusService: AppStatusService,
     private zone: NgZone
   ) {
     // FIXME: debug only
@@ -158,6 +176,7 @@ export class BackgroundTrackingService {
 
   async start() {
     try {
+      const appAndDeviceInfo = await firstValueFrom(this.appAndDeviceInfo$);
       const config: Config = {
         url:
           environment.serverUrl.api +
@@ -169,6 +188,9 @@ export class BackgroundTrackingService {
         autoSync: false,
         batchSync: true,
         authorization: null,
+        params: {
+          device: appAndDeviceInfo,
+        },
       };
       console.log('starting BackgroundGeolocation', config);
       const state = await this.backgroundGeolocationPlugin.ready(config);
@@ -339,3 +361,12 @@ export class TripLocation {
 }
 
 interface TripExtras extends Extras, Partial<TripPart> {}
+
+interface DeviceInfo {
+  isVirtual: boolean;
+  platform: string;
+  version: string;
+  codePushLabel: string;
+  osVersion: string;
+  model: string;
+}
