@@ -14,6 +14,8 @@ import { BackgroundGeolocationMock } from './core/shared/plugin-mocks/Background
 import { App } from '@capacitor/app';
 import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
 import { GlobalErrorHandler } from './core/shared/services/global-error-handler';
+import { Device } from '@capacitor/device';
+import { DevicePluginMock } from './core/shared/plugin-mocks/DevicePluginMock';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -47,6 +49,10 @@ export function createTranslateLoader(http: HttpClient) {
     {
       provide: 'AppPlugin',
       useFactory: () => (useMock() ? AppPluginMock : App),
+    },
+    {
+      provide: 'DevicePlugin',
+      useFactory: () => (useMock() ? DevicePluginMock : Device),
     },
     {
       provide: ErrorHandler,
