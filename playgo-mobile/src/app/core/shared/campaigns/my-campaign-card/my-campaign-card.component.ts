@@ -13,12 +13,10 @@ export class MyCampaignCardComponent implements OnInit {
   @Input() containerCampaign: PlayerCampaign;
   imagePath: SafeResourceUrl;
   bannerPath: SafeResourceUrl;
-  language: string;
 
   constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit() {
-    this.language = this.userService.getLanguage();
     this.imagePath = this.containerCampaign.campaign.logo.url
       ? this.containerCampaign.campaign.logo.url
       : 'data:image/jpg;base64,' + this.containerCampaign.campaign.logo.image;

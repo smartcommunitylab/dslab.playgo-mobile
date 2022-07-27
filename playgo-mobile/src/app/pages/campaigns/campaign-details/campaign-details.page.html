@@ -60,30 +60,26 @@
     </ion-item>
     <ion-card-content> Sfideeeee </ion-card-content>
   </ion-card>
-  <ion-card *ngIf="campaignContainer.campaign.description?.[language]">
+  <ion-card *ngIf="campaignContainer.campaign.description | languageMap">
     <ion-card-title>
       <ion-item [color]="campaignContainer?.campaign?.type"
         >{{'campaigns.detail.description'|translate}}
       </ion-item>
     </ion-card-title>
     <ion-card-content>
-      <div [innerHTML]="campaignContainer.campaign.description[language]"></div>
+      <div
+        [innerHTML]="campaignContainer.campaign.description | languageMap"
+      ></div>
     </ion-card-content>
   </ion-card>
-  <div
-    *ngIf="campaignContainer.campaign.details?.[language];then detailTag"
-  ></div>
-  <ng-template #detailTag>
-    <ion-card
-      *ngFor="let detail of campaignContainer.campaign.details?.[language]"
-      (click)="openDetail(detail)"
-    >
+  <div *ngIf="(campaignContainer.campaign.details | languageMap) as details">
+    <ion-card *ngFor="let detail of details" (click)="openDetail(detail)">
       <ion-item [color]="campaignContainer?.campaign?.type"
         ><ion-label>{{detail.name}}</ion-label>
         <ion-icon name="arrow-forward" end> </ion-icon>
       </ion-item>
     </ion-card>
-  </ng-template>
+  </div>
   <ion-card>
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.signal'|translate}} </ion-label>

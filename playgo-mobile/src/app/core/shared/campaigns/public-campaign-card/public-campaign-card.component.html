@@ -8,7 +8,7 @@
           <img [src]="imagePath" alt="image" />
         </ion-avatar>
         <ion-label>
-          <h3>{{ campaign.name[language] }}</h3>
+          <h3>{{ campaign.name | languageMap }}</h3>
           <h4>{{ "campaigns.blabla" | translate }}</h4>
           <h4>
             {{ campaign.dateFrom | localDate }} -
@@ -20,7 +20,7 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="12">
-          <ion-card-content [innerHTML]="campaign.description[language]">
+          <ion-card-content [innerHTML]="campaign.description | languageMap">
           </ion-card-content>
         </ion-col>
         <ion-col size="12" class="ion-text-center">

@@ -61,7 +61,7 @@
                 <a
                   class="inherit-color"
                   [routerLink]="'/pages/tabs/campaigns/details/' + campaign.campaignId"
-                  >{{campaign.campaignName[language]}}</a
+                  >{{campaign.campaignName | languageMap }}</a
                 >
               </ion-text>
             </ion-col>

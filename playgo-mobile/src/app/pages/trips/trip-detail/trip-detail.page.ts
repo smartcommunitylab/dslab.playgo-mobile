@@ -27,7 +27,6 @@ export class TripDetailPage implements OnInit {
   durationLabel: string;
   getTransportTypeIcon = getTransportTypeIcon;
   getTransportTypeLabel = getTransportTypeLabel;
-  language: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,7 +37,6 @@ export class TripDetailPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.language = this.userService.getLanguage();
     const tripId = this.route.snapshot.paramMap.get('id');
     if (tripId) {
       try {

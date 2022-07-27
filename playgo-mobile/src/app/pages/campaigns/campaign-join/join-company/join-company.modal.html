@@ -2,7 +2,7 @@
   <ion-toolbar color="playgo">
     <ion-title
       >{{ 'campaigns.joinmodal.modalTitle' |translate :
-      {campaignTitle:campaign?.name[language]} }}</ion-title
+      {campaignTitle:campaign?.name | languageMap } }}</ion-title
     >
     <ion-buttons slot="end">
       <ion-button (click)="close()"

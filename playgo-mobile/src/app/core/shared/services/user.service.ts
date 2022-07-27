@@ -2,6 +2,7 @@ import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
+  BehaviorSubject,
   combineLatest,
   EMPTY,
   merge,
@@ -42,8 +43,18 @@ import { ErrorService } from './error.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private userLanguage: string;
-  private userLocale: string;
+  private userLanguageSubject = new BehaviorSubject<'it' | 'en'>('it');
+  public userLanguage$ = this.userLanguageSubject.pipe(
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+  private userLocaleSubject = new BehaviorSubject<'it-IT' | 'en-US'>(null);
+  public userLocale$ = this.userLocaleSubject.pipe(
+    distinctUntilChanged(),
+    filter((locale) => locale !== null),
+    shareReplay(1)
+  );
+
   private userProfile: IUser = null;
 
   public userProfileRefresher$: Subject<void> = new ReplaySubject<void>(1);
@@ -113,7 +124,7 @@ export class UserService {
    * Returned from server.
    * */
   public getLanguage(): 'it' | 'en' {
-    return (this.userLanguage as 'it' | 'en') || 'it';
+    return this.userLanguageSubject.value;
   }
 
   /**
@@ -122,8 +133,8 @@ export class UserService {
    * Format is Unicode Locale Identifier. For example: 'it-IT' or 'en-US'.
    * Right now derived from the user language.
    * */
-  public getLocale(): string {
-    return this.userLocale || 'it-IT';
+  public getLocale(): 'it-IT' | 'en-US' {
+    return this.userLocaleSubject.value;
   }
 
   /**
@@ -180,20 +191,21 @@ export class UserService {
   /**
    * does not throw http error
    */
-  private registerLocale(locale: string) {
-    if (!locale) {
+  private registerLocale(language: string) {
+    if (!language) {
       return;
     }
-    this.translateService.use(locale);
-    switch (locale) {
+    this.translateService.use(language);
+    this.userLanguageSubject.next(language as 'it' | 'en');
+    switch (language) {
       case 'it': {
-        this.userLocale = 'it-IT';
         registerLocaleData(localeItalian);
+        this.userLocaleSubject.next('it-IT');
         break;
       }
       case 'en': {
-        this.userLocale = 'en-US';
-        registerLocaleData(localeItalian);
+        // english locale is registered by default;
+        this.userLocaleSubject.next('en-US');
         break;
       }
     }

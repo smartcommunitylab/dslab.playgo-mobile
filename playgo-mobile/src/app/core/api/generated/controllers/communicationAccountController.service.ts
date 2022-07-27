@@ -15,7 +15,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { PageNotification } from '../model/pageNotification';
+import { Notification } from '../model/notification';
 import { UserSignature } from '../model/userSignature';
 
 @Injectable({
@@ -34,9 +34,9 @@ export class CommunicationAccountControllerService {
     since?: number;
     skip?: number;
     limit?: number;
-  }): Observable<PageNotification> {
+  }): Observable<Array<Notification>> {
     const { since, skip, limit } = args;
-    return this.http.request<PageNotification>(
+    return this.http.request<Array<Notification>>(
       'get',
       environment.serverUrl.api + `/playandgo/api/app/notifications`,
       {
