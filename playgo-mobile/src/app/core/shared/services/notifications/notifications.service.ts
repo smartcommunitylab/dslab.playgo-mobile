@@ -11,6 +11,9 @@ import {
   merge,
   NEVER,
   Observable,
+  share,
+  shareReplay,
+  Subject,
   switchMap,
   tap,
   throttleTime,
@@ -29,7 +32,7 @@ export class NotificationService {
   private notificationSinceStorage =
     this.localStorageService.getStorageOf<number>('notificationSince');
   private since = this.notificationSinceStorage.get() || 0;
-  private storage =
+  private notificationStorage =
     this.localStorageService.getStorageOf<Notification[]>('notifications');
 
   // private afterSyncTimer$: Observable<void> = interval(500).pipe(
@@ -37,6 +40,7 @@ export class NotificationService {
   // );
   private appResumed$: Observable<void> = NEVER;
   private networkStatusChanged$: Observable<void> = NEVER;
+  private notificationReaded$ = new Subject<void>();
   private pushNotification$: Observable<void> =
     this.pushNotificationService.notifications$;
 
@@ -45,17 +49,18 @@ export class NotificationService {
     this.authService.isReadyForApi$,
     this.appResumed$,
     this.networkStatusChanged$,
-    this.pushNotification$
+    this.pushNotification$,
+    this.notificationReaded$
   ).pipe(throttleTime(500));
 
   public allNotifications$: Observable<Notification[]> = this.trigger$.pipe(
-    tapLog('entering allNotifications$'),
+    // tapLog('entering allNotifications$'),
     switchMap(() =>
       this.communicationAccountController
         .getPlayerNotificationsUsingGET({ since: this.since })
         .pipe(tapLog('notif'), this.errorService.getErrorHandler('silent'))
     ),
-    tapLog('got notifications'),
+    // tapLog('got notifications'),
     tap((serverNotifications) => {
       if (serverNotifications.length > 0) {
         this.since =
@@ -67,21 +72,21 @@ export class NotificationService {
         this.notificationSinceStorage.set(this.since);
       }
     }),
-    tapLog(`set since`, this.since),
+    // tapLog(`set since`, this.since),
     map((serverNotifications) => [
-      ...(this.storage.get() || []), //merge and eliminate duplicate based on id
+      ...(this.notificationStorage.get() || []), //merge and eliminate duplicate based on id
       ...serverNotifications,
     ]),
-    tapLog('allNotifications$'),
+    // tapLog('allNotifications$'),
     map((allNotifications) =>
       allNotifications.filter(
         (value, index, self) =>
           index === self.findIndex((t) => t.id === value.id)
       )
     ),
-    // tapLog('allNotificationsWithoutDuplicates'),
+    tapLog('allNotificationsWithoutDuplicates'),
     tap<Notification[]>((allNotificationsWithoutDuplicates) =>
-      this.storage.set(
+      this.notificationStorage.set(
         allNotificationsWithoutDuplicates
           .filter(
             (notification: Notification) =>
@@ -90,14 +95,16 @@ export class NotificationService {
           )
           .slice(0, MAX_NOTIFICATIONS)
       )
-    )
-    // tap<Notification[]>((allNotifications) =>
-    //   this.storage.set(allNotifications.slice(0, MAX_NOTIFICATIONS))
-    // )
+    ),
+    shareReplay(1)
   );
   public unreadNotifications$ = this.allNotifications$.pipe(
     map((notifications) => notifications.filter((not) => not.readed === false)),
     tapLog('unreadNotifications$')
+  );
+  public readedNotifications$ = this.allNotifications$.pipe(
+    map((notifications) => notifications.filter((not) => not.readed === true)),
+    tapLog('readedNotifications$')
   );
 
   constructor(
@@ -113,7 +120,7 @@ export class NotificationService {
       this.allNotifications$.subscribe((notifications) => {
         console.log('notifications', notifications);
         if (notifications === null) {
-          this.storage.set([]);
+          this.notificationStorage.set([]);
         }
       });
       this.unreadNotifications$.subscribe((notifications) => {
@@ -153,11 +160,13 @@ export class NotificationService {
   }
   public getAnnouncementNotifications(): Observable<Notification[]> {
     return this.allNotifications$.pipe(
+      tapLog('entering getAnnouncementNotifications'),
       map((notifications) =>
         notifications.filter(
           (notification) => notification.content.type === 'announcement'
         )
-      )
+      ),
+      tapLog('getAnnouncementNotifications')
     );
   }
   public getUnreadAnnouncementNotifications(): Observable<Notification[]> {
@@ -168,6 +177,46 @@ export class NotificationService {
         )
       )
     );
+  }
+  public getReadedAnnouncementNotifications(): Observable<Notification[]> {
+    return this.readedNotifications$.pipe(
+      map((notifications) =>
+        notifications.filter(
+          (notification) => notification.content.type === 'announcement'
+        )
+      )
+    );
+  }
+  public markAnnouncmentAsReaded() {
+    const storedNotifications = this.notificationStorage.get();
+    storedNotifications.forEach((notification) => {
+      if (notification.content.type === 'announcement') {
+        this.markSingleNotificationAsRead(storedNotifications, notification);
+      }
+    });
+    this.notificationStorage.set(storedNotifications);
+    //notify the new list of notifications
+    this.notificationReaded$.next();
+  }
+  public markListOfNotificationAsRead(notifications: Notification[]) {
+    const storedNotifications = this.notificationStorage.get();
+    notifications.forEach((notification) => {
+      this.markSingleNotificationAsRead(storedNotifications, notification);
+    });
+    this.notificationStorage.set(storedNotifications);
+    //notify the new list of notifications
+    this.notificationReaded$.next();
+  }
+  private markSingleNotificationAsRead(
+    storedNotifications: Notification[],
+    notification: Notification
+  ): void {
+    for (const not of storedNotifications) {
+      if (not.id === notification.id) {
+        not.readed = true;
+        break;
+      }
+    }
   }
 }
 export const MAX_NOTIFICATIONS = 500 as const;

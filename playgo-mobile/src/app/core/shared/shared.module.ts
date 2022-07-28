@@ -26,6 +26,7 @@ import { IconComponent } from './ui/icon/icon.component';
 import { GameStatusComponent } from './campaigns/main-campaign-stat/game-status/game-status.component';
 import { RecordStatusComponent } from './campaigns/main-campaign-stat/record-status/record-status.component';
 import { LanguageMapPipe } from './pipes/languageMap.pipe';
+import { DetailNotificationModalPage } from './detail-notification/detail-notification.modal';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -36,6 +37,7 @@ import { LanguageMapPipe } from './pipes/languageMap.pipe';
     HeaderComponent,
     ProfileComponent,
     PrivacyModalPage,
+    DetailNotificationModalPage,
     LocalDatePipe,
     LocalNumberPipe,
     LanguageMapPipe,
@@ -61,6 +63,7 @@ import { LanguageMapPipe } from './pipes/languageMap.pipe';
     PublicCampaignCardComponent,
     ProfileComponent,
     PrivacyModalPage,
+    DetailNotificationModalPage,
     LocalDatePipe,
     LanguageMapPipe,
     HeaderComponent,

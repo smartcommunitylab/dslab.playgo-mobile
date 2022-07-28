@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title>{{notification?.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()"
+        >{{ 'campaigns.joinmodal.close' | translate }}</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="playgo">
+  <div [innerHTML]="notification?.description"></div>
+</ion-content>

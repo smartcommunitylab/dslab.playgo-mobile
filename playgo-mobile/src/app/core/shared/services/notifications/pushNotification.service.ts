@@ -76,7 +76,7 @@ export class PushNotificationService {
 
     // Some issue with our setup and push will not work
     PushNotifications.addListener('registrationError', (error: any) => {
-      alert('Error on registration: ' + JSON.stringify(error));
+      console.log('Error on registration: ' + JSON.stringify(error));
     });
 
     // Show us the notification payload if the app is open on our device
@@ -84,7 +84,7 @@ export class PushNotificationService {
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
         this.notificationsSubject.next();
-        alert('Push received: ' + JSON.stringify(notification));
+        console.log('Push received: ' + JSON.stringify(notification));
         this.zone.run(() => {
           this.notifications.push(notification);
         });
@@ -95,7 +95,7 @@ export class PushNotificationService {
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
-        alert('Push action performed: ' + JSON.stringify(notification));
+        console.log('Push action performed: ' + JSON.stringify(notification));
       }
     );
   }

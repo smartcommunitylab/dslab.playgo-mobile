@@ -14,13 +14,17 @@ export class NotificationsPage implements OnInit, OnDestroy {
   constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {
+    console.log('ngOnInit');
     this.subNotification = this.notificationService
       .getAnnouncementNotifications()
       .subscribe((notifications) => {
+        console.log('notifications', notifications);
         this.notifications = notifications;
+        //mark all the unreaded notifications as readed
       });
   }
   ngOnDestroy() {
+    this.notificationService.markAnnouncmentAsReaded();
     this.subNotification.unsubscribe();
   }
 }

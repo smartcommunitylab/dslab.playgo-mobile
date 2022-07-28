@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
@@ -15,6 +21,7 @@ import { Notification } from '../../../../api/generated/model/notification';
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
   styleUrls: ['./home-campaign-city.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;

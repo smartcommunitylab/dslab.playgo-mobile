@@ -10,9 +10,12 @@
     <ion-buttons slot="secondary" *ngIf="showNotifications">
       <ion-button id="notificationButton" (click)="navigateToNotification()">
         <ion-icon name="notifications"></ion-icon>
-        <ion-badge id="notifications-badge" color="danger">{{
-          (unreadNotification$ | async).length
-        }}</ion-badge>
+        <ion-badge
+          id="notifications-badge"
+          color="danger"
+          *ngIf="(unreadNotification$ | async)?.length > 0"
+          >{{ (unreadNotification$ | async)?.length }}</ion-badge
+        >
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

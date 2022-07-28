@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   @Input() showNotifications = false;
 
   isOnline$: Observable<boolean> = this.appStatusService.isOnline$;
+
   unreadNotification$: Observable<Notification[]> =
     this.notificationService.getUnreadAnnouncementNotifications();
   constructor(
