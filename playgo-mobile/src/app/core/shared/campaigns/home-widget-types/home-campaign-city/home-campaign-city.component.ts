@@ -21,7 +21,6 @@ import { Notification } from '../../../../api/generated/model/notification';
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
   styleUrls: ['./home-campaign-city.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
