@@ -140,7 +140,7 @@ export class NotificationService {
         notifications.filter(
           (notification) =>
             notification.campaignId === campaignId &&
-            notification.content.type !== 'announcement'
+            notification.content.type !== NotificationType.announcement
         )
       )
     );
@@ -153,7 +153,7 @@ export class NotificationService {
         notifications.filter(
           (notification) =>
             notification.campaignId === campaignId &&
-            notification.content.type !== 'announcement'
+            notification.content.type !== NotificationType.announcement
         )
       )
     );
@@ -163,7 +163,8 @@ export class NotificationService {
       tapLog('entering getAnnouncementNotifications'),
       map((notifications) =>
         notifications.filter(
-          (notification) => notification.content.type === 'announcement'
+          (notification) =>
+            notification.content.type === NotificationType.announcement
         )
       ),
       tapLog('getAnnouncementNotifications')
@@ -173,7 +174,8 @@ export class NotificationService {
     return this.unreadNotifications$.pipe(
       map((notifications) =>
         notifications.filter(
-          (notification) => notification.content.type === 'announcement'
+          (notification) =>
+            notification.content.type === NotificationType.announcement
         )
       )
     );
@@ -182,7 +184,8 @@ export class NotificationService {
     return this.readedNotifications$.pipe(
       map((notifications) =>
         notifications.filter(
-          (notification) => notification.content.type === 'announcement'
+          (notification) =>
+            notification.content.type === NotificationType.announcement
         )
       )
     );
@@ -190,7 +193,7 @@ export class NotificationService {
   public markAnnouncmentAsReaded() {
     const storedNotifications = this.notificationStorage.get();
     storedNotifications.forEach((notification) => {
-      if (notification.content.type === 'announcement') {
+      if (notification.content.type === NotificationType.announcement) {
         this.markSingleNotificationAsRead(storedNotifications, notification);
       }
     });
@@ -220,3 +223,15 @@ export class NotificationService {
   }
 }
 export const MAX_NOTIFICATIONS = 500 as const;
+export enum NotificationType {
+  level = 'level',
+  programChallenge = 'program_challenge',
+  newInvite = 'new_invite',
+  replyAccepted = 'reply_accepted',
+  replyDenied = 'reply_denied',
+  challengeCancel = 'challenge_cancel',
+  challengeAssigned = 'challenge_assigned',
+  challengeComplete = 'challenge_complete',
+  challengeFailed = 'challenge_failed',
+  announcement = 'announcement',
+}
