@@ -33,7 +33,7 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   imagePath: string;
   unreadNotification$: Observable<Notification[]>;
   numberOfNotification = 0;
-  subunread: Subscription;
+  subUnread: Subscription;
   constructor(
     private userService: UserService,
     private reportService: ReportService,
@@ -54,7 +54,7 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
           this.cdRef.detectChanges();
         })
       );
-    this.subunread = this.unreadNotification$.subscribe();
+    this.subUnread = this.unreadNotification$.subscribe();
     this.imagePath = this.campaignContainer.campaign.logo.url
       ? this.campaignContainer.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
@@ -114,6 +114,6 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subStat.unsubscribe();
-    this.subunread.unsubscribe();
+    this.subUnread.unsubscribe();
   }
 }
