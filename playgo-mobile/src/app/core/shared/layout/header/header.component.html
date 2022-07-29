@@ -13,8 +13,8 @@
         <ion-badge
           id="notifications-badge"
           color="danger"
-          *ngIf="(unreadNotification$ | async)?.length > 0"
-          >{{ (unreadNotification$ | async)?.length }}</ion-badge
+          *ngIf="numberOfNotification > 0"
+          >{{ numberOfNotification }}</ion-badge
         >
       </ion-button>
     </ion-buttons>

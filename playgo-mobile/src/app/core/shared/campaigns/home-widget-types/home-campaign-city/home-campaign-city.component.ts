@@ -1,11 +1,11 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { ReportService } from 'src/app/core/shared/services/report.service';
@@ -32,19 +32,29 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   reportTotalStat: CampaignPlacing;
   imagePath: string;
   unreadNotification$: Observable<Notification[]>;
-
+  numberOfNotification = 0;
+  subunread: Subscription;
   constructor(
     private userService: UserService,
     private reportService: ReportService,
     private errorService: ErrorService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.unreadNotification$ =
-      this.notificationService.getUnreadCampaignNotifications(
+    this.unreadNotification$ = this.notificationService
+      .getUnreadCampaignNotifications(
         this.campaignContainer.campaign.campaignId
+      )
+      .pipe(
+        tap((notifications) => {
+          console.log('unread campaign notification', notifications);
+          this.numberOfNotification = notifications.length;
+          this.cdRef.detectChanges();
+        })
       );
+    this.subunread = this.unreadNotification$.subscribe();
     this.imagePath = this.campaignContainer.campaign.logo.url
       ? this.campaignContainer.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
@@ -104,5 +114,6 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subStat.unsubscribe();
+    this.subunread.unsubscribe();
   }
 }
