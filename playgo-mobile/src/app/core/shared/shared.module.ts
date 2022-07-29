@@ -27,6 +27,7 @@ import { GameStatusComponent } from './campaigns/main-campaign-stat/game-status/
 import { RecordStatusComponent } from './campaigns/main-campaign-stat/record-status/record-status.component';
 import { LanguageMapPipe } from './pipes/languageMap.pipe';
 import { DetailNotificationModalPage } from './detail-notification/detail-notification.modal';
+import { NotificationBadgeComponent } from './campaigns/home-widget-types/notification-badge/notification-badge.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -49,6 +50,7 @@ import { DetailNotificationModalPage } from './detail-notification/detail-notifi
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
+    NotificationBadgeComponent,
     RecordStatusComponent,
     GameStatusComponent,
     WidgetComponent,
@@ -76,6 +78,7 @@ import { DetailNotificationModalPage } from './detail-notification/detail-notifi
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
+    NotificationBadgeComponent,
     GameStatusComponent,
     RecordStatusComponent,
     WidgetComponent,

@@ -1,11 +1,5 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { Observable, Subscription, tap } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -16,8 +10,6 @@ import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { toServerDateOnly } from '../../../time.utils';
 import { isOfflineError } from '../../../utils';
 import { ErrorService } from '../../../services/error.service';
-import { NotificationService } from '../../../services/notifications/notifications.service';
-import { Notification } from '../../../../api/generated/model/notification';
 
 @Component({
   selector: 'app-home-campaign-personal',
@@ -34,30 +26,13 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
   record: TransportStat;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
-  unreadNotification$: Observable<Notification[]>;
-  numberOfNotification = 0;
-  subUnread: Subscription;
   constructor(
     private userService: UserService,
     private reportService: ReportService,
-    private errorService: ErrorService,
-    private notificationService: NotificationService,
-    private cdRef: ChangeDetectorRef
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
-    this.unreadNotification$ = this.notificationService
-      .getUnreadCampaignNotifications(
-        this.campaignContainer.campaign.campaignId
-      )
-      .pipe(
-        tap((notifications) => {
-          console.log('unread campaign notification', notifications);
-          this.numberOfNotification = notifications.length;
-          this.cdRef.detectChanges();
-        })
-      );
-    this.subUnread = this.unreadNotification$.subscribe();
     this.imagePath = this.campaignContainer.campaign.logo.url
       ? this.campaignContainer.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
