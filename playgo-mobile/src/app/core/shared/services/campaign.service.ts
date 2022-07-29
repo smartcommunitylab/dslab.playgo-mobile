@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isEqual } from 'lodash-es';
-import { EMPTY, merge, Observable, ReplaySubject, throwError } from 'rxjs';
+import {
+  EMPTY,
+  merge,
+  Observable,
+  ReplaySubject,
+  Subject,
+  throwError,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -40,6 +47,7 @@ export class CampaignService {
     ),
     shareReplay(1)
   );
+
   private playerCampaignUnSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
   private playerCampaignSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
   public playerCampaignsRefresher$ = new ReplaySubject<void>(1);
@@ -115,7 +123,8 @@ export class CampaignService {
       },
     },
   };
-
+  public subscribeCampaignAction$ = new Subject<string>();
+  public unsubscribeCampaignAction$ = new Subject<string>();
   constructor(
     private userService: UserService,
     private campaignControllerService: CampaignControllerService,
@@ -132,6 +141,7 @@ export class CampaignService {
       .subscribeCampaignUsingPOST({ campaignId: id, body })
       .pipe(
         map((res) => {
+          this.subscribeCampaignAction$.next(id);
           this.playerCampaignSubscribed$.next(null);
           return res;
         })
@@ -141,6 +151,7 @@ export class CampaignService {
     //update my campaign list
     return this.campaignControllerService.unsubscribeCampaignUsingPUT(id).pipe(
       map((res) => {
+        this.unsubscribeCampaignAction$.next(id);
         this.playerCampaignUnSubscribed$.next(null);
         return res;
       })

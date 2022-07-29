@@ -1,1 +1,14 @@
-<ion-content color="playgo">Notifiche </ion-content>
+<app-header
+  [backButton]="true"
+  [color]="'playgo'"
+  [title]="'notifications_title'|translate"
+  [showNotifications]="false"
+></app-header>
+
+<ion-content color="playgo" fullscreen="true">
+  <ng-container *ngFor="let notification of notifications">
+    <app-notification-detail
+      [notification]="notification"
+    ></app-notification-detail>
+  </ng-container>
+</ion-content>

@@ -25,6 +25,10 @@
     [campaign]="campaignContainer"
     [header]="false"
   ></app-widget-campaign>
+  <ng-container *ngFor="let notification of unreadNotifications">
+    <app-campaign-notification [notification]="notification">
+    </app-campaign-notification>
+  </ng-container>
   <ion-card
     *ngIf="campaignHas('leaderboard')"
     [routerLink]="getLeaderboardLink()"

@@ -8,8 +8,14 @@
       <span *ngIf="title">{{ title | translate }}</span>
     </ion-title>
     <ion-buttons slot="secondary" *ngIf="showNotifications">
-      <ion-button (click)="navigateToNotification()">
-        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      <ion-button id="notificationButton" (click)="navigateToNotification()">
+        <ion-icon name="notifications"></ion-icon>
+        <ion-badge
+          id="notifications-badge"
+          color="danger"
+          *ngIf="numberOfNotification > 0"
+          >{{ numberOfNotification }}</ion-badge
+        >
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

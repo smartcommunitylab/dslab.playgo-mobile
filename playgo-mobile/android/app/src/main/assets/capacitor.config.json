@@ -13,6 +13,13 @@
 			"backgroundColor": "#1C3461",
 			"androidSplashResourceName": "splash"
 		},
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		},
 		"CodePush": {
 			"ANDROID_DEPLOY_KEY": "URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog",
 			"IOS_DEPLOY_KEY": "KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog",

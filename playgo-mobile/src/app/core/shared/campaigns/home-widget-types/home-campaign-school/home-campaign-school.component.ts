@@ -1,6 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { DateTime } from 'luxon';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
@@ -9,6 +15,7 @@ import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
 import { toServerDateOnly } from '../../../time.utils';
 import { isOfflineError } from '../../../utils';
+import { Notification } from '../../../../api/generated/model/notification';
 
 @Component({
   selector: 'app-home-campaign-school',
@@ -23,6 +30,7 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   reportWeekStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
+
   constructor(
     private userService: UserService,
     private reportService: ReportService,

@@ -1,5 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Observable, Subscription, tap } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { ReportService } from 'src/app/core/shared/services/report.service';
@@ -9,6 +15,7 @@ import { toServerDateOnly } from '../../../time.utils';
 import { ErrorService } from '../../../services/error.service';
 import { isOfflineError } from '../../../utils';
 import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
+import { Notification } from '../../../../api/generated/model/notification';
 @Component({
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
