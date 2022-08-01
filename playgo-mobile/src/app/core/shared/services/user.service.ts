@@ -1,4 +1,3 @@
-import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -14,7 +13,6 @@ import {
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../model/user.model';
-import localeItalian from '@angular/common/locales/it';
 import { TransportType } from '../tracking/trip.model';
 import { TerritoryService } from './territory.service';
 import { ReportService } from './report.service';
@@ -191,7 +189,7 @@ export class UserService {
   /**
    * does not throw http error
    */
-  private registerLocale(language: string) {
+  private changeLanguage(language: string) {
     if (!language) {
       return;
     }
@@ -199,12 +197,10 @@ export class UserService {
     this.userLanguageSubject.next(language as 'it' | 'en');
     switch (language) {
       case 'it': {
-        registerLocaleData(localeItalian);
         this.userLocaleSubject.next('it-IT');
         break;
       }
       case 'en': {
-        // english locale is registered by default;
         this.userLocaleSubject.next('en-US');
         break;
       }
@@ -259,7 +255,7 @@ export class UserService {
    */
   private async processUser(user: IUser) {
     await this.setUserProfileMeans(user.territoryId);
-    this.registerLocale(user.language);
+    this.changeLanguage(user.language);
   }
 
   /**
