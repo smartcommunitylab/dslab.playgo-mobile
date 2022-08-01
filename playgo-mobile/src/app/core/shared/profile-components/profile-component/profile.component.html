@@ -47,7 +47,8 @@
     <ion-item lines="none" *ngIf="activeFrom">
       <ion-label>
         <div>
-          {{ "profile.activeFrom" | translate }}<b>{{ activeFrom }}</b>
+          {{ "profile.activeFrom" | translate
+          }}<b>{{ activeFrom | localDate: "shortDate" }}</b>
         </div>
       </ion-label>
     </ion-item>

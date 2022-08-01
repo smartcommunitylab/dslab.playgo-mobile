@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   subCamp: Subscription;
   numMyCampaigns: number;
   territory: Territory;
-  activeFrom: string;
+  activeFrom: number;
   timeStamp: any;
   linkPicture: string;
   constructor(
@@ -55,16 +55,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subCamp = this.campaignService.myCampaigns$.subscribe(
       (myCampaigns) => {
         this.numMyCampaigns = myCampaigns?.length;
-        const activeFromMillis = myCampaigns.find(
+        this.activeFrom = myCampaigns.find(
           (camp) => camp.campaign?.type === 'personal'
         ).subscription?.registrationDate;
-        if (activeFromMillis) {
-          this.activeFrom = fromServerDate(activeFromMillis)
-            .toLocal()
-            .toLocaleString(DateTime.DATE_SHORT);
-        } else {
-          this.activeFrom = null;
-        }
       }
     );
   }
