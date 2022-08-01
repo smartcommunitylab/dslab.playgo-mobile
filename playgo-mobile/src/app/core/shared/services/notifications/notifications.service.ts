@@ -228,3 +228,60 @@ export enum NotificationType {
   challengeFailed = 'challenge_failed',
   announcement = 'announcement',
 }
+export const NOTIFICATION_TYPE_ACTIONS = {
+  [NotificationType.level]: {
+    icon: 'level-up',
+    color: 'primary',
+    places: ['campaign'],
+  },
+  [NotificationType.programChallenge]: {
+    icon: 'trophy',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.newInvite]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.replyAccepted]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.replyDenied]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.challengeCancel]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.challengeAssigned]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.challengeComplete]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.challengeFailed]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.challengeAssigned]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['challenge'],
+  },
+  [NotificationType.announcement]: {
+    icon: 'person-add',
+    color: 'primary',
+    places: ['notifications'],
+  },
+};

@@ -60,32 +60,34 @@ export class PushNotificationService {
 
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration', (token: Token) => {
-      console.log('Push registration success, token: ' + token.value);
-      //register on our server
-      FCM.getToken().then((fcmtoken) => {
-        if (Capacitor.getPlatform() === 'ios') {
-          console.log('fcmtoken', fcmtoken);
-          this.registerToServer(fcmtoken.token);
-        } else {
-          this.registerToServer(token.value);
-        }
-        // subscribe to territory and all campaign I have
-        this.registerToTopics();
+      this.zone.run(() => {
+        FCM.getToken().then((fcmtoken) => {
+          if (Capacitor.getPlatform() === 'ios') {
+            console.log('fcmtoken', fcmtoken);
+            this.registerToServer(fcmtoken.token);
+          } else {
+            this.registerToServer(token.value);
+          }
+          // subscribe to territory and all campaign I have
+          this.registerToTopics();
+        });
       });
     });
 
     // Some issue with our setup and push will not work
     PushNotifications.addListener('registrationError', (error: any) => {
-      console.log('Error on registration: ' + JSON.stringify(error));
+      this.zone.run(() => {
+        console.log('Error on registration: ' + JSON.stringify(error));
+      });
     });
 
     // Show us the notification payload if the app is open on our device
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
-        this.notificationsSubject.next();
-        console.log('Push received: ' + JSON.stringify(notification));
         this.zone.run(() => {
+          this.notificationsSubject.next();
+          console.log('Push received: ' + JSON.stringify(notification));
           this.notifications.push(notification);
         });
       }
@@ -95,7 +97,9 @@ export class PushNotificationService {
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
-        console.log('Push action performed: ' + JSON.stringify(notification));
+        this.zone.run(() => {
+          console.log('Push action performed: ' + JSON.stringify(notification));
+        });
       }
     );
   }

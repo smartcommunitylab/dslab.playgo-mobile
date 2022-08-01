@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     this.notificationService.unreadAnnouncementNotifications$.pipe(
       tap((notifications) => {
         this.numberOfNotification = notifications.length;
-        this.cdRef.detectChanges();
+        // this.cdRef.detectChanges();
       })
     );
   subunread: Subscription;
@@ -38,9 +38,9 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     private navCtrl: NavController,
     private appStatusService: AppStatusService,
     private router: Router,
-    private notificationService: NotificationService,
-    private cdRef: ChangeDetectorRef
-  ) {
+    private notificationService: NotificationService
+  ) // private cdRef: ChangeDetectorRef
+  {
     this.isOnline$.subscribe((isOnline) => {
       console.log('isOnline', isOnline);
     });
