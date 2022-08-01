@@ -38,7 +38,7 @@
     "prettier:check": "prettier . --check",
     "generate-api": "sh ./generate-api.sh",
     "getTypescriptVersion": "tsc -v",
-    "postinstall": "node check-node-version.js"
+    "postinstall": "node check-node-version.js && node fcm-library.js"
   },
   "dependencies": {
     "@angular/common": "~13.3.0",
@@ -86,6 +86,7 @@
     "luxon-angular": "^5.0.0",
     "material-icons": "^1.10.8",
     "pouchdb": "^7.3.0",
+    "replace-in-file": "^6.3.5",
     "rxjs": "^7.5.5",
     "to-px": "^1.1.0",
     "tslib": "^2.4.0",
