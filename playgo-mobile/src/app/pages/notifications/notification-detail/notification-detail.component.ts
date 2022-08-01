@@ -15,5 +15,7 @@ export class NotificationDetailComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.notification);
+  }
 }

@@ -1,11 +1,19 @@
-<ion-card color="playgo">
+<ion-card color="playgo" [ngClass]="{ readed: !notification.readed }">
   <ion-grid>
     <ion-row>
-      <ion-col>{{ notification.title }}</ion-col
-      ><ion-col>{{ notification.timestamp | localDate }}</ion-col>
+      <ion-col class="warning" size="1" *ngIf="!notification.readed"
+        ><ion-icon name="alert"></ion-icon></ion-col
+      ><ion-col>
+        <ion-row>
+          <ion-col class="ion-text-start">{{ notification.title }}</ion-col
+          ><ion-col class="ion-text-end">
+            {{ notification.timestamp | localDate }}</ion-col
+          >
+        </ion-row>
+        <ion-row>
+          <ion-col>{{ notification.description }}</ion-col></ion-row
+        >
+      </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col>{{ notification.description }}</ion-col></ion-row
-    >
   </ion-grid>
 </ion-card>
