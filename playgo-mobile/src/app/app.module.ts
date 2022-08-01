@@ -16,6 +16,9 @@ import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
 import { GlobalErrorHandler } from './core/shared/services/global-error-handler';
 import { Device } from '@capacitor/device';
 import { DevicePluginMock } from './core/shared/plugin-mocks/DevicePluginMock';
+import localeItalian from '@angular/common/locales/it';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeItalian);
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
