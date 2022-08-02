@@ -5,17 +5,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { DateTime } from 'luxon';
-import { Observable, Subscription, tap } from 'rxjs';
-import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { EMPTY, Observable, Subscription, tap } from 'rxjs';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
-import { ErrorService } from '../../../services/error.service';
 import { NotificationService } from '../../../services/notifications/notifications.service';
-import { ReportService } from '../../../services/report.service';
-import { UserService } from '../../../services/user.service';
-import { toServerDateOnly } from '../../../time.utils';
-import { isOfflineError } from '../../../utils';
 import { Notification } from '../../../../api/generated/model/notification';
 
 @Component({
@@ -25,6 +17,7 @@ import { Notification } from '../../../../api/generated/model/notification';
 })
 export class NotificationBadgeComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
+  @Input() type: TypeOfNotification;
   unreadNotification$: Observable<Notification[]>;
   numberOfNotification = 0;
   subUnread: Subscription;
@@ -35,22 +28,33 @@ export class NotificationBadgeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // mettere il tipo parametrico in modo da aggiungere badge anche per Challenge9nel tab di sotto
-    this.unreadNotification$ = this.notificationService
-      .getUnreadCampaignNotifications(
-        this.campaignContainer.campaign.campaignId
-      )
-      .pipe(
-        tap((notifications) => {
-          console.log('unread campaign notification', notifications);
-          this.numberOfNotification = notifications.length;
-          this.cdRef.detectChanges();
-        })
-      );
+    this.unreadNotification$ = this.getNotifObservable(this.type).pipe(
+      tap((notifications) => {
+        console.log('unread campaign notification', notifications);
+        this.numberOfNotification = notifications.length;
+        // this.cdRef.detectChanges();
+      })
+    );
     this.subUnread = this.unreadNotification$.subscribe();
+  }
+  getNotifObservable(type: TypeOfNotification) {
+    switch (type) {
+      case 'campaign':
+        return this.notificationService.getUnreadCampaignNotifications(
+          this.campaignContainer.campaign.campaignId
+        );
+
+      case 'challenge':
+        return this.notificationService.getUnreadCampaignChallengeNotifications(
+          this.campaignContainer.campaign.campaignId
+        );
+      default:
+        return EMPTY;
+    }
   }
 
   ngOnDestroy() {
     this.subUnread.unsubscribe();
   }
 }
+type TypeOfNotification = 'campaign' | 'challenge';

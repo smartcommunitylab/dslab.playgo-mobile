@@ -31,6 +31,9 @@
     <ion-tab-button tab="challenges" (click)="handleTabClick( $event)">
       <app-icon name="cup" class="icon-size-normal"></app-icon>
       <ion-label>{{'challengeTitle'|translate}}</ion-label>
+      <ion-badge color="danger" *ngIf="challengesUnread>0"
+        ><ion-icon name="alert"></ion-icon
+      ></ion-badge>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

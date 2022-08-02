@@ -6,6 +6,10 @@
       </ion-avatar>
       <strong> {{ campaignContainer.campaign.name | languageMap }}</strong>
       <app-notification-badge
+        [type]="'campaign'"
+        [campaignContainer]="campaignContainer"
+      ></app-notification-badge>
+      <app-notification-badge
         [campaignContainer]="campaignContainer"
       ></app-notification-badge>
     </ion-item>
@@ -17,5 +21,12 @@
       [reportTotalStat]="reportTotalStat"
     >
     </app-main-campaign-stat>
+    <ion-item color="company" *ngIf="header" (click)="goToChallenge($event)">
+      Sezione sfide
+      <app-notification-badge
+        [type]="'challenge'"
+        [campaignContainer]="campaignContainer"
+      ></app-notification-badge>
+    </ion-item>
   </ion-card-content>
 </ion-card>

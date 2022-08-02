@@ -17,5 +17,12 @@
       [reportWeekStat]="reportWeekStat"
       [reportTotalStat]="reportTotalStat"
     ></app-main-campaign-stat>
+    <ion-item color="school" *ngIf="header" (click)="goToChallenge($event)">
+      Sezione sfide
+      <app-notification-badge
+        [type]="'challenge'"
+        [campaignContainer]="campaignContainer"
+      ></app-notification-badge>
+    </ion-item>
   </ion-card-content>
 </ion-card>
