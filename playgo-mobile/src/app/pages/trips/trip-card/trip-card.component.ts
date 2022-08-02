@@ -11,6 +11,7 @@ import {
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { ServerOrLocalTrip } from '../trips.page';
 import { formatDurationToHoursAndMinutes } from 'src/app/core/shared/utils';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-trip-card',
@@ -22,8 +23,6 @@ export class TripCardComponent implements OnInit, OnChanges {
   getTransportTypeIcon = getTransportTypeIcon;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly Validity = TrackedInstanceInfo.ValidityEnum;
-
-  pluralRules = new Intl.PluralRules(this.userService.getLocale());
 
   @Input() trip: ServerOrLocalTrip;
   @Input() isOneDayTrip = true;
@@ -68,11 +67,14 @@ export class TripCardComponent implements OnInit, OnChanges {
     const numberOfValidCampaigns = this.trip.campaigns.filter(
       (campaign) => campaign.valid
     ).length;
-    const pluralForm = this.pluralRules.select(numberOfValidCampaigns);
-    this.validCampaignsLabel = this.translateService.instant(
-      'trip_detail.valid_for_campaigns.plural_form.' + pluralForm,
-      { count: numberOfValidCampaigns }
-    );
+
+    firstValueFrom(this.userService.pluralRules$).then((pluralRules) => {
+      const pluralForm = pluralRules.select(numberOfValidCampaigns);
+      this.validCampaignsLabel = this.translateService.instant(
+        'trip_detail.valid_for_campaigns.plural_form.' + pluralForm,
+        { count: numberOfValidCampaigns }
+      );
+    });
 
     this.durationLabel = formatDurationToHoursAndMinutes(
       this.trip.endTime - this.trip.startTime
