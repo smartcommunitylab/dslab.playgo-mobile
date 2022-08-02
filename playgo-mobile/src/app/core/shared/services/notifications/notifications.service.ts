@@ -250,6 +250,7 @@ export class NotificationService {
 export const MAX_NOTIFICATIONS = 500 as const;
 export enum NotificationType {
   level = 'level',
+  badge = 'badge',
   programChallenge = 'program_challenge',
   newInvite = 'new_invite',
   replyAccepted = 'reply_accepted',

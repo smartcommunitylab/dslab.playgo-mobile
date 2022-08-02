@@ -10,5 +10,9 @@
 </ion-header>
 
 <ion-content color="playgo">
-  <div [innerHTML]="notification?.description"></div>
+  <div [ngSwitch]="notification?.content?.type">
+    <div *ngSwitchCase="notificationType.level">new level</div>
+    <div *ngSwitchCase="notificationType.badge">new badge</div>
+    <div *ngSwitchDefault [innerHTML]="notification?.description"></div>
+  </div>
 </ion-content>
