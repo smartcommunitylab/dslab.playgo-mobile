@@ -1,0 +1,35 @@
+<ion-toolbar [color]="color$ | async">
+  <ion-buttons slot="start" *ngIf="backButton$ | async">
+    <ion-back-button (click)="back()" [defaultHref]="defaultHref$ | async">
+    </ion-back-button>
+  </ion-buttons>
+  <ion-title>
+    <span *ngIf="title$ | async">{{ title$ | async | translate }}</span>
+  </ion-title>
+  <ion-buttons slot="secondary" *ngIf="showNotifications$ | async">
+    <ion-button id="notificationButton" (click)="navigateToNotification()">
+      <ion-icon name="notifications"></ion-icon>
+      <ion-badge
+        id="notifications-badge"
+        color="danger"
+        *ngIf="numberOfNotification > 0"
+        >{{ numberOfNotification }}</ion-badge
+      >
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-toolbar color="warning" *ngIf="(isOnline$ | async) === false">
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="2">
+        <app-icon name="offline" style="font-size: 200%"> </app-icon>
+      </ion-col>
+      <ion-col size="3" class="ion-text-uppercase">
+        <b>{{ "offline.title" | translate }}</b>
+      </ion-col>
+      <ion-col size="7">
+        {{ "offline.header" | translate }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-toolbar>
