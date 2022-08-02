@@ -20,6 +20,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
       .subscribe((notifications) => {
         console.log('notifications', notifications);
         this.notifications = notifications;
+        this.notifications.sort((a, b) => b.timestamp - a.timestamp);
         //mark all the unreaded notifications as readed
       });
   }

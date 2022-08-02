@@ -1,13 +1,15 @@
 <ion-card>
-  <ion-card-header color="school">
+  <app-notification-badge
+    *ngIf="header"
+    [type]="'campaign'"
+    [campaignContainer]="campaignContainer"
+  ></app-notification-badge>
+  <ion-card-header *ngIf="header" color="school">
     <ion-item lines="none" color="school">
       <ion-avatar>
         <img [src]="imagePath" alt="Avatar" />
       </ion-avatar>
       <strong> {{ campaignContainer.campaign.name | languageMap }}</strong>
-      <app-notification-badge
-        [campaignContainer]="campaignContainer"
-      ></app-notification-badge>
     </ion-item>
   </ion-card-header>
   <ion-card-content class="school-content">
@@ -17,5 +19,17 @@
       [reportWeekStat]="reportWeekStat"
       [reportTotalStat]="reportTotalStat"
     ></app-main-campaign-stat>
+    <ion-item
+      id="challenge"
+      color="school"
+      *ngIf="header"
+      (click)="goToChallenge($event)"
+    >
+      Sezione sfide
+      <app-notification-badge
+        [type]="'challenge'"
+        [campaignContainer]="campaignContainer"
+      ></app-notification-badge>
+    </ion-item>
   </ion-card-content>
 </ion-card>

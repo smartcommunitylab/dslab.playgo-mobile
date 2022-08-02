@@ -3,6 +3,7 @@
   "appName": "it.dslab.playgo",
   "webDir": "www",
   "bundledWebRuntime": false,
+  "server": { "allowNavigation": ["*"] },
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 3000,
