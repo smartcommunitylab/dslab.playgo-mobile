@@ -55,11 +55,7 @@ export class HeaderContentComponent implements OnInit, OnDestroy {
     private router: Router,
     private notificationService: NotificationService,
     public pageSettingsService: PageSettingsService
-  ) {
-    this.isOnline$.subscribe((isOnline) => {
-      console.log('isOnline', isOnline);
-    });
-  }
+  ) {}
   ngOnDestroy(): void {
     this.subunread.unsubscribe();
   }

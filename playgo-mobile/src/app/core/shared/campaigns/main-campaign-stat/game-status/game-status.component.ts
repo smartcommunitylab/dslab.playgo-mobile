@@ -11,7 +11,5 @@ export class GameStatusComponent implements OnInit {
   @Input() type?: string;
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.status);
-  }
+  ngOnInit() {}
 }
