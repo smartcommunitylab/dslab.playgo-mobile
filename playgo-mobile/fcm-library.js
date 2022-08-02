@@ -5,9 +5,9 @@ var options = {
   to: 'implementation "com.google.firebase: firebase - messaging: $firebaseMessagingVersion"\n\timplementation "com.google.firebase:firebase-iid:21.1.0"'
 };
 replace(options)
-  .then(results => {
+  .then(function () {
     console.log('Added implementation "com.google.firebase:firebase-iid:21.1.0"');
   })
-  .catch(error => {
+  .catch(function (error) {
     console.error('Error occurred:', error);
   });
