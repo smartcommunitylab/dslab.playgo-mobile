@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -17,27 +18,9 @@ import { PageSettingsService } from '../../services/page-settings.service';
   selector: 'app-header-content',
   templateUrl: './header-content.component.html',
   styleUrls: ['./header-content.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderContentComponent implements OnInit, OnDestroy {
-  public title$ = this.pageSettingsService.pageSettings$.pipe(
-    map((settings) => settings.title)
-  );
-  public backButton$ = this.pageSettingsService.pageSettings$.pipe(
-    map((settings) => settings.backButton)
-  );
-
-  public color$ = this.pageSettingsService.pageSettings$.pipe(
-    map((settings) => settings.color)
-  );
-
-  public defaultHref$ = this.pageSettingsService.pageSettings$.pipe(
-    map((settings) => settings.defaultHref)
-  );
-
-  public showNotifications$ = this.pageSettingsService.pageSettings$.pipe(
-    map((settings) => settings.showNotifications)
-  );
-
   isOnline$: Observable<boolean> = this.appStatusService.isOnline$;
   numberOfNotification = 0;
   unreadNotification$: Observable<Notification[]> =
@@ -60,7 +43,7 @@ export class HeaderContentComponent implements OnInit, OnDestroy {
     this.subunread.unsubscribe();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.subunread = this.unreadNotification$.subscribe();
   }
   navigateToNotification() {

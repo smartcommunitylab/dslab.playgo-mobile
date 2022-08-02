@@ -1,35 +1,37 @@
-<ion-toolbar [color]="color$ | async">
-  <ion-buttons slot="start" *ngIf="backButton$ | async">
-    <ion-back-button (click)="back()" [defaultHref]="defaultHref$ | async">
-    </ion-back-button>
-  </ion-buttons>
-  <ion-title>
-    <span *ngIf="title$ | async">{{ title$ | async | translate }}</span>
-  </ion-title>
-  <ion-buttons slot="secondary" *ngIf="showNotifications$ | async">
-    <ion-button id="notificationButton" (click)="navigateToNotification()">
-      <ion-icon name="notifications"></ion-icon>
-      <ion-badge
-        id="notifications-badge"
-        color="danger"
-        *ngIf="numberOfNotification > 0"
-        >{{ numberOfNotification }}</ion-badge
-      >
-    </ion-button>
-  </ion-buttons>
-</ion-toolbar>
-<ion-toolbar color="warning" *ngIf="(isOnline$ | async) === false">
-  <ion-grid>
-    <ion-row class="ion-align-items-center">
-      <ion-col size="2">
-        <app-icon name="offline" style="font-size: 200%"> </app-icon>
-      </ion-col>
-      <ion-col size="3" class="ion-text-uppercase">
-        <b>{{ "offline.title" | translate }}</b>
-      </ion-col>
-      <ion-col size="7">
-        {{ "offline.header" | translate }}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-toolbar>
+<ng-container *ngIf="pageSettingsService.pageSettings$ | async as settings">
+  <ion-toolbar [color]="settings.color">
+    <ion-buttons slot="start" *ngIf="settings.backButton">
+      <ion-back-button (click)="back()" [defaultHref]="settings.defaultHref">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <span *ngIf="settings.title">{{ settings.title | translate }}</span>
+    </ion-title>
+    <ion-buttons slot="secondary" *ngIf="settings.showNotifications">
+      <ion-button id="notificationButton" (click)="navigateToNotification()">
+        <ion-icon name="notifications"></ion-icon>
+        <ion-badge
+          id="notifications-badge"
+          color="danger"
+          *ngIf="numberOfNotification > 0"
+          >{{ numberOfNotification }}</ion-badge
+        >
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="warning" *ngIf="(isOnline$ | async) === false">
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="2">
+          <app-icon name="offline" style="font-size: 200%"> </app-icon>
+        </ion-col>
+        <ion-col size="3" class="ion-text-uppercase">
+          <b>{{ "offline.title" | translate }}</b>
+        </ion-col>
+        <ion-col size="7">
+          {{ "offline.header" | translate }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ng-container>
