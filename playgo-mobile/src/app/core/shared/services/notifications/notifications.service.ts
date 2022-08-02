@@ -154,7 +154,35 @@ export class NotificationService {
         notifications.filter(
           (notification) =>
             notification.campaignId === campaignId &&
-            notification.content.type !== NotificationType.announcement
+            NOTIFICATION_TYPE_ACTIONS.campaignWidgetBadge.types.includes(
+              notification.content.type
+            )
+        )
+      )
+    );
+  }
+  public getUnreadCampaignChallengeNotifications(
+    campaignId: string
+  ): Observable<Notification[]> {
+    return this.unreadNotifications$.pipe(
+      map((notifications) =>
+        notifications.filter(
+          (notification) =>
+            notification.campaignId === campaignId &&
+            NOTIFICATION_TYPE_ACTIONS.campaignWidgetChallengeBadge.types.includes(
+              notification.content.type
+            )
+        )
+      )
+    );
+  }
+  public getUnreadChallengeNotifications(): Observable<Notification[]> {
+    return this.unreadNotifications$.pipe(
+      map((notifications) =>
+        notifications.filter((notification) =>
+          NOTIFICATION_TYPE_ACTIONS.challengeTabBadge.types.includes(
+            notification.content.type
+          )
         )
       )
     );
@@ -167,17 +195,21 @@ export class NotificationService {
         notifications.filter(
           (notification) =>
             notification.campaignId === campaignId &&
-            notification.content.type !== NotificationType.announcement
+            NOTIFICATION_TYPE_ACTIONS.campaignWidgetBadge.types.includes(
+              notification.content.type
+            )
         )
       )
     );
   }
+
   public getAnnouncementNotifications(): Observable<Notification[]> {
     return this.allNotifications$.pipe(
       map((notifications) =>
-        notifications.filter(
-          (notification) =>
-            notification.content.type === NotificationType.announcement
+        notifications.filter((notification) =>
+          NOTIFICATION_TYPE_ACTIONS.notificationBadge.types.includes(
+            notification.content.type
+          )
         )
       )
     );
@@ -229,59 +261,35 @@ export enum NotificationType {
   announcement = 'announcement',
 }
 export const NOTIFICATION_TYPE_ACTIONS = {
-  [NotificationType.level]: {
-    icon: 'level-up',
-    color: 'primary',
-    places: ['campaign'],
+  campaignWidgetBadge: {
+    types: [NotificationType.level],
   },
-  [NotificationType.programChallenge]: {
-    icon: 'trophy',
-    color: 'primary',
-    places: ['challenge'],
+  challengeTabBadge: {
+    types: [
+      NotificationType.programChallenge,
+      NotificationType.newInvite,
+      NotificationType.replyAccepted,
+      NotificationType.replyDenied,
+      NotificationType.challengeCancel,
+      NotificationType.challengeAssigned,
+      NotificationType.challengeComplete,
+      NotificationType.challengeFailed,
+    ],
   },
-  [NotificationType.newInvite]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['challenge'],
+  campaignWidgetChallengeBadge: {
+    types: [
+      NotificationType.programChallenge,
+      NotificationType.newInvite,
+      NotificationType.replyAccepted,
+      NotificationType.replyDenied,
+      NotificationType.challengeCancel,
+      NotificationType.challengeAssigned,
+      NotificationType.challengeComplete,
+      NotificationType.challengeFailed,
+    ],
   },
-  [NotificationType.replyAccepted]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['challenge'],
-  },
-  [NotificationType.replyDenied]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['challenge'],
-  },
-  [NotificationType.challengeCancel]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['challenge'],
-  },
-  [NotificationType.challengeAssigned]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['challenge'],
-  },
-  [NotificationType.challengeComplete]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['challenge'],
-  },
-  [NotificationType.challengeFailed]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['challenge'],
-  },
-  [NotificationType.challengeAssigned]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['challenge'],
-  },
-  [NotificationType.announcement]: {
-    icon: 'person-add',
-    color: 'primary',
-    places: ['notifications'],
+
+  notificationBadge: {
+    types: [NotificationType.announcement],
   },
 };

@@ -1,8 +1,17 @@
-.warning {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.readed {
-  background-color: rgb(1, 110, 155);
+// .warning {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+.notification {
+  margin: 20px;
+  overflow: visible;
+  .unreaded {
+    background-color: rgb(1, 110, 155);
+  }
+  ion-badge {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+  }
 }

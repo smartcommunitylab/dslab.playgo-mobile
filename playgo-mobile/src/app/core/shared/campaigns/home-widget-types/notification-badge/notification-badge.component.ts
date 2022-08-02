@@ -35,6 +35,7 @@ export class NotificationBadgeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // mettere il tipo parametrico in modo da aggiungere badge anche per Challenge9nel tab di sotto
     this.unreadNotification$ = this.notificationService
       .getUnreadCampaignNotifications(
         this.campaignContainer.campaign.campaignId
