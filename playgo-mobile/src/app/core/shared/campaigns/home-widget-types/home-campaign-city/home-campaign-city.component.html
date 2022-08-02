@@ -1,5 +1,5 @@
 <ion-card>
-  <app-notification-badge
+  <app-notification-badge *ngIf="header"
     [type]="'campaign'"
     [campaignContainer]="campaignContainer"
   ></app-notification-badge>
