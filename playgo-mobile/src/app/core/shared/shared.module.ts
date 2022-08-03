@@ -28,6 +28,7 @@ import { RecordStatusComponent } from './campaigns/main-campaign-stat/record-sta
 import { LanguageMapPipe } from './pipes/languageMap.pipe';
 import { DetailNotificationModalPage } from './detail-notification/detail-notification.modal';
 import { NotificationBadgeComponent } from './campaigns/home-widget-types/notification-badge/notification-badge.component';
+import { SafeHtmlPipe } from './pipes/SafeHtml.pipe';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -41,6 +42,7 @@ import { NotificationBadgeComponent } from './campaigns/home-widget-types/notifi
     DetailNotificationModalPage,
     LocalDatePipe,
     LocalNumberPipe,
+    SafeHtmlPipe,
     LanguageMapPipe,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
@@ -70,6 +72,7 @@ import { NotificationBadgeComponent } from './campaigns/home-widget-types/notifi
     LanguageMapPipe,
     HeaderComponent,
     LocalNumberPipe,
+    SafeHtmlPipe,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
     ParallaxDirective,

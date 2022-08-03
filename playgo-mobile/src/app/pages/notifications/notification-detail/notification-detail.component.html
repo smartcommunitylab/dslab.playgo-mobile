@@ -14,12 +14,17 @@
       >
     </ion-row>
     <ion-row>
-      <ion-col
-        ><div
+      <ion-col>
+        <!-- <div
+          [id]="notification.id"
           [innerHTML]="
             getHtmlWithBypassedSecurity(notification.content['_html'])
           "
-        ></div></ion-col
+        ></div> -->
+        <div
+          [id]="notification.id"
+          [innerHTML]="notification.content['_html'] | safeHtml"
+        ></div> </ion-col
     ></ion-row>
   </ion-grid>
 </ion-card>
