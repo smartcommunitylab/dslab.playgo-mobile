@@ -17,7 +17,7 @@ import { Notification } from '../../../api/generated/model/notification';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() backButton = true;
   @Input() color = 'playgo';
@@ -39,12 +39,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
     private appStatusService: AppStatusService,
     private router: Router,
     private notificationService: NotificationService
-  ) // private cdRef: ChangeDetectorRef
-  {
-    this.isOnline$.subscribe((isOnline) => {
-      console.log('isOnline', isOnline);
-    });
-  }
+  ) {}
   ngOnDestroy(): void {
     this.subunread.unsubscribe();
   }
@@ -52,9 +47,7 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.subunread = this.unreadNotification$.subscribe();
   }
-  ngOnChanges() {
-    console.log(this.title);
-  }
+
   navigateToNotification() {
     this.router.navigateByUrl('/pages/notifications');
   }

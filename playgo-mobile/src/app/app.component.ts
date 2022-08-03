@@ -31,7 +31,6 @@ export class AppComponent implements AfterContentInit {
   }
   private async initializeApp() {
     this.translate.setDefaultLang('it');
-    this.codePushSync();
     this.loadCustomIcons();
     this.pushInit();
     await this.platform.ready();

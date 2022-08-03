@@ -363,5 +363,8 @@
       "few": "{{ordinal}}rd",
       "other": "{{ordinal}}th"
     }
+  },
+  "date": {
+    "from_to": "from {{from}} to {{to}}"
   }
 }
