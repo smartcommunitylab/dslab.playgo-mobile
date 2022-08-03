@@ -183,7 +183,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   }
   setTotal(stats: TransportStat[]) {
     this.totalValue = stats
-      .map((stat) => stat.value)
+      .map((stat) => (stat.value >= 0 ? stat.value : 0))
       .reduce((prev, next) => prev + next, 0);
   }
 
@@ -327,7 +327,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         (statPeriod) => statPeriod.toISO() === period.toISO()
       );
       if (i !== -1) {
-        retArr.push(stats[i].value);
+        retArr.push(stats[i].value >= 0 ? stats[i].value : 0);
       } else {
         retArr.push(0);
       }
