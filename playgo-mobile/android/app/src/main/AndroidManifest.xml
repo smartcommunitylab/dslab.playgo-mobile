@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools" package="it.dslab.playgo">
 
     <!-- Android App version is set in android\app\build.gradle -->
-    <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme" android:hardwareAccelerated="true">
+    <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme" android:hardwareAccelerated="true" android:usesCleartextTraffic="true">
         <!-- capacitor-background-geolocation licence key -->
         <meta-data android:name="com.transistorsoft.locationmanager.license" android:value="2e4f62a3935686bc54cb1c7bbe6eca8cf11a5744e49fac82cfee506d79601bee" />
-      <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_push" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_push" />
 
-      <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" />
+        <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" />
         <service android:name="com.transistorsoft.locationmanager.service.LocationRequestService" android:foregroundServiceType="location" />
 
         <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode" android:name="it.dslab.playgo.MainActivity" android:label="@string/title_activity_main" android:theme="@style/AppTheme.NoActionBarLaunch" android:launchMode="singleTask" android:exported="true">
