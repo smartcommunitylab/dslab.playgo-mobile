@@ -12,5 +12,5 @@ ext {
     androidxEspressoCoreVersion = '3.3.0'
     cordovaAndroidVersion = '10.1.1'
     googlePlayServicesLocationVersion = '18.0.0'
-    firebaseMessagingVersion ='23.0.0'
+    firebaseMessagingVersion ='23.0.5'
 }
