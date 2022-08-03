@@ -15,7 +15,7 @@ export class HeaderDirective implements OnInit {
       HeaderContentComponent
     );
 
-    // const host = this.element.nativeElement;
-    // host.insertBefore(componentRef.location.nativeElement, host.firstChild);
+    const host = this.element.nativeElement;
+    host.insertBefore(componentRef.location.nativeElement, host.firstChild);
   }
 }
