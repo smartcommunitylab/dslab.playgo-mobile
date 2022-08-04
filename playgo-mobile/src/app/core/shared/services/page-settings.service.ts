@@ -37,8 +37,7 @@ export class PageSettingsService {
       )
     );
 
-  private manualPageSettingsSubject: Subject<PageSettings> =
-    new Subject<PageSettings>();
+  private manualPageSettingsSubject = new Subject<Partial<PageSettings>>();
 
   public pageSettings$: Observable<Required<PageSettings>> =
     this.routerPageSettings$.pipe(
@@ -78,7 +77,7 @@ export class PageSettingsService {
     });
   }
 
-  public set(pageSettings: PageSettings) {
+  public set(pageSettings: Partial<PageSettings>) {
     this.manualPageSettingsSubject.next(pageSettings);
   }
 }
