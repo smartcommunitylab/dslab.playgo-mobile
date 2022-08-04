@@ -7,9 +7,13 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
+  ViewChild,
+  Optional,
 } from '@angular/core';
 import { IonToolbar, IonButtons, IonTitle } from '@ionic/angular';
 import toPx from 'to-px';
+import { HeaderContentComponent } from '../layout/header/header-content.component';
+import { HeaderDirective } from '../layout/header/header.directive';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'ion-header[parallax]',
@@ -36,7 +40,8 @@ export class ParallaxDirective implements AfterContentInit {
   >;
   constructor(
     private headerRef: ElementRef<HTMLElement>,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    @Optional() private headerDirective: HeaderDirective
   ) {}
   ngAfterContentInit() {
     setTimeout(() => {
@@ -49,6 +54,7 @@ export class ParallaxDirective implements AfterContentInit {
           this.updateProgress();
         }
       } catch (e) {
+        console.log('parallax error', e);
         this.ngAfterContentInit();
       }
     }, 100);
@@ -71,8 +77,20 @@ export class ParallaxDirective implements AfterContentInit {
   }
 
   private initElements() {
+    if (this.headerDirective) {
+      // If we are using [appHeader] directive, than @ContentChild will not resolve elements
+      // so we need to get them from the HeaderContentComponent via @ViewChild
+      const headerContentComponent =
+        this.headerDirective.headerContentComponent.instance;
+
+      this.ionToolbar = headerContentComponent.ionToolbar;
+      this.ionTitle = headerContentComponent.ionTitle;
+      this.ionButtons = headerContentComponent.ionButtons;
+    }
     if (!this.ionToolbar) {
-      console.error('A <ion-toolbar> element is needed inside <ion-header>');
+      console.error(
+        'A <ion-toolbar> element is needed inside <ion-header> or using the [appHeader] directive on the <ion-header>'
+      );
       return false;
     }
 

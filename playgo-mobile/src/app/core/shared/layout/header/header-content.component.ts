@@ -2,13 +2,23 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
+  ContentChildren,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import {
+  IonButtons,
+  IonTitle,
+  IonToolbar,
+  NavController,
+} from '@ionic/angular';
 import { firstValueFrom, map, Observable, Subscription, tap } from 'rxjs';
 import { AppStatusService } from '../../services/app-status.service';
 import { NotificationService } from '../../services/notifications/notifications.service';
@@ -21,6 +31,17 @@ import { PageSettingsService } from '../../services/page-settings.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderContentComponent implements OnInit, OnDestroy {
+  @ViewChild(IonTitle, { static: false })
+  public ionTitle: IonTitle & {
+    el: HTMLIonTitleElement;
+  };
+  @ViewChild(IonToolbar, { static: false })
+  public ionToolbar: IonToolbar & {
+    el: HTMLIonToolbarElement;
+  };
+  @ViewChildren(IonButtons)
+  public ionButtons: QueryList<IonButtons & { el: HTMLElement }>;
+
   isOnline$: Observable<boolean> = this.appStatusService.isOnline$;
   numberOfNotification = 0;
   unreadNotification$: Observable<Notification[]> =
