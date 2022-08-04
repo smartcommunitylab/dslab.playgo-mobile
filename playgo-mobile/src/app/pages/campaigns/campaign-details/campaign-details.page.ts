@@ -72,14 +72,23 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
           ? this.campaignContainer?.campaign?.logo.url
           : 'data:image/jpg;base64,' +
             this.campaignContainer?.campaign?.logo.image;
-        this.pageSettingsService.set({
-          color: this.colorCampaign,
-          // FIXME: ! title is already translated!
-          title: this.titlePage as any,
-        });
+        this.changePageSettings();
       }
     );
   }
+
+  ionViewWillEnter() {
+    this.changePageSettings();
+  }
+
+  private changePageSettings() {
+    this.pageSettingsService.set({
+      color: this.colorCampaign,
+      // FIXME: ! title is already translated!
+      title: this.titlePage as any,
+    });
+  }
+
   async openDetail(detail: CampaignDetail) {
     const modal = await this.modalController.create({
       component: DetailCampaignModalPage,
