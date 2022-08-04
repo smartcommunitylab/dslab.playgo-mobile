@@ -33,11 +33,13 @@
     </app-challenge-card> -->
   </div>
   <div *ngIf="selectedSegment==='activeChallenges'">
-    <!-- <app-challenge-card
-      *ngFor="let challenge of (activeChallenges$ | async); trackBy challengeTracking;"
-      [challenge]="challenge"
-    >
-    </app-challenge-card> -->
+    <div *ngFor="let campaign of campaignsWithChallenges">
+      <app-challenge-card
+        *ngFor="let challenge of activeChallenges; trackBy challengeTracking;"
+        [challenge]="challenge"
+      >
+      </app-challenge-card>
+    </div>
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
     <!-- <app-challenge-card

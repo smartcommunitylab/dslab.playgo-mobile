@@ -30,7 +30,11 @@ import { trackByProperty } from 'src/app/core/shared/utils';
 export class ChallengesPage implements OnInit, OnDestroy {
   selectedSegment?: string;
   subCampaignChall: Subscription;
+  subCampaignFutureChall: Subscription;
+  subCampaignActiveChall: Subscription;
   campaignsWithChallenges: PlayerCampaign[] = [];
+  activeChallenges: Challenge[];
+  futureChallenges: Challenge[];
   // public pastChallenges$: Observable<Challenge[]> =
   //   this.challengeService.pastChallenges$;
   public activeChallenges$: Observable<Challenge[]> =
@@ -49,12 +53,12 @@ export class ChallengesPage implements OnInit, OnDestroy {
         this.campaignsWithChallenges = campaigns;
       });
     this.subCampaignActiveChall =
-      this.challengeService.campaignsWithChallenges$.subscribe((campaigns) => {
-        this.campaignsWithChallenges = campaigns;
+      this.challengeService.activeChallenges$.subscribe((challenges) => {
+        this.activeChallenges = challenges;
       });
-    this.subCampaignActiveChall =
-      this.challengeService.campaignsWithChallenges$.subscribe((campaigns) => {
-        this.campaignsWithChallenges = campaigns;
+    this.subCampaignFutureChall =
+      this.challengeService.futureChallenges$.subscribe((challenges) => {
+        this.futureChallenges = challenges;
       });
   }
 
