@@ -86,4 +86,49 @@ export class ChallengeService {
     );
     return challengesOfAllTypesPerOneCampaign;
   }
+  public getAllChallengesByCampaign(
+    campaignId: string
+  ): Observable<Challenge[]> {
+    return this.allChallenges$.pipe(
+      map((challenges) =>
+        challenges.filter(
+          (challenge) => challenge?.campaign?.campaignId === campaignId
+        )
+      )
+    );
+  }
+  public getActiveChallengesByCampaign(
+    campaignId: string
+  ): Observable<Challenge[]> {
+    return this.activeChallenges$.pipe(
+      map((challenges) =>
+        challenges.filter(
+          (challenge) => challenge?.campaign?.campaignId === campaignId
+        )
+      )
+    );
+  }
+
+  public getPastChallengesByCampaign(
+    campaignId: string
+  ): Observable<Challenge[]> {
+    return this.pastChallenges$.pipe(
+      map((challenges) =>
+        challenges.filter(
+          (challenge) => challenge?.campaign?.campaignId === campaignId
+        )
+      )
+    );
+  }
+  public getFutureChallengesByCampaign(
+    campaignId: string
+  ): Observable<Challenge[]> {
+    return this.futureChallenges$.pipe(
+      map((challenges) =>
+        challenges.filter(
+          (challenge) => challenge?.campaign?.campaignId === campaignId
+        )
+      )
+    );
+  }
 }
