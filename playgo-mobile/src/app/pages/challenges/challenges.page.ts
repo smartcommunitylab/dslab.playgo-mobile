@@ -33,16 +33,14 @@ export class ChallengesPage implements OnInit, OnDestroy {
   subCampaignFutureChall: Subscription;
   subCampaignActiveChall: Subscription;
   campaignsWithChallenges: PlayerCampaign[] = [];
-  activeChallenges: Challenge[];
-  futureChallenges: Challenge[];
+  activeChallenges: any = {};
+  futureChallenges: any = {};
   // public pastChallenges$: Observable<Challenge[]> =
   //   this.challengeService.pastChallenges$;
   public activeChallenges$: Observable<Challenge[]> =
     this.challengeService.activeChallenges$;
   public futureChallenges$: Observable<Challenge[]> =
     this.challengeService.futureChallenges$;
-
-  challengeTracking = trackByProperty<Challenge>('challId');
 
   constructor(private challengeService: ChallengeService) {}
 
@@ -54,11 +52,29 @@ export class ChallengesPage implements OnInit, OnDestroy {
       });
     this.subCampaignActiveChall =
       this.challengeService.activeChallenges$.subscribe((challenges) => {
-        this.activeChallenges = challenges;
+        // this.activeChallenges = challenges.reduce(
+        //   (result, item) => ({ ...result, [item.campaign.campaignId]: item }),
+        //   {}
+        // );
+        this.activeChallenges = challenges.reduce(
+          (result: any, a) => (
+            (result[a.campaign.campaignId] =
+              result[a.campaign.campaignId] || []).push(a),
+            result
+          ),
+          {}
+        );
       });
     this.subCampaignFutureChall =
       this.challengeService.futureChallenges$.subscribe((challenges) => {
-        this.futureChallenges = challenges;
+        this.futureChallenges = challenges.reduce(
+          (result: any, a) => (
+            (result[a.campaign.campaignId] =
+              result[a.campaign.campaignId] || []).push(a),
+            result
+          ),
+          {}
+        );
       });
   }
 

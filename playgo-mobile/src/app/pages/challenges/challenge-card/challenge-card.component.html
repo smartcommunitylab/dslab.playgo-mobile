@@ -1,9 +1,4 @@
 <ion-card>
-  <ion-card-header [color]="challenge.campaign?.type">
-    <ion-card-title>
-      {{ challenge.campaign.name | languageMap }}
-    </ion-card-title>
-  </ion-card-header>
   <ion-card-content>
     <p>type:{{ challenge.type }}</p>
     <p [innerHTML]="challenge.challDesc"></p>
