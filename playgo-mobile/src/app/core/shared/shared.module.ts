@@ -29,6 +29,7 @@ import { LanguageMapPipe } from './pipes/languageMap.pipe';
 import { DetailNotificationModalPage } from './detail-notification/detail-notification.modal';
 import { NotificationBadgeComponent } from './campaigns/home-widget-types/notification-badge/notification-badge.component';
 import { SafeHtmlPipe } from './pipes/SafeHtml.pipe';
+import { HomeCampaignChallengeComponent } from './campaigns/app-widget-campaign/app-home-campaign-challenges/app-home-campaign-challenges.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -57,6 +58,7 @@ import { SafeHtmlPipe } from './pipes/SafeHtml.pipe';
     GameStatusComponent,
     WidgetComponent,
     IconComponent,
+    HomeCampaignChallengeComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -86,6 +88,7 @@ import { SafeHtmlPipe } from './pipes/SafeHtml.pipe';
     RecordStatusComponent,
     WidgetComponent,
     IconComponent,
+    HomeCampaignChallengeComponent,
   ],
 })
 export class PlayGoSharedModule {}

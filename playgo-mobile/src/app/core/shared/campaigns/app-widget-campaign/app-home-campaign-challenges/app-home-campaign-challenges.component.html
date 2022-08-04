@@ -1,0 +1,14 @@
+<!-- <ng-template> -->
+<ion-item
+  [color]="campaignContainer?.campaign?.type"
+  (click)="goToChallenge($event)"
+>
+  Sezione sfide
+  <app-notification-badge
+    [type]="'challenge'"
+    [campaignContainer]="campaignContainer"
+  ></app-notification-badge>
+</ion-item>
+<div>Sfide attive:{{ activeChallenges.length }}</div>
+<div>Sfide future: {{ futureChallenges.length }}</div>
+<!-- </ng-template> -->
