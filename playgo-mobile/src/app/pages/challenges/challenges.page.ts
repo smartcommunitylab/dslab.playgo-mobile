@@ -7,6 +7,7 @@ import {
   merge,
   Observable,
   shareReplay,
+  Subscription,
   switchMap,
   tap,
   toArray,
@@ -28,9 +29,10 @@ import { trackByProperty } from 'src/app/core/shared/utils';
 })
 export class ChallengesPage implements OnInit, OnDestroy {
   selectedSegment?: string;
-
-  public pastChallenges$: Observable<Challenge[]> =
-    this.challengeService.pastChallenges$;
+  subCampaignChall: Subscription;
+  campaignsWithChallenges: PlayerCampaign[] = [];
+  // public pastChallenges$: Observable<Challenge[]> =
+  //   this.challengeService.pastChallenges$;
   public activeChallenges$: Observable<Challenge[]> =
     this.challengeService.activeChallenges$;
   public futureChallenges$: Observable<Challenge[]> =
@@ -42,6 +44,18 @@ export class ChallengesPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedSegment = 'activeChallenges';
+    this.subCampaignChall =
+      this.challengeService.campaignsWithChallenges$.subscribe((campaigns) => {
+        this.campaignsWithChallenges = campaigns;
+      });
+    this.subCampaignActiveChall =
+      this.challengeService.campaignsWithChallenges$.subscribe((campaigns) => {
+        this.campaignsWithChallenges = campaigns;
+      });
+    this.subCampaignActiveChall =
+      this.challengeService.campaignsWithChallenges$.subscribe((campaigns) => {
+        this.campaignsWithChallenges = campaigns;
+      });
   }
 
   ngOnDestroy(): void {}

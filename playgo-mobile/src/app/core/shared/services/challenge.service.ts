@@ -15,7 +15,7 @@ import { ErrorService } from './error.service';
   providedIn: 'root',
 })
 export class ChallengeService {
-  private campaignsWithChallenges$ = this.campaignService.myCampaigns$.pipe(
+  public campaignsWithChallenges$ = this.campaignService.myCampaigns$.pipe(
     map((campaigns) =>
       // TODO: ask if the condition is correct
       campaigns.filter(
@@ -23,7 +23,8 @@ export class ChallengeService {
           campaign.campaign.type === 'city' ||
           campaign.campaign.type === 'school'
       )
-    )
+    ),
+    shareReplay(1)
   );
 
   public allChallenges$: Observable<Challenge[]> = this.campaignsWithChallenges$
@@ -50,20 +51,24 @@ export class ChallengeService {
   public activeChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
     map((challenges) =>
       challenges.filter((challenge) => challenge.challengeType === 'ACTIVE')
-    )
+    ),
+    shareReplay(1)
   );
   public pastChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
     map((challenges) =>
       challenges.filter((challenge) => challenge.challengeType === 'OLD')
-    )
+    ),
+    shareReplay(1)
   );
   public futureChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
-    map((challenges) =>
-      challenges.filter(
-        (challenge) =>
-          challenge.challengeType === 'FUTURE' ||
-          challenge.challengeType === 'PROPOSED'
-      )
+    map(
+      (challenges) =>
+        challenges.filter(
+          (challenge) =>
+            challenge.challengeType === 'FUTURE' ||
+            challenge.challengeType === 'PROPOSED'
+        ),
+      shareReplay(1)
     )
   );
   constructor(
@@ -94,7 +99,8 @@ export class ChallengeService {
         challenges.filter(
           (challenge) => challenge?.campaign?.campaignId === campaignId
         )
-      )
+      ),
+      shareReplay(1)
     );
   }
   public getActiveChallengesByCampaign(
@@ -105,7 +111,8 @@ export class ChallengeService {
         challenges.filter(
           (challenge) => challenge?.campaign?.campaignId === campaignId
         )
-      )
+      ),
+      shareReplay(1)
     );
   }
 
@@ -117,7 +124,8 @@ export class ChallengeService {
         challenges.filter(
           (challenge) => challenge?.campaign?.campaignId === campaignId
         )
-      )
+      ),
+      shareReplay(1)
     );
   }
   public getFutureChallengesByCampaign(
@@ -128,7 +136,8 @@ export class ChallengeService {
         challenges.filter(
           (challenge) => challenge?.campaign?.campaignId === campaignId
         )
-      )
+      ),
+      shareReplay(1)
     );
   }
 }
