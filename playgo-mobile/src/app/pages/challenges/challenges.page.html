@@ -40,12 +40,6 @@
           [challenges]="activeChallenges[campaign?.campaign?.campaignId]"
           [type]="'active'"
         >
-          <!-- container for {{campaign?.campaign?.name| languageMap }}
-          <app-challenge-card
-            *ngFor="let challenge of activeChallenges[campaign?.campaign?.campaignId]; trackBy challengeTracking;"
-            [challenge]="challenge"
-          >
-          </app-challenge-card> -->
         </app-challenge-container>
       </div>
     </div>
@@ -56,14 +50,8 @@
         <app-challenge-container
           [campaign]="campaign"
           [challenges]="futureChallenges[campaign?.campaign?.campaignId]"
-          [type]="'active'"
+          [type]="'future'"
         >
-          <!-- container for {{campaign?.campaign?.name| languageMap }}
-        <app-challenge-card
-          *ngFor="let challenge of futureChallenges[campaign?.campaign?.campaignId]; trackBy challengeTracking;"
-          [challenge]="challenge"
-        >
-        </app-challenge-card> -->
         </app-challenge-container>
       </div>
     </div>

@@ -1,12 +1,14 @@
 <ion-card>
   <ion-card-header [color]="campaign?.campaign?.type">
     <ion-card-title>
-      {{ campaign?.campaign?.name | languageMap }}
-    </ion-card-title>
+      Sfide {{ type }} di campagna
+      {{ campaign?.campaign?.name | languageMap }}</ion-card-title
+    >
   </ion-card-header>
   <app-challenge-card
     *ngFor="let challenge of challenges; trackBy: challengeTracking"
     [challenge]="challenge"
+    [type]="type"
   >
   </app-challenge-card>
 </ion-card>

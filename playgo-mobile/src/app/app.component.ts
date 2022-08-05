@@ -73,6 +73,12 @@ export class AppComponent implements AfterContentInit {
       flower: '../assets/icon/flower.svg',
       shield: '../assets/icon/shield.svg',
       offline: '../assets/icon/offline.svg',
+      groupCompetitivePerformance:
+        '../assets/images/challenges/groupCompetitivePerformance.svg',
+      groupCompetitiveTime:
+        '../assets/images/challenges/groupCompetitiveTime.svg',
+      groupCooperative: '../assets/images/challenges/groupCooperative.svg',
+      default: '../assets/images/challenges/default.svg',
     };
     this.iconService.registerSvgIcons(icons);
   }

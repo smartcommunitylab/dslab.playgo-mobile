@@ -1,0 +1,32 @@
+<div *ngIf="type !== 'future' || otherUser">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="2">
+        <ion-avatar>
+          <img [src]="playerAvatarUrl$ | async" alt="avatar" /> </ion-avatar
+      ></ion-col>
+      <ion-col>
+        <ion-grid
+          ><ion-row
+            ><ion-col>{{ (profile$ | async).nickname }}</ion-col></ion-row
+          ><ion-row *ngIf="status"
+            ><ion-col>{{ status }}%</ion-col></ion-row
+          ><ion-row *ngIf="status"
+            ><ion-col>{{ rowStatus }} Km</ion-col></ion-row
+          ></ion-grid
+        >
+      </ion-col>
+      <ion-col>
+        <ion-grid *ngIf="otherUser"
+          ><ion-row
+            ><ion-col>{{ otherUser.nickname }}</ion-col></ion-row
+          ><ion-row
+            ><ion-col>{{ otherUser.status }}%</ion-col></ion-row
+          ><ion-row
+            ><ion-col>{{ otherUser.rowStatus }} Km</ion-col></ion-row
+          ></ion-grid
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

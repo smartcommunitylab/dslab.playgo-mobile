@@ -1,33 +1,80 @@
 <ion-card>
+  <ion-card-header [color]="challenge?.campaign?.type">
+    <ion-card-title>
+      <span>{{ challenge?.campaign?.name | languageMap }}</span
+      ><span>{{ type }}</span>
+    </ion-card-title>
+  </ion-card-header>
+
   <ion-card-content>
-    <p>type:{{ challenge.type }}</p>
-    <p [innerHTML]="challenge.challDesc"></p>
-    <p [innerHTML]="challenge.challCompleteDesc"></p>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="1"
+          ><app-icon
+            class="icon-size-normal"
+            [name]="getImgChallenge()"
+          ></app-icon
+        ></ion-col>
+        <ion-col>
+          <p [innerHTML]="challenge.challDesc"></p>
+          <!-- <p [innerHTML]="challenge.challCompleteDesc"></p> -->
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col
+          ><app-challenge-users-status
+            [status]="challenge.status"
+            [type]="type"
+            [otherUser]="challenge.otherAttendeeData"
+          ></app-challenge-users-status
+        ></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col
+          ><div *ngIf="type === 'active'; else future">
+            stato attuale: {{ challenge.status }}
+            <app-challenge-bar-status
+              [status]="challenge.status"
+              [rowStatus]="challenge.rowStatus"
+              [otherStatus]="challenge.otherAttendeeData?.status"
+              [challengeType]="challenge.challengeType"
+              [type]="type"
+            ></app-challenge-bar-status>
+          </div>
 
-    <p>challTarget:{{ challenge.challTarget }}</p>
-    <p>otherAttendeeData:{{ challenge.otherAttendeeData | json }}</p>
-
-    <p>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="8">
-            {{
-              "date.from_to"
-                | translate
-                  : {
-                      from: challenge.startDate | localDate,
-                      to: challenge.endDate | localDate
-                    }
-            }}
-          </ion-col>
-          <ion-col size="4">
-            {{ challenge.bonus }}
-            <app-icon
-              [name]="campaignService.getCampaignScoreIcon(challenge.campaign)"
-            ></app-icon>
-          </ion-col>
-        </ion-row>
-      </ion-grid></p
+          <ng-template #future>
+            <div class="ion-text-center">
+              {{
+                "challenges.challenge_detail.challenge_future_start"
+                  | translate
+                    : {
+                        startDate: challenge.startDate | localDate
+                      }
+              }}
+            </div>
+          </ng-template></ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col size="8">
+          {{
+            "date.from_to"
+              | translate
+                : {
+                    from: challenge.startDate | localDate,
+                    to: challenge.endDate | localDate
+                  }
+          }}
+        </ion-col>
+        <ion-col size="4">
+          {{ challenge.bonus }}
+          <app-icon
+            [name]="campaignService.getCampaignScoreIcon(challenge.campaign)"
+          ></app-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <p></p
   ></ion-card-content>
 </ion-card>
 <!--

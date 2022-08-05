@@ -1,26 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { flatten } from 'lodash-es';
-import {
-  EMPTY,
-  forkJoin,
-  map,
-  merge,
-  Observable,
-  shareReplay,
-  Subscription,
-  switchMap,
-  tap,
-  toArray,
-} from 'rxjs';
-import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
+import { Observable, Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
-import { ChallengeConceptInfo } from 'src/app/core/api/generated/model/challengeConceptInfo';
 import { ChallengesData } from 'src/app/core/api/generated/model/challengesData';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
-import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { trackByProperty } from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-challenges',

@@ -324,7 +324,10 @@
     "challenges": "Challenges",
     "past": "Past",
     "present": "Present",
-    "future": "Future"
+    "future": "Future",
+    "challenge_detail": {
+      "challenge_future_start": "This challenge will start : {{startDate}}"
+    }
   },
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",
