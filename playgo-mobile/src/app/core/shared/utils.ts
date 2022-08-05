@@ -221,3 +221,6 @@ export function formatDurationToHoursAndMinutes(millis: number): string {
 export function trackByProperty<T>(property: keyof T): TrackByFunction<T> {
   return (index: number, item: T) => item[property];
 }
+
+export const waitMs = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms));

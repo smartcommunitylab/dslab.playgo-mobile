@@ -14,6 +14,7 @@ import { IonToolbar, IonButtons, IonTitle } from '@ionic/angular';
 import toPx from 'to-px';
 import { HeaderContentComponent } from '../layout/header/header-content.component';
 import { HeaderDirective } from '../layout/header/header.directive';
+import { waitMs } from '../utils';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'ion-header[parallax]',
@@ -43,21 +44,27 @@ export class ParallaxDirective implements AfterContentInit {
     private renderer: Renderer2,
     @Optional() private headerDirective: HeaderDirective
   ) {}
+
   ngAfterContentInit() {
-    setTimeout(() => {
-      try {
-        if (this.initElements()) {
-          this.setupContentPadding();
-          this.setupImageOverlay();
-          this.setupPointerEventsForButtons();
-          this.setupEvents();
-          this.updateProgress();
-        }
-      } catch (e) {
-        console.log('parallax error', e);
-        this.ngAfterContentInit();
+    this.init();
+  }
+  private async init(numOfTry: number = 0) {
+    try {
+      if (this.initElements()) {
+        this.setupContentPadding();
+        this.setupImageOverlay();
+        this.setupPointerEventsForButtons();
+        this.setupEvents();
+        this.updateProgress();
       }
-    }, 100);
+    } catch (e) {
+      if (numOfTry > 5) {
+        console.log('parallax error', e);
+      } else {
+        await waitMs(100);
+        await this.init(numOfTry + 1);
+      }
+    }
   }
   private get header() {
     return this.headerRef.nativeElement;
