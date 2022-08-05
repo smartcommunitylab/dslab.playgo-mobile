@@ -36,6 +36,11 @@ export const isConstant =
   <T>(arg: T | C): arg is C =>
     arg === constant;
 
+export const isInstanceOf =
+  <T>(type: new (...args: any[]) => T) =>
+  <U>(arg: U | T): arg is T =>
+    arg instanceof type;
+
 export function groupByConsecutiveValues<T, K extends keyof T>(
   array: T[],
   needle: K
