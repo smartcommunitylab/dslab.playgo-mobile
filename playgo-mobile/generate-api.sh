@@ -23,6 +23,8 @@ java -jar \
   --template-dir ./src/app/core/api/templates/ \
   -o ./src/app/core/api/generated \
   --type-mappings Date=number \
+  --additional-properties modelPropertyNaming=original \
+;
 
 # clean unwanted files
 
