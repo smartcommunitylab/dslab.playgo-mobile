@@ -23,7 +23,7 @@ export interface ChallengesData {
   endDate?: number;
   otherAttendeeData?: OtherAttendeeData;
   proposerId?: string;
-  rowStatus?: number;
+  row_status?: number;
   startDate?: number;
   status?: number;
   success?: boolean;
