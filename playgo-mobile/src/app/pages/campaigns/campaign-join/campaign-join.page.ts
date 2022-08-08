@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { JoinCityModalPage } from './join-city/join-city.modal';
 import { JoinCompanyModalPage } from './join-company/join-company.modal';
@@ -26,7 +27,6 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   campaign?: Campaign;
   imagePath: SafeResourceUrl;
   sub: Subscription;
-  language: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,13 +34,13 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private navCtrl: NavController,
     private modalController: ModalController,
-    private userService: UserService
+    private userService: UserService,
+    private pageSettingsService: PageSettingsService
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
 
   ngOnInit() {
-    this.language = this.userService.getLanguage();
     this.sub = this.campaignService
       .getCampaignDetailsById(this.id)
       .subscribe((result) => {
@@ -49,11 +49,26 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
           this.imagePath = this.campaign.logo.url
             ? this.campaign.logo.url
             : 'data:image/jpg;base64,' + this.campaign.logo.image;
+          this.changePageSettings();
         }
       });
   }
+
+  ionViewWillEnter() {
+    this.changePageSettings();
+  }
+
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  private changePageSettings() {
+    const language = this.userService.getLanguage();
+    this.pageSettingsService.set({
+      color: this.campaign?.type,
+      // FIXME: ! title is already translated!
+      title: this.campaign?.name[language] as any,
+    });
   }
 
   //based on the type, change interaction
@@ -73,11 +88,12 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     }
   }
   async openRegisterSchool(campaign: Campaign) {
+    const language = this.userService.getLanguage();
     const modal = await this.modalController.create({
       component: JoinSchoolModalPage,
       componentProps: {
         campaign,
-        language: this.language,
+        language,
       },
       cssClass: 'modalConfirm',
       swipeToClose: true,
@@ -89,11 +105,12 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     }
   }
   async openRegisterCompany(campaign: Campaign) {
+    const language = this.userService.getLanguage();
     const modal = await this.modalController.create({
       component: JoinCompanyModalPage,
       componentProps: {
         campaign,
-        language: this.language,
+        language,
       },
       cssClass: 'modalConfirm',
       swipeToClose: true,
@@ -136,11 +153,12 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     return joinable;
   }
   async registerToCity(campaign: Campaign) {
+    const language = this.userService.getLanguage();
     const modal = await this.modalController.create({
       component: JoinCityModalPage,
       componentProps: {
         campaign,
-        language: this.language,
+        language,
       },
       cssClass: 'modalConfirm',
       swipeToClose: true,

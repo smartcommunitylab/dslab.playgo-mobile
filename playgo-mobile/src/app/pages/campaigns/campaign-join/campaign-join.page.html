@@ -1,42 +1,38 @@
-<ion-header appHeader parallax [imageUrl]="campaign?.banner?.url" height="30vh">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="'/pages/tabs/campaigns'">
-      </ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      <span ion-class="ion-text-center"
-        >{{ campaign?.name | languageMap }}</span
-      >
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true" *ngIf="campaign">
-  <ion-card>
-    <ion-card-header>
-      <ion-avatar class="avatar-campaign">
-        <img [src]="imagePath" title="campaign avatar" />
-      </ion-avatar>
-      <ion-card-title>{{campaign?.name | languageMap }}</ion-card-title>
-      <ion-card-subtitle>
-        {{ campaign?.dateFrom | localDate }} - {{ campaign?.dateTo | localDate
-        }}</ion-card-subtitle
-      >
-    </ion-card-header>
-    <ion-card-content>
-      <div class="ion-padding">
-        <ion-button
-          class="ion-margin"
-          expand="block"
-          *ngIf="joinIsVisible(campaign)"
-          (click)="joinCampaign(campaign)"
-          >{{'campaigns.join'|translate}}
-        </ion-button>
-      </div>
-      <div
-        class="ion-margin ion-padding ion-text-justify"
-        [innerHTML]="campaign.description | languageMap "
-      ></div>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+<ng-container *ngIf="campaign">
+  <ion-header
+    appHeader
+    parallax
+    [imageUrl]="campaign?.banner?.url"
+    height="30vh"
+  >
+  </ion-header>
+  <ion-content [fullscreen]="true">
+    <ion-card>
+      <ion-card-header>
+        <ion-avatar class="avatar-campaign">
+          <img [src]="imagePath" title="campaign avatar" />
+        </ion-avatar>
+        <ion-card-title>{{campaign?.name | languageMap }}</ion-card-title>
+        <ion-card-subtitle>
+          {{ campaign?.dateFrom | localDate }} - {{ campaign?.dateTo | localDate
+          }}</ion-card-subtitle
+        >
+      </ion-card-header>
+      <ion-card-content>
+        <div class="ion-padding">
+          <ion-button
+            class="ion-margin"
+            expand="block"
+            *ngIf="joinIsVisible(campaign)"
+            (click)="joinCampaign(campaign)"
+            >{{'campaigns.join'|translate}}
+          </ion-button>
+        </div>
+        <div
+          class="ion-margin ion-padding ion-text-justify"
+          [innerHTML]="campaign.description | languageMap "
+        ></div>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</ng-container>
