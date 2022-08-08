@@ -9,10 +9,14 @@
         <ion-grid class="ion-no-padding"
           ><ion-row
             ><ion-col>{{ (profile$ | async).nickname }}</ion-col></ion-row
-          ><ion-row *ngIf="status !== null">
-            <ion-col size="1">
+          ><ion-row *ngIf="status !== null" class="ion-align-items-center">
+            <ion-col size="1" *ngIf="otherUser">
               <div
-                [ngClass]="isWinning() ? 'arrow-up' : 'arrow-down'"
+                [ngClass]="
+                  isWinning(status, otherUser?.status)
+                    ? 'arrow-up'
+                    : 'arrow-down'
+                "
               ></div> </ion-col
             ><ion-col> {{ status }}%</ion-col></ion-row
           ><ion-row *ngIf="rowStatus !== null"
@@ -24,11 +28,15 @@
         <ion-grid *ngIf="otherUser" class="ion-no-padding"
           ><ion-row class="ion-text-end"
             ><ion-col>{{ otherUser.nickname }}</ion-col></ion-row
-          ><ion-row class="ion-text-end"
+          ><ion-row class="ion-text-end ion-align-items-center"
             ><ion-col>{{ otherUser.status }}%</ion-col
             ><ion-col size="1">
               <div
-                [ngClass]="isWinning() ? 'arrow-up' : 'arrow-down'"
+                [ngClass]="
+                  isWinning(otherUser?.status, status)
+                    ? 'arrow-up'
+                    : 'arrow-down'
+                "
               ></div> </ion-col></ion-row
           ><ion-row class="ion-text-end"
             ><ion-col>{{ otherUser.row_status }} Km</ion-col></ion-row

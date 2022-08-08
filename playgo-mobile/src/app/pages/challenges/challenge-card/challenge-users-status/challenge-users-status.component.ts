@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import { map } from 'rxjs';
 import { OtherAttendeeData } from 'src/app/core/api/generated/model/otherAttendeeData';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
@@ -28,8 +28,8 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {}
-  isWinning() {
-    if (this.rowStatus > this.otherUser?.row_status) {
+  isWinning(me: number, other: number) {
+    if (me > other) {
       return true;
     }
     return false;
