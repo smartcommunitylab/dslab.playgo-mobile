@@ -1,32 +1,44 @@
 <div *ngIf="type !== 'future' || otherUser">
-  <ion-grid>
-    <ion-row>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-no-padding">
       <ion-col size="2">
         <ion-avatar>
           <img [src]="playerAvatarUrl$ | async" alt="avatar" /> </ion-avatar
       ></ion-col>
       <ion-col>
-        <ion-grid
+        <ion-grid class="ion-no-padding"
           ><ion-row
             ><ion-col>{{ (profile$ | async).nickname }}</ion-col></ion-row
-          ><ion-row *ngIf="status"
-            ><ion-col>{{ status }}%</ion-col></ion-row
-          ><ion-row *ngIf="status"
+          ><ion-row *ngIf="status !== null">
+            <ion-col size="1">
+              <div
+                [ngClass]="isWinning() ? 'arrow-up' : 'arrow-down'"
+              ></div> </ion-col
+            ><ion-col> {{ status }}%</ion-col></ion-row
+          ><ion-row *ngIf="rowStatus !== null"
             ><ion-col>{{ rowStatus }} Km</ion-col></ion-row
           ></ion-grid
         >
       </ion-col>
       <ion-col>
-        <ion-grid *ngIf="otherUser"
-          ><ion-row
+        <ion-grid *ngIf="otherUser" class="ion-no-padding"
+          ><ion-row class="ion-text-end"
             ><ion-col>{{ otherUser.nickname }}</ion-col></ion-row
-          ><ion-row
-            ><ion-col>{{ otherUser.status }}%</ion-col></ion-row
-          ><ion-row
-            ><ion-col>{{ otherUser.rowStatus }} Km</ion-col></ion-row
+          ><ion-row class="ion-text-end"
+            ><ion-col>{{ otherUser.status }}%</ion-col
+            ><ion-col size="1">
+              <div
+                [ngClass]="isWinning() ? 'arrow-up' : 'arrow-down'"
+              ></div> </ion-col></ion-row
+          ><ion-row class="ion-text-end"
+            ><ion-col>{{ otherUser.row_status }} Km</ion-col></ion-row
           ></ion-grid
         >
       </ion-col>
+      <ion-col size="2" *ngIf="otherUser">
+        <ion-avatar>
+          <img [src]="playerAvatarUrl$ | async" alt="avatar" /> </ion-avatar
+      ></ion-col>
     </ion-row>
   </ion-grid>
 </div>

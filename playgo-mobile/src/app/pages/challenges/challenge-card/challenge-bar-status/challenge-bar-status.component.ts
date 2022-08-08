@@ -8,11 +8,19 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ChallengeBarStatusComponent implements OnInit {
   @Input() status: number;
   @Input() rowStatus: number;
-  @Input() otherStatus: number;
+  @Input() otherStatus?: number;
   @Input() type: string;
   @Input() challengeType: string;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.otherStatus);
+  }
+  getWidth(status: number) {
+    if (this.challengeType === 'groupCompetitiveTime') {
+      return status / 2;
+    }
+    return status;
+  }
 }

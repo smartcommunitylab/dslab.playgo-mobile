@@ -28,4 +28,10 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {}
+  isWinning() {
+    if (this.rowStatus > this.otherUser?.row_status) {
+      return true;
+    }
+    return false;
+  }
 }
