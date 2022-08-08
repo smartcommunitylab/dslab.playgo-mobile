@@ -34,4 +34,13 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
     }
     return false;
   }
+  isCompetitive() {
+    if (
+      this.type === 'groupCompetitiveTime' ||
+      this.type === 'groupCompetitivePerformance'
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
