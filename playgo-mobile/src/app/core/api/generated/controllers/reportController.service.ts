@@ -174,23 +174,26 @@ export class ReportControllerService {
    * getPlayerGameStats
    *
    * @param campaignId campaignId
+   * @param playerId playerId
    * @param groupMode groupMode
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
   public getPlayerGameStatsUsingGET1(args: {
     campaignId: string;
+    playerId: string;
     groupMode: string;
     dateFrom: string;
     dateTo: string;
   }): Observable<Array<GameStats>> {
-    const { campaignId, groupMode, dateFrom, dateTo } = args;
+    const { campaignId, playerId, groupMode, dateFrom, dateTo } = args;
     return this.http.request<Array<GameStats>>(
       'get',
       environment.serverUrl.api + `/playandgo/api/report/player/game/stats`,
       {
         params: removeNullOrUndefined({
           campaignId,
+          playerId,
           groupMode,
           dateFrom,
           dateTo,
@@ -215,17 +218,19 @@ export class ReportControllerService {
    * getPlayerTransportRecord
    *
    * @param campaignId campaignId
+   * @param playerId playerId
    * @param metric metric
    * @param groupMode groupMode
    * @param mean mean
    */
   public getPlayerTransportRecordUsingGET(args: {
     campaignId: string;
+    playerId: string;
     metric: string;
     groupMode: string;
     mean?: string;
   }): Observable<Array<TransportStat>> {
-    const { campaignId, metric, groupMode, mean } = args;
+    const { campaignId, playerId, metric, groupMode, mean } = args;
     return this.http.request<Array<TransportStat>>(
       'get',
       environment.serverUrl.api +
@@ -233,6 +238,7 @@ export class ReportControllerService {
       {
         params: removeNullOrUndefined({
           campaignId,
+          playerId,
           metric,
           groupMode,
           mean,
@@ -245,6 +251,7 @@ export class ReportControllerService {
    * getPlayerTransportStats
    *
    * @param campaignId campaignId
+   * @param playerId playerId
    * @param metric metric
    * @param groupMode groupMode
    * @param mean mean
@@ -253,13 +260,15 @@ export class ReportControllerService {
    */
   public getPlayerTransportStatsUsingGET(args: {
     campaignId: string;
+    playerId: string;
     metric: string;
     groupMode?: string;
     mean?: string;
     dateFrom?: string;
     dateTo?: string;
   }): Observable<Array<TransportStat>> {
-    const { campaignId, metric, groupMode, mean, dateFrom, dateTo } = args;
+    const { campaignId, playerId, metric, groupMode, mean, dateFrom, dateTo } =
+      args;
     return this.http.request<Array<TransportStat>>(
       'get',
       environment.serverUrl.api +
@@ -267,6 +276,7 @@ export class ReportControllerService {
       {
         params: removeNullOrUndefined({
           campaignId,
+          playerId,
           metric,
           groupMode,
           mean,

@@ -57,7 +57,10 @@ export class HomeCampaignPersonalComponent implements OnInit, OnDestroy {
           }
         });
       this.reportService
-        .getCo2WeekRecord(this.campaignContainer.campaign.campaignId)
+        .getCo2WeekRecord(
+          this.campaignContainer.campaign.campaignId,
+          this.profile.playerId
+        )
         .then((record) => {
           this.record = record[0];
         })

@@ -15,8 +15,8 @@ export class ReportService {
   ) {}
 
   getCo2Stats(
-    campaignId?: string,
-    playerId?: string,
+    campaignId: string,
+    playerId: string,
     dateFrom?: string,
     dateTo?: string
   ): Promise<CampaignPlacing> {
@@ -31,10 +31,14 @@ export class ReportService {
       })
       .toPromise();
   }
-  getCo2WeekRecord(campaignId?: string): Promise<TransportStat[]> {
+  getCo2WeekRecord(
+    campaignId: string,
+    playerId: string
+  ): Promise<TransportStat[]> {
     return this.reportControllerService
       .getPlayerTransportRecordUsingGET({
         campaignId,
+        playerId,
         metric: 'co2',
         mean: null,
         groupMode: 'week',
@@ -63,6 +67,7 @@ export class ReportService {
   }
   getTransportStatsByMeans(
     campaignId: string,
+    playerId: string,
     metric: string,
     groupMode?: string,
     mean?: string,
@@ -72,6 +77,7 @@ export class ReportService {
     return this.reportControllerService
       .getPlayerTransportStatsUsingGET({
         campaignId,
+        playerId,
         metric,
         groupMode,
         mean,

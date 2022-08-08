@@ -20,6 +20,7 @@ import { CampaignSubscription } from '../model/campaignSubscription';
 import { GameStats } from '../model/gameStats';
 import { PagePlayerInfo } from '../model/pagePlayerInfo';
 import { PlayerInfo } from '../model/playerInfo';
+import { TrackedInstanceInfo } from '../model/trackedInstanceInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -161,6 +162,31 @@ export class ExternalControllerService {
           territory,
         }),
       }
+    );
+  }
+
+  /**
+   * getTrackedInstanceInfo
+   *
+   * @param campaignId campaignId
+   * @param playerId playerId
+   * @param trackedInstanceId trackedInstanceId
+   */
+  public getTrackedInstanceInfoUsingGET(args: {
+    campaignId: string;
+    playerId: string;
+    trackedInstanceId: string;
+  }): Observable<TrackedInstanceInfo> {
+    const { campaignId, playerId, trackedInstanceId } = args;
+    return this.http.request<TrackedInstanceInfo>(
+      'get',
+      environment.serverUrl.api +
+        `/playandgo/api/ext/track/${encodeURIComponent(
+          String(campaignId)
+        )}/${encodeURIComponent(String(playerId))}/${encodeURIComponent(
+          String(trackedInstanceId)
+        )}`,
+      {}
     );
   }
 

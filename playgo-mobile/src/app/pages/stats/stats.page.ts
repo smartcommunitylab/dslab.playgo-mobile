@@ -156,10 +156,11 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   );
 
   statResponse$: Observable<TransportStat[]> = this.filterOptions$.pipe(
-    switchMap(({ meanType, unitType, period, campaignId }) =>
+    switchMap(({ meanType, unitType, period, campaignId, playerId }) =>
       this.reportService
         .getPlayerTransportStatsUsingGET({
           campaignId,
+          playerId,
           metric: unitType.unitKey,
           groupMode: period.group,
           mean: meanType.unitKey,

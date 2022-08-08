@@ -65,7 +65,7 @@ export class TrackControllerService {
    * @param trackedInstanceId trackedInstanceId
    * @param campaignId campaignId
    */
-  public getTrackedInstanceInfoUsingGET(args: {
+  public getTrackedInstanceInfoUsingGET1(args: {
     trackedInstanceId: string;
     campaignId?: string;
   }): Observable<TrackedInstanceInfo> {
