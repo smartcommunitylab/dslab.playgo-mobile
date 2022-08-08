@@ -353,7 +353,8 @@
     "future": "Future",
     "challenge_detail": {
       "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}",
-      "survey": "Questionario"
+      "survey": "Questionario",
+      "title": "Configura sfida"
     }
   },
   "outof": "{{current}} su {{total}}",
