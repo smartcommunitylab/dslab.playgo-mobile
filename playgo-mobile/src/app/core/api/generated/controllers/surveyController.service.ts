@@ -39,7 +39,7 @@ export class SurveyControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/survey/assign`,
       {
-        body,
+        body: body,
         params: removeNullOrUndefined({
           campaignId,
           playerIds,

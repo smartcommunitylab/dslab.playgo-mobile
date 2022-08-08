@@ -10,9 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface OtherAttendeeData {
-  nickname?: string;
-  playerId?: string;
-  row_status?: number;
-  status?: number;
+export interface ChallengeStatsInfo {
+  completed?: number;
+  failed?: number;
+  type?: string;
 }

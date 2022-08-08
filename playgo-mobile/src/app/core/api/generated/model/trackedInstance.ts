@@ -22,6 +22,7 @@ export interface TrackedInstance {
   geolocationEvents?: Array<Geolocation>;
   id?: string;
   multimodalId?: string;
+  nickname?: string;
   note?: string;
   overriddenDistances?: { [key: string]: number };
   sharedTravelId?: string;

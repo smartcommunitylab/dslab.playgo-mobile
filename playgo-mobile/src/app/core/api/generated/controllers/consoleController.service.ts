@@ -236,6 +236,7 @@ export class ConsoleControllerService {
    * @param dateTo UTC millis
    * @param campaignId campaignId
    * @param status status
+   * @param toCheck toCheck
    */
   public searchTrackedInstanceUsingGET(args: {
     page: number;
@@ -249,6 +250,7 @@ export class ConsoleControllerService {
     dateTo?: number;
     campaignId?: string;
     status?: string;
+    toCheck?: boolean;
   }): Observable<PageTrackedInstanceConsole> {
     const {
       page,
@@ -262,6 +264,7 @@ export class ConsoleControllerService {
       dateTo,
       campaignId,
       status,
+      toCheck,
     } = args;
     return this.http.request<PageTrackedInstanceConsole>(
       'get',
@@ -279,6 +282,7 @@ export class ConsoleControllerService {
           dateTo,
           campaignId,
           status,
+          toCheck,
         }),
       }
     );
