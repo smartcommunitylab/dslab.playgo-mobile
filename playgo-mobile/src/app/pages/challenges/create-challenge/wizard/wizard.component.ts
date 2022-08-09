@@ -41,9 +41,15 @@ export class WizardComponent implements OnInit, AfterContentInit {
   }
   public templates: TemplateRef<WizardStepComponent>[];
 
+  public selectedStep = 0;
+
   constructor() {}
 
   ngAfterContentInit(): void {}
+
+  changeStep(newStep: number) {
+    this.selectedStep = newStep;
+  }
 
   ngOnInit() {}
 }
