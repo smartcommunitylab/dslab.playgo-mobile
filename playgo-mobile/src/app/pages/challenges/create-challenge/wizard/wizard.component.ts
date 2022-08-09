@@ -9,15 +9,21 @@ import {
   Optional,
   QueryList,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
 
-@Directive({
-  selector: '[appWizardPage]',
+@Component({
+  selector: 'app-wizard-step',
+  template: `
+    <ng-template #template>
+      <ng-content></ng-content>
+    </ng-template>
+  `,
+  styles: [''],
 })
-export class WizardPageDirective {
-  constructor(@Optional() public templateRef: TemplateRef<any>) {
-    console.log('directive created!');
-  }
+export class WizardStepComponent {
+  @ViewChild('template', { read: TemplateRef, static: true })
+  template: TemplateRef<any>;
 }
 
 @Component({
@@ -26,13 +32,14 @@ export class WizardPageDirective {
   styleUrls: ['./wizard.component.scss'],
 })
 export class WizardComponent implements OnInit, AfterContentInit {
-  @ContentChildren(WizardPageDirective, {})
-  set directives(directives: QueryList<WizardPageDirective>) {
-    this.templates = directives.map(
-      (eachDirective) => eachDirective.templateRef
+  @ContentChildren(WizardStepComponent, {})
+  set stepComponents(stepComponents: QueryList<WizardStepComponent>) {
+    this.templates = stepComponents.map(
+      (eachComponent) => eachComponent.template
     );
+    console.log('templates', this.templates);
   }
-  public templates: TemplateRef<WizardPageDirective>[];
+  public templates: TemplateRef<WizardStepComponent>[];
 
   constructor() {}
 
