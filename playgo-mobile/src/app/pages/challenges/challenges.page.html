@@ -25,7 +25,7 @@
   </ion-segment>
 
   <div *ngIf="selectedSegment==='pastChallenges'">
-    To be designed
+    <app-challenges-stat> </app-challenges-stat>
     <!-- <app-challenge-card
       *ngFor="let challenge of (pastChallenges$ | async); trackBy challengeTracking;"
       [challenge]="challenge"
