@@ -1,36 +1,49 @@
 <div
-  class="form-steps-container"
+  class="wrapper"
   [style.--wizard-header-color]="'var(--ion-color-' + headerColor + ')'"
 >
-  <ng-container *ngFor="let step of templates; index as currentStepIndex">
-    <div class="step-divider" [class.first-step]="currentStepIndex === 0"></div>
-    <div
-      (click)="changeStep(currentStepIndex)"
-      class="step-bubble"
-      [class.step-current]="currentStepIndex === selectedStep"
-      [class.last-step]="currentStepIndex === templates.length - 1"
+  <div class="title-header">
+    <span *ngIf="title">
+      {{ title }}
+    </span>
+    <span *ngIf="steps[selectedStep].title">
+      {{ steps[selectedStep].title | translate }}
+    </span>
+  </div>
+  <div class="form-steps-container">
+    <ng-container *ngFor="let step of templates; index as currentStepIndex">
+      <div
+        class="step-divider"
+        [class.first-step]="currentStepIndex === 0"
+      ></div>
+      <div
+        (click)="changeStep(currentStepIndex)"
+        class="step-bubble"
+        [class.step-current]="currentStepIndex === selectedStep"
+        [class.last-step]="currentStepIndex === templates.length - 1"
+      >
+        {{ currentStepIndex + 1 }}
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- <div class="wrapper" *ngFor="let tmpl of templates">
+    <ng-container [ngTemplateOutlet]="tmpl"></ng-container>
+  </div> -->
+  <div>
+    <ng-container [ngTemplateOutlet]="templates[selectedStep]"></ng-container>
+  </div>
+
+  <div>
+    <ion-button
+      (click)="changeStep(selectedStep - 1)"
+      [disabled]="selectedStep === 0"
+      >Back</ion-button
     >
-      {{ currentStepIndex + 1 }}
-    </div>
-  </ng-container>
-</div>
-
-<!-- <div class="wrapper" *ngFor="let tmpl of templates">
-  <ng-container [ngTemplateOutlet]="tmpl"></ng-container>
-</div> -->
-<div>
-  <ng-container [ngTemplateOutlet]="templates[selectedStep]"></ng-container>
-</div>
-
-<div>
-  <ion-button
-    (click)="changeStep(selectedStep - 1)"
-    [disabled]="selectedStep === 0"
-    >Back</ion-button
-  >
-  <ion-button
-    (click)="changeStep(selectedStep + 1)"
-    [disabled]="selectedStep === templates.length - 1"
-    >Next</ion-button
-  >
+    <ion-button
+      (click)="changeStep(selectedStep + 1)"
+      [disabled]="selectedStep === templates.length - 1"
+      >Next</ion-button
+    >
+  </div>
 </div>

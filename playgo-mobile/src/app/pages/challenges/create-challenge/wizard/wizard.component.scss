@@ -2,15 +2,24 @@ $selected-background: white;
 $not-selected-background: rgb(224, 224, 224);
 // $not-selected-background: red;
 
+.wrapper {
+  // to be overridden in template
+  --wizard-header-color: black;
+}
+.title-header {
+  background-color: var(--wizard-header-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px 5px 10px;
+  margin-top: 10px;
+}
 .form-steps-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px 0 10px;
   margin-top: 10px;
-
-  // to be overridden in template
-  --wizard-header-color: black;
 }
 
 .step-bubble {

@@ -1,10 +1,18 @@
 <ion-header></ion-header>
 
 <ion-content>
-  <app-wizard [headerColor]="'city'">
-    <app-wizard-step>step 1</app-wizard-step>
-    <app-wizard-step>step 2</app-wizard-step>
-    <app-wizard-step>step 3</app-wizard-step>
-    <app-wizard-step>step 4</app-wizard-step>
+  <app-wizard [headerColor]="'city'" [title]="'Trento Play & Go'">
+    <app-wizard-step title="challenges.create.choose_type">
+      step 1
+    </app-wizard-step>
+    <app-wizard-step title="challenges.create.choose_metric">
+      step 2
+    </app-wizard-step>
+    <app-wizard-step title="challenges.create.choose_partner">
+      step 3
+    </app-wizard-step>
+    <app-wizard-step title="challenges.create.activate">
+      step 4
+    </app-wizard-step>
   </app-wizard>
 </ion-content>

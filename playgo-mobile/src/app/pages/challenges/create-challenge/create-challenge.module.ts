@@ -4,10 +4,8 @@ import { CreateChallengePageRoutingModule } from './create-challenge-routing.mod
 
 import { CreateChallengePage } from './create-challenge.page';
 import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
-import {
-  WizardComponent,
-  WizardStepComponent,
-} from './wizard/wizard.component';
+import { WizardComponent } from './wizard/wizard.component';
+import { WizardStepComponent } from './wizard/wizard-step/wizard-step.component';
 
 @NgModule({
   imports: [PlayGoSharedModule, CreateChallengePageRoutingModule],

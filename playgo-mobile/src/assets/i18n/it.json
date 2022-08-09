@@ -355,6 +355,13 @@
       "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}",
       "survey": "Questionario",
       "title": "Configura sfida"
+    },
+    "create": {
+      "title": "Configura sfida",
+      "choose_type": "Scegli typologia sfida",
+      "choose_metric": "Scegli metrica sfida",
+      "choose_partner": "Scegli compangno",
+      "activate": "Attiva sfida"
     }
   },
   "outof": "{{current}} su {{total}}",

@@ -12,20 +12,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
-@Component({
-  selector: 'app-wizard-step',
-  template: `
-    <ng-template #template>
-      <ng-content></ng-content>
-    </ng-template>
-  `,
-  styles: [''],
-})
-export class WizardStepComponent {
-  @ViewChild('template', { read: TemplateRef, static: true })
-  template: TemplateRef<any>;
-}
+import { WizardStepComponent } from './wizard-step/wizard-step.component';
 
 @Component({
   selector: 'app-wizard',
@@ -33,16 +20,19 @@ export class WizardStepComponent {
   styleUrls: ['./wizard.component.scss'],
 })
 export class WizardComponent implements OnInit, AfterContentInit {
+  @Input() title: string;
   @Input() headerColor = 'primary';
 
   @ContentChildren(WizardStepComponent, {})
   set stepComponents(stepComponents: QueryList<WizardStepComponent>) {
+    this.steps = stepComponents.toArray();
     this.templates = stepComponents.map(
       (eachComponent) => eachComponent.template
     );
     console.log('templates', this.templates);
   }
-  public templates: TemplateRef<WizardStepComponent>[];
+  public steps: WizardStepComponent[] = [];
+  public templates: TemplateRef<WizardStepComponent>[] = [];
 
   public selectedStep = 0;
 
