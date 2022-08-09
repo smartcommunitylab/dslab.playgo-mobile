@@ -5,6 +5,7 @@ import { ChallengeCardComponent } from './challenge-card/challenge-card.componen
 import { ChallengeUsersStatusComponent } from './challenge-card/challenge-users-status/challenge-users-status.component';
 import { ChallengeContainerComponent } from './challenge-container/challenge-container.component';
 import { ChallengesRoutingModule } from './challenges-routing.module';
+import { ChallengesStatComponent } from './challenges-stat/challenges-stat.component';
 import { ChallengesPage } from './challenges.page';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ChallengesPage } from './challenges.page';
     ChallengeContainerComponent,
     ChallengeBarStatusComponent,
     ChallengeUsersStatusComponent,
+    ChallengesStatComponent,
   ],
 })
 export class ChallengesPageModule {}
