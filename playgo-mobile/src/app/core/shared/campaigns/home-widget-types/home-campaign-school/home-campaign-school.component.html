@@ -19,7 +19,10 @@
       [reportWeekStat]="reportWeekStat"
       [reportTotalStat]="reportTotalStat"
     ></app-main-campaign-stat>
-    <app-home-campaign-challenges [campaignContainer]="campaignContainer">
+    <app-home-campaign-challenges
+      *ngIf="header"
+      [campaignContainer]="campaignContainer"
+    >
     </app-home-campaign-challenges>
   </ion-card-content>
 </ion-card>

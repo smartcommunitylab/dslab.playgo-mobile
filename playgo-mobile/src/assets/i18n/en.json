@@ -222,15 +222,20 @@
       "join": "Join"
     },
     "detail": {
+      "blacklist": "Blacklist",
+      "badges": "Badges",
       "stats": "Statistics",
       "generalStat": "General",
       "signal": "Contacts and support",
       "prizes": "Prizes",
+      "dateFrom": "From: ",
+      "dateTo": "To: ",
       "unsubscribe": "Unsubscribe",
       "challenges": "Challenges",
       "journeys": "Journeys",
       "leaderboard": "Leaderboard",
-      "description": "Description"
+      "description": "Description",
+      "details": "Dettagli campagna"
     },
     "homewidgets": {
       "personal": {

@@ -73,6 +73,11 @@ export class AppComponent implements AfterContentInit {
       flower: '../assets/icon/flower.svg',
       shield: '../assets/icon/shield.svg',
       offline: '../assets/icon/offline.svg',
+      badges: '../assets/icon/badges.svg',
+      blacklist: '../assets/icon/blacklist.svg',
+      leaderboard: '../assets/icon/leaderboard.svg',
+      stat: '../assets/icon/stat.svg',
+      leave: '../assets/icon/leave.svg',
       groupCompetitivePerformance:
         '../assets/images/challenges/groupCompetitivePerformance.svg',
       groupCompetitiveTime:

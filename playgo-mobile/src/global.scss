@@ -129,6 +129,12 @@ ion-list {
     color: white;
   }
 }
+.text-bold {
+  font-weight: bold;
+}
+.text-underlined {
+  text-decoration: underline;
+}
 @import "material-icons/iconfont/material-icons.scss";
 
 $material-icons-font-path: "./" !default;

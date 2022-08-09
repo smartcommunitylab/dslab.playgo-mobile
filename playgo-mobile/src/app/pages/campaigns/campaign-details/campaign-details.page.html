@@ -30,12 +30,19 @@
     </app-campaign-notification>
   </ng-container>
   <ion-card
-    *ngIf="campaignHas('leaderboard')"
-    [routerLink]="getLeaderboardLink()"
+    [routerLink]="['/pages/blacklist/'+campaignContainer.campaign.campaignId]"
   >
     <ion-item [color]="campaignContainer?.campaign?.type">
-      <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
-      <ion-icon name="arrow-forward" end></ion-icon>
+      <ion-label>{{'campaigns.detail.blacklist'|translate}} </ion-label>
+      <app-icon name="blacklist" class="icon-size-normal"></app-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card
+    [routerLink]="['/pages/tabs/challenges'+campaignContainer.campaign.campaignId]"
+  >
+    <ion-item [color]="campaignContainer?.campaign?.type">
+      <ion-label>{{'campaigns.detail.challenges'|translate}} </ion-label>
+      <app-icon name="default" class="icon-size-normal"></app-icon>
     </ion-item>
   </ion-card>
   <ion-card
@@ -43,57 +50,101 @@
   >
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.stats'|translate}} </ion-label>
-      <ion-icon name="stats-chart-outline" end></ion-icon>
+      <app-icon name="stat" class="icon-size-normal"></app-icon>
     </ion-item>
   </ion-card>
-  <ion-card *ngIf="campaignHas('prizes')">
+  <ion-card
+    [routerLink]="['/pages/badges/'+campaignContainer.campaign.campaignId]"
+  >
+    <ion-item [color]="campaignContainer?.campaign?.type">
+      <ion-label>{{'campaigns.detail.badges'|translate}} </ion-label>
+      <app-icon name="badges" class="icon-size-normal"></app-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card
+    *ngIf="campaignHas('leaderboard')"
+    [routerLink]="getLeaderboardLink()"
+  >
+    <ion-item [color]="campaignContainer?.campaign?.type">
+      <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
+      <app-icon name="leaderboard" class="icon-size-normal"></app-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card [routerLink]="['/pages/tabs/trips']">
+    <ion-item [color]="campaignContainer?.campaign?.type">
+      <ion-label>{{'campaigns.detail.journeys'|translate}} </ion-label>
+      <app-icon name="list" class="icon-size-normal"></app-icon>
+    </ion-item>
+  </ion-card>
+  <!-- <ion-card *ngIf="campaignHas('prizes')">
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.prizes'|translate}} </ion-label>
       <ion-icon name="arrow-forward" end></ion-icon>
     </ion-item>
-  </ion-card>
+  </ion-card> -->
+
   <ion-card>
-    <ion-item [color]="campaignContainer?.campaign?.type">
-      <ion-label> {{'campaigns.detail.journeys'|translate}} </ion-label>
-      <ion-icon name=" arrow-forward" end> </ion-icon>
-    </ion-item>
-  </ion-card>
-  <ion-card *ngIf="campaignHas('challenge')">
-    <ion-item [color]="campaignContainer?.campaign?.type">
-      <ion-label>{{'campaigns.detail.challenges'|translate}} </ion-label>
-    </ion-item>
-    <ion-card-content> Sfideeeee </ion-card-content>
-  </ion-card>
-  <ion-card *ngIf="campaignContainer.campaign.description | languageMap">
     <ion-card-title>
       <ion-item [color]="campaignContainer?.campaign?.type"
-        >{{'campaigns.detail.description'|translate}}
+        >{{'campaigns.detail.details'|translate}}
       </ion-item>
     </ion-card-title>
     <ion-card-content>
+      <ion-item lines="none"
+        ><ion-label
+          >{{'campaigns.detail.dateFrom'|translate}}<span class="text-bold"
+            >{{campaignContainer.campaign.dateFrom|localDate}}</span
+          ></ion-label
+        ></ion-item
+      >
+      <ion-item lines="none"
+        ><ion-label
+          >{{'campaigns.detail.dateTo'|translate}}<span class="text-bold"
+            >{{campaignContainer.campaign.dateTo |localDate}}</span
+          ></ion-label
+        ></ion-item
+      >
       <div
-        [innerHTML]="campaignContainer.campaign.description | languageMap"
-      ></div>
+        *ngIf="(campaignContainer.campaign.details | languageMap) as details"
+      >
+        <div *ngFor="let detail of details" (click)="openDetail(detail)">
+          <ion-item lines="none">
+            <ion-label
+              ><span class="text-bold text-underlined">
+                {{detail.name}}</span
+              ></ion-label
+            >
+            <ion-icon name="information-circle-outline" end> </ion-icon>
+          </ion-item>
+        </div>
+      </div>
+      <div>
+        <p class="text-bold">{{'campaigns.detail.description'|translate}}</p>
+        <div
+          [innerHTML]="campaignContainer.campaign.description | languageMap"
+        ></div>
+      </div>
     </ion-card-content>
   </ion-card>
-  <div *ngIf="(campaignContainer.campaign.details | languageMap) as details">
+  <!-- <div *ngIf="(campaignContainer.campaign.details | languageMap) as details">
     <ion-card *ngFor="let detail of details" (click)="openDetail(detail)">
       <ion-item [color]="campaignContainer?.campaign?.type"
         ><ion-label>{{detail.name}}</ion-label>
         <ion-icon name="arrow-forward" end> </ion-icon>
       </ion-item>
     </ion-card>
-  </div>
-  <ion-card>
-    <ion-item [color]="campaignContainer?.campaign?.type">
-      <ion-label>{{'campaigns.detail.signal'|translate}} </ion-label>
-      <ion-icon name="arrow-forward" end></ion-icon>
-    </ion-item>
-  </ion-card>
+  </div> -->
+
   <ion-card (click)="unsubscribeCampaign()" *ngIf="!isPersonal()">
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.unsubscribe'|translate}} </ion-label>
-      <ion-icon name="arrow-forward" end></ion-icon>
+      <app-icon name="leave" class="icon-size-normal"></app-icon>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item [color]="campaignContainer?.campaign?.type">
+      <ion-label>{{'campaigns.detail.signal'|translate}} </ion-label>
+      <ion-icon name="help-circle-outline" end></ion-icon>
     </ion-item>
   </ion-card>
 </ion-content>

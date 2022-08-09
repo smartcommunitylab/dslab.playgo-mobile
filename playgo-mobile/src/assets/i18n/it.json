@@ -223,15 +223,20 @@
       "join": "Iscriviti"
     },
     "detail": {
+      "blacklist": "Utenti Bloccati",
+      "badges": "Badges",
       "stats": "Statistiche",
       "generalStat": "Generale",
       "signal": "Segnala e conatta il supporto",
       "unsubscribe": "Disiscriviti",
       "prizes": "Premi",
+      "dateFrom": "Inizio: ",
+      "dateTo": "Fine: ",
       "challenges": "Sfide",
       "journeys": "Lista viaggi",
       "leaderboard": "Classifica",
-      "description": "Descrizione"
+      "description": "Descrizione",
+      "details": "Dettagli campagna"
     },
     "homewidgets": {
       "personal": {
