@@ -25,24 +25,35 @@
   </ion-segment>
 
   <div *ngIf="selectedSegment==='pastChallenges'">
-    <app-challenge-card
+    To be designed
+    <!-- <app-challenge-card
       *ngFor="let challenge of (pastChallenges$ | async); trackBy challengeTracking;"
       [challenge]="challenge"
     >
-    </app-challenge-card>
+    </app-challenge-card> -->
   </div>
   <div *ngIf="selectedSegment==='activeChallenges'">
-    <app-challenge-card
-      *ngFor="let challenge of (activeChallenges$ | async); trackBy challengeTracking;"
-      [challenge]="challenge"
-    >
-    </app-challenge-card>
+    <div *ngFor="let campaign of campaignsWithChallenges">
+      <div *ngIf=" activeChallenges[campaign?.campaign?.campaignId]?.length>0">
+        <app-challenge-container
+          [campaign]="campaign"
+          [challenges]="activeChallenges[campaign?.campaign?.campaignId]"
+          [type]="'active'"
+        >
+        </app-challenge-container>
+      </div>
+    </div>
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
-    <app-challenge-card
-      *ngFor="let challenge of (futureChallenges$ | async); trackBy challengeTracking;"
-      [challenge]="challenge"
-    >
-    </app-challenge-card>
+    <div *ngFor="let campaign of campaignsWithChallenges">
+      <div *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0">
+        <app-challenge-container
+          [campaign]="campaign"
+          [challenges]="futureChallenges[campaign?.campaign?.campaignId]"
+          [type]="'future'"
+        >
+        </app-challenge-container>
+      </div>
+    </div>
   </div>
 </ion-content>

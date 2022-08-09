@@ -1,0 +1,21 @@
+<!-- <p>
+  {{ status | json }}
+  {{ rowStatus | json }}
+  {{ otherStatus | json }}
+  {{ challengeType | json }}
+  {{ type | json }}
+</p> -->
+<div class="progress">
+  <!-- <div class="player-progress-container"> -->
+  <div class="progress-bar" [style.width.%]="getWidth(status)"></div>
+  <!-- </div> -->
+  <!-- <div class="opposite-player-progress-container" *ngIf="otherStatus !== null"> -->
+  <div class="separator" *ngIf="challengeType === 'groupCompetitiveTime'"></div>
+
+  <div
+    class="progress-bar-opposite"
+    *ngIf="otherStatus !== null"
+    [style.width.%]="getWidth(otherStatus)"
+  ></div>
+  <!-- </div> -->
+</div>

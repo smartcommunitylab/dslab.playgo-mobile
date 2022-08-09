@@ -1,24 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { flatten } from 'lodash-es';
-import {
-  EMPTY,
-  forkJoin,
-  map,
-  merge,
-  Observable,
-  shareReplay,
-  switchMap,
-  tap,
-  toArray,
-} from 'rxjs';
-import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
+import { Observable, Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
-import { ChallengeConceptInfo } from 'src/app/core/api/generated/model/challengeConceptInfo';
 import { ChallengesData } from 'src/app/core/api/generated/model/challengesData';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { CampaignService } from 'src/app/core/shared/services/campaign.service';
-import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { trackByProperty } from 'src/app/core/shared/utils';
+import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 
 @Component({
   selector: 'app-challenges',
@@ -27,81 +12,53 @@ import { trackByProperty } from 'src/app/core/shared/utils';
 })
 export class ChallengesPage implements OnInit, OnDestroy {
   selectedSegment?: string;
+  subCampaignChall: Subscription;
+  subCampaignFutureChall: Subscription;
+  subCampaignActiveChall: Subscription;
+  campaignsWithChallenges: PlayerCampaign[] = [];
+  activeChallenges: any = {};
+  futureChallenges: any = {};
+  // public pastChallenges$: Observable<Challenge[]> =
+  //   this.challengeService.pastChallenges$;
+  public activeChallenges$: Observable<Challenge[]> =
+    this.challengeService.activeChallenges$;
+  public futureChallenges$: Observable<Challenge[]> =
+    this.challengeService.futureChallenges$;
 
-  private campaignsWithChallenges$ = this.campaignService.myCampaigns$.pipe(
-    map((campaigns) =>
-      // TODO: ask if the condition is correct
-      campaigns.filter((campaign) => campaign.campaign.type === 'city')
-    )
-  );
-
-  public allChallenges$: Observable<Challenge[]> = this.campaignsWithChallenges$
-    .pipe(
-      switchMap((campaigns) =>
-        forkJoin(
-          campaigns.map((campaign) =>
-            this.challengeControllerService
-              .getChallengesUsingGET({
-                campaignId: campaign.campaign.campaignId,
-              })
-              .pipe(
-                this.errorService.getErrorHandler(),
-                map((response) =>
-                  this.processResponseForOneCampaign(response, campaign)
-                )
-              )
-          )
-        ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
-      )
-    )
-    .pipe(shareReplay(1));
-
-  public activeChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
-    map((challenges) =>
-      challenges.filter((challenge) => challenge.challengeType === 'ACTIVE')
-    )
-  );
-  public pastChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
-    map((challenges) =>
-      challenges.filter((challenge) => challenge.challengeType === 'OLD')
-    )
-  );
-  public futureChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
-    map((challenges) =>
-      challenges.filter(
-        (challenge) =>
-          challenge.challengeType === 'FUTURE' ||
-          challenge.challengeType === 'PROPOSED'
-      )
-    )
-  );
-
-  challengeTracking = trackByProperty<Challenge>('challId');
-
-  constructor(
-    private campaignService: CampaignService,
-    private challengeControllerService: ChallengeControllerService,
-    private errorService: ErrorService
-  ) {}
-
-  private processResponseForOneCampaign(
-    response: ChallengeConceptInfo,
-    campaign: PlayerCampaign
-  ): Challenge[] {
-    const challengesOfAllTypesPerOneCampaign = Object.entries(
-      response.challengeData
-    ).flatMap(([challengeType, challenges]) =>
-      challenges.map((challenge) => ({
-        ...challenge,
-        challengeType: challengeType as ChallengeType,
-        campaign: campaign.campaign,
-      }))
-    );
-    return challengesOfAllTypesPerOneCampaign;
-  }
+  constructor(private challengeService: ChallengeService) {}
 
   ngOnInit(): void {
     this.selectedSegment = 'activeChallenges';
+    this.subCampaignChall =
+      this.challengeService.campaignsWithChallenges$.subscribe((campaigns) => {
+        this.campaignsWithChallenges = campaigns;
+      });
+    this.subCampaignActiveChall =
+      this.challengeService.activeChallenges$.subscribe((challenges) => {
+        // this.activeChallenges = challenges.reduce(
+        //   (result, item) => ({ ...result, [item.campaign.campaignId]: item }),
+        //   {}
+        // );
+        this.activeChallenges = challenges.reduce(
+          (result: any, a) => (
+            (result[a.campaign.campaignId] =
+              result[a.campaign.campaignId] || []).push(a),
+            result
+          ),
+          {}
+        );
+      });
+    this.subCampaignFutureChall =
+      this.challengeService.futureChallenges$.subscribe((challenges) => {
+        this.futureChallenges = challenges.reduce(
+          (result: any, a) => (
+            (result[a.campaign.campaignId] =
+              result[a.campaign.campaignId] || []).push(a),
+            result
+          ),
+          {}
+        );
+      });
   }
 
   ngOnDestroy(): void {}

@@ -1,5 +1,6 @@
 <ion-card>
-  <app-notification-badge *ngIf="header"
+  <app-notification-badge
+    *ngIf="header"
     [type]="'campaign'"
     [campaignContainer]="campaignContainer"
   ></app-notification-badge>
@@ -19,17 +20,7 @@
       [reportTotalStat]="reportTotalStat"
     >
     </app-main-campaign-stat>
-    <ion-item
-      id="challenge"
-      color="city"
-      *ngIf="header"
-      (click)="goToChallenge($event)"
-    >
-      Sezione sfide
-      <app-notification-badge
-        [type]="'challenge'"
-        [campaignContainer]="campaignContainer"
-      ></app-notification-badge>
-    </ion-item>
+    <app-home-campaign-challenges [campaignContainer]="campaignContainer">
+    </app-home-campaign-challenges>
   </ion-card-content>
 </ion-card>

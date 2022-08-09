@@ -9,7 +9,20 @@ import { Challenge } from '../challenges.page';
 })
 export class ChallengeCardComponent implements OnInit {
   @Input() challenge: Challenge;
+  @Input() type: string;
   constructor(public campaignService: CampaignService) {}
 
   ngOnInit() {}
+  getImgChallenge() {
+    if (
+      [
+        'groupCooperative',
+        'groupCompetitiveTime',
+        'groupCompetitivePerformance',
+      ].indexOf(this.challenge.type) > -1
+    ) {
+      return this.challenge.type;
+    }
+    return 'default';
+  }
 }

@@ -93,13 +93,6 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
         });
     });
   }
-  goToChallenge(event: Event) {
-    if (event && event.stopPropagation) {
-      console.log('goToChallenge - stopPropagation');
-      event.stopPropagation();
-    }
-    console.log('goToChallenge');
-  }
   ngOnDestroy() {
     this.subStat.unsubscribe();
   }

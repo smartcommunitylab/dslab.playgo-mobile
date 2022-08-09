@@ -1,0 +1,45 @@
+.progress {
+  //   margin: 50px auto;
+  padding: 2px;
+  width: 100%;
+  //   max-width: 500px;
+  border: 1px solid lightgray;
+  height: 30px;
+  position: relative;
+  //   display: flex;
+  //   .player-progress-container {
+  //     height: 100%;
+  .separator {
+    height: inherit;
+    width: 3px;
+    background-color: lightgray;
+    position: absolute;
+    left: 50%;
+    top: 0px;
+  }
+  .progress-bar {
+    height: 100%;
+    // width: 20%;
+    background-color: #fdd835;
+    float: left;
+    // animation: fill-bar 1s forwards;
+    // }
+  }
+  //   .opposite-player-progress-container {
+  //     height: 100%;
+  .progress-bar-opposite {
+    //   rotate: 180deg;
+    height: 100%;
+    float: right;
+    background-color: #f29900;
+  }
+}
+// }
+@keyframes fill-bar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
