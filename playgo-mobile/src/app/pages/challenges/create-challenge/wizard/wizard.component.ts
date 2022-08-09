@@ -5,6 +5,7 @@ import {
   ContentChild,
   ContentChildren,
   Directive,
+  Input,
   OnInit,
   Optional,
   QueryList,
@@ -32,6 +33,8 @@ export class WizardStepComponent {
   styleUrls: ['./wizard.component.scss'],
 })
 export class WizardComponent implements OnInit, AfterContentInit {
+  @Input() headerColor = 'primary';
+
   @ContentChildren(WizardStepComponent, {})
   set stepComponents(stepComponents: QueryList<WizardStepComponent>) {
     this.templates = stepComponents.map(

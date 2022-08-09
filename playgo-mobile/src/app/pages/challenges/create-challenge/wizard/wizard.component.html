@@ -1,4 +1,7 @@
-<div class="form-steps-container">
+<div
+  class="form-steps-container"
+  [style.--wizard-header-color]="'var(--ion-color-' + headerColor + ')'"
+>
   <ng-container *ngFor="let step of templates; index as currentStepIndex">
     <div class="step-divider" [class.first-step]="currentStepIndex === 0"></div>
     <div

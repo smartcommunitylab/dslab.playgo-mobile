@@ -2,19 +2,20 @@ $selected-background: white;
 $not-selected-background: rgb(224, 224, 224);
 // $not-selected-background: red;
 
-$color: darken(yellow, 10%);
-
 .form-steps-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px 0 10px;
   margin-top: 10px;
+
+  // to be overridden in template
+  --wizard-header-color: black;
 }
 
 .step-bubble {
   padding: 8px;
-  border: 3px solid $color;
+  border: 3px solid var(--wizard-header-color);
   width: 30px;
   height: 30px;
   display: flex;
@@ -41,7 +42,7 @@ $color: darken(yellow, 10%);
 
 .step-divider {
   height: 2px;
-  background: $color;
+  background: var(--wizard-header-color);
   flex: 1;
 
   &.first-step {
