@@ -4,9 +4,13 @@ import { CreateChallengePageRoutingModule } from './create-challenge-routing.mod
 
 import { CreateChallengePage } from './create-challenge.page';
 import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
+import {
+  WizardComponent,
+  WizardPageDirective,
+} from './wizard/wizard.component';
 
 @NgModule({
   imports: [PlayGoSharedModule, CreateChallengePageRoutingModule],
-  declarations: [CreateChallengePage],
+  declarations: [CreateChallengePage, WizardPageDirective, WizardComponent],
 })
 export class CreateChallengePageModule {}
