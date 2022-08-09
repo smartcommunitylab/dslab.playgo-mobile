@@ -8,12 +8,9 @@
 
   <ion-card-content>
     <ion-grid>
-      <ion-row>
-        <ion-col size="1"
-          ><app-icon
-            class="icon-size-normal"
-            [name]="getImgChallenge()"
-          ></app-icon
+      <ion-row class="ion-align-items-center">
+        <ion-col size="2"
+          ><app-icon class="icon-size-big" [name]="getImgChallenge()"></app-icon
         ></ion-col>
         <ion-col>
           <p [innerHTML]="challenge.challDesc"></p>
@@ -26,6 +23,7 @@
             [status]="challenge.status"
             [rowStatus]="challenge.row_status"
             [type]="type"
+            [challengeType]="challenge.type"
             [otherUser]="challenge.otherAttendeeData"
           ></app-challenge-users-status
         ></ion-col>

@@ -15,6 +15,8 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   @Input() rowStatus: number;
   @Input() type: string;
   @Input() otherUser?: OtherAttendeeData;
+  @Input() challengeType: string;
+
   profile: IUser;
   playerAvatarUrl$ = this.userService.userProfile$.pipe(
     map((userProfile) => userProfile.avatar.avatarSmallUrl)
@@ -36,8 +38,8 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   }
   isCompetitive() {
     if (
-      this.type === 'groupCompetitiveTime' ||
-      this.type === 'groupCompetitivePerformance'
+      this.challengeType === 'groupCompetitiveTime' ||
+      this.challengeType === 'groupCompetitivePerformance'
     ) {
       return true;
     }

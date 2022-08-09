@@ -30,7 +30,7 @@
             ><ion-col>{{ otherUser.nickname }}</ion-col></ion-row
           ><ion-row class="ion-text-end ion-align-items-center"
             ><ion-col>{{ otherUser.status }}%</ion-col
-            ><ion-col size="1" *ngIf="isChallenge()">
+            ><ion-col size="1" *ngIf="isCompetitive()">
               <div
                 [ngClass]="
                   isWinning(otherUser?.status, status)
