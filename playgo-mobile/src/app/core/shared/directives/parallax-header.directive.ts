@@ -7,9 +7,14 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
+  ViewChild,
+  Optional,
 } from '@angular/core';
 import { IonToolbar, IonButtons, IonTitle } from '@ionic/angular';
 import toPx from 'to-px';
+import { HeaderContentComponent } from '../layout/header/header-content.component';
+import { HeaderDirective } from '../layout/header/header.directive';
+import { waitMs } from '../utils';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'ion-header[parallax]',
@@ -36,22 +41,30 @@ export class ParallaxDirective implements AfterContentInit {
   >;
   constructor(
     private headerRef: ElementRef<HTMLElement>,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    @Optional() private headerDirective: HeaderDirective
   ) {}
+
   ngAfterContentInit() {
-    setTimeout(() => {
-      try {
-        if (this.initElements()) {
-          this.setupContentPadding();
-          this.setupImageOverlay();
-          this.setupPointerEventsForButtons();
-          this.setupEvents();
-          this.updateProgress();
-        }
-      } catch (e) {
-        this.ngAfterContentInit();
+    this.init();
+  }
+  private async init(numOfTry: number = 0) {
+    try {
+      if (this.initElements()) {
+        this.setupContentPadding();
+        this.setupImageOverlay();
+        this.setupPointerEventsForButtons();
+        this.setupEvents();
+        this.updateProgress();
       }
-    }, 100);
+    } catch (e) {
+      if (numOfTry > 5) {
+        console.log('parallax error', e);
+      } else {
+        await waitMs(100);
+        await this.init(numOfTry + 1);
+      }
+    }
   }
   private get header() {
     return this.headerRef.nativeElement;
@@ -71,8 +84,20 @@ export class ParallaxDirective implements AfterContentInit {
   }
 
   private initElements() {
+    if (this.headerDirective) {
+      // If we are using [appHeader] directive, than @ContentChild will not resolve elements
+      // so we need to get them from the HeaderContentComponent via @ViewChild
+      const headerContentComponent =
+        this.headerDirective.headerContentComponent.instance;
+
+      this.ionToolbar = headerContentComponent.ionToolbar;
+      this.ionTitle = headerContentComponent.ionTitle;
+      this.ionButtons = headerContentComponent.ionButtons;
+    }
     if (!this.ionToolbar) {
-      console.error('A <ion-toolbar> element is needed inside <ion-header>');
+      console.error(
+        'A <ion-toolbar> element is needed inside <ion-header> or using the [appHeader] directive on the <ion-header>'
+      );
       return false;
     }
 
@@ -89,7 +114,11 @@ export class ParallaxDirective implements AfterContentInit {
     ) as HTMLElement;
 
     this.originalToolbarHeight = this.ionToolbar.el.offsetHeight;
-
+    console.log('this.originalToolbarHeight', this.originalToolbarHeight);
+    console.log(
+      'this.ionToolbar.el.clientHeight',
+      this.ionToolbar.el.clientHeight
+    );
     this.toolbarContainer =
       this.ionToolbar.el.shadowRoot.querySelector('.toolbar-container');
 
@@ -170,12 +199,19 @@ export class ParallaxDirective implements AfterContentInit {
   }
 
   progressLayerHeight(progress: number) {
+    console.log('progress', progress);
     const h = Math.max(
       this.getMaxHeightInPx() * (1 - progress),
       this.originalToolbarHeight
     );
+    console.log(
+      'this.getMaxHeightInPx() * (1 - progress)',
+      this.getMaxHeightInPx() * (1 - progress)
+    );
+
+    console.log('originalToolbarHeight', this.originalToolbarHeight);
     this.renderer.setStyle(this.toolbarContainer, 'height', `${h}px`);
-    this.renderer.setStyle(this.imageOverlay, 'height', `${h}px`);
+    this.renderer.setStyle(this.imageOverlay, 'height', `100%`);
   }
 
   progressLayerOpacity(progress: number) {

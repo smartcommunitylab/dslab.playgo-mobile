@@ -1,17 +1,4 @@
 <ion-tabs class="scanner-hide">
-  <ng-container
-    *ngIf="pageSettingsService.pageSettings$ | async as settings"
-    slot="top"
-  >
-    <app-header
-      *ngIf="settings.customHeader === false"
-      [backButton]="settings.backButton"
-      [color]="settings.color"
-      [defaultHref]="settings.defaultHref"
-      [title]="settings.title"
-      [showNotifications]="settings.showNotifications"
-    ></app-header>
-  </ng-container>
   <app-tracking-main-control></app-tracking-main-control>
   <ion-tab-bar slot="bottom" color="playgo">
     <ion-tab-button tab="home" (click)="handleTabClick( $event)">

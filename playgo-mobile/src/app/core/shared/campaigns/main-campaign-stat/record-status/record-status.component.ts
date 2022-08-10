@@ -12,7 +12,5 @@ export class RecordStatusComponent implements OnInit {
   @Input() type?: string;
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.status);
-  }
+  ngOnInit() {}
 }

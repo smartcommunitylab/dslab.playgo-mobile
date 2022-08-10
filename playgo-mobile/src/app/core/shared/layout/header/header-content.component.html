@@ -1,13 +1,13 @@
-<ion-header>
-  <ion-toolbar [color]="color">
-    <ion-buttons slot="start" *ngIf="backButton">
-      <ion-back-button (click)="back()" [defaultHref]="defaultHref">
+<ng-container *ngIf="pageSettingsService.pageSettings$ | async as settings">
+  <ion-toolbar [color]="settings.color">
+    <ion-buttons slot="start" *ngIf="settings.backButton">
+      <ion-back-button (click)="back()" [defaultHref]="settings.defaultHref">
       </ion-back-button>
     </ion-buttons>
     <ion-title>
-      <span *ngIf="title">{{ title | translate }}</span>
+      <span *ngIf="settings.title">{{ settings.title | translate }}</span>
     </ion-title>
-    <ion-buttons slot="secondary" *ngIf="showNotifications">
+    <ion-buttons slot="secondary" *ngIf="settings.showNotifications">
       <ion-button id="notificationButton" (click)="navigateToNotification()">
         <ion-icon name="notifications"></ion-icon>
         <ion-badge
@@ -34,4 +34,4 @@
       </ion-row>
     </ion-grid>
   </ion-toolbar>
-</ion-header>
+</ng-container>
