@@ -9,8 +9,6 @@ const routes: RoutesWithPageSettings = [
     component: BadgesPage,
     data: {
       title: 'blacklist.blacklist',
-      backButton: false,
-      showPlayButton: true,
     },
   },
 ];

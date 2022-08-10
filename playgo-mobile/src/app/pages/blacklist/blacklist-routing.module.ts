@@ -9,8 +9,6 @@ const routes: RoutesWithPageSettings = [
     component: BlacklistPage,
     data: {
       title: 'blacklist.blacklist',
-      backButton: false,
-      showPlayButton: true,
     },
   },
 ];
