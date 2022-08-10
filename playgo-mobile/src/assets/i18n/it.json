@@ -332,6 +332,9 @@
       }
     }
   },
+  "blacklist": {
+    "blacklist": "Utenti Bloccati"
+  },
   "challenges": {
     "challenges": "Sfide",
     "past": "Passate",

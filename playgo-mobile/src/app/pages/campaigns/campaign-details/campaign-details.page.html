@@ -76,13 +76,6 @@
       <app-icon name="list" class="icon-size-normal"></app-icon>
     </ion-item>
   </ion-card>
-  <!-- <ion-card *ngIf="campaignHas('prizes')">
-    <ion-item [color]="campaignContainer?.campaign?.type">
-      <ion-label>{{'campaigns.detail.prizes'|translate}} </ion-label>
-      <ion-icon name="arrow-forward" end></ion-icon>
-    </ion-item>
-  </ion-card> -->
-
   <ion-card>
     <ion-card-title>
       <ion-item [color]="campaignContainer?.campaign?.type"
@@ -126,15 +119,6 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <!-- <div *ngIf="(campaignContainer.campaign.details | languageMap) as details">
-    <ion-card *ngFor="let detail of details" (click)="openDetail(detail)">
-      <ion-item [color]="campaignContainer?.campaign?.type"
-        ><ion-label>{{detail.name}}</ion-label>
-        <ion-icon name="arrow-forward" end> </ion-icon>
-      </ion-item>
-    </ion-card>
-  </div> -->
-
   <ion-card (click)="unsubscribeCampaign()" *ngIf="!isPersonal()">
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.unsubscribe'|translate}} </ion-label>

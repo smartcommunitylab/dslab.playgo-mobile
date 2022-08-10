@@ -325,6 +325,9 @@
       }
     }
   },
+  "blacklist": {
+    "blacklist": "Blacklisted users"
+  },
   "challenges": {
     "challenges": "Challenges",
     "past": "Past",

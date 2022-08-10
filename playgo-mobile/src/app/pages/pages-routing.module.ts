@@ -28,6 +28,13 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./stats/stats.module').then((m) => m.StatsPageModule),
       },
+      {
+        path: 'blacklist/:id',
+        loadChildren: () =>
+          import('./blacklist/blacklist.module').then(
+            (m) => m.BlacklistPageModule
+          ),
+      },
     ]),
   ],
 })
