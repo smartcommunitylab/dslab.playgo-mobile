@@ -8,6 +8,9 @@
   "tripDetailTitle": "Dettagli viaggio",
   "notifications_title": "Notifiche",
   "leaderboard.title": "Classifica",
+  "badges": {
+    "empty": "Non ci sono badge da mostrare"
+  },
   "login": {
     "login_page_title": "Login",
     "labelSignin": "Autenticazione in corso",

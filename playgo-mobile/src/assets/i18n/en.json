@@ -8,6 +8,9 @@
   "tripDetailTitle": "Trip Details",
   "notifications_title": "Notifications",
   "leaderboard.title": "Leaderboard",
+  "badges": {
+    "empty": "No badges yet!"
+  },
   "login": {
     "login_page_title": "Login",
     "loginCardHeader": "Login",
@@ -256,6 +259,7 @@
         "record": "{{record}} weekly record"
       }
     },
+
     "stats": {
       "filter": {
         "unit": {

@@ -1,15 +1,19 @@
 <ion-header appHeader></ion-header>
 <ion-content [fullscreen]="true">
-  <div *ngFor="let badgeConcept of badges">
-    <div *ngIf="badgeConcept.badgeEarned?.length>0">
-      {{badgeConcept.name}}
-      <ion-grid>
-        <ion-row>
-          <ion-col size="2" *ngFor="let badge of badgeConcept.badgeEarned">
-            <app-badge [badge]="badge"></app-badge>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+  <div *ngIf="badges; else emptyBadges">
+    <div *ngFor="let badgeConcept of badges">
+      <div *ngIf="badgeConcept.badgeEarned?.length>0">
+        {{badgeConcept.name}}
+        <ion-grid>
+          <ion-row>
+            <ion-col size="2" *ngFor="let badge of badgeConcept.badgeEarned">
+              <app-badge [badge]="badge"></app-badge>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     </div>
   </div>
+
+  <ng-template #emptyBadges> {{'badges.empty'|translate}}</ng-template>
 </ion-content>

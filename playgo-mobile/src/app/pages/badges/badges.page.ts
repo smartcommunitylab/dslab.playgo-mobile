@@ -26,7 +26,7 @@ export class BadgesPage implements OnInit {
     this.campaignId$.subscribe((campaignId) => {
       this.reportService
         .getGameStatus(campaignId)
-        .subscribe((status) => (this.badges = status.badges));
+        .subscribe((status) => (this.badges = status?.badges));
     });
   }
 }
