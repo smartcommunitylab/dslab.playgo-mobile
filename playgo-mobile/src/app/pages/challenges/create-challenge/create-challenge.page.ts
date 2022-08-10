@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable, switchMap } from 'rxjs';
+import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { Invitation } from 'src/app/core/api/generated/model/invitation';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { ReportService } from 'src/app/core/shared/services/report.service';
 
 @Component({
   selector: 'app-create-challenge',
@@ -10,7 +14,9 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
   styleUrls: ['./create-challenge.page.scss'],
 })
 export class CreateChallengePage implements OnInit {
-  campaignId$ = this.route.params.pipe(map((params) => params.id));
+  campaignId$: Observable<string> = this.route.params.pipe(
+    map((params) => params.id)
+  );
   campaign$: Observable<Campaign> = this.campaignId$.pipe(
     switchMap((campaignId) =>
       this.campaignService.myCampaigns$.pipe(
@@ -25,11 +31,51 @@ export class CreateChallengePage implements OnInit {
     )
   );
 
+  playerLevel$ = this.campaignId$.pipe(
+    switchMap((campaignId) =>
+      this.reportService
+        .getCurrentLevel(campaignId)
+        .pipe(this.errorService.getErrorHandler())
+    )
+  );
+
+  challengeModels$: Observable<ChallengeModelOptions[]> =
+    this.playerLevel$.pipe(
+      map((level) => {
+        const models: Omit<ChallengeModelOptions, 'available'>[] = [
+          {
+            challengeModelName: 'groupCompetitivePerformance',
+            availableFromLevel: 13,
+          },
+          {
+            challengeModelName: 'groupCompetitiveTime',
+            availableFromLevel: 9,
+          },
+          {
+            challengeModelName: 'groupCooperative',
+            availableFromLevel: 0,
+          },
+        ];
+        return models.map((eachModel) => ({
+          ...eachModel,
+          available: eachModel.availableFromLevel <= level,
+        }));
+      })
+    );
+
   getCampaignColor = this.campaignService.getCampaignColor;
   constructor(
     private route: ActivatedRoute,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private challengeControllerService: ChallengeControllerService,
+    private reportService: ReportService,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {}
+}
+interface ChallengeModelOptions {
+  challengeModelName: Invitation.ChallengeModelNameEnum;
+  available: boolean;
+  availableFromLevel: number;
 }
