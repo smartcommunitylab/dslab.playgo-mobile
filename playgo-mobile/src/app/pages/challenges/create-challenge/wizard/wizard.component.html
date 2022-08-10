@@ -1,15 +1,18 @@
-<div
+<ion-card
   class="wrapper"
   [style.--wizard-header-color]="'var(--ion-color-' + headerColor + ')'"
 >
-  <div class="title-header">
-    <span *ngIf="title">
-      {{ title }}
-    </span>
-    <span *ngIf="steps[selectedStep].title">
-      {{ steps[selectedStep].title | translate }}
-    </span>
-  </div>
+  <ion-card-header [color]="headerColor" class="title-header">
+    <ion-card-title>
+      <div *ngIf="title" class="ion-text-start">
+        {{ title }}
+      </div>
+      <div *ngIf="steps[selectedStep].title" class="ion-text-end">
+        {{ steps[selectedStep].title | translate }}
+      </div>
+    </ion-card-title>
+  </ion-card-header>
+
   <div class="form-steps-container">
     <ng-container *ngFor="let step of templates; index as currentStepIndex">
       <div
@@ -46,4 +49,4 @@
       >Next</ion-button
     >
   </div>
-</div>
+</ion-card>
