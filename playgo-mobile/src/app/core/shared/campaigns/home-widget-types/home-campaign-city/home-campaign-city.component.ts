@@ -44,17 +44,19 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
       // this.status = status;
       this.reportService
         .getGameStatus(this.campaignContainer.campaign.campaignId)
-        .then((campaignStatus) => {
-          this.campaignStatus = campaignStatus;
-        })
-        .catch((error) => {
-          if (isOfflineError(error)) {
-            this.campaignStatus = null;
-          } else {
-            this.campaignStatus = null;
-            this.errorService.handleError(error);
+        .subscribe(
+          (campaignStatus) => {
+            this.campaignStatus = campaignStatus;
+          },
+          (error) => {
+            if (isOfflineError(error)) {
+              this.campaignStatus = null;
+            } else {
+              this.campaignStatus = null;
+              this.errorService.handleError(error);
+            }
           }
-        });
+        );
 
       this.reportService
         .getGameStats(
@@ -63,34 +65,38 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
           toServerDateOnly(DateTime.utc().minus({ week: 1 })),
           toServerDateOnly(DateTime.utc())
         )
-        .then((stats) => {
-          this.reportWeekStat = stats;
-        })
-        .catch((error) => {
-          if (isOfflineError(error)) {
-            this.reportWeekStat = null;
-          } else {
-            this.reportWeekStat = null;
-            this.errorService.handleError(error);
+        .subscribe(
+          (stats) => {
+            this.reportWeekStat = stats;
+          },
+          (error) => {
+            if (isOfflineError(error)) {
+              this.reportWeekStat = null;
+            } else {
+              this.reportWeekStat = null;
+              this.errorService.handleError(error);
+            }
           }
-        });
+        );
 
       this.reportService
         .getGameStats(
           this.campaignContainer.campaign.campaignId,
           profile.playerId
         )
-        .then((stats) => {
-          this.reportTotalStat = stats;
-        })
-        .catch((error) => {
-          if (isOfflineError(error)) {
-            this.reportTotalStat = null;
-          } else {
-            this.reportTotalStat = null;
-            this.errorService.handleError(error);
+        .subscribe(
+          (stats) => {
+            this.reportTotalStat = stats;
+          },
+          (error) => {
+            if (isOfflineError(error)) {
+              this.reportTotalStat = null;
+            } else {
+              this.reportTotalStat = null;
+              this.errorService.handleError(error);
+            }
           }
-        });
+        );
     });
   }
   ngOnDestroy() {

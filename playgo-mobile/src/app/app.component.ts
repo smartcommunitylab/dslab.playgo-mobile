@@ -11,6 +11,7 @@ import { AppStatusService } from './core/shared/services/app-status.service';
 import { IconService } from './core/shared/ui/icon/icon.service';
 import { AuthService } from './core/auth/auth.service';
 import { NotificationService } from './core/shared/services/notifications/notifications.service';
+import { BadgeService } from './core/shared/services/badge.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,8 @@ export class AppComponent implements AfterContentInit {
     private appStatusService: AppStatusService,
     private iconService: IconService,
     private authService: AuthService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private badgeService: BadgeService
   ) {
     this.initializeApp();
   }
@@ -33,6 +35,7 @@ export class AppComponent implements AfterContentInit {
     this.translate.setDefaultLang('it');
     this.loadCustomIcons();
     this.pushInit();
+    this.badgeService.init();
     await this.platform.ready();
     await Promise.all([
       this.authService.init(),

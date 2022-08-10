@@ -87,6 +87,15 @@ export class CampaignService {
       leaderboard: {
         present: true,
       },
+      blacklist: {
+        present: false,
+      },
+      stats: {
+        present: true,
+      },
+      badges: {
+        present: false,
+      },
     },
     school: {
       challenge: {
@@ -99,6 +108,15 @@ export class CampaignService {
         present: true,
         api: 'https://hscdev.playngo.it/playandgo-hsc/publicapi',
       },
+      blacklist: {
+        present: true,
+      },
+      stats: {
+        present: true,
+      },
+      badges: {
+        present: true,
+      },
     },
     company: {
       challenge: {
@@ -110,6 +128,15 @@ export class CampaignService {
       leaderboard: {
         present: false,
       },
+      blacklist: {
+        present: false,
+      },
+      stats: {
+        present: true,
+      },
+      badges: {
+        present: false,
+      },
     },
     city: {
       challenge: {
@@ -119,6 +146,15 @@ export class CampaignService {
         present: true,
       },
       leaderboard: {
+        present: true,
+      },
+      blacklist: {
+        present: true,
+      },
+      stats: {
+        present: true,
+      },
+      badges: {
         present: true,
       },
     },

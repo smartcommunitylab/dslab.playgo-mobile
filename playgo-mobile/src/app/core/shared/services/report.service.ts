@@ -6,6 +6,7 @@ import { GameControllerService } from '../../api/generated/controllers/gameContr
 import { TransportStat } from '../../api/generated/model/transportStat';
 import { PlayerStatusReport } from '../../api/generated/model/playerStatusReport';
 import { PlayerGameStatus } from '../../api/generated/model/playerGameStatus';
+import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
@@ -45,25 +46,23 @@ export class ReportService {
       })
       .toPromise();
   }
-  getGameStatus(campaignId: string): Promise<PlayerGameStatus> {
+  getGameStatus(campaignId: string): Observable<PlayerGameStatus> {
     return this.gameController
       .getCampaignGameStatusUsingGET(campaignId)
-      .toPromise();
+      .pipe(shareReplay(1));
   }
   getGameStats(
     campaignId?: string,
     playerId?: string,
     dateFrom?: string,
     dateTo?: string
-  ): Promise<CampaignPlacing> {
-    return this.reportControllerService
-      .getPlayerCampaingPlacingByGameUsingGET({
-        campaignId,
-        playerId,
-        dateFrom,
-        dateTo,
-      })
-      .toPromise();
+  ): Observable<CampaignPlacing> {
+    return this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET({
+      campaignId,
+      playerId,
+      dateFrom,
+      dateTo,
+    });
   }
   getTransportStatsByMeans(
     campaignId: string,
@@ -73,18 +72,16 @@ export class ReportService {
     mean?: string,
     dateFrom?: string,
     dateTo?: string
-  ): Promise<TransportStats[]> {
-    return this.reportControllerService
-      .getPlayerTransportStatsUsingGET({
-        campaignId,
-        playerId,
-        metric,
-        groupMode,
-        mean,
-        dateFrom,
-        dateTo,
-      })
-      .toPromise();
+  ): Observable<TransportStats[]> {
+    return this.reportControllerService.getPlayerTransportStatsUsingGET({
+      campaignId,
+      playerId,
+      metric,
+      groupMode,
+      mean,
+      dateFrom,
+      dateTo,
+    });
   }
 
   getStatus(): Promise<PlayerStatusReport> {
