@@ -12,23 +12,23 @@
 
 export interface Geolocation {
   accuracy?: number;
-  activityConfidence?: number;
-  activityType?: string;
+  activity_confidence?: number;
+  activity_type?: string;
   altitude?: number;
-  batteryIsCharging?: boolean;
-  batteryLevel?: number;
+  battery_is_charging?: boolean;
+  battery_level?: number;
   certificate?: string;
-  createdAt?: number;
-  deviceId?: string;
-  deviceModel?: string;
+  created_at?: number;
+  device_id?: string;
+  device_model?: string;
   geocoding?: Array<number>;
   geofence?: any;
   heading?: number;
-  isMoving?: boolean;
+  is_moving?: boolean;
   latitude?: number;
   longitude?: number;
   multimodalId?: string;
-  recordedAt?: number;
+  recorded_at?: number;
   sharedTravelId?: string;
   speed?: number;
   travelId?: string;

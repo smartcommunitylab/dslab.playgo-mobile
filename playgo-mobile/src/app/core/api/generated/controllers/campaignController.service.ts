@@ -16,6 +16,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Campaign } from '../model/campaign';
+import { CampaignInfo } from '../model/campaignInfo';
 import { CampaignSubscription } from '../model/campaignSubscription';
 import { Image } from '../model/image';
 import { PlayerCampaign } from '../model/playerCampaign';
@@ -114,6 +115,25 @@ export class CampaignControllerService {
       environment.serverUrl.api +
         `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
       {}
+    );
+  }
+
+  /**
+   * getCampaignsByPlayer
+   *
+   * @param playerId playerId
+   */
+  public getCampaignsByPlayerUsingGET(
+    playerId: string
+  ): Observable<Array<CampaignInfo>> {
+    return this.http.request<Array<CampaignInfo>>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/campaign/player`,
+      {
+        params: removeNullOrUndefined({
+          playerId,
+        }),
+      }
     );
   }
 

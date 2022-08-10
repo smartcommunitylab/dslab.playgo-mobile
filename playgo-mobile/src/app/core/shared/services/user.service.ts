@@ -153,14 +153,14 @@ export class UserService {
   /**
    * do not throw http error
    */
-  private getAvatar(): Promise<IUser['avatar']> {
+  private getAvatar(user: IUser): Promise<IUser['avatar']> {
     const avatarDefaults: IUser['avatar'] = {
       avatarSmallUrl: 'assets/images/registration/generic_user.png',
       avatarUrl: 'assets/images/registration/generic_user.png',
     };
 
     return this.playerControllerService
-      .getPlayerAvatarUsingGET()
+      .getPlayerAvatarUsingGET(user?.playerId)
       .pipe(
         catchError((error) => {
           if (
@@ -219,7 +219,7 @@ export class UserService {
 
     try {
       user = await this.getProfile();
-      user.avatar = await this.getAvatar();
+      user.avatar = await this.getAvatar(user);
     } catch (e) {
       if (isOfflineError(e)) {
         user = this.userStorage.get();

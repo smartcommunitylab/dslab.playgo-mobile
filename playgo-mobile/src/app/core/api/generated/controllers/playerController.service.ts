@@ -73,12 +73,17 @@ export class PlayerControllerService {
   /**
    * getPlayerAvatar
    *
+   * @param playerId playerId
    */
-  public getPlayerAvatarUsingGET(): Observable<Avatar> {
+  public getPlayerAvatarUsingGET(playerId: string): Observable<Avatar> {
     return this.http.request<Avatar>(
       'get',
       environment.serverUrl.api + `/playandgo/api/player/avatar`,
-      {}
+      {
+        params: removeNullOrUndefined({
+          playerId,
+        }),
+      }
     );
   }
 
