@@ -1,0 +1,29 @@
+<ion-grid class="wrapper">
+  <ion-row>
+    <ion-col
+      size="6"
+      *ngFor="let eachModel of availableModels"
+      class="model"
+      [class.disabled]="!eachModel.available"
+    >
+      {{
+        "challenges.challenge_model.name." + eachModel.challengeModelName
+          | translate
+      }}
+      <ng-container *ngIf="eachModel.available">
+        <app-icon [name]="eachModel.challengeModelName"></app-icon>
+        {{
+          "challenges.challenge_model.description." +
+            eachModel.challengeModelName | translate
+        }}
+      </ng-container>
+      <ng-container *ngIf="!eachModel.available">
+        <app-icon name="lock"></app-icon>
+        {{
+          "challenges.challenge_model.disabled_until_level"
+            | translate: { level: eachModel.availableFromLevel }
+        }}
+      </ng-container>
+    </ion-col>
+  </ion-row>
+</ion-grid>

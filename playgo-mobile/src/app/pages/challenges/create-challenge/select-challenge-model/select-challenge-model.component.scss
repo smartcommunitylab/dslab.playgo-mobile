@@ -1,0 +1,11 @@
+.wrapper {
+  --campaign-color: brown;
+}
+.model {
+  border: 2px solid var(--campaign-color);
+  border-radius: 10px;
+  margin: 10px;
+  &.disabled {
+    border-color: gray;
+  }
+}

@@ -74,7 +74,7 @@ export class CreateChallengePage implements OnInit {
 
   ngOnInit() {}
 }
-interface ChallengeModelOptions {
+export interface ChallengeModelOptions {
   challengeModelName: Invitation.ChallengeModelNameEnum;
   available: boolean;
   availableFromLevel: number;

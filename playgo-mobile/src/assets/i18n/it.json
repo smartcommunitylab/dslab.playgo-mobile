@@ -362,6 +362,19 @@
       "choose_metric": "Scegli metrica sfida",
       "choose_partner": "Scegli compangno",
       "activate": "Attiva sfida"
+    },
+    "challenge_model": {
+      "name": {
+        "groupCompetitivePerformance": "Competitiva a performance",
+        "groupCompetitiveTime": "Competitiva a tempo",
+        "groupCooperative": "Cooperativa"
+      },
+      "description": {
+        "groupCompetitivePerformance": "TODO: add description",
+        "groupCompetitiveTime": "TODO: add description",
+        "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
+      },
+      "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
     }
   },
   "outof": "{{current}} su {{total}}",

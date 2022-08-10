@@ -7,7 +7,9 @@
     [title]="campaign.name | languageMap"
   >
     <app-wizard-step title="challenges.create.choose_type">
-      {{challengeModels$ |async|json}}
+      <app-select-challenge-model
+        [availableModels]="challengeModels$ | async"
+      ></app-select-challenge-model>
     </app-wizard-step>
     <app-wizard-step title="challenges.create.choose_metric">
       step 2
