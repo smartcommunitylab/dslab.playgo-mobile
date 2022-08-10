@@ -35,6 +35,11 @@ import { RouterModule } from '@angular/router';
             (m) => m.BlacklistPageModule
           ),
       },
+      {
+        path: 'badges/:id',
+        loadChildren: () =>
+          import('./badges/badges.module').then((m) => m.BadgesPageModule),
+      },
     ]),
   ],
 })

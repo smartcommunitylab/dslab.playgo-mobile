@@ -37,9 +37,7 @@
       <app-icon name="blacklist" class="icon-size-normal"></app-icon>
     </ion-item>
   </ion-card>
-  <ion-card
-    [routerLink]="['/pages/tabs/challenges'+campaignContainer.campaign.campaignId]"
-  >
+  <ion-card [routerLink]="['/pages/tabs/challenges']">
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.challenges'|translate}} </ion-label>
       <app-icon name="default" class="icon-size-normal"></app-icon>
