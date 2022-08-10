@@ -19,6 +19,7 @@ import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail'
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 import { Notification } from '../../../core/api/generated/model/notification';
+import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 @Component({
   selector: 'app-campaign-details',
   templateUrl: './campaign-details.page.html',
@@ -42,7 +43,8 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     private userService: UserService,
     private navCtrl: NavController,
     private modalController: ModalController,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private pageSettingsService: PageSettingsService
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
@@ -70,9 +72,23 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
           ? this.campaignContainer?.campaign?.logo.url
           : 'data:image/jpg;base64,' +
             this.campaignContainer?.campaign?.logo.image;
+        this.changePageSettings();
       }
     );
   }
+
+  ionViewWillEnter() {
+    this.changePageSettings();
+  }
+
+  private changePageSettings() {
+    this.pageSettingsService.set({
+      color: this.colorCampaign,
+      // FIXME: ! title is already translated!
+      title: this.titlePage as any,
+    });
+  }
+
   async openDetail(detail: CampaignDetail) {
     const modal = await this.modalController.create({
       component: DetailCampaignModalPage,

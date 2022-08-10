@@ -10,7 +10,7 @@ const routes: RoutesWithPageSettings = [
     component: CampaignJoinPage,
     data: {
       title: '',
-      customHeader: true,
+      defaultHref: '/pages/tabs/campaigns',
     },
   },
 ];

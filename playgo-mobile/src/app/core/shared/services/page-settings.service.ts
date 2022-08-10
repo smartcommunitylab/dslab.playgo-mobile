@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  ActivationEnd,
+  NavigationEnd,
+  Route,
+  Router,
+  RoutesRecognized,
+} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {
   BehaviorSubject,
@@ -10,9 +18,19 @@ import {
   switchMap,
   scan,
   map,
+  tap,
   filter,
+  distinctUntilChanged,
+  distinctUntilKeyChanged,
+  shareReplay,
+  of,
+  concat,
+  merge,
+  race,
 } from 'rxjs';
+import { isEqual } from 'lodash-es';
 import { TranslateKey, XOR } from '../type.utils';
+import { isInstanceOf, tapLog } from '../utils';
 
 @Injectable({
   providedIn: 'root',
@@ -28,24 +46,33 @@ export class PageSettingsService {
     showNotifications: false,
     showPlayButton: false,
   };
-  private routerPageSettings$: Observable<PageSettings> =
+  private routerPageSettings$: Observable<PageSettings> = merge(
     this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map(
-        () =>
-          getRouterDataFromRoute(this.activatedRoute) || ({} as PageSettings)
-      )
-    );
+      filter(isInstanceOf(RoutesRecognized)),
+      map((event) => ({
+        id: event.id,
+        settings: getRouterDataFromActivatedRouteSnapshot(event.state.root),
+      }))
+    ),
+    this.router.events.pipe(
+      filter(isInstanceOf(NavigationEnd)),
+      map((event) => ({
+        id: event.id,
+        settings: getRouterDataFromActivatedRoute(this.activatedRoute),
+      }))
+    )
+  ).pipe(
+    distinctUntilKeyChanged('id'),
+    map(({ settings }) => settings)
+  );
 
-  private manualPageSettingsSubject: Subject<PageSettings> =
-    new Subject<PageSettings>();
+  private manualPageSettingsSubject = new Subject<Partial<PageSettings>>();
 
   public pageSettings$: Observable<Required<PageSettings>> =
     this.routerPageSettings$.pipe(
       // for every page we start from scratch
       switchMap((routerPageSettings) =>
-        this.manualPageSettingsSubject.pipe(
-          startWith({}),
+        concat(of({}), this.manualPageSettingsSubject).pipe(
           // apply all manual overrides for the current page
           scan(
             (settings, manualPageSettings) => ({
@@ -58,9 +85,11 @@ export class PageSettingsService {
           map((settings) => ({
             ...this.defaultPageSettings,
             ...settings,
-          }))
+          })),
+          distinctUntilChanged(isEqual)
         )
-      )
+      ),
+      shareReplay()
     );
 
   private title$: Observable<TranslateKey> = this.pageSettings$.pipe(
@@ -78,23 +107,40 @@ export class PageSettingsService {
     });
   }
 
-  public set(pageSettings: PageSettings) {
+  public set(pageSettings: Partial<PageSettings>) {
     this.manualPageSettingsSubject.next(pageSettings);
   }
 }
 
-function getRouterDataFromRoute(activatedRoute: ActivatedRoute): any {
+function getRouterDataFromActivatedRouteSnapshot(
+  activatedRouteSnapshot: ActivatedRouteSnapshot
+): PageSettings {
+  let child = activatedRouteSnapshot.firstChild;
+  while (child) {
+    if (child.firstChild) {
+      child = child.firstChild;
+    } else if (child.data) {
+      return child.data as PageSettings;
+    } else {
+      return {} as PageSettings;
+    }
+  }
+  return {} as PageSettings;
+}
+function getRouterDataFromActivatedRoute(
+  activatedRoute: ActivatedRoute
+): PageSettings {
   let child = activatedRoute.firstChild;
   while (child) {
     if (child.firstChild) {
       child = child.firstChild;
     } else if (child.snapshot.data) {
-      return child.snapshot.data;
+      return child.snapshot.data as PageSettings;
     } else {
-      return null;
+      return {} as PageSettings;
     }
   }
-  return null;
+  return {} as PageSettings;
 }
 export interface PageSettings {
   isOfflinePage?: boolean;

@@ -52,6 +52,10 @@ export class UserService {
     filter((locale) => locale !== null),
     shareReplay(1)
   );
+  public pluralRules$ = this.userLocale$.pipe(
+    map((locale) => new Intl.PluralRules(locale)),
+    shareReplay(1)
+  );
 
   private userProfile: IUser = null;
 

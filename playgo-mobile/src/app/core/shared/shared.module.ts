@@ -12,7 +12,7 @@ import {
   InfiniteScrollComponent,
   InfiniteScrollContentDirective,
 } from './infinite-scroll/infinite-scroll.component';
-import { HeaderComponent } from './layout/header/header.component';
+import { HeaderContentComponent } from './layout/header/header-content.component';
 import { OrdinalNumberComponent } from './globalization/ordinal-number/ordinal-number.component';
 import { MainCampaignStatComponent } from './campaigns/main-campaign-stat/main-campaign-stat.component';
 import { PrivacyModalPage } from 'src/app/pages/home/profile/privacy-modal/privacyModal.component';
@@ -30,6 +30,7 @@ import { DetailNotificationModalPage } from './detail-notification/detail-notifi
 import { NotificationBadgeComponent } from './campaigns/home-widget-types/notification-badge/notification-badge.component';
 import { SafeHtmlPipe } from './pipes/SafeHtml.pipe';
 import { HomeCampaignChallengeComponent } from './campaigns/app-widget-campaign/app-home-campaign-challenges/app-home-campaign-challenges.component';
+import { HeaderDirective } from './layout/header/header.directive';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -37,7 +38,8 @@ import { HomeCampaignChallengeComponent } from './campaigns/app-widget-campaign/
     MyCampaignCardComponent,
     MainCampaignStatComponent,
     PublicCampaignCardComponent,
-    HeaderComponent,
+    HeaderContentComponent,
+    HeaderDirective,
     ProfileComponent,
     PrivacyModalPage,
     DetailNotificationModalPage,
@@ -72,7 +74,8 @@ import { HomeCampaignChallengeComponent } from './campaigns/app-widget-campaign/
     DetailNotificationModalPage,
     LocalDatePipe,
     LanguageMapPipe,
-    HeaderComponent,
+    HeaderContentComponent,
+    HeaderDirective,
     LocalNumberPipe,
     SafeHtmlPipe,
     InfiniteScrollComponent,
