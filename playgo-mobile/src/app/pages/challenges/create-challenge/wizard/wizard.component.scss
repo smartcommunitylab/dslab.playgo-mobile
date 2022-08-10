@@ -21,26 +21,31 @@ $not-selected-background: rgb(224, 224, 224);
   margin-top: 10px;
 }
 
+$bubble-size: 30px;
+$bubble-border: 3px;
+$selected-bubble-increase: 2px;
 .step-bubble {
   padding: 8px;
-  border: 3px solid var(--wizard-header-color);
-  width: 30px;
-  height: 30px;
+  border: $bubble-border solid var(--wizard-header-color);
+  width: $bubble-size;
+  height: $bubble-size;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  // color: $blue;
   font-size: 1em;
   cursor: pointer;
   user-select: none;
   background: $not-selected-background;
 
   &.step-current {
-    border-width: 5px;
-    width: 32px;
-    height: 32px;
+    border-width: $bubble-border + $selected-bubble-increase;
+    width: $bubble-size + 2 * $selected-bubble-increase;
+    height: $bubble-size + 2 * $selected-bubble-increase;
+    margin-left: -$selected-bubble-increase;
+    margin-right: -$selected-bubble-increase;
     background: $selected-background;
+    font-weight: bold;
   }
 
   &.last-step {
