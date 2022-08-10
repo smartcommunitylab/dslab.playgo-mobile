@@ -15,6 +15,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { BadgesData } from '../model/badgesData';
 import { PlayerGameStatus } from '../model/playerGameStatus';
 
 @Injectable({
@@ -22,6 +23,18 @@ import { PlayerGameStatus } from '../model/playerGameStatus';
 })
 export class GameControllerService {
   constructor(private http: HttpClient) {}
+  /**
+   * getAllBadges
+   *
+   */
+  public getAllBadgesUsingGET(): Observable<{ [key: string]: BadgesData }> {
+    return this.http.request<{ [key: string]: BadgesData }>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/game/badge`,
+      {}
+    );
+  }
+
   /**
    * getCampaignGameStatus
    *

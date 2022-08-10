@@ -10,7 +10,11 @@
  * Do not edit the class manually.
  */
 
-export interface Battery {
-  is_charging?: boolean;
-  level?: number;
+export interface BadgesData {
+  imageByte?: string;
+  imageName?: string;
+  imageType?: string;
+  path?: string;
+  text?: { [key: string]: string };
+  textId?: string;
 }

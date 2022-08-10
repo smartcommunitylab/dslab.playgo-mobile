@@ -173,16 +173,18 @@ export class ChallengeControllerService {
    *
    * @param campaignId campaignId
    * @param playerId playerId
-   * @param dateFrom dateFrom
-   * @param dateTo dateTo
+   * @param groupMode groupMode
+   * @param dateFrom yyyy-MM-dd
+   * @param dateTo yyyy-MM-dd
    */
   public getChallengeStatsUsingGET(args: {
     campaignId: string;
     playerId: string;
-    dateFrom: number;
-    dateTo: number;
+    groupMode?: string;
+    dateFrom?: string;
+    dateTo?: string;
   }): Observable<Array<ChallengeStatsInfo>> {
-    const { campaignId, playerId, dateFrom, dateTo } = args;
+    const { campaignId, playerId, groupMode, dateFrom, dateTo } = args;
     return this.http.request<Array<ChallengeStatsInfo>>(
       'get',
       environment.serverUrl.api + `/playandgo/api/challenge/stats`,
@@ -190,6 +192,7 @@ export class ChallengeControllerService {
         params: removeNullOrUndefined({
           campaignId,
           playerId,
+          groupMode,
           dateFrom,
           dateTo,
         }),

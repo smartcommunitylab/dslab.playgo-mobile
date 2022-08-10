@@ -13,5 +13,6 @@
 export interface ChallengeStatsInfo {
   completed?: number;
   failed?: number;
+  period?: string;
   type?: string;
 }

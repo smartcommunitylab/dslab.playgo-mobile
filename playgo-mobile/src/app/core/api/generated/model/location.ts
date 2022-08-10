@@ -19,7 +19,7 @@ export interface Location {
   coords?: Coords;
   extras?: any;
   geofence?: any;
-  isMoving?: boolean;
+  is_moving?: boolean;
   timestamp?: number;
   uuid?: string;
 }
