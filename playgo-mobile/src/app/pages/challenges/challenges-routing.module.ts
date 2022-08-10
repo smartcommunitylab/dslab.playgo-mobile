@@ -14,8 +14,11 @@ const routes: RoutesWithPageSettings = [
     },
   },
   {
-    path: 'create-challenge',
-    loadChildren: () => import('./create-challenge/create-challenge.module').then( m => m.CreateChallengePageModule)
+    path: 'create-challenge/:id',
+    loadChildren: () =>
+      import('./create-challenge/create-challenge.module').then(
+        (m) => m.CreateChallengePageModule
+      ),
   },
 ];
 

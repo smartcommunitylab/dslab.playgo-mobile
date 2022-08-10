@@ -1,7 +1,11 @@
 <ion-header></ion-header>
 
 <ion-content>
-  <app-wizard [headerColor]="'city'" [title]="'Trento Play & Go'">
+  <app-wizard
+    *ngIf="campaign$ | async as campaign"
+    [headerColor]="getCampaignColor(campaign)"
+    [title]="campaign.name | languageMap"
+  >
     <app-wizard-step title="challenges.create.choose_type">
       step 1
     </app-wizard-step>
