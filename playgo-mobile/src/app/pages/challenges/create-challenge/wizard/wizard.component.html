@@ -1,52 +1,57 @@
-<ion-card
+<div
   class="wrapper"
   [style.--wizard-header-color]="'var(--ion-color-' + headerColor + ')'"
 >
-  <ion-card-header [color]="headerColor" class="title-header">
-    <ion-card-title>
-      <div *ngIf="title" class="ion-text-start">
-        {{ title }}
+  <ion-card>
+    <ion-card-header [color]="headerColor" class="title-header">
+      <ion-card-title>
+        <div *ngIf="title" class="ion-text-start">
+          {{ title }}
+        </div>
+        <div *ngIf="steps[selectedStep].title" class="ion-text-end">
+          {{ steps[selectedStep].title | translate }}
+        </div>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="form-steps-container">
+        <ng-container *ngFor="let step of templates; index as currentStepIndex">
+          <div
+            class="step-divider"
+            [class.first-step]="currentStepIndex === 0"
+          ></div>
+          <div
+            (click)="changeStep(currentStepIndex)"
+            class="step-bubble"
+            [class.step-current]="currentStepIndex === selectedStep"
+            [class.last-step]="currentStepIndex === templates.length - 1"
+          >
+            {{ currentStepIndex + 1 }}
+          </div>
+        </ng-container>
       </div>
-      <div *ngIf="steps[selectedStep].title" class="ion-text-end">
-        {{ steps[selectedStep].title | translate }}
+
+      <!-- <div class="wrapper" *ngFor="let tmpl of templates">
+      <ng-container [ngTemplateOutlet]="tmpl"></ng-container>
+    </div> -->
+      <div class="step-content-wrapper">
+        <ng-container
+          [ngTemplateOutlet]="templates[selectedStep]"
+        ></ng-container>
       </div>
-    </ion-card-title>
-  </ion-card-header>
 
-  <div class="form-steps-container">
-    <ng-container *ngFor="let step of templates; index as currentStepIndex">
-      <div
-        class="step-divider"
-        [class.first-step]="currentStepIndex === 0"
-      ></div>
-      <div
-        (click)="changeStep(currentStepIndex)"
-        class="step-bubble"
-        [class.step-current]="currentStepIndex === selectedStep"
-        [class.last-step]="currentStepIndex === templates.length - 1"
-      >
-        {{ currentStepIndex + 1 }}
+      <div>
+        <ion-button
+          (click)="changeStep(selectedStep - 1)"
+          [disabled]="selectedStep === 0"
+          >Back</ion-button
+        >
+        <ion-button
+          (click)="changeStep(selectedStep + 1)"
+          [disabled]="selectedStep === templates.length - 1"
+          >Next</ion-button
+        >
       </div>
-    </ng-container>
-  </div>
-
-  <!-- <div class="wrapper" *ngFor="let tmpl of templates">
-    <ng-container [ngTemplateOutlet]="tmpl"></ng-container>
-  </div> -->
-  <div>
-    <ng-container [ngTemplateOutlet]="templates[selectedStep]"></ng-container>
-  </div>
-
-  <div>
-    <ion-button
-      (click)="changeStep(selectedStep - 1)"
-      [disabled]="selectedStep === 0"
-      >Back</ion-button
-    >
-    <ion-button
-      (click)="changeStep(selectedStep + 1)"
-      [disabled]="selectedStep === templates.length - 1"
-      >Next</ion-button
-    >
-  </div>
-</ion-card>
+    </ion-card-content>
+  </ion-card>
+</div>
