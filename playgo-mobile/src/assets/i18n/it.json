@@ -364,6 +364,7 @@
       "activate": "Attiva sfida"
     },
     "challenge_model": {
+      "title": "Che tipo di sfida vuoi creare?",
       "name": {
         "groupCompetitivePerformance": "Competitiva a performance",
         "groupCompetitiveTime": "Competitiva a tempo",
@@ -375,6 +376,9 @@
         "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
       },
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
+    },
+    "challenge_mean": {
+      "title": "Come preferisci affrontare la sfida?"
     }
   },
   "outof": "{{current}} su {{total}}",

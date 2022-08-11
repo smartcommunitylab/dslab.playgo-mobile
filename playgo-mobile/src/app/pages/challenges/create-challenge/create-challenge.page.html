@@ -10,13 +10,25 @@
       title="challenges.create.choose_type"
       [validForNextStep]="(selectedModelName$|async) !== null"
     >
+      <div class="ion-text-center">
+        <h2>{{ 'challenges.challenge_model.title' | translate }}</h2>
+      </div>
       <app-select-challenge-model
         [availableModels]="challengeModels$ | async"
         (selectedModel)="selectedModelName$.next($event)"
       ></app-select-challenge-model>
     </app-wizard-step>
-    <app-wizard-step title="challenges.create.choose_metric">
-      step 2
+    <app-wizard-step
+      title="challenges.create.choose_metric"
+      [validForNextStep]="(selectedPointConcept$| async) !== null"
+    >
+      <div class="ion-text-center">
+        <h2>{{ 'challenges.challenge_mean.title' | translate }}</h2>
+      </div>
+      <app-select-challenge-mean
+        [availableMeans]="pointConcepts$ | async"
+        (selectedMean)="selectedPointConcept$.next($event)"
+      ></app-select-challenge-mean>
     </app-wizard-step>
     <app-wizard-step title="challenges.create.choose_partner">
       step 3

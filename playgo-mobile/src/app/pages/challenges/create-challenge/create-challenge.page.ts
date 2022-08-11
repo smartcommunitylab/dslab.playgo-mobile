@@ -7,6 +7,12 @@ import { Invitation } from 'src/app/core/api/generated/model/invitation';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { ReportService } from 'src/app/core/shared/services/report.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
+import {
+  transportTypeIcons,
+  transportTypeLabels,
+} from 'src/app/core/shared/tracking/trip.model';
+import { MeanOrGameInfo } from './select-challenge-mean/select-challenge-mean.component';
 
 @Component({
   selector: 'app-create-challenge',
@@ -84,13 +90,33 @@ export class CreateChallengePage implements OnInit {
 
   selectedModelName$ = new Subject<Invitation.ChallengeModelNameEnum>();
 
+  pointConcepts$ = this.userService.userProfileMeans$.pipe(
+    map((means) => {
+      const gameInfo: MeanOrGameInfo = {
+        isMean: false,
+        icon: 'game',
+        name: 'game',
+        title: 'game' as any,
+      };
+      const meansInfos: MeanOrGameInfo[] = means.map((mean) => ({
+        isMean: true,
+        icon: transportTypeIcons[mean],
+        name: mean,
+        title: transportTypeLabels[mean],
+      }));
+      return [gameInfo, ...meansInfos];
+    })
+  );
+  selectedPointConcept$ = new Subject<string>();
+
   getCampaignColor = this.campaignService.getCampaignColor;
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
     private challengeControllerService: ChallengeControllerService,
     private reportService: ReportService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {}

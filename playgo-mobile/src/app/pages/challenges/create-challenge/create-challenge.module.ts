@@ -7,6 +7,7 @@ import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 import { WizardComponent } from './wizard/wizard.component';
 import { WizardStepComponent } from './wizard/wizard-step/wizard-step.component';
 import { SelectChallengeModelComponent } from './select-challenge-model/select-challenge-model.component';
+import { SelectChallengeMeanComponent } from './select-challenge-mean/select-challenge-mean.component';
 
 @NgModule({
   imports: [PlayGoSharedModule, CreateChallengePageRoutingModule],
@@ -15,6 +16,7 @@ import { SelectChallengeModelComponent } from './select-challenge-model/select-c
     WizardComponent,
     WizardStepComponent,
     SelectChallengeModelComponent,
+    SelectChallengeMeanComponent,
   ],
 })
 export class CreateChallengePageModule {}
