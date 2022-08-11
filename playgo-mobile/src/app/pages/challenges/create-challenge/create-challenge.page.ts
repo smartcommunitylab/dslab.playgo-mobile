@@ -39,6 +39,25 @@ export class CreateChallengePage implements OnInit {
     )
   );
 
+  // challengeModels$ = this.campaignId$.pipe(
+  //   switchMap((campaignId) =>
+  //     this.challengeControllerService
+  //       .getChallengesStatusUsingGET(campaignId)
+  //       .pipe(this.errorService.getErrorHandler())
+  //   ),
+  //   map((challenges) =>
+  //     challenges.map((eachChallengeType) => {
+  //       const challengeModelOptions: ChallengeModelOptions = {
+  //         challengeModelName:
+  //           eachChallengeType.modelName as Invitation.ChallengeModelNameEnum,
+  //         available: eachChallengeType.state === 'AVAILABLE',
+  //         availableFromLevel: 0,
+  //       };
+  //       return challengeModelOptions;
+  //     })
+  //   )
+  // );
+
   challengeModels$: Observable<ChallengeModelOptions[]> =
     this.playerLevel$.pipe(
       map((level) => {
