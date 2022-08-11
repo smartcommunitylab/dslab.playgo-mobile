@@ -8,8 +8,16 @@
   "tripDetailTitle": "Dettagli viaggio",
   "notifications_title": "Notifiche",
   "leaderboard.title": "Classifica",
+  "green leaves": "Green Leaves",
+  "bike aficionado": "Bike Trip Badge",
+  "sustainable life": "Zero Impact Badge",
+  "public transport aficionado": "Public Transport Badge",
+  "park and ride pioneer": "Park And Ride Badge",
+  "bike sharing pioneer": "Bike Sharing Badge",
+  "recommendations": "User Recommendation Badge",
+  "leaderboard top 3": "Leaderboard Top 3 Badge",
   "badges": {
-    "empty": "Non ci sono badge da mostrare"
+    "empty": "Non hai ottenuto nessun badge per questa campagna. Gioca per scoprirli."
   },
   "login": {
     "login_page_title": "Login",
