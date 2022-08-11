@@ -9,9 +9,20 @@ import { ChallengeModelOptions } from '../create-challenge.page';
 })
 export class SelectChallengeModelComponent implements OnInit {
   @Input() availableModels: ChallengeModelOptions[];
+
   @Output() selectedModel =
     new EventEmitter<Invitation.ChallengeModelNameEnum>();
+
+  selectedModelName: Invitation.ChallengeModelNameEnum;
+
   constructor() {}
 
   ngOnInit() {}
+
+  selectModel(model: ChallengeModelOptions) {
+    if (model.available) {
+      this.selectedModelName = model.challengeModelName;
+      this.selectedModel.emit(this.selectedModelName);
+    }
+  }
 }

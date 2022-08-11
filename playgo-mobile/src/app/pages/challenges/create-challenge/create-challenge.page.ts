@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, Subject, switchMap } from 'rxjs';
 import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { Invitation } from 'src/app/core/api/generated/model/invitation';
@@ -81,6 +81,8 @@ export class CreateChallengePage implements OnInit {
         }));
       })
     );
+
+  selectedModelName$ = new Subject<Invitation.ChallengeModelNameEnum>();
 
   getCampaignColor = this.campaignService.getCampaignColor;
   constructor(

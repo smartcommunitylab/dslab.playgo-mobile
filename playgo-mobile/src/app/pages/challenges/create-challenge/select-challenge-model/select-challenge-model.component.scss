@@ -8,4 +8,7 @@
   &.disabled {
     border-color: gray;
   }
+  &.selected {
+    border-width: 4px;
+  }
 }

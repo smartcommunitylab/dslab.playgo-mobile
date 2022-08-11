@@ -8,8 +8,8 @@
         <div *ngIf="title" class="ion-text-start">
           {{ title }}
         </div>
-        <div *ngIf="steps[selectedStep].title" class="ion-text-end">
-          {{ steps[selectedStep].title | translate }}
+        <div *ngIf="steps[selectedStepIndex].title" class="ion-text-end">
+          {{ steps[selectedStepIndex].title | translate }}
         </div>
       </ion-card-title>
     </ion-card-header>
@@ -23,7 +23,7 @@
           <div
             (click)="changeStep(currentStepIndex)"
             class="step-bubble"
-            [class.step-current]="currentStepIndex === selectedStep"
+            [class.step-current]="currentStepIndex === selectedStepIndex"
             [class.last-step]="currentStepIndex === templates.length - 1"
           >
             {{ currentStepIndex + 1 }}
@@ -36,19 +36,22 @@
     </div> -->
       <div class="step-content-wrapper">
         <ng-container
-          [ngTemplateOutlet]="templates[selectedStep]"
+          [ngTemplateOutlet]="templates[selectedStepIndex]"
         ></ng-container>
       </div>
 
       <div>
         <ion-button
-          (click)="changeStep(selectedStep - 1)"
-          [disabled]="selectedStep === 0"
+          (click)="changeStep(selectedStepIndex - 1)"
+          [disabled]="selectedStepIndex === 0"
           >Back</ion-button
         >
         <ion-button
-          (click)="changeStep(selectedStep + 1)"
-          [disabled]="selectedStep === templates.length - 1"
+          (click)="changeStep(selectedStepIndex + 1)"
+          [disabled]="
+            selectedStepIndex === templates.length - 1 ||
+            selectedStep.validForNextStep !== true
+          "
           >Next</ion-button
         >
       </div>

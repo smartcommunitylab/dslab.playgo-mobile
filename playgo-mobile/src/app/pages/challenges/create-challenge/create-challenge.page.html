@@ -6,9 +6,13 @@
     [headerColor]="getCampaignColor(campaign)"
     [title]="campaign.name | languageMap"
   >
-    <app-wizard-step title="challenges.create.choose_type">
+    <app-wizard-step
+      title="challenges.create.choose_type"
+      [validForNextStep]="(selectedModelName$|async) !== null"
+    >
       <app-select-challenge-model
         [availableModels]="challengeModels$ | async"
+        (selectedModel)="selectedModelName$.next($event)"
       ></app-select-challenge-model>
     </app-wizard-step>
     <app-wizard-step title="challenges.create.choose_metric">

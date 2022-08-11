@@ -5,6 +5,8 @@
       *ngFor="let eachModel of availableModels"
       class="model"
       [class.disabled]="!eachModel.available"
+      [class.selected]="eachModel.challengeModelName === selectedModelName"
+      (click)="selectModel(eachModel)"
     >
       {{
         "challenges.challenge_model.name." + eachModel.challengeModelName

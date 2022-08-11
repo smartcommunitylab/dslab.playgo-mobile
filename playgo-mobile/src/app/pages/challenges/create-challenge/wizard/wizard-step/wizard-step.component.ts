@@ -15,6 +15,8 @@ import { TranslateKey } from 'src/app/core/shared/type.utils';
 export class WizardStepComponent {
   @Input()
   title: TranslateKey;
+  @Input()
+  validForNextStep: boolean = null;
   @ViewChild('template', { read: TemplateRef, static: true })
   template: TemplateRef<any>;
 }
