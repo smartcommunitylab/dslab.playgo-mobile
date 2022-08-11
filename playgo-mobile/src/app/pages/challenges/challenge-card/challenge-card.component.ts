@@ -25,4 +25,7 @@ export class ChallengeCardComponent implements OnInit {
     }
     return 'default';
   }
+  fillSurvey() {
+    console.log('fill survey');
+  }
 }
