@@ -8,6 +8,17 @@
   "tripDetailTitle": "Trip Details",
   "notifications_title": "Notifications",
   "leaderboard.title": "Leaderboard",
+  "green leaves": "Green Leaves",
+  "bike aficionado": "Bike Trip Badge",
+  "sustainable life": "Zero Impact Badge",
+  "public transport aficionado": "Public Transport Badge",
+  "park and ride pioneer": "Park And Ride Badge",
+  "bike sharing pioneer": "Bike Sharing Badge",
+  "recommendations": "User Recommendation Badge",
+  "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "badges": {
+    "empty": "You have not earned any badges for this campaign. Play to find them."
+  },
   "login": {
     "login_page_title": "Login",
     "loginCardHeader": "Login",
@@ -256,6 +267,7 @@
         "record": "{{record}} weekly record"
       }
     },
+
     "stats": {
       "filter": {
         "unit": {
