@@ -34,7 +34,8 @@
       step 3
     </app-wizard-step>
     <app-wizard-step title="challenges.create.activate">
-      step 4
+      <div>pointConcept: {{selectedPointConcept$ | async}}</div>
+      <div>modelName: {{selectedModelName$ | async}}</div>
     </app-wizard-step>
   </app-wizard>
 </ion-content>

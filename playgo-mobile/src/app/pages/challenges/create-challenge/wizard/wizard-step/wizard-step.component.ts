@@ -16,7 +16,7 @@ export class WizardStepComponent {
   @Input()
   title: TranslateKey;
   @Input()
-  validForNextStep: boolean = null;
+  validForNextStep = true;
   @ViewChild('template', { read: TemplateRef, static: true })
   template: TemplateRef<any>;
 }
