@@ -9,11 +9,13 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="2"
-          ><app-icon class="icon-size-big" [name]="getImgChallenge()"></app-icon
+          ><app-icon
+            class="icon-size-big"
+            [name]="imgChallenge(challenge)"
+          ></app-icon
         ></ion-col>
         <ion-col>
           <p [innerHTML]="challenge.challDesc"></p>
-          <!-- <p [innerHTML]="challenge.challCompleteDesc"></p> -->
         </ion-col>
       </ion-row>
       <ion-row>
@@ -40,8 +42,12 @@
               [type]="type"
             ></app-challenge-bar-status>
             <ng-template #survey>
-              <ion-button expand="block" (click)="fillSurvey()">
-                {{ "challenge.survey" | translate }}
+              <ion-button
+                expand="block"
+                (click)="fillSurvey()"
+                *ngIf="challenge.extUrl"
+              >
+                {{ "challenges.challenge_detail.survey" | translate }}
               </ion-button>
             </ng-template>
           </div>

@@ -1,16 +1,14 @@
 <div *ngIf="type !== 'future' || otherUser">
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-no-padding">
-      <ion-col size="2">
+      <ion-col size="2" *ngIf="!isHome()">
         <ion-avatar>
           <img [src]="playerAvatarUrl$ | async" alt="avatar" /> </ion-avatar
       ></ion-col>
       <ion-col>
         <ion-grid class="ion-no-padding"
           ><ion-row
-            ><ion-col>{{ (profile$ | async).nickname }}</ion-col></ion-row
-          ><ion-row *ngIf="status !== null" class="ion-align-items-center">
-            <ion-col size="1" *ngIf="isCompetitive()">
+            ><ion-col size="1" *ngIf="isCompetitive()">
               <div
                 [ngClass]="
                   isWinning(status, otherUser?.status)
@@ -18,18 +16,23 @@
                     : 'arrow-down'
                 "
               ></div> </ion-col
-            ><ion-col> {{ status }}%</ion-col></ion-row
-          ><ion-row *ngIf="rowStatus !== null"
+            ><ion-col class="ion-text-start">{{
+              (profile$ | async).nickname
+            }}</ion-col></ion-row
+          ><ion-row
+            *ngIf="status !== null && !isHome()"
+            class="ion-align-items-center"
+          >
+            <ion-col> {{ status }}%</ion-col></ion-row
+          ><ion-row *ngIf="rowStatus !== null && !isHome()"
             ><ion-col>{{ rowStatus }} Km</ion-col></ion-row
           ></ion-grid
         >
       </ion-col>
       <ion-col>
-        <ion-grid *ngIf="otherUser" class="ion-no-padding"
-          ><ion-row class="ion-text-end"
-            ><ion-col>{{ otherUser.nickname }}</ion-col></ion-row
-          ><ion-row class="ion-text-end ion-align-items-center"
-            ><ion-col>{{ otherUser.status }}%</ion-col
+        <ion-grid *ngIf="otherUser" class="ion-no-padding">
+          <ion-row class="ion-text-end">
+            <ion-col class="ion-text-end"> {{ otherUser.nickname }}</ion-col
             ><ion-col size="1" *ngIf="isCompetitive()">
               <div
                 [ngClass]="
@@ -37,13 +40,17 @@
                     ? 'arrow-up'
                     : 'arrow-down'
                 "
-              ></div> </ion-col></ion-row
-          ><ion-row class="ion-text-end"
+              ></div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-text-end ion-align-items-center" *ngIf="!isHome()"
+            ><ion-col>{{ otherUser.status }}%</ion-col></ion-row
+          ><ion-row class="ion-text-end" *ngIf="!isHome()"
             ><ion-col>{{ otherUser.row_status }} Km</ion-col></ion-row
           ></ion-grid
         >
       </ion-col>
-      <ion-col size="2" *ngIf="otherUser">
+      <ion-col size="2" *ngIf="otherUser && !isHome()">
         <ion-avatar>
           <img [src]="playerAvatarUrl$ | async" alt="avatar" /> </ion-avatar
       ></ion-col>

@@ -31,6 +31,9 @@ import { NotificationBadgeComponent } from './campaigns/home-widget-types/notifi
 import { SafeHtmlPipe } from './pipes/SafeHtml.pipe';
 import { HomeCampaignChallengeComponent } from './campaigns/app-widget-campaign/app-home-campaign-challenges/app-home-campaign-challenges.component';
 import { HeaderDirective } from './layout/header/header.directive';
+import { ActiveChallengeComponent } from './campaigns/app-widget-campaign/active-challenge/active-challenge.component';
+import { ChallengeUsersStatusComponent } from './campaigns/challenge-users-status/challenge-users-status.component';
+import { ChallengeBarStatusComponent } from './campaigns/challenge-bar-status/challenge-bar-status.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -61,6 +64,9 @@ import { HeaderDirective } from './layout/header/header.directive';
     WidgetComponent,
     IconComponent,
     HomeCampaignChallengeComponent,
+    ActiveChallengeComponent,
+    ChallengeUsersStatusComponent,
+    ChallengeBarStatusComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -92,6 +98,9 @@ import { HeaderDirective } from './layout/header/header.directive';
     WidgetComponent,
     IconComponent,
     HomeCampaignChallengeComponent,
+    ActiveChallengeComponent,
+    ChallengeUsersStatusComponent,
+    ChallengeBarStatusComponent,
   ],
 })
 export class PlayGoSharedModule {}

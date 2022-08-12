@@ -1,0 +1,32 @@
+<ion-card [color]="challenge.challengeType" class="ion-no-padding">
+  <ion-card-header class="ion-no-padding">
+    <ion-grid class="ion-no-padding"
+      ><ion-row class="ion-no-padding"
+        ><ion-col size="2" class="ion-no-padding"
+          ><app-icon
+            [name]="imgChallenge(challenge)"
+            class="challenge-icon icon-size-big"
+          ></app-icon></ion-col
+        ><ion-col><p [innerHTML]="challenge.challDesc"></p></ion-col></ion-row
+    ></ion-grid>
+  </ion-card-header>
+  <ion-card-content>
+    <app-challenge-users-status
+      *ngIf="challenge.type !== 'survey'"
+      [position]="'home'"
+      [status]="challenge.status"
+      [rowStatus]="challenge.row_status"
+      [type]="'type'"
+      [challengeType]="challenge.type"
+      [otherUser]="challenge.otherAttendeeData"
+    ></app-challenge-users-status>
+    <app-challenge-bar-status
+      *ngIf="challenge.type !== 'survey'"
+      [status]="challenge.status"
+      [rowStatus]="challenge.row_status"
+      [otherStatus]="challenge.otherAttendeeData?.status"
+      [challengeType]="challenge.type"
+      [type]="type"
+    ></app-challenge-bar-status>
+  </ion-card-content>
+</ion-card>

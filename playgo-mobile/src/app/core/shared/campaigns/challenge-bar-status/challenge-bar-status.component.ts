@@ -11,6 +11,7 @@ export class ChallengeBarStatusComponent implements OnInit {
   @Input() otherStatus?: number;
   @Input() type: string;
   @Input() challengeType: string;
+  // @Input() position?: string;
 
   constructor() {}
 
@@ -23,4 +24,10 @@ export class ChallengeBarStatusComponent implements OnInit {
     }
     return status;
   }
+  // getHeight() {
+  //   if (this.position === 'home') {
+  //     return '20';
+  //   }
+  //   return '30';
+  // }
 }

@@ -15,6 +15,7 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   @Input() rowStatus: number;
   @Input() type: string;
   @Input() otherUser?: OtherAttendeeData;
+  @Input() position?: string;
   @Input() challengeType: string;
 
   profile: IUser;
@@ -44,5 +45,8 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+  }
+  isHome() {
+    return this.position === 'home';
   }
 }
