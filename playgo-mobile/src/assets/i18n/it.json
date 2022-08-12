@@ -341,6 +341,10 @@
         "GL": "{{value}} GL",
         "km": "{{value}} km"
       }
+    },
+    "score_label": {
+      "flower": "Yellow Flower",
+      "shield": "Shield"
     }
   },
   "blacklist": {

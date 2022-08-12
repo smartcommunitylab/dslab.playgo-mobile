@@ -53,7 +53,7 @@ export class ReportService {
   }
   getCurrentLevel(campaignId: string): Observable<number> {
     return this.gameController.getCampaignGameStatusUsingGET(campaignId).pipe(
-      map((status) => status.levels.length),
+      map((status) => status?.levels?.length || 0),
       shareReplay()
     );
   }

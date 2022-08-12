@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, Subject, switchMap } from 'rxjs';
+import { combineLatest, map, Observable, Subject, switchMap } from 'rxjs';
 import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { Invitation } from 'src/app/core/api/generated/model/invitation';
@@ -12,6 +12,7 @@ import {
   transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
+import { tapLog } from 'src/app/core/shared/utils';
 import { MeanOrGameInfo } from './select-challenge-mean/select-challenge-mean.component';
 
 @Component({
@@ -90,13 +91,16 @@ export class CreateChallengePage implements OnInit {
 
   selectedModelName$ = new Subject<Invitation.ChallengeModelNameEnum>();
 
-  pointConcepts$ = this.userService.userProfileMeans$.pipe(
-    map((means) => {
+  pointConcepts$ = combineLatest([
+    this.userService.userProfileMeans$,
+    this.campaign$,
+  ]).pipe(
+    map(([means, campaign]) => {
       const gameInfo: MeanOrGameInfo = {
         isMean: false,
-        icon: 'game',
+        icon: this.campaignService.getCampaignScoreIcon(campaign),
         name: 'game',
-        title: 'game' as any,
+        title: this.campaignService.getCampaignScoreLabel(campaign),
       };
       const meansInfos: MeanOrGameInfo[] = means.map((mean) => ({
         isMean: true,
