@@ -21,6 +21,7 @@ export interface ChallengesData {
   challTarget?: number;
   daysToEnd?: number;
   endDate?: number;
+  extUrl?: string;
   otherAttendeeData?: OtherAttendeeData;
   proposerId?: string;
   row_status?: number;

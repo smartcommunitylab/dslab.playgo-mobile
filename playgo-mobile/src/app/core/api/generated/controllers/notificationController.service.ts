@@ -80,7 +80,7 @@ export class NotificationControllerService {
           String(territoryId)
         )}`,
       {
-        body,
+        body: body,
         params: removeNullOrUndefined({
           campaignId,
         }),
