@@ -248,6 +248,39 @@ export class ReportControllerService {
   }
 
   /**
+   * getPlayerTransportStatsGroupByMean
+   *
+   * @param campaignId campaignId
+   * @param playerId playerId
+   * @param metric metric
+   * @param dateFrom yyyy-MM-dd
+   * @param dateTo yyyy-MM-dd
+   */
+  public getPlayerTransportStatsGroupByMeanUsingGET(args: {
+    campaignId: string;
+    playerId: string;
+    metric: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<Array<TransportStat>> {
+    const { campaignId, playerId, metric, dateFrom, dateTo } = args;
+    return this.http.request<Array<TransportStat>>(
+      'get',
+      environment.serverUrl.api +
+        `/playandgo/api/report/player/transport/stats/mean`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          playerId,
+          metric,
+          dateFrom,
+          dateTo,
+        }),
+      }
+    );
+  }
+
+  /**
    * getPlayerTransportStats
    *
    * @param campaignId campaignId

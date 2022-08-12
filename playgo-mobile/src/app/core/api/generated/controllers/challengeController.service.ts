@@ -180,9 +180,9 @@ export class ChallengeControllerService {
   public getChallengeStatsUsingGET(args: {
     campaignId: string;
     playerId: string;
-    groupMode?: string;
-    dateFrom?: string;
-    dateTo?: string;
+    groupMode: string;
+    dateFrom: string;
+    dateTo: string;
   }): Observable<Array<ChallengeStatsInfo>> {
     const { campaignId, playerId, groupMode, dateFrom, dateTo } = args;
     return this.http.request<Array<ChallengeStatsInfo>>(
