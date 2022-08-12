@@ -1,0 +1,23 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+.mean {
+  aspect-ratio: 1/1;
+  border: 2px solid var(--ion-color-base);
+  background-color: var(--ion-color-lighter);
+  border-radius: 10px;
+
+  // margin: 10px;
+  &.disabled {
+    border-color: gray;
+  }
+  &.selected {
+    border-width: 4px;
+  }
+  app-icon {
+    font-size: 30px;
+  }
+}

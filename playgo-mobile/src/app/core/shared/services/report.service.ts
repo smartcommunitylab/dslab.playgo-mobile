@@ -6,7 +6,7 @@ import { GameControllerService } from '../../api/generated/controllers/gameContr
 import { TransportStat } from '../../api/generated/model/transportStat';
 import { PlayerStatusReport } from '../../api/generated/model/playerStatusReport';
 import { PlayerGameStatus } from '../../api/generated/model/playerGameStatus';
-import { Observable, shareReplay } from 'rxjs';
+import { map, Observable, shareReplay } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
@@ -50,6 +50,12 @@ export class ReportService {
     return this.gameController
       .getCampaignGameStatusUsingGET(campaignId)
       .pipe(shareReplay(1));
+  }
+  getCurrentLevel(campaignId: string): Observable<number> {
+    return this.gameController.getCampaignGameStatusUsingGET(campaignId).pipe(
+      map((status) => status?.levels?.length || 0),
+      shareReplay()
+    );
   }
   getGameStats(
     campaignId?: string,

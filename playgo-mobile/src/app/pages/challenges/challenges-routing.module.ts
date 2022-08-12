@@ -13,6 +13,13 @@ const routes: RoutesWithPageSettings = [
       showPlayButton: true,
     },
   },
+  {
+    path: 'create-challenge/:id',
+    loadChildren: () =>
+      import('./create-challenge/create-challenge.module').then(
+        (m) => m.CreateChallengePageModule
+      ),
+  },
 ];
 
 @NgModule({

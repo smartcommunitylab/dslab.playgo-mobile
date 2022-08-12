@@ -1,0 +1,84 @@
+$selected-background: white;
+$not-selected-background: rgb(224, 224, 224);
+// $not-selected-background: red;
+
+:host {
+  height: 100%;
+}
+
+.wrapper {
+  height: calc(100% - 20px);
+  ion-card {
+    height: 100%;
+    margin: 10px;
+
+    display: flex;
+    flex-direction: column;
+    ion-card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.title-header {
+  ion-card-title {
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.form-steps-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 0 10px;
+  margin-top: 10px;
+}
+
+$bubble-size: 30px;
+$bubble-border: 3px;
+$selected-bubble-increase: 2px;
+.step-bubble {
+  padding: 8px;
+  border: $bubble-border solid var(--ion-color-base);
+  width: $bubble-size;
+  height: $bubble-size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+  background: $not-selected-background;
+
+  &.step-current {
+    border-width: $bubble-border + $selected-bubble-increase;
+    width: $bubble-size + 2 * $selected-bubble-increase;
+    height: $bubble-size + 2 * $selected-bubble-increase;
+    margin-left: -$selected-bubble-increase;
+    margin-right: -$selected-bubble-increase;
+    background: $selected-background;
+    font-weight: bold;
+  }
+
+  &.last-step {
+    border-radius: 0;
+  }
+}
+
+.step-divider {
+  height: 2px;
+  background: var(--ion-color-base);
+  flex: 1;
+
+  &.first-step {
+    flex: 0.2;
+  }
+}
+
+.step-content-wrapper {
+  flex: 1;
+}

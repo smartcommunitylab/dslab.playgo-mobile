@@ -30,6 +30,7 @@ import { LocalStorageService } from './local-storage.service';
 import { UserService } from './user.service';
 import { ifOfflineUseStored } from '../utils';
 import { ErrorService } from './error.service';
+import { TranslateKey } from '../type.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -242,15 +243,23 @@ export class CampaignService {
     if (campaign.type === 'city') {
       return 'flower';
     }
-    if (campaign.type === 'company') {
-      return null;
-    }
     if (campaign.type === 'school') {
       return 'shield';
     }
-    if (campaign.type === 'personal') {
+    return null;
+  }
+
+  getCampaignScoreLabel(campaign: Campaign): TranslateKey {
+    if (!campaign) {
       return null;
     }
+    if (campaign.type === 'city') {
+      return 'campaigns.score_label.flower';
+    }
+    if (campaign.type === 'school') {
+      return 'campaigns.score_label.shield';
+    }
+    return null;
   }
   getFunctionalityByType(
     what: string,

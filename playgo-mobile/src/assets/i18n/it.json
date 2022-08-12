@@ -341,6 +341,10 @@
         "GL": "{{value}} GL",
         "km": "{{value}} km"
       }
+    },
+    "score_label": {
+      "flower": "Yellow Flower",
+      "shield": "Shield"
     }
   },
   "blacklist": {
@@ -353,7 +357,32 @@
     "future": "Future",
     "challenge_detail": {
       "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}",
-      "survey": "Questionario"
+      "survey": "Questionario",
+      "title": "Configura sfida"
+    },
+    "create": {
+      "title": "Configura sfida",
+      "choose_type": "Scegli typologia sfida",
+      "choose_metric": "Scegli metrica sfida",
+      "choose_partner": "Scegli compangno",
+      "activate": "Attiva sfida"
+    },
+    "challenge_model": {
+      "title": "Che tipo di sfida vuoi creare?",
+      "name": {
+        "groupCompetitivePerformance": "Competitiva a performance",
+        "groupCompetitiveTime": "Competitiva a tempo",
+        "groupCooperative": "Cooperativa"
+      },
+      "description": {
+        "groupCompetitivePerformance": "TODO: add description",
+        "groupCompetitiveTime": "TODO: add description",
+        "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
+      },
+      "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
+    },
+    "challenge_mean": {
+      "title": "Come preferisci affrontare la sfida?"
     }
   },
   "outof": "{{current}} su {{total}}",
