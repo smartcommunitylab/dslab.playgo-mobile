@@ -43,6 +43,7 @@ export class WizardComponent implements OnInit, AfterContentInit {
 
   changeStep(newStep: number) {
     this.selectedStepIndex = newStep;
+    this.selectedStep = this.steps[this.selectedStepIndex];
   }
 
   ngOnInit() {}
