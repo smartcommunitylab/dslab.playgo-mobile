@@ -7,7 +7,7 @@
       ></ion-col>
       <ion-col>
         <ion-grid class="ion-no-padding"
-          ><ion-row
+          ><ion-row class="ion-align-items-center"
             ><ion-col size="1" *ngIf="isCompetitive()">
               <div
                 [ngClass]="
@@ -31,7 +31,7 @@
       </ion-col>
       <ion-col>
         <ion-grid *ngIf="otherUser" class="ion-no-padding">
-          <ion-row class="ion-text-end">
+          <ion-row class="ion-text-end ion-align-items-center">
             <ion-col class="ion-text-end"> {{ otherUser.nickname }}</ion-col
             ><ion-col size="1" *ngIf="isCompetitive()">
               <div

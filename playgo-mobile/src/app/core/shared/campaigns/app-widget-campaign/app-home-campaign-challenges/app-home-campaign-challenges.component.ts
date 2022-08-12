@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { Challenge } from 'src/app/pages/challenges/challenges.page';
@@ -18,7 +19,10 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   subChallFuture: Subscription;
   activeChallenges: Challenge[] = [];
   futureChallenges: Challenge[] = [];
-  constructor(private challengeService: ChallengeService) {}
+  constructor(
+    private challengeService: ChallengeService,
+    private navController: NavController
+  ) {}
 
   ngOnInit() {
     this.activeChallenges$ =
@@ -39,9 +43,8 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
   goToChallenge(event: Event) {
     if (event && event.stopPropagation) {
-      console.log('goToChallenge - stopPropagation');
       event.stopPropagation();
     }
-    console.log('goToChallenge');
+    this.navController.navigateRoot('/pages/tabs/challenges');
   }
 }
