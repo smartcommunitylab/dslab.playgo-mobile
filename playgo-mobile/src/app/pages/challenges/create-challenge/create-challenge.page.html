@@ -3,8 +3,8 @@
 <ion-content>
   <app-wizard
     *ngIf="campaign$ | async as campaign"
-    [headerColor]="getCampaignColor(campaign)"
     [title]="campaign.name | languageMap"
+    [ngClass]="'ion-color-' + getCampaignColor(campaign)"
   >
     <app-wizard-step
       title="challenges.create.choose_type"

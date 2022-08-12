@@ -1,8 +1,5 @@
-.wrapper {
-  --campaign-color: brown;
-}
 .model {
-  border: 2px solid var(--campaign-color);
+  border: 2px solid var(--ion-color-base);
   border-radius: 10px;
   margin: 10px;
   &.disabled {

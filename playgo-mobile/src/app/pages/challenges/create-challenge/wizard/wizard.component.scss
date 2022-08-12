@@ -7,9 +7,6 @@ $not-selected-background: rgb(224, 224, 224);
 }
 
 .wrapper {
-  // to be overridden in template
-  --wizard-header-color: black;
-
   height: calc(100% - 20px);
   ion-card {
     height: 100%;
@@ -45,7 +42,7 @@ $bubble-border: 3px;
 $selected-bubble-increase: 2px;
 .step-bubble {
   padding: 8px;
-  border: $bubble-border solid var(--wizard-header-color);
+  border: $bubble-border solid var(--ion-color-base);
   width: $bubble-size;
   height: $bubble-size;
   display: flex;
@@ -74,7 +71,7 @@ $selected-bubble-increase: 2px;
 
 .step-divider {
   height: 2px;
-  background: var(--wizard-header-color);
+  background: var(--ion-color-base);
   flex: 1;
 
   &.first-step {

@@ -21,7 +21,6 @@ import { WizardStepComponent } from './wizard-step/wizard-step.component';
 })
 export class WizardComponent implements OnInit, AfterContentInit {
   @Input() title: string;
-  @Input() headerColor = 'primary';
 
   @ContentChildren(WizardStepComponent, {})
   set stepComponents(stepComponents: QueryList<WizardStepComponent>) {
