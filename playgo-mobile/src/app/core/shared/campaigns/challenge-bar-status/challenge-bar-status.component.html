@@ -1,0 +1,9 @@
+<div class="progress">
+  <div class="progress-bar" [style.width.%]="getWidth(status)"></div>
+  <div class="separator" *ngIf="challengeType === 'groupCompetitiveTime'"></div>
+  <div
+    class="progress-bar-opposite"
+    *ngIf="otherStatus !== null"
+    [style.width.%]="getWidth(otherStatus)"
+  ></div>
+</div>

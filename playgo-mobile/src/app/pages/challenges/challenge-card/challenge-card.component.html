@@ -9,16 +9,19 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="2"
-          ><app-icon class="icon-size-big" [name]="getImgChallenge()"></app-icon
+          ><app-icon
+            class="icon-size-big"
+            [name]="imgChallenge(challenge)"
+          ></app-icon
         ></ion-col>
         <ion-col>
           <p [innerHTML]="challenge.challDesc"></p>
-          <!-- <p [innerHTML]="challenge.challCompleteDesc"></p> -->
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col
           ><app-challenge-users-status
+            *ngIf="challenge.type !== 'survey'"
             [status]="challenge.status"
             [rowStatus]="challenge.row_status"
             [type]="type"
@@ -31,12 +34,23 @@
         <ion-col
           ><div *ngIf="type === 'active'; else future">
             <app-challenge-bar-status
+              *ngIf="challenge.type !== 'survey'; else survey"
               [status]="challenge.status"
               [rowStatus]="challenge.row_status"
               [otherStatus]="challenge.otherAttendeeData?.status"
               [challengeType]="challenge.type"
               [type]="type"
             ></app-challenge-bar-status>
+            <ng-template #survey>
+              <ion-button
+                [color]="challenge?.campaign?.type"
+                expand="block"
+                (click)="fillSurvey()"
+                *ngIf="challenge.extUrl"
+              >
+                {{ "challenges.challenge_detail.survey" | translate }}
+              </ion-button>
+            </ng-template>
           </div>
 
           <ng-template #future>
@@ -63,7 +77,7 @@
                   }
           }}
         </ion-col>
-        <ion-col size="4">
+        <ion-col size="4" class="ion-text-end">
           {{ challenge.bonus }}
           <app-icon
             [name]="campaignService.getCampaignScoreIcon(challenge.campaign)"

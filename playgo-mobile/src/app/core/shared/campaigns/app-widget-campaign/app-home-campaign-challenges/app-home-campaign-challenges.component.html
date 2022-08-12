@@ -1,14 +1,15 @@
-<!-- <ng-template> -->
-<ion-item
-  [color]="campaignContainer?.campaign?.type"
-  (click)="goToChallenge($event)"
->
+<ion-item [color]="campaignContainer?.campaign?.type">
   Sezione sfide
   <app-notification-badge
     [type]="'challenge'"
     [campaignContainer]="campaignContainer"
   ></app-notification-badge>
 </ion-item>
-<div>Sfide attive:{{ activeChallenges.length }}</div>
-<div>Sfide future: {{ futureChallenges.length }}</div>
-<!-- </ng-template> -->
+<!-- <div>Sfide attive:{{ activeChallenges.length }}</div> -->
+<app-active-challenge
+  (click)="goToChallenge($event)"
+  *ngFor="let challenge of activeChallenges"
+  [challenge]="challenge"
+>
+</app-active-challenge>
+<!-- <div>Sfide future: {{ futureChallenges.length }}</div> -->

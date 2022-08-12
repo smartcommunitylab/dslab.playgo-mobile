@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { Challenge } from '../challenges.page';
+import { getImgChallenge } from '../../../core/shared/utils';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-challenge-card',
@@ -10,19 +12,16 @@ import { Challenge } from '../challenges.page';
 export class ChallengeCardComponent implements OnInit {
   @Input() challenge: Challenge;
   @Input() type: string;
+  imgChallenge = getImgChallenge;
   constructor(public campaignService: CampaignService) {}
 
   ngOnInit() {}
-  getImgChallenge() {
-    if (
-      [
-        'groupCooperative',
-        'groupCompetitiveTime',
-        'groupCompetitivePerformance',
-      ].indexOf(this.challenge.type) > -1
-    ) {
-      return this.challenge.type;
-    }
-    return 'default';
+
+  fillSurvey() {
+    Browser.open({
+      url: this.challenge.extUrl,
+      windowName: '_system',
+      presentationStyle: 'popover',
+    });
   }
 }

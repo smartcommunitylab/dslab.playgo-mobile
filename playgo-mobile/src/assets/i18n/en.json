@@ -346,7 +346,8 @@
     "present": "Present",
     "future": "Future",
     "challenge_detail": {
-      "challenge_future_start": "This challenge will start : {{startDate}}"
+      "challenge_future_start": "This challenge will start : {{startDate}}",
+      "survey": "Survey"
     }
   },
   "outof": "{{current}} out of {{total}}",

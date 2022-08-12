@@ -352,7 +352,8 @@
     "present": "Presenti",
     "future": "Future",
     "challenge_detail": {
-      "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}"
+      "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}",
+      "survey": "Questionario"
     }
   },
   "outof": "{{current}} su {{total}}",
