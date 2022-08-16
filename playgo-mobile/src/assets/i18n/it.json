@@ -361,6 +361,7 @@
       "title": "Configura sfida"
     },
     "create": {
+      "button_create": "Crea sfida per {{campaignTitle}}",
       "title": "Configura sfida",
       "choose_type": "Scegli typologia sfida",
       "choose_metric": "Scegli metrica sfida",

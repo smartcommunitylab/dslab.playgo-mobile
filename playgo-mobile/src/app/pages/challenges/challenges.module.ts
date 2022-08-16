@@ -5,6 +5,7 @@ import { ChallengeContainerComponent } from './challenge-container/challenge-con
 import { ChallengesRoutingModule } from './challenges-routing.module';
 import { ChallengesStatComponent } from './challenges-stat/challenges-stat.component';
 import { ChallengesPage } from './challenges.page';
+import { CreateChallengeButtonComponent } from './create-challenge-button/create-challenge-button.component';
 
 @NgModule({
   imports: [PlayGoSharedModule, ChallengesRoutingModule],
@@ -13,6 +14,7 @@ import { ChallengesPage } from './challenges.page';
     ChallengeCardComponent,
     ChallengeContainerComponent,
     ChallengesStatComponent,
+    CreateChallengeButtonComponent,
   ],
 })
 export class ChallengesPageModule {}

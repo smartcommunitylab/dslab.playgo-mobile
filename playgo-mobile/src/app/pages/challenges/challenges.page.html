@@ -47,6 +47,10 @@
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
     <div *ngFor="let campaign of campaignsWithChallenges">
+      <app-create-challenge-button
+        [campaign]="campaign"
+        (click)="goToCreateChallenge($event,campaign)"
+      ></app-create-challenge-button>
       <div *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0">
         <app-challenge-container
           [campaign]="campaign"

@@ -11,7 +11,7 @@ import { Notification } from 'src/app/core/api/generated/model/notification';
   styleUrls: ['tabs.page.scss'],
 })
 export class TabsPage implements OnInit, OnDestroy {
-  resetStackTabs = ['home', 'campaigns', 'trips', 'challenge'];
+  resetStackTabs = ['home', 'campaigns', 'trips', 'challenges'];
   challengesUnread = 0;
   unreadChallengeNotification$: Observable<Notification[]>;
   subUnread: Subscription;
