@@ -352,6 +352,14 @@
     "challenge_detail": {
       "challenge_future_start": "This challenge will start : {{startDate}}",
       "survey": "Survey"
+    },
+    "create": {
+      "button_create": "Crea sfida per {{campaignTitle}}",
+      "title": "Configura sfida",
+      "choose_type": "Scegli typologia sfida",
+      "choose_metric": "Scegli metrica sfida",
+      "choose_partner": "Scegli compangno",
+      "activate": "Attiva sfida"
     }
   },
   "outof": "{{current}} out of {{total}}",

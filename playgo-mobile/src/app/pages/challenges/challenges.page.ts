@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ChallengesData } from 'src/app/core/api/generated/model/challengesData';
@@ -25,7 +26,10 @@ export class ChallengesPage implements OnInit, OnDestroy {
   public futureChallenges$: Observable<Challenge[]> =
     this.challengeService.futureChallenges$;
 
-  constructor(private challengeService: ChallengeService) {}
+  constructor(
+    private challengeService: ChallengeService,
+    private navCtrl: NavController
+  ) {}
 
   ngOnInit(): void {
     this.selectedSegment = 'activeChallenges';
@@ -62,6 +66,11 @@ export class ChallengesPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+  goToCreateChallenge(event: Event, campaign: PlayerCampaign) {
+    this.navCtrl.navigateRoot(
+      `/pages/tabs/challenges/create-challenge/${campaign.campaign.campaignId}`
+    );
+  }
 }
 
 export interface Challenge extends ChallengesData {
