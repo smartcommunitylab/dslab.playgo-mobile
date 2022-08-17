@@ -40,6 +40,7 @@ import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { getPeriods, Period } from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-stats',
@@ -110,7 +111,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   referenceDate = DateTime.local();
   // initPeriods = this.getPeriods(this.referenceDate);
   totalValue = 0;
-  periods = this.getPeriods(this.referenceDate);
+  periods = getPeriods(this.referenceDate);
   selectedPeriod = this.periods[0];
   statPeriodChangedSubject = new Subject<Period>();
   selectedPeriod$: Observable<Period> = this.statPeriodChangedSubject.pipe(
@@ -214,7 +215,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       [this.selectedPeriod.add]: -1,
     });
     //only get but it doesn't write on subject
-    this.periods = this.getPeriods(this.referenceDate);
+    this.periods = getPeriods(this.referenceDate);
     const tabIndex = this.periods.findIndex(
       (period) => period.group === this.selectedPeriod.group
     );
@@ -225,55 +226,13 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     this.referenceDate = this.referenceDate.plus({
       [this.selectedPeriod.add]: 1,
     });
-    this.periods = this.getPeriods(this.referenceDate);
+    this.periods = getPeriods(this.referenceDate);
     const tabIndex = this.periods.findIndex(
       (period) => period.group === this.selectedPeriod.group
     );
     this.selectedSegment = this.periods[tabIndex];
     this.statPeriodChangedSubject.next(this.periods[tabIndex]);
   }
-  getPeriods(referenceDate: DateTime): Period[] {
-    return [
-      {
-        labelKey: 'campaigns.stats.filter.period.week',
-        label: 'dd-MMMM',
-        group: 'day',
-        format: 'dd-MM',
-        add: 'week',
-        switchTo: null,
-        from: referenceDate.startOf('week'),
-        to: referenceDate.endOf('week'),
-      },
-      {
-        labelKey: 'campaigns.stats.filter.period.month',
-        label: 'MMMM',
-        group: 'week',
-        format: 'dd-MM-yyyy',
-        add: 'month',
-        switchTo: 'day',
-        from: referenceDate.startOf('month'),
-        to: referenceDate.endOf('month'),
-      },
-      {
-        labelKey: 'campaigns.stats.filter.period.year',
-        label: 'yyyy',
-        group: 'month',
-        format: 'MM-yyyy',
-        add: 'year',
-        switchTo: 'week',
-        from: referenceDate.startOf('year'),
-        to: referenceDate.endOf('year'),
-      },
-    ];
-  }
-  // adjust this for your exact needs
-  // days(interval, timePeriod) {
-  //   let cursor = interval.start.startOf(timePeriod);
-  //   while (cursor < interval.end) {
-  //     yield cursor;
-  //     cursor = cursor.plus({ [timePeriod]: 1 });
-  //   }
-  // }
 
   daysFromInterval(): Array<DateTime> {
     const retArr = [];
@@ -420,7 +379,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     // change reference date
     //only get but it doesn't write on subject
     this.referenceDate = DateTime.fromObject(this.getObjectDate(label));
-    this.periods = this.getPeriods(this.referenceDate);
+    this.periods = getPeriods(this.referenceDate);
     this.selectedSegment = this.periods.find(
       (a) => a.group === this.selectedSegment.switchTo
     );
@@ -437,15 +396,4 @@ type StatUnitType = {
   labelKey: string;
   unitKey: string;
   resultLabel: string;
-};
-
-type Period = {
-  labelKey: string;
-  label: string;
-  add: string;
-  format: string;
-  switchTo: string;
-  group: DateTimeUnit;
-  from: DateTime;
-  to: DateTime;
 };

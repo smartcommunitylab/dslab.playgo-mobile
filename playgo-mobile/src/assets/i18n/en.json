@@ -356,6 +356,11 @@
       "challenge_future_start": "This challenge will start : {{startDate}}",
       "survey": "Survey"
     },
+    "stats": {
+      "filter": {
+        "campaign": "Campaign"
+      }
+    },
     "create": {
       "button_create": "Crea sfida per {{campaignTitle}}",
       "title": "Configura sfida",

@@ -363,6 +363,11 @@
       "survey": "Questionario",
       "title": "Configura sfida"
     },
+    "stats": {
+      "filter": {
+        "campaign": "Campagna"
+      }
+    },
     "create": {
       "button_create": "Crea sfida per {{campaignTitle}}",
       "title": "Configura sfida",

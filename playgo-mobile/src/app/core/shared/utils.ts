@@ -1,7 +1,7 @@
 import { NgZone, TrackByFunction } from '@angular/core';
 import { Photo } from '@capacitor/camera';
 import { flatMap, initial, isNil, last, tail, zip } from 'lodash-es';
-import { Duration } from 'luxon';
+import { DateTime, DateTimeUnit, Duration } from 'luxon';
 import {
   concat,
   from,
@@ -237,4 +237,50 @@ export function getImgChallenge(challenge: Challenge) {
     return challenge.type;
   }
   return 'default';
+}
+
+export type Period = {
+  labelKey: string;
+  label: string;
+  add: string;
+  format: string;
+  switchTo: string;
+  group: DateTimeUnit;
+  from: DateTime;
+  to: DateTime;
+};
+
+export function getPeriods(referenceDate: DateTime): Period[] {
+  return [
+    {
+      labelKey: 'campaigns.stats.filter.period.week',
+      label: 'dd-MMMM',
+      group: 'day',
+      format: 'dd-MM',
+      add: 'week',
+      switchTo: null,
+      from: referenceDate.startOf('week'),
+      to: referenceDate.endOf('week'),
+    },
+    {
+      labelKey: 'campaigns.stats.filter.period.month',
+      label: 'MMMM',
+      group: 'week',
+      format: 'dd-MM-yyyy',
+      add: 'month',
+      switchTo: 'day',
+      from: referenceDate.startOf('month'),
+      to: referenceDate.endOf('month'),
+    },
+    {
+      labelKey: 'campaigns.stats.filter.period.year',
+      label: 'yyyy',
+      group: 'month',
+      format: 'MM-yyyy',
+      add: 'year',
+      switchTo: 'week',
+      from: referenceDate.startOf('year'),
+      to: referenceDate.endOf('year'),
+    },
+  ];
 }
