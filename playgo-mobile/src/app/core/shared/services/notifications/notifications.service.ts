@@ -107,6 +107,7 @@ export class NotificationService {
       map((notifications) =>
         notifications.filter(
           (notification) =>
+            !!notification.content &&
             notification.content.type === NotificationType.announcement
         )
       ),
@@ -122,6 +123,7 @@ export class NotificationService {
       map((notifications) =>
         notifications.filter(
           (notification) =>
+            !!notification.content &&
             notification.content.type === NotificationType.announcement
         )
       ),
@@ -154,6 +156,7 @@ export class NotificationService {
         notifications.filter(
           (notification) =>
             notification.campaignId === campaignId &&
+            !!notification.content &&
             NOTIFICATION_TYPE_ACTIONS.campaignWidgetBadge.types.includes(
               notification.content.type
             )
@@ -169,6 +172,7 @@ export class NotificationService {
         notifications.filter(
           (notification) =>
             notification.campaignId === campaignId &&
+            !!notification.content &&
             NOTIFICATION_TYPE_ACTIONS.campaignWidgetChallengeBadge.types.includes(
               notification.content.type
             )
@@ -179,10 +183,12 @@ export class NotificationService {
   public getUnreadChallengeNotifications(): Observable<Notification[]> {
     return this.unreadNotifications$.pipe(
       map((notifications) =>
-        notifications.filter((notification) =>
-          NOTIFICATION_TYPE_ACTIONS.challengeTabBadge.types.includes(
-            notification.content.type
-          )
+        notifications.filter(
+          (notification) =>
+            !!notification.content &&
+            NOTIFICATION_TYPE_ACTIONS.challengeTabBadge.types.includes(
+              notification.content.type
+            )
         )
       )
     );
@@ -195,6 +201,7 @@ export class NotificationService {
         notifications.filter(
           (notification) =>
             notification.campaignId === campaignId &&
+            !!notification.content &&
             NOTIFICATION_TYPE_ACTIONS.campaignWidgetBadge.types.includes(
               notification.content.type
             )
@@ -206,10 +213,12 @@ export class NotificationService {
   public getAnnouncementNotifications(): Observable<Notification[]> {
     return this.allNotifications$.pipe(
       map((notifications) =>
-        notifications.filter((notification) =>
-          NOTIFICATION_TYPE_ACTIONS.notificationBadge.types.includes(
-            notification.content.type
-          )
+        notifications.filter(
+          (notification) =>
+            !!notification.content &&
+            NOTIFICATION_TYPE_ACTIONS.notificationBadge.types.includes(
+              notification.content.type
+            )
         )
       )
     );
@@ -218,7 +227,10 @@ export class NotificationService {
   public markAnnouncmentAsReaded() {
     const storedNotifications = this.notificationStorage.get();
     storedNotifications.forEach((notification) => {
-      if (notification.content.type === NotificationType.announcement) {
+      if (
+        !!notification.content &&
+        notification.content.type === NotificationType.announcement
+      ) {
         this.markSingleNotificationAsRead(storedNotifications, notification);
       }
     });

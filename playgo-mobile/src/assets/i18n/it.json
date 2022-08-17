@@ -33,6 +33,9 @@
     "title": "Benvenuto in Play&Go",
     "subtitle": "App di mobilitá sostenibile"
   },
+  "notifications": {
+    "empty": "Non ci sono notifiche da mostrare"
+  },
   "registration": {
     "title": "Nuovo utente",
     "newUser": "New User. Fill the form with your information",
