@@ -17,11 +17,12 @@ export interface CampaignDetail {
   type?: CampaignDetail.TypeEnum;
 }
 export namespace CampaignDetail {
-  export type TypeEnum = 'faq' | 'privacy' | 'rewards' | 'rules';
+  export type TypeEnum = 'faq' | 'privacy' | 'rewards' | 'rules' | 'sponsor';
   export const TypeEnum = {
     Faq: 'faq' as TypeEnum,
     Privacy: 'privacy' as TypeEnum,
     Rewards: 'rewards' as TypeEnum,
     Rules: 'rules' as TypeEnum,
+    Sponsor: 'sponsor' as TypeEnum,
   };
 }
