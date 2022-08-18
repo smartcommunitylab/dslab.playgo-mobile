@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+
+  .single-stat {
+    width: 200px;
+    height: 200px;
+    border: solid 2px #ccc;
+    border-radius: 50%;
+    margin: auto;
+  }
+}

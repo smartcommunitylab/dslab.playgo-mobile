@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="single-stat" *ngIf="stat.completed">
+    <div class="ion-text-center">
+      <app-icon
+        class="icon-size-big"
+        [name]="imgChallenge(stat.type)"
+      ></app-icon>
+    </div>
+    <div class="ion-text-center">
+      <div>{{ typeChallenge }}</div>
+      <div>{{ "challenges.stats.singleChallengeWin" | translate }}</div>
+    </div>
+  </div>
+  <div class="single-stat" *ngIf="stat.failed">
+    <div class="ion-text-center">
+      <app-icon
+        class="icon-size-big"
+        [name]="imgChallenge(stat.type)"
+      ></app-icon>
+    </div>
+    <div class="ion-text-center">
+      <div>{{ typeChallenge }}</div>
+      <div>{{ "challenges.stats.singleChallengeLost" | translate }}</div>
+    </div>
+  </div>
+</div>

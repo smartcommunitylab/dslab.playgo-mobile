@@ -366,7 +366,11 @@
     "stats": {
       "filter": {
         "campaign": "Campagna"
-      }
+      },
+      "totalChallenges": "{{totalChallenges}} sfide",
+      "totalWon": "{{totalWon}} vinte",
+      "singleChallengeWin": "vinte",
+      "singleChallengeLost": "persa"
     },
     "create": {
       "button_create": "Crea sfida per {{campaignTitle}}",
@@ -381,7 +385,9 @@
       "name": {
         "groupCompetitivePerformance": "Competitiva a performance",
         "groupCompetitiveTime": "Competitiva a tempo",
-        "groupCooperative": "Cooperativa"
+        "groupCooperative": "Cooperativa",
+        "survey": "Questionario",
+        "default": "Sfida"
       },
       "description": {
         "groupCompetitivePerformance": "TODO: add description",

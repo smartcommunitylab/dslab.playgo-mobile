@@ -359,7 +359,11 @@
     "stats": {
       "filter": {
         "campaign": "Campaign"
-      }
+      },
+      "totalChallenges": "{{totalChallenges}} challenges",
+      "totalWon": "{{totalWon}} won",
+      "singleChallengeWin": "won",
+      "singleChallengeLost": "lost"
     },
     "create": {
       "button_create": "Crea sfida per {{campaignTitle}}",
@@ -368,6 +372,22 @@
       "choose_metric": "Scegli metrica sfida",
       "choose_partner": "Scegli compangno",
       "activate": "Attiva sfida"
+    },
+    "challenge_model": {
+      "title": "Which kind of challenge you want create?",
+      "name": {
+        "groupCompetitivePerformance": "Competitive performance",
+        "groupCompetitiveTime": "Competitive time",
+        "groupCooperative": "Cooperative",
+        "survey": "Survey",
+        "default": "Challenge"
+      },
+      "description": {
+        "groupCompetitivePerformance": "TODO: add description",
+        "groupCompetitiveTime": "TODO: add description",
+        "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
+      },
+      "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
     }
   },
   "outof": "{{current}} out of {{total}}",

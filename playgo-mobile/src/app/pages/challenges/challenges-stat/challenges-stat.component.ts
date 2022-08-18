@@ -18,7 +18,7 @@ import {
   PointElement,
   LineElement,
 } from 'chart.js';
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 import {
   map,
   Observable,
@@ -37,6 +37,9 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { getPeriods, Period } from 'src/app/core/shared/utils';
+import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
+import { toServerDateOnly } from 'src/app/core/shared/time.utils';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 
 @Component({
   selector: 'app-challenges-stat',
@@ -49,11 +52,16 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
   campaignChangedSubject = new Subject<SelectCustomEvent<PlayerCampaign>>();
   statPeriodChangedSubject = new Subject<Period>();
   campaigns$ = this.challengeService.campaignsWithChallenges$;
+  campaigns: PlayerCampaign[];
   referenceDate = DateTime.local();
   periods = getPeriods(this.referenceDate);
-  totalValue = 0;
+  totalChallenges = 0;
+  totalWon = 0;
   selectedPeriod = this.periods[0];
+  stats: ChallengeStatsInfo[];
   statsSubs: Subscription;
+  campaignsSubs: Subscription;
+  barChart: any;
   playerId$ = this.userService.userProfile$.pipe(
     map((userProfile) => userProfile.playerId),
     shareReplay(1)
@@ -61,7 +69,6 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
   selectedCampaign$: Observable<PlayerCampaign> =
     this.campaignChangedSubject.pipe(
       map((event) => event.detail.value),
-      startWith(null),
       shareReplay(1)
     );
   selectedPeriod$: Observable<Period> = this.statPeriodChangedSubject.pipe(
@@ -86,13 +93,11 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
   );
   statResponse$: Observable<ChallengeStatsInfo[]> = this.filterOptions$.pipe(
     switchMap(({ campaign, period, playerId }) =>
-      this.challengeService.getChallengeSt
-        .getPlayerTransportStatsUsingGET({
-          campaignId,
+      this.challengeService
+        .getChallengeStats({
+          campaignId: campaign?.campaign?.campaignId,
           playerId,
-          metric: unitType.unitKey,
           groupMode: period.group,
-          mean: meanType.unitKey,
           dateFrom: toServerDateOnly(period.from),
           dateTo: toServerDateOnly(period.to),
         })
@@ -101,19 +106,39 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
   );
   constructor(
     private challengeService: ChallengeService,
-    private userService: UserService
+    private userService: UserService,
+    private errorService: ErrorService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
       console.log('new stats' + stats);
-      this.barChartMethod(stats);
+      this.stats = stats;
+      this.setChart(stats);
       this.setTotal(stats);
     });
+    this.campaignsSubs = this.campaigns$.subscribe((campaigns) => {
+      this.campaigns = campaigns;
+      this.campaignChangedSubject.next({
+        detail: { value: campaigns[0] },
+      } as SelectCustomEvent<PlayerCampaign>);
+    });
   }
-  ngOnDestroy(): void {
-    this.statsSubs.unsubscribe();
+  setTotal(stats: ChallengeStatsInfo[]) {
+    this.totalChallenges = stats
+      .map((stat) => stat?.completed + stat?.failed)
+      .reduce((prev, next) => prev + next, 0);
+    this.totalWon = stats
+      .map((stat) => (stat?.completed > 0 ? stat.completed : 0))
+      .reduce((prev, next) => prev + next, 0);
   }
 
-  ngOnInit() {}
+  ngOnDestroy(): void {
+    this.statsSubs.unsubscribe();
+    this.campaignsSubs.unsubscribe();
+  }
+
+  ngOnInit() {
+    this.selectedSegment = this.periods[0];
+  }
   segmentChanged(ev: any) {
     console.log('Segment changed, change the selected period', ev);
   }
@@ -147,10 +172,13 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
   getPeriodByReference(value: Period): any {
     return this.periods.find((period) => period.group === value.group);
   }
-
-  barChartMethod(stats?: ChallengeStatsInfo[]) {
+  isWeekSelected() {
+    return this.selectedPeriod.add === 'week';
+  }
+  setChart(stats?: ChallengeStatsInfo[]) {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
+    console.log('setChart based on selected tab', this.selectedPeriod);
     // eslint-disable-next-line max-len
     Chart.register(
       LineController,
@@ -171,5 +199,155 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
         chartExist.destroy();
       }
     }
+    //build using stats and this.selectedPeriod
+    const arrOfPeriod = this.daysFromInterval();
+    const arrOfValuesCompleted = this.valuesFromStat(
+      arrOfPeriod,
+      stats,
+      'completed'
+    );
+    const arrOfValuesFailed = this.valuesFromStat(arrOfPeriod, stats, 'failed');
+
+    this.barChart = new Chart(this.barCanvas.nativeElement, {
+      type: 'bar',
+      options: {
+        onClick: (e) => {
+          const points = this.barChart.getElementsAtEventForMode(
+            e,
+            'nearest',
+            { intersect: true },
+            true
+          );
+
+          if (points.length) {
+            const firstPoint = points[0];
+            const label = this.barChart.data.labels[firstPoint.index];
+            //clicked on label x so I have to switch to that view base on what I'm watching
+            this.changeView(label);
+            //const value = this.barChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+          },
+        },
+      },
+      data: {
+        labels: arrOfPeriod.map((period) =>
+          period.toFormat(this.selectedPeriod.format)
+        ),
+        datasets: [
+          {
+            data: arrOfValuesCompleted,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+          },
+          {
+            data: arrOfValuesFailed,
+            backgroundColor: 'rgba(255, 132, 99, 0.2)',
+            borderColor: 'rgba(255, 132, 99, 1)',
+            borderWidth: 1,
+          },
+        ],
+      },
+    });
+  }
+  valuesFromStat(
+    arrOfPeriod: DateTime[],
+    stats: ChallengeStatsInfo[],
+    type: 'completed' | 'failed'
+  ): Array<number> {
+    //  check if stats[i] is part of arrOfPeriod
+    // const statsArrayDate = stats.map((stat) => {
+    //   console.log(stat);
+    //   return DateTime.fromObject(this.getObjectDate(stat.period));
+    // });
+    // console.log(statsArrayDate);
+    const retArr = [];
+    for (const period of arrOfPeriod) {
+      //check if statsArrayDate has a period
+      // const i = statsArrayDate.findIndex(
+      //   (statPeriod) => statPeriod.toISO() === period.toISO()
+      // );
+      //get array filtered by period
+      const arrayFiltered = stats.filter(
+        (stat) =>
+          DateTime.fromObject(this.getObjectDate(stat.period)).toISO() ===
+          period.toISO()
+      );
+      if (arrayFiltered.length > 0) {
+        retArr.push(arrayFiltered.reduce((prev, next) => prev + next[type], 0));
+      } else {
+        retArr.push(0);
+      }
+    }
+    return retArr;
+  }
+  getObjectDate(statPeriod: string) {
+    //anno - mese o anno numero settimana o anno mese giorno in base alla selezione
+    const periodSplitted = statPeriod.split('-');
+    switch (this.selectedPeriod.group) {
+      case 'day':
+        return {
+          year: Number(periodSplitted[0]),
+          month: Number(periodSplitted[1]),
+          day: Number(periodSplitted[2]),
+        };
+      case 'week':
+        return {
+          weekYear: Number(periodSplitted[0]),
+          weekNumber: Number(periodSplitted[1]),
+        };
+      case 'month':
+        return {
+          year: Number(periodSplitted[0]),
+          month: Number(periodSplitted[1]),
+        };
+    }
+  }
+  daysFromInterval(): Array<DateTime> {
+    const retArr = [];
+    const start = this.selectedPeriod.from;
+    const end = this.selectedPeriod.to;
+    const interval = Interval.fromDateTimes(start, end);
+    let cursor = interval.start;
+    cursor = cursor.startOf(this.selectedPeriod.group);
+    while (cursor < interval.end) {
+      //begin of the element
+      retArr.push(cursor);
+      cursor = cursor.plus({ [this.selectedPeriod.group]: 1 });
+    }
+    return retArr;
+  }
+  changeView(label: any) {
+    // segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)
+    const switchToPeriod: Period = null;
+    switch (this.selectedSegment.group) {
+      case 'month':
+        label = DateTime.fromFormat(label, 'MM-yyyy').toFormat('yyyy-MM-dd');
+        break;
+      case 'week':
+        label = DateTime.fromFormat(label, 'dd-MM-yyyy').toFormat('yyyy-WW');
+        break;
+      case 'day':
+        // label = DateTime.fromFormat(label, 'dd-MM').toFormat('yyyy-MM-dd');
+        return;
+      default:
+        break;
+    }
+    // change reference date
+    //only get but it doesn't write on subject
+    this.referenceDate = DateTime.fromObject(this.getObjectDate(label));
+    this.periods = getPeriods(this.referenceDate);
+    this.selectedSegment = this.periods.find(
+      (a) => a.group === this.selectedSegment.switchTo
+    );
+    this.statPeriodChangedSubject.next(this.selectedSegment);
+    console.log('Vado a vedere' + label);
   }
 }

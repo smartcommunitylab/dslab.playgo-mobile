@@ -23,7 +23,10 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import { Challenge } from 'src/app/pages/challenges/challenges.page';
+import {
+  Challenge,
+  ChallengeType,
+} from 'src/app/pages/challenges/challenges.page';
 import { environment } from 'src/environments/environment';
 import { LocalStorageType } from './services/local-storage.service';
 
@@ -226,17 +229,30 @@ export function trackByProperty<T>(property: keyof T): TrackByFunction<T> {
 export const waitMs = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms));
 
-export function getImgChallenge(challenge: Challenge) {
+export function getImgChallenge(challengeType: string) {
   if (
     [
       'groupCooperative',
       'groupCompetitiveTime',
       'groupCompetitivePerformance',
-    ].indexOf(challenge.type) > -1
+    ].indexOf(challengeType) > -1
   ) {
-    return challenge.type;
+    return challengeType;
   }
   return 'default';
+}
+export function getTypeStringChallenge(challengeType: string) {
+  if (
+    [
+      'groupCooperative',
+      'groupCompetitiveTime',
+      'groupCompetitivePerformance',
+      'survey',
+    ].indexOf(challengeType) > -1
+  ) {
+    return 'challenges.challenge_model.name.' + challengeType;
+  }
+  return 'challenges.challenge_model.name.default';
 }
 
 export type Period = {

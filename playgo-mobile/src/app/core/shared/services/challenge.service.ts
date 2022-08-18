@@ -91,6 +91,15 @@ export class ChallengeService {
     );
     return challengesOfAllTypesPerOneCampaign;
   }
+  public getChallengeStats(arg0: {
+    campaignId: string;
+    playerId: any;
+    groupMode: import('luxon').DateTimeUnit;
+    dateFrom: string;
+    dateTo: string;
+  }) {
+    return this.challengeControllerService.getChallengeStatsUsingGET(arg0);
+  }
   public getAllChallengesByCampaign(
     campaignId: string
   ): Observable<Challenge[]> {
