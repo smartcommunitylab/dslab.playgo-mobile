@@ -238,6 +238,22 @@ export class NotificationService {
     //notify the new list of notifications
     this.notificationReaded$.next();
   }
+  public markCommonChallengeNotificationAsRead() {
+    const storedNotifications = this.notificationStorage.get();
+    storedNotifications.forEach((notification) => {
+      if (
+        !!notification.content &&
+        (notification.content.type === NotificationType.challengeAssigned ||
+          notification.content.type === NotificationType.challengeComplete ||
+          notification.content.type === NotificationType.challengeFailed)
+      ) {
+        this.markSingleNotificationAsRead(storedNotifications, notification);
+      }
+    });
+    this.notificationStorage.set(storedNotifications);
+    //notify the new list of notifications
+    this.notificationReaded$.next();
+  }
   public markListOfNotificationAsRead(notifications: Notification[]) {
     const storedNotifications = this.notificationStorage.get();
     notifications.forEach((notification) => {
