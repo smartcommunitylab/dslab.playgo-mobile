@@ -4,6 +4,8 @@ ion-avatar {
   margin: auto;
   img {
     object-fit: contain;
+    border-radius: 50% !important;
+    border: lightgray solid 1px;
   }
   padding: 4px;
 }
