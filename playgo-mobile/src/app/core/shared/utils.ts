@@ -1,7 +1,7 @@
 import { NgZone, TrackByFunction } from '@angular/core';
 import { Photo } from '@capacitor/camera';
 import { flatMap, initial, isNil, last, tail, zip } from 'lodash-es';
-import { Duration } from 'luxon';
+import { DateTime, DateTimeUnit, Duration } from 'luxon';
 import {
   concat,
   from,
@@ -23,7 +23,10 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import { Challenge } from 'src/app/pages/challenges/challenges.page';
+import {
+  Challenge,
+  ChallengeType,
+} from 'src/app/pages/challenges/challenges.page';
 import { environment } from 'src/environments/environment';
 import { LocalStorageType } from './services/local-storage.service';
 
@@ -226,15 +229,74 @@ export function trackByProperty<T>(property: keyof T): TrackByFunction<T> {
 export const waitMs = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms));
 
-export function getImgChallenge(challenge: Challenge) {
+export function getImgChallenge(challengeType: string) {
   if (
     [
       'groupCooperative',
       'groupCompetitiveTime',
       'groupCompetitivePerformance',
-    ].indexOf(challenge.type) > -1
+    ].indexOf(challengeType) > -1
   ) {
-    return challenge.type;
+    return challengeType;
   }
   return 'default';
+}
+export function getTypeStringChallenge(challengeType: string) {
+  if (
+    [
+      'groupCooperative',
+      'groupCompetitiveTime',
+      'groupCompetitivePerformance',
+      'survey',
+    ].indexOf(challengeType) > -1
+  ) {
+    return 'challenges.challenge_model.name.' + challengeType;
+  }
+  return 'challenges.challenge_model.name.default';
+}
+
+export type Period = {
+  labelKey: string;
+  label: string;
+  add: string;
+  format: string;
+  switchTo: string;
+  group: DateTimeUnit;
+  from: DateTime;
+  to: DateTime;
+};
+
+export function getPeriods(referenceDate: DateTime): Period[] {
+  return [
+    {
+      labelKey: 'campaigns.stats.filter.period.week',
+      label: 'dd-MMMM',
+      group: 'day',
+      format: 'dd-MM',
+      add: 'week',
+      switchTo: null,
+      from: referenceDate.startOf('week'),
+      to: referenceDate.endOf('week'),
+    },
+    {
+      labelKey: 'campaigns.stats.filter.period.month',
+      label: 'MMMM',
+      group: 'week',
+      format: 'dd-MM-yyyy',
+      add: 'month',
+      switchTo: 'day',
+      from: referenceDate.startOf('month'),
+      to: referenceDate.endOf('month'),
+    },
+    {
+      labelKey: 'campaigns.stats.filter.period.year',
+      label: 'yyyy',
+      group: 'month',
+      format: 'MM-yyyy',
+      add: 'year',
+      switchTo: 'week',
+      from: referenceDate.startOf('year'),
+      to: referenceDate.endOf('year'),
+    },
+  ];
 }

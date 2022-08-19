@@ -27,11 +27,6 @@
 
   <div *ngIf="selectedSegment==='pastChallenges'">
     <app-challenges-stat> </app-challenges-stat>
-    <!-- <app-challenge-card
-      *ngFor="let challenge of (pastChallenges$ | async); trackBy challengeTracking;"
-      [challenge]="challenge"
-    >
-    </app-challenge-card> -->
   </div>
   <div *ngIf="selectedSegment==='activeChallenges'">
     <div *ngFor="let campaign of campaignsWithChallenges">

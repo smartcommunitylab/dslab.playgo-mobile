@@ -363,6 +363,16 @@
       "survey": "Questionario",
       "title": "Configura sfida"
     },
+    "stats": {
+      "empty": "Per visualizzare le statistiche inizia a giocare con le sfide!",
+      "filter": {
+        "campaign": "Campagna"
+      },
+      "totalChallenges": "{{totalChallenges}} sfide",
+      "totalWon": "{{totalWon}} vinte",
+      "singleChallengeWin": "vinte",
+      "singleChallengeLost": "persa"
+    },
     "create": {
       "button_create": "Crea sfida per {{campaignTitle}}",
       "title": "Configura sfida",
@@ -376,7 +386,9 @@
       "name": {
         "groupCompetitivePerformance": "Competitiva a performance",
         "groupCompetitiveTime": "Competitiva a tempo",
-        "groupCooperative": "Cooperativa"
+        "groupCooperative": "Cooperativa",
+        "survey": "Questionario",
+        "default": "Sfida"
       },
       "description": {
         "groupCompetitivePerformance": "TODO: add description",
