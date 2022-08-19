@@ -1,6 +1,6 @@
 <ion-card>
   <ion-card-header color="personal" *ngIf="header">
-    <ion-item lines="none" color="personal">
+    <div lines="none" color="personal">
       <ion-avatar>
         <img [src]="imagePath" alt="Avatar" />
       </ion-avatar>
@@ -8,7 +8,7 @@
       <app-notification-badge
         [campaignContainer]="campaignContainer"
       ></app-notification-badge>
-    </ion-item>
+    </div>
   </ion-card-header>
   <ion-card-content class="personal-content">
     <app-main-campaign-stat

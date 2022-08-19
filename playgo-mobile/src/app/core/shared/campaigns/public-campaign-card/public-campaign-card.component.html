@@ -1,26 +1,32 @@
 <!-- all campaigns -->
 <div>
   <ion-card class="ion-card" [ngClass]="campaign.type">
-    <div class="header">
-      <img [src]="bannerPath" alt="banner" class="banner" />
-      <ion-item lines="none" class="header-title">
-        <ion-avatar style="margin: 2px" slot="end">
-          <img [src]="imagePath" alt="image" />
-        </ion-avatar>
-        <ion-label>
-          <h3>{{ campaign.name | languageMap }}</h3>
-          <h4>{{ "campaigns.blabla" | translate }}</h4>
-          <h4>
-            {{ campaign.dateFrom | localDate }} -
-            {{ campaign.dateTo | localDate }}
-          </h4>
-        </ion-label>
-      </ion-item>
-    </div>
+    <ion-card-header class="ion-no-padding">
+      <div class="header">
+        <img [src]="bannerPath" alt="banner" class="banner" />
+        <div lines="none" class="header-title">
+          <ion-avatar style="margin: 2px" slot="end">
+            <img [src]="imagePath" alt="image" />
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ campaign.name | languageMap }}</h3>
+            <h4>{{ "campaigns.blabla" | translate }}</h4>
+            <h4>
+              {{ campaign.dateFrom | localDate }} -
+              {{ campaign.dateTo | localDate }}
+            </h4>
+          </ion-label>
+        </div>
+      </div>
+    </ion-card-header>
+
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="12">
-          <ion-card-content [innerHTML]="campaign.description | languageMap">
+          <ion-card-content
+            class="ellipsis"
+            [innerHTML]="campaign.description | languageMap"
+          >
           </ion-card-content>
         </ion-col>
         <ion-col size="12" class="ion-text-center">

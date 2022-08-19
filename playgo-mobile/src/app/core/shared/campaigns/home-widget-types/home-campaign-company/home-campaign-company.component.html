@@ -5,12 +5,12 @@
     [campaignContainer]="campaignContainer"
   ></app-notification-badge>
   <ion-card-header *ngIf="header" color="company">
-    <ion-item lines="none" color="company">
+    <div lines="none" color="company">
       <ion-avatar>
         <img [src]="imagePath" alt="Avatar" />
       </ion-avatar>
       <strong> {{ campaignContainer.campaign.name | languageMap }}</strong>
-    </ion-item>
+    </div>
   </ion-card-header>
   <ion-card-content class="company-content">
     <app-main-campaign-stat
