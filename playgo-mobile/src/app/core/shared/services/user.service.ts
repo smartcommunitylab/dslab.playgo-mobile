@@ -181,6 +181,34 @@ export class UserService {
       )
       .toPromise();
   }
+  /**
+   * do not throw http error
+   */
+  public getOtherPlayerAvatar(playerId: string): Observable<IUser['avatar']> {
+    const avatarDefaults: IUser['avatar'] = {
+      avatarSmallUrl: 'assets/images/registration/generic_user.png',
+      avatarUrl: 'assets/images/registration/generic_user.png',
+    };
+
+    return this.playerControllerService.getPlayerAvatarUsingGET(playerId).pipe(
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          (error.status === 404 || error.status === 400) &&
+          error.error?.ex === 'avatar not found'
+        ) {
+          return of(avatarDefaults);
+        }
+        // we do not want to block app completely.
+        this.errorService.handleError(error, 'normal');
+        return of(avatarDefaults);
+      }),
+      map((avatar) => ({
+        ...avatarDefaults,
+        ...avatar,
+      }))
+    );
+  }
 
   /**
    * @throws http error

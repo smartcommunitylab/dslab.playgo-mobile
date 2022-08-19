@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { OtherAttendeeData } from 'src/app/core/api/generated/model/otherAttendeeData';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
@@ -22,14 +22,21 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   playerAvatarUrl$ = this.userService.userProfile$.pipe(
     map((userProfile) => userProfile.avatar.avatarSmallUrl)
   );
+
   profile$ = this.userService.userProfile$;
+  opponentAvatarUrl$: Observable<IUser['avatar']>;
   constructor(
     private userService: UserService,
     private errorService: ErrorService
   ) {}
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    if (this.otherUser?.playerId) {
+      this.opponentAvatarUrl$ = this.userService.getOtherPlayerAvatar(
+        this.otherUser.playerId
+      )
+    }
+  }
   ngOnDestroy() {}
   isWinning(me: number, other: number) {
     if (me > other) {

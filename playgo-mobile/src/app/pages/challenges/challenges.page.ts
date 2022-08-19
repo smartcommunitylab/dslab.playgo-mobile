@@ -5,6 +5,7 @@ import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ChallengesData } from 'src/app/core/api/generated/model/challengesData';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
+import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-challenges',
@@ -28,11 +29,14 @@ export class ChallengesPage implements OnInit, OnDestroy {
 
   constructor(
     private challengeService: ChallengeService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.selectedSegment = 'activeChallenges';
+    //mark common challenges notification as readed: activated, failed or completed
+    this.notificationService.markCommonChallengeNotificationAsRead();
     this.subCampaignChall =
       this.challengeService.campaignsWithChallenges$.subscribe((campaigns) => {
         this.campaignsWithChallenges = campaigns;

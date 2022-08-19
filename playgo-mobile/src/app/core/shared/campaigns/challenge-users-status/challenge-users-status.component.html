@@ -17,7 +17,7 @@
                 "
               ></div> </ion-col
             ><ion-col class="ion-text-start">{{
-              (profile$ | async).nickname
+              (profile$ | async)?.nickname
             }}</ion-col></ion-row
           ><ion-row
             *ngIf="status !== null && !isHome()"
@@ -32,7 +32,7 @@
       <ion-col>
         <ion-grid *ngIf="otherUser" class="ion-no-padding">
           <ion-row class="ion-text-end ion-align-items-center">
-            <ion-col class="ion-text-end"> {{ otherUser.nickname }}</ion-col
+            <ion-col class="ion-text-end"> {{ otherUser?.nickname }}</ion-col
             ><ion-col size="1" *ngIf="isCompetitive()">
               <div
                 [ngClass]="
@@ -52,7 +52,10 @@
       </ion-col>
       <ion-col size="2" *ngIf="otherUser && !isHome()">
         <ion-avatar>
-          <img [src]="playerAvatarUrl$ | async" alt="avatar" /> </ion-avatar
+          <img
+            [src]="(opponentAvatarUrl$ | async)?.avatarSmallUrl"
+            alt="avatar"
+          /> </ion-avatar
       ></ion-col>
     </ion-row>
   </ion-grid>
