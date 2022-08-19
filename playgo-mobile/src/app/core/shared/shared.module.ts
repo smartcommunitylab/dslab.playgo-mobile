@@ -27,6 +27,8 @@ import { GameStatusComponent } from './campaigns/main-campaign-stat/game-status/
 import { RecordStatusComponent } from './campaigns/main-campaign-stat/record-status/record-status.component';
 import { LanguageMapPipe } from './pipes/languageMap.pipe';
 import { DetailNotificationModalPage } from './detail-notification/detail-notification.modal';
+import { DetailNotificationLevelComponent } from './detail-notification/detail-notification-level/detail-notification-level.component';
+import { DetailNotificationBadgeComponent } from './detail-notification/detail-notification-badge/detail-notification-badge.component';
 import { NotificationBadgeComponent } from './campaigns/home-widget-types/notification-badge/notification-badge.component';
 import { SafeHtmlPipe } from './pipes/SafeHtml.pipe';
 import { HomeCampaignChallengeComponent } from './campaigns/app-widget-campaign/app-home-campaign-challenges/app-home-campaign-challenges.component';
@@ -67,6 +69,8 @@ import { ChallengeBarStatusComponent } from './campaigns/challenge-bar-status/ch
     ActiveChallengeComponent,
     ChallengeUsersStatusComponent,
     ChallengeBarStatusComponent,
+    DetailNotificationLevelComponent,
+    DetailNotificationBadgeComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -101,6 +105,8 @@ import { ChallengeBarStatusComponent } from './campaigns/challenge-bar-status/ch
     ActiveChallengeComponent,
     ChallengeUsersStatusComponent,
     ChallengeBarStatusComponent,
+    DetailNotificationLevelComponent,
+    DetailNotificationBadgeComponent,
   ],
 })
 export class PlayGoSharedModule {}

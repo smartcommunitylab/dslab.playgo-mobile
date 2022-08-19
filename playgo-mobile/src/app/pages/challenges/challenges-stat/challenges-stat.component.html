@@ -1,5 +1,5 @@
-<div>
-  <ion-item color="playgo">
+<div class="header-margin">
+  <ion-item color="playgo" class="header-radius">
     <ion-label>{{ "challenges.stats.filter.campaign" | translate }}</ion-label>
     <ion-select
       class="app-alert"
@@ -55,8 +55,8 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div *ngIf="isWeekSelected(); else barChart">
-    <ng-container *ngIf="stats; else emptyStats">
+  <ng-container *ngIf="stats && stats.length > 0; else emptyStats">
+    <div *ngIf="isWeekSelected(); else barChart">
       <ion-grid>
         <ion-row>
           <ion-col *ngFor="let stat of stats">
@@ -65,16 +65,16 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ng-container>
-    <ng-template #emptyStats>
-      <div class="empty-stats">{{ "challenges.empty" | translate }}</div>
+    </div>
+    <ng-template #barChart>
+      <canvas
+        #barCanvas
+        style="position: relative; height: 20vh; width: 40vw"
+        id="statsChart"
+      ></canvas>
     </ng-template>
-  </div>
-  <ng-template #barChart>
-    <canvas
-      #barCanvas
-      style="position: relative; height: 20vh; width: 40vw"
-      id="statsChart"
-    ></canvas>
+  </ng-container>
+  <ng-template #emptyStats>
+    <div class="empty-stats">{{ "challenges.stats.empty" | translate }}</div>
   </ng-template>
 </div>

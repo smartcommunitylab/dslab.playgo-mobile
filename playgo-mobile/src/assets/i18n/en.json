@@ -357,6 +357,7 @@
       "survey": "Survey"
     },
     "stats": {
+      "empty": "If you want to see your challenges' statistics start to play!",
       "filter": {
         "campaign": "Campaign"
       },

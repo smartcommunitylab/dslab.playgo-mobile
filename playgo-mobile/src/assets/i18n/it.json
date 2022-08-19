@@ -364,6 +364,7 @@
       "title": "Configura sfida"
     },
     "stats": {
+      "empty": "Per visualizzare le statistiche inizia a giocare con le sfide!",
       "filter": {
         "campaign": "Campagna"
       },

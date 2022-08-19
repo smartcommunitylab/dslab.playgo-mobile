@@ -1,11 +1,25 @@
 .container {
   display: flex;
 
-  .single-stat {
-    width: 200px;
-    height: 200px;
-    border: solid 2px #ccc;
-    border-radius: 50%;
-    margin: auto;
+  .single-stat-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .single-stat-content {
+      width: 150px;
+      height: 150px;
+      border: solid 2px #ccc;
+      border-radius: 50%;
+      margin: auto;
+      font-size: 13px;
+      .challenge-lost {
+        color: #c61010;
+        font-weight: 500;
+      }
+      .challenge-won {
+        color: #359675;
+        font-weight: 500;
+      }
+    }
   }
 }

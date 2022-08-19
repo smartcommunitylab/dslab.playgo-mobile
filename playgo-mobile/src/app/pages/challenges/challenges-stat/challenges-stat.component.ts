@@ -222,9 +222,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
           if (points.length) {
             const firstPoint = points[0];
             const label = this.barChart.data.labels[firstPoint.index];
-            //clicked on label x so I have to switch to that view base on what I'm watching
             this.changeView(label);
-            //const value = this.barChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
           }
         },
         scales: {
@@ -233,6 +231,9 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
           },
           y: {
             stacked: true,
+            ticks: {
+              stepSize: 1,
+            },
           },
         },
       },
@@ -243,15 +244,13 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
         datasets: [
           {
             data: arrOfValuesCompleted,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1,
+            backgroundColor: '#359675',
+            borderRadius: 5,
           },
           {
             data: arrOfValuesFailed,
-            backgroundColor: 'rgba(255, 132, 99, 0.2)',
-            borderColor: 'rgba(255, 132, 99, 1)',
-            borderWidth: 1,
+            backgroundColor: '#C61010',
+            borderRadius: 5,
           },
         ],
       },
@@ -348,6 +347,5 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
       (a) => a.group === this.selectedSegment.switchTo
     );
     this.statPeriodChangedSubject.next(this.selectedSegment);
-    console.log('Vado a vedere' + label);
   }
 }
