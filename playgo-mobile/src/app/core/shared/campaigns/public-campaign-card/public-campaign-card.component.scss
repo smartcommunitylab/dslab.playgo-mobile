@@ -35,8 +35,18 @@
 }
 
 .ion-card {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.3);
+  color: black;
+  background-color: white;
+  div ion-avatar {
+    --border-radius: 50%;
+    border: solid 3px rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    right: 20px;
+    top: 40px;
+  }
 }
 .company {
   border: 3px solid var(--ion-color-company);
@@ -49,6 +59,7 @@
 }
 .header {
   position: relative;
+
   .banner {
     max-height: 200px;
     width: 100%;
@@ -61,5 +72,6 @@
     background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     color: white;
+    padding: 8px;
   }
 }

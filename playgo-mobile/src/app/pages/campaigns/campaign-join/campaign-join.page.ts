@@ -9,10 +9,12 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { DetailCampaignModalPage } from '../campaign-details/detail-modal/detail.modal';
 import { JoinCityModalPage } from './join-city/join-city.modal';
 import { JoinCompanyModalPage } from './join-company/join-company.modal';
 import { JoinSchoolModalPage } from './join-school/join-school.modal';
@@ -182,5 +184,17 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   }
   back() {
     this.navCtrl.back();
+  }
+
+  async openDetail(detail: CampaignDetail) {
+    const modal = await this.modalController.create({
+      component: DetailCampaignModalPage,
+      cssClass: 'modalConfirm',
+      componentProps: {
+        detail,
+      },
+    });
+    await modal.present();
+    await modal.onWillDismiss();
   }
 }

@@ -18,7 +18,10 @@
   *ngIf="campaignContainer"
   [scrollEvents]="true"
 >
-  <ion-avatar class="avatar-campaign">
+  <ion-avatar
+    class="avatar-campaign"
+    [ngStyle]="{'border': '3px solid var(--ion-color-'+campaignContainer?.campaign?.type+')'}"
+  >
     <img [src]="imagePath" title="campaign logo" />
   </ion-avatar>
   <app-widget-campaign

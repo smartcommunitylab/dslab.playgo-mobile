@@ -135,6 +135,12 @@ ion-list {
 .text-underlined {
   text-decoration: underline;
 }
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
 @import "material-icons/iconfont/material-icons.scss";
 
 $material-icons-font-path: "./" !default;
