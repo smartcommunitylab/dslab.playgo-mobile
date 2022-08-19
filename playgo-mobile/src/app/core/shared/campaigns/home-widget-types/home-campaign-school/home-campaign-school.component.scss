@@ -7,4 +7,15 @@ ion-card {
   #challenge {
     overflow: visible;
   }
+  ion-card-header {
+    div ion-avatar {
+      --border-radius: 50%;
+      border: solid 3px var(--ion-color-school);
+      background-color: var(--ion-color-school);
+      position: absolute;
+      z-index: 2;
+      text-align: center;
+      right: 20px;
+    }
+  }
 }
