@@ -107,7 +107,15 @@ export class CreateChallengePage implements OnInit {
         .getChallengeablesUsingGET(campaignId)
         .pipe(this.errorService.getErrorHandler())
     ),
-    map((challengeables) => challengeables as unknown as Challengeable[])
+    map((challengeables) =>
+      challengeables.map((eachUser) => ({
+        id: eachUser.id,
+        nickname: eachUser.nickname,
+        avatarUrl:
+          eachUser?.avatar?.url ??
+          'assets/images/registration/generic_user.png',
+      }))
+    )
   );
 
   selectedChallengeableId$ = new Subject<string>();
@@ -132,4 +140,5 @@ export interface ChallengeModelOptions {
 export interface Challengeable {
   id: string;
   nickname: string;
+  avatarUrl: string;
 }
