@@ -207,8 +207,8 @@ export class ChallengeControllerService {
    */
   public getChallengeablesUsingGET(
     campaignId: string
-  ): Observable<Array<{ [key: string]: string }>> {
-    return this.http.request<Array<{ [key: string]: string }>>(
+  ): Observable<Array<{ [key: string]: any }>> {
+    return this.http.request<Array<{ [key: string]: any }>>(
       'get',
       environment.serverUrl.api + `/playandgo/api/challenge/challengeables`,
       {
