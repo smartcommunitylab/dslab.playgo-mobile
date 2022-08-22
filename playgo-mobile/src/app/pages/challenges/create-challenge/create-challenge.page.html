@@ -30,12 +30,19 @@
         (selectedMean)="selectedPointConcept$.next($event)"
       ></app-select-challenge-mean>
     </app-wizard-step>
-    <app-wizard-step title="challenges.create.choose_partner">
-      step 3
+    <app-wizard-step
+      title="challenges.create.choose_partner"
+      [validForNextStep]="(selectedChallengeableId$| async) !== null"
+    >
+      <app-select-challengeable
+        [availableChallengeables]="challengeables$ | async"
+        (selectedChallengeable)="selectedChallengeableId$.next($event)"
+      ></app-select-challengeable>
     </app-wizard-step>
     <app-wizard-step title="challenges.create.activate">
-      <div>pointConcept: {{selectedPointConcept$ | async}}</div>
       <div>modelName: {{selectedModelName$ | async}}</div>
+      <div>pointConcept: {{selectedPointConcept$ | async}}</div>
+      <div>challengeable: {{selectedChallengeableId$ | async}}</div>
     </app-wizard-step>
   </app-wizard>
 </ion-content>

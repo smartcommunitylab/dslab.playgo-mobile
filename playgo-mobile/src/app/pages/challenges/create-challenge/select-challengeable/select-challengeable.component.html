@@ -1,0 +1,19 @@
+<ion-grid>
+  <ion-row
+    *ngFor="let user of availableChallengeables"
+    class="user"
+    [class.selected]="user.id === selectedChallengeableId"
+    (click)="selectChallengeable(user)"
+  >
+    <ion-col size="4"> TODO Icon </ion-col>
+    <ion-col size="6">
+      {{ user.nickname }}
+    </ion-col>
+    <ion-col size="2">
+      <ion-icon
+        name="checkmark"
+        *ngIf="user.id === selectedChallengeableId"
+      ></ion-icon>
+    </ion-col>
+  </ion-row>
+</ion-grid>

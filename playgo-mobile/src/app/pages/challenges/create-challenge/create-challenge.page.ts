@@ -101,6 +101,17 @@ export class CreateChallengePage implements OnInit {
   );
   selectedPointConcept$ = new Subject<string>();
 
+  challengeables$: Observable<Challengeable[]> = this.campaignId$.pipe(
+    switchMap((campaignId) =>
+      this.challengeControllerService
+        .getChallengeablesUsingGET(campaignId)
+        .pipe(this.errorService.getErrorHandler())
+    ),
+    map((challengeables) => challengeables as unknown as Challengeable[])
+  );
+
+  selectedChallengeableId$ = new Subject<string>();
+
   getCampaignColor = this.campaignService.getCampaignColor;
   constructor(
     private route: ActivatedRoute,
@@ -117,4 +128,8 @@ export interface ChallengeModelOptions {
   challengeModelName: Invitation.ChallengeModelNameEnum;
   available: boolean;
   availableFromLevel: number;
+}
+export interface Challengeable {
+  id: string;
+  nickname: string;
 }
