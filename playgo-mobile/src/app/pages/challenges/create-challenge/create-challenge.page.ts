@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest, map, Observable, Subject, switchMap } from 'rxjs';
 import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { ChallengeChoice } from 'src/app/core/api/generated/model/challengeChoice';
 import { Invitation } from 'src/app/core/api/generated/model/invitation';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
@@ -12,6 +13,7 @@ import {
   transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
+import { TranslateKey } from 'src/app/core/shared/type.utils';
 import { tapLog } from 'src/app/core/shared/utils';
 import { MeanOrGameInfo } from './select-challenge-mean/select-challenge-mean.component';
 
@@ -38,60 +40,46 @@ export class CreateChallengePage implements OnInit {
     )
   );
 
-  playerLevel$ = this.campaignId$.pipe(
+  challengeModels$ = this.campaignId$.pipe(
     switchMap((campaignId) =>
-      this.reportService
-        .getCurrentLevel(campaignId)
+      this.challengeControllerService
+        .getChallengesStatusUsingGET(campaignId)
         .pipe(this.errorService.getErrorHandler())
-    )
+    ),
+    map((availableChallenges) => {
+      const all: Omit<ChallengeModelOptions, 'available'>[] = [
+        {
+          challengeModelName: 'groupCompetitivePerformance',
+          availableFromLevel: 13,
+        },
+        {
+          challengeModelName: 'groupCompetitiveTime',
+          availableFromLevel: 9,
+        },
+        {
+          challengeModelName: 'groupCooperative',
+          availableFromLevel: 0,
+        },
+      ];
+      const allWithAvailableInfo = all.map((challengeModel) => {
+        const serverState = availableChallenges.find(
+          (eachServerChallengeMode) =>
+            eachServerChallengeMode.modelName ===
+            challengeModel.challengeModelName
+        )?.state;
+        return {
+          ...challengeModel,
+          // TODO: how to display 'ACTIVE'?
+          available: serverState === 'AVAILABLE' || serverState === 'ACTIVE',
+        };
+      });
+      return allWithAvailableInfo;
+    })
   );
-
-  // challengeModels$ = this.campaignId$.pipe(
-  //   switchMap((campaignId) =>
-  //     this.challengeControllerService
-  //       .getChallengesStatusUsingGET(campaignId)
-  //       .pipe(this.errorService.getErrorHandler())
-  //   ),
-  //   map((challenges) =>
-  //     challenges.map((eachChallengeType) => {
-  //       const challengeModelOptions: ChallengeModelOptions = {
-  //         challengeModelName:
-  //           eachChallengeType.modelName as Invitation.ChallengeModelNameEnum,
-  //         available: eachChallengeType.state === 'AVAILABLE',
-  //         availableFromLevel: 0,
-  //       };
-  //       return challengeModelOptions;
-  //     })
-  //   )
-  // );
-
-  challengeModels$: Observable<ChallengeModelOptions[]> =
-    this.playerLevel$.pipe(
-      map((level) => {
-        const models: Omit<ChallengeModelOptions, 'available'>[] = [
-          {
-            challengeModelName: 'groupCompetitivePerformance',
-            availableFromLevel: 13,
-          },
-          {
-            challengeModelName: 'groupCompetitiveTime',
-            availableFromLevel: 9,
-          },
-          {
-            challengeModelName: 'groupCooperative',
-            availableFromLevel: 0,
-          },
-        ];
-        return models.map((eachModel) => ({
-          ...eachModel,
-          available: eachModel.availableFromLevel <= level,
-        }));
-      })
-    );
 
   selectedModelName$ = new Subject<Invitation.ChallengeModelNameEnum>();
 
-  pointConcepts$ = combineLatest([
+  pointConcepts$: Observable<MeanOrGameInfo[]> = combineLatest([
     this.userService.userProfileMeans$,
     this.campaign$,
   ]).pipe(
