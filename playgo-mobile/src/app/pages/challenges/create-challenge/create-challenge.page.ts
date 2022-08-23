@@ -120,7 +120,41 @@ export class CreateChallengePage implements OnInit {
 
   selectedChallengeableId$ = new Subject<string>();
 
+  preview$ = combineLatest([
+    this.campaignId$,
+    this.selectedChallengeableId$,
+    this.selectedModelName$,
+    this.selectedPointConcept$,
+  ]).pipe(
+    switchMap(
+      ([
+        campaignId,
+        selectedChallengeableId,
+        selectedModelName,
+        selectedPointConcept,
+      ]) => {
+        console.log('Preview for:', {
+          campaignId,
+          selectedChallengeableId,
+          selectedModelName,
+          selectedPointConcept,
+        });
+        return this.challengeControllerService
+          .getGroupChallengePreviewUsingPOST({
+            campaignId,
+            body: {
+              attendeeId: selectedChallengeableId,
+              challengeModelName: selectedModelName,
+              challengePointConcept: selectedPointConcept,
+            },
+          })
+          .pipe(this.errorService.getErrorHandler());
+      }
+    )
+  );
+
   getCampaignColor = this.campaignService.getCampaignColor;
+
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
