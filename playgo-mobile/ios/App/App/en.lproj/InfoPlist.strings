@@ -11,4 +11,9 @@ NSLocationAlwaysAndWhenInUseUsageDescription="When tracking a trip, this app req
 NSLocationAlwaysUsageDescription="When tracking a trip, this app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.";
 NSBluetoothPeripheralUsageDescription="This app requires bluetooth access to localise and certificate your journeys";
 NSBluetoothAlwaysUsageDescription="This app requires bluetooth access to localise and certificate your journeys";
+NSContactsUsageDescription="This application requires access your contacts";
+NSCalendarsUsageDescription="This application requires access your calendar";
+NSPhotoLibraryUsageDescription="This application requires access your photo library";
+NSMicrophoneUsageDescription ="This application requires access your microphone";
+
 

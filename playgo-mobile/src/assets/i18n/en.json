@@ -347,6 +347,9 @@
   "blacklist": {
     "blacklist": "Blacklisted users"
   },
+  "userprofile": {
+    "title": "Profilo utenti"
+  },
   "challenges": {
     "challenges": "Challenges",
     "past": "Past",

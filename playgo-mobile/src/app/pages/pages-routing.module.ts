@@ -40,6 +40,13 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./badges/badges.module').then((m) => m.BadgesPageModule),
       },
+      {
+        path: 'user-profile/:id',
+        loadChildren: () =>
+          import('./user-profile/user-profile.module').then(
+            (m) => m.UserProfilePageModule
+          ),
+      },
     ]),
   ],
 })
