@@ -120,12 +120,15 @@ export class CreateChallengePage implements OnInit {
 
   selectedChallengeableId$ = new Subject<string>();
 
+  previewActive$ = new Subject<void>();
+
   preview$ = combineLatest([
     this.campaignId$,
     this.selectedChallengeableId$,
     this.selectedModelName$,
     this.selectedPointConcept$,
   ]).pipe(
+    switchMap((data) => this.previewActive$.pipe(map(() => data))),
     switchMap(
       ([
         campaignId,

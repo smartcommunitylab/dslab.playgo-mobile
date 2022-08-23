@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -17,6 +19,10 @@ export class WizardStepComponent {
   title: TranslateKey;
   @Input()
   validForNextStep = true;
+
+  @Output()
+  activated = new EventEmitter<void>();
+
   @ViewChild('template', { read: TemplateRef, static: true })
   template: TemplateRef<any>;
 }

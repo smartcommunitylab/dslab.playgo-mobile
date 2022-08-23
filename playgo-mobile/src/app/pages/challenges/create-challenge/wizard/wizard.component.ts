@@ -25,11 +25,10 @@ export class WizardComponent implements OnInit, AfterContentInit {
   @ContentChildren(WizardStepComponent, {})
   set stepComponents(stepComponents: QueryList<WizardStepComponent>) {
     this.steps = stepComponents.toArray();
-    this.selectedStep = this.steps[0];
     this.templates = stepComponents.map(
       (eachComponent) => eachComponent.template
     );
-    console.log('templates', this.templates);
+    this.changeStep(0);
   }
   public steps: WizardStepComponent[] = [];
   public templates: TemplateRef<WizardStepComponent>[] = [];
@@ -44,6 +43,7 @@ export class WizardComponent implements OnInit, AfterContentInit {
   changeStep(newStep: number) {
     this.selectedStepIndex = newStep;
     this.selectedStep = this.steps[this.selectedStepIndex];
+    this.selectedStep.activated.next();
   }
 
   ngOnInit() {}

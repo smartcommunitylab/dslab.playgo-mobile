@@ -39,7 +39,10 @@
         (selectedChallengeable)="selectedChallengeableId$.next($event)"
       ></app-select-challengeable>
     </app-wizard-step>
-    <app-wizard-step title="challenges.create.activate">
+    <app-wizard-step
+      title="challenges.create.activate"
+      (activated)="previewActive$.next()"
+    >
       <div>modelName: {{selectedModelName$ | async}}</div>
       <div>pointConcept: {{selectedPointConcept$ | async}}</div>
       <div>challengeable: {{selectedChallengeableId$ | async}}</div>
