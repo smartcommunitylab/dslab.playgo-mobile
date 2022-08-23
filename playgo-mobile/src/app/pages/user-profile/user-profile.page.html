@@ -1,8 +1,10 @@
 <ion-header appHeader></ion-header>
 <ion-content [fullscreen]="true">
-  Avatar tipo
-  <ion-avatar>
-    <img [src]="profileImg" />
-  </ion-avatar>
-  nickname tipo Ultime attivita Campagne in comune
+  <div class="user-intro">
+    <ion-avatar>
+      <img [src]="(userAvatar$ | async)?.avatarUrl" />
+    </ion-avatar>
+    <div class="nickname">{{userNickname$|async}}</div>
+  </div>
+  <app-transport-stat [playerId]="(userId$|async)"></app-transport-stat>
 </ion-content>

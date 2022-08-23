@@ -1,0 +1,13 @@
+<ion-card>
+  <ion-card-header color="personal"> Ultimo mese</ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" *ngFor="let stat of personalStat$ | async">
+          <app-icon [name]="'directions_' + stat.mean"></app-icon>
+          <span>{{ stat.value }}</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

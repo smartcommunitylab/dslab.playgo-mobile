@@ -18,6 +18,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  find,
   catchError,
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -208,7 +209,14 @@ export class CampaignService {
       {}
     );
   }
-
+  getPersonalCampaign(): Observable<PlayerCampaign> {
+    return this.myCampaigns$.pipe(
+      map((campaigns) =>
+        campaigns.find((campaign) => campaign?.campaign?.type === 'personal')
+      ),
+      shareReplay(1)
+    );
+  }
   /** returns ionic "color". For example "danger" */
   getCampaignColor(campaign: Campaign): string {
     if (!campaign) {
