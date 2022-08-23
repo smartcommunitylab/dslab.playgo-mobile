@@ -33,6 +33,18 @@ export class DevControllerService {
   }
 
   /**
+   * addStats
+   *
+   */
+  public addStatsUsingPOST(): Observable<any> {
+    return this.http.request<any>(
+      'post',
+      environment.serverUrl.api + `/playandgo/api/dev/stats`,
+      {}
+    );
+  }
+
+  /**
    * addTracks
    *
    */

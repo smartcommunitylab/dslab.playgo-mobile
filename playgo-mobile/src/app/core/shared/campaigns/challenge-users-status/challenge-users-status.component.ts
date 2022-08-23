@@ -24,18 +24,18 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   );
 
   profile$ = this.userService.userProfile$;
-  opponentAvatarUrl$: Observable<IUser['avatar']>;
+  // opponentAvatarUrl$: Observable<IUser['avatar']>;
   constructor(
     private userService: UserService,
     private errorService: ErrorService
   ) {}
 
   ngOnInit() {
-    if (this.otherUser?.playerId) {
-      this.opponentAvatarUrl$ = this.userService.getOtherPlayerAvatar(
-        this.otherUser.playerId
-      )
-    }
+    // if (this.otherUser?.playerId) {
+    //   this.opponentAvatarUrl$ = this.userService.getOtherPlayerAvatar(
+    //     this.otherUser.playerId
+    //   );
+    // }
   }
   ngOnDestroy() {}
   isWinning(me: number, other: number) {
