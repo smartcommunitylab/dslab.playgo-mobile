@@ -52,10 +52,7 @@
       </ion-col>
       <ion-col size="2" *ngIf="otherUser && !isHome()">
         <ion-avatar>
-          <img
-            [src]="(opponentAvatarUrl$ | async)?.avatarSmallUrl"
-            alt="avatar"
-          /> </ion-avatar
+          <img [src]="otherUser?.avatar?.url" alt="avatar" /> </ion-avatar
       ></ion-col>
     </ion-row>
   </ion-grid>
