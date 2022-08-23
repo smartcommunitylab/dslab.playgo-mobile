@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { find } from 'lodash-es';
 import { combineLatest, map, Observable, Subject, switchMap } from 'rxjs';
 import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
@@ -14,8 +15,7 @@ import {
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
 import { TranslateKey } from 'src/app/core/shared/type.utils';
-import { tapLog } from 'src/app/core/shared/utils';
-import { MeanOrGameInfo } from './select-challenge-mean/select-challenge-mean.component';
+import { castTo, tapLog } from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-create-challenge',
@@ -40,7 +40,7 @@ export class CreateChallengePage implements OnInit {
     )
   );
 
-  challengeModels$ = this.campaignId$.pipe(
+  challengeModels$: Observable<ChallengeModelOptions[]> = this.campaignId$.pipe(
     switchMap((campaignId) =>
       this.challengeControllerService
         .getChallengesStatusUsingGET(campaignId)
@@ -120,9 +120,18 @@ export class CreateChallengePage implements OnInit {
 
   selectedChallengeableId$ = new Subject<string>();
 
+  selectedChallengeable$: Observable<Challengeable> = combineLatest([
+    this.challengeables$,
+    this.selectedChallengeableId$,
+  ]).pipe(
+    map(([allChallengeables, selectedId]) =>
+      find(allChallengeables, { id: selectedId })
+    )
+  );
+
   previewActive$ = new Subject<void>();
 
-  preview$ = combineLatest([
+  preview$: Observable<ChallengePreview> = combineLatest([
     this.campaignId$,
     this.selectedChallengeableId$,
     this.selectedModelName$,
@@ -151,7 +160,10 @@ export class CreateChallengePage implements OnInit {
               challengePointConcept: selectedPointConcept,
             },
           })
-          .pipe(this.errorService.getErrorHandler());
+          .pipe(
+            this.errorService.getErrorHandler(),
+            castTo<ChallengePreview>()
+          );
       }
     )
   );
@@ -174,8 +186,20 @@ export interface ChallengeModelOptions {
   available: boolean;
   availableFromLevel: number;
 }
+export type MeanOrGameInfo = {
+  isMean: boolean;
+  name: string;
+  icon: string;
+  title: TranslateKey;
+};
+
 export interface Challengeable {
   id: string;
   nickname: string;
   avatarUrl: string;
+}
+export interface ChallengePreview {
+  description: string;
+  longDescription: string;
+  aaa: number;
 }

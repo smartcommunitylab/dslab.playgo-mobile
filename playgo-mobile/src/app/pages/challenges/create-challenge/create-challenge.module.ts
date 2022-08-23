@@ -9,6 +9,7 @@ import { WizardStepComponent } from './wizard/wizard-step/wizard-step.component'
 import { SelectChallengeModelComponent } from './select-challenge-model/select-challenge-model.component';
 import { SelectChallengeMeanComponent } from './select-challenge-mean/select-challenge-mean.component';
 import { SelectChallengeableComponent } from './select-challengeable/select-challengeable.component';
+import { ChallengePreviewComponent } from './challenge-preview/challenge-preview.component';
 
 @NgModule({
   imports: [PlayGoSharedModule, CreateChallengePageRoutingModule],
@@ -19,6 +20,7 @@ import { SelectChallengeableComponent } from './select-challengeable/select-chal
     SelectChallengeModelComponent,
     SelectChallengeMeanComponent,
     SelectChallengeableComponent,
+    ChallengePreviewComponent,
   ],
 })
 export class CreateChallengePageModule {}

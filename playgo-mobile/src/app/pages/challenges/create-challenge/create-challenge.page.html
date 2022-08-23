@@ -43,10 +43,12 @@
       title="challenges.create.activate"
       (activated)="previewActive$.next()"
     >
-      <div>modelName: {{selectedModelName$ | async}}</div>
-      <div>pointConcept: {{selectedPointConcept$ | async}}</div>
-      <div>challengeable: {{selectedChallengeableId$ | async}}</div>
-      <div>preview: {{preview$ | async |json}}</div>
+      <app-challenge-preview
+        [challengeModelName]="selectedModelName$ | async"
+        [pointConcept]="selectedPointConcept$ | async"
+        [challengeable]="selectedChallengeable$ | async"
+        [preview]="preview$ | async"
+      ></app-challenge-preview>
     </app-wizard-step>
   </app-wizard>
 </ion-content>
