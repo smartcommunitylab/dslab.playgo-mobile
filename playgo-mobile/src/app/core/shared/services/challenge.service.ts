@@ -112,6 +112,11 @@ export class ChallengeService {
       shareReplay(1)
     );
   }
+  public getBlacklistByCampaign(
+    campaignId: string
+  ): Observable<Array<{ [key: string]: string }>> {
+    return this.challengeControllerService.getBlackListUsingGET(campaignId);
+  }
   public getActiveChallengesByCampaign(
     campaignId: string
   ): Observable<Challenge[]> {

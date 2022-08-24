@@ -348,7 +348,18 @@
     "blacklist": "Blacklisted users"
   },
   "userprofile": {
-    "title": "Profilo utenti"
+    "title": "Profilo utenti",
+    "last_month": "Last month activity",
+    "personal_stat_bike": " by bike",
+    "personal_stat_walk": " walking",
+    "personal_stat_bus": " by bus",
+    "personal_stat_train": " by train",
+    "personal_stat_car": " by carpooling",
+    "personal_stat_boat": " by boat",
+    "last_week_position": "{{position}} last week",
+    "general_position": "{{position}} general ranking",
+    "total_points": "{{points}} total points",
+    "won": "won {{won}}"
   },
   "challenges": {
     "challenges": "Challenges",

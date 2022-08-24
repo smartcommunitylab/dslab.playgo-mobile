@@ -1,12 +1,30 @@
 <ion-card>
-  <ion-card-header color="personal"> Ultimo mese</ion-card-header>
+  <ion-card-header color="personal">
+    {{ "userprofile.last_month" | translate }}</ion-card-header
+  >
   <ion-card-content>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" *ngFor="let stat of personalStat$ | async">
-          <app-icon [name]="'directions_' + stat.mean"></app-icon>
-          <span>{{ stat.value }}</span>
-        </ion-col>
+        <ng-container
+          *ngIf="(personalStat$ | async)?.length > 0; else emptyStat"
+        >
+          <ion-col size="6" *ngFor="let stat of personalStat$ | async">
+            <app-icon
+              [name]="'directions_' + stat.mean"
+              class="icon-size-normal"
+            ></app-icon>
+            <span>
+              {{ stat.value / 1000 | localNumber: "0.0-1" }}
+              {{ "km" | translate }}
+              {{ "userprofile.personal_stat_" + stat.mean | translate }}
+            </span>
+          </ion-col>
+        </ng-container>
+        <ng-template #emptyStat>
+          <ion-col>
+            <div class="empty-stats">{{ "userprofile.empty" | translate }}</div>
+          </ion-col>
+        </ng-template>
       </ion-row>
     </ion-grid>
   </ion-card-content>

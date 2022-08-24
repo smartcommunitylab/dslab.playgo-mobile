@@ -354,7 +354,19 @@
     "blacklist": "Utenti Bloccati"
   },
   "userprofile": {
-    "title": "Profilo utenti"
+    "title": "Profilo utenti",
+    "last_month": "Attività dell'ultimo mese",
+    "personal_stat_bike": " in bici",
+    "personal_stat_walk": " a piedi",
+    "personal_stat_bus": " in bus",
+    "personal_stat_train": " in treno",
+    "personal_stat_car": " in carpooling",
+    "personal_stat_boat": " in barca",
+    "empty": "Non sono statistiche da mostrare",
+    "last_week_position": "{{position}} ultima settimana",
+    "general_position": "{{position}} classifica generale",
+    "total_points": "{{points}} punti totali",
+    "won": "{{won}} vinte"
   },
   "challenges": {
     "challenges": "Sfide",
