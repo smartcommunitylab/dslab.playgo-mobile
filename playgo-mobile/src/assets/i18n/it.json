@@ -1,4 +1,5 @@
 {
+  "---comment cSpell:locale it,en ": null,
   "helloWorld": "Ciao mondo",
   "homeTtle": "Play&Go",
   "profileTitle": "Profilo",
@@ -399,7 +400,12 @@
       "choose_type": "Scegli typologia sfida",
       "choose_metric": "Scegli metrica sfida",
       "choose_partner": "Scegli compangno",
-      "activate": "Attiva sfida"
+      "activate": "Attiva sfida",
+      "preview": {
+        "model": "Tipo:",
+        "mean": "Modalità selezionata:",
+        "challengeable": "Giocatore da sfidare:"
+      }
     },
     "challenge_model": {
       "title": "Che tipo di sfida vuoi creare?",
