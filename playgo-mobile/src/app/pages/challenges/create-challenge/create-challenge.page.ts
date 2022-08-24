@@ -6,6 +6,8 @@ import { ChallengeControllerService } from 'src/app/core/api/generated/controlle
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ChallengeChoice } from 'src/app/core/api/generated/model/challengeChoice';
 import { Invitation } from 'src/app/core/api/generated/model/invitation';
+import { StringLanguageMap } from 'src/app/core/shared/pipes/languageMap.pipe';
+import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { ReportService } from 'src/app/core/shared/services/report.service';
@@ -162,6 +164,20 @@ export class CreateChallengePage implements OnInit {
           })
           .pipe(
             this.errorService.getErrorHandler(),
+            map((x) => ({
+              description:
+                'Unite le forze e fate almeno 10 km in bici. Se vincete la sfida, sia tu che user1 otterrete un bonus di 100 green leaves.',
+              longDescription:
+                'Se riuscirete a fare almeno 10 km in bici, sommando i km fatti da te e da user1, vi aggiudicherete la sfida e vincerete entrambi il premio di 100 green leaves.',
+              params: {
+                challengeTarget: 10.0,
+                challengerBonusScore: 100.0,
+                opponent: 'user1',
+                reward: 100.0,
+                rewardBonusScore: 100.0,
+                target: 10.0,
+              },
+            })),
             castTo<ChallengePreview>()
           );
       }
@@ -199,7 +215,6 @@ export interface Challengeable {
   avatarUrl: string;
 }
 export interface ChallengePreview {
-  description: string;
-  longDescription: string;
-  aaa: number;
+  description: StringLanguageMap;
+  longDescription: StringLanguageMap;
 }

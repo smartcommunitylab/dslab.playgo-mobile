@@ -404,7 +404,8 @@
       "preview": {
         "model": "Tipo:",
         "mean": "Modalità selezionata:",
-        "challengeable": "Giocatore da sfidare:"
+        "challengeable": "Giocatore da sfidare:",
+        "you": "Ti"
       }
     },
     "challenge_model": {

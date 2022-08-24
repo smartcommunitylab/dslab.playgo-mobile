@@ -58,6 +58,7 @@ export class LanguageMapPipe
     return applicableLanguage ? value[applicableLanguage] : null;
   }
 }
-type LanguageMap<O> = Record<Language, O>;
+export type LanguageMap<O> = Record<Language, O>;
+export type StringLanguageMap = LanguageMap<string>;
 
 type Language = 'en' | 'it';
