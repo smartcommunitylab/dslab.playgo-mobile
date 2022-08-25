@@ -157,7 +157,7 @@ export class ChallengeService {
 
   public removeBlacklist(campaignId: string, playerId: string) {
     return this.challengeControllerService
-      .addToBlackListUsingPOST({
+      .deleteFromBlackListUsingDELETE({
         campaignId,
         blockedPlayerId: playerId,
       })
