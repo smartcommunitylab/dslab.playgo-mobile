@@ -1,6 +1,6 @@
 <div class="wrapper">
   <ion-card>
-    <ion-card-header [color]="'base'" class="title-header">
+    <ion-card-header color="base" class="title-header">
       <ion-card-title>
         <div *ngIf="title" class="ion-text-start">
           {{ title }}
@@ -37,20 +37,32 @@
         ></ng-container>
       </div>
 
-      <div>
+      <div style="display: flex" class="ion-justify-content-around">
         <ion-button
+          *ngIf="backButton"
           (click)="changeStep(selectedStepIndex - 1)"
           [disabled]="selectedStepIndex === 0"
-          >Back</ion-button
+          color="base"
         >
+          {{ "wizard.back" | translate }}
+        </ion-button>
+
         <ion-button
           (click)="changeStep(selectedStepIndex + 1)"
-          [disabled]="
-            selectedStepIndex === steps.length - 1 ||
-            selectedStep.validForNextStep !== true
-          "
-          >Next</ion-button
+          *ngIf="selectedStepIndex !== steps.length - 1"
+          [disabled]="selectedStep.validForNextStep !== true"
+          color="base"
         >
+          {{ "wizard.next" | translate }}
+        </ion-button>
+        <ion-button
+          (click)="finish.emit()"
+          *ngIf="selectedStepIndex === steps.length - 1"
+          [disabled]="selectedStep.validForNextStep !== true"
+          color="base"
+        >
+          {{ finishButtonLabel }}
+        </ion-button>
       </div>
     </ion-card-content>
   </ion-card>

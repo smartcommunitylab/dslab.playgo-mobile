@@ -4,7 +4,10 @@
   <app-wizard
     *ngIf="campaign$ | async as campaign"
     [title]="campaign.name | languageMap"
+    [backButton]="false"
     [ngClass]="'ion-color-' + getCampaignColor(campaign)"
+    [finishButtonLabel]="'challenges.create.invite'|translate"
+    (finish)="onInvite()"
   >
     <app-wizard-step
       title="challenges.create.choose_type"

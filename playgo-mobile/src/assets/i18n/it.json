@@ -401,11 +401,12 @@
       "choose_metric": "Scegli metrica sfida",
       "choose_partner": "Scegli compangno",
       "activate": "Attiva sfida",
+      "invite": "INVITA",
       "preview": {
         "model": "Tipo:",
         "mean": "Modalità selezionata:",
         "challengeable": "Giocatore da sfidare:",
-        "you": "Ti"
+        "you": "Tu"
       }
     },
     "challenge_model": {
@@ -435,6 +436,10 @@
         "Train_Km": "Km in treno"
       }
     }
+  },
+  "wizard": {
+    "next": "Avanti",
+    "back": "Indietro"
   },
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",

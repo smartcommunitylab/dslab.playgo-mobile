@@ -197,6 +197,10 @@ export class CreateChallengePage implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  async onInvite() {
+    console.log('Invite!');
+  }
 }
 export interface ChallengeModelOptions {
   challengeModelName: Invitation.ChallengeModelNameEnum;
