@@ -3,7 +3,7 @@
   [class.my-placing]="(playerId$ | async) === placing.playerId"
   [routerLink]="
     (playerId$ | async) !== placing.playerId
-      ? ['/pages/user-profile/' + placing.playerId]
+      ? ['/pages/user-profile/' + placing.playerId + '/' + placing.nickname]
       : []
   "
   detail="false"

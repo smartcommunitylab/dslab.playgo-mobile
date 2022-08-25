@@ -345,10 +345,26 @@
     }
   },
   "blacklist": {
-    "blacklist": "Blacklisted users"
+    "blacklist": "Blacklisted users",
+    "intro1": "Here you can find the list of the users you blocked",
+    "intro2": "The users you blocked can not send you invites for the challenges in this campaign and you can not challenge them.",
+    "empty": "No blocked user for this campaign"
   },
   "userprofile": {
-    "title": "Profilo utenti"
+    "title": "Profilo utenti",
+    "last_month": "Last month activity",
+    "personal_stat_bike": " by bike",
+    "personal_stat_walk": " walking",
+    "personal_stat_bus": " by bus",
+    "personal_stat_train": " by train",
+    "personal_stat_car": " by carpooling",
+    "personal_stat_boat": " by boat",
+    "last_week_position": "{{position}} last week",
+    "general_position": "{{position}} general ranking",
+    "total_points": "{{points}} total points",
+    "won": "won {{won}}",
+    "add_blacklist": "Block invites",
+    "remove_blacklist": "Unlock invites"
   },
   "challenges": {
     "challenges": "Challenges",

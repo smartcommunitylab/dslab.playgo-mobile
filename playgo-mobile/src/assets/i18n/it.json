@@ -188,10 +188,10 @@
   "errors": {
     "error_header": "Errore",
     "not_recoverable": "IT: Application encountered unrecoverable error, and will be restarted! \n Your trip progress will be saved.",
-    "offline": "IT: This functionality is available only online.",
+    "offline": "Questa funzionalitá é disponibile solo online.",
     "userNotFound": "Utente non registrato",
     "nickNameExist": "Questo soprannome é giá registrato",
-    "defaultErr": "IT: Server operation failed"
+    "defaultErr": "Operazione fallita."
   },
   "offline": {
     "title": "Offline",
@@ -351,10 +351,27 @@
     }
   },
   "blacklist": {
-    "blacklist": "Utenti Bloccati"
+    "blacklist": "Utenti Bloccati",
+    "intro1": "Qui trovi la lista di utenti che hai bloccato in questa campagna",
+    "intro2": "Gli utenti che hai bloccato non potranno lanciarti delle sfide nella campagna Trento Play & Go, nè tu potrai sfidare loro",
+    "empty": "Non ci sono utenti bloccati per questa campagna"
   },
   "userprofile": {
-    "title": "Profilo utenti"
+    "title": "Profilo utenti",
+    "last_month": "Attività dell'ultimo mese",
+    "personal_stat_bike": " in bici",
+    "personal_stat_walk": " a piedi",
+    "personal_stat_bus": " in bus",
+    "personal_stat_train": " in treno",
+    "personal_stat_car": " in carpooling",
+    "personal_stat_boat": " in barca",
+    "empty": "Non sono statistiche da mostrare",
+    "last_week_position": "{{position}} ultima settimana",
+    "general_position": "{{position}} classifica generale",
+    "total_points": "{{points}} punti totali",
+    "won": "{{won}} vinte",
+    "add_blacklist": "Blocca inviti",
+    "remove_blacklist": "Sblocca inviti"
   },
   "challenges": {
     "challenges": "Sfide",

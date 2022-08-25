@@ -112,6 +112,11 @@ export class ChallengeService {
       shareReplay(1)
     );
   }
+  public getBlacklistByCampaign(
+    campaignId: string
+  ): Observable<Array<{ [key: string]: any }>> {
+    return this.challengeControllerService.getBlackListUsingGET(campaignId);
+  }
   public getActiveChallengesByCampaign(
     campaignId: string
   ): Observable<Challenge[]> {
@@ -148,5 +153,22 @@ export class ChallengeService {
       ),
       shareReplay(1)
     );
+  }
+
+  public removeBlacklist(campaignId: string, playerId: string) {
+    return this.challengeControllerService
+      .deleteFromBlackListUsingDELETE({
+        campaignId,
+        blockedPlayerId: playerId,
+      })
+      .toPromise();
+  }
+  public addBlacklist(campaignId: string, playerId: string) {
+    return this.challengeControllerService
+      .addToBlackListUsingPOST({
+        campaignId,
+        blockedPlayerId: playerId,
+      })
+      .toPromise();
   }
 }

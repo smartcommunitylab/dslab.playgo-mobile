@@ -18,6 +18,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  find,
   catchError,
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -31,6 +32,7 @@ import { UserService } from './user.service';
 import { ifOfflineUseStored } from '../utils';
 import { ErrorService } from './error.service';
 import { TranslateKey } from '../type.utils';
+import { CampaignInfo } from '../../api/generated/model/campaignInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -197,7 +199,9 @@ export class CampaignService {
   getCampaignDetailsById(id: string): Observable<Campaign> {
     return this.campaignControllerService.getCampaignUsingGET(id);
   }
-
+  getCampaignByPlayerId(id: string): Observable<CampaignInfo[]> {
+    return this.campaignControllerService.getCampaignsByPlayerUsingGET(id);
+  }
   getCompaniesForSubscription(
     campaignId: string
   ): Observable<CampaignSubscription> {
@@ -208,7 +212,14 @@ export class CampaignService {
       {}
     );
   }
-
+  getPersonalCampaign(): Observable<PlayerCampaign> {
+    return this.myCampaigns$.pipe(
+      map((campaigns) =>
+        campaigns.find((campaign) => campaign?.campaign?.type === 'personal')
+      ),
+      shareReplay(1)
+    );
+  }
   /** returns ionic "color". For example "danger" */
   getCampaignColor(campaign: Campaign): string {
     if (!campaign) {
