@@ -74,11 +74,19 @@
         </ion-row>
       </ion-grid>
     </div>
-    <div *ngIf="blacklisted$; else addblacklist">
-      <ion-button>{{ "userprofile.remove_blacklist" | translate }}</ion-button>
+    <div class="ion-text-center">
+      <ng-container *ngIf="blacklisted$ | async; else addblacklist">
+        <ion-button class="remove-button" (click)="removeBlacklist()">
+          <app-icon name="invitation" class="icon-size-normal"></app-icon
+          >{{ "userprofile.remove_blacklist" | translate }}</ion-button
+        >
+      </ng-container>
+      <ng-template #addblacklist>
+        <ion-button class="add-button" (click)="addBlacklist()">
+          <app-icon name="blacklist" class="icon-size-normal"></app-icon
+          >{{ "userprofile.add_blacklist" | translate }}</ion-button
+        >
+      </ng-template>
     </div>
-    <ng-template #addblacklist>
-      <ion-button>{{ "userprofile.add_blacklist" | translate }}</ion-button>
-    </ng-template>
   </ion-card-content>
 </ion-card>

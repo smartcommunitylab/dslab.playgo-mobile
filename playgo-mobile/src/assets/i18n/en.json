@@ -359,7 +359,9 @@
     "last_week_position": "{{position}} last week",
     "general_position": "{{position}} general ranking",
     "total_points": "{{points}} total points",
-    "won": "won {{won}}"
+    "won": "won {{won}}",
+    "add_blacklist": "Block invites",
+    "remove_blacklist": "Unlock invites"
   },
   "challenges": {
     "challenges": "Challenges",

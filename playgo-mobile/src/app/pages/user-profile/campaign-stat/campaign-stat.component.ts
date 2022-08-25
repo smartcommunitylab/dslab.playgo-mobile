@@ -1,11 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DateTime } from 'luxon';
-import { map, Observable } from 'rxjs';
+import {
+  map,
+  merge,
+  Observable,
+  ReplaySubject,
+  Subject,
+  switchMap,
+} from 'rxjs';
 import { CampaignInfo } from 'src/app/core/api/generated/model/campaignInfo';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import {
@@ -27,12 +36,20 @@ export class CampaignStatComponent implements OnInit {
   public reportWeek$: Observable<CampaignPlacing>;
   public reportTotal$: Observable<CampaignPlacing>;
   public blacklisted$: Observable<boolean>;
+  public blacklistRefresher$: Subject<void> = new ReplaySubject<void>(1);
+  private blacklistCouldBeChanged$ = merge(
+    this.authService.isReadyForApi$.pipe(map(() => ({ isFirst: true }))),
+    this.blacklistRefresher$.pipe(map(() => ({ isFirst: false })))
+  );
+
   // public points$
   constructor(
     private challengeService: ChallengeService,
     private reportService: ReportService,
     private translateService: TranslateService,
-    public campaignService: CampaignService
+    public campaignService: CampaignService,
+    private authService: AuthService,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
@@ -53,15 +70,41 @@ export class CampaignStatComponent implements OnInit {
       this.campaign?.campaignId,
       this.playerId
     );
-    this.blacklisted$ = this.challengeService
-      .getBlacklistByCampaign(this.campaign?.campaignId)
-      .pipe(
-        map((blacklist) =>
-          blacklist.map((user) => user.id).includes(this.playerId)
-        )
-      );
+    this.blacklisted$ = this.blacklistCouldBeChanged$.pipe(
+      switchMap(() =>
+        this.challengeService
+          .getBlacklistByCampaign(this.campaign?.campaignId)
+          .pipe(
+            map((blacklist) =>
+              blacklist.map((user) => user.id).includes(this.playerId)
+            )
+          )
+      )
+    );
   }
   typeChallenge(type: string) {
     return this.translateService.instant(getTypeStringChallenge(type));
+  }
+  async removeBlacklist() {
+    try {
+      const removed = await this.challengeService.removeBlacklist(
+        this.campaign.campaignId,
+        this.playerId
+      );
+      this.blacklistRefresher$.next();
+    } catch (e) {
+      this.errorService.handleError(e, 'normal');
+    }
+  }
+  async addBlacklist() {
+    try {
+      const removed = await this.challengeService.addBlacklist(
+        this.campaign.campaignId,
+        this.playerId
+      );
+      this.blacklistRefresher$.next();
+    } catch (e) {
+      this.errorService.handleError(e, 'normal');
+    }
   }
 }

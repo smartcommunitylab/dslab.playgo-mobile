@@ -154,4 +154,21 @@ export class ChallengeService {
       shareReplay(1)
     );
   }
+
+  public removeBlacklist(campaignId: string, playerId: string) {
+    return this.challengeControllerService
+      .addToBlackListUsingPOST({
+        campaignId,
+        blockedPlayerId: playerId,
+      })
+      .toPromise();
+  }
+  public addBlacklist(campaignId: string, playerId: string) {
+    return this.challengeControllerService
+      .deleteFromBlackListUsingDELETE({
+        campaignId,
+        blockedPlayerId: playerId,
+      })
+      .toPromise();
+  }
 }
