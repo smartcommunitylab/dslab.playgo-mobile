@@ -1,7 +1,7 @@
 <ion-header appHeader></ion-header>
 <ion-content [fullscreen]="true"
   ><app-icon name="blockUserColor" class="icon-size-big"></app-icon>
-  <div>{{'blacklist.intro'|translate}}</div>
+  <div>{{'blacklist.intro1'|translate}}</div>
   <div>{{'blacklist.intro2'|translate}}</div>
   <div *ngFor="let user of blacklist$|async">
     <ion-item> {{user.nickname}} </ion-item>

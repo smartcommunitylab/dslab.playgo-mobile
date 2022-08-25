@@ -351,7 +351,9 @@
     }
   },
   "blacklist": {
-    "blacklist": "Utenti Bloccati"
+    "blacklist": "Utenti Bloccati",
+    "intro1": "Qui trovi la lista di utenti che hai bloccato in questa campagna",
+    "intro2": "Gli utenti che hai bloccato non potranno lanciarti delle sfide nella campagna Trento Play & Go, nè tu potrai sfidare loro"
   },
   "userprofile": {
     "title": "Profilo utenti",
