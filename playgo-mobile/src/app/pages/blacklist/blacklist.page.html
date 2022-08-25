@@ -6,10 +6,19 @@
   <ng-container *ngIf="(blacklist$ | async)?.length > 0; else emptyStat">
     <div *ngFor="let user of blacklist$|async">
       <ion-item>
-        <ion-avatar>
-          <img [src]="user?.avatar?.url" />
-        </ion-avatar>
-        <span>{{user.nickname}}</span>
+        <div
+          [routerLink]="['/pages/user-profile/' + user.id + '/' + user.nickname] "
+        >
+          <ion-avatar>
+            <ng-container *ngIf="user?.avatar?.url; else defaultimg">
+              <img [src]="user?.avatar?.url" />
+            </ng-container>
+            <ng-template #defaultimg>
+              <img [src]="'assets/images/registration/generic_user.png'" />
+            </ng-template>
+          </ion-avatar>
+          <span>{{user.nickname}}</span>
+        </div>
         <ion-button
           class="remove-button"
           size="normal"

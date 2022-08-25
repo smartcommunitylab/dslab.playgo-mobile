@@ -7,6 +7,13 @@ ion-content {
     font-style: italic;
   }
   ion-item {
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+    }
     ion-button {
       app-icon {
         padding: 8px;
