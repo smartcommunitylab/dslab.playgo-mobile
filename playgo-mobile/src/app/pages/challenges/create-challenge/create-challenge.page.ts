@@ -1,7 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { find } from 'lodash-es';
-import { combineLatest, map, Observable, Subject, switchMap } from 'rxjs';
+import {
+  combineLatest,
+  firstValueFrom,
+  map,
+  Observable,
+  shareReplay,
+  Subject,
+  switchMap,
+} from 'rxjs';
 import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ChallengeChoice } from 'src/app/core/api/generated/model/challengeChoice';
@@ -134,54 +143,36 @@ export class CreateChallengePage implements OnInit {
 
   previewActive$ = new Subject<void>();
 
-  preview$: Observable<ChallengePreview> = combineLatest([
-    this.campaignId$,
-    this.selectedChallengeableId$,
-    this.selectedModelName$,
-    this.selectedPointConcept$,
-  ]).pipe(
-    switchMap((data) => this.previewActive$.pipe(map(() => data))),
-    switchMap(
-      ([
+  inviteParams$ = combineLatest({
+    campaignId: this.campaignId$,
+    selectedChallengeableId: this.selectedChallengeableId$,
+    selectedModelName: this.selectedModelName$,
+    selectedPointConcept: this.selectedPointConcept$,
+  }).pipe(
+    map(
+      ({
         campaignId,
         selectedChallengeableId,
         selectedModelName,
         selectedPointConcept,
-      ]) => {
-        console.log('Preview for:', {
-          campaignId,
-          selectedChallengeableId,
-          selectedModelName,
-          selectedPointConcept,
-        });
-        return this.challengeControllerService
-          .getGroupChallengePreviewUsingPOST({
-            campaignId,
-            body: {
-              attendeeId: selectedChallengeableId,
-              challengeModelName: selectedModelName,
-              challengePointConcept: selectedPointConcept,
-            },
-          })
-          .pipe(
-            this.errorService.getErrorHandler(),
-            map((x) => ({
-              description:
-                'Unite le forze e fate almeno 10 km in bici. Se vincete la sfida, sia tu che user1 otterrete un bonus di 100 green leaves.',
-              longDescription:
-                'Se riuscirete a fare almeno 10 km in bici, sommando i km fatti da te e da user1, vi aggiudicherete la sfida e vincerete entrambi il premio di 100 green leaves.',
-              params: {
-                challengeTarget: 10.0,
-                challengerBonusScore: 100.0,
-                opponent: 'user1',
-                reward: 100.0,
-                rewardBonusScore: 100.0,
-                target: 10.0,
-              },
-            })),
-            castTo<ChallengePreview>()
-          );
-      }
+      }) => ({
+        campaignId,
+        body: {
+          attendeeId: selectedChallengeableId,
+          challengeModelName: selectedModelName,
+          challengePointConcept: selectedPointConcept,
+        },
+      })
+    ),
+    shareReplay(1)
+  );
+
+  preview$: Observable<ChallengePreview> = this.inviteParams$.pipe(
+    switchMap((data) => this.previewActive$.pipe(map(() => data))),
+    switchMap((inviteParams) =>
+      this.challengeControllerService
+        .getGroupChallengePreviewUsingPOST(inviteParams)
+        .pipe(this.errorService.getErrorHandler(), castTo<ChallengePreview>())
     )
   );
 
@@ -193,13 +184,27 @@ export class CreateChallengePage implements OnInit {
     private challengeControllerService: ChallengeControllerService,
     private reportService: ReportService,
     private errorService: ErrorService,
-    private userService: UserService
+    private userService: UserService,
+    private navController: NavController,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {}
 
   async onInvite() {
     console.log('Invite!');
+    const inviteParams = await firstValueFrom(this.inviteParams$);
+    try {
+      const invitation = await firstValueFrom(
+        this.challengeControllerService.sendInvitationUsingPOST(inviteParams)
+      );
+      await this.alertService.presentAlert({
+        messageString: JSON.stringify(invitation),
+      });
+      this.navController.navigateBack('pages/tabs/challenges');
+    } catch (e) {
+      this.errorService.handleError(e);
+    }
   }
 }
 export interface ChallengeModelOptions {
