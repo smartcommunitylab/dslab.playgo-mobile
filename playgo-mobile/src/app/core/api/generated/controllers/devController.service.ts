@@ -35,12 +35,17 @@ export class DevControllerService {
   /**
    * addStats
    *
+   * @param tracksNum tracksNum
    */
-  public addStatsUsingPOST(): Observable<any> {
+  public addStatsUsingPOST(tracksNum: number): Observable<any> {
     return this.http.request<any>(
       'post',
       environment.serverUrl.api + `/playandgo/api/dev/stats`,
-      {}
+      {
+        params: removeNullOrUndefined({
+          tracksNum,
+        }),
+      }
     );
   }
 
