@@ -14,9 +14,9 @@ import { OtherAttendeeData } from './otherAttendeeData';
 export interface ChallengesData {
   active?: boolean;
   bonus?: number;
-  challCompleteDesc?: string;
+  challCompleteDesc?: { [key: string]: string };
   challCompletedDate?: number;
-  challDesc?: string;
+  challDesc?: { [key: string]: string };
   challId?: string;
   challTarget?: number;
   daysToEnd?: number;
