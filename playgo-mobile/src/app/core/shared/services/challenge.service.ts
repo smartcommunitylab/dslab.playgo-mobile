@@ -114,7 +114,7 @@ export class ChallengeService {
   }
   public getBlacklistByCampaign(
     campaignId: string
-  ): Observable<Array<{ [key: string]: string }>> {
+  ): Observable<Array<{ [key: string]: any }>> {
     return this.challengeControllerService.getBlackListUsingGET(campaignId);
   }
   public getActiveChallengesByCampaign(

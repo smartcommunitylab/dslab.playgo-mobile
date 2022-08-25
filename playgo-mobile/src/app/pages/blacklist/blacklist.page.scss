@@ -1,0 +1,30 @@
+ion-content {
+  text-align: center;
+  .intro1 {
+    font-weight: bold;
+  }
+  .intro2 {
+    font-style: italic;
+  }
+  ion-item {
+    ion-button {
+      app-icon {
+        padding: 8px;
+      }
+    }
+    span {
+      margin-left: 16px;
+    }
+  }
+  .empty-blacklist {
+    margin: auto;
+    padding: 8px;
+    font-size: 20px;
+    text-align: center;
+    -ms-transform: translateY(-50%);
+  }
+  .remove-button {
+    margin-left: auto;
+    --background: rgba(53, 150, 117, 1);
+  }
+}

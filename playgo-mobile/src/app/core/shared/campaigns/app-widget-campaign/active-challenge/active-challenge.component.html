@@ -7,7 +7,10 @@
             [name]="imgChallenge(challenge.type)"
             class="challenge-icon icon-size-big"
           ></app-icon></ion-col
-        ><ion-col><p [innerHTML]="challenge.challDesc"></p></ion-col></ion-row
+        ><ion-col
+          ><p
+            [innerHTML]="challenge.challDesc | languageMap"
+          ></p></ion-col></ion-row
     ></ion-grid>
   </ion-card-header>
   <ion-card-content>
