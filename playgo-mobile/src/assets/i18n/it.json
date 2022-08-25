@@ -425,7 +425,15 @@
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
     },
     "challenge_mean": {
-      "title": "Come preferisci affrontare la sfida?"
+      "title": "Come preferisci affrontare la sfida?",
+      "label": {
+        "Bike_Km": "Km in bici",
+        "Walk_Km": "Km a piedi",
+        "Boat_Km": "Km in barca",
+        "Bus_Km": "Km in bus",
+        "Car_Km": "Km in macchina",
+        "Train_Km": "Km in treno"
+      }
     }
   },
   "outof": "{{current}} su {{total}}",

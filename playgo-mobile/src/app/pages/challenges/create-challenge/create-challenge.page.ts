@@ -13,6 +13,7 @@ import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import {
+  TransportType,
   transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
@@ -89,13 +90,13 @@ export class CreateChallengePage implements OnInit {
       const gameInfo: MeanOrGameInfo = {
         isMean: false,
         icon: this.campaignService.getCampaignScoreIcon(campaign),
-        name: 'game',
+        name: POINT_CONCEPT_GAME,
         title: this.campaignService.getCampaignScoreLabel(campaign),
       };
       const meansInfos: MeanOrGameInfo[] = means.map((mean) => ({
         isMean: true,
         icon: transportTypeIcons[mean],
-        name: mean,
+        name: meanToPointConcept[mean],
         title: transportTypeLabels[mean],
       }));
       return [gameInfo, ...meansInfos];
@@ -202,9 +203,31 @@ export interface ChallengeModelOptions {
   available: boolean;
   availableFromLevel: number;
 }
+
+export type PointConceptMean =
+  | 'Bike_Km'
+  | 'Walk_Km'
+  | 'Boat_Km'
+  | 'Bus_Km'
+  | 'Car_Km'
+  | 'Train_Km';
+
+export const POINT_CONCEPT_GAME = 'Green_Leaves';
+
+export type PointConcept = PointConceptMean | typeof POINT_CONCEPT_GAME;
+
+export const meanToPointConcept: Record<TransportType, PointConceptMean> = {
+  bike: 'Bike_Km',
+  walk: 'Walk_Km',
+  boat: 'Boat_Km',
+  bus: 'Bus_Km',
+  car: 'Car_Km',
+  train: 'Train_Km',
+};
+
 export type MeanOrGameInfo = {
   isMean: boolean;
-  name: string;
+  name: PointConcept;
   icon: string;
   title: TranslateKey;
 };
