@@ -4,11 +4,9 @@ import { AppStatusService } from 'src/app/core/shared/services/app-status.servic
 import * as internalGitInfo from 'src/assets/git-version.json';
 import { environment } from 'src/environments/environment';
 import { Preferences } from '@capacitor/preferences';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 
-const gitInfo = internalGitInfo as unknown as {
-  raw: string;
-  hash: string;
-};
+const gitInfo = internalGitInfo as unknown as GitInfo;
 
 @Component({
   selector: 'app-about-modal',
@@ -20,20 +18,30 @@ export class AboutModalComponent implements OnInit {
   angularBuildConfiguration = environment.production
     ? 'Production'
     : 'Development';
-  javaAppInfo = '';
+  javaBuildCommit = '';
 
   constructor(
     private modalController: ModalController,
-    public appStatusService: AppStatusService
+    public appStatusService: AppStatusService,
+    private errorService: ErrorService
   ) {}
 
   async ngOnInit() {
-    await Preferences.configure({ group: 'gitInfo' });
-    const info = await Preferences.get({ key: 'hash' });
-    this.javaAppInfo = info.value;
-    console.log('Preferences', info);
+    try {
+      await Preferences.configure({ group: 'buildInfo' });
+      const javaInfoJson = await Preferences.get({ key: 'gitInfo' });
+      const javaInfo: GitInfo = JSON.parse(javaInfoJson.value);
+      this.javaBuildCommit = javaInfo.raw || javaInfo.hash || '-';
+    } catch (e) {
+      this.errorService.handleError(e, 'silent');
+    }
   }
   close() {
     this.modalController.dismiss();
   }
+}
+
+interface GitInfo {
+  raw: string;
+  hash: string;
 }

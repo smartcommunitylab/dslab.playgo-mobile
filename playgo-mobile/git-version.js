@@ -8,3 +8,4 @@ var gitInfo = gitDescribeSync();
 var versionInfoJson = JSON.stringify(gitInfo, null, 2);
 
 writeFileSync("src/assets/git-version.json", versionInfoJson);
+writeFileSync("android/app/src/main/assets/git-version.json", versionInfoJson);
