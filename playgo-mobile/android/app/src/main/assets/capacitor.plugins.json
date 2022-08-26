@@ -64,6 +64,10 @@
 		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
 	},
 	{
+		"pkg": "@capacitor/preferences",
+		"classpath": "com.capacitorjs.plugins.preferences.PreferencesPlugin"
+	},
+	{
 		"pkg": "@transistorsoft/capacitor-background-fetch",
 		"classpath": "com.transistorsoft.bgfetch.capacitor.BackgroundFetchPlugin"
 	},

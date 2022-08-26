@@ -69,6 +69,7 @@
     "@capacitor/splash-screen": "^1.2.2",
     "@capacitor/status-bar": "1.0.8",
     "@capacitor/storage": "^1.2.5",
+    "@capacitor/preferences": "4.0.0",
     "@googlemaps/polyline-codec": "^1.0.26",
     "@ionic/angular": "^6.1.4",
     "@ngx-translate/core": "^14.0.0",
