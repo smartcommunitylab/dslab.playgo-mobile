@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
 
 @Component({
   selector: 'app-about-modal',
@@ -7,7 +8,10 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./about-modal.component.scss'],
 })
 export class AboutModalComponent implements OnInit {
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    public appStatusService: AppStatusService
+  ) {}
 
   ngOnInit() {}
   close() {

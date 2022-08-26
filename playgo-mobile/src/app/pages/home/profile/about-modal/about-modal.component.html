@@ -7,4 +7,28 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="playgo"> </ion-content>
+<ion-content color="playgo">
+  <ion-grid>
+    <ion-row>
+      <ion-col>App Version</ion-col>
+      <ion-col>{{ appStatusService.version$ | async }} </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Code push label</ion-col>
+      <ion-col>{{ appStatusService.codePushLabel$ | async }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Code push chanel</ion-col>
+      <ion-col> production / staging </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Code push commit</ion-col> <ion-col> abc5</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Angular build version</ion-col> <ion-col> dev/prod</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>App build commit</ion-col> <ion-col> abc1</ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
