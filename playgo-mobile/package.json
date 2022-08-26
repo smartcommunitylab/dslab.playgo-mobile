@@ -30,6 +30,7 @@
     "code-push:ios:history:stage": "code-push deployment history it.dslab.playgo-ios Staging",
     "build": "node git-version.js && node check-node-version.js && ng build",
     "ionic:build:before": "node git-version.js && node check-node-version.js",
+    "ionic:build:after": "echo {} > src/assets/git-version.json",
     "e2e": "ng e2e",
     "test": "ng test",
     "lint": "ng lint",
