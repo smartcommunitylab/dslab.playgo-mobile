@@ -73,6 +73,19 @@
       </ion-button>
     </ion-col>
   </ion-row>
+  <ion-row>
+    <ion-col text-center>
+      <ion-button
+        expand="block"
+        color="playgo"
+        size="large"
+        (click)="openAbout()"
+      >
+        <ion-icon slot="end" name="exit"></ion-icon>
+        <span class="button-left-icon">{{'profile.about'|translate}}</span>
+      </ion-button>
+    </ion-col>
+  </ion-row>
   <!-- <ion-row>
     <ion-col text-center>
       <ion-button expand="block" color="danger" size="large">
