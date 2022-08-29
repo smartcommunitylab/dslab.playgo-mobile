@@ -2,7 +2,7 @@ import { DeviceInfo } from '@capacitor/device';
 import { getMockMethodAnnotation } from './mock-utils';
 
 const mockMethod = getMockMethodAnnotation({
-  doLog: true,
+  doLog: false,
   logPrefix: 'DevicePluginMock',
 });
 

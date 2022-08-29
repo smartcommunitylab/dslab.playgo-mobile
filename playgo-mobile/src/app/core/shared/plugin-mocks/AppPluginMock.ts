@@ -2,7 +2,7 @@ import { App, AppInfo } from '@capacitor/app';
 import { getMockMethodAnnotation } from './mock-utils';
 
 const mockMethod = getMockMethodAnnotation({
-  doLog: true,
+  doLog: false,
   logPrefix: 'AppPluginMock',
 });
 

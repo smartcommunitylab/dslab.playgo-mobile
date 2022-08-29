@@ -1,10 +1,9 @@
-import { DeviceInfo } from '@capacitor/device';
 import { ILocalPackage } from 'capacitor-codepush/dist/esm/package';
 import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
 import { getMockMethodAnnotation } from './mock-utils';
 
 const mockMethod = getMockMethodAnnotation({
-  doLog: true,
+  doLog: false,
   logPrefix: 'CodePushPluginMock',
 });
 
