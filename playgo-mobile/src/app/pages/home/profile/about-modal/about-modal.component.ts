@@ -19,6 +19,7 @@ export class AboutModalComponent implements OnInit {
     ? 'Production'
     : 'Development';
   javaBuildCommit = '';
+  codePushChannel = '';
 
   constructor(
     private modalController: ModalController,
@@ -32,6 +33,9 @@ export class AboutModalComponent implements OnInit {
       const javaInfoJson = await Preferences.get({ key: 'gitInfo' });
       const javaInfo: GitInfo = JSON.parse(javaInfoJson.value);
       this.javaBuildCommit = javaInfo.raw || javaInfo.hash || '-';
+      this.codePushChannel = (
+        await Preferences.get({ key: 'codePushChannel' })
+      ).value;
     } catch (e) {
       this.errorService.handleError(e, 'silent');
     }
