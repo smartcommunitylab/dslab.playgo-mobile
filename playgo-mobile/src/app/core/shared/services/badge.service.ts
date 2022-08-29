@@ -3,6 +3,7 @@ import { GameControllerService } from '../../api/generated/controllers/gameContr
 import { BadgeConcept } from '../../api/generated/model/badgeConcept';
 import { BadgesData } from '../../api/generated/model/badgesData';
 import { AuthService } from '../../auth/auth.service';
+import { ErrorService } from './error.service';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -16,16 +17,20 @@ export class BadgeService {
   constructor(
     private localStorageService: LocalStorageService,
     private authService: AuthService,
-    private gameControllerService: GameControllerService
+    private gameControllerService: GameControllerService,
+    private errorService: ErrorService
   ) {}
 
   init() {
     this.authService.isReadyForApi$.subscribe(() => {
       //update all badges and store in local storage
-      this.gameControllerService.getAllBadgesUsingGET().subscribe((badges) => {
-        console.log(badges);
-        this.allBadgesStorage.set(badges);
-      });
+      this.gameControllerService
+        .getAllBadgesUsingGET()
+        .pipe(this.errorService.getErrorHandler('silent'))
+        .subscribe((badges) => {
+          console.log(badges);
+          this.allBadgesStorage.set(badges);
+        });
     });
   }
   public getBadgeByKey(key: string): BadgesData {

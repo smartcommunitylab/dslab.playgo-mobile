@@ -47,9 +47,14 @@ export class AppComponent implements AfterContentInit {
   }
   pushInit() {
     this.authService.isReadyForApi$.subscribe(() => {
-      //init push notification setup after login
-      this.notificationService.initPush();
       console.log('Initializing HomePage');
+
+      //init push notification setup after login
+      try {
+        this.notificationService.initPush();
+      } catch (error) {
+        console.error('initPush error:', error);
+      }
     });
   }
   async codePushSync() {
