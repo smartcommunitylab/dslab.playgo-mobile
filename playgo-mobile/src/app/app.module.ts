@@ -13,11 +13,13 @@ import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocat
 import { BackgroundGeolocationMock } from './core/shared/plugin-mocks/BackgroundGeolocationMock';
 import { App } from '@capacitor/app';
 import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
+import { codePush } from 'capacitor-codepush';
 import { GlobalErrorHandler } from './core/shared/services/global-error-handler';
 import { Device } from '@capacitor/device';
 import { DevicePluginMock } from './core/shared/plugin-mocks/DevicePluginMock';
 import localeItalian from '@angular/common/locales/it';
 import { registerLocaleData } from '@angular/common';
+import { CodePushPluginMock } from './core/shared/plugin-mocks/CodePushPluginMock';
 registerLocaleData(localeItalian);
 
 export function createTranslateLoader(http: HttpClient) {
@@ -56,6 +58,10 @@ export function createTranslateLoader(http: HttpClient) {
     {
       provide: 'DevicePlugin',
       useFactory: () => (useMock() ? DevicePluginMock : Device),
+    },
+    {
+      provide: 'CodePushPlugin',
+      useFactory: () => (useMock() ? CodePushPluginMock : codePush),
     },
     {
       provide: ErrorHandler,

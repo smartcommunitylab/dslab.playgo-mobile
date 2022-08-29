@@ -1,7 +1,7 @@
 import { App as AppPluginInternal, AppInfo } from '@capacitor/app';
 import { Device as DevicePluginInternal } from '@capacitor/device';
 import { Inject, Injectable } from '@angular/core';
-import { codePush } from 'capacitor-codepush';
+import { codePush as CodePushPluginInternal } from 'capacitor-codepush';
 import {
   combineLatest,
   of,
@@ -41,8 +41,8 @@ export class AppStatusService {
   public codePushLabel$: Observable<string> = this.syncFinished$.pipe(
     switchMap(() =>
       combineLatest([
-        codePush.getCurrentPackage(),
-        codePush.getPendingPackage(),
+        this.codePushPlugin.getCurrentPackage(),
+        this.codePushPlugin.getPendingPackage(),
       ])
     ),
     map(
@@ -57,7 +57,9 @@ export class AppStatusService {
     @Inject('AppPlugin')
     private appPlugin: typeof AppPluginInternal,
     @Inject('DevicePlugin')
-    private devicePlugin: typeof DevicePluginInternal
+    private devicePlugin: typeof DevicePluginInternal,
+    @Inject('CodePushPlugin')
+    private codePushPlugin: typeof CodePushPluginInternal
   ) {}
 
   codePushSyncFinished() {
