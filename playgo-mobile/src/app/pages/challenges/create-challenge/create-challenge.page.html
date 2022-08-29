@@ -4,7 +4,10 @@
   <app-wizard
     *ngIf="campaign$ | async as campaign"
     [title]="campaign.name | languageMap"
+    [backButton]="false"
     [ngClass]="'ion-color-' + getCampaignColor(campaign)"
+    [finishButtonLabel]="'challenges.create.invite'|translate"
+    (finish)="onInvite()"
   >
     <app-wizard-step
       title="challenges.create.choose_type"
@@ -30,12 +33,25 @@
         (selectedMean)="selectedPointConcept$.next($event)"
       ></app-select-challenge-mean>
     </app-wizard-step>
-    <app-wizard-step title="challenges.create.choose_partner">
-      step 3
+    <app-wizard-step
+      title="challenges.create.choose_partner"
+      [validForNextStep]="(selectedChallengeableId$| async) !== null"
+    >
+      <app-select-challengeable
+        [availableChallengeables]="challengeables$ | async"
+        (selectedChallengeable)="selectedChallengeableId$.next($event)"
+      ></app-select-challengeable>
     </app-wizard-step>
-    <app-wizard-step title="challenges.create.activate">
-      <div>pointConcept: {{selectedPointConcept$ | async}}</div>
-      <div>modelName: {{selectedModelName$ | async}}</div>
+    <app-wizard-step
+      title="challenges.create.activate"
+      (activated)="previewActive$.next()"
+    >
+      <app-challenge-preview
+        [challengeModelName]="selectedModelName$ | async"
+        [pointConcept]="selectedPointConcept$ | async"
+        [challengeable]="selectedChallengeable$ | async"
+        [preview]="preview$ | async"
+      ></app-challenge-preview>
     </app-wizard-step>
   </app-wizard>
 </ion-content>

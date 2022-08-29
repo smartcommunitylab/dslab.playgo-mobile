@@ -1,0 +1,52 @@
+<ng-container *ngIf="preview">
+  <ion-grid>
+    <ion-row class="ion-margin-top">
+      <ion-col class="text-bold ion-text-center">{{
+        preview.description | languageMap
+      }}</ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-around ion-margin-top">
+      <ion-col size="auto" class="ion-text-center">
+        <ion-avatar>
+          <img [src]="avatarUrl$ | async" />
+        </ion-avatar>
+        {{ "challenges.create.preview.you" | translate }}
+      </ion-col>
+      <ion-col size="auto" class="ion-text-center">
+        <ion-avatar>
+          <img [src]="challengeable.avatarUrl" />
+        </ion-avatar>
+        {{ challengeable.nickname }}
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-top">
+      <ion-col class="ion-text-left">{{
+        "challenges.create.preview.model" | translate
+      }}</ion-col>
+      <ion-col class="ion-text-right text-bold">{{
+        "challenges.challenge_model.name." + challengeModelName | translate
+      }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-left">{{
+        "challenges.create.preview.mean" | translate
+      }}</ion-col>
+      <ion-col class="ion-text-right text-bold">{{
+        "challenges.challenge_mean.label." + pointConcept | translate
+      }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-left">{{
+        "challenges.create.preview.challengeable" | translate
+      }}</ion-col>
+      <ion-col class="ion-text-right text-bold">{{
+        challengeable.nickname
+      }}</ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-top">
+      <ion-col class="text-italic">{{
+        preview.longDescription | languageMap
+      }}</ion-col>
+    </ion-row>
+  </ion-grid>
+</ng-container>

@@ -1,0 +1,18 @@
+<ion-item
+  *ngFor="let user of availableChallengeables"
+  class="user"
+  [class.selected]="user.id === selectedChallengeableId"
+  (click)="selectChallengeable(user)"
+>
+  <ion-avatar>
+    <img [src]="user.avatarUrl" />
+  </ion-avatar>
+  <ion-label>
+    {{ user.nickname }}
+  </ion-label>
+  <ion-icon
+    color="success"
+    name="checkmark"
+    *ngIf="user.id === selectedChallengeableId"
+  ></ion-icon>
+</ion-item>

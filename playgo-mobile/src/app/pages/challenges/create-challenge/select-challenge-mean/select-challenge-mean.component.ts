@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TranslateKey } from 'src/app/core/shared/type.utils';
+import { MeanOrGameInfo } from '../create-challenge.page';
 
 @Component({
   selector: 'app-select-challenge-mean',
@@ -22,10 +22,3 @@ export class SelectChallengeMeanComponent implements OnInit {
     this.selectedMean.emit(this.selectedMeanName);
   }
 }
-
-export type MeanOrGameInfo = {
-  isMean: boolean;
-  name: string;
-  icon: string;
-  title: TranslateKey;
-};

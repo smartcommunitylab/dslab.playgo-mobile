@@ -163,6 +163,11 @@ export function asyncFilter<T>(
   );
 }
 
+export function castTo<TO>() {
+  return <FROM>(source: Observable<FROM>) =>
+    source as unknown as Observable<TO>;
+}
+
 export function getDebugStack(): string {
   return new Error().stack || 'stack not available';
 }

@@ -133,6 +133,9 @@ export class AlertService {
   public async dismissLoading() {}
 
   private async translate(key: TranslateKeyWithParams): Promise<string> {
+    if (!key) {
+      return '';
+    }
     const translated = await this.translateService
       .get(...normalizeTranslateKey(key))
       .toPromise();

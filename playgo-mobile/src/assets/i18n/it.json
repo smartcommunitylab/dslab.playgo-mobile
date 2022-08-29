@@ -1,4 +1,5 @@
 {
+  "---comment cSpell:locale it,en ": null,
   "helloWorld": "Ciao mondo",
   "homeTtle": "Play&Go",
   "profileTitle": "Profilo",
@@ -399,7 +400,14 @@
       "choose_type": "Scegli typologia sfida",
       "choose_metric": "Scegli metrica sfida",
       "choose_partner": "Scegli compangno",
-      "activate": "Attiva sfida"
+      "activate": "Attiva sfida",
+      "invite": "INVITA",
+      "preview": {
+        "model": "Tipo:",
+        "mean": "Modalità selezionata:",
+        "challengeable": "Giocatore da sfidare:",
+        "you": "Tu"
+      }
     },
     "challenge_model": {
       "title": "Che tipo di sfida vuoi creare?",
@@ -418,8 +426,20 @@
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
     },
     "challenge_mean": {
-      "title": "Come preferisci affrontare la sfida?"
+      "title": "Come preferisci affrontare la sfida?",
+      "label": {
+        "Bike_Km": "Km in bici",
+        "Walk_Km": "Km a piedi",
+        "Boat_Km": "Km in barca",
+        "Bus_Km": "Km in bus",
+        "Car_Km": "Km in macchina",
+        "Train_Km": "Km in treno"
+      }
     }
+  },
+  "wizard": {
+    "next": "Avanti",
+    "back": "Indietro"
   },
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",

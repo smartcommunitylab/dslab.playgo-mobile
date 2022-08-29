@@ -10,6 +10,10 @@
   background-color: var(--ion-color-lighter);
   border-radius: 10px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   // margin: 10px;
   &.disabled {
     border-color: gray;
@@ -18,6 +22,8 @@
     border-width: 4px;
   }
   app-icon {
-    font-size: 30px;
+    font-size: 56px;
+    // outline: 1px solid red;
+    line-height: 100%;
   }
 }
