@@ -263,9 +263,16 @@ export class UserService {
 
     this.userProfile = user;
     await this.processUser(user);
-    // store user with avatar
-    this.userStorage.set(user);
+    this.storeUserInLocalStorage(user);
     return user;
+  }
+
+  private storeUserInLocalStorage(userWithAvatar: IUser) {
+    const lastStoredUser = this.userStorage.get();
+    if (lastStoredUser && lastStoredUser.playerId !== userWithAvatar.playerId) {
+      this.localStorageService.clearAll();
+    }
+    this.userStorage.set(userWithAvatar);
   }
 
   /**
