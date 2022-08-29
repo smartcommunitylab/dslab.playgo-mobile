@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { AfterContentInit, Component } from '@angular/core';
+import { AfterContentInit, Component, Inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
-import { codePush } from 'capacitor-codepush';
+import { codePush as CodePushPluginInternal } from 'capacitor-codepush';
 import { environment } from 'src/environments/environment';
 import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
 import { AppStatusService } from './core/shared/services/app-status.service';
@@ -27,7 +27,9 @@ export class AppComponent implements AfterContentInit {
     private iconService: IconService,
     private authService: AuthService,
     private notificationService: NotificationService,
-    private badgeService: BadgeService
+    private badgeService: BadgeService,
+    @Inject('CodePushPlugin')
+    private codePushPlugin: typeof CodePushPluginInternal
   ) {
     this.initializeApp();
   }
@@ -61,7 +63,7 @@ export class AppComponent implements AfterContentInit {
     try {
       let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';
       if (environment.useCodePush) {
-        syncStatus = await codePush.sync({});
+        syncStatus = await this.codePushPlugin.sync({});
       }
       console.log('codePushSync syncStatus:', syncStatus);
     } catch (error) {
