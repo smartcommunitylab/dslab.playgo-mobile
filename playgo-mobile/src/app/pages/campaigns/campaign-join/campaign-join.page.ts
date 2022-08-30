@@ -144,7 +144,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         joinable = true;
         break;
       case 'school':
-        joinable = false;
+        joinable = true;
         break;
       case 'company':
         joinable = true;

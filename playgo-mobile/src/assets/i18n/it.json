@@ -263,6 +263,7 @@
         "weekposition": "{{position}} in classifica settimanale",
         "totalposition": "{{position}} in classifica complessiva",
         "weekvalue": "{{value}}  settimanale",
+        "monthvalue": "{{value}}  mensile",
         "totalvalue": "{{value}} complessivo",
         "levelName": "Livello : {{levelName}}",
         "score": "Punti: {{score}}",

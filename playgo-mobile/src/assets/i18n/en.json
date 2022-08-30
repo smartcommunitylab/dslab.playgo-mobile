@@ -262,6 +262,7 @@
         "weekposition": "{{position}} weekly position",
         "totalposition": "{{position}} total position",
         "weekvalue": "{{value}} weekly value",
+        "monthvalue": "{{value}} monthly value",
         "totalvalue": "{{value}} total value",
         "levelName": "Level : {{levelName}}",
         "score": "Points: {{score}}",
