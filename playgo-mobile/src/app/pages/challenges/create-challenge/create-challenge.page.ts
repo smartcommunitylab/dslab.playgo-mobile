@@ -81,8 +81,7 @@ export class CreateChallengePage implements OnInit {
         )?.state;
         return {
           ...challengeModel,
-          // TODO: how to display 'ACTIVE'?
-          available: serverState === 'AVAILABLE' || serverState === 'ACTIVE',
+          available: serverState === 'ACTIVE',
         };
       });
       return allWithAvailableInfo;
@@ -102,12 +101,14 @@ export class CreateChallengePage implements OnInit {
         name: POINT_CONCEPT_GAME,
         title: this.campaignService.getCampaignScoreLabel(campaign),
       };
-      const meansInfos: MeanOrGameInfo[] = means.map((mean) => ({
-        isMean: true,
-        icon: transportTypeIcons[mean],
-        name: meanToPointConcept[mean],
-        title: transportTypeLabels[mean],
-      }));
+      const meansInfos: MeanOrGameInfo[] = means
+        .filter((mean) => meanToPointConcept[mean])
+        .map((mean) => ({
+          isMean: true,
+          icon: transportTypeIcons[mean],
+          name: meanToPointConcept[mean],
+          title: transportTypeLabels[mean],
+        }));
       return [gameInfo, ...meansInfos];
     })
   );
@@ -213,25 +214,26 @@ export interface ChallengeModelOptions {
   availableFromLevel: number;
 }
 
-export type PointConceptMean =
-  | 'Bike_Km'
-  | 'Walk_Km'
-  | 'Boat_Km'
-  | 'Bus_Km'
-  | 'Car_Km'
-  | 'Train_Km';
+export type PointConceptMean = 'Bike_Km' | 'Walk_Km';
+// | 'Boat_Km'
+// | 'Bus_Km'
+// | 'Car_Km'
+// | 'Train_Km';
 
 export const POINT_CONCEPT_GAME = 'Green_Leaves';
 
 export type PointConcept = PointConceptMean | typeof POINT_CONCEPT_GAME;
 
-export const meanToPointConcept: Record<TransportType, PointConceptMean> = {
+export const meanToPointConcept: Record<
+  TransportType,
+  PointConceptMean | null
+> = {
   bike: 'Bike_Km',
   walk: 'Walk_Km',
-  boat: 'Boat_Km',
-  bus: 'Bus_Km',
-  car: 'Car_Km',
-  train: 'Train_Km',
+  boat: null,
+  bus: null,
+  car: null,
+  train: null,
 };
 
 export type MeanOrGameInfo = {
