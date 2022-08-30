@@ -7,14 +7,12 @@ import {
 } from '@angular/core';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { NavController } from '@ionic/angular';
-import { DateTime } from 'luxon';
-import { catchError, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Territory } from 'src/app/core/api/generated/model/territory';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { CampaignService } from '../../services/campaign.service';
 import { ErrorService } from '../../services/error.service';
-import { fromServerDate, getServerTimeZone } from '../../time.utils';
 import { readAsBase64 } from '../../utils';
 
 @Component({
