@@ -380,6 +380,7 @@
   },
   "challenges": {
     "challenges": "Sfide",
+    "empty": "Non ci sono sfide da mostrare",
     "past": "Passate",
     "present": "Presenti",
     "future": "Future",

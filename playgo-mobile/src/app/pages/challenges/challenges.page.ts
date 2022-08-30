@@ -18,6 +18,8 @@ export class ChallengesPage implements OnInit, OnDestroy {
   subCampaignFutureChall: Subscription;
   subCampaignActiveChall: Subscription;
   campaignsWithChallenges: PlayerCampaign[] = [];
+  thereAreChallengeActive = false;
+  thereAreChallengeFuture = false;
   activeChallenges: any = {};
   futureChallenges: any = {};
   // public pastChallenges$: Observable<Challenge[]> =
@@ -55,6 +57,11 @@ export class ChallengesPage implements OnInit, OnDestroy {
           ),
           {}
         );
+        if (challenges.length > 0) {
+          this.thereAreChallengeActive = true;
+        } else {
+          this.thereAreChallengeActive = false;
+        }
       });
     this.subCampaignFutureChall =
       this.challengeService.futureChallenges$.subscribe((challenges) => {
@@ -66,6 +73,11 @@ export class ChallengesPage implements OnInit, OnDestroy {
           ),
           {}
         );
+        if (challenges.length > 0) {
+          this.thereAreChallengeFuture = true;
+        } else {
+          this.thereAreChallengeFuture = false;
+        }
       });
   }
 
