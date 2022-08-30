@@ -48,7 +48,7 @@ export class HeaderContentComponent implements OnInit, OnDestroy {
     this.notificationService.unreadAnnouncementNotifications$.pipe(
       tap((notifications) => {
         this.numberOfNotification = notifications.length;
-        // this.cdRef.detectChanges();
+        this.cdRef.detectChanges();
       })
     );
   subunread: Subscription;
@@ -57,6 +57,7 @@ export class HeaderContentComponent implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private appStatusService: AppStatusService,
     private router: Router,
+    private cdRef: ChangeDetectorRef,
     private notificationService: NotificationService,
     public pageSettingsService: PageSettingsService
   ) {}
