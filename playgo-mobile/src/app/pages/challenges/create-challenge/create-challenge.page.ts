@@ -81,8 +81,7 @@ export class CreateChallengePage implements OnInit {
         )?.state;
         return {
           ...challengeModel,
-          // TODO: how to display 'ACTIVE'?
-          available: serverState === 'AVAILABLE' || serverState === 'ACTIVE',
+          available: serverState === 'ACTIVE',
         };
       });
       return allWithAvailableInfo;
