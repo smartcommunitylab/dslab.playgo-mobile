@@ -14,6 +14,7 @@ import {
 } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DeviceInfo } from '@capacitor/device';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -45,12 +46,16 @@ export class AppStatusService {
         this.codePushPlugin.getPendingPackage(),
       ])
     ),
-    map(
-      ([currentPackage, pendingPackage]) =>
-        `${currentPackage?.label || '-'}${
-          pendingPackage ? ` (pending: ${pendingPackage.label})` : ''
-        }`
-    )
+    map(([currentPackage, pendingPackage]) => {
+      const hotCodePushLabel =
+        currentPackage?.label || environment.useCodePush
+          ? '-'
+          : '(code push disabled)';
+
+      return `${hotCodePushLabel}${
+        pendingPackage ? ` (pending: ${pendingPackage.label})` : ''
+      }`;
+    })
   );
 
   constructor(

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title>{{ "profile.about" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="playgo">
+  <ion-grid>
+    <ion-row>
+      <ion-col>App Version</ion-col>
+      <ion-col>{{ appStatusService.version$ | async }} </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Code push label</ion-col>
+      <ion-col>{{ appStatusService.codePushLabel$ | async }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Code push chanel</ion-col>
+      <ion-col>{{ codePushChannel }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Angular build commit</ion-col>
+      <ion-col>{{ angularBuildCommit }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>Angular Build Configuration</ion-col>
+      <ion-col>{{ angularBuildConfiguration }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>App build commit</ion-col>
+      <ion-col>{{ javaBuildCommit }}</ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

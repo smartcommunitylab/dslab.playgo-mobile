@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 import { IUser } from 'src/app/core/shared/model/user.model';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { AboutModalComponent } from './about-modal/about-modal.component';
 import { PrivacyModalPage } from './privacy-modal/privacyModal.component';
 
 @Component({
@@ -39,6 +40,15 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   async openPrivacy() {
     const modal = await this.modalController.create({
       component: PrivacyModalPage,
+      cssClass: 'modalConfirm',
+    });
+    await modal.present();
+    await modal.onWillDismiss();
+  }
+
+  async openAbout() {
+    const modal = await this.modalController.create({
+      component: AboutModalComponent,
       cssClass: 'modalConfirm',
     });
     await modal.present();
