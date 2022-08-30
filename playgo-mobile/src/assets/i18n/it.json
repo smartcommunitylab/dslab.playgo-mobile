@@ -3,7 +3,7 @@
   "helloWorld": "Ciao mondo",
   "homeTtle": "Play&Go",
   "profileTitle": "Profilo",
-  "campaignsTitle": "Campagna",
+  "campaignsTitle": "Campagne",
   "tripsTitle": "Lista viaggi",
   "challengeTitle": "Sfide",
   "tripDetailTitle": "Dettagli viaggio",
@@ -94,7 +94,7 @@
   },
   "tracking": {
     "low_accuracy": "Bassa precisione!",
-    "choose_means": "Seleziona una mezzo per tracciare",
+    "choose_means": "Seleziona un mezzo per tracciare",
     "continue_low_accuracy_prompt": "Bassa precisione rilevata! Vuoi proseguire?",
     "show_current_location": "Fammi vedere dove sono",
     "car": {
@@ -189,7 +189,7 @@
   },
   "errors": {
     "error_header": "Errore",
-    "not_recoverable": "IT: Application encountered unrecoverable error, and will be restarted! \n Your trip progress will be saved.",
+    "not_recoverable": "L'applicazione ha riscontrato un errore irreversibile e verrà riavviata! \n L'avanzamento del tuo viaggio verrà salvato.",
     "offline": "Questa funzionalitá é disponibile solo online.",
     "userNotFound": "Utente non registrato",
     "nickNameExist": "Questo soprannome é giá registrato",
@@ -265,6 +265,7 @@
         "weekposition": "{{position}} in classifica settimanale",
         "totalposition": "{{position}} in classifica complessiva",
         "weekvalue": "{{value}}  settimanale",
+        "monthvalue": "{{value}}  mensile",
         "totalvalue": "{{value}} complessivo",
         "levelName": "Livello : {{levelName}}",
         "score": "Punti: {{score}}",
@@ -330,7 +331,7 @@
         "today": "Oggi",
         "this_week": "Questa settimana",
         "this_month": "Questo mese",
-        "all_time": "Tutto il tempo"
+        "all_time": "Complessivo"
       },
       "leaderboard_type": {
         "co2": "Totale CO₂",
@@ -444,7 +445,7 @@
   },
   "outof": "{{current}} su {{total}}",
   "Language": "Lingua",
-  "join": "Partecipa",
+  "join": "Scopri",
   "home": "Play&Go",
   "home_title": "Home",
   "profile_title": "Profilo",

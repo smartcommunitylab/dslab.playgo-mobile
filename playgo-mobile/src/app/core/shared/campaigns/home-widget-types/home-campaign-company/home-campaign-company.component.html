@@ -15,8 +15,17 @@
   <ion-card-content class="company-content">
     <app-main-campaign-stat
       [campaignContainer]="campaignContainer"
-      [reportWeekStat]="reportWeekStat"
+      [reportMonthStat]="reportMonthStat"
+      [showRanking]="false"
       [reportTotalStat]="reportTotalStat"
+      [limitMonthMax]="
+        campaignContainer?.campaign?.specificData?.bike?.monthlyLimit
+      "
+      [limitMonthValue]="reportMonthStat"
+      [limitDayMax]="
+        campaignContainer?.campaign?.specificData?.bike?.dailyLimit
+      "
+      [limitDayValue]="reportDayStat"
     >
     </app-main-campaign-stat>
     <!-- <app-home-campaign-challenges [campaignContainer]="campaignContainer">

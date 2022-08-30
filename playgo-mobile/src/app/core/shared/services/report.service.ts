@@ -32,6 +32,23 @@ export class ReportService {
       })
       .toPromise();
   }
+  getBikeStats(
+    campaignId: string,
+    playerId: string,
+    dateFrom?: string,
+    dateTo?: string
+  ): Promise<CampaignPlacing> {
+    return this.reportControllerService
+      .getPlayerCampaingPlacingByTransportModeUsingGET({
+        campaignId,
+        playerId,
+        metric: 'km',
+        mean: 'bike',
+        dateFrom,
+        dateTo,
+      })
+      .toPromise();
+  }
   getCo2WeekRecord(
     campaignId: string,
     playerId: string

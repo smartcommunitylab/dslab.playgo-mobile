@@ -15,8 +15,13 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() status?: PlayerGameStatus = undefined;
   @Input() record?: TransportStat = undefined;
   @Input() reportWeekStat?: CampaignPlacing;
+  @Input() reportMonthStat?: CampaignPlacing;
   @Input() reportTotalStat?: CampaignPlacing;
-
+  @Input() limitMonthMax?: any;
+  @Input() limitMonthValue?: any;
+  @Input() limitDayMax?: any;
+  @Input() limitDayValue?: any;
+  @Input() showRanking?: boolean = true;
   constructor(public campaignService: CampaignService) {}
 
   ngOnInit() {}

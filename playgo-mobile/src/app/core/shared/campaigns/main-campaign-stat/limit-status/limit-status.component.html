@@ -1,0 +1,20 @@
+<div class="ion-text-left" *ngIf="limitValue && limitMax">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        {{ header }}
+        {{ limitValue.value | localNumber }}
+      </ion-col>
+      <ion-col size="6" class="ion-text-end">
+        {{ limitMax }} {{ "max" | translate }}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-progress-bar
+        class="level-bar"
+        [color]="type"
+        [value]="limitValue / limitMax"
+      ></ion-progress-bar>
+    </ion-row>
+  </ion-grid>
+</div>

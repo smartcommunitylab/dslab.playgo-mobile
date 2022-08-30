@@ -70,8 +70,16 @@ export class CampaignService {
           ifOfflineUseStored(this.myCampaignsStorage),
           // this is not recoverable, app is bricked...
           // for example new campaign subscription could be added successfully, but
-          // server could not return the list of my campaigns, data integrity is broken
-          this.errorService.getErrorHandler('blocking')
+          // server could not return the list of my campaigns, data integrity is broken,
+          // but problem when new user, in that case error is 500
+          catchError((error) => {
+            const isErrorExpected = true; // TODO:
+            this.errorService.handleError(
+              error,
+              isErrorExpected ? 'silent' : 'blocking'
+            );
+            return EMPTY;
+          })
         )
       ),
       distinctUntilChanged(isEqual),
@@ -236,7 +244,7 @@ export class CampaignService {
       return 'flower';
     }
     if (campaign.type === 'company') {
-      return 'co2';
+      return 'pedal_bike';
     }
     if (campaign.type === 'school') {
       return 'shield';

@@ -20,7 +20,8 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   @Input() header?: boolean = false;
   subStat: Subscription;
   profile: Player;
-  reportWeekStat: CampaignPlacing;
+  reportDayStat: CampaignPlacing;
+  reportMonthStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
   constructor(
@@ -36,25 +37,43 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
       this.reportService
-        .getCo2Stats(
+        .getBikeStats(
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId,
-          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+          toServerDateOnly(DateTime.utc().minus({ day: 1 })),
           toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
-          this.reportWeekStat = stats;
+          this.reportDayStat = stats;
         })
         .catch((error) => {
           if (isOfflineError(error)) {
-            this.reportWeekStat = null;
+            this.reportDayStat = null;
           } else {
-            this.reportWeekStat = null;
+            this.reportDayStat = null;
             this.errorService.handleError(error);
           }
         });
       this.reportService
-        .getCo2Stats(
+        .getBikeStats(
+          this.campaignContainer.campaign.campaignId,
+          this.profile.playerId,
+          toServerDateOnly(DateTime.utc().minus({ month: 1 })),
+          toServerDateOnly(DateTime.utc())
+        )
+        .then((stats) => {
+          this.reportMonthStat = stats;
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.reportMonthStat = null;
+          } else {
+            this.reportMonthStat = null;
+            this.errorService.handleError(error);
+          }
+        });
+      this.reportService
+        .getBikeStats(
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId
         )

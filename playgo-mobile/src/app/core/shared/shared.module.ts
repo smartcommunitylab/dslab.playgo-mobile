@@ -36,6 +36,7 @@ import { HeaderDirective } from './layout/header/header.directive';
 import { ActiveChallengeComponent } from './campaigns/app-widget-campaign/active-challenge/active-challenge.component';
 import { ChallengeUsersStatusComponent } from './campaigns/challenge-users-status/challenge-users-status.component';
 import { ChallengeBarStatusComponent } from './campaigns/challenge-bar-status/challenge-bar-status.component';
+import { LimitStatusComponent } from './campaigns/main-campaign-stat/limit-status/limit-status.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -71,6 +72,7 @@ import { ChallengeBarStatusComponent } from './campaigns/challenge-bar-status/ch
     ChallengeBarStatusComponent,
     DetailNotificationLevelComponent,
     DetailNotificationBadgeComponent,
+    LimitStatusComponent,
   ],
   entryComponents: [],
   providers: [AlertService, LocalStorageRefService],
@@ -107,6 +109,7 @@ import { ChallengeBarStatusComponent } from './campaigns/challenge-bar-status/ch
     ChallengeBarStatusComponent,
     DetailNotificationLevelComponent,
     DetailNotificationBadgeComponent,
+    LimitStatusComponent,
   ],
 })
 export class PlayGoSharedModule {}
