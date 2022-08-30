@@ -25,7 +25,9 @@ export class NotificationsPage implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
-    this.notificationService.markAnnouncmentAsReaded();
     this.subNotification.unsubscribe();
+  }
+  ionViewWillLeave() {
+    this.notificationService.markAnnouncmentAsReaded();
   }
 }
