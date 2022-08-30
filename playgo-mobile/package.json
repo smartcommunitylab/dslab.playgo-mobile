@@ -11,7 +11,7 @@
   "scripts": {
     "ionic": "ionic",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node git-version.js && ng serve",
     "code-push": "code-push",
     "code-push:login": "code-push login https://code-push-server.platform.smartcommunitylab.it",
     "code-push:android:release:prod": "code-push release it.dslab.playgo-android android/app/src/main/assets/public --deploymentName Production",
@@ -30,7 +30,6 @@
     "code-push:ios:history:stage": "code-push deployment history it.dslab.playgo-ios Staging",
     "build": "node git-version.js && node check-node-version.js && ng build",
     "ionic:build:before": "node git-version.js && node check-node-version.js",
-    "ionic:build:after": "echo {} > src/assets/git-version.json",
     "e2e": "ng e2e",
     "test": "ng test",
     "lint": "ng lint",
