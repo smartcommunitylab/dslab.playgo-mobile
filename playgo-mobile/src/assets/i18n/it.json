@@ -271,7 +271,9 @@
         "score": "Punti: {{score}}",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
         "status": "{{score}} Kg",
-        "record": "Record: {{record}} Kg"
+        "record": "Record: {{record}} Kg",
+        "today": "Oggi",
+        "lastmonth": "Ultimo mese"
       }
     },
     "stats": {

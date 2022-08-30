@@ -269,7 +269,9 @@
         "score": "Points: {{score}}",
         "emptystatus": "If you want to see your level and points start to play!",
         "status": "{{score}} Kg",
-        "record": "{{record}} weekly record"
+        "record": "{{record}} weekly record",
+        "today": "Today",
+        "lastmonth": "Last month"
       }
     },
 

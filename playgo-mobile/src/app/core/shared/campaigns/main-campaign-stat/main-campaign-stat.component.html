@@ -25,13 +25,13 @@
         *ngIf="reportWeekStat || reportMonthStat || reportTotalStat"
       >
         <app-icon
-          class="icon-size-normal"
+          class="icon-size-big"
           [name]="
             campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
           "
         ></app-icon>
       </ion-col>
-      <ion-col>
+      <ion-col class="report">
         <p *ngIf="reportWeekStat" class="ion-text-left">
           {{
             "campaigns.homewidgets.stat.weekvalue"
@@ -70,26 +70,28 @@
         ></app-record-status>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="limitDayMax !== null && limitDayValue !== null">
+    <ion-row *ngIf="limitDayValue">
       <ion-col>
         <app-limit-status
           [limitMax]="limitDayMax"
           [limitValue]="limitDayValue"
           [type]="campaignContainer?.campaign?.type"
-          [header]="'Oggi'"
+          [header]="'campaigns.homewidgets.stat.today' | translate"
         ></app-limit-status>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="limitMonthMax !== null && limitMonthValue !== null">
+    <!-- <ng-template #emptyValueDay>Nessun valore giornaliero</ng-template> -->
+    <ion-row *ngIf="limitMonthValue !== null">
       <ion-col>
         <app-limit-status
           [limitMax]="limitMonthMax"
           [limitValue]="limitMonthValue"
           [type]="campaignContainer?.campaign?.type"
-          [header]="'Maggio'"
+          [header]="'campaigns.homewidgets.stat.lastmonth' | translate"
         ></app-limit-status>
       </ion-col>
     </ion-row>
+    <!-- <ng-template #emptyValueMonth>Nessun valore del mese</ng-template> -->
 
     <ng-template #nullStatus>
       <ion-row>
