@@ -6,7 +6,8 @@ export function getMockMethodAnnotation({
   doLog: boolean;
   logPrefix: string;
 }) {
-  return function mockMethod(opts: { async: boolean } = { async: false }) {
+  return function mockMethod(opts: { async?: boolean; wait?: number } = {}) {
+    opts = { async: false, wait: 200, ...opts };
     return function (
       target: any,
       propertyKey: string,
@@ -21,7 +22,7 @@ export function getMockMethodAnnotation({
         if (opts.async) {
           return (async () => {
             const promiseRes = await res;
-            await time(200);
+            await time(opts.wait);
             if (doLog) {
               console.log(`${logPrefix}.${propertyKey} finished:`, promiseRes);
             }

@@ -29,6 +29,8 @@ export class TrackingButtonsComponent implements OnInit {
   @Output()
   fabListActivated = new EventEmitter<boolean>();
 
+  inProgressButton: TransportType = null;
+
   public transportTypeOptions$: Observable<TrackingFabButton[]> =
     this.userService.userProfileMeans$.pipe(
       map((userProfileMeans) =>
@@ -60,9 +62,14 @@ export class TrackingButtonsComponent implements OnInit {
     }, 0);
   }
 
-  changeTransportType(event: Event, transportType: TransportType) {
+  async changeTransportType(event: Event, transportType: TransportType) {
     event.stopPropagation();
-    this.tripService.changeTransportType(transportType);
+    this.inProgressButton = transportType;
+    try {
+      await this.tripService.changeTransportType(transportType);
+    } finally {
+      this.inProgressButton = transportType;
+    }
   }
 
   ngOnInit() {}

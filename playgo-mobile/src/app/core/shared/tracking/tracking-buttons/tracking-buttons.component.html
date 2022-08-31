@@ -38,6 +38,15 @@
       "
       class="fab-button-show"
     >
+      <ion-spinner
+        name="crescent"
+        color="light"
+        class="progress-spinner"
+        *ngIf="
+          inProgressButton === eachTransportTypeOption.transportType &&
+          (tripService.operationInProgress$ | async)
+        "
+      ></ion-spinner>
       <app-icon
         class="icon-size-normal"
         [name]="eachTransportTypeOption.icon"
