@@ -375,6 +375,7 @@
     "past": "Past",
     "present": "Present",
     "future": "Future",
+    "challenge_container": "Challenges {{ type }} of campaign",
     "challenge_detail": {
       "challenge_future_start": "This challenge will start : {{startDate}}",
       "survey": "Survey"
@@ -390,7 +391,8 @@
       "singleChallengeLost": "lost"
     },
     "create": {
-      "button_create": "Crea sfida per {{campaignTitle}}",
+      "configure": "Configura",
+      "button_create": "Configure a new challenge",
       "title": "Configura sfida",
       "choose_type": "Scegli typologia sfida",
       "choose_metric": "Scegli metrica sfida",

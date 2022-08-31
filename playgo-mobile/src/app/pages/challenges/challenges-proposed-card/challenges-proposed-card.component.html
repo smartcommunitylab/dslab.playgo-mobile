@@ -1,0 +1,44 @@
+<ion-card>
+  <ion-card-header>
+    {{ "challenge.proposed" | translate }}
+  </ion-card-header>
+  <ion-card-content>
+    <app-single-challenge-proposed
+      *ngFor="let chall of singleChallenges"
+      [challenge]="chall"
+      [campaign]="campaign"
+    >
+    </app-single-challenge-proposed>
+    <app-create-challenge-button
+      *ngIf="canInvite"
+      [campaign]="campaign"
+      (click)="goToCreateChallenge($event, campaign)"
+    ></app-create-challenge-button>
+    <app-couple-challenge-proposed
+      *ngFor="let chall of coupleChallenges"
+      [challenge]="chall"
+      [campaign]="campaign"
+    >
+    </app-couple-challenge-proposed>
+  </ion-card-content>
+</ion-card>
+<!--
+
+  active?: boolean;
+  bonus?: number;
+  challCompleteDesc?: string;
+  challCompletedDate?: number;
+  challDesc?: string;
+  challId?: string;
+  challTarget?: number;
+  daysToEnd?: number;
+  endDate?: number;
+  otherAttendeeData?: OtherAttendeeData;
+  proposerId?: string;
+  row_status?: number;
+  startDate?: number;
+  status?: number;
+  success?: boolean;
+  type?: string;
+  unit?: string;
+ -->

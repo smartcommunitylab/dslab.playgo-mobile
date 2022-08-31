@@ -1,14 +1,32 @@
 <ion-card>
   <ion-card-header [color]="campaign?.campaign?.type">
     <ion-card-title>
-      Sfide {{ type }} di campagna
+      {{
+        "challenges.challenge_container"
+          | translate
+            : {
+                type: type
+              }
+      }}
       {{ campaign?.campaign?.name | languageMap }}</ion-card-title
     >
   </ion-card-header>
-  <app-challenge-card
+  <ng-container
     *ngFor="let challenge of challenges; trackBy: challengeTracking"
-    [challenge]="challenge"
-    [type]="type"
   >
-  </app-challenge-card>
+    <app-challenge-card
+      *ngIf="challenge.challengeType !== 'PROPOSED'"
+      [challenge]="challenge"
+      [type]="type"
+    >
+    </app-challenge-card>
+  </ng-container>
+
+  <app-challenges-proposed-card
+    [challenges]="challengeProposed"
+    [type]="type"
+    [campaign]="campaign"
+    [canInvite]="canInvite"
+  >
+  </app-challenges-proposed-card>
 </ion-card>

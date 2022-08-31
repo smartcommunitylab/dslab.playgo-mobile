@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar [color]="campaign?.type">
+    <ion-title> {{campaign?.name|languageMap }} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">X</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="playgo">
+  <p>{{'challenge.activateproposal'|translate}}</p>
+  {{challenge?.challDesc|languageMap}}
+  <div *ngIf="(playerId$ | async) !== challenge.proposerId; else sentTemplate">
+    <ion-button (click)="activate()">
+      {{'challenge.activate'|translate}}
+    </ion-button>
+    <ion-button (click)="reject()">
+      {{'challenge.reject'|translate}}
+    </ion-button>
+  </div>
+  <ng-template #sentTemplate>
+    <ion-button (click)="cancel()">
+      {{'challenge.cancel'|translate}}
+    </ion-button>
+  </ng-template>
+</ion-content>

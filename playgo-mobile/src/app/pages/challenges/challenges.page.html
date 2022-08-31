@@ -49,12 +49,8 @@
     </ng-template>
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
-    <ng-container *ngIf="thereAreChallengeActive; else noChallengeActive">
-      <div *ngFor="let campaign of campaignsWithChallenges">
-        <app-create-challenge-button
-          [campaign]="campaign"
-          (click)="goToCreateChallenge($event,campaign)"
-        ></app-create-challenge-button>
+    <div *ngFor="let campaign of campaignsWithChallenges">
+      <ng-container *ngIf="thereAreChallengeFuture; else noChallengeFuture">
         <div
           *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0"
         >
@@ -62,13 +58,14 @@
             [campaign]="campaign"
             [challenges]="futureChallenges[campaign?.campaign?.campaignId]"
             [type]="'future'"
+            [canInvite]="canInvite[campaign?.campaign?.campaignId]"
           >
           </app-challenge-container>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
 
-    <ng-template #noChallengeActive>
+    <ng-template #noChallengeFuture>
       <div class="empty-challenge">{{ "challenges.empty" | translate }}</div>
     </ng-template>
   </div>

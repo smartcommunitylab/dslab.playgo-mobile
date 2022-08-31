@@ -5,6 +5,7 @@ import {
   EMPTY,
   merge,
   Observable,
+  of,
   ReplaySubject,
   Subject,
   throwError,
@@ -78,7 +79,7 @@ export class CampaignService {
               error,
               isErrorExpected ? 'silent' : 'blocking'
             );
-            return EMPTY;
+            return of([]);
           })
         )
       ),

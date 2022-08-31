@@ -22,6 +22,7 @@ export class ChallengesPage implements OnInit, OnDestroy {
   thereAreChallengeFuture = false;
   activeChallenges: any = {};
   futureChallenges: any = {};
+  canInvite: any = {};
   // public pastChallenges$: Observable<Challenge[]> =
   //   this.challengeService.pastChallenges$;
   public activeChallenges$: Observable<Challenge[]> =
@@ -31,7 +32,6 @@ export class ChallengesPage implements OnInit, OnDestroy {
 
   constructor(
     private challengeService: ChallengeService,
-    private navCtrl: NavController,
     private notificationService: NotificationService
   ) {}
 
@@ -57,6 +57,7 @@ export class ChallengesPage implements OnInit, OnDestroy {
           ),
           {}
         );
+
         if (challenges.length > 0) {
           this.thereAreChallengeActive = true;
         } else {
@@ -73,6 +74,13 @@ export class ChallengesPage implements OnInit, OnDestroy {
           ),
           {}
         );
+        //TODO
+        if (this.futureChallenges) {
+          this.canInvite = challenges?.reduce((map: any, obj: Challenge) => {
+            map[obj?.campaign?.campaignId] = true;
+            return map;
+          }, {});
+        }
         if (challenges.length > 0) {
           this.thereAreChallengeFuture = true;
         } else {
@@ -82,11 +90,6 @@ export class ChallengesPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
-  goToCreateChallenge(event: Event, campaign: PlayerCampaign) {
-    this.navCtrl.navigateRoot(
-      `/pages/tabs/challenges/create-challenge/${campaign.campaign.campaignId}`
-    );
-  }
 }
 
 export interface Challenge extends ChallengesData {
