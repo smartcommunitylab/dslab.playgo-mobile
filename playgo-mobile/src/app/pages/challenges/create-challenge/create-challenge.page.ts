@@ -220,7 +220,7 @@ export type PointConceptMean = 'Bike_Km' | 'Walk_Km';
 // | 'Car_Km'
 // | 'Train_Km';
 
-export const POINT_CONCEPT_GAME = 'Green_Leaves';
+export const POINT_CONCEPT_GAME = 'green leaves';
 
 export type PointConcept = PointConceptMean | typeof POINT_CONCEPT_GAME;
 
