@@ -29,7 +29,7 @@ export class TrackingButtonsComponent implements OnInit {
   @Output()
   fabListActivated = new EventEmitter<boolean>();
 
-  inProgressButton: TransportType = null;
+  inProgressButton: TransportType | 'stop' = null;
 
   public transportTypeOptions$: Observable<TrackingFabButton[]> =
     this.userService.userProfileMeans$.pipe(
@@ -69,6 +69,16 @@ export class TrackingButtonsComponent implements OnInit {
       await this.tripService.changeTransportType(transportType);
     } finally {
       this.inProgressButton = transportType;
+    }
+  }
+
+  async stop(event: Event) {
+    event.stopPropagation();
+    this.inProgressButton = 'stop';
+    try {
+      await this.tripService.stop();
+    } finally {
+      this.inProgressButton = null;
     }
   }
 

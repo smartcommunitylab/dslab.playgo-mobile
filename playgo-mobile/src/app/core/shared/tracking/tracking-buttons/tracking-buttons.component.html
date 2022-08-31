@@ -53,12 +53,21 @@
       ></app-icon>
     </ion-fab-button>
     <ion-fab-button
-      (click)="tripService.stop()"
+      (click)="stop($event)"
       color="danger"
       [disabled]="tripService.operationInProgress$ | async"
       *ngIf="(tripService.isInTrip$ | async) === true"
       class="fab-button-show"
     >
+      <ion-spinner
+        name="crescent"
+        color="light"
+        class="progress-spinner"
+        *ngIf="
+          inProgressButton === 'stop' &&
+          (tripService.operationInProgress$ | async)
+        "
+      ></ion-spinner>
       <ion-icon name="stop"> </ion-icon>
     </ion-fab-button>
   </ion-fab-list>
