@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AlertService } from '../../services/alert.service';
 import { UserService } from '../../services/user.service';
 import { trackByProperty } from '../../utils';
 import {
@@ -48,6 +49,7 @@ export class TrackingButtonsComponent implements OnInit {
   constructor(
     public tripService: TripService,
     private userService: UserService,
+    private alertService: AlertService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -77,6 +79,10 @@ export class TrackingButtonsComponent implements OnInit {
     this.inProgressButton = 'stop';
     try {
       await this.tripService.stop();
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'tracking.stop_header',
+        messageTranslateKey: 'tracking.stop_body',
+      });
     } finally {
       this.inProgressButton = null;
     }

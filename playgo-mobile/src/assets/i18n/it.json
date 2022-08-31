@@ -109,7 +109,9 @@
       "scan": "Leggilo",
       "showCode": "Mostra questo codice al passeggero",
       "confirm": "Inizia a guidare"
-    }
+    },
+    "stop_header": "Viaggio concluso con successo!",
+    "stop_body": "Il tracciamento si è concluso con successo. I dati del viaggio verranno inviati ai nostri server per la validazione."
   },
   "profile": {
     "mail": "Email: ",
