@@ -1,7 +1,7 @@
 <div class="ion-text-left" *ngIf="status">
   <span>{{
     "campaigns.homewidgets.stat.levelName"
-      | translate: { levelName: status?.levels[0]?.levelName }
+      | translate: { levelName: status?.levels[0]?.levelValue }
   }}</span>
   <span>
     {{
