@@ -25,6 +25,7 @@ export class CoupleChallengeProposedComponent implements OnInit {
   async openInvitationPopup() {
     const modal = await this.modalController.create({
       component: InvitationlModalPage,
+      cssClass: 'modal-challenge',
       componentProps: {
         challenge: this.challenge,
         campaign: this.campaign,

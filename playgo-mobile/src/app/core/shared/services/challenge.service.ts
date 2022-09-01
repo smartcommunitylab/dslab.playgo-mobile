@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
 import { flatten } from 'lodash-es';
-import { map, Observable, switchMap, forkJoin, shareReplay } from 'rxjs';
+import {
+  map,
+  Observable,
+  switchMap,
+  forkJoin,
+  shareReplay,
+  ReplaySubject,
+  merge,
+  startWith,
+  withLatestFrom,
+  EMPTY,
+} from 'rxjs';
 import {
   Challenge,
   ChallengeType,
@@ -26,27 +37,59 @@ export class ChallengeService {
     ),
     shareReplay(1)
   );
+  public challengesRefresher$ = new ReplaySubject<any>(1);
+  private challengesCouldBeChanged$ = merge(
+    this.campaignsWithChallenges$,
+    this.challengesRefresher$
+  ).pipe(withLatestFrom(this.campaignsWithChallenges$));
 
-  public allChallenges$: Observable<Challenge[]> = this.campaignsWithChallenges$
-    .pipe(
-      switchMap((campaigns) =>
-        forkJoin(
-          campaigns.map((campaign) =>
-            this.challengeControllerService
-              .getChallengesUsingGET({
-                campaignId: campaign.campaign.campaignId,
-              })
-              .pipe(
-                this.errorService.getErrorHandler(),
-                map((response) =>
-                  this.processResponseForOneCampaign(response, campaign)
-                )
-              )
-          )
-        ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
+  public allChallenges$: Observable<Challenge[]> =
+    this.challengesCouldBeChanged$
+      .pipe(
+        switchMap((campaigns) =>
+          forkJoin(
+            campaigns[1].map((campaign: PlayerCampaign) => {
+              console.log(campaign);
+              if (campaign?.campaign) {
+                return this.challengeControllerService
+                  .getChallengesUsingGET({
+                    campaignId: campaign.campaign.campaignId,
+                  })
+                  .pipe(
+                    this.errorService.getErrorHandler(),
+                    map((response) =>
+                      this.processResponseForOneCampaign(response, campaign)
+                    )
+                  );
+              } else {
+                return EMPTY;
+              }
+            })
+          ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
+        )
       )
-    )
-    .pipe(shareReplay(1));
+      .pipe(shareReplay(1));
+
+  // public allChallenges$: Observable<Challenge[]> = this.campaignsWithChallenges$
+  //   .pipe(
+  //     switchMap((campaigns) =>
+  //       forkJoin(
+  //         campaigns.map((campaign) =>
+  //           this.challengeControllerService
+  //             .getChallengesUsingGET({
+  //               campaignId: campaign.campaign.campaignId,
+  //             })
+  //             .pipe(
+  //               this.errorService.getErrorHandler(),
+  //               map((response) =>
+  //                 this.processResponseForOneCampaign(response, campaign)
+  //               )
+  //             )
+  //         )
+  //       ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
+  //     )
+  //   )
+  //   .pipe(shareReplay(1));
 
   public activeChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
     map((challenges) =>
@@ -168,6 +211,33 @@ export class ChallengeService {
       .addToBlackListUsingPOST({
         campaignId,
         blockedPlayerId: playerId,
+      })
+      .toPromise();
+  }
+  public acceptChallenge(campaign: PlayerCampaign, challenge: Challenge) {
+    this.challengeControllerService
+      .changeInvitationStatusUsingPOST({
+        campaignId: campaign.campaign.campaignId,
+        challengeName: challenge.challId,
+        status: 'accept',
+      })
+      .toPromise();
+  }
+  public rejectChallenge(campaign: PlayerCampaign, challenge: Challenge) {
+    this.challengeControllerService
+      .changeInvitationStatusUsingPOST({
+        campaignId: campaign.campaign.campaignId,
+        challengeName: challenge.challId,
+        status: 'refuse',
+      })
+      .toPromise();
+  }
+  public cancelChallenge(campaign: PlayerCampaign, challenge: Challenge) {
+    this.challengeControllerService
+      .changeInvitationStatusUsingPOST({
+        campaignId: campaign.campaign.campaignId,
+        challengeName: challenge.challId,
+        status: 'cancel',
       })
       .toPromise();
   }

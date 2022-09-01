@@ -380,6 +380,12 @@
   },
   "challenges": {
     "challenges": "Sfide",
+    "sent": "Invito inviato",
+    "received": "Invito ricevuto",
+    "activate": "Accetta",
+    "reject": "Rifiuta",
+    "cancel": "Annulla",
+    "proposed": "Configura una nuova sfida o accetta un nuovo invito",
     "empty": "Non ci sono sfide da mostrare",
     "past": "Passate",
     "present": "Presenti",

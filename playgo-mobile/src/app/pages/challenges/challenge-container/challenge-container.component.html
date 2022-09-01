@@ -1,3 +1,11 @@
+<ng-container *ngFor="let challenge of challenges; trackBy: challengeTracking">
+  <app-challenge-card
+    *ngIf="challenge.challengeType !== 'PROPOSED'"
+    [challenge]="challenge"
+    [type]="type"
+  >
+  </app-challenge-card>
+</ng-container>
 <ion-card>
   <ion-card-header [color]="campaign?.campaign?.type">
     <ion-card-title>
@@ -11,17 +19,6 @@
       {{ campaign?.campaign?.name | languageMap }}</ion-card-title
     >
   </ion-card-header>
-  <ng-container
-    *ngFor="let challenge of challenges; trackBy: challengeTracking"
-  >
-    <app-challenge-card
-      *ngIf="challenge.challengeType !== 'PROPOSED'"
-      [challenge]="challenge"
-      [type]="type"
-    >
-    </app-challenge-card>
-  </ng-container>
-
   <app-challenges-proposed-card
     [challenges]="challengeProposed"
     [type]="type"

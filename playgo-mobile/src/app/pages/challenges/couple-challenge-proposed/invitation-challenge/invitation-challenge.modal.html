@@ -1,26 +1,47 @@
 <ion-header>
-  <ion-toolbar [color]="campaign?.type">
-    <ion-title> {{campaign?.name|languageMap }} </ion-title>
+  <ion-toolbar [color]="campaign?.campaign?.type">
+    <ion-title> {{campaign?.campaign?.name|languageMap }} </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">X</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="playgo">
-  <p>{{'challenge.activateproposal'|translate}}</p>
-  {{challenge?.challDesc|languageMap}}
-  <div *ngIf="(playerId$ | async) !== challenge.proposerId; else sentTemplate">
-    <ion-button (click)="activate()">
-      {{'challenge.activate'|translate}}
-    </ion-button>
-    <ion-button (click)="reject()">
-      {{'challenge.reject'|translate}}
-    </ion-button>
-  </div>
-  <ng-template #sentTemplate>
-    <ion-button (click)="cancel()">
-      {{'challenge.cancel'|translate}}
-    </ion-button>
-  </ng-template>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <app-icon name="invitation" class="icon-size-big"></app-icon>
+      </ion-col>
+      <ion-col>
+        <p>{{typeChallenge}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col> {{challenge?.challDesc|languageMap}} </ion-col>
+    </ion-row>
+    <ion-row
+      *ngIf="(playerId$ | async) !== challenge.proposerId; else sentTemplate"
+    >
+      <ion-col class="ion-text-center">
+        <ion-button (click)="activate()" [color]="campaign?.campaign?.type">
+          {{'challenges.activate'|translate}}
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="reject()" color="light">
+          {{'challenges.reject'|translate}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ng-template #sentTemplate>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="cancel()" [color]="campaign?.campaign?.type">
+            {{'challenges.cancel'|translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ng-template>
+  </ion-grid>
 </ion-content>

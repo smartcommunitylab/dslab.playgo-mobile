@@ -372,6 +372,13 @@
   },
   "challenges": {
     "challenges": "Challenges",
+    "sent": "Sent",
+    "received": "Received",
+    "activate": "Accetta",
+    "reject": "Rifiuta",
+    "cancel": "Annulla",
+    "proposed": "Configura una nuova sfida o accetta un nuovo invito",
+    "empty": "Non ci sono sfide da mostrare",
     "past": "Past",
     "present": "Present",
     "future": "Future",

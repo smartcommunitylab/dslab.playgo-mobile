@@ -18,6 +18,7 @@ export class SingleChallengeProposedComponent implements OnInit {
   async openSelectionPopup() {
     const modal = await this.modalController.create({
       component: SingleProposalModalPage,
+      cssClass: 'modal-challenge',
       componentProps: {
         challenge: this.challenge,
         campaign: this.campaign,
