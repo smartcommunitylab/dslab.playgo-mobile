@@ -29,31 +29,44 @@
     <app-challenges-stat> </app-challenges-stat>
   </div>
   <div *ngIf="selectedSegment==='activeChallenges'">
-    <div *ngFor="let campaign of campaignsWithChallenges">
-      <div *ngIf=" activeChallenges[campaign?.campaign?.campaignId]?.length>0">
-        <app-challenge-container
-          [campaign]="campaign"
-          [challenges]="activeChallenges[campaign?.campaign?.campaignId]"
-          [type]="'active'"
+    <ng-container *ngIf="thereAreChallengeActive; else noChallengeActive">
+      <div *ngFor="let campaign of campaignsWithChallenges">
+        <div
+          *ngIf=" activeChallenges[campaign?.campaign?.campaignId]?.length>0"
         >
-        </app-challenge-container>
+          <app-challenge-container
+            [campaign]="campaign"
+            [challenges]="activeChallenges[campaign?.campaign?.campaignId]"
+            [type]="'active'"
+          >
+          </app-challenge-container>
+        </div>
       </div>
-    </div>
+    </ng-container>
+
+    <ng-template #noChallengeActive>
+      <div class="empty-challenge">{{ "challenges.empty" | translate }}</div>
+    </ng-template>
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
     <div *ngFor="let campaign of campaignsWithChallenges">
-      <app-create-challenge-button
-        [campaign]="campaign"
-        (click)="goToCreateChallenge($event,campaign)"
-      ></app-create-challenge-button>
-      <div *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0">
-        <app-challenge-container
-          [campaign]="campaign"
-          [challenges]="futureChallenges[campaign?.campaign?.campaignId]"
-          [type]="'future'"
+      <ng-container *ngIf="thereAreChallengeFuture; else noChallengeFuture">
+        <div
+          *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0"
         >
-        </app-challenge-container>
-      </div>
+          <app-challenge-container
+            [campaign]="campaign"
+            [challenges]="futureChallenges[campaign?.campaign?.campaignId]"
+            [type]="'future'"
+            [canInvite]="canInvite[campaign?.campaign?.campaignId]"
+          >
+          </app-challenge-container>
+        </div>
+      </ng-container>
     </div>
+
+    <ng-template #noChallengeFuture>
+      <div class="empty-challenge">{{ "challenges.empty" | translate }}</div>
+    </ng-template>
   </div>
 </ion-content>

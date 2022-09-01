@@ -1,6 +1,12 @@
-<ion-button [color]="campaign.campaign.type">
-  {{
-    "challenges.create.button_create"
-      | translate: { campaignTitle: campaign.campaign.name["it"] }
-  }}
-</ion-button>
+<ion-card>
+  <ion-card-header [color]="campaign.campaign.type" class="header">
+    <span> {{ "challenges.create.configure" | translate }} </span>
+  </ion-card-header>
+  <ion-card-content class="content">
+    <app-icon
+      name="groupCompetitivePerformance"
+      class="icon-size-big"
+    ></app-icon
+    ><span>{{ "challenges.create.button_create" | translate }}</span>
+  </ion-card-content>
+</ion-card>

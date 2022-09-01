@@ -13,9 +13,16 @@ export class ChallengeContainerComponent implements OnInit {
   @Input() campaign: PlayerCampaign;
   @Input() challenges: Challenge[];
   @Input() type: string;
+  @Input() canInvite: boolean;
+  challengeProposed: Challenge[];
   challengeTracking = trackByProperty<Challenge>('challId');
 
   constructor(public campaignService: CampaignService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.challengeProposed = this.challenges.filter(
+      (challenge) => challenge.challengeType === 'PROPOSED'
+    );
+    console.log(this.challengeProposed);
+  }
 }

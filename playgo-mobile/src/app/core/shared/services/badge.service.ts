@@ -24,6 +24,7 @@ export class BadgeService {
   init() {
     this.authService.isReadyForApi$.subscribe(() => {
       //update all badges and store in local storage
+      //update all badges since the last time (one week)
       this.gameControllerService
         .getAllBadgesUsingGET()
         .pipe(this.errorService.getErrorHandler('silent'))

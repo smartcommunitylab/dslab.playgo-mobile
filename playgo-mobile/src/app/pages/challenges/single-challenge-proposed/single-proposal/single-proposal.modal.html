@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar [color]="campaign.type">
+    <ion-title> {{challenge |json }} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()"> {{challenge}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="playgo"
+  >
+  {{challenge?.challDesc|languageMap}}
+  <ion-button (click)="activate()">
+    {{'challenge.activate'|translate}}
+  </ion-button>
+</ion-content>
