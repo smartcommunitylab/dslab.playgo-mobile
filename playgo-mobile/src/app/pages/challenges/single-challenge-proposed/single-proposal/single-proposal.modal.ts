@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
+import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { Challenge } from '../../challenges.page';
 
 @Component({
@@ -11,16 +13,28 @@ import { Challenge } from '../../challenges.page';
 })
 export class SingleProposalModalPage implements OnInit {
   challenge: Challenge;
-  campaign: Campaign;
+  campaign: PlayerCampaign;
 
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    private challengeService: ChallengeService
+  ) {}
   ngOnInit() {}
   //computed errorcontrol
 
   close() {
     this.modalController.dismiss(false);
   }
-  activate() {
-    this.modalController.dismiss(false);
+  async activate() {
+    try {
+      const ret = await this.challengeService.acceptChallenge(
+        this.campaign,
+        this.challenge
+      );
+      this.challengeService.challengesRefresher$.next(null);
+    } catch (e) {
+    } finally {
+      this.modalController.dismiss(false);
+    }
   }
 }
