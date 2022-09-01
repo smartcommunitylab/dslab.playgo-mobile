@@ -47,14 +47,18 @@ export class AppStatusService {
       ])
     ),
     map(([currentPackage, pendingPackage]) => {
-      const hotCodePushLabel =
-        currentPackage?.label || environment.useCodePush
-          ? '-'
-          : '(code push disabled)';
+      let hotCodePushLabel = '';
 
-      return `${hotCodePushLabel}${
-        pendingPackage ? ` (pending: ${pendingPackage.label})` : ''
-      }`;
+      if (!environment.useCodePush) {
+        hotCodePushLabel = '(code push disabled)';
+      } else {
+        hotCodePushLabel = currentPackage?.label || '-';
+      }
+
+      const pendingPackageLabel = pendingPackage
+        ? ` (pending: ${pendingPackage.label})`
+        : '';
+      return hotCodePushLabel + pendingPackageLabel;
     })
   );
 
