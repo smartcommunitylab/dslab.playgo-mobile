@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AlertService } from '../../services/alert.service';
 import { UserService } from '../../services/user.service';
 import { trackByProperty } from '../../utils';
 import {
@@ -29,6 +30,8 @@ export class TrackingButtonsComponent implements OnInit {
   @Output()
   fabListActivated = new EventEmitter<boolean>();
 
+  inProgressButton: TransportType | 'stop' = null;
+
   public transportTypeOptions$: Observable<TrackingFabButton[]> =
     this.userService.userProfileMeans$.pipe(
       map((userProfileMeans) =>
@@ -46,6 +49,7 @@ export class TrackingButtonsComponent implements OnInit {
   constructor(
     public tripService: TripService,
     private userService: UserService,
+    private alertService: AlertService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -60,9 +64,28 @@ export class TrackingButtonsComponent implements OnInit {
     }, 0);
   }
 
-  changeTransportType(event: Event, transportType: TransportType) {
+  async changeTransportType(event: Event, transportType: TransportType) {
     event.stopPropagation();
-    this.tripService.changeTransportType(transportType);
+    this.inProgressButton = transportType;
+    try {
+      await this.tripService.changeTransportType(transportType);
+    } finally {
+      this.inProgressButton = transportType;
+    }
+  }
+
+  async stop(event: Event) {
+    event.stopPropagation();
+    this.inProgressButton = 'stop';
+    try {
+      await this.tripService.stop();
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'tracking.stop_header',
+        messageTranslateKey: 'tracking.stop_body',
+      });
+    } finally {
+      this.inProgressButton = null;
+    }
   }
 
   ngOnInit() {}

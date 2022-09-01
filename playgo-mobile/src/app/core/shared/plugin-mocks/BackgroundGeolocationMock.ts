@@ -39,7 +39,7 @@ export class BackgroundGeolocationMock {
   public static async setConfig(config: Config) {
     BackgroundGeolocationMock.config = config;
   }
-  @mockMethod({ async: true })
+  @mockMethod({ async: true, wait: 1000 })
   public static async getCurrentPosition(request: CurrentPositionRequest) {
     const location = BackgroundGeolocationMock.getRandomLocation(
       request.extras
