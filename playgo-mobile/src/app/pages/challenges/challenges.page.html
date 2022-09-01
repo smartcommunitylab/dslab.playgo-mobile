@@ -35,6 +35,7 @@
           *ngIf=" activeChallenges[campaign?.campaign?.campaignId]?.length>0"
         >
           <app-challenge-container
+            #active
             [campaign]="campaign"
             [challenges]="activeChallenges[campaign?.campaign?.campaignId]"
             [type]="'active'"
@@ -55,6 +56,7 @@
           *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0"
         >
           <app-challenge-container
+            #futuri
             [campaign]="campaign"
             [challenges]="futureChallenges[campaign?.campaign?.campaignId]"
             [type]="'future'"

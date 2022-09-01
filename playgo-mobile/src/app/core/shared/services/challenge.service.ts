@@ -43,12 +43,32 @@ export class ChallengeService {
     this.challengesRefresher$
   ).pipe(withLatestFrom(this.campaignsWithChallenges$));
 
+  public canInvite$: Observable<any[]> = this.campaignsWithChallenges$
+    .pipe(
+      switchMap((campaigns) =>
+        forkJoin(
+          campaigns.map((campaign) =>
+            this.challengeControllerService
+              .getChallengesUsingGET({
+                campaignId: campaign.campaign.campaignId,
+              })
+              .pipe(
+                this.errorService.getErrorHandler(),
+                map((response) =>
+                  this.processResponseForCanInvite(response, campaign)
+                )
+              )
+          )
+        ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
+      )
+    )
+    .pipe(shareReplay(1));
   public allChallenges$: Observable<Challenge[]> =
     this.challengesCouldBeChanged$
       .pipe(
-        switchMap((campaigns) =>
+        switchMap(([refresh, campaigns]) =>
           forkJoin(
-            campaigns[1].map((campaign: PlayerCampaign) => {
+            campaigns.map((campaign: PlayerCampaign) => {
               console.log(campaign);
               if (campaign?.campaign) {
                 return this.challengeControllerService
@@ -133,6 +153,15 @@ export class ChallengeService {
       }))
     );
     return challengesOfAllTypesPerOneCampaign;
+  }
+  private processResponseForCanInvite(
+    response: ChallengeConceptInfo,
+    campaign: PlayerCampaign
+  ): any {
+    return {
+      canInvite: response.canInvite,
+      campaign: campaign.campaign,
+    };
   }
   public getChallengeStats(arg0: {
     campaignId: string;

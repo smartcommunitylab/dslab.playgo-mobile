@@ -10,7 +10,7 @@
     >
     </app-single-challenge-proposed>
     <app-create-challenge-button
-      *ngIf="canInvite"
+      *ngIf="canInvite && !(sentInvitation$ | async)"
       [campaign]="campaign"
       (click)="goToCreateChallenge($event, campaign)"
     ></app-create-challenge-button>

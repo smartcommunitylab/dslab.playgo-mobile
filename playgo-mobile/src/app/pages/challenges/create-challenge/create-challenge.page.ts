@@ -18,6 +18,7 @@ import { Invitation } from 'src/app/core/api/generated/model/invitation';
 import { StringLanguageMap } from 'src/app/core/shared/pipes/languageMap.pipe';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -187,7 +188,8 @@ export class CreateChallengePage implements OnInit {
     private errorService: ErrorService,
     private userService: UserService,
     private navController: NavController,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private challengeService: ChallengeService
   ) {}
 
   ngOnInit() {}
@@ -203,6 +205,7 @@ export class CreateChallengePage implements OnInit {
         messageString: JSON.stringify(invitation),
       });
       this.navController.navigateBack('pages/tabs/challenges');
+      this.challengeService.challengesRefresher$.next(null);
     } catch (e) {
       this.errorService.handleError(e);
     }
