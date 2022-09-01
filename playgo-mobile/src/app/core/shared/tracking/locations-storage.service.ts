@@ -36,8 +36,8 @@ export class LocationsStorageService {
     }
   }
 
-  public getInitialTrip(): TripPart | NO_TRIP_STARTED {
-    const tripPart: TripPart = this.storage.get();
+  public async getInitialTrip(): Promise<TripPart | NO_TRIP_STARTED> {
+    const tripPart: TripPart = await this.storage.get();
     if (tripPart === null) {
       return NO_TRIP_STARTED;
     }

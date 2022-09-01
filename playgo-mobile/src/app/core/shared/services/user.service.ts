@@ -250,7 +250,7 @@ export class UserService {
       user.avatar = await this.getAvatar(user);
     } catch (e) {
       if (isOfflineError(e)) {
-        user = this.userStorage.get();
+        user = await this.userStorage.get();
       } else {
         throw e;
       }
@@ -263,12 +263,12 @@ export class UserService {
 
     this.userProfile = user;
     await this.processUser(user);
-    this.storeUserInLocalStorage(user);
+    await this.storeUserInLocalStorage(user);
     return user;
   }
 
-  private storeUserInLocalStorage(userWithAvatar: IUser) {
-    const lastStoredUser = this.userStorage.get();
+  private async storeUserInLocalStorage(userWithAvatar: IUser) {
+    const lastStoredUser = await this.userStorage.get();
     if (lastStoredUser && lastStoredUser.playerId !== userWithAvatar.playerId) {
       this.localStorageService.clearAll();
     }

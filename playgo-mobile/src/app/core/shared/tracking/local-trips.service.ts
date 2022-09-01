@@ -112,10 +112,9 @@ export class LocalTripsService {
     this.reloadAllTrigger$
   );
 
-  private initialLocalData$ = defer(() => {
-    const trips = this.getTripsFromStorage(this.localDataFromDate);
-    return of(trips);
-  });
+  private initialLocalData$ = defer(() =>
+    this.getTripsFromStorage(this.localDataFromDate)
+  );
   private localDataSubject: Subject<StorableTrip[]> = new Subject();
   private lastLocalData$: Observable<StorableTrip[]> = concat(
     this.initialLocalData$,
@@ -324,8 +323,10 @@ export class LocalTripsService {
     return this.localDataFromDate;
   }
 
-  private getTripsFromStorage(fromDateFilter: DateTime): StorableTrip[] {
-    const tripsFromStorage = this.storage.get() || [];
+  private async getTripsFromStorage(
+    fromDateFilter: DateTime
+  ): Promise<StorableTrip[]> {
+    const tripsFromStorage = (await this.storage.get()) || [];
 
     return tripsFromStorage.filter(
       // TODO: check for +-1 errors. Otherwise, we could have same trip loaded twice.

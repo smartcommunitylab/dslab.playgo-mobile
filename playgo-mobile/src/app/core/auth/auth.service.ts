@@ -145,7 +145,7 @@ export class AuthService {
 
   private async postLogoutCleanup() {
     // clear out storage
-    this.localStorageService.clearAll();
+    await this.localStorageService.clearAll();
 
     // clear stored data of plugins
     const backgroundTrackingService = this.injector.get(

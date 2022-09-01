@@ -19,22 +19,22 @@ export class LocalStorageService {
       this.storage
     );
   }
-  public clearAll() {
+  public async clearAll(): Promise<void> {
     this.storage.clear();
   }
 }
 class LocalStorage<T> {
   constructor(private storageKey: string, private storage: Storage) {}
-  set(data: T | null) {
+  public async set(data: T | null): Promise<void> {
     // hmm we could maybe use some sort of compression here
     // https://pieroxy.net/blog/pages/lz-string/index.html
     this.storage.setItem(this.storageKey, JSON.stringify(data || null));
   }
-  get(): T | null {
+  public async get(): Promise<T | null> {
     const stringVal = this.storage.getItem(this.storageKey);
     return JSON.parse(stringVal);
   }
-  clear() {
+  public async clear(): Promise<void> {
     this.storage.removeItem(this.storageKey);
   }
 }

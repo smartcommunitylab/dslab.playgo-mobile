@@ -34,7 +34,8 @@ export class BadgeService {
         });
     });
   }
-  public getBadgeByKey(key: string): BadgesData {
-    return this.allBadgesStorage?.get()[key];
+  // FIXME: this is not efficient!
+  public async getBadgeByKey(key: string): Promise<BadgesData> {
+    return (await this.allBadgesStorage?.get())[key];
   }
 }
