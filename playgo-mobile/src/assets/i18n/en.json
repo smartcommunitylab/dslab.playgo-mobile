@@ -408,6 +408,9 @@
       "choose_partner": "Scegli compangno",
       "activate": "Attiva sfida"
     },
+    "sent_title": "You have sent a challenge to {{nickname}}",
+    "sent_body": "The invitation will be visible to {{nickname}} for two days. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before 3 days the challenge will be rejected automatically. ",
+    "close": "Close",
     "challenge_model": {
       "title": "Which kind of challenge you want create?",
       "name": {

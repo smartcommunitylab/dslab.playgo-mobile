@@ -1,0 +1,20 @@
+ion-content {
+  .title {
+    text-align: center;
+    font-weight: bold;
+    padding: 8px;
+  }
+  .body {
+    text-align: justify;
+    padding: 8px;
+  }
+  ion-button {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    width: 60%;
+    margin: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

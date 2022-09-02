@@ -10,6 +10,7 @@ import { ChallengesPage } from './challenges.page';
 import { CoupleChallengeProposedComponent } from './couple-challenge-proposed/couple-challenge-proposed.component';
 import { InvitationlModalPage } from './couple-challenge-proposed/invitation-challenge/invitation-challenge.modal';
 import { CreateChallengeButtonComponent } from './create-challenge-button/create-challenge-button.component';
+import { SentInvitationlModalPage } from './create-challenge/sent-invitation-modal/sent-invitation.modal';
 import { SingleChallengeProposedComponent } from './single-challenge-proposed/single-challenge-proposed.component';
 import { SingleProposalModalPage } from './single-challenge-proposed/single-proposal/single-proposal.modal';
 
@@ -27,6 +28,7 @@ import { SingleProposalModalPage } from './single-challenge-proposed/single-prop
     SingleChallengeProposedComponent,
     InvitationlModalPage,
     SingleProposalModalPage,
+    SentInvitationlModalPage,
   ],
 })
 export class ChallengesPageModule {}

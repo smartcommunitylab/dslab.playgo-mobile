@@ -422,7 +422,10 @@
         "mean": "Modalità selezionata:",
         "challengeable": "Giocatore da sfidare:",
         "you": "Tu"
-      }
+      },
+      "sent_title": "Hai invitato {{nickname}} ad una sfida di coppia",
+      "sent_body": "L’invito sarà visibile sull’app di {{nickname}} per due giorni. Riceverai una notifica se {{nickname}} accetta o rifiuta la sfida. Nel caso non rispondesse entro tre giorni, la sfida sarà annullata. ",
+      "close": "Chiudi"
     },
     "challenge_model": {
       "title": "Che tipo di sfida vuoi creare?",
