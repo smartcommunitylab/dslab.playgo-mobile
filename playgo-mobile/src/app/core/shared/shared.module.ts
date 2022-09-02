@@ -38,6 +38,7 @@ import { ChallengeBarStatusComponent } from './campaigns/challenge-bar-status/ch
 import { LimitStatusComponent } from './campaigns/main-campaign-stat/limit-status/limit-status.component';
 import { NotificationModalPage } from './notification-modal/notification.modal';
 import { ContentContentComponent } from './layout/content/content-content.component';
+import { ContentDirective } from './layout/content/content.directive';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -48,6 +49,7 @@ import { ContentContentComponent } from './layout/content/content-content.compon
     HeaderContentComponent,
     HeaderDirective,
     ContentContentComponent,
+    ContentDirective,
     ProfileComponent,
     PrivacyModalPage,
     DetailNotificationModalPage,
@@ -91,6 +93,8 @@ import { ContentContentComponent } from './layout/content/content-content.compon
     LanguageMapPipe,
     HeaderContentComponent,
     HeaderDirective,
+    ContentContentComponent,
+    ContentDirective,
     LocalNumberPipe,
     SafeHtmlPipe,
     InfiniteScrollComponent,
