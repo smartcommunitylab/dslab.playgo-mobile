@@ -20,6 +20,8 @@ import { DevicePluginMock } from './core/shared/plugin-mocks/DevicePluginMock';
 import localeItalian from '@angular/common/locales/it';
 import { registerLocaleData } from '@angular/common';
 import { CodePushPluginMock } from './core/shared/plugin-mocks/CodePushPluginMock';
+import { IonicStorageModule } from '@ionic/storage-angular';
+
 registerLocaleData(localeItalian);
 
 export function createTranslateLoader(http: HttpClient) {
@@ -33,7 +35,6 @@ export function createTranslateLoader(http: HttpClient) {
     AuthModule,
     BrowserModule,
     PlayGoSharedModule,
-
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -42,6 +43,7 @@ export function createTranslateLoader(http: HttpClient) {
       },
     }),
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
   ],
   providers: [

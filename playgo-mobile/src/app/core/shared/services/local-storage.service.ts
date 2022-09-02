@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageRefService } from './local-storage-ref.service';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
-  private storage: Storage;
-  constructor(private localStorageRefService: LocalStorageRefService) {
-    this.storage = this.localStorageRefService.getStorageImplementation();
-    // TODO:
+  private storageInstancePromise: Promise<Storage>;
+  constructor(private storageFactory: Storage) {
+    this.storageInstancePromise = this.storageFactory.create();
     // clear local storage automatically, after new app version (or code push version)
     // for consistency.
   }
@@ -16,26 +15,33 @@ export class LocalStorageService {
   public getStorageOf<T = never>(localStorageKey: string) {
     return new LocalStorage<T>(
       'playgo-storage-' + localStorageKey,
-      this.storage
+      this.storageInstancePromise
     );
   }
   public async clearAll(): Promise<void> {
-    this.storage.clear();
+    const storage = await this.storageInstancePromise;
+    storage.clear();
   }
 }
 class LocalStorage<T> {
-  constructor(private storageKey: string, private storage: Storage) {}
+  constructor(
+    private storageKey: string,
+    private storageInstancePromise: Promise<Storage>
+  ) {}
   public async set(data: T | null): Promise<void> {
     // hmm we could maybe use some sort of compression here
     // https://pieroxy.net/blog/pages/lz-string/index.html
-    this.storage.setItem(this.storageKey, JSON.stringify(data || null));
+    const storage = await this.storageInstancePromise;
+    await storage.set(this.storageKey, JSON.stringify(data || null));
   }
   public async get(): Promise<T | null> {
-    const stringVal = this.storage.getItem(this.storageKey);
+    const storage = await this.storageInstancePromise;
+    const stringVal = await storage.get(this.storageKey);
     return JSON.parse(stringVal);
   }
   public async clear(): Promise<void> {
-    this.storage.removeItem(this.storageKey);
+    const storage = await this.storageInstancePromise;
+    await storage.remove(this.storageKey);
   }
 }
 
