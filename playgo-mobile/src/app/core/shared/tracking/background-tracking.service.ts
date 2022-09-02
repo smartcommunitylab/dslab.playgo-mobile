@@ -237,6 +237,14 @@ export class BackgroundTrackingService {
     );
   }
 
+  public async clearPluginData() {
+    await this.isReady;
+    await this.backgroundGeolocationPlugin.setConfig({});
+    this.currentExtrasSubject.next({});
+    await this.backgroundGeolocationPlugin.stop();
+    this.backgroundGeolocationPlugin.destroyLocations();
+  }
+
   public async stopTracking() {
     await this.setExtrasAndForceLocation(null);
     await this.backgroundGeolocationPlugin.stop();

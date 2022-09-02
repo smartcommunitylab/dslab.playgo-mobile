@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { forwardRef, Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { TokenResponse } from '@openid/appauth/built/token_response';
@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { PlayerControllerService } from '../api/generated/controllers/playerController.service';
 import { AlertService } from '../shared/services/alert.service';
 import { LocalStorageService } from '../shared/services/local-storage.service';
+import { BackgroundTrackingService } from '../shared/tracking/background-tracking.service';
 
 @Injectable({
   providedIn: 'root',
@@ -61,7 +62,8 @@ export class AuthService {
     private router: Router,
     private navController: NavController,
     private localStorageService: LocalStorageService,
-    private playerControllerService: PlayerControllerService
+    private playerControllerService: PlayerControllerService,
+    private injector: Injector
   ) {}
 
   public async init() {
@@ -141,9 +143,21 @@ export class AuthService {
     }
   }
 
-  private postLogoutCleanup() {
+  private async postLogoutCleanup() {
+    // clear out storage
     this.localStorageService.clearAll();
-    this.navController.navigateRoot('login');
+
+    // clear stored data of plugins
+    const backgroundTrackingService = this.injector.get(
+      BackgroundTrackingService
+    );
+    if (backgroundTrackingService) {
+      await backgroundTrackingService.clearPluginData();
+    }
+
+    // clear local state stored in variables of all services. By doing
+    // hard page reload.
+    location.replace('login');
   }
 
   /**
