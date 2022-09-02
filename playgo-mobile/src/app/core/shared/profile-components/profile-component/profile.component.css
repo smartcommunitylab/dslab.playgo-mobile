@@ -1,6 +1,8 @@
 .avatar {
   background-color: white;
   margin: auto;
+  height: 61px;
+  width: 61px;
 }
 .avatar-container {
   margin: 33px;
@@ -14,4 +16,15 @@
   position: absolute;
   bottom: -10%;
   left: 80%;
+}
+.nickname {
+  font-size: 18px;
+  font-weight: bold;
+}
+.home-cog {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 40px;
+  z-index: 99;
 }
