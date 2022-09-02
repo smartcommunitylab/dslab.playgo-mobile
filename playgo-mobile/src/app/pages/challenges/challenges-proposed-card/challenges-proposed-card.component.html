@@ -14,7 +14,12 @@
         'var(--ion-color-' + campaign?.campaign?.type + '-light)'
     }"
   >
-    {{ "challenges.proposed" | translate }}
+    <ion-icon
+      class="popup-icon"
+      name="information-circle-outline"
+      (click)="openInfoChallenge()"
+    ></ion-icon>
+    <p class="text-proposed">{{ "challenges.proposed" | translate }}</p>
 
     <div *ngIf="singleChallenges?.length > 0">
       {{ "challenges.choose_single" | translate }}

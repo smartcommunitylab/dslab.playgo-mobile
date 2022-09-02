@@ -3,6 +3,7 @@ import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 import { ChallengeCardComponent } from './challenge-card/challenge-card.component';
 import { ChallengeContainerComponent } from './challenge-container/challenge-container.component';
 import { ChallengesProposedCardComponent } from './challenges-proposed-card/challenges-proposed-card.component';
+import { InfoChallengeModalPage } from './challenges-proposed-card/info-challenge-modal/info-challenge.modal';
 import { ChallengesRoutingModule } from './challenges-routing.module';
 import { ChalengeSingleStatComponent } from './challenges-stat/challenge-single-stat/challenge-single-stat.component';
 import { ChallengesStatComponent } from './challenges-stat/challenges-stat.component';
@@ -29,6 +30,7 @@ import { SingleProposalModalPage } from './single-challenge-proposed/single-prop
     InvitationlModalPage,
     SingleProposalModalPage,
     SentInvitationlModalPage,
+    InfoChallengeModalPage,
   ],
 })
 export class ChallengesPageModule {}

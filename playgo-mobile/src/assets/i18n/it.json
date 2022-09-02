@@ -393,6 +393,11 @@
     "present": "Presenti",
     "future": "Future",
     "challenge_container": "Sfide {{ type }} di campagna",
+    "info": {
+      "title": "Come funzionano le sfide ",
+      "body": "Ogni settimana puoi scegliere solo UNA sfida singola e UNA sfida di coppia. <br> Una volta scelta una sfida, le alternative per quella tipologia di sfida scompaiono. <br> Quindi quando attivi una sfida singola, le altre possibili sfide singole proposte dal sistema scompaiono. <br> <br> Allo stesso modo, quando attivi una sfida di coppia, le alternative scompaiono. <br> <br> Accettare un invito equivale a scegliere una sfida di coppia. <br> <br> Quando qualcuno accetta un invito che hai inviato, la sfida di coppia per la settimana è automaticamente scelta. Tutte le altre sfide alternative scompaiono. <br> <br> Ogni settimana si rinnovano le sfide proposte: a seconda del tuo livello, puoi ricevere fino a un massimo di 3 proposte di sfida singola, 3 inviti e puoi inviare fino a un massimo di 2 inviti.",
+      "close": "Chiudi"
+    },
     "challenge_detail": {
       "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}",
       "survey": "Questionario",

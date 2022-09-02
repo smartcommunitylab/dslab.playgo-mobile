@@ -3,10 +3,11 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { Challenge } from '../challenges.page';
 import { getImgChallenge } from '../../../core/shared/utils';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { combineLatest, Observable, of, Subscription, switchMap } from 'rxjs';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { InfoChallengeModalPage } from './info-challenge-modal/info-challenge.modal';
 
 @Component({
   selector: 'app-challenges-proposed-card',
@@ -26,7 +27,8 @@ export class ChallengesProposedCardComponent implements OnInit, OnChanges {
     public campaignService: CampaignService,
     private navCtrl: NavController,
     public challengeService: ChallengeService,
-    private userService: UserService
+    private userService: UserService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -55,5 +57,14 @@ export class ChallengesProposedCardComponent implements OnInit, OnChanges {
     this.navCtrl.navigateRoot(
       `/pages/tabs/challenges/create-challenge/${campaign.campaign.campaignId}`
     );
+  }
+  async openInfoChallenge() {
+    const modal = await this.modalController.create({
+      component: InfoChallengeModalPage,
+      cssClass: 'modal-challenge',
+      swipeToClose: true,
+    });
+    await modal.present();
+    await modal.onWillDismiss();
   }
 }
