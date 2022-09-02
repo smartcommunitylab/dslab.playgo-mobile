@@ -38,6 +38,7 @@ import { isOfflineError } from '../utils';
 import { AlertService } from './alert.service';
 import { AuthService } from '../../auth/auth.service';
 import { ErrorService } from './error.service';
+import { RefresherService } from './refresher.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -59,11 +60,9 @@ export class UserService {
 
   private userProfile: IUser = null;
 
-  public userProfileRefresher$: Subject<void> = new ReplaySubject<void>(1);
-
   private userProfileCouldBeChanged$ = merge(
     this.authService.isReadyForApi$.pipe(map(() => ({ isFirst: true }))),
-    this.userProfileRefresher$.pipe(map(() => ({ isFirst: false })))
+    this.refresherService.refreshed$.pipe(map(() => ({ isFirst: false })))
   );
 
   public userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
@@ -115,6 +114,7 @@ export class UserService {
     private authService: AuthService,
     private http: HttpClient,
     private playerControllerService: PlayerControllerService,
+    private refresherService: RefresherService,
     private alertService: AlertService,
     private errorService: ErrorService
   ) {}
