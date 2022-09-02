@@ -9,7 +9,7 @@ export class RefresherService {
 
   public refreshed$: Observable<void> = this.refreshSubject.asObservable();
 
-  public onRefresh(event: Event): void {
+  public onRefresh(): void {
     this.refreshSubject.next();
   }
 }
