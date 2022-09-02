@@ -418,8 +418,8 @@
         "default": "Challenge"
       },
       "description": {
-        "groupCompetitivePerformance": "TODO: add description",
-        "groupCompetitiveTime": "TODO: add description",
+        "groupCompetitivePerformance": "Reach the target before your opponent!",
+        "groupCompetitiveTime": "Do more than your opponent in a week",
         "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
       },
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"

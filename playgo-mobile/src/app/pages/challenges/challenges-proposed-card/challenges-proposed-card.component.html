@@ -8,7 +8,12 @@
   <ion-card-header [color]="campaign?.campaign?.type">
     {{ campaign?.campaign?.name | languageMap }}
   </ion-card-header>
-  <ion-card-content>
+  <ion-card-content
+    [ngStyle]="{
+      'background-color':
+        'var(--ion-color-' + campaign?.campaign?.type + '-light)'
+    }"
+  >
     {{ "challenges.proposed" | translate }}
 
     <div *ngIf="singleChallenges?.length > 0">
