@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { ErrorHandler, isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -20,6 +21,16 @@ import { DevicePluginMock } from './core/shared/plugin-mocks/DevicePluginMock';
 import localeItalian from '@angular/common/locales/it';
 import { registerLocaleData } from '@angular/common';
 import { CodePushPluginMock } from './core/shared/plugin-mocks/CodePushPluginMock';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+
+// this is somehow not exported from '@ionic/storage-angular'
+const Drivers = {
+  SecureStorage: 'ionicSecureStorage',
+  IndexedDB: 'asyncStorage',
+  LocalStorage: 'localStorageWrapper',
+};
+
 registerLocaleData(localeItalian);
 
 export function createTranslateLoader(http: HttpClient) {
@@ -33,7 +44,6 @@ export function createTranslateLoader(http: HttpClient) {
     AuthModule,
     BrowserModule,
     PlayGoSharedModule,
-
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -42,6 +52,14 @@ export function createTranslateLoader(http: HttpClient) {
       },
     }),
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot({
+      driverOrder: [
+        // eslint-disable-next-line no-underscore-dangle
+        CordovaSQLiteDriver._driver,
+        Drivers.IndexedDB,
+        Drivers.LocalStorage,
+      ],
+    }),
     AppRoutingModule,
   ],
   providers: [

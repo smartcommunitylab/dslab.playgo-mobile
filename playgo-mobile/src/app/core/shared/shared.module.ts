@@ -6,7 +6,6 @@ import { LocalDatePipe } from './pipes/localDate.pipe';
 import { LocalNumberPipe } from './pipes/localNumber.pipe';
 import { ProfileComponent } from './profile-components/profile-component/profile.component';
 import { AlertService } from './services/alert.service';
-import { LocalStorageRefService } from './services/local-storage-ref.service';
 import { PlayGoSharedLibsModule } from './shared-libs.module';
 import {
   InfiniteScrollComponent,
@@ -75,7 +74,7 @@ import { LimitStatusComponent } from './campaigns/main-campaign-stat/limit-statu
     LimitStatusComponent,
   ],
   entryComponents: [],
-  providers: [AlertService, LocalStorageRefService],
+  providers: [AlertService],
   exports: [
     PlayGoSharedLibsModule,
     MyCampaignCardComponent,

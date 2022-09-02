@@ -69,7 +69,7 @@ export class TripService {
   private async start() {
     try {
       const initialTrip: TripPart | NO_TRIP_STARTED =
-        this.tripPersistanceService.getInitialTrip();
+        await this.tripPersistanceService.getInitialTrip();
       this.tripPersistanceService.storeLastOf(this.tripPart$);
 
       console.log({ initialTrip });

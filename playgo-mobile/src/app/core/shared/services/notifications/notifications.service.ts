@@ -31,12 +31,12 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 export class NotificationService {
   private notificationSinceStorage =
     this.localStorageService.getStorageOf<number>('notificationSince');
-  private since = this.notificationSinceStorage.get() || 0;
+  private since: number = null;
   private notificationStorage =
     this.localStorageService.getStorageOf<Notification[]>('notifications');
   private appResumed$: Observable<void> = NEVER;
   private networkStatusChanged$: Observable<void> = NEVER;
-  private notificationReaded$ = new Subject<void>();
+  private notificationRead$ = new Subject<void>();
   private pushNotification$: Observable<void> =
     this.pushNotificationService.notifications$;
 
@@ -46,17 +46,24 @@ export class NotificationService {
     this.appResumed$,
     this.networkStatusChanged$,
     this.pushNotification$,
-    this.notificationReaded$
+    this.notificationRead$
   ).pipe(throttleTime(500));
 
   public allNotifications$: Observable<Notification[]> = this.trigger$.pipe(
-    switchMap(() =>
+    // warning!! side effects!!!
+    switchMap(async () => {
+      if (this.since === null) {
+        this.since = (await this.notificationSinceStorage.get()) || 0;
+      }
+      return this.since;
+    }),
+    switchMap((since) =>
       this.communicationAccountController
-        .getPlayerNotificationsUsingGET({ since: this.since })
+        .getPlayerNotificationsUsingGET({ since })
         .pipe(this.errorService.getErrorHandler('silent'))
     ),
-    // tapLog('got notifications'),
-    tap((serverNotifications) => {
+    // warning!! side effects!!!
+    switchMap(async (serverNotifications) => {
       if (serverNotifications.length > 0) {
         this.since =
           serverNotifications[0].timestamp -
@@ -64,11 +71,12 @@ export class NotificationService {
         if (this.since < 0) {
           this.since = 0;
         }
-        this.notificationSinceStorage.set(this.since);
+        await this.notificationSinceStorage.set(this.since);
       }
+      return serverNotifications;
     }),
-    map((serverNotifications) => [
-      ...(this.notificationStorage.get() || []), //merge and eliminate duplicate based on id
+    switchMap(async (serverNotifications) => [
+      ...((await this.notificationStorage.get()) || []), //merge and eliminate duplicate based on id
       ...serverNotifications,
     ]),
     map((allNotifications) =>
@@ -94,7 +102,7 @@ export class NotificationService {
     map((notifications) => notifications.filter((not) => not.readed === false)),
     shareReplay(1)
   );
-  public readedNotifications$ = this.allNotifications$.pipe(
+  public readNotifications$ = this.allNotifications$.pipe(
     map((notifications) => notifications.filter((not) => not.readed === true)),
     shareReplay(1)
   );
@@ -224,8 +232,8 @@ export class NotificationService {
     );
   }
 
-  public markAnnouncmentAsReaded() {
-    const storedNotifications = this.notificationStorage.get();
+  public async markAnnouncementAsRead() {
+    const storedNotifications = await this.notificationStorage.get();
     storedNotifications.forEach((notification) => {
       if (
         !!notification.content &&
@@ -236,10 +244,10 @@ export class NotificationService {
     });
     this.notificationStorage.set(storedNotifications);
     //notify the new list of notifications
-    this.notificationReaded$.next();
+    this.notificationRead$.next();
   }
-  public markCommonChallengeNotificationAsRead() {
-    const storedNotifications = this.notificationStorage.get();
+  public async markCommonChallengeNotificationAsRead() {
+    const storedNotifications = await this.notificationStorage.get();
     storedNotifications.forEach((notification) => {
       if (
         !!notification.content &&
@@ -252,16 +260,16 @@ export class NotificationService {
     });
     this.notificationStorage.set(storedNotifications);
     //notify the new list of notifications
-    this.notificationReaded$.next();
+    this.notificationRead$.next();
   }
-  public markListOfNotificationAsRead(notifications: Notification[]) {
-    const storedNotifications = this.notificationStorage.get();
+  public async markListOfNotificationAsRead(notifications: Notification[]) {
+    const storedNotifications = await this.notificationStorage.get();
     notifications.forEach((notification) => {
       this.markSingleNotificationAsRead(storedNotifications, notification);
     });
     this.notificationStorage.set(storedNotifications);
     //notify the new list of notifications
-    this.notificationReaded$.next();
+    this.notificationRead$.next();
   }
   private markSingleNotificationAsRead(
     storedNotifications: Notification[],

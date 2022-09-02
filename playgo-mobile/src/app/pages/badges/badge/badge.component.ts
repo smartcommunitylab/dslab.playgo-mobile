@@ -13,9 +13,8 @@ export class BadgeComponent implements OnInit {
 
   constructor(private badgeService: BadgeService) {}
 
-  ngOnInit() {
-    this.imagePath =
-      'data:image/jpg;base64,' +
-      this.badgeService.getBadgeByKey(this.badge.name).imageByte;
+  async ngOnInit() {
+    const badgeData = await this.badgeService.getBadgeByKey(this.badge.name);
+    this.imagePath = 'data:image/jpg;base64,' + badgeData.imageByte;
   }
 }

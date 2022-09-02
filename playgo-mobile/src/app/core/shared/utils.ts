@@ -1,6 +1,6 @@
 import { NgZone, TrackByFunction } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { flatMap, initial, isNil, last, tail, zip } from 'lodash-es';
+import { flatMap, initial, isNil, last, negate, tail, zip } from 'lodash-es';
 import { DateTime, DateTimeUnit, Duration } from 'luxon';
 import {
   concat,
@@ -123,11 +123,10 @@ export function ifOfflineUseStored<T>(
     source.pipe(
       catchError((error: any) => {
         if (isOfflineError(error)) {
-          console.log('using offline mode!');
-          const storedValue = storage.get();
-          if (!isNil(storedValue) && integrityCheck(storedValue)) {
-            return of(storedValue);
-          }
+          return from(storage.get()).pipe(
+            filter(negate(isNil)),
+            filter(integrityCheck)
+          );
         }
         return throwError(() => error) as Observable<T>;
       })
