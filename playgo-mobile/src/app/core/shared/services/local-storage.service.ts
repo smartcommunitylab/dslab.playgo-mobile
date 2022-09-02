@@ -1,3 +1,4 @@
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
@@ -7,9 +8,15 @@ import { Storage } from '@ionic/storage-angular';
 export class LocalStorageService {
   private storageInstancePromise: Promise<Storage>;
   constructor(private storageFactory: Storage) {
-    this.storageInstancePromise = this.storageFactory.create();
-    // clear local storage automatically, after new app version (or code push version)
+    this.storageInstancePromise = this.getStorageImplementation();
+    // TODO:clear local storage automatically, after new app version (or code push version)
     // for consistency.
+  }
+
+  private async getStorageImplementation() {
+    await this.storageFactory.defineDriver(CordovaSQLiteDriver);
+    const storageInstance = await this.storageFactory.create();
+    return storageInstance;
   }
 
   public getStorageOf<T = never>(localStorageKey: string) {
