@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { RefresherService } from '../../services/refresher.service';
 
 @Component({
@@ -7,6 +7,9 @@ import { RefresherService } from '../../services/refresher.service';
   styleUrls: ['./content-content.component.scss'],
 })
 export class ContentContentComponent implements OnInit {
+  @ViewChild('template', { static: true })
+  public template: TemplateRef<any>;
+
   constructor(private refresherService: RefresherService) {}
   refresh() {
     this.refresherService.onRefresh();

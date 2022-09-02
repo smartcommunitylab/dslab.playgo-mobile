@@ -12,7 +12,6 @@ import { UserService } from 'src/app/core/shared/services/user.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
-  @ViewChild('refresher', { static: false }) refresher: IonRefresher;
   subProfile!: Subscription;
   constructor(
     private router: Router,
