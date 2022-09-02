@@ -387,12 +387,19 @@
     "activate": "Accetta",
     "reject": "Rifiuta",
     "cancel": "Annulla",
-    "proposed": "Configura una nuova sfida o accetta un nuovo invito",
+    "proposed": "Sfide della prossima settimana",
+    "choose_single": "Scegli una delle seguenti sfide singole",
+    "choose_or_configure": "Configura una sfida di coppia",
     "empty": "Non ci sono sfide da mostrare",
     "past": "Passate",
     "present": "Presenti",
     "future": "Future",
     "challenge_container": "Sfide {{ type }} di campagna",
+    "info": {
+      "title": "Come funzionano le sfide ",
+      "body": "Ogni settimana puoi scegliere solo UNA sfida singola e UNA sfida di coppia. <br> Una volta scelta una sfida, le alternative per quella tipologia di sfida scompaiono. <br> Quindi quando attivi una sfida singola, le altre possibili sfide singole proposte dal sistema scompaiono. <br> <br> Allo stesso modo, quando attivi una sfida di coppia, le alternative scompaiono. <br> <br> Accettare un invito equivale a scegliere una sfida di coppia. <br> <br> Quando qualcuno accetta un invito che hai inviato, la sfida di coppia per la settimana è automaticamente scelta. Tutte le altre sfide alternative scompaiono. <br> <br> Ogni settimana si rinnovano le sfide proposte: a seconda del tuo livello, puoi ricevere fino a un massimo di 3 proposte di sfida singola, 3 inviti e puoi inviare fino a un massimo di 2 inviti.",
+      "close": "Chiudi"
+    },
     "challenge_detail": {
       "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}",
       "survey": "Questionario",
@@ -422,7 +429,10 @@
         "mean": "Modalità selezionata:",
         "challengeable": "Giocatore da sfidare:",
         "you": "Tu"
-      }
+      },
+      "sent_title": "Hai invitato {{nickname}} ad una sfida di coppia",
+      "sent_body": "L’invito sarà visibile sull’app di {{nickname}} per due giorni. Riceverai una notifica se {{nickname}} accetta o rifiuta la sfida. Nel caso non rispondesse entro tre giorni, la sfida sarà annullata. ",
+      "close": "Chiudi"
     },
     "challenge_model": {
       "title": "Che tipo di sfida vuoi creare?",
@@ -434,8 +444,8 @@
         "default": "Sfida"
       },
       "description": {
-        "groupCompetitivePerformance": "TODO: add description",
-        "groupCompetitiveTime": "TODO: add description",
+        "groupCompetitivePerformance": "Raggiungi un traguardo prima del tuo avversario!",
+        "groupCompetitiveTime": "Supera il tuo avversario su una metrica a scelta entro una settimana",
         "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
       },
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"

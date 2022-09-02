@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { find } from 'lodash-es';
 import {
   combineLatest,
@@ -10,6 +10,7 @@ import {
   shareReplay,
   Subject,
   switchMap,
+  tap,
 } from 'rxjs';
 import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
@@ -18,6 +19,7 @@ import { Invitation } from 'src/app/core/api/generated/model/invitation';
 import { StringLanguageMap } from 'src/app/core/shared/pipes/languageMap.pipe';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -28,6 +30,7 @@ import {
 } from 'src/app/core/shared/tracking/trip.model';
 import { TranslateKey } from 'src/app/core/shared/type.utils';
 import { castTo, tapLog } from 'src/app/core/shared/utils';
+import { SentInvitationlModalPage } from './sent-invitation-modal/sent-invitation.modal';
 
 @Component({
   selector: 'app-create-challenge',
@@ -139,7 +142,8 @@ export class CreateChallengePage implements OnInit {
   ]).pipe(
     map(([allChallengeables, selectedId]) =>
       find(allChallengeables, { id: selectedId })
-    )
+    ),
+    tap((chall) => (this.nicknameOpponent = chall.nickname))
   );
 
   previewActive$ = new Subject<void>();
@@ -178,6 +182,7 @@ export class CreateChallengePage implements OnInit {
   );
 
   getCampaignColor = this.campaignService.getCampaignColor;
+  nicknameOpponent: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -187,7 +192,9 @@ export class CreateChallengePage implements OnInit {
     private errorService: ErrorService,
     private userService: UserService,
     private navController: NavController,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private challengeService: ChallengeService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {}
@@ -199,10 +206,20 @@ export class CreateChallengePage implements OnInit {
       const invitation = await firstValueFrom(
         this.challengeControllerService.sendInvitationUsingPOST(inviteParams)
       );
-      await this.alertService.presentAlert({
-        messageString: JSON.stringify(invitation),
+      // await this.alertService.presentAlert({
+      //   messageString: JSON.stringify(invitation),
+      // });
+      const modal = await this.modalController.create({
+        component: SentInvitationlModalPage,
+        cssClass: 'modal-challenge',
+        componentProps: {
+          opponentName: this.nicknameOpponent,
+        },
+        swipeToClose: true,
       });
+      await modal.present();
       this.navController.navigateBack('pages/tabs/challenges');
+      this.challengeService.challengesRefresher$.next(null);
     } catch (e) {
       this.errorService.handleError(e);
     }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { trackByProperty } from 'src/app/core/shared/utils';
@@ -9,7 +9,7 @@ import { Challenge } from '../challenges.page';
   templateUrl: './challenge-container.component.html',
   styleUrls: ['./challenge-container.component.scss'],
 })
-export class ChallengeContainerComponent implements OnInit {
+export class ChallengeContainerComponent implements OnInit, OnChanges {
   @Input() campaign: PlayerCampaign;
   @Input() challenges: Challenge[];
   @Input() type: string;
@@ -19,7 +19,8 @@ export class ChallengeContainerComponent implements OnInit {
 
   constructor(public campaignService: CampaignService) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+  ngOnChanges() {
     this.challengeProposed = this.challenges.filter(
       (challenge) => challenge.challengeType === 'PROPOSED'
     );

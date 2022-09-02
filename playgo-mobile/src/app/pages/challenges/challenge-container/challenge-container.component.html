@@ -6,7 +6,7 @@
   >
   </app-challenge-card>
 </ng-container>
-<ion-card>
+<!-- <ion-card>
   <ion-card-header [color]="campaign?.campaign?.type">
     <ion-card-title>
       {{
@@ -18,12 +18,12 @@
       }}
       {{ campaign?.campaign?.name | languageMap }}</ion-card-title
     >
-  </ion-card-header>
-  <app-challenges-proposed-card
-    [challenges]="challengeProposed"
-    [type]="type"
-    [campaign]="campaign"
-    [canInvite]="canInvite"
-  >
-  </app-challenges-proposed-card>
-</ion-card>
+  </ion-card-header> -->
+<app-challenges-proposed-card
+  [challenges]="challengeProposed"
+  [type]="type"
+  [campaign]="campaign"
+  [canInvite]="canInvite"
+>
+</app-challenges-proposed-card>
+<!-- </ion-card> -->

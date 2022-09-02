@@ -1,25 +1,54 @@
-<ion-card>
-  <ion-card-header>
-    {{ "challenges.proposed" | translate }}
+<ion-card
+  *ngIf="
+    singleChallenges?.length > 0 ||
+    (canInvite && (sentInvitation$ | async) === false) ||
+    coupleChallenges.length > 0
+  "
+>
+  <ion-card-header [color]="campaign?.campaign?.type">
+    {{ campaign?.campaign?.name | languageMap }}
   </ion-card-header>
-  <ion-card-content>
-    <app-single-challenge-proposed
-      *ngFor="let chall of singleChallenges"
-      [challenge]="chall"
-      [campaign]="campaign"
+  <ion-card-content
+    [ngStyle]="{
+      'background-color':
+        'var(--ion-color-' + campaign?.campaign?.type + '-light)'
+    }"
+  >
+    <ion-icon
+      class="popup-icon"
+      name="information-circle-outline"
+      (click)="openInfoChallenge()"
+    ></ion-icon>
+    <p class="text-proposed">{{ "challenges.proposed" | translate }}</p>
+
+    <div *ngIf="singleChallenges?.length > 0">
+      {{ "challenges.choose_single" | translate }}
+      <app-single-challenge-proposed
+        *ngFor="let chall of singleChallenges"
+        [challenge]="chall"
+        [campaign]="campaign"
+      >
+      </app-single-challenge-proposed>
+    </div>
+    <div
+      *ngIf="
+        (canInvite && (sentInvitation$ | async) === false) ||
+        coupleChallenges.length > 0
+      "
     >
-    </app-single-challenge-proposed>
-    <app-create-challenge-button
-      *ngIf="canInvite"
-      [campaign]="campaign"
-      (click)="goToCreateChallenge($event, campaign)"
-    ></app-create-challenge-button>
-    <app-couple-challenge-proposed
-      *ngFor="let chall of coupleChallenges"
-      [challenge]="chall"
-      [campaign]="campaign"
-    >
-    </app-couple-challenge-proposed>
+      {{ "challenges.choose_or_configure" | translate }}
+      <app-create-challenge-button
+        *ngIf="canInvite && (sentInvitation$ | async) === false"
+        [campaign]="campaign"
+        (click)="goToCreateChallenge($event, campaign)"
+      ></app-create-challenge-button>
+      <app-couple-challenge-proposed
+        *ngFor="let chall of coupleChallenges"
+        [challenge]="chall"
+        [campaign]="campaign"
+      >
+      </app-couple-challenge-proposed>
+    </div>
   </ion-card-content>
 </ion-card>
 <!--

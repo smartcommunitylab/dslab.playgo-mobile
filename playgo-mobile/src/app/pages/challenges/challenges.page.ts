@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
@@ -6,6 +6,7 @@ import { ChallengesData } from 'src/app/core/api/generated/model/challengesData'
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
+import { ChallengeContainerComponent } from './challenge-container/challenge-container.component';
 
 @Component({
   selector: 'app-challenges',
@@ -13,10 +14,16 @@ import { NotificationService } from 'src/app/core/shared/services/notifications/
   styleUrls: ['challenges.page.scss'],
 })
 export class ChallengesPage implements OnInit, OnDestroy {
+  @ViewChild('active', { static: false })
+  activeChallengeChild: ChallengeContainerComponent;
+  @ViewChild('future', { static: false })
+  futureChallengeChild: ChallengeContainerComponent;
+
   selectedSegment?: string;
   subCampaignChall: Subscription;
   subCampaignFutureChall: Subscription;
   subCampaignActiveChall: Subscription;
+  subCampaignCanInvite: Subscription;
   campaignsWithChallenges: PlayerCampaign[] = [];
   thereAreChallengeActive = false;
   thereAreChallengeFuture = false;
@@ -74,19 +81,22 @@ export class ChallengesPage implements OnInit, OnDestroy {
           ),
           {}
         );
-        //TODO
-        if (this.futureChallenges) {
-          this.canInvite = challenges?.reduce((map: any, obj: Challenge) => {
-            map[obj?.campaign?.campaignId] = true;
-            return map;
-          }, {});
-        }
         if (challenges.length > 0) {
           this.thereAreChallengeFuture = true;
         } else {
           this.thereAreChallengeFuture = false;
         }
       });
+    this.subCampaignCanInvite = this.challengeService.canInvite$.subscribe(
+      (canInvite) => {
+        this.canInvite = canInvite.reduce(
+          (result: any, a) => (
+            (result[a.campaign.campaignId] = a.canInvite || false), result
+          ),
+          {}
+        );
+      }
+    );
   }
 
   ngOnDestroy(): void {}
