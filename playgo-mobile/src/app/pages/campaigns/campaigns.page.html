@@ -3,25 +3,25 @@
   <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)" #refresher>
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-segment
+  <!-- <ion-segment
     mode="md"
     class="app-segment"
     [(ngModel)]="selectedSegment"
     (ionChange)="segmentChanged($event)"
     scrollable
-  >
-    <ion-segment-button value="myCampaigns" checked class="app-segment-button">
+  > -->
+  <!-- <ion-segment-button value="myCampaigns" checked class="app-segment-button">
       <ion-label>{{'campaigns.myCampaigns' | translate}}</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="publicCampaigns" class="app-segment-button">
+    </ion-segment-button> -->
+  <!-- <ion-segment-button value="publicCampaigns" class="app-segment-button">
       <ion-label>{{'campaigns.allCampaigns' | translate}}</ion-label>
     </ion-segment-button>
-  </ion-segment>
+  </ion-segment> -->
 
-  <div *ngIf="selectedSegment==='myCampaigns'">
+  <!-- <div *ngIf="selectedSegment==='myCampaigns'">
     <app-my-campaign></app-my-campaign>
-  </div>
-  <div *ngIf="selectedSegment==='publicCampaigns'">
-    <app-all-campaign></app-all-campaign>
-  </div>
+  </div> -->
+  <!-- <div *ngIf="selectedSegment==='publicCampaigns'"> -->
+  <app-all-campaign></app-all-campaign>
+  <!-- </div> -->
 </ion-content>

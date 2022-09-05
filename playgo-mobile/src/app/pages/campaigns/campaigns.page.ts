@@ -17,7 +17,7 @@ export class CampaignsPage implements OnInit, OnDestroy {
   constructor(private campaignService: CampaignService) {}
 
   ngOnInit(): void {
-    this.selectedSegment = 'myCampaigns';
+    this.selectedSegment = 'publicCampaigns';
     this.sub = this.campaignService.playerCampaignsRefresher$.subscribe(
       (campaigns) => {
         this.refresher.complete();

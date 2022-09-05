@@ -1,22 +1,26 @@
 <div>
   <ion-grid>
     <ion-row *ngIf="showRanking">
-      <ion-col *ngIf="reportWeekStat">
-        <p class="ion-text-left">
-          {{
-            "campaigns.homewidgets.stat.weekposition"
-              | translate: { position: reportWeekStat?.position }
-          }}
-        </p>
-      </ion-col>
-
-      <ion-col *ngIf="reportTotalStat" class="ion-text-left">
-        <p>
-          {{
-            "campaigns.homewidgets.stat.totalposition"
-              | translate: { position: reportTotalStat?.position }
-          }}
-        </p>
+      <ion-col size="10" class="ranking">
+        <ng-container *ngIf="reportWeekStat">
+          <span class="ion-text-left">
+            {{
+              "campaigns.homewidgets.stat.weekposition"
+                | translate: { position: reportWeekStat?.position }
+            }}
+          </span>
+        </ng-container>
+        <ng-container *ngIf="reportWeekStat && reportTotalStat">
+          <span class="ion-text-left">-</span>
+        </ng-container>
+        <ng-container *ngIf="reportTotalStat" class="ion-text-left">
+          <span>
+            {{
+              "campaigns.homewidgets.stat.totalposition"
+                | translate: { position: reportTotalStat?.position }
+            }}
+          </span>
+        </ng-container>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -25,32 +29,37 @@
         *ngIf="reportWeekStat || reportMonthStat || reportTotalStat"
       >
         <app-icon
-          class="icon-size-big"
           [name]="
             campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
           "
         ></app-icon>
       </ion-col>
       <ion-col class="report">
-        <p *ngIf="reportWeekStat" class="ion-text-left">
-          {{
-            "campaigns.homewidgets.stat.weekvalue"
+        <p
+          *ngIf="reportWeekStat"
+          class="ion-text-left"
+          [innerHtml]="
+            'campaigns.homewidgets.stat.weekvalue'
               | translate: { value: reportWeekStat?.value | localNumber }
-          }}
-        </p>
+          "
+        ></p>
 
-        <p *ngIf="reportTotalStat" class="ion-text-left">
-          {{
-            "campaigns.homewidgets.stat.totalvalue"
+        <p
+          *ngIf="reportTotalStat"
+          class="ion-text-left"
+          [innerHtml]="
+            'campaigns.homewidgets.stat.totalvalue'
               | translate: { value: reportTotalStat?.value | localNumber }
-          }}
-        </p>
-        <p *ngIf="reportMonthStat" class="ion-text-left">
-          {{
-            "campaigns.homewidgets.stat.monthvalue"
+          "
+        ></p>
+        <p
+          *ngIf="reportMonthStat"
+          class="ion-text-left"
+          [innerHtml]="
+            'campaigns.homewidgets.stat.monthvalue'
               | translate: { value: reportMonthStat?.value | localNumber }
-          }}
-        </p>
+          "
+        ></p>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="status !== null; else nullStatus">

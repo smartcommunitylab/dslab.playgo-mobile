@@ -50,8 +50,8 @@
     </ng-template>
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
-    <div *ngFor="let campaign of campaignsWithChallenges">
-      <ng-container *ngIf="thereAreChallengeFuture; else noChallengeFuture">
+    <ng-container *ngIf="thereAreChallengeFuture; else noChallengeFuture">
+      <div *ngFor="let campaign of campaignsWithChallenges">
         <div
           *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0"
         >
@@ -64,8 +64,8 @@
           >
           </app-challenge-container>
         </div>
-      </ng-container>
-    </div>
+      </div>
+    </ng-container>
 
     <ng-template #noChallengeFuture>
       <div class="empty-challenge">{{ "challenges.empty" | translate }}</div>

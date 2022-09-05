@@ -23,11 +23,16 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="12">
-          <ion-card-content
-            class="ellipsis"
-            [innerHTML]="campaign.description | languageMap"
-          >
-          </ion-card-content>
+          <ng-container *ngIf="campaign.description; else noDesc">
+            <ion-card-content
+              class="ellipsis"
+              [innerHTML]="campaign.description | languageMap"
+            >
+            </ion-card-content>
+          </ng-container>
+          <ng-template #noDesc>
+            {{ "noDesc" | translate }}
+          </ng-template>
         </ion-col>
         <ion-col size="12" class="ion-text-center">
           <ion-button

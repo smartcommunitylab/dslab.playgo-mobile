@@ -3,3 +3,15 @@
   flex-direction: column;
   justify-content: space-around;
 }
+.ranking {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+}
+app-icon {
+  font-size: 34px;
+  ion-icon {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+}
