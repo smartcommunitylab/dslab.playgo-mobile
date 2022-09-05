@@ -195,6 +195,7 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Join",
+    "noDesc": "Nessuna description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
     "registered": "Registered",
