@@ -53,7 +53,7 @@ export class ChallengeService {
                 campaignId: campaign.campaign.campaignId,
               })
               .pipe(
-                this.errorService.getErrorHandler(),
+                this.errorService.getErrorHandler('silent'),
                 map((response) =>
                   this.processResponseForCanInvite(response, campaign)
                 )
@@ -76,7 +76,7 @@ export class ChallengeService {
                     campaignId: campaign.campaign.campaignId,
                   })
                   .pipe(
-                    this.errorService.getErrorHandler(),
+                    this.errorService.getErrorHandler('silent'),
                     map((response) =>
                       this.processResponseForOneCampaign(response, campaign)
                     )
