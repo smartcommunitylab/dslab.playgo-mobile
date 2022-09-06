@@ -1,5 +1,5 @@
 <ng-template #template>
-  <ion-refresher slot="fixed" (ionRefresh)="refresh()" #refresher>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($any($event))" #refresher>
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 </ng-template>

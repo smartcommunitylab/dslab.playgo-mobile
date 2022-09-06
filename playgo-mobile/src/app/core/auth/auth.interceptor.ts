@@ -17,6 +17,7 @@ import {
 import { SpinnerService } from '../shared/services/spinner.service';
 import { AuthService } from './auth.service';
 import { TokenResponse } from '@openid/appauth/built/token_response';
+import { RefresherService } from '../shared/services/refresher.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -26,7 +27,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private authService: AuthService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private refresherService: RefresherService
   ) {
     this.urlsToNotUse = [];
   }
@@ -49,6 +51,7 @@ export class AuthInterceptor implements HttpInterceptor {
       take(1),
       // timeout({ first: 5000 }),
       tap(() => this.spinnerService.show()),
+      tap(() => this.refresherService.httpCallStarted()),
       concatMap((token) => {
         const requestWithToken = request.clone({
           // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -73,6 +76,7 @@ export class AuthInterceptor implements HttpInterceptor {
       }),
       finalize(() => {
         this.spinnerService.hide();
+        this.refresherService.httpCallEnded();
       })
     );
   }

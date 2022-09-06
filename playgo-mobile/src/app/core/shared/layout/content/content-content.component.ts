@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { RefresherCustomEvent } from '@ionic/angular';
 import { RefresherService } from '../../services/refresher.service';
 
 @Component({
@@ -11,8 +12,11 @@ export class ContentContentComponent implements OnInit {
   public template: TemplateRef<any>;
 
   constructor(private refresherService: RefresherService) {}
-  refresh() {
+
+  refresh(event: RefresherCustomEvent) {
     this.refresherService.onRefresh();
+    this.refresherService.setCompleteFunction(event.detail.complete);
   }
+
   ngOnInit() {}
 }
