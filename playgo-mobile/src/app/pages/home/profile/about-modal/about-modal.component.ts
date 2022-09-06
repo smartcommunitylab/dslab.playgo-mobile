@@ -32,7 +32,7 @@ export class AboutModalComponent implements OnInit {
       await Preferences.configure({ group: 'buildInfo' });
       const javaInfoJson = await Preferences.get({ key: 'gitInfo' });
       const javaInfo: GitInfo = JSON.parse(javaInfoJson.value);
-      this.javaBuildCommit = javaInfo.raw || javaInfo.hash || '-';
+      this.javaBuildCommit = javaInfo?.raw || javaInfo?.hash || '-';
       this.codePushChannel = (
         await Preferences.get({ key: 'codePushChannel' })
       ).value;

@@ -89,7 +89,7 @@ export class BackgroundTrackingService {
   private appAndDeviceInfo$: Observable<DeviceInfo> = combineLatest([
     this.appStatusService.appInfo$,
     this.appStatusService.deviceInfo$,
-    this.appStatusService.codePushLabel$,
+    this.appStatusService.codePushLabel$.pipe(startWith('unknown')),
   ]).pipe(
     map(([appInfo, deviceInfo, codePushLabel]) => ({
       isVirtual: deviceInfo.isVirtual,
@@ -197,7 +197,7 @@ export class BackgroundTrackingService {
 
       console.log('BackgroundGeolocation ready', state);
     } catch (e) {
-      console.error(e);
+      console.error('BackgroundGeolocation', e);
     }
     this.markAsReady(true);
   }
