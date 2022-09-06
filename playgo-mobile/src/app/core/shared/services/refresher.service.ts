@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { RefresherCustomEvent } from '@ionic/angular';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -11,7 +12,6 @@ import {
   switchMap,
   timeout,
 } from 'rxjs';
-import { tapLog } from '../utils';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,6 @@ export class RefresherService {
   private isHttpCallInProgress$: Observable<boolean> =
     this.httpCallSubject.pipe(
       scan((acc, curr) => acc + curr, 0),
-      tapLog('number of calls'),
       map((count) => count > 0),
       distinctUntilChanged(),
       // if call is ended and another one is opened in the same time, we don't want to emit
@@ -52,13 +51,9 @@ export class RefresherService {
 
   private completeFunction: () => void = () => {};
 
-  public onRefresh(): void {
+  public onRefresh(event: RefresherCustomEvent): void {
     this.refreshSubject.next();
-    console.log('REFRESH DETECTED');
-  }
-
-  public setCompleteFunction(complete: () => void): void {
-    this.completeFunction = complete;
+    this.completeFunction = event.detail.complete;
   }
 
   public httpCallStarted(): void {

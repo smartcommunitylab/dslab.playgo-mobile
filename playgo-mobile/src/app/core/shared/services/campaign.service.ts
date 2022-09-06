@@ -34,6 +34,7 @@ import { ifOfflineUseStored } from '../utils';
 import { ErrorService } from './error.service';
 import { TranslateKey } from '../type.utils';
 import { CampaignInfo } from '../../api/generated/model/campaignInfo';
+import { RefresherService } from './refresher.service';
 
 @Injectable({
   providedIn: 'root',
@@ -54,12 +55,11 @@ export class CampaignService {
 
   private playerCampaignUnSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
   private playerCampaignSubscribed$ = new ReplaySubject<PlayerCampaign>(1);
-  public playerCampaignsRefresher$ = new ReplaySubject<void>(1);
   private campaignsCouldBeChanged$ = merge(
     this.initialUserProfile$,
     this.playerCampaignSubscribed$,
     this.playerCampaignUnSubscribed$,
-    this.playerCampaignsRefresher$
+    this.refresherService.refreshed$
   ).pipe(startWith(null));
 
   private myCampaignsStorage =
@@ -178,7 +178,8 @@ export class CampaignService {
     private campaignControllerService: CampaignControllerService,
     private localStorageService: LocalStorageService,
     private http: HttpClient,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private refresherService: RefresherService
   ) {}
   subscribeToCampaign(
     id: string,

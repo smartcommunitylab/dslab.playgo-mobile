@@ -14,8 +14,7 @@ export class ContentContentComponent implements OnInit {
   constructor(private refresherService: RefresherService) {}
 
   refresh(event: RefresherCustomEvent) {
-    this.refresherService.onRefresh();
-    this.refresherService.setCompleteFunction(event.detail.complete);
+    this.refresherService.onRefresh(event);
   }
 
   ngOnInit() {}
