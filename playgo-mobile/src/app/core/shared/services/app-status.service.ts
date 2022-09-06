@@ -11,10 +11,13 @@ import {
   Observable,
   ReplaySubject,
   shareReplay,
+  EMPTY,
 } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { DeviceInfo } from '@capacitor/device';
 import { environment } from 'src/environments/environment';
+import { ErrorService } from './error.service';
+import { ILocalPackage } from 'capacitor-codepush/dist/esm/package';
 
 @Injectable({
   providedIn: 'root',
@@ -38,21 +41,33 @@ export class AppStatusService {
     map((info) => info.version)
   );
 
-  private syncFinished$ = new ReplaySubject<void>(1);
+  private syncFinished$ = new ReplaySubject<boolean>(1);
   public codePushLabel$: Observable<string> = this.syncFinished$.pipe(
-    switchMap(() =>
+    switchMap((success) =>
       combineLatest([
+        of(success),
         this.codePushPlugin.getCurrentPackage(),
         this.codePushPlugin.getPendingPackage(),
-      ])
+      ]).pipe(
+        map((a) => a),
+        catchError((error) => {
+          this.errorService.handleError(error, 'silent');
+          return of([false, { label: 'unknown' }, null] as [
+            boolean,
+            ILocalPackage,
+            ILocalPackage
+          ]);
+        })
+      )
     ),
-    map(([currentPackage, pendingPackage]) => {
+    map(([successSync, currentPackage, pendingPackage]) => {
       let hotCodePushLabel = '';
 
       if (!environment.useCodePush) {
         hotCodePushLabel = '(code push disabled)';
       } else {
-        hotCodePushLabel = currentPackage?.label || '-';
+        const fallbackLabel = successSync ? '-' : 'unknown';
+        hotCodePushLabel = currentPackage?.label || fallbackLabel;
       }
 
       const pendingPackageLabel = pendingPackage
@@ -68,10 +83,11 @@ export class AppStatusService {
     @Inject('DevicePlugin')
     private devicePlugin: typeof DevicePluginInternal,
     @Inject('CodePushPlugin')
-    private codePushPlugin: typeof CodePushPluginInternal
+    private codePushPlugin: typeof CodePushPluginInternal,
+    private errorService: ErrorService
   ) {}
 
-  codePushSyncFinished() {
-    this.syncFinished$.next();
+  codePushSyncFinished(success: boolean) {
+    this.syncFinished$.next(success);
   }
 }

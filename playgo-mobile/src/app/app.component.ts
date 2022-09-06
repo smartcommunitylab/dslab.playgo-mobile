@@ -12,6 +12,8 @@ import { IconService } from './core/shared/ui/icon/icon.service';
 import { AuthService } from './core/auth/auth.service';
 import { NotificationService } from './core/shared/services/notifications/notifications.service';
 import { BadgeService } from './core/shared/services/badge.service';
+import { waitMs } from './core/shared/utils';
+import { ErrorService } from './core/shared/services/error.service';
 
 @Component({
   selector: 'app-root',
@@ -29,23 +31,27 @@ export class AppComponent implements AfterContentInit {
     private notificationService: NotificationService,
     private badgeService: BadgeService,
     @Inject('CodePushPlugin')
-    private codePushPlugin: typeof CodePushPluginInternal
+    private codePushPlugin: typeof CodePushPluginInternal,
+    private errorService: ErrorService
   ) {
     this.initializeApp();
   }
   private async initializeApp() {
-    this.translate.setDefaultLang('it');
-    this.loadCustomIcons();
-    this.pushInit();
-    this.badgeService.init();
-    await this.platform.ready();
-    await Promise.all([
-      this.authService.init(),
-      this.codePushSync(),
-      this.backgroundTrackingService.start(),
-    ]);
-
-    SplashScreen.hide();
+    try {
+      this.translate.setDefaultLang('it');
+      this.loadCustomIcons();
+      this.pushInit();
+      this.badgeService.init();
+      await this.platform.ready();
+      await this.authService.init();
+      // wait max 3 seconds for codePushSync to finish
+      await Promise.race([this.codePushSync(), waitMs(3000)]);
+      await this.backgroundTrackingService.start();
+    } catch (error) {
+      console.error('initializeApp error:', error);
+    } finally {
+      await SplashScreen.hide();
+    }
   }
   pushInit() {
     this.authService.isReadyForApi$.subscribe(() => {
@@ -55,7 +61,7 @@ export class AppComponent implements AfterContentInit {
       try {
         this.notificationService.initPush();
       } catch (error) {
-        console.error('initPush error:', error);
+        this.errorService.handleError(error, 'silent');
       }
     });
   }
@@ -63,13 +69,20 @@ export class AppComponent implements AfterContentInit {
     try {
       let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';
       if (environment.useCodePush) {
-        syncStatus = await this.codePushPlugin.sync({});
+        syncStatus = await Promise.race([
+          this.codePushPlugin.sync({}),
+          // there is some problem with error handling on the plugin side...
+          // https://github.com/capacitor-community/http/issues/232
+          waitMs(15_000).then(() => {
+            throw new Error('codePushSync timeout');
+          }),
+        ]);
       }
       console.log('codePushSync syncStatus:', syncStatus);
+      this.appStatusService.codePushSyncFinished(true);
     } catch (error) {
-      console.error('codePushSync error:', error);
-    } finally {
-      this.appStatusService.codePushSyncFinished();
+      this.errorService.handleError(error, 'silent');
+      this.appStatusService.codePushSyncFinished(false);
     }
   }
 
