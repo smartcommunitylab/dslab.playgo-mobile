@@ -380,6 +380,7 @@
     "activate": "Accetta",
     "reject": "Rifiuta",
     "cancel": "Annulla",
+    "singleproposal": "Single challenge",
     "proposed": "Next week challenges",
     "choose_single": "Choose one of the following challenge",
     "choose_or_configure": "Configure a group challenge",

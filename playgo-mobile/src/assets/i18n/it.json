@@ -390,6 +390,7 @@
     "activate": "Accetta",
     "reject": "Rifiuta",
     "cancel": "Annulla",
+    "singleproposal": "Sfida singola",
     "proposed": "Sfide della prossima settimana",
     "choose_single": "Scegli una delle seguenti sfide singole",
     "choose_or_configure": "Configura una sfida di coppia",
@@ -397,6 +398,8 @@
     "past": "Passate",
     "present": "Presenti",
     "future": "Future",
+    "fromto": "Dal {{ from }} al {{ to }}",
+    "points": "{{ point }} points",
     "challenge_container": "Sfide {{ type }} di campagna",
     "info": {
       "title": "Come funzionano le sfide ",

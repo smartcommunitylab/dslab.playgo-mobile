@@ -157,6 +157,11 @@ ion-list {
   background: rgb(35, 36, 37);
   opacity: 1;
 }
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .modal-challenge ion-toolbar {
   --background: rgb(14 116 144);
