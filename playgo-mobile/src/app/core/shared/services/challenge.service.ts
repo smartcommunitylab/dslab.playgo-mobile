@@ -23,6 +23,7 @@ import { ChallengeConceptInfo } from '../../api/generated/model/challengeConcept
 import { PlayerCampaign } from '../../api/generated/model/playerCampaign';
 import { CampaignService } from './campaign.service';
 import { ErrorService } from './error.service';
+import { RefresherService } from './refresher.service';
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +43,8 @@ export class ChallengeService {
   public challengesRefresher$ = new ReplaySubject<any>(1);
   private challengesCouldBeChanged$ = merge(
     this.campaignsWithChallenges$,
-    this.challengesRefresher$
+    this.challengesRefresher$,
+    this.refresherService.refreshed$
   ).pipe(withLatestFrom(this.campaignsWithChallenges$));
 
   public canInvite$: Observable<any[]> = this.campaignsWithChallenges$
@@ -142,7 +144,8 @@ export class ChallengeService {
   constructor(
     private campaignService: CampaignService,
     private challengeControllerService: ChallengeControllerService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private refresherService: RefresherService
   ) {}
   private processResponseForOneCampaign(
     response: ChallengeConceptInfo,
