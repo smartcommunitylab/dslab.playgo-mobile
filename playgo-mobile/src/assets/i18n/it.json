@@ -122,7 +122,7 @@
     "Help": "Help",
     "Privacy": "Privacy",
     "logout": "Esci",
-    "about": "IT: About",
+    "about": "About",
     "deleteAccount": "Elimina account",
     "changeButton": "Modifica",
     "change": {
@@ -187,7 +187,7 @@
       "not_synchronized": "Non sincronizzato",
       "not_finished": "In corso"
     },
-    "historic_values_offline": "IT: To load historic trips, you have to be online."
+    "historic_values_offline": "Per caricare i viaggi storici, devi essere online."
   },
   "errors": {
     "error_header": "Errore",
