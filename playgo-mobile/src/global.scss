@@ -162,6 +162,18 @@ ion-list {
   --background: rgb(14 116 144);
   --color: white;
 }
+.progress-bar {
+  padding: 2px;
+  border: solid 1px var(--ion-color-sad-gray);
+  border-radius: 4px;
+  ion-progress-bar {
+    border-radius: 4px;
+  }
+}
+.home-card-widget {
+  border-radius: 10px;
+  overflow: hidden;
+}
 @import "material-icons/iconfont/material-icons.scss";
 
 $material-icons-font-path: "./" !default;

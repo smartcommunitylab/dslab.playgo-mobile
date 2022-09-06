@@ -1,28 +1,35 @@
 <div class="ion-text-left" *ngIf="limitMax">
   <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        {{ header }}
-        {{ limitValue?.value | localNumber }}
+    <ion-row class="limit-text">
+      <ion-col size="8">
+        <b
+          >{{ header }} {{ limitValue?.value | localNumber
+          }}{{ "campaigns.homewidgets.stat.km" | translate }}</b
+        >
       </ion-col>
-      <ion-col size="6" class="ion-text-end">
-        {{ limitMax }} {{ "max" | translate }}
+      <ion-col size="4" class="ion-text-end">
+        {{ limitMax }}{{ "campaigns.homewidgets.stat.km" | translate }}
+        {{ "campaigns.homewidgets.stat.max" | translate }}
       </ion-col>
     </ion-row>
     <ion-row *ngIf="limitValue?.value; else zeroProgress">
-      <ion-progress-bar
-        class="level-bar"
-        [color]="type"
-        [value]="limitValue?.value / limitMax"
-      ></ion-progress-bar>
-    </ion-row>
-    <ng-template #zeroProgress>
-      <ion-row>
+      <ion-col class="progress-bar">
         <ion-progress-bar
           class="level-bar"
           [color]="type"
-          [value]="0"
+          [value]="limitValue?.value / limitMax"
         ></ion-progress-bar>
+      </ion-col>
+    </ion-row>
+    <ng-template #zeroProgress>
+      <ion-row>
+        <ion-col class="progress-bar">
+          <ion-progress-bar
+            class="level-bar"
+            [color]="type"
+            [value]="0"
+          ></ion-progress-bar>
+        </ion-col>
       </ion-row>
     </ng-template>
   </ion-grid>

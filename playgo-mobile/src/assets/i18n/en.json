@@ -195,6 +195,7 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Join",
+    "noDesc": "Nessuna description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
     "registered": "Registered",
@@ -262,16 +263,18 @@
       "stat": {
         "weekposition": "{{position}} weekly position",
         "totalposition": "{{position}} total position",
-        "weekvalue": "{{value}} weekly value",
-        "monthvalue": "{{value}} monthly value",
-        "totalvalue": "{{value}} total value",
-        "levelName": "Level : {{levelName}}",
+        "weekvalue": "<b>{{value}} weekly value</b>",
+        "monthvalue": "<b>{{value}} monthly value</b>",
+        "totalvalue": "<b>{{value}} total value</b>",
+        "levelName": "<b>Level : {{levelName}}</b>",
         "score": "Points: {{score}}",
         "emptystatus": "If you want to see your level and points start to play!",
         "status": "{{score}} Kg",
         "record": "{{record}} weekly record",
         "today": "Today",
-        "lastmonth": "Last month"
+        "lastmonth": "Last month",
+        "max": " max",
+        "km": " Km"
       }
     },
 
@@ -439,7 +442,7 @@
   "home": "Play&Go",
   "home_title": "Home",
   "profile_title": "Profile",
-  "campaigns_title": "Campaign",
+  "campaigns_title": "Other Campaigns",
   "playNow": "Play now",
   "noMessages": "No messages available",
   "noCampaigns": "No campaigns available",

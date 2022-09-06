@@ -122,7 +122,7 @@
     "Help": "Help",
     "Privacy": "Privacy",
     "logout": "Esci",
-    "about": "IT: About",
+    "about": "About",
     "deleteAccount": "Elimina account",
     "changeButton": "Modifica",
     "change": {
@@ -187,7 +187,7 @@
       "not_synchronized": "Non sincronizzato",
       "not_finished": "In corso"
     },
-    "historic_values_offline": "IT: To load historic trips, you have to be online."
+    "historic_values_offline": "Per caricare i viaggi storici, devi essere online."
   },
   "errors": {
     "error_header": "Errore",
@@ -212,6 +212,7 @@
     "join": "Iscriviti",
     "registered": "Registrato",
     "unregistered": "Utente disiscritto",
+    "noDesc": "Nessuna descrizione fornita",
     "myCampaigns": "Le mie",
     "allCampaigns": "Tutte",
     "public": {
@@ -266,16 +267,18 @@
       "stat": {
         "weekposition": "{{position}} in classifica settimanale",
         "totalposition": "{{position}} in classifica complessiva",
-        "weekvalue": "{{value}}  settimanale",
-        "monthvalue": "{{value}}  mensile",
-        "totalvalue": "{{value}} complessivo",
-        "levelName": "Livello : {{levelName}}",
+        "weekvalue": "<b>{{value}}</b>  settimanale",
+        "monthvalue": "<b>{{value}}</b>  mensile",
+        "totalvalue": "<b>{{value}}</b> complessivo",
+        "levelName": "<b>Livello : {{levelName}}</b>",
         "score": "Punti: {{score}}",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
         "status": "{{score}} Kg",
         "record": "Record: {{record}} Kg",
         "today": "Oggi",
-        "lastmonth": "Ultimo mese"
+        "lastmonth": "Ultimo mese",
+        "max": " max",
+        "km": " Km"
       }
     },
     "stats": {
@@ -472,7 +475,7 @@
   "home": "Play&Go",
   "home_title": "Home",
   "profile_title": "Profilo",
-  "campaigns_title": "Campagna",
+  "campaigns_title": "Altre campagne",
   "playNow": "Gioca adesso",
   "noMessages": "Nessun messaggio",
   "noCampaigns": "Nessuna campagna",

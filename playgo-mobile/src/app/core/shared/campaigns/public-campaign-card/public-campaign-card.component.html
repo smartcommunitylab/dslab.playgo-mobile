@@ -10,7 +10,6 @@
           </ion-avatar>
           <ion-label>
             <h3>{{ campaign.name | languageMap }}</h3>
-            <h4>{{ "campaigns.blabla" | translate }}</h4>
             <h4>
               {{ campaign.dateFrom | localDate }} -
               {{ campaign.dateTo | localDate }}
@@ -23,11 +22,16 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="12">
-          <ion-card-content
-            class="ellipsis"
-            [innerHTML]="campaign.description | languageMap"
-          >
-          </ion-card-content>
+          <ng-container *ngIf="campaign.description | languageMap; else noDesc">
+            <ion-card-content
+              class="ellipsis"
+              [innerHTML]="campaign.description | languageMap"
+            >
+            </ion-card-content>
+          </ng-container>
+          <ng-template #noDesc>
+            {{ "campaigns.noDesc" | translate }}
+          </ng-template>
         </ion-col>
         <ion-col size="12" class="ion-text-center">
           <ion-button
