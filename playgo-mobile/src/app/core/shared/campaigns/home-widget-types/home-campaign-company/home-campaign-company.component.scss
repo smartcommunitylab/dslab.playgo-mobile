@@ -9,6 +9,7 @@ ion-card {
     overflow: visible;
   }
   ion-card-header {
+    border-radius: 10px 10px 0px 0px;
     text-align: left;
     div ion-avatar {
       --border-radius: 50%;
