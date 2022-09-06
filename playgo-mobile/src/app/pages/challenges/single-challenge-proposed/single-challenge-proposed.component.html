@@ -1,11 +1,18 @@
 <ion-card (click)="openSelectionPopup()">
   <ion-card-header class="header" [color]="campaign.campaign.type">
     <span>
-      {{ "challenge.singleproposal" | translate }}
+      {{ "challenges.singleproposal" | translate }}
     </span>
   </ion-card-header>
   <ion-card-content class="content">
-    <app-icon name="invitation" class="icon-size-big"></app-icon
-    ><span>{{ challenge.challDesc | languageMap }}</span>
+    <ion-grid
+      ><ion-row
+        ><ion-col size="2"
+          ><app-icon name="default" class="icon-size-big"></app-icon></ion-col
+        ><ion-col class="flex-center"
+          ><span>{{ challenge.challDesc | languageMap }}</span></ion-col
+        ></ion-row
+      ></ion-grid
+    >
   </ion-card-content>
 </ion-card>

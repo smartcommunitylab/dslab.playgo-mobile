@@ -22,7 +22,9 @@
     <p class="text-proposed">{{ "challenges.proposed" | translate }}</p>
 
     <div *ngIf="singleChallenges?.length > 0">
-      {{ "challenges.choose_single" | translate }}
+      <p class="ion-text-center">
+        {{ "challenges.choose_single" | translate }}
+      </p>
       <app-single-challenge-proposed
         *ngFor="let chall of singleChallenges"
         [challenge]="chall"

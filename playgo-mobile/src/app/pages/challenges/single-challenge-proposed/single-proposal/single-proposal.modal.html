@@ -1,15 +1,52 @@
 <ion-header>
   <ion-toolbar [color]="campaign.campaign.type">
-    <ion-title> {{challenge |json }} </ion-title>
+    <ion-title> {{campaign.campaign.name|languageMap }} </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()"> {{challenge}}</ion-button>
+      <ion-button (click)="close()">X</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="playgo">
-  {{challenge?.challDesc|languageMap}}
-  <ion-button (click)="activate()">
-    {{'challenge.activate'|translate}}
-  </ion-button>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="3" class="ion-text-center">
+        <app-icon name="default" class="icon-size-big"></app-icon>
+      </ion-col>
+      <ion-col class="flex-center">
+        {{'challenges.singleproposal'|translate}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <span>{{ challenge.challDesc | languageMap }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="activate()" [color]="campaign?.campaign?.type">
+          {{'challenges.activate'|translate}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="footer">
+      <ion-col size="8" class="ion-text-left">
+        <span
+          >{{'challenges.fromto'|translate : { from:
+          challenge.startDate|localDate, to: challenge.endDate|localDate }
+          }}</span
+        >
+      </ion-col>
+      <ion-col class="ion-text-end">
+        <span class="flex-center"
+          >{{challenge.bonus}}
+          <app-icon
+            [name]="
+            campaignService.getCampaignTypeIcon(campaign?.campaign)
+          "
+          ></app-icon
+        ></span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

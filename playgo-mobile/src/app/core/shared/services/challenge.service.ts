@@ -11,6 +11,8 @@ import {
   startWith,
   withLatestFrom,
   EMPTY,
+  catchError,
+  of,
 } from 'rxjs';
 import {
   Challenge,
@@ -76,13 +78,16 @@ export class ChallengeService {
                     campaignId: campaign.campaign.campaignId,
                   })
                   .pipe(
-                    this.errorService.getErrorHandler('silent'),
+                    catchError((error) => {
+                      this.errorService.handleError(error, 'silent');
+                      return of(null);
+                    }),
                     map((response) =>
                       this.processResponseForOneCampaign(response, campaign)
                     )
                   );
               } else {
-                return EMPTY;
+                return of(null);
               }
             })
           ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
@@ -143,16 +148,20 @@ export class ChallengeService {
     response: ChallengeConceptInfo,
     campaign: PlayerCampaign
   ): Challenge[] {
-    const challengesOfAllTypesPerOneCampaign = Object.entries(
-      response.challengeData
-    ).flatMap(([challengeType, challenges]) =>
-      challenges.map((challenge) => ({
-        ...challenge,
-        challengeType: challengeType as ChallengeType,
-        campaign: campaign.campaign,
-      }))
-    );
-    return challengesOfAllTypesPerOneCampaign;
+    if (response) {
+      const challengesOfAllTypesPerOneCampaign = Object.entries(
+        response.challengeData
+      ).flatMap(([challengeType, challenges]) =>
+        challenges.map((challenge) => ({
+          ...challenge,
+          challengeType: challengeType as ChallengeType,
+          campaign: campaign.campaign,
+        }))
+      );
+      return challengesOfAllTypesPerOneCampaign;
+    } else {
+      return [];
+    }
   }
   private processResponseForCanInvite(
     response: ChallengeConceptInfo,
