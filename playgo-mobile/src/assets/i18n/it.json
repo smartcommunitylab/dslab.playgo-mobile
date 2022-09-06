@@ -276,7 +276,9 @@
         "status": "{{score}} Kg",
         "record": "Record: {{record}} Kg",
         "today": "Oggi",
-        "lastmonth": "Ultimo mese"
+        "lastmonth": "Ultimo mese",
+        "max": " max",
+        "km": " Km"
       }
     },
     "stats": {

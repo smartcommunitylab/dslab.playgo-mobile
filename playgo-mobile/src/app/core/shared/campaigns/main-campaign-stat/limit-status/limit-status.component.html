@@ -1,11 +1,15 @@
 <div class="ion-text-left" *ngIf="limitMax">
   <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <b>{{ header }} {{ limitValue?.value | localNumber }}</b>
+    <ion-row class="limit-text">
+      <ion-col size="8">
+        <b
+          >{{ header }} {{ limitValue?.value | localNumber
+          }}{{ "campaigns.homewidgets.stat.km" | translate }}</b
+        >
       </ion-col>
-      <ion-col size="6" class="ion-text-end">
-        {{ limitMax }} {{ "max" | translate }}
+      <ion-col size="4" class="ion-text-end">
+        {{ limitMax }}{{ "campaigns.homewidgets.stat.km" | translate }}
+        {{ "campaigns.homewidgets.stat.max" | translate }}
       </ion-col>
     </ion-row>
     <ion-row *ngIf="limitValue?.value; else zeroProgress">
