@@ -36,6 +36,7 @@ import { ActiveChallengeComponent } from './campaigns/app-widget-campaign/active
 import { ChallengeUsersStatusComponent } from './campaigns/challenge-users-status/challenge-users-status.component';
 import { ChallengeBarStatusComponent } from './campaigns/challenge-bar-status/challenge-bar-status.component';
 import { LimitStatusComponent } from './campaigns/main-campaign-stat/limit-status/limit-status.component';
+import { NotificationModalPage } from './notification-modal/notification.modal';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -72,6 +73,7 @@ import { LimitStatusComponent } from './campaigns/main-campaign-stat/limit-statu
     DetailNotificationLevelComponent,
     DetailNotificationBadgeComponent,
     LimitStatusComponent,
+    NotificationModalPage,
   ],
   entryComponents: [],
   providers: [AlertService],
@@ -109,6 +111,7 @@ import { LimitStatusComponent } from './campaigns/main-campaign-stat/limit-statu
     DetailNotificationLevelComponent,
     DetailNotificationBadgeComponent,
     LimitStatusComponent,
+    NotificationModalPage,
   ],
 })
 export class PlayGoSharedModule {}

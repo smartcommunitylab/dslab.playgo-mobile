@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title class="ion-text-center"> {{notification.data.title}} </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">X</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="playgo">
+  <ion-grid>
+    <ion-row
+      ><ion-col><p>{{notification.data.body}}</p></ion-col></ion-row
+    >
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-button color="light" expand="block" (click)="close()"
+    >{{'notifications.close'|translate}}</ion-button
+  >
+</ion-footer>

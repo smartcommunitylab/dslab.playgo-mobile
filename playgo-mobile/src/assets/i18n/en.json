@@ -34,7 +34,8 @@
     "subtitle": "Sustainable mobility app"
   },
   "notifications": {
-    "empty": "You have no notifications"
+    "empty": "You have no notifications",
+    "close": "Close"
   },
   "registration": {
     "newUser": "New User. Fill the form with your information",

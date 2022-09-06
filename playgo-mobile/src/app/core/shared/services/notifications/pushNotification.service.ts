@@ -8,7 +8,7 @@ import {
   Token,
 } from '@capacitor/push-notifications';
 import { FCM } from '@capacitor-community/fcm';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { CampaignService } from '../campaign.service';
 import { UserService } from '../user.service';
 import { tapLog } from '../../utils';
@@ -25,6 +25,7 @@ import {
   ReplaySubject,
 } from 'rxjs';
 import { CommunicationAccountControllerService } from '../../../api/generated/controllers/communicationAccountController.service';
+import { NotificationModalPage } from '../../notification-modal/notification.modal';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +41,8 @@ export class PushNotificationService {
     private zone: NgZone,
     private campaignService: CampaignService,
     private communicationAccountControllerservice: CommunicationAccountControllerService,
-    private userService: UserService
+    private userService: UserService,
+    private modalController: ModalController
   ) {}
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
@@ -89,6 +91,7 @@ export class PushNotificationService {
           this.notificationsSubject.next();
           console.log('Push received: ' + JSON.stringify(notification));
           this.notifications.push(notification);
+          this.showLastNotification(notification);
         });
       }
     );
@@ -99,9 +102,25 @@ export class PushNotificationService {
       (notification: ActionPerformed) => {
         this.zone.run(() => {
           console.log('Push action performed: ' + JSON.stringify(notification));
+          console.log('Push received: ' + JSON.stringify(notification));
+          this.notifications.push(notification.notification);
+          this.showLastNotification(notification.notification);
         });
       }
     );
+  }
+  async showLastNotification(notification: PushNotificationSchema) {
+    //show last notification if received
+    const modal = await this.modalController.create({
+      component: NotificationModalPage,
+      cssClass: 'modal-challenge',
+      componentProps: {
+        notification,
+      },
+      swipeToClose: true,
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
   }
   async registerToServer(token: string) {
     console.log('registerToServer', token);

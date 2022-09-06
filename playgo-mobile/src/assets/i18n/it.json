@@ -35,7 +35,8 @@
     "subtitle": "App di mobilitá sostenibile"
   },
   "notifications": {
-    "empty": "Non ci sono notifiche da mostrare"
+    "empty": "Non ci sono notifiche da mostrare",
+    "close": "Chiudi"
   },
   "registration": {
     "title": "Nuovo utente",
