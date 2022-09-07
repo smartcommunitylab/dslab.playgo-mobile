@@ -71,13 +71,6 @@ export class HeaderContentComponent implements OnInit, OnDestroy {
   navigateToNotification() {
     this.router.navigateByUrl('/pages/notifications');
   }
-  async back() {
-    const defaultHref = (await this.getCurrentSettings()).defaultHref;
-    if (defaultHref) {
-      return this.navCtrl.navigateRoot(defaultHref);
-    }
-    return this.navCtrl.back();
-  }
 
   async getCurrentSettings() {
     return await firstValueFrom(this.pageSettingsService.pageSettings$);

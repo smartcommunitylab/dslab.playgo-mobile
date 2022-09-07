@@ -90,6 +90,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.timeStamp = new Date().getTime();
   }
   goToProfile() {
-    this.navCtrl.navigateRoot('/pages/tabs/home/profile');
+    this.navCtrl.navigateForward('/pages/tabs/home/profile');
   }
 }

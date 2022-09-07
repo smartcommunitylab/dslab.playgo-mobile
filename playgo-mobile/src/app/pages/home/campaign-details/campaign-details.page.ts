@@ -111,7 +111,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     const page = isSchool ? 'school-leaderboard' : 'leaderboard';
     const campaignId = this.campaignContainer.campaign.campaignId;
 
-    return [`/pages/tabs/campaigns/${page}/${campaignId}`];
+    return [`/pages/tabs/home/details/${campaignId}/${page}`];
   }
   campaignHas(what: string): boolean {
     return (

@@ -5,8 +5,7 @@
 >
   <ion-toolbar [color]="campaignContainer?.campaign?.type">
     <ion-buttons slot="start">
-      <ion-back-button (click)="back()" defaultHref="'/pages/tabs/home'">
-      </ion-back-button>
+      <ion-back-button> </ion-back-button>
     </ion-buttons>
     <ion-title class="ion-text-center">
       <span>{{ titlePage }}</span>
@@ -52,7 +51,7 @@
   </ion-card>
   <ion-card
     *ngIf="campaignHas('stats')"
-    [routerLink]="['/pages/stats/'+campaignContainer.campaign.campaignId]"
+    [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/stats']"
   >
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.stats'|translate}} </ion-label>
@@ -61,7 +60,7 @@
   </ion-card>
   <ion-card
     *ngIf="campaignHas('badges')"
-    [routerLink]="['/pages/badges/'+campaignContainer.campaign.campaignId]"
+    [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/badges']"
   >
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.badges'|translate}} </ion-label>

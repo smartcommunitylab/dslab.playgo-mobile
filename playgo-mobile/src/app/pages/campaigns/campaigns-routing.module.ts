@@ -14,31 +14,10 @@ const routes: RoutesWithPageSettings = [
     },
   },
   {
-    path: 'details/:id',
-    loadChildren: () =>
-      import('./campaign-details/campaign-details.module').then(
-        (m) => m.CampaignDetailsPageModule
-      ),
-  },
-  {
     path: 'join/:id',
     loadChildren: () =>
       import('./campaign-join/campaign-join.module').then(
         (m) => m.CampaignJoinPageModule
-      ),
-  },
-  {
-    path: 'leaderboard/:id',
-    loadChildren: () =>
-      import('./leaderboard/leaderboard.module').then(
-        (m) => m.LeaderboardModule
-      ),
-  },
-  {
-    path: 'school-leaderboard/:id',
-    loadChildren: () =>
-      import('./school-leaderboard/school-leaderboard.module').then(
-        (m) => m.SchoolLeaderboardPageModule
       ),
   },
 ];

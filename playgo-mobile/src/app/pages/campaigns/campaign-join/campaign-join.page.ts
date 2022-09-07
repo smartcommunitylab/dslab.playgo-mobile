@@ -14,7 +14,7 @@ import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
-import { DetailCampaignModalPage } from '../campaign-details/detail-modal/detail.modal';
+import { DetailCampaignModalPage } from '../../home/campaign-details/detail-modal/detail.modal';
 import { JoinCityModalPage } from './join-city/join-city.modal';
 import { JoinCompanyModalPage } from './join-company/join-company.modal';
 import { JoinSchoolModalPage } from './join-school/join-school.modal';
