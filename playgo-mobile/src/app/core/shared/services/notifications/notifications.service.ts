@@ -87,13 +87,7 @@ export class NotificationService {
     ),
     tap<Notification[]>((allNotificationsWithoutDuplicates) =>
       this.notificationStorage.set(
-        allNotificationsWithoutDuplicates
-          .filter(
-            (notification: Notification) =>
-              notification.timestamp >
-              DateTime.local().minus({ month: 1 }).valueOf()
-          )
-          .slice(0, MAX_NOTIFICATIONS)
+        allNotificationsWithoutDuplicates.slice(0, MAX_NOTIFICATIONS)
       )
     ),
     shareReplay(1)
