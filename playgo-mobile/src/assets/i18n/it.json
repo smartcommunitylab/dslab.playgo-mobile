@@ -242,6 +242,12 @@
       },
       "join": "Iscriviti"
     },
+    "unsub": {
+      "title": "Disiscrizione",
+      "text": "Sei sicuro di voler disiscriverti dalla campagna?",
+      "close": "Chiudi",
+      "confirm": "Conferma"
+    },
     "detail": {
       "blacklist": "Utenti Bloccati",
       "badges": "Badges",

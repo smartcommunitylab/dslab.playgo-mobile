@@ -204,6 +204,7 @@
     "public": {
       "last": "Durata:"
     },
+
     "offline": {
       "title": "Offline",
       "header": "You can continue to track your trips, but some pages may not work!",
@@ -237,6 +238,12 @@
         "message": "Lorem ipsum"
       },
       "join": "Join"
+    },
+    "unsub": {
+      "title": "Unsubscribe",
+      "text": "Are you sure to unsubscribe?",
+      "close": "Close",
+      "confirm": "Confirm"
     },
     "detail": {
       "blacklist": "Blacklist",

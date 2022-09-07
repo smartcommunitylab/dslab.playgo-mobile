@@ -20,6 +20,7 @@ import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 import { Notification } from '../../../core/api/generated/model/notification';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
+import { UnsubscribeModalPage } from './unsubscribe-modal/unsubscribe.modal';
 @Component({
   selector: 'app-campaign-details',
   templateUrl: './campaign-details.page.html',
@@ -121,15 +122,24 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
       )?.present || false
     );
   }
-  unsubscribeCampaign() {
-    this.campaignService
-      .unsubscribeCampaign(this.campaignContainer.campaign.campaignId)
-      .subscribe((result) => {
-        this.alertService.showToast({
-          messageTranslateKey: 'campaigns.unregistered',
+  async unsubscribeCampaign() {
+    const modal = await this.modalController.create({
+      component: UnsubscribeModalPage,
+      cssClass: 'modal-challenge',
+      swipeToClose: true,
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.campaignService
+        .unsubscribeCampaign(this.campaignContainer.campaign.campaignId)
+        .subscribe((result) => {
+          this.alertService.showToast({
+            messageTranslateKey: 'campaigns.unregistered',
+          });
+          this.navCtrl.back();
         });
-        this.navCtrl.back();
-      });
+    }
   }
 
   back() {

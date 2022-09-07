@@ -1,0 +1,18 @@
+.external {
+  .title {
+    text-align: center;
+    font-weight: bold;
+    padding: 8px;
+  }
+  .internal {
+    .body {
+      text-align: justify;
+      padding: 8px;
+    }
+  }
+  ion-grid {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+  }
+}
