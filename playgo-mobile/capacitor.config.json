@@ -1,6 +1,6 @@
 {
   "appId": "it.dslab.playgo",
-  "appName": "it.dslab.playgo",
+  "appName": "Play&Go",
   "webDir": "www",
   "bundledWebRuntime": false,
   "server": { "allowNavigation": ["*"] },
