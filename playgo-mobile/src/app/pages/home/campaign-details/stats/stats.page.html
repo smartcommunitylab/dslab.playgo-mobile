@@ -1,0 +1,75 @@
+<ion-header appHeader></ion-header>
+<ion-content [fullscreen]="true">
+  <ion-item color="playgo">
+    <ion-label>{{ 'campaigns.stats.filter.mean_type' | translate }}</ion-label>
+    <ion-select
+      class="app-alert"
+      (ionChange)="statMeanChangedSubject.next($any($event))"
+      [value]="selectedStatMeanType$ | async"
+    >
+      <ion-select-option
+        *ngFor="let statMeanType of statsMeanTypes$|async"
+        [value]="statMeanType"
+      >
+        {{statMeanType.labelKey |translate}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item color="playgo">
+    <ion-label>{{ 'campaigns.stats.filter.unit_type' | translate }}</ion-label>
+    <ion-select
+      class="app-alert"
+      (ionChange)="statUnitChangedSubject.next($any($event))"
+      [value]="selectedStatUnitType$ | async"
+    >
+      <ion-select-option
+        *ngFor="let statUnitType of statsUnitTypes$|async"
+        [value]="statUnitType"
+      >
+        {{statUnitType.labelKey | translate}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-segment
+    mode="md"
+    class="app-segment"
+    [(ngModel)]="selectedSegment"
+    (ionChange)="segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)"
+    scrollable
+  >
+    <ion-segment-button
+      *ngFor="let period of periods"
+      [value]="period"
+      checked
+      class="app-segment-button"
+    >
+      <ion-label>{{period.labelKey| translate}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-grid class="table-header">
+    <ion-row>
+      <ion-col size="2">
+        <ion-button (click)="backPeriod()" color="light" fill="clear">
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="8">
+        <p class="ion-text-center">{{getSelectedPeriod()}}</p>
+        <p class="ion-text-center">
+          {{totalValue | localNumber}} {{(selectedStatUnitType$
+          |async).unitKey}}
+        </p>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button (click)="forwardPeriod()" color="light" fill="clear">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <canvas
+    #barCanvas
+    style="position: relative; height: 20vh; width: 40vw"
+    id="statsChart"
+  ></canvas>
+</ion-content>

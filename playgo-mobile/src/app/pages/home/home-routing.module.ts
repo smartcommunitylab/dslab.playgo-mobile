@@ -20,6 +20,13 @@ const routes: RoutesWithPageSettings = [
     loadChildren: () =>
       import('./profile/profile.module').then((m) => m.ProfilePageModule),
   },
+  {
+    path: 'details/:id',
+    loadChildren: () =>
+      import('./campaign-details/campaign-details.module').then(
+        (m) => m.CampaignDetailsPageModule
+      ),
+  },
 ];
 
 @NgModule({

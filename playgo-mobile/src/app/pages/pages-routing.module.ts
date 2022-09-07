@@ -24,22 +24,13 @@ import { RouterModule } from '@angular/router';
           ),
       },
       {
-        path: 'stats/:id',
-        loadChildren: () =>
-          import('./stats/stats.module').then((m) => m.StatsPageModule),
-      },
-      {
         path: 'blacklist/:id',
         loadChildren: () =>
           import('./blacklist/blacklist.module').then(
             (m) => m.BlacklistPageModule
           ),
       },
-      {
-        path: 'badges/:id',
-        loadChildren: () =>
-          import('./badges/badges.module').then((m) => m.BadgesPageModule),
-      },
+
       {
         path: 'user-profile/:id/:nickname',
         loadChildren: () =>

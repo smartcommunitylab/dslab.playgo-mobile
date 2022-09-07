@@ -1,0 +1,26 @@
+<ion-item
+  *ngIf="placing"
+  [class.my-placing]="(playerId$ | async) === placing.playerId"
+  [routerLink]="
+    (playerId$ | async) !== placing.playerId
+      ? ['/pages/user-profile/' + placing.playerId + '/' + placing.nickname]
+      : []
+  "
+  detail="false"
+>
+  <ion-label>
+    <app-ordinal-number [value]="placing.position"></app-ordinal-number>
+  </ion-label>
+  <ng-container *ngIf="(playerId$ | async) === placing.playerId">
+    <ion-avatar>
+      <img [src]="playerAvatarUrl$ | async" />
+    </ion-avatar>
+  </ng-container>
+  <ng-container *ngIf="(playerId$ | async) !== placing.playerId">
+    <ion-avatar *ngIf="placing.avatar">
+      <img [src]="placing.avatar.url" />
+    </ion-avatar>
+  </ng-container>
+  {{ placing.nickname }}
+  {{ unitLabelKey | translate: { value: placing.value | localNumber } }}
+</ion-item>

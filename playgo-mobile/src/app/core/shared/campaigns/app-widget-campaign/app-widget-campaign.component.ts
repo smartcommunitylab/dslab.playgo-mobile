@@ -17,7 +17,7 @@ export class WidgetComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
   detailCampaign(campaign: PlayerCampaign) {
     this.router.navigateByUrl(
-      '/pages/tabs/campaigns/details/' + campaign.campaign.campaignId
+      '/pages/tabs/home/details/' + campaign.campaign.campaignId
     );
   }
 }
