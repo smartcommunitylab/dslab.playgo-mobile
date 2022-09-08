@@ -29,7 +29,7 @@ export class SingleProposalModalPage implements OnInit {
   }
   async activate() {
     try {
-      const ret = await this.challengeService.acceptChallenge(
+      const ret = await this.challengeService.acceptSingleChallenge(
         this.campaign,
         this.challenge
       );

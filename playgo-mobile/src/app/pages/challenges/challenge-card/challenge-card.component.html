@@ -1,8 +1,6 @@
 <ion-card>
-  <ion-card-header [color]="challenge?.campaign?.type">
-    <ion-card-title>
-      <span>{{ challenge?.campaign?.name | languageMap }}</span>
-    </ion-card-title>
+  <ion-card-header [color]="challenge?.campaign?.type" class="header">
+    <span>{{ challenge?.campaign?.name | languageMap }}</span>
   </ion-card-header>
 
   <ion-card-content>

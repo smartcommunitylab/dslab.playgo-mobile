@@ -7,6 +7,7 @@
   "challengeTitle": "Challenges",
   "tripDetailTitle": "Trip Details",
   "notifications_title": "Notifications",
+  "discovercampaignbutton": "Scopri altre campagne",
   "leaderboard.title": "Leaderboard",
   "green leaves": "Green Leaves",
   "bike aficionado": "Bike Trip Badge",
@@ -90,7 +91,9 @@
   "modal": {
     "cancel": "Cancel",
     "ok": "Okay",
-    "alert_title": "Alert"
+    "alert_title": "Alert",
+    "levelup": "Level Up!",
+    "newbadge": "New badge!"
   },
   "tracking": {
     "low_accuracy": "Low accuracy!",
@@ -204,6 +207,7 @@
     "public": {
       "last": "Durata:"
     },
+
     "offline": {
       "title": "Offline",
       "header": "You can continue to track your trips, but some pages may not work!",
@@ -237,6 +241,12 @@
         "message": "Lorem ipsum"
       },
       "join": "Join"
+    },
+    "unsub": {
+      "title": "Unsubscribe",
+      "text": "Are you sure to unsubscribe?",
+      "close": "Close",
+      "confirm": "Confirm"
     },
     "detail": {
       "blacklist": "Blacklist",
@@ -410,13 +420,13 @@
       "singleChallengeLost": "lost"
     },
     "create": {
-      "configure": "Configura",
+      "configure": "Configure",
       "button_create": "Configure a new challenge",
-      "title": "Configura sfida",
-      "choose_type": "Scegli typologia sfida",
-      "choose_metric": "Scegli metrica sfida",
-      "choose_partner": "Scegli compangno",
-      "activate": "Attiva sfida"
+      "title": "Configure a challenge",
+      "choose_type": "Choose challenge type",
+      "choose_metric": "Choose metric",
+      "choose_partner": "Choose opponent",
+      "activate": "Activate challenge"
     },
     "sent_title": "You have sent a challenge to {{nickname}}",
     "sent_body": "The invitation will be visible to {{nickname}} for two days. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before 3 days the challenge will be rejected automatically. ",

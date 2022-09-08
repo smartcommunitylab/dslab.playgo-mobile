@@ -7,4 +7,15 @@
       ></app-widget-campaign>
     </ion-col>
   </ion-row>
+  <ng-container *ngIf="myCampaigns?.length <= 1">
+    <ion-button
+      class="discover-button"
+      expand="block"
+      color="playgo"
+      (click)="discover()"
+    >
+      <ion-icon slot="start" name="search"></ion-icon>
+      {{ "discovercampaignbutton" | translate }}
+    </ion-button>
+  </ng-container>
 </ion-grid>

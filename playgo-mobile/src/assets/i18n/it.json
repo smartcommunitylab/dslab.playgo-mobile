@@ -91,7 +91,9 @@
   "modal": {
     "cancel": "Annulla",
     "ok": "OK",
-    "alert_title": "Attenzione"
+    "alert_title": "Attenzione",
+    "levelup": "Nuovo livello!",
+    "newbadge": "Nuovo badge!"
   },
   "tracking": {
     "low_accuracy": "Bassa precisione!",
@@ -241,6 +243,12 @@
         "message": "Lorem ipsum"
       },
       "join": "Iscriviti"
+    },
+    "unsub": {
+      "title": "Disiscrizione",
+      "text": "Sei sicuro di voler disiscriverti dalla campagna?",
+      "close": "Chiudi",
+      "confirm": "Conferma"
     },
     "detail": {
       "blacklist": "Utenti Bloccati",
@@ -426,9 +434,9 @@
       "configure": "Configura",
       "button_create": "Configura una nuova sfida",
       "title": "Configura sfida",
-      "choose_type": "Scegli typologia sfida",
-      "choose_metric": "Scegli metrica sfida",
-      "choose_partner": "Scegli compangno",
+      "choose_type": "Scegli tipologia di sfida",
+      "choose_metric": "Scegli metrica di sfida",
+      "choose_partner": "Scegli il compangno",
       "activate": "Attiva sfida",
       "invite": "INVITA",
       "preview": {
@@ -478,6 +486,7 @@
   "join": "Scopri",
   "home": "Play&Go",
   "home_title": "Home",
+  "discovercampaignbutton": "Scopri altre campagne",
   "profile_title": "Profilo",
   "campaigns_title": "Altre campagne",
   "playNow": "Gioca adesso",
