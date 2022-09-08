@@ -8,30 +8,17 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
   templateUrl: 'campaigns.page.html',
   styleUrls: ['campaigns.page.scss'],
 })
-export class CampaignsPage implements OnInit, OnDestroy {
+export class CampaignsPage implements OnInit {
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
 
   selectedSegment?: string;
-  sub: Subscription;
 
   constructor(private campaignService: CampaignService) {}
 
   ngOnInit(): void {
     this.selectedSegment = 'publicCampaigns';
-    this.sub = this.campaignService.playerCampaignsRefresher$.subscribe(
-      (campaigns) => {
-        this.refresher.complete();
-      }
-    );
   }
   segmentChanged(ev: any) {
     console.log('Segment changed', ev);
-  }
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-  refreshList(event: any) {
-    //updatelist maybechanged?
-    this.campaignService.playerCampaignsRefresher$.next();
   }
 }

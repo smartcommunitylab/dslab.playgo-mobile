@@ -45,6 +45,7 @@ export class PageSettingsService {
     customHeader: false,
     showNotifications: false,
     showPlayButton: false,
+    refresher: false,
   };
   private routerPageSettings$: Observable<PageSettings> = merge(
     this.router.events.pipe(
@@ -153,6 +154,7 @@ export interface PageSettings {
   showNotifications?: boolean;
   // footer
   showPlayButton?: boolean;
+  refresher?: boolean;
 }
 
 type PageRoute = Route & {

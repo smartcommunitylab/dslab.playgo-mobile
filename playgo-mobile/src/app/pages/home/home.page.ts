@@ -12,13 +12,10 @@ import { UserService } from 'src/app/core/shared/services/user.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
-  @ViewChild('refresher', { static: false }) refresher: IonRefresher;
   subProfile!: Subscription;
   constructor(
-    private userService: UserService,
     private router: Router,
-    public appStatusService: AppStatusService,
-    private pushNotificationService: PushNotificationService
+    public appStatusService: AppStatusService
   ) {}
 
   campagins() {
@@ -28,19 +25,9 @@ export class HomePage implements OnInit, OnDestroy {
   showNotifications() {
     this.router.navigateByUrl('/pages/notifications');
   }
-  ngOnInit() {
-    this.subProfile = this.userService.userProfileRefresher$.subscribe(() => {
-      this.refresher.complete();
-    });
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
-    // this.sub.unsubscribe();
     this.subProfile.unsubscribe();
-  }
-
-  refresh() {
-    //update status and profile
-    this.userService.userProfileRefresher$.next();
   }
 }

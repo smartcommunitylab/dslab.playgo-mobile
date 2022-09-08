@@ -79,12 +79,13 @@ export function runInContext<T>(
   contextFunction: NgZone['run']
 ): OperatorFunction<T, T> {
   return (source) =>
-    new Observable((observer) => {
-      const onNext = (value: T) => contextFunction(() => observer.next(value));
-      const onError = (e: any) => contextFunction(() => observer.error(e));
-      const onComplete = () => contextFunction(() => observer.complete());
-      return source.subscribe(onNext, onError, onComplete);
-    });
+    new Observable((observer) =>
+      source.subscribe({
+        next: (value: T) => contextFunction(() => observer.next(value)),
+        error: (e: any) => contextFunction(() => observer.error(e)),
+        complete: () => contextFunction(() => observer.complete()),
+      })
+    );
 }
 
 export function startFrom<T, O extends ObservableInput<any>>(
