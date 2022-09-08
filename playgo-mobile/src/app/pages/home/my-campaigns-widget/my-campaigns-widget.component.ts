@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
@@ -14,7 +15,8 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
   sub: Subscription;
   constructor(
     private campaignService: CampaignService,
-    private router: Router
+    private router: Router,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
@@ -22,7 +24,9 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
       this.myCampaigns = campaigns;
     });
   }
-
+  discover() {
+    this.navCtrl.navigateRoot('pages/tabs/campaigns');
+  }
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

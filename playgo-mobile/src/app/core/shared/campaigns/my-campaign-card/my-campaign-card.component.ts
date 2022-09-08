@@ -28,8 +28,7 @@ export class MyCampaignCardComponent implements OnInit {
 
   detailCampaign() {
     this.router.navigateByUrl(
-      '/pages/tabs/campaigns/details/' +
-        this.containerCampaign.campaign.campaignId
+      '/pages/tabs/home/details/' + this.containerCampaign.campaign.campaignId
     );
   }
 
