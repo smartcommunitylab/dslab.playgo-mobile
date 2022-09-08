@@ -58,6 +58,10 @@ export class BackgroundGeolocationMock {
     BackgroundGeolocationMock.isTracking = false;
   }
   @mockMethod({ async: true })
+  public static async destroyLocations() {
+    BackgroundGeolocationMock.isTracking = false;
+  }
+  @mockMethod({ async: true })
   public static async sync() {
     const locations = BackgroundGeolocationMock.locations;
     BackgroundGeolocationMock.locations = [];

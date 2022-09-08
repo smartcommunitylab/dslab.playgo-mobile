@@ -252,6 +252,14 @@ export class ChallengeService {
       })
       .toPromise();
   }
+  public acceptSingleChallenge(campaign: PlayerCampaign, challenge: Challenge) {
+    this.challengeControllerService
+      .chooseChallengeUsingPUT({
+        challengeId: challenge.challId,
+        campaignId: campaign.campaign.campaignId,
+      })
+      .toPromise();
+  }
   public acceptChallenge(campaign: PlayerCampaign, challenge: Challenge) {
     this.challengeControllerService
       .changeInvitationStatusUsingPOST({
