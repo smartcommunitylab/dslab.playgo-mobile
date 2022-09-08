@@ -91,7 +91,9 @@
   "modal": {
     "cancel": "Annulla",
     "ok": "OK",
-    "alert_title": "Attenzione"
+    "alert_title": "Attenzione",
+    "levelup": "Nuovo livello!",
+    "newbadge": "Nuovo badge!"
   },
   "tracking": {
     "low_accuracy": "Bassa precisione!",

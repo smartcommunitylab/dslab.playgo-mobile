@@ -100,6 +100,9 @@ ion-list {
 .icon-size-big {
   font-size: 48px;
 }
+.icon-size-superbig {
+  font-size: 96px;
+}
 .app-alert {
   --background: var(--ion-color-playgo);
 
@@ -144,7 +147,23 @@ ion-list {
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
 }
+.modal-notification {
+  --height: 75%;
+  --width: 85%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
 
+.modal-notification::part(backdrop) {
+  background: rgb(35, 36, 37);
+  opacity: 1;
+}
+
+.modal-notification ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
+}
 .modal-challenge {
   --height: 50%;
   --width: 85%;
@@ -157,15 +176,15 @@ ion-list {
   background: rgb(35, 36, 37);
   opacity: 1;
 }
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .modal-challenge ion-toolbar {
   --background: rgb(14 116 144);
   --color: white;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .progress-bar {
   padding: 2px;
