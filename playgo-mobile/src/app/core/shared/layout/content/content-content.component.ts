@@ -1,5 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { RefresherCustomEvent } from '@ionic/angular';
+import { map } from 'rxjs';
+import { PageSettingsService } from '../../services/page-settings.service';
 import { RefresherService } from '../../services/refresher.service';
 
 @Component({
@@ -11,7 +13,14 @@ export class ContentContentComponent implements OnInit {
   @ViewChild('template', { static: true })
   public template: TemplateRef<any>;
 
-  constructor(private refresherService: RefresherService) {}
+  public refresherDisabled$ = this.pageSettingsService.pageSettings$.pipe(
+    map((settings) => !settings.refresher)
+  );
+
+  constructor(
+    private refresherService: RefresherService,
+    private pageSettingsService: PageSettingsService
+  ) {}
 
   refresh(event: RefresherCustomEvent) {
     this.refresherService.onRefresh(event);
