@@ -5,8 +5,8 @@
     coupleChallenges.length > 0
   "
 >
-  <ion-card-header [color]="campaign?.campaign?.type">
-    {{ campaign?.campaign?.name | languageMap }}
+  <ion-card-header [color]="campaign?.campaign?.type" class="header">
+    <span>{{ campaign?.campaign?.name | languageMap }}</span>
   </ion-card-header>
   <ion-card-content
     [ngStyle]="{
@@ -38,7 +38,9 @@
         coupleChallenges.length > 0
       "
     >
-      {{ "challenges.choose_or_configure" | translate }}
+      <p class="ion-text-center">
+        {{ "challenges.choose_or_configure" | translate }}
+      </p>
       <app-create-challenge-button
         *ngIf="canInvite && (sentInvitation$ | async) === false"
         [campaign]="campaign"
