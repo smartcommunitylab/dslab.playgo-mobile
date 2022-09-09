@@ -1,5 +1,5 @@
 <ion-header appHeader></ion-header>
-<ion-content>
+<ion-content appContent>
   <ng-container *ngIf="leaderboard$ | async as leaderboard">
     <ion-item *ngFor="let placing of leaderboard; trackBy: placingTracking">
       <ion-label>
