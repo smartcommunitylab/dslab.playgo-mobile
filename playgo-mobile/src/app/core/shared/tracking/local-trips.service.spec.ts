@@ -52,7 +52,7 @@ describe('LocalTripsService', () => {
     const walkOneDayAgo: TripLocation[] = [
       {
         idTrip: 'id_of_one_days_ago__walk',
-        date: debugRefTime.minus({ days: 1, minutes: 10 }).toJSDate(),
+        date: debugRefTime.minus({ days: 1, minutes: 10 }).toMillis(),
         latitude: 1,
         longitude: 1,
         multimodalId: 'multimodalId_123',
@@ -60,7 +60,7 @@ describe('LocalTripsService', () => {
       },
       {
         idTrip: 'id_of_one_days_ago__walk',
-        date: debugRefTime.minus({ days: 1 }).toJSDate(),
+        date: debugRefTime.minus({ days: 1 }).toMillis(),
         latitude: 2,
         longitude: 2,
         multimodalId: 'multimodalId_123',
@@ -293,7 +293,7 @@ describe('LocalTripsService', () => {
     runInit?: boolean;
     runAppReadyTrigger?: boolean;
   }) {
-    storageMock.get.and.returnValue(storageData);
+    storageMock.get.and.returnValue(Promise.resolve(storageData));
     trackControllerServiceStub.getTrackedInstanceInfoListUsingGET.and.returnValue(
       asServerData(firstServerData)
     );
@@ -313,7 +313,7 @@ function asServerData(
   const mockedResponse = {
     content: trips.map((t) => ({
       clientId: t.id,
-      endTime: t.date as unknown as Date,
+      endTime: t.date as any as number,
       status: 'returnedFromServer',
     })),
   };

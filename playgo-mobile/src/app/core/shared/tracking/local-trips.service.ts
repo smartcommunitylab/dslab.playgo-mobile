@@ -36,7 +36,12 @@ import {
   some,
   sortBy,
 } from 'lodash-es';
-import { groupByConsecutiveValues, startFrom } from '../utils';
+import {
+  groupByConsecutiveValues,
+  startFrom,
+  tapLog,
+  withLatestFromWithoutSkipping,
+} from '../utils';
 import { toServerDateTime } from '../time.utils';
 import { LocalStorageService } from '../services/local-storage.service';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
@@ -160,7 +165,7 @@ export class LocalTripsService {
     );
 
   private dataFromServer$: Observable<StorableTrip[]> = this.trigger$.pipe(
-    withLatestFrom(this.lastLocalData$),
+    withLatestFromWithoutSkipping(this.lastLocalData$),
     map(([triggerType, lastLocalData]) =>
       this.findPeriodFromDate(lastLocalData, triggerType)
     ),

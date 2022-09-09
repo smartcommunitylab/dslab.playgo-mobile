@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 // Init for the web
 import '@capacitor-community/firebase-analytics';
@@ -21,7 +21,10 @@ export class AnalyticsServiceService {
   constructor(private router: Router) {
     this.initFb();
     this.router.events
-      .pipe(filter((e: RouterEvent) => e instanceof NavigationEnd))
+      .pipe(
+        map((e) => e as RouterEvent),
+        filter((e: RouterEvent) => e instanceof NavigationEnd)
+      )
       .subscribe((e: RouterEvent) => {
         console.log('route changed: ', e.url);
         this.setScreenName(e.url);
@@ -69,7 +72,7 @@ export class AnalyticsServiceService {
     });
   }
 
-  setScreenName(screenName) {
+  setScreenName(screenName: any) {
     FirebaseAnalytics.setScreenName({
       screenName,
     });

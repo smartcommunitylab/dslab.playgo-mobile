@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
-import { JoinCompanyModalPage } from './join-company.modal';
+import { DetailCampaignModalPage } from './detail.modal';
 
 describe('CampaignDetailsPage', () => {
-  let component: JoinCompanyModalPage;
-  let fixture: ComponentFixture<JoinCompanyModalPage>;
+  let component: DetailCampaignModalPage;
+  let fixture: ComponentFixture<DetailCampaignModalPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [JoinCompanyModalPage],
+      declarations: [DetailCampaignModalPage],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(JoinCompanyModalPage);
+    fixture = TestBed.createComponent(DetailCampaignModalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
