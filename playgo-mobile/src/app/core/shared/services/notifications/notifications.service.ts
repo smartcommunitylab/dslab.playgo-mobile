@@ -245,9 +245,9 @@ export class NotificationService {
     storedNotifications.forEach((notification) => {
       if (
         !!notification.content &&
-        (notification.content.type === NotificationType.challengeAssigned ||
-          notification.content.type === NotificationType.challengeComplete ||
-          notification.content.type === NotificationType.challengeFailed)
+        NOTIFICATION_TYPE_ACTIONS.challengeTabBadge.types.indexOf(
+          notification.content.type
+        ) > -1
       ) {
         this.markSingleNotificationAsRead(storedNotifications, notification);
       }
