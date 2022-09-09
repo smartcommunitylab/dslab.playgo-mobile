@@ -40,7 +40,7 @@ import {
   groupByConsecutiveValues,
   startFrom,
   tapLog,
-  withLatestFromWithoutSkipping,
+  withReplayedLatestFrom,
 } from '../utils';
 import { toServerDateTime } from '../time.utils';
 import { LocalStorageService } from '../services/local-storage.service';
@@ -165,7 +165,7 @@ export class LocalTripsService {
     );
 
   private dataFromServer$: Observable<StorableTrip[]> = this.trigger$.pipe(
-    withLatestFromWithoutSkipping(this.lastLocalData$),
+    withReplayedLatestFrom(this.lastLocalData$),
     map(([triggerType, lastLocalData]) =>
       this.findPeriodFromDate(lastLocalData, triggerType)
     ),
