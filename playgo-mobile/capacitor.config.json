@@ -11,7 +11,7 @@
       "splashFullScreen": false,
       "splashImmersive": false,
       "backgroundColor": "#01579B",
-      "androidScaleType": "CENTER_CROP",
+      "androidScaleType": "CENTER",
       "androidSplashResourceName": "splash"
     },
     "PushNotifications": {
