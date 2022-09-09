@@ -3,6 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
+    "target": "es2015",
     "types": ["jasmine", "jasmine-expect"]
   },
   "files": ["src/test.ts", "src/polyfills.ts"],
