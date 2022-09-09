@@ -20,6 +20,7 @@ import {
 } from 'src/app/pages/challenges/challenges.page';
 import { ChallengeControllerService } from '../../api/generated/controllers/challengeController.service';
 import { ChallengeConceptInfo } from '../../api/generated/model/challengeConceptInfo';
+import { ChallengesData } from '../../api/generated/model/challengesData';
 import { PlayerCampaign } from '../../api/generated/model/playerCampaign';
 import { CampaignService } from './campaign.service';
 import { ErrorService } from './error.service';
@@ -152,14 +153,17 @@ export class ChallengeService {
     campaign: PlayerCampaign
   ): Challenge[] {
     if (response) {
-      const challengesOfAllTypesPerOneCampaign = Object.entries(
+      const challengesPerOneCampaign: Challenge[][] = Object.entries(
         response.challengeData
-      ).flatMap(([challengeType, challenges]) =>
+      ).map(([challengeType, challenges]) =>
         challenges.map((challenge) => ({
           ...challenge,
           challengeType: challengeType as ChallengeType,
           campaign: campaign.campaign,
         }))
+      );
+      const challengesOfAllTypesPerOneCampaign: Challenge[] = flatten(
+        challengesPerOneCampaign
       );
       return challengesOfAllTypesPerOneCampaign;
     } else {

@@ -22,6 +22,10 @@ import {
   map,
   takeUntil,
   tap,
+  withLatestFrom,
+  mergeMap,
+  shareReplay,
+  switchMap,
 } from 'rxjs/operators';
 import {
   Challenge,
@@ -100,6 +104,26 @@ export function beforeStartUse<T, O extends ObservableInput<any>>(
 ): OperatorFunction<T, T | ObservedValueOf<O>> {
   return (source: Observable<T>) =>
     merge(from(start).pipe(takeUntil(source)), source);
+}
+
+/** `s.withLatestFrom(t)` will skip all `a` values until first `b` is emitted
+ * this operator will emit all skipped `a` values at the same time when first `b` is emitted
+ * than it behaves like `withLatestFrom`.
+ */
+export function withLatestFromWithoutSkipping<T, O>(
+  target: Observable<O>
+): OperatorFunction<T, [T, O]> {
+  return (source: Observable<T>) => {
+    const sharedTarget = target.pipe(shareReplay(1));
+    return source.pipe(
+      switchMap((sourceVal) =>
+        sharedTarget.pipe(
+          first(),
+          map((targetVal) => [sourceVal, targetVal] as [T, O])
+        )
+      )
+    );
+  };
 }
 
 export function throwIfNil<T>(
