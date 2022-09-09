@@ -46,6 +46,7 @@ import {
   TripLocation,
 } from './background-tracking.service';
 import { AuthService } from '../../auth/auth.service';
+import { RefresherService } from '../services/refresher.service';
 
 @Injectable({
   providedIn: 'root',
@@ -72,7 +73,7 @@ export class LocalTripsService {
   private justSynchronizedLocations$ =
     this.backgroundTrackingService.synchronizedLocations$;
 
-  private explicitReload$: Observable<void> = NEVER;
+  private explicitReload$: Observable<void> = this.refresherService.refreshed$;
 
   private afterSyncTimer$: Observable<void> =
     this.justSynchronizedLocations$.pipe(
@@ -204,7 +205,8 @@ export class LocalTripsService {
     private localStorageService: LocalStorageService,
     private trackControllerService: TrackControllerService,
     private backgroundTrackingService: BackgroundTrackingService,
-    private authService: AuthService
+    private authService: AuthService,
+    private refresherService: RefresherService
   ) {
     initStream.get().subscribe(() => {
       this.initService();

@@ -11,6 +11,7 @@ const routes: RoutesWithPageSettings = [
       title: 'campaigns_title',
       backButton: false,
       showPlayButton: true,
+      refresher: true,
     },
   },
   {

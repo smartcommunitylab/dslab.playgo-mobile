@@ -1,0 +1,9 @@
+<ng-template #template>
+  <ion-refresher
+    [disabled]="refresherDisabled$ | async"
+    slot="fixed"
+    (ionRefresh)="refresh($any($event))"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+</ng-template>

@@ -4,6 +4,7 @@ import { CampaignDetailsPage } from './campaign-details.page';
 import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 import { DetailCampaignModalPage } from './detail-modal/detail.modal';
 import { CampaignNotificationComponent } from './campaign-notification/campaign-notification.component';
+import { UnsubscribeModalPage } from './unsubscribe-modal/unsubscribe.modal';
 
 @NgModule({
   imports: [CampaignDetailsPageRoutingModule, PlayGoSharedModule],
@@ -11,6 +12,7 @@ import { CampaignNotificationComponent } from './campaign-notification/campaign-
     CampaignDetailsPage,
     DetailCampaignModalPage,
     CampaignNotificationComponent,
+    UnsubscribeModalPage,
   ],
 })
 export class CampaignDetailsPageModule {}

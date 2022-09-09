@@ -13,6 +13,7 @@ const routes: RoutesWithPageSettings = [
       showNotifications: true,
       backButton: false,
       showPlayButton: true,
+      refresher: true,
     },
   },
   {

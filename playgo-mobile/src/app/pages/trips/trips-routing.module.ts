@@ -14,6 +14,7 @@ const routes: RoutesWithPageSettings = [
       backButton: true,
       isOfflinePage: true,
       showPlayButton: true,
+      refresher: true,
     },
   },
   {

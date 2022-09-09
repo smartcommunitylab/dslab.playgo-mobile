@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { AfterContentInit, Component, Inject } from '@angular/core';
+import { AfterContentInit, Component, Inject, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
 import { codePush as CodePushPluginInternal } from 'capacitor-codepush';
@@ -21,6 +21,8 @@ import { ErrorService } from './core/shared/services/error.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements AfterContentInit {
+  @ViewChild('contentTemplateComponent', { static: true })
+  contentTemplateComponent: any;
   constructor(
     private translate: TranslateService,
     private platform: Platform,
@@ -101,6 +103,7 @@ export class AppComponent implements AfterContentInit {
       blacklist: '../assets/icon/blacklist.svg',
       invitation: '../assets/icon/invitation.svg',
       leaderboard: '../assets/icon/leaderboard.svg',
+      level_up: '../assets/icon/level-up.svg',
       stat: '../assets/icon/stat.svg',
       leave: '../assets/icon/leave.svg',
       groupCompetitivePerformance:

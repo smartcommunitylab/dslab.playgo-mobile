@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Notification } from '../../api/generated/model/notification';
+import { PlayerCampaign } from '../../api/generated/model/playerCampaign';
 import { NotificationType } from '../services/notifications/notifications.service';
 @Component({
   selector: 'app-detail-notification-modal',
@@ -9,6 +10,7 @@ import { NotificationType } from '../services/notifications/notifications.servic
 })
 export class DetailNotificationModalPage implements OnInit {
   notification: Notification;
+  campaign: PlayerCampaign;
   notificationType = NotificationType;
 
   constructor(private modalController: ModalController) {}
