@@ -89,8 +89,10 @@
   },
   "modal": {
     "cancel": "Cancel",
-    "ok": "Okay",
-    "alert_title": "Alert"
+    "ok": "OK",
+    "alert_title": "Alert",
+    "levelup": "Level Up!",
+    "newbadge": "New badge!"
   },
   "tracking": {
     "low_accuracy": "Low accuracy!",
