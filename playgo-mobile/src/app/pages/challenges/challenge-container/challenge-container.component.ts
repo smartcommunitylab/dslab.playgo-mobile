@@ -24,6 +24,11 @@ export class ChallengeContainerComponent implements OnInit, OnChanges {
     this.challengeProposed = this.challenges.filter(
       (challenge) => challenge.challengeType === 'PROPOSED'
     );
+    this.challenges.map((chall) => {
+      if (chall.challengeType === 'FUTURE' && chall.otherAttendeeData) {
+        this.canInvite = false;
+      }
+    });
     console.log(this.challengeProposed);
   }
 }
