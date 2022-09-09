@@ -1,6 +1,6 @@
 <ion-header appHeader></ion-header>
 
-<ion-content color="light" fullscreen="true">
+<ion-content appContent color="light" fullscreen="true">
   <ng-container *ngIf="notifications?.length > 0; else emptyNotifications">
     <ng-container *ngFor="let notification of notifications">
       <app-notification-detail
