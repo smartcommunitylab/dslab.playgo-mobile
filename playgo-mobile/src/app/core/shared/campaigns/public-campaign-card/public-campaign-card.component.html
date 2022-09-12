@@ -24,13 +24,13 @@
         <ion-col size="12">
           <ng-container *ngIf="campaign.description | languageMap; else noDesc">
             <ion-card-content
-              class="ellipsis"
+              class="card-ellipsis"
               [innerHTML]="campaign.description | languageMap"
             >
             </ion-card-content>
           </ng-container>
           <ng-template #noDesc>
-            {{ "campaigns.noDesc" | translate }}
+            <!-- {{ "campaigns.noDesc" | translate }} -->
           </ng-template>
         </ion-col>
         <ion-col size="12" class="ion-text-center">

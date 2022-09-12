@@ -20,14 +20,8 @@ export class ChallengeBarStatusComponent implements OnInit {
   }
   getWidth(status: number) {
     if (this.challengeType === 'groupCompetitiveTime') {
-      return status / 2;
+      return `calc(${status / 2}% - 8px)`;
     }
-    return status;
+    return `calc(${status}% - 8px)`;
   }
-  // getHeight() {
-  //   if (this.position === 'home') {
-  //     return '20';
-  //   }
-  //   return '30';
-  // }
 }
