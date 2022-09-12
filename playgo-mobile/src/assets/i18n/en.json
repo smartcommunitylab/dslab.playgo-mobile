@@ -111,7 +111,13 @@
       "or": "or scan the QR code",
       "scan": "Scan",
       "showCode": "Show this code to the passenger",
-      "confirm": "Start to drive"
+      "confirm": "Start to drive",
+      "errors": {
+        "NO_ROLE_CHOSEN": "You have to choose to be passenger or driver!",
+        "NO_CONFIRMED": "You have to confirm the QR Code",
+        "NO_PASSENGER_CARPOOLING_ID": "You have to insert the driver code",
+        "INCORRECT_QR_CODE": "Wrong QR CODE"
+      }
     }
   },
   "profile": {

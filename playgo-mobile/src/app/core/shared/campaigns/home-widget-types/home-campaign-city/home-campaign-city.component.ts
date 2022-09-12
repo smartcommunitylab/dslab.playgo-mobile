@@ -58,26 +58,27 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
           }
         );
 
-      this.reportService
-        .getGameStats(
-          this.campaignContainer.campaign.campaignId,
-          profile.playerId,
-          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
-          toServerDateOnly(DateTime.utc())
-        )
-        .subscribe(
-          (stats) => {
-            this.reportWeekStat = stats;
-          },
-          (error) => {
-            if (isOfflineError(error)) {
-              this.reportWeekStat = null;
-            } else {
-              this.reportWeekStat = null;
-              this.errorService.handleError(error);
-            }
-          }
-        );
+      // First release: only global report, for the we can add global
+      // this.reportService
+      //   .getGameStats(
+      //     this.campaignContainer.campaign.campaignId,
+      //     profile.playerId,
+      //     toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+      //     toServerDateOnly(DateTime.utc())
+      //   )
+      //   .subscribe(
+      //     (stats) => {
+      //       this.reportWeekStat = stats;
+      //     },
+      //     (error) => {
+      //       if (isOfflineError(error)) {
+      //         this.reportWeekStat = null;
+      //       } else {
+      //         this.reportWeekStat = null;
+      //         this.errorService.handleError(error);
+      //       }
+      //     }
+      //   );
 
       this.reportService
         .getGameStats(
