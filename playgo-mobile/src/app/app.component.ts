@@ -41,7 +41,9 @@ export class AppComponent implements AfterContentInit {
   private async initializeApp() {
     try {
       this.translate.setDefaultLang('it');
-      window.screen.orientation.lock('portrait');
+      try {
+        await window.screen.orientation.lock('portrait');
+      } catch (e) {}
       this.loadCustomIcons();
       this.pushInit();
       this.badgeService.init();
