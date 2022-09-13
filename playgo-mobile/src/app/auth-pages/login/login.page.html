@@ -1,69 +1,74 @@
 <ion-header appHeader></ion-header>
 <ion-content appContent color="playgo">
-  <ion-grid>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="4">
-        <ion-label class="ion-text-center">
-          <h1>{{ 'login.title' | translate }}</h1>
-        </ion-label>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="4" class="ion-text-center">
-        <h1>
-          <ion-icon name="leaf"></ion-icon>
-        </h1>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="4">
-        <ion-label class="ion-text-center">
-          <h2>{{ 'login.subtitle' | translate }}</h2>
-        </ion-label>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="10">
-        <ion-button
-          class="google-button"
-          expand="block"
-          (click)="signIn('google')"
-        >
-          <ion-icon slot="start" name="logo-google"></ion-icon>
-          {{ 'login.loginGoogleButton' | translate }}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="10">
-        <ion-button
-          class="facebook-button"
-          expand="block"
-          (click)="signIn('facebook')"
-        >
-          <ion-icon slot="start" name="logo-facebook"></ion-icon>
-          {{ 'login.loginFacebookButton' | translate }}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="10">
-        <ion-button
-          class="apple-button"
-          expand="block"
-          (click)="signIn('apple')"
-        >
-          <ion-icon slot="start" name="logo-apple"></ion-icon>
-          {{ 'login.loginAppleButton' | translate }}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="10">
-        <ion-button expand="block" (click)="signIn()">
-          {{ 'login.loginInternalButton' | translate }}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="background">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" class="ion-text-center">
+          <img class="playgoicon" src="../../../assets/images/login/logo.svg" />
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="6">
+          <ion-label class="ion-text-center title-login">
+            <h1>{{ 'login.title' | translate|uppercase }}</h1>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="6">
+          <ion-label class="ion-text-center subtitle-login">
+            <h2>{{ 'login.subtitle' | translate }}</h2>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="10">
+          <ion-button
+            class="google-button"
+            expand="block"
+            (click)="signIn('google')"
+          >
+            <ion-icon slot="start" name="logo-google"></ion-icon>
+            {{ 'login.loginGoogleButton' | translate|uppercase }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="10">
+          <ion-button
+            class="facebook-button"
+            expand="block"
+            (click)="signIn('facebook')"
+          >
+            <ion-icon slot="start" name="logo-facebook"></ion-icon>
+            {{ 'login.loginFacebookButton' | translate|uppercase }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="10">
+          <ion-button
+            class="apple-button"
+            expand="block"
+            (click)="signIn('apple')"
+          >
+            <ion-icon slot="start" name="logo-apple"></ion-icon>
+            {{ 'login.loginAppleButton' | translate|uppercase }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="10">
+          <ion-button expand="block" (click)="signIn()">
+            {{ 'login.loginInternalButton' | translate|uppercase }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" class="ion-text-center">
+          <img class="fbkicon" src="../../../assets/images/login/fbk.svg" />
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>
