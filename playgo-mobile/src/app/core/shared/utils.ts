@@ -1,6 +1,15 @@
 import { NgZone, TrackByFunction } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { flatMap, initial, isNil, last, negate, tail, zip } from 'lodash-es';
+import {
+  flatMap,
+  initial,
+  isNil,
+  last,
+  negate,
+  tail,
+  times,
+  zip,
+} from 'lodash-es';
 import { DateTime, DateTimeUnit, Duration } from 'luxon';
 import {
   concat,
@@ -110,13 +119,14 @@ export function beforeStartUse<T, O extends ObservableInput<any>>(
  * this operator will emit all skipped `a` values at the same time when first `b` is emitted
  * than it behaves like `withLatestFrom`.
  */
-export function withLatestFromWithoutSkipping<T, O>(
+export function withReplayedLatestFrom<T, O>(
   target: Observable<O>
 ): OperatorFunction<T, [T, O]> {
   return (source: Observable<T>) => {
     const sharedTarget = target.pipe(shareReplay(1));
+    sharedTarget.pipe(takeUntil(source)).subscribe();
     return source.pipe(
-      switchMap((sourceVal) =>
+      mergeMap((sourceVal) =>
         sharedTarget.pipe(
           first(),
           map((targetVal) => [sourceVal, targetVal] as [T, O])
@@ -328,4 +338,46 @@ export function getPeriods(referenceDate: DateTime): Period[] {
       to: referenceDate.endOf('year'),
     },
   ];
+}
+
+/**
+ * Useful function do display marble like strings
+ *
+ * returns string like: --x---x----|
+ *
+ * useful in matcher:
+```
+    testScheduler = new TestScheduler((actual, expected) => {
+      expect(framesToString(actual)).toBe(framesToString(expected));
+      expect(actual).toEqual(expected);
+    });
+```
+ */
+export function framesToString(
+  frames: {
+    frame: number;
+    notification: {
+      kind: 'N' | 'E' | 'C';
+      value: any;
+      error: any;
+    };
+  }[]
+) {
+  const notificationMap = {
+    ['N']: 'x',
+    ['E']: '#',
+    ['C']: '|',
+  };
+  return times(last(frames).frame + 1)
+    .map((idx) => {
+      const framesAtIndex = frames.filter((frame) => frame.frame === idx);
+      if (framesAtIndex.length === 1) {
+        return notificationMap[framesAtIndex[0].notification.kind];
+      }
+      if (framesAtIndex.length > 1) {
+        return framesAtIndex.length;
+      }
+      return '-';
+    })
+    .join('');
 }
