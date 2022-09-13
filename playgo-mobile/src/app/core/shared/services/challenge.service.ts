@@ -217,6 +217,20 @@ export class ChallengeService {
       shareReplay(1)
     );
   }
+  public getActiveUncompletedChallengesByCampaign(
+    campaignId: string
+  ): Observable<Challenge[]> {
+    return this.activeChallenges$.pipe(
+      map((challenges) =>
+        challenges.filter(
+          (challenge) =>
+            challenge?.campaign?.campaignId === campaignId &&
+            challenge?.status < 100
+        )
+      ),
+      shareReplay(1)
+    );
+  }
 
   public getPastChallengesByCampaign(
     campaignId: string

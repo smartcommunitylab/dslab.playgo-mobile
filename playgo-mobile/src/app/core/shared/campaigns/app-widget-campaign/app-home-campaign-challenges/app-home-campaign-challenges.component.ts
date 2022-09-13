@@ -13,11 +13,11 @@ import { ChallengeService } from '../../../services/challenge.service';
 })
 export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
-  public activeChallenges$: Observable<Challenge[]>;
+  public activeUncompleteChallenges$: Observable<Challenge[]>;
   public futureChallenges$: Observable<Challenge[]>;
   subChallActive: Subscription;
   subChallFuture: Subscription;
-  activeChallenges: Challenge[] = [];
+  activeUncompleteChallenges: Challenge[] = [];
   futureChallenges: Challenge[] = [];
   constructor(
     private challengeService: ChallengeService,
@@ -25,13 +25,15 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.activeChallenges$ =
-      this.challengeService.getActiveChallengesByCampaign(
+    this.activeUncompleteChallenges$ =
+      this.challengeService.getActiveUncompletedChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId
       );
-    this.subChallActive = this.activeChallenges$.subscribe((challenges) => {
-      this.activeChallenges = challenges;
-    });
+    this.subChallActive = this.activeUncompleteChallenges$.subscribe(
+      (challenges) => {
+        this.activeUncompleteChallenges = challenges;
+      }
+    );
     this.futureChallenges$ =
       this.challengeService.getFutureChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId
