@@ -1,6 +1,15 @@
 import { Component, OnInit, TrackByFunction } from '@angular/core';
-import { clone, cloneDeep, first, isEqual, last, sortBy } from 'lodash-es';
 import {
+  clone,
+  cloneDeep,
+  first,
+  isEqual,
+  last,
+  some,
+  sortBy,
+} from 'lodash-es';
+import {
+  BehaviorSubject,
   combineLatest,
   EMPTY,
   Observable,
@@ -48,6 +57,11 @@ import { TripService } from 'src/app/core/shared/tracking/trip.service';
 import { LocalTripsService } from 'src/app/core/shared/tracking/local-trips.service';
 import { DateTime } from 'luxon';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import {
+  LanguageMap,
+  StringLanguageMap,
+} from 'src/app/core/shared/pipes/languageMap.pipe';
 
 @Component({
   selector: 'app-trips',
@@ -184,8 +198,27 @@ export class TripsPage implements OnInit {
     distinctUntilChanged(isEqual)
   );
 
-  public groupedTrips$: Observable<TripGroup[]> = this.trips$.pipe(
-    map((trips) => this.groupTrips(trips)),
+  public myCampaigns$: Observable<{ name?: StringLanguageMap; id: string }[]> =
+    this.campaignService.myCampaigns$.pipe(
+      map((campaigns) => [
+        {
+          id: 'NO_FILTER',
+        },
+        ...campaigns.map((campaign) => ({
+          name: campaign.campaign.name as StringLanguageMap,
+          id: campaign.campaign.campaignId,
+        })),
+      ])
+    );
+  public campaignFilterSubject = new BehaviorSubject<string>('NO_FILTER');
+  private campaignFilter$: Observable<string> =
+    this.campaignFilterSubject.asObservable();
+
+  public groupedTrips$: Observable<TripGroup[]> = combineLatest([
+    this.trips$,
+    this.campaignFilter$,
+  ]).pipe(
+    map(([trips, campaignId]) => this.groupTripsAndFilter(trips, campaignId)),
     shareReplay(1)
   );
 
@@ -199,33 +232,48 @@ export class TripsPage implements OnInit {
     private backgroundTrackingService: BackgroundTrackingService,
     private tripService: TripService,
     private localTripsService: LocalTripsService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private campaignService: CampaignService
   ) {}
 
   ngOnInit() {}
 
-  private groupTrips(allTrips: ServerOrLocalTrip[]): TripGroup[] {
+  private groupTripsAndFilter(
+    allTrips: ServerOrLocalTrip[],
+    campaignId: string
+  ): TripGroup[] {
     const groupedByMultimodalId = groupByConsecutiveValues(
       allTrips,
       'multimodalId'
-    ).map(({ group, values }) => {
-      const startDate = new Date(values[0].startTime);
-      const endDate = new Date(last(values).endTime);
-      const isOneDayTrip =
-        this.roundToDay(startDate) === this.roundToDay(endDate);
-      const referenceDate = endDate;
-      const monthDate = this.roundToMonth(referenceDate);
+    )
+      .map(({ group, values }) => {
+        const startDate = new Date(values[0].startTime);
+        const endDate = new Date(last(values).endTime);
+        const isOneDayTrip =
+          this.roundToDay(startDate) === this.roundToDay(endDate);
+        const referenceDate = endDate;
+        const monthDate = this.roundToMonth(referenceDate);
 
-      return {
-        multimodalId: group,
-        trips: values,
-        startDate,
-        endDate,
-        isOneDayTrip,
-        date: referenceDate,
-        monthDate,
-      };
-    });
+        return {
+          multimodalId: group,
+          trips: values,
+          startDate,
+          endDate,
+          isOneDayTrip,
+          date: referenceDate,
+          monthDate,
+        };
+      })
+      .filter((eachMultiTrip) => {
+        if (campaignId === 'NO_FILTER') {
+          return true;
+        }
+        return (eachMultiTrip.trips || []).some((eacTrip) =>
+          (eacTrip.campaigns || []).some(
+            (campaign) => campaign.campaignId === campaignId
+          )
+        );
+      });
 
     const groupedByDate = groupByConsecutiveValues(
       groupedByMultimodalId,

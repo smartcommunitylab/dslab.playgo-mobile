@@ -176,6 +176,9 @@
       }
     }
   },
+  "trips": {
+    "filter_all_campaigns": "Tutte le campagne"
+  },
   "trip_detail": {
     "title": "Dettaglio viaggio",
     "start": "Inizio",

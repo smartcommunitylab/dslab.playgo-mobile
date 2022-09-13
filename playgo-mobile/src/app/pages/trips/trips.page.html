@@ -1,5 +1,24 @@
 <ion-header appHeader></ion-header>
 <ion-content appContent>
+  <ion-item color="playgo">
+    <ion-select
+      class="app-alert"
+      (ionChange)="campaignFilterSubject.next($any($event).target.value)"
+      [value]="campaignFilterSubject | async"
+    >
+      <ion-select-option
+        *ngFor="let campaign of myCampaigns$|async"
+        [value]="campaign.id"
+      >
+        <ng-container *ngIf="campaign.id === 'NO_FILTER'">
+          {{ "trips.filter_all_campaigns" | translate }}
+        </ng-container>
+        <ng-container *ngIf="campaign.id !== null">
+          {{ campaign.name | languageMap }}
+        </ng-container>
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
   <app-infinite-scroll
     [allItemsInTemplate]="true"
     [response]="tripsResponse$ | async"
