@@ -42,7 +42,9 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
       this.futureChallenges = challenges;
     });
   }
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.subChallActive.unsubscribe();
+  }
   goToChallenge(event: Event) {
     if (event && event.stopPropagation) {
       event.stopPropagation();

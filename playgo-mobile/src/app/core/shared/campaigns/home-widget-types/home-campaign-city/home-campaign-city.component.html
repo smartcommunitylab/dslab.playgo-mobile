@@ -12,10 +12,14 @@
       <strong> {{ campaignContainer.campaign.name | languageMap }}</strong>
     </div>
   </ion-card-header>
-  <ion-card-content class="city-content">
+  <ion-card-content class="city-content" *ngIf="campaignStatus !== null">
     <app-main-campaign-stat
       [campaignContainer]="campaignContainer"
-      [status]="campaignStatus"
+      [status]="
+        (activeUncompleteChallenges$ | async)?.length > 0
+          ? campaignStatus
+          : undefined
+      "
       [reportWeekStat]="reportWeekStat"
       [reportTotalStat]="reportTotalStat"
     >

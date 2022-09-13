@@ -24,5 +24,7 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() showRanking?: boolean = true;
   constructor(public campaignService: CampaignService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.status);
+  }
 }
