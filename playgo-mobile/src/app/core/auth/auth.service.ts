@@ -83,6 +83,9 @@ export class AuthService {
         this.postLogoutCleanup();
       }
 
+      if (action.action === AuthActions.SignInFailed) {
+        this.spinnerService.hide();
+      }
       if (
         action.action === AuthActions.SignInFailed ||
         action.action === AuthActions.RefreshFailed
@@ -187,6 +190,7 @@ export class AuthService {
   }
 
   private async onSignInSuccess(action: IAuthAction) {
+    this.spinnerService.hide();
     const userIsRegistered = await this.isUserRegistered();
     if (userIsRegistered === true) {
       this.alertService.showToast({ messageTranslateKey: 'login.welcome' });
