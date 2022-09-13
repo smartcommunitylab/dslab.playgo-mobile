@@ -46,6 +46,7 @@ import { PlayerControllerService } from '../../api/generated/controllers/playerC
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/auth.service';
 import { AppStatusService } from '../services/app-status.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -163,7 +164,8 @@ export class BackgroundTrackingService {
     private authService: AuthService,
     private playerControllerService: PlayerControllerService,
     private appStatusService: AppStatusService,
-    private zone: NgZone
+    private zone: NgZone,
+    private translateService: TranslateService
   ) {
     // FIXME: debug only
     (window as any).backgroundGeolocationPlugin =
@@ -176,6 +178,18 @@ export class BackgroundTrackingService {
 
   async start() {
     try {
+      const titlePermission = await firstValueFrom(
+        this.translateService.get('permission.title')
+      );
+      const messagePermission = await firstValueFrom(
+        this.translateService.get('permission.message')
+      );
+      const positiveActionPermission = await firstValueFrom(
+        this.translateService.get('permission.positiveAction')
+      );
+      const cancelActionPermission = await firstValueFrom(
+        this.translateService.get('permission.cancelAction')
+      );
       const appAndDeviceInfo = await firstValueFrom(this.appAndDeviceInfo$);
       const config: Config = {
         url:
@@ -188,6 +202,15 @@ export class BackgroundTrackingService {
         autoSync: false,
         batchSync: true,
         authorization: null,
+        notification: {
+          smallIcon: 'drawable/ic_push',
+        },
+        backgroundPermissionRationale: {
+          title: titlePermission,
+          message: messagePermission,
+          positiveAction: positiveActionPermission,
+          negativeAction: cancelActionPermission,
+        },
         params: {
           device: appAndDeviceInfo,
         },

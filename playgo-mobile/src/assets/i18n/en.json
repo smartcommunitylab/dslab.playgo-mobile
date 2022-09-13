@@ -17,6 +17,12 @@
   "bike sharing pioneer": "Bike Sharing Badge",
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "permission": {
+    "title": "Allow {applicationName} to access to this device's location in the background?",
+    "message": "In order to track your activity in the background, please enable {backgroundPermissionOptionLabel} location permission",
+    "positiveAction": "Change to {backgroundPermissionOptionLabel}",
+    "cancelAction": "Cancel"
+  },
   "badges": {
     "empty": "You have not earned any badges for this campaign. Play to find them."
   },

@@ -17,6 +17,12 @@
   "bike sharing pioneer": "Bike Sharing Badge",
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "permission": {
+    "title": "Vuoi permettere a {applicationName} ad accedere alla tua posizione in baground?",
+    "message": "Allo scopo di traciare i tuoi percorsi in background, abilitare {backgroundPermissionOptionLabel} ",
+    "positiveAction": "Cambia  {backgroundPermissionOptionLabel}",
+    "cancelAction": "Annulla"
+  },
   "badges": {
     "empty": "Non hai ottenuto nessun badge per questa campagna. Gioca per scoprirli."
   },
