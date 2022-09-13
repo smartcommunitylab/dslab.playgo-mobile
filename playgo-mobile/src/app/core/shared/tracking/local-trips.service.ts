@@ -12,14 +12,12 @@ import {
 } from 'rxjs';
 import {
   catchError,
-  delay,
+  concatMap,
   distinctUntilChanged,
   map,
   mapTo,
   shareReplay,
-  startWith,
   switchMap,
-  tap,
   throttleTime,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -116,7 +114,7 @@ export class LocalTripsService {
     this.reloadPendingTrigger$,
     this.reloadFromLastTripTrigger$,
     this.reloadAllTrigger$
-  );
+  ).pipe(shareReplay({ refCount: false, bufferSize: 100 }));
 
   private initialLocalData$ = defer(() =>
     this.getTripsFromStorage(this.localDataFromDate)
@@ -125,7 +123,7 @@ export class LocalTripsService {
   private lastLocalData$: Observable<StorableTrip[]> = concat(
     this.initialLocalData$,
     this.localDataSubject
-  );
+  ).pipe(shareReplay({ refCount: false, bufferSize: 1 }));
 
   private dataFromPluginDB$: Observable<StorableTrip[]> =
     this.justSynchronizedLocations$.pipe(
@@ -169,7 +167,8 @@ export class LocalTripsService {
     map(([triggerType, lastLocalData]) =>
       this.findPeriodFromDate(lastLocalData, triggerType)
     ),
-    switchMap((periodFromDate) => this.loadDataFromServer(periodFromDate))
+    concatMap((periodFromDate) => this.loadDataFromServer(periodFromDate)),
+    shareReplay(1)
   );
 
   private localData$: Observable<any> = merge(
@@ -219,6 +218,7 @@ export class LocalTripsService {
   }
 
   private initService() {
+    this.lastLocalData$.subscribe();
     this.localDataChanges$.subscribe((trips) => {
       // for creating lastLocalData$ observable
       this.localDataSubject.next(trips);
@@ -236,6 +236,11 @@ export class LocalTripsService {
       return of([]);
     }
 
+    // console.log(
+    //   `LT: Loading trips from ${from.toFormat(
+    //     'dd MM yyyy HH:mm'
+    //   )} to ${to.toFormat('dd MM yyyy HH:mm')}`
+    // );
     return this.trackControllerService
       .getTrackedInstanceInfoListUsingGET({
         page: 0,
@@ -319,8 +324,14 @@ export class LocalTripsService {
         oldestPendingTripDate,
         newestNotPendingTripDate,
       ]);
+      const reloadFromLastTime = oldestTripDate || fromDate.forWholePeriod;
+      // console.log(
+      //   'LT: processing RELOAD_FROM_LAST_TRIP',
+      //   oldestTripDate ? 'oldest trip' : 'whole period',
+      //   reloadFromLastTime.toFormat('dd MM yyyy HH:mm:ss')
+      // );
 
-      return oldestTripDate || fromDate.forWholePeriod;
+      return reloadFromLastTime;
     }
 
     if (triggerType === 'RELOAD_ONLY_PENDING') {
