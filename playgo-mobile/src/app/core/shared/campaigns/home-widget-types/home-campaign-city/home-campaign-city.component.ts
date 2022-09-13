@@ -41,22 +41,21 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
       ? this.campaignContainer.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
-      // this.status = status;
-      this.reportService
-        .getGameStatus(this.campaignContainer.campaign.campaignId)
-        .subscribe(
-          (campaignStatus) => {
-            this.campaignStatus = campaignStatus;
-          },
-          (error) => {
-            if (isOfflineError(error)) {
-              this.campaignStatus = null;
-            } else {
-              this.campaignStatus = null;
-              this.errorService.handleError(error);
-            }
-          }
-        );
+      // this.reportService
+      //   .getGameStatus(this.campaignContainer.campaign.campaignId)
+      //   .subscribe(
+      //     (campaignStatus) => {
+      //       this.campaignStatus = campaignStatus;
+      //     },
+      //     (error) => {
+      //       if (isOfflineError(error)) {
+      //         this.campaignStatus = null;
+      //       } else {
+      //         this.campaignStatus = null;
+      //         this.errorService.handleError(error);
+      //       }
+      //     }
+      //   );
 
       // First release: only global report, for the we can add global
       // this.reportService

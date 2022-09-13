@@ -23,6 +23,7 @@
     "positiveAction": "Cambia  {backgroundPermissionOptionLabel}",
     "cancelAction": "Annulla"
   },
+
   "badges": {
     "empty": "Non hai ottenuto nessun badge per questa campagna. Gioca per scoprirli."
   },
@@ -411,6 +412,7 @@
     "activate": "Accetta",
     "reject": "Rifiuta",
     "cancel": "Annulla",
+    "ongoing": "Sfida in corso",
     "singleproposal": "Sfida singola",
     "proposed": "Sfide della prossima settimana",
     "choose_single": "Scegli una delle seguenti sfide singole",

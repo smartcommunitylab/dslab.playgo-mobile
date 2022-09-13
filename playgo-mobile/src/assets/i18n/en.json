@@ -399,6 +399,7 @@
   "challenges": {
     "challenges": "Challenges",
     "sent": "Sent",
+    "ongoing": "Ongoing",
     "received": "Received",
     "activate": "Accetta",
     "reject": "Rifiuta",

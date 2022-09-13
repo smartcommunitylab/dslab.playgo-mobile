@@ -1,4 +1,12 @@
-<ion-card [color]="challenge.challengeType" class="ion-no-padding">
+<ion-card
+  class="ion-no-padding"
+  [ngStyle]="{
+    border: '4px solid var(--ion-color-' + campaign?.campaign?.type + ')'
+  }"
+>
+  <ion-card-header [color]="campaign?.campaign?.type" class="header"
+    ><span>{{ "challenges.ongoing" | translate }}</span>
+  </ion-card-header>
   <ion-card-header class="ion-no-padding">
     <ion-grid class="ion-no-padding"
       ><ion-row class="ion-no-padding"
@@ -9,6 +17,7 @@
           ></app-icon></ion-col
         ><ion-col
           ><p
+            class="short-desc"
             [innerHTML]="challenge.challDesc | languageMap"
           ></p></ion-col></ion-row
     ></ion-grid>
