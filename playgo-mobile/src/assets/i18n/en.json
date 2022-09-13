@@ -17,6 +17,12 @@
   "bike sharing pioneer": "Bike Sharing Badge",
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "permission": {
+    "title": "Allow {applicationName} to access to this device's location in the background?",
+    "message": "In order to track your activity in the background, please enable {backgroundPermissionOptionLabel} location permission",
+    "positiveAction": "Change to {backgroundPermissionOptionLabel}",
+    "cancelAction": "Cancel"
+  },
   "badges": {
     "empty": "You have not earned any badges for this campaign. Play to find them."
   },
@@ -30,7 +36,7 @@
     "loginGoogleButton": "Login with Google",
     "loginFacebookButton": "Login with Facebook",
     "loginAppleButton": "Login with Apple",
-    "loginInternalButton": "Login with AAC",
+    "loginInternalButton": "Login with Username",
     "title": "Welcome in Play&Go",
     "subtitle": "Sustainable mobility app"
   },
@@ -111,7 +117,13 @@
       "or": "or scan the QR code",
       "scan": "Scan",
       "showCode": "Show this code to the passenger",
-      "confirm": "Start to drive"
+      "confirm": "Start to drive",
+      "errors": {
+        "NO_ROLE_CHOSEN": "You have to choose to be passenger or driver!",
+        "NO_CONFIRMED": "You have to confirm the QR Code",
+        "NO_PASSENGER_CARPOOLING_ID": "You have to insert the driver code",
+        "INCORRECT_QR_CODE": "Wrong QR CODE"
+      }
     }
   },
   "profile": {
@@ -387,6 +399,7 @@
   "challenges": {
     "challenges": "Challenges",
     "sent": "Sent",
+    "ongoing": "Ongoing",
     "received": "Received",
     "activate": "Accetta",
     "reject": "Rifiuta",
@@ -454,7 +467,7 @@
   "home": "Play&Go",
   "home_title": "Home",
   "profile_title": "Profile",
-  "campaigns_title": "Other Campaigns",
+  "campaigns_title": "Available campaigns",
   "playNow": "Play now",
   "noMessages": "No messages available",
   "noCampaigns": "No campaigns available",

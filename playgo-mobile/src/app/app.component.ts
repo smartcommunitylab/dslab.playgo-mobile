@@ -14,6 +14,8 @@ import { NotificationService } from './core/shared/services/notifications/notifi
 import { BadgeService } from './core/shared/services/badge.service';
 import { waitMs } from './core/shared/utils';
 import { ErrorService } from './core/shared/services/error.service';
+import { Capacitor } from '@capacitor/core';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-root',
@@ -46,6 +48,7 @@ export class AppComponent implements AfterContentInit {
       } catch (e) {}
       this.loadCustomIcons();
       this.pushInit();
+      this.initLink();
       this.badgeService.init();
       await this.platform.ready();
       await this.authService.init();
@@ -56,6 +59,27 @@ export class AppComponent implements AfterContentInit {
       console.error('initializeApp error:', error);
     } finally {
       await SplashScreen.hide();
+    }
+  }
+  initLink() {
+    if (Capacitor.getPlatform() !== 'web') {
+      document.onclick = (event: any): boolean | void => {
+        const element: any = event.target || event.srcElement;
+
+        if (
+          element.tagName === 'A' &&
+          element.target === '_blank' &&
+          element.href
+        ) {
+          event.preventDefault();
+          Browser.open({
+            url: element.href,
+            windowName: '_system',
+            presentationStyle: 'popover',
+          });
+          return true;
+        }
+      };
     }
   }
   pushInit() {

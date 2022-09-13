@@ -1,0 +1,19 @@
+ion-card {
+  ion-row {
+    align-items: center !important;
+  }
+  box-shadow: none !important;
+  border-radius: 8px;
+  .header {
+    text-align: end;
+    padding: 2px;
+    font-style: italic;
+  }
+  .short-desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

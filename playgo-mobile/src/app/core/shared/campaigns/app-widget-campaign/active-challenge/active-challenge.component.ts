@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { Challenge } from 'src/app/pages/challenges/challenges.page';
 import { getImgChallenge } from '../../../../../core/shared/utils';
 
@@ -9,6 +10,7 @@ import { getImgChallenge } from '../../../../../core/shared/utils';
 })
 export class ActiveChallengeComponent implements OnInit {
   @Input() challenge: Challenge;
+  @Input() campaign: PlayerCampaign;
   imgChallenge = getImgChallenge;
   type = 'active';
   constructor() {}

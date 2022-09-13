@@ -48,7 +48,6 @@ export class AlertService {
     } catch (e) {
       //..but the fail is somehow so severe, that it will be not caught, here :(
       console.error('Showing toast failed', e);
-      alert(message);
     }
   }
 

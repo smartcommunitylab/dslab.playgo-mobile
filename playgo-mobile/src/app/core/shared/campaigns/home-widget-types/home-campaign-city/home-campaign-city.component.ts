@@ -41,43 +41,43 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
       ? this.campaignContainer.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
-      // this.status = status;
-      this.reportService
-        .getGameStatus(this.campaignContainer.campaign.campaignId)
-        .subscribe(
-          (campaignStatus) => {
-            this.campaignStatus = campaignStatus;
-          },
-          (error) => {
-            if (isOfflineError(error)) {
-              this.campaignStatus = null;
-            } else {
-              this.campaignStatus = null;
-              this.errorService.handleError(error);
-            }
-          }
-        );
+      // this.reportService
+      //   .getGameStatus(this.campaignContainer.campaign.campaignId)
+      //   .subscribe(
+      //     (campaignStatus) => {
+      //       this.campaignStatus = campaignStatus;
+      //     },
+      //     (error) => {
+      //       if (isOfflineError(error)) {
+      //         this.campaignStatus = null;
+      //       } else {
+      //         this.campaignStatus = null;
+      //         this.errorService.handleError(error);
+      //       }
+      //     }
+      //   );
 
-      this.reportService
-        .getGameStats(
-          this.campaignContainer.campaign.campaignId,
-          profile.playerId,
-          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
-          toServerDateOnly(DateTime.utc())
-        )
-        .subscribe(
-          (stats) => {
-            this.reportWeekStat = stats;
-          },
-          (error) => {
-            if (isOfflineError(error)) {
-              this.reportWeekStat = null;
-            } else {
-              this.reportWeekStat = null;
-              this.errorService.handleError(error);
-            }
-          }
-        );
+      // First release: only global report, for the we can add global
+      // this.reportService
+      //   .getGameStats(
+      //     this.campaignContainer.campaign.campaignId,
+      //     profile.playerId,
+      //     toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+      //     toServerDateOnly(DateTime.utc())
+      //   )
+      //   .subscribe(
+      //     (stats) => {
+      //       this.reportWeekStat = stats;
+      //     },
+      //     (error) => {
+      //       if (isOfflineError(error)) {
+      //         this.reportWeekStat = null;
+      //       } else {
+      //         this.reportWeekStat = null;
+      //         this.errorService.handleError(error);
+      //       }
+      //     }
+      //   );
 
       this.reportService
         .getGameStats(

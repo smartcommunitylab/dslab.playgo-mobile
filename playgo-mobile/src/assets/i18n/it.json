@@ -17,6 +17,13 @@
   "bike sharing pioneer": "Bike Sharing Badge",
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "permission": {
+    "title": "Vuoi permettere a {applicationName} ad accedere alla tua posizione in baground?",
+    "message": "Allo scopo di traciare i tuoi percorsi in background, abilitare {backgroundPermissionOptionLabel} ",
+    "positiveAction": "Cambia  {backgroundPermissionOptionLabel}",
+    "cancelAction": "Annulla"
+  },
+
   "badges": {
     "empty": "Non hai ottenuto nessun badge per questa campagna. Gioca per scoprirli."
   },
@@ -30,8 +37,8 @@
     "loginGoogleButton": "Entra con Google",
     "loginFacebookButton": "Entra con Facebook",
     "loginAppleButton": "Entra con Apple",
-    "loginInternalButton": "Entra con AAC",
-    "title": "Benvenuto in Play&Go",
+    "loginInternalButton": "Entra con Username",
+    "title": "Benvenuti in Play&Go",
     "subtitle": "App di mobilitá sostenibile"
   },
   "notifications": {
@@ -111,7 +118,13 @@
       "or": "oppure scansiona il QR code",
       "scan": "Leggilo",
       "showCode": "Mostra questo codice al passeggero",
-      "confirm": "Inizia a guidare"
+      "confirm": "Inizia a guidare",
+      "errors": {
+        "NO_ROLE_CHOSEN": "Nessun ruolo selezionato!",
+        "NO_CONFIRMED": "Il codice QR Code va confermato",
+        "NO_PASSENGER_CARPOOLING_ID": "Nessun codice passsegero inserito",
+        "INCORRECT_QR_CODE": "Codice QR Code errato"
+      }
     },
     "stop_header": "Viaggio concluso con successo!",
     "stop_body": "Il tracciamento si è concluso con successo. I dati del viaggio verranno inviati ai nostri server per la validazione."
@@ -255,7 +268,7 @@
       "badges": "Badges",
       "stats": "Statistiche",
       "generalStat": "Generale",
-      "signal": "Segnala e conatta il supporto",
+      "signal": "Segnala e contatta il supporto",
       "unsubscribe": "Disiscriviti",
       "prizes": "Premi",
       "dateFrom": "Inizio: ",
@@ -399,6 +412,7 @@
     "activate": "Accetta",
     "reject": "Rifiuta",
     "cancel": "Annulla",
+    "ongoing": "Sfida in corso",
     "singleproposal": "Sfida singola",
     "proposed": "Sfide della prossima settimana",
     "choose_single": "Scegli una delle seguenti sfide singole",
@@ -488,7 +502,7 @@
   "home_title": "Home",
   "discovercampaignbutton": "Scopri altre campagne",
   "profile_title": "Profilo",
-  "campaigns_title": "Altre campagne",
+  "campaigns_title": "Campagne disponibili",
   "playNow": "Gioca adesso",
   "noMessages": "Nessun messaggio",
   "noCampaigns": "Nessuna campagna",

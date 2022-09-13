@@ -18,6 +18,9 @@ import {
   TRIP_END,
 } from './trip.model';
 import { isNotConstant } from '../utils';
+import { ErrorService } from '../services/error.service';
+import { AlertService } from '../services/alert.service';
+import { TranslateKey } from '../type.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +54,8 @@ export class TripService {
   constructor(
     private tripPersistanceService: LocationsStorageService,
     private backgroundTrackingService: BackgroundTrackingService,
-    private carpoolingService: CarPoolingService
+    private carpoolingService: CarPoolingService,
+    private alertService: AlertService
   ) {
     this.start();
     backgroundTrackingService.isPowerSaveMode$
@@ -145,7 +149,10 @@ export class TripService {
       }
       this.setCurrentTripPart(newTripPart);
     } catch (e) {
-      alert(e);
+      const messageTranslateKey = ('tracking.car.errors.' + e) as TranslateKey;
+      this.alertService.showToast({
+        messageTranslateKey,
+      });
       console.error(e);
     } finally {
       this.operationInProgressSubject.next(false);

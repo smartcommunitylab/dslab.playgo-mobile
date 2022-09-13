@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { PlayerControllerService } from '../api/generated/controllers/playerController.service';
 import { AlertService } from '../shared/services/alert.service';
 import { LocalStorageService } from '../shared/services/local-storage.service';
+import { SpinnerService } from '../shared/services/spinner.service';
 import { BackgroundTrackingService } from '../shared/tracking/background-tracking.service';
 
 @Injectable({
@@ -63,7 +64,8 @@ export class AuthService {
     private navController: NavController,
     private localStorageService: LocalStorageService,
     private playerControllerService: PlayerControllerService,
-    private injector: Injector
+    private injector: Injector,
+    private spinnerService: SpinnerService
   ) {}
 
   public async init() {
@@ -81,6 +83,9 @@ export class AuthService {
         this.postLogoutCleanup();
       }
 
+      if (action.action === AuthActions.SignInFailed) {
+        this.spinnerService.hide();
+      }
       if (
         action.action === AuthActions.SignInFailed ||
         action.action === AuthActions.RefreshFailed
@@ -185,6 +190,7 @@ export class AuthService {
   }
 
   private async onSignInSuccess(action: IAuthAction) {
+    this.spinnerService.hide();
     const userIsRegistered = await this.isUserRegistered();
     if (userIsRegistered === true) {
       this.alertService.showToast({ messageTranslateKey: 'login.welcome' });

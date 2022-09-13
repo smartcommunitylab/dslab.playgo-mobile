@@ -1,15 +1,22 @@
-<ion-item [color]="campaignContainer?.campaign?.type">
-  Sezione sfide
-  <app-notification-badge
-    [type]="'challenge'"
-    [campaignContainer]="campaignContainer"
-  ></app-notification-badge>
-</ion-item>
-<!-- <div>Sfide attive:{{ activeChallenges.length }}</div> -->
-<app-active-challenge
+<!-- <app-active-challenge
   (click)="goToChallenge($event)"
-  *ngFor="let challenge of activeChallenges"
+  *ngFor="let challenge of activeUncompleteChallenges"
   [challenge]="challenge"
+  [campaign]="campaignContainer"
 >
-</app-active-challenge>
-<!-- <div>Sfide future: {{ futureChallenges.length }}</div> -->
+</app-active-challenge> -->
+<ng-container *ngIf="activeUncompleteChallenges?.length > 0">
+  <app-active-challenge
+    (click)="goToChallenge($event)"
+    [challenge]="activeUncompleteChallenges[0]"
+    [campaign]="campaignContainer"
+  >
+  </app-active-challenge>
+  <ion-button
+    (click)="goToChallenge($event)"
+    [color]="campaignContainer.campaign.type"
+    expand="block"
+  >
+    <span>{{ "challenges.challenges" | translate }}</span></ion-button
+  >
+</ng-container>
