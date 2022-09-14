@@ -242,38 +242,36 @@ export class TripsPage implements OnInit {
     allTrips: ServerOrLocalTrip[],
     campaignId: string
   ): TripGroup[] {
-    const groupedByMultimodalId = groupByConsecutiveValues(
-      allTrips,
-      'multimodalId'
-    )
-      .map(({ group, values }) => {
-        const startDate = new Date(values[0].startTime);
-        const endDate = new Date(last(values).endTime);
-        const isOneDayTrip =
-          this.roundToDay(startDate) === this.roundToDay(endDate);
-        const referenceDate = endDate;
-        const monthDate = this.roundToMonth(referenceDate);
+    const filteredTrips = allTrips.filter((trip) => {
+      if (campaignId === 'NO_FILTER') {
+        return true;
+      }
+      return (trip.campaigns ?? []).some(
+        (campaign) => campaign.campaignId === campaignId
+      );
+    });
 
-        return {
-          multimodalId: group,
-          trips: values,
-          startDate,
-          endDate,
-          isOneDayTrip,
-          date: referenceDate,
-          monthDate,
-        };
-      })
-      .filter((eachMultiTrip) => {
-        if (campaignId === 'NO_FILTER') {
-          return true;
-        }
-        return (eachMultiTrip.trips || []).some((eacTrip) =>
-          (eacTrip.campaigns || []).some(
-            (campaign) => campaign.campaignId === campaignId
-          )
-        );
-      });
+    const groupedByMultimodalId = groupByConsecutiveValues(
+      filteredTrips,
+      'multimodalId'
+    ).map(({ group, values }) => {
+      const startDate = new Date(values[0].startTime);
+      const endDate = new Date(last(values).endTime);
+      const isOneDayTrip =
+        this.roundToDay(startDate) === this.roundToDay(endDate);
+      const referenceDate = endDate;
+      const monthDate = this.roundToMonth(referenceDate);
+
+      return {
+        multimodalId: group,
+        trips: values,
+        startDate,
+        endDate,
+        isOneDayTrip,
+        date: referenceDate,
+        monthDate,
+      };
+    });
 
     const groupedByDate = groupByConsecutiveValues(
       groupedByMultimodalId,
