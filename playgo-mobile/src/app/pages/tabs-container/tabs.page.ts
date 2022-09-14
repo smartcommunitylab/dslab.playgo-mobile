@@ -5,6 +5,7 @@ import { filter, map, startWith } from 'rxjs/operators';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { Notification } from 'src/app/core/api/generated/model/notification';
+import { TripService } from 'src/app/core/shared/tracking/trip.service';
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
@@ -14,6 +15,9 @@ export class TabsPage implements OnInit, OnDestroy {
   resetStackTabs = ['home', 'campaigns', 'trips', 'challenges'];
   challengesUnread = 0;
   unreadChallengeNotification$: Observable<Notification[]>;
+  isTracking$: Observable<boolean> = this.tripService.isInTrip$.pipe(
+    startWith(false)
+  );
   subUnread: Subscription;
 
   private url$ = this.router.events.pipe(
@@ -28,7 +32,8 @@ export class TabsPage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     public pageSettingsService: PageSettingsService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private tripService: TripService
   ) {}
   ngOnInit(): void {
     this.unreadChallengeNotification$ = this.notificationService

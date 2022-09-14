@@ -1,4 +1,5 @@
 <ion-tabs class="scanner-hide">
+  <div class="padding-tracking" *ngIf="(isTracking$|async)"></div>
   <app-tracking-main-control></app-tracking-main-control>
   <ion-tab-bar slot="bottom" color="playgo">
     <ion-tab-button tab="home" (click)="handleTabClick( $event)">
