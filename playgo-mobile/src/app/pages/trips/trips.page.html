@@ -4,6 +4,11 @@
     class="app-alert"
     (ionChange)="campaignFilterSubject.next($any($event).target.value)"
     [value]="campaignFilterSubject | async"
+    [selectedText]="
+      (campaignFilterSubject | async) === 'NO_FILTER' ?
+      ( 'trips.filter_all_campaigns' | translate ) :
+      undefined
+    "
   >
     <ion-select-option
       *ngFor="let campaign of myCampaigns$|async"
