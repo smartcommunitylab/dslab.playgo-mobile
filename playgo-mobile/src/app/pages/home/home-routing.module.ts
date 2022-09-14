@@ -9,6 +9,7 @@ const routes: RoutesWithPageSettings = [
     component: HomePage,
     data: {
       title: 'home',
+      color: 'playgo',
       isOfflinePage: true,
       showNotifications: true,
       backButton: false,

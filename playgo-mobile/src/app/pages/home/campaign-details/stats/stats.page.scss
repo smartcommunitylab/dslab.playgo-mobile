@@ -1,5 +1,18 @@
-.table-header {
-  background-color: var(--ion-color-playgo);
-  color: white;
-  font-size: 22px;
+.header-margin {
+  margin: 8px;
+  .header-radius {
+    border-radius: 8px 8px 0 0;
+  }
+  .table-header {
+    font-size: 22px;
+  }
+  .period-value {
+    font-size: 17px;
+    margin: 4px;
+  }
+  .total-value {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 4px;
+  }
 }

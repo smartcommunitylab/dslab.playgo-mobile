@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { TranslateKey } from 'src/app/core/shared/type.utils';
 
@@ -14,6 +15,8 @@ export class PlacingDetailComponent implements OnInit {
   placing: CampaignPlacing;
   @Input()
   unitLabelKey: TranslateKey;
+  @Input() first: boolean;
+  @Input() campaign: PlayerCampaign;
 
   playerId$ = this.userService.userProfile$.pipe(
     map((userProfile) => userProfile.playerId)
