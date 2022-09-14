@@ -50,7 +50,12 @@
       <ng-container
         *ngFor="let tripGroup of groupedTrips$ | async; trackBy: trackGroup"
       >
-        <ion-item-divider color="playgo" sticky class="ion-padding">
+        <ion-item-divider
+          *ngIf="(monthFilterSubject | async) === 'NO_FILTER'"
+          color="playgo"
+          sticky
+          class="ion-padding"
+        >
           <ion-label>
             {{ tripGroup.monthDate | localDate: "MMMM y" }}
           </ion-label>
