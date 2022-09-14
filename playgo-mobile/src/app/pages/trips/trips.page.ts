@@ -245,14 +245,25 @@ export class TripsPage implements OnInit {
     allTrips: ServerOrLocalTrip[],
     filterOptions: FilterOptions
   ): TripGroup[] {
-    const filteredTrips = allTrips.filter((trip) => {
-      if (filterOptions.campaignId === 'NO_FILTER') {
-        return true;
-      }
-      return (trip.campaigns ?? []).some(
-        (campaign) => campaign.campaignId === filterOptions.campaignId
-      );
-    });
+    // We have to apply all filters for local trips
+    const filteredTrips = allTrips
+      .filter((trip) => {
+        if (filterOptions.campaignId === 'NO_FILTER') {
+          return true;
+        }
+        return (trip.campaigns ?? []).some(
+          (campaign) => campaign.campaignId === filterOptions.campaignId
+        );
+      })
+      .filter((trip) => {
+        if (filterOptions.month === 'NO_FILTER') {
+          return true;
+        }
+        return (
+          filterOptions.month.from <= trip.startTime &&
+          trip.startTime <= filterOptions.month.to
+        );
+      });
 
     const groupedByMultimodalId = groupByConsecutiveValues(
       filteredTrips,
