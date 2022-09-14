@@ -12,6 +12,8 @@ import {
   BehaviorSubject,
   combineLatest,
   EMPTY,
+  firstValueFrom,
+  from,
   Observable,
   of,
   Subject,
@@ -58,10 +60,6 @@ import { LocalTripsService } from 'src/app/core/shared/tracking/local-trips.serv
 import { DateTime } from 'luxon';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
-import {
-  LanguageMap,
-  StringLanguageMap,
-} from 'src/app/core/shared/pipes/languageMap.pipe';
 
 @Component({
   selector: 'app-trips',
@@ -79,14 +77,18 @@ export class TripsPage implements OnInit {
     minute: 'numeric',
   };
 
+  months$: Observable<Month[]> = from(this.getListOfMonths());
+
+  monthFilterSubject = new BehaviorSubject<'NO_FILTER' | Month>('NO_FILTER');
+
   myCampaigns$ = this.campaignService.myCampaigns$;
 
   campaignFilterSubject = new BehaviorSubject<string>('NO_FILTER');
 
-  private campaignFilter$: Observable<string> =
-    this.campaignFilterSubject.asObservable();
-
-  private filterOptions$ = combineLatest({ campaignId: this.campaignFilter$ });
+  private filterOptions$: Observable<FilterOptions> = combineLatest({
+    campaignId: this.campaignFilterSubject,
+    month: this.monthFilterSubject,
+  });
 
   resetItems$ = this.filterOptions$.pipe(map(() => Symbol()));
 
@@ -241,7 +243,7 @@ export class TripsPage implements OnInit {
 
   private groupTripsAndFilter(
     allTrips: ServerOrLocalTrip[],
-    filterOptions: { campaignId: string }
+    filterOptions: FilterOptions
   ): TripGroup[] {
     const filteredTrips = allTrips.filter((trip) => {
       if (filterOptions.campaignId === 'NO_FILTER') {
@@ -299,7 +301,7 @@ export class TripsPage implements OnInit {
 
   getTripsPage(
     pageRequest: PageableRequest,
-    filterOptions: { campaignId: string }
+    filterOptions: FilterOptions
   ): Observable<PageableResponse<TrackedInstanceInfo>> {
     const campaignId =
       filterOptions.campaignId !== 'NO_FILTER'
@@ -313,6 +315,55 @@ export class TripsPage implements OnInit {
       dateTo: toServerDateTime(this.localTripsService.localDataFromDate), //to - newer
       campaignId,
     });
+  }
+
+  /* from oldest to newest */
+  async getListOfMonths(): Promise<Month[]> {
+    const newestMonth = DateTime.now().startOf('month');
+    const oldestMonth = (await this.getLastTripDate()).startOf('month');
+
+    const months = [];
+    let currentMonth = newestMonth;
+    while (currentMonth >= oldestMonth) {
+      months.push(currentMonth);
+      currentMonth = currentMonth.minus({ month: 1 });
+    }
+
+    return months.map((dateTime) => ({
+      from: dateTime.startOf('month').toMillis(),
+      to: dateTime.endOf('month').toMillis(),
+    }));
+  }
+
+  async getLastTripDate(): Promise<DateTime> {
+    try {
+      const firstTripPageInfo = await firstValueFrom(
+        this.trackControllerService.getTrackedInstanceInfoListUsingGET({
+          page: 0,
+          size: 1,
+        })
+      );
+      const numberOfTrips = firstTripPageInfo.totalElements;
+
+      if (numberOfTrips === 0) {
+        return DateTime.now();
+      }
+
+      const lastTrip = await firstValueFrom(
+        this.trackControllerService.getTrackedInstanceInfoListUsingGET({
+          page: numberOfTrips - 1,
+          size: 1,
+        })
+      );
+
+      if (!lastTrip?.content[0]?.endTime) {
+        throw new Error('INVALID_LAST_TRIP');
+      }
+      return DateTime.fromMillis(lastTrip.content[0].endTime);
+    } catch (e) {
+      this.errorService.handleError(e, 'silent');
+      return DateTime.now().minus({ years: 5 });
+    }
   }
 
   private sortTrips(trips: TrackedInstanceInfo[]): TrackedInstanceInfo[] {
@@ -343,4 +394,14 @@ interface MultiTrip {
 export interface TripGroup {
   monthDate: number;
   tripsInSameMonth: MultiTrip[];
+}
+
+interface FilterOptions {
+  campaignId: string | 'NO_FILTER';
+  month: Month | 'NO_FILTER';
+}
+
+interface Month {
+  from: number;
+  to: number;
 }

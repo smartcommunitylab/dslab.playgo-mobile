@@ -1,7 +1,23 @@
 <ion-header appHeader></ion-header>
 <ion-item color="playgo">
   <ion-select
-    class="app-alert"
+    (ionChange)="monthFilterSubject.next($any($event).target.value)"
+    [value]="monthFilterSubject | async"
+    [selectedText]="
+      (monthFilterSubject | async) === 'NO_FILTER' ?
+      ( 'trips.filter_all_the_time' | translate ) :
+      undefined
+    "
+  >
+    <!-- [selectText] is workaround for ionic bug https://github.com/ionic-team/ionic-framework/issues/8561#issuecomment-399639608 -->
+    <ion-select-option value="NO_FILTER">
+      {{ "trips.filter_all_the_time" | translate }}
+    </ion-select-option>
+    <ion-select-option *ngFor="let month of months$ | async" [value]="month">
+      {{ month.from | localDate: "MMMM y" }}
+    </ion-select-option>
+  </ion-select>
+  <ion-select
     (ionChange)="campaignFilterSubject.next($any($event).target.value)"
     [value]="campaignFilterSubject | async"
     [selectedText]="
