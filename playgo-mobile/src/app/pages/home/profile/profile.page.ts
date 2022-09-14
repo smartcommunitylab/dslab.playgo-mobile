@@ -7,6 +7,7 @@ import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { AboutModalComponent } from './about-modal/about-modal.component';
 import { Browser } from '@capacitor/browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -39,20 +40,20 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   }
   openPrivacy() {
     Browser.open({
-      url: 'https://www.smartcommunitylab.it/playgo_privacy-e-trattamento-dati/',
+      url: environment.support.privacy,
       windowName: '_system',
       presentationStyle: 'popover',
     });
   }
   openFaq() {
     Browser.open({
-      url: 'https://www.smartcommunitylab.it/playgo_faq/',
+      url: environment.support.faq,
       windowName: '_system',
       presentationStyle: 'popover',
     });
   }
   openSupport() {
-    window.open('mailto:playandgo@smartcommunitylab.it');
+    window.open('mailto:' + environment.support.email);
   }
 
   async openAbout() {

@@ -72,17 +72,15 @@
         </ion-col>
       </ion-row>
     </ng-container>
-    <ng-template *ngIf="status !== undefined">
-      <ion-row *ngIf="record !== null && status !== null">
-        <ion-col>
-          <app-record-status
-            [status]="reportWeekStat"
-            [record]="record"
-            [type]="campaignContainer?.campaign?.type"
-          ></app-record-status>
-        </ion-col>
-      </ion-row>
-    </ng-template>
+    <ion-row *ngIf="record !== null && reportWeekStat !== null">
+      <ion-col>
+        <app-record-status
+          [status]="reportWeekStat"
+          [record]="record"
+          [type]="campaignContainer?.campaign?.type"
+        ></app-record-status>
+      </ion-col>
+    </ion-row>
     <ion-row *ngIf="limitDayValue">
       <ion-col>
         <app-limit-status
