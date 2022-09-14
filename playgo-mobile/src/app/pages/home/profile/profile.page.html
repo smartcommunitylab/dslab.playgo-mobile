@@ -23,17 +23,12 @@
   </ion-row>
   <ion-row>
     <ion-col text-center>
-      <ion-button expand="block" color="playgo" size="large">
-        <ion-icon slot="end" name="people-circle-outline"></ion-icon>
-        <span class="button-left-icon"
-          >{{'profile.blacklistedUser'|translate}}</span
-        >
-      </ion-button>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col text-center>
-      <ion-button expand="block" color="playgo" size="large">
+      <ion-button
+        expand="block"
+        color="playgo"
+        size="large"
+        (click)="openFaq()"
+      >
         <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
         <span class="button-left-icon">{{'profile.Faq'|translate}}</span>
       </ion-button>
@@ -41,7 +36,12 @@
   </ion-row>
   <ion-row>
     <ion-col text-center>
-      <ion-button expand="block" color="playgo" size="large">
+      <ion-button
+        expand="block"
+        color="playgo"
+        size="large"
+        (click)="openSupport()"
+      >
         <ion-icon slot="end" name="help-circle-outline"></ion-icon>
         <span class="button-left-icon">{{'profile.Help'|translate}} </span>
       </ion-button>
