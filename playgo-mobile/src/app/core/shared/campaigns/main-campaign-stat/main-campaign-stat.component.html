@@ -62,7 +62,7 @@
         ></p>
       </ion-col>
     </ion-row>
-    <ng-template *ngIf="status !== undefined">
+    <ng-container *ngIf="showGameStatus">
       <ion-row *ngIf="status !== null; else nullStatus">
         <ion-col>
           <app-game-status
@@ -71,7 +71,7 @@
           ></app-game-status>
         </ion-col>
       </ion-row>
-    </ng-template>
+    </ng-container>
     <ng-template *ngIf="status !== undefined">
       <ion-row *ngIf="record !== null && status !== null">
         <ion-col>
