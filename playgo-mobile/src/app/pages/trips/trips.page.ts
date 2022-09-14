@@ -307,12 +307,23 @@ export class TripsPage implements OnInit {
       filterOptions.campaignId !== 'NO_FILTER'
         ? filterOptions.campaignId
         : undefined;
+
+    let newestDate: DateTime;
+    let oldestDate: DateTime;
+    if (filterOptions.month === 'NO_FILTER') {
+      oldestDate = DateTime.fromMillis(0);
+      newestDate = this.localTripsService.localDataFromDate;
+    } else {
+      oldestDate = DateTime.fromMillis(filterOptions.month.from);
+      newestDate = DateTime.fromMillis(filterOptions.month.to);
+    }
+
     return this.trackControllerService.getTrackedInstanceInfoListUsingGET({
       page: pageRequest.page,
       size: pageRequest.size,
-      dateFrom: toServerDateTime(DateTime.fromMillis(0)), //from - older
+      dateFrom: toServerDateTime(oldestDate), //from - older
       // TODO: check +-1 day errors!!
-      dateTo: toServerDateTime(this.localTripsService.localDataFromDate), //to - newer
+      dateTo: toServerDateTime(newestDate), //to - newer
       campaignId,
     });
   }
