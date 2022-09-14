@@ -79,27 +79,53 @@ export class TripsPage implements OnInit {
     minute: 'numeric',
   };
 
+  myCampaigns$: Observable<{ name?: StringLanguageMap; id: string }[]> =
+    this.campaignService.myCampaigns$.pipe(
+      map((campaigns) => [
+        {
+          id: 'NO_FILTER',
+        },
+        ...campaigns.map((campaign) => ({
+          name: campaign.campaign.name as StringLanguageMap,
+          id: campaign.campaign.campaignId,
+        })),
+      ])
+    );
+
+  campaignFilterSubject = new BehaviorSubject<string>('NO_FILTER');
+
+  private campaignFilter$: Observable<string> =
+    this.campaignFilterSubject.asObservable();
+
+  private filterOptions$ = combineLatest({ campaignId: this.campaignFilter$ });
+
+  resetItems$ = this.filterOptions$.pipe(map(() => Symbol()));
+
   tripsResponse$: Observable<PageableResponse<TrackedInstanceInfo>> =
-    this.scrollRequestSubject.pipe(
-      startWith({
-        page: 0,
-        size: 5,
-      }),
-      concatMap((scrollRequest) =>
-        this.getTripsPage(scrollRequest).pipe(
-          catchError((error) => {
-            if (isOfflineError(error)) {
-              // TODO: show better UX
-              this.alertService.showToast({
-                messageTranslateKey: 'trip_detail.historic_values_offline',
-              });
-            } else {
-              this.errorService.handleError(error);
-            }
-            return of({
-              error,
-            });
-          })
+    this.filterOptions$.pipe(
+      switchMap((filterOptions) =>
+        this.scrollRequestSubject.pipe(
+          startWith({
+            page: 0,
+            size: 5,
+          }),
+          concatMap((scrollRequest) =>
+            this.getTripsPage(scrollRequest, filterOptions).pipe(
+              catchError((error) => {
+                if (isOfflineError(error)) {
+                  // TODO: show better UX
+                  this.alertService.showToast({
+                    messageTranslateKey: 'trip_detail.historic_values_offline',
+                  });
+                } else {
+                  this.errorService.handleError(error);
+                }
+                return of({
+                  error,
+                });
+              })
+            )
+          )
         )
       )
     );
@@ -198,27 +224,13 @@ export class TripsPage implements OnInit {
     distinctUntilChanged(isEqual)
   );
 
-  public myCampaigns$: Observable<{ name?: StringLanguageMap; id: string }[]> =
-    this.campaignService.myCampaigns$.pipe(
-      map((campaigns) => [
-        {
-          id: 'NO_FILTER',
-        },
-        ...campaigns.map((campaign) => ({
-          name: campaign.campaign.name as StringLanguageMap,
-          id: campaign.campaign.campaignId,
-        })),
-      ])
-    );
-  public campaignFilterSubject = new BehaviorSubject<string>('NO_FILTER');
-  private campaignFilter$: Observable<string> =
-    this.campaignFilterSubject.asObservable();
-
   public groupedTrips$: Observable<TripGroup[]> = combineLatest([
     this.trips$,
-    this.campaignFilter$,
+    this.filterOptions$,
   ]).pipe(
-    map(([trips, campaignId]) => this.groupTripsAndFilter(trips, campaignId)),
+    map(([trips, filterOptions]) =>
+      this.groupTripsAndFilter(trips, filterOptions)
+    ),
     shareReplay(1)
   );
 
@@ -240,14 +252,14 @@ export class TripsPage implements OnInit {
 
   private groupTripsAndFilter(
     allTrips: ServerOrLocalTrip[],
-    campaignId: string
+    filterOptions: { campaignId: string }
   ): TripGroup[] {
     const filteredTrips = allTrips.filter((trip) => {
-      if (campaignId === 'NO_FILTER') {
+      if (filterOptions.campaignId === 'NO_FILTER') {
         return true;
       }
       return (trip.campaigns ?? []).some(
-        (campaign) => campaign.campaignId === campaignId
+        (campaign) => campaign.campaignId === filterOptions.campaignId
       );
     });
 
@@ -297,14 +309,20 @@ export class TripsPage implements OnInit {
   }
 
   getTripsPage(
-    pageRequest: PageableRequest
+    pageRequest: PageableRequest,
+    filterOptions: { campaignId: string }
   ): Observable<PageableResponse<TrackedInstanceInfo>> {
+    const campaignId =
+      filterOptions.campaignId !== 'NO_FILTER'
+        ? filterOptions.campaignId
+        : undefined;
     return this.trackControllerService.getTrackedInstanceInfoListUsingGET({
       page: pageRequest.page,
       size: pageRequest.size,
       dateFrom: toServerDateTime(DateTime.fromMillis(0)), //from - older
       // TODO: check +-1 day errors!!
       dateTo: toServerDateTime(this.localTripsService.localDataFromDate), //to - newer
+      campaignId,
     });
   }
 

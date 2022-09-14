@@ -21,6 +21,7 @@
   </ion-item>
   <app-infinite-scroll
     [allItemsInTemplate]="true"
+    [resetItems]="resetItems$ | async"
     [response]="tripsResponse$ | async"
     (request)="scrollRequestSubject.next($event)"
     (items)="serverTripsSubject.next($event)"
