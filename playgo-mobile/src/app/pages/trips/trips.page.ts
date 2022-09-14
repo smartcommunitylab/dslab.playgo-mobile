@@ -79,18 +79,7 @@ export class TripsPage implements OnInit {
     minute: 'numeric',
   };
 
-  myCampaigns$: Observable<{ name?: StringLanguageMap; id: string }[]> =
-    this.campaignService.myCampaigns$.pipe(
-      map((campaigns) => [
-        {
-          id: 'NO_FILTER',
-        },
-        ...campaigns.map((campaign) => ({
-          name: campaign.campaign.name as StringLanguageMap,
-          id: campaign.campaign.campaignId,
-        })),
-      ])
-    );
+  myCampaigns$ = this.campaignService.myCampaigns$;
 
   campaignFilterSubject = new BehaviorSubject<string>('NO_FILTER');
 

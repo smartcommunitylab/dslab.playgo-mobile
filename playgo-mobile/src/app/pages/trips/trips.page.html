@@ -10,16 +10,15 @@
       undefined
     "
   >
+    <!-- [selectText] is workaround for ionic bug https://github.com/ionic-team/ionic-framework/issues/8561#issuecomment-399639608 -->
+    <ion-select-option value="NO_FILTER">
+      {{ "trips.filter_all_campaigns" | translate }}
+    </ion-select-option>
     <ion-select-option
-      *ngFor="let campaign of myCampaigns$|async"
-      [value]="campaign.id"
+      *ngFor="let campaign of myCampaigns$ | async"
+      [value]="campaign.campaign.campaignId"
     >
-      <ng-container *ngIf="campaign.id === 'NO_FILTER'">
-        {{ "trips.filter_all_campaigns" | translate }}
-      </ng-container>
-      <ng-container *ngIf="campaign.id !== null">
-        {{ campaign.name | languageMap }}
-      </ng-container>
+      {{ campaign.campaign.name | languageMap }}
     </ion-select-option>
   </ion-select>
 </ion-item>
