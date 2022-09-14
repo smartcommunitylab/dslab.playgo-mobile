@@ -6,7 +6,8 @@ import { IUser } from 'src/app/core/shared/model/user.model';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { AboutModalComponent } from './about-modal/about-modal.component';
-import { PrivacyModalPage } from './privacy-modal/privacyModal.component';
+import { Browser } from '@capacitor/browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -37,13 +38,22 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   updateLanguage() {
     this.userService.updatePlayer(this.profile);
   }
-  async openPrivacy() {
-    const modal = await this.modalController.create({
-      component: PrivacyModalPage,
-      cssClass: 'modalConfirm',
+  openPrivacy() {
+    Browser.open({
+      url: environment.support.privacy,
+      windowName: '_system',
+      presentationStyle: 'popover',
     });
-    await modal.present();
-    await modal.onWillDismiss();
+  }
+  openFaq() {
+    Browser.open({
+      url: environment.support.faq,
+      windowName: '_system',
+      presentationStyle: 'popover',
+    });
+  }
+  openSupport() {
+    window.open('mailto:' + environment.support.email);
   }
 
   async openAbout() {

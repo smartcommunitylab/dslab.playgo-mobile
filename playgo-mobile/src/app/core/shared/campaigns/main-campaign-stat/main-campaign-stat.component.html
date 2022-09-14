@@ -62,7 +62,7 @@
         ></p>
       </ion-col>
     </ion-row>
-    <ng-template *ngIf="status !== undefined">
+    <ng-container *ngIf="showGameStatus">
       <ion-row *ngIf="status !== null; else nullStatus">
         <ion-col>
           <app-game-status
@@ -71,18 +71,16 @@
           ></app-game-status>
         </ion-col>
       </ion-row>
-    </ng-template>
-    <ng-template *ngIf="status !== undefined">
-      <ion-row *ngIf="record !== null && status !== null">
-        <ion-col>
-          <app-record-status
-            [status]="reportWeekStat"
-            [record]="record"
-            [type]="campaignContainer?.campaign?.type"
-          ></app-record-status>
-        </ion-col>
-      </ion-row>
-    </ng-template>
+    </ng-container>
+    <ion-row *ngIf="record !== null && reportWeekStat !== null">
+      <ion-col>
+        <app-record-status
+          [status]="reportWeekStat"
+          [record]="record"
+          [type]="campaignContainer?.campaign?.type"
+        ></app-record-status>
+      </ion-col>
+    </ion-row>
     <ion-row *ngIf="limitDayValue">
       <ion-col>
         <app-limit-status

@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
 import { find, isEqual, partial } from 'lodash-es';
 
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -12,6 +12,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { DateTime } from 'luxon';
@@ -36,13 +37,14 @@ import { TranslateKey } from 'src/app/core/shared/type.utils';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 
 @Component({
   selector: 'app-leaderboard',
   templateUrl: './leaderboard.page.html',
   styleUrls: ['./leaderboard.page.scss'],
 })
-export class LeaderboardPage implements OnInit, AfterViewInit {
+export class LeaderboardPage implements OnInit, AfterViewInit, OnDestroy {
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
 
@@ -230,6 +232,10 @@ export class LeaderboardPage implements OnInit, AfterViewInit {
     );
 
   resetItems$ = this.filterOptions$.pipe(map(() => Symbol()));
+  subCampaign: Subscription;
+  subId: Subscription;
+  campaignContainer: PlayerCampaign;
+  id: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -237,7 +243,23 @@ export class LeaderboardPage implements OnInit, AfterViewInit {
     private userService: UserService,
     private campaignService: CampaignService,
     private errorService: ErrorService
-  ) {}
+  ) {
+    this.subId = this.route.params.subscribe((params) => {
+      this.id = params.id;
+      this.subCampaign = this.campaignService.myCampaigns$.subscribe(
+        (campaigns) => {
+          this.campaignContainer = campaigns.find(
+            (campaignContainer) =>
+              campaignContainer.campaign.campaignId === this.id
+          );
+        }
+      );
+    });
+  }
+  ngOnDestroy(): void {
+    this.subCampaign.unsubscribe();
+    this.subId.unsubscribe();
+  }
 
   getLeaderboardTypes(campaign: Campaign): LeaderboardType[] {
     return this.allLeaderboardTypes.filter((type) => type.filter(campaign));

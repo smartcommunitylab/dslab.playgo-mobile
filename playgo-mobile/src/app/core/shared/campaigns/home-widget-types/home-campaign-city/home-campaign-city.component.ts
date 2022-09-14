@@ -16,6 +16,8 @@ import { ErrorService } from '../../../services/error.service';
 import { isOfflineError } from '../../../utils';
 import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
 import { Notification } from '../../../../api/generated/model/notification';
+import { ChallengeService } from '../../../services/challenge.service';
+import { Challenge } from 'src/app/pages/challenges/challenges.page';
 @Component({
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
@@ -25,37 +27,51 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
   @Input() header?: boolean = false;
 
+  public activeUncompleteChallenges$: Observable<Challenge[]>;
+  // activeUncompleteChallenges: Challenge[] = [];
+  subChallActive: Subscription;
+  gameStatus: Subscription;
   subStat: Subscription;
-  campaignStatus: PlayerGameStatus;
+  campaignStatus: PlayerGameStatus = null;
   reportWeekStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
   imagePath: string;
   constructor(
     private userService: UserService,
     private reportService: ReportService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private challengeService: ChallengeService
   ) {}
 
   ngOnInit() {
+    this.activeUncompleteChallenges$ =
+      this.challengeService.getActiveUncompletedChallengesByCampaign(
+        this.campaignContainer?.campaign?.campaignId
+      );
     this.imagePath = this.campaignContainer.campaign.logo.url
       ? this.campaignContainer.campaign.logo.url
       : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
-      // this.reportService
-      //   .getGameStatus(this.campaignContainer.campaign.campaignId)
-      //   .subscribe(
-      //     (campaignStatus) => {
-      //       this.campaignStatus = campaignStatus;
-      //     },
-      //     (error) => {
-      //       if (isOfflineError(error)) {
-      //         this.campaignStatus = null;
-      //       } else {
-      //         this.campaignStatus = null;
-      //         this.errorService.handleError(error);
-      //       }
-      //     }
-      //   );
+      // this.subChallActive = this.activeUncompleteChallenges$.subscribe(
+      //   (challenges) => {
+      //     this.activeUncompleteChallenges = challenges;
+      //   }
+      // );
+      this.gameStatus = this.reportService
+        .getGameStatus(this.campaignContainer.campaign.campaignId)
+        .subscribe(
+          (campaignStatus) => {
+            this.campaignStatus = campaignStatus;
+          },
+          (error) => {
+            if (isOfflineError(error)) {
+              this.campaignStatus = undefined;
+            } else {
+              this.campaignStatus = undefined;
+              this.errorService.handleError(error);
+            }
+          }
+        );
 
       // First release: only global report, for the we can add global
       // this.reportService
@@ -101,5 +117,6 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subStat.unsubscribe();
+    this.gameStatus.unsubscribe();
   }
 }

@@ -6,6 +6,12 @@
 export const environment = {
   production: false,
   useCodePush: false,
+  support: {
+    privacy:
+      'https://www.smartcommunitylab.it/playgo_privacy-e-trattamento-dati/',
+    faq: 'https://www.smartcommunitylab.it/playgo_faq/',
+    email: 'playandgo@smartcommunitylab.it',
+  },
   authConfig: {
     server_host: 'https://aac.platform.smartcommunitylab.it',
     client_id: 'c_5445634c-95d6-4c0e-a1ff-829b951b91b3',

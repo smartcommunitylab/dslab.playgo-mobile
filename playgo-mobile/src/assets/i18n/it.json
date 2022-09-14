@@ -39,7 +39,7 @@
     "loginAppleButton": "Entra con Apple",
     "loginInternalButton": "Entra con Username",
     "title": "Benvenuti in Play&Go",
-    "subtitle": "App di mobilitá sostenibile"
+    "subtitle": "App di mobilità sostenibile"
   },
   "notifications": {
     "empty": "Non ci sono notifiche da mostrare",
@@ -191,7 +191,7 @@
     "mean": {
       "car": "Macchina",
       "bike": "Bici",
-      "walk": "Corsa",
+      "walk": "Piedi",
       "boat": "Barca",
       "train": "Treno",
       "bus": "Autobus"
@@ -331,7 +331,7 @@
             "unit": "bike"
           },
           "walk": {
-            "label": "Corsa",
+            "label": "Piedi",
             "unit": "walk"
           },
           "boat": {

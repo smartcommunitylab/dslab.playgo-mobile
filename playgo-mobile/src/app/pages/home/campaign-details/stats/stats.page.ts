@@ -41,6 +41,8 @@ import { ReportControllerService } from 'src/app/core/api/generated/controllers/
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { getPeriods, Period } from 'src/app/core/shared/utils';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 
 @Component({
   selector: 'app-stats',
@@ -59,17 +61,15 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   statUnitChangedSubject = new Subject<SelectCustomEvent<StatUnitType>>();
   allStatsMeanTypes: StatMeanType[] = [
     {
-      labelKey: 'campaigns.stats.filter.means.car.label',
-      unitKey: 'car',
+      labelKey: 'campaigns.stats.filter.means.walk.label',
+      unitKey: 'walk',
     },
+
     {
       labelKey: 'campaigns.stats.filter.means.bike.label',
       unitKey: 'bike',
     },
-    {
-      labelKey: 'campaigns.stats.filter.means.walk.label',
-      unitKey: 'walk',
-    },
+
     {
       labelKey: 'campaigns.stats.filter.means.boat.label',
       unitKey: 'boat',
@@ -81,6 +81,10 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     {
       labelKey: 'campaigns.stats.filter.means.bus.label',
       unitKey: 'bus',
+    },
+    {
+      labelKey: 'campaigns.stats.filter.means.car.label',
+      unitKey: 'car',
     },
   ];
   allStatsUnitTypes: StatUnitType[] = [
@@ -171,16 +175,32 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
         .pipe(this.errorService.getErrorHandler())
     )
   );
+  subId: Subscription;
+  id: string;
+  subCampaign: Subscription;
+  campaignContainer: PlayerCampaign;
   constructor(
     private route: ActivatedRoute,
     private reportService: ReportControllerService,
     private userService: UserService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private campaignService: CampaignService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
       console.log('new stats' + stats);
       this.barChartMethod(stats);
       this.setTotal(stats);
+    });
+    this.subId = this.route.params.subscribe((params) => {
+      this.id = params.id;
+      this.subCampaign = this.campaignService.myCampaigns$.subscribe(
+        (campaigns) => {
+          this.campaignContainer = campaigns.find(
+            (campaignContainer) =>
+              campaignContainer.campaign.campaignId === this.id
+          );
+        }
+      );
     });
   }
   setTotal(stats: TransportStat[]) {

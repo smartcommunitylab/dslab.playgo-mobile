@@ -16,6 +16,9 @@
     <app-main-campaign-stat
       [campaignContainer]="campaignContainer"
       [status]="campaignStatus"
+      [showGameStatus]="
+        (activeUncompleteChallenges$ | async)?.length > 0 ? false : true
+      "
       [reportWeekStat]="reportWeekStat"
       [reportTotalStat]="reportTotalStat"
     >

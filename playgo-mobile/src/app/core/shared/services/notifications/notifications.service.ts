@@ -59,7 +59,7 @@ export class NotificationService {
     }),
     switchMap((since) =>
       this.communicationAccountController
-        .getPlayerNotificationsUsingGET({ since })
+        .getPlayerNotificationsUsingGET({ since, limit: 100 })
         .pipe(this.errorService.getErrorHandler('silent'))
     ),
     // warning!! side effects!!!
