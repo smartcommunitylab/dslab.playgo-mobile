@@ -1,6 +1,7 @@
 <ion-header appHeader></ion-header>
 <ion-item color="playgo">
   <ion-select
+    class="app-alert"
     (ionChange)="monthFilterSubject.next($any($event).target.value)"
     [value]="monthFilterSubject | async"
     [selectedText]="
@@ -18,6 +19,7 @@
     </ion-select-option>
   </ion-select>
   <ion-select
+    class="app-alert campaign-filter"
     (ionChange)="campaignFilterSubject.next($any($event).target.value)"
     [value]="campaignFilterSubject | async"
     [selectedText]="
@@ -31,6 +33,7 @@
       {{ "trips.filter_all_campaigns" | translate }}
     </ion-select-option>
     <ion-select-option
+      class="campaign-filter"
       *ngFor="let campaign of myCampaigns$ | async"
       [value]="campaign.campaign.campaignId"
     >
@@ -47,52 +50,58 @@
     (items)="serverTripsSubject.next($event)"
   >
     <ng-template appInfiniteScrollContent>
-      <ng-container
-        *ngFor="let tripGroup of groupedTrips$ | async; trackBy: trackGroup"
-      >
-        <ion-item-divider
-          *ngIf="(monthFilterSubject | async) === 'NO_FILTER'"
-          color="playgo"
-          sticky
-          class="ion-padding"
+      <ng-container *ngIf="(groupedTrips$| async)?.length > 0; else noTrips">
+        <ng-container
+          *ngFor="let tripGroup of groupedTrips$ | async; trackBy: trackGroup"
         >
-          <ion-label>
-            {{ tripGroup.monthDate | localDate: "MMMM y" }}
-          </ion-label>
-        </ion-item-divider>
-        <ion-card
-          *ngFor="let multiTrip of tripGroup.tripsInSameMonth; trackBy: trackMultiTrip"
-        >
-          <ion-grid>
-            <!-- {{ multiTrip.multimodalId }} -->
-            <app-trip-card
-              *ngIf="multiTrip.trips.length === 1"
-              [trip]="multiTrip.trips[0]"
-              [isOneDayTrip]="multiTrip.isOneDayTrip"
-              [multiModalTrip]="false"
-            ></app-trip-card>
+          <ion-item-divider
+            *ngIf="(monthFilterSubject | async) === 'NO_FILTER'"
+            color="playgo"
+            sticky
+            class="ion-padding"
+          >
+            <ion-label>
+              {{ tripGroup.monthDate | localDate: "MMMM y" }}
+            </ion-label>
+          </ion-item-divider>
 
-            <ng-container *ngIf="multiTrip.trips.length !== 1">
-              <ion-row>
-                <ion-col class="ion-text-end">
-                  {{ multiTrip.date | localDate: noMonthOrYearFormat }}
-                </ion-col>
-              </ion-row>
-              <ng-container
-                *ngFor="let trip of multiTrip.trips; trackBy: trackTrip"
-              >
-                <app-trip-card
-                  *ngIf="trip"
-                  [trip]="trip"
-                  [isOneDayTrip]="multiTrip.isOneDayTrip"
-                  [multiModalTrip]="true"
+          <ion-card
+            *ngFor="let multiTrip of tripGroup.tripsInSameMonth; trackBy: trackMultiTrip"
+          >
+            <ion-grid>
+              <!-- {{ multiTrip.multimodalId }} -->
+              <app-trip-card
+                *ngIf="multiTrip.trips.length === 1"
+                [trip]="multiTrip.trips[0]"
+                [isOneDayTrip]="multiTrip.isOneDayTrip"
+                [multiModalTrip]="false"
+              ></app-trip-card>
+
+              <ng-container *ngIf="multiTrip.trips.length !== 1">
+                <ion-row>
+                  <ion-col class="ion-text-end">
+                    {{ multiTrip.date | localDate: noMonthOrYearFormat }}
+                  </ion-col>
+                </ion-row>
+                <ng-container
+                  *ngFor="let trip of multiTrip.trips; trackBy: trackTrip"
                 >
-                </app-trip-card>
+                  <app-trip-card
+                    *ngIf="trip"
+                    [trip]="trip"
+                    [isOneDayTrip]="multiTrip.isOneDayTrip"
+                    [multiModalTrip]="true"
+                  >
+                  </app-trip-card>
+                </ng-container>
               </ng-container>
-            </ng-container>
-          </ion-grid>
-        </ion-card>
+            </ion-grid>
+          </ion-card>
+        </ng-container>
       </ng-container>
+    </ng-template>
+    <ng-template #noTrips>
+      <div class="empty-trips">{{ "trips.empty" | translate }}</div>
     </ng-template>
   </app-infinite-scroll>
 </ion-content>

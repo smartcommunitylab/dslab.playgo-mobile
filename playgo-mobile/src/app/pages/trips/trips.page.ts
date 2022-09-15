@@ -1,4 +1,9 @@
-import { Component, OnInit, TrackByFunction } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TrackByFunction,
+} from '@angular/core';
 import {
   clone,
   cloneDeep,
@@ -66,7 +71,7 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
   templateUrl: './trips.page.html',
   styleUrls: ['./trips.page.scss'],
 })
-export class TripsPage implements OnInit {
+export class TripsPage implements OnInit, AfterViewInit {
   transportTypeLabels = transportTypeLabels;
   scrollRequestSubject = new Subject<PageableRequest>();
 
@@ -238,6 +243,14 @@ export class TripsPage implements OnInit {
     private alertService: AlertService,
     private campaignService: CampaignService
   ) {}
+  ngAfterViewInit() {
+    const selects = document.querySelectorAll('.app-alert');
+    selects.forEach((select) => {
+      (select as any).interfaceOptions = {
+        cssClass: 'app-alert',
+      };
+    });
+  }
 
   ngOnInit() {}
 
