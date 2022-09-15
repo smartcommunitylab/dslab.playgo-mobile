@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { PageSettingsService } from '../../services/page-settings.service';
@@ -31,9 +32,14 @@ export class TrackingMainControlComponent {
   constructor(
     public tripService: TripService,
     public backgroundTrackingService: BackgroundTrackingService,
-    private pageSettingsService: PageSettingsService
+    private pageSettingsService: PageSettingsService,
+    private router: Router
   ) {
     this.tripStopped$.subscribe(() => {
+      this.hideMapAndButtons();
+    });
+
+    this.router.events.subscribe((event) => {
       this.hideMapAndButtons();
     });
   }
@@ -45,12 +51,18 @@ export class TrackingMainControlComponent {
     }
   }
 
+  public backdropClicked(event: Event) {
+    console.log(event);
+    if ((event.target as any).classList.contains('slide-wrapper')) {
+      this.hideMapAndButtons();
+    }
+    event.stopPropagation();
+  }
+
   private async showMapAndButtons() {
-    // TODO: animate
     this.trackingUIActive = true;
   }
   private async hideMapAndButtons() {
-    // TODO: animate
     this.trackingUIActive = false;
   }
 }
