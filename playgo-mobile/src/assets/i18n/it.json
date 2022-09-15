@@ -231,6 +231,7 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
+    "novaliddate": "Il periodo della campagna non risulta valido",
     "registered": "Registrato",
     "unregistered": "Utente disiscritto",
     "noDesc": "Nessuna descrizione fornita",
