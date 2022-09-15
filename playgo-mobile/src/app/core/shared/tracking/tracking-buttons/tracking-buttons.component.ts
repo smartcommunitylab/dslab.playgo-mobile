@@ -64,8 +64,18 @@ export class TrackingButtonsComponent implements OnInit {
     }, 0);
   }
 
-  async changeTransportType(event: Event, transportType: TransportType) {
+  async changeTransportType(
+    event: Event,
+    transportType: TransportType,
+    fabButtonState: 'disabled' | 'enabled'
+  ) {
     event.stopPropagation();
+
+    // https://github.com/ionic-team/ionic-framework/issues/14719
+    if (fabButtonState === 'disabled') {
+      return;
+    }
+
     this.inProgressButton = transportType;
     try {
       await this.tripService.changeTransportType(transportType);

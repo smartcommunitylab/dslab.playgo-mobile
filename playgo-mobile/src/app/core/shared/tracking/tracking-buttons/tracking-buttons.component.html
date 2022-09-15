@@ -16,42 +16,53 @@
     </ng-template>
   </ion-fab-button>
   <ion-fab-list side="top">
-    <ion-fab-button
-      color="playgo"
+    <ng-container
       *ngFor="
         let eachTransportTypeOption of transportTypeOptions$ | async;
         trackBy: trackTransportFabButton
       "
-      [disabled]="
-        (tripService.operationInProgress$ | async) ||
-        (tripService.activeTransportType$ | async) ===
-          eachTransportTypeOption.transportType
-      "
-      [color]="
-        (tripService.activeTransportType$ | async) ===
-        eachTransportTypeOption.transportType
-          ? 'secondary'
-          : 'playgo'
-      "
-      (click)="
-        changeTransportType($event, eachTransportTypeOption.transportType)
-      "
-      class="fab-button-show"
     >
-      <ion-spinner
-        name="crescent"
-        color="light"
-        class="progress-spinner"
+      <ion-fab-button
         *ngIf="
-          inProgressButton === eachTransportTypeOption.transportType &&
-          (tripService.operationInProgress$ | async)
+          (tripService.operationInProgress$ | async) ||
+          (tripService.activeTransportType$ | async) ===
+            eachTransportTypeOption.transportType
+            ? 'disabled'
+            : 'enabled' as fabButtonState
         "
-      ></ion-spinner>
-      <app-icon
-        class="icon-size-normal"
-        [name]="eachTransportTypeOption.icon"
-      ></app-icon>
-    </ion-fab-button>
+        [class.disabled]="fabButtonState === 'disabled'"
+        color="playgo"
+        [color]="
+          (tripService.activeTransportType$ | async) ===
+          eachTransportTypeOption.transportType
+            ? 'secondary'
+            : 'playgo'
+        "
+        (click)="
+          changeTransportType(
+            $event,
+            eachTransportTypeOption.transportType,
+            $any(fabButtonState)
+          )
+        "
+        class="fab-button-show"
+      >
+        <ion-spinner
+          name="crescent"
+          color="light"
+          class="progress-spinner"
+          *ngIf="
+            inProgressButton === eachTransportTypeOption.transportType &&
+            (tripService.operationInProgress$ | async)
+          "
+        ></ion-spinner>
+        <app-icon
+          class="icon-size-normal"
+          [name]="eachTransportTypeOption.icon"
+        ></app-icon>
+      </ion-fab-button>
+    </ng-container>
+
     <ion-fab-button
       (click)="stop($event)"
       color="danger"
