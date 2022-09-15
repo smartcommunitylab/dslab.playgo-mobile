@@ -15,7 +15,7 @@ import { InfoChallengeModalPage } from './info-challenge-modal/info-challenge.mo
   styleUrls: ['./challenges-proposed-card.component.scss'],
 })
 export class ChallengesProposedCardComponent implements OnInit, OnChanges {
-  @Input() challenges: Challenge[];
+  @Input() challenges: Challenge[] = [];
   @Input() campaign: PlayerCampaign;
   @Input() type: string;
   @Input() canInvite: boolean;
@@ -46,10 +46,10 @@ export class ChallengesProposedCardComponent implements OnInit, OnChanges {
   }
   ngOnChanges() {
     console.log(this.canInvite);
-    this.singleChallenges = this.challenges.filter(
+    this.singleChallenges = this.challenges?.filter(
       (challenge) => challenge.otherAttendeeData == null
     );
-    this.coupleChallenges = this.challenges.filter(
+    this.coupleChallenges = this.challenges?.filter(
       (challenge) => challenge.otherAttendeeData != null
     );
   }

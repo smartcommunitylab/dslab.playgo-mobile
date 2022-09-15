@@ -21,10 +21,10 @@ export class ChallengeContainerComponent implements OnInit, OnChanges {
 
   ngOnInit() {}
   ngOnChanges() {
-    this.challengeProposed = this.challenges.filter(
+    this.challengeProposed = this.challenges?.filter(
       (challenge) => challenge.challengeType === 'PROPOSED'
     );
-    this.challenges.map((chall) => {
+    this.challenges?.map((chall) => {
       if (chall.challengeType === 'FUTURE' && chall.otherAttendeeData) {
         this.canInvite = false;
       }

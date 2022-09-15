@@ -30,6 +30,7 @@ export class ChallengesPage implements OnInit, OnDestroy {
   activeChallenges: any = {};
   futureChallenges: any = {};
   canInvite: any = {};
+  userCanInvite: boolean;
   // public pastChallenges$: Observable<Challenge[]> =
   //   this.challengeService.pastChallenges$;
   public activeChallenges$: Observable<Challenge[]> =
@@ -94,6 +95,9 @@ export class ChallengesPage implements OnInit, OnDestroy {
             (result[a.campaign.campaignId] = a.canInvite || false), result
           ),
           {}
+        );
+        this.userCanInvite = Object.values(this.canInvite).some(
+          (x) => x === true
         );
       }
     );
