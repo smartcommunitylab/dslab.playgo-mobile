@@ -14,7 +14,7 @@ export class LoginPage {
   ) {}
 
   public signIn(provider?: AuthProvider) {
-    this.spinnerService.show();
+    this.spinnerService.show('login');
     this.authService.login(provider);
   }
 }

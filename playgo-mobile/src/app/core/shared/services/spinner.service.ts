@@ -16,14 +16,14 @@ export class SpinnerService {
   private delay = 200;
   private loader: HTMLIonLoadingElement;
   private loadingRequestedSubject = new Subject<{
-    toggle: boolean;
+    changeCounter: number;
     topic: string;
   }>();
 
   private notDebouncedLoading: Observable<boolean> =
     this.loadingRequestedSubject.pipe(
       scan((mapOfOngoingLoadings, newUpdate) => {
-        mapOfOngoingLoadings.add(newUpdate.topic, newUpdate.toggle ? 1 : -1);
+        mapOfOngoingLoadings.add(newUpdate.topic, newUpdate.changeCounter);
         return mapOfOngoingLoadings;
       }, new CounterMap()),
       map((mapOfOngoingLoadings) => mapOfOngoingLoadings.isEmpty() === false),
@@ -53,17 +53,23 @@ export class SpinnerService {
     }
   }
   private async showLoader() {
-    this.loader = await this.loadingController.create({
-      duration: 10000,
-    });
+    this.loader = await this.loadingController.create({});
     await this.loader.present();
   }
 
-  public show(topic: string = 'default') {
-    this.loadingRequestedSubject.next({ toggle: true, topic });
+  public show(topic: string) {
+    this.loadingRequestedSubject.next({ topic, changeCounter: +1 });
+
+    // quick way how to ensure that no topic will be forgotten
+    setTimeout(() => {
+      this.loadingRequestedSubject.next({
+        topic,
+        changeCounter: Number.NEGATIVE_INFINITY,
+      });
+    }, 10_000);
   }
-  public hide(topic: string = 'default') {
-    this.loadingRequestedSubject.next({ toggle: false, topic });
+  public hide(topic: string) {
+    this.loadingRequestedSubject.next({ topic, changeCounter: -1 });
   }
 }
 
@@ -77,7 +83,6 @@ class CounterMap {
     if (newValue <= 0) {
       delete this.map[key];
     }
-    console.log(this.map);
   }
 
   public isEmpty() {
