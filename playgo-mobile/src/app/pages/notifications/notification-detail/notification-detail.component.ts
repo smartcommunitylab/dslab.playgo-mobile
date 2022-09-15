@@ -6,9 +6,10 @@ import {
   Renderer2,
   AfterViewInit,
 } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Notification } from 'src/app/core/api/generated/model/notification';
 import { Browser } from '@capacitor/browser';
+import { NotificationDetailModalPage } from './notification-modal/notification.modal';
 @Component({
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
@@ -22,7 +23,8 @@ export class NotificationDetailComponent implements OnInit, AfterViewInit {
   constructor(
     public navController: NavController,
     public renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -35,7 +37,18 @@ export class NotificationDetailComponent implements OnInit, AfterViewInit {
       anchor.addEventListener('click', this.handleAnchorClick);
     });
   }
-
+  async openNotification(notification: Notification) {
+    const modal = await this.modalController.create({
+      component: NotificationDetailModalPage,
+      cssClass: 'modal-notification',
+      componentProps: {
+        notification,
+      },
+      swipeToClose: true,
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+  }
   public handleAnchorClick = (event: Event) => {
     // Prevent opening anchors the default way
     event.preventDefault();

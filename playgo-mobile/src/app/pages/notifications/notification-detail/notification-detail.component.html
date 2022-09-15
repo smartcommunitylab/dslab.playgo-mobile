@@ -1,27 +1,27 @@
 <ion-card
-  color="playgo"
   class="notification"
-  [ngClass]="{ unreaded: !notification.readed }"
+  [ngClass]="{
+    unread: !notification.readed
+  }"
+  (click)="openNotification(notification)"
 >
   <ion-badge color="danger" *ngIf="!notification.readed"
     ><ion-icon name="alert"></ion-icon
   ></ion-badge>
   <ion-grid>
     <ion-row>
-      <ion-col class="ion-text-start">{{ notification.title }}</ion-col
+      <ion-col class="ion-text-start" size="8"
+        ><span class="title">{{ notification.title }}</span></ion-col
       ><ion-col class="ion-text-end">
-        {{ notification.timestamp | localDate }}</ion-col
+        <span class="time">{{
+          notification.timestamp | localDate
+        }}</span></ion-col
       >
     </ion-row>
     <ion-row>
-      <ion-col>
-        <!-- <div
-          [id]="notification.id"
-          [innerHTML]="
-            getHtmlWithBypassedSecurity(notification.content['_html'])
-          "
-        ></div> -->
+      <ion-col size="4">
         <div
+          class="not-content"
           [id]="notification.id"
           [innerHTML]="notification.content['_html'] | safeHtml"
         ></div> </ion-col
