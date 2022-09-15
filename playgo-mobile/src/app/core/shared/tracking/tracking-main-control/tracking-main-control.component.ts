@@ -45,12 +45,18 @@ export class TrackingMainControlComponent {
     }
   }
 
+  public backdropClicked(event: Event) {
+    console.log(event);
+    if ((event.target as any).classList.contains('slide-wrapper')) {
+      this.hideMapAndButtons();
+    }
+    event.stopPropagation();
+  }
+
   private async showMapAndButtons() {
-    // TODO: animate
     this.trackingUIActive = true;
   }
   private async hideMapAndButtons() {
-    // TODO: animate
     this.trackingUIActive = false;
   }
 }
