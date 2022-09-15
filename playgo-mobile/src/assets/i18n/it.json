@@ -176,6 +176,10 @@
       }
     }
   },
+  "trips": {
+    "filter_all_campaigns": "Tutte le campagne",
+    "filter_all_the_time": "Tutti i tempi"
+  },
   "trip_detail": {
     "title": "Dettaglio viaggio",
     "start": "Inizio",

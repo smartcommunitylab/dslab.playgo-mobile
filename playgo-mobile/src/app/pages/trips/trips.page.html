@@ -1,7 +1,47 @@
 <ion-header appHeader></ion-header>
+<ion-item color="playgo">
+  <ion-select
+    (ionChange)="monthFilterSubject.next($any($event).target.value)"
+    [value]="monthFilterSubject | async"
+    [selectedText]="
+      (monthFilterSubject | async) === 'NO_FILTER' ?
+      ( 'trips.filter_all_the_time' | translate ) :
+      undefined
+    "
+  >
+    <!-- [selectText] is workaround for ionic bug https://github.com/ionic-team/ionic-framework/issues/8561#issuecomment-399639608 -->
+    <ion-select-option value="NO_FILTER">
+      {{ "trips.filter_all_the_time" | translate }}
+    </ion-select-option>
+    <ion-select-option *ngFor="let month of months$ | async" [value]="month">
+      {{ month.from | localDate: "MMMM y" }}
+    </ion-select-option>
+  </ion-select>
+  <ion-select
+    (ionChange)="campaignFilterSubject.next($any($event).target.value)"
+    [value]="campaignFilterSubject | async"
+    [selectedText]="
+      (campaignFilterSubject | async) === 'NO_FILTER' ?
+      ( 'trips.filter_all_campaigns' | translate ) :
+      undefined
+    "
+  >
+    <!-- [selectText] is workaround for ionic bug https://github.com/ionic-team/ionic-framework/issues/8561#issuecomment-399639608 -->
+    <ion-select-option value="NO_FILTER">
+      {{ "trips.filter_all_campaigns" | translate }}
+    </ion-select-option>
+    <ion-select-option
+      *ngFor="let campaign of myCampaigns$ | async"
+      [value]="campaign.campaign.campaignId"
+    >
+      {{ campaign.campaign.name | languageMap }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
 <ion-content appContent>
   <app-infinite-scroll
     [allItemsInTemplate]="true"
+    [resetItems]="resetItems$ | async"
     [response]="tripsResponse$ | async"
     (request)="scrollRequestSubject.next($event)"
     (items)="serverTripsSubject.next($event)"
@@ -10,7 +50,12 @@
       <ng-container
         *ngFor="let tripGroup of groupedTrips$ | async; trackBy: trackGroup"
       >
-        <ion-item-divider color="playgo" sticky class="ion-padding">
+        <ion-item-divider
+          *ngIf="(monthFilterSubject | async) === 'NO_FILTER'"
+          color="playgo"
+          sticky
+          class="ion-padding"
+        >
           <ion-label>
             {{ tripGroup.monthDate | localDate: "MMMM y" }}
           </ion-label>
