@@ -7,6 +7,7 @@ import {
   NavController,
 } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { DateTime } from 'luxon';
 import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
@@ -75,18 +76,22 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
 
   //based on the type, change interaction
   joinCampaign(campaign: Campaign) {
-    switch (campaign.type) {
-      case 'city':
-        this.registerToCity(campaign);
-        break;
-      case 'school':
-        this.openRegisterSchool(campaign);
-        break;
-      case 'company':
-        this.openRegisterCompany(campaign);
-        break;
-      default:
-        break;
+    if (!this.campaignIsDisabled(campaign)) {
+      switch (campaign.type) {
+        case 'city':
+          this.registerToCity(campaign);
+          break;
+        case 'school':
+          this.openRegisterSchool(campaign);
+          break;
+        case 'company':
+          this.openRegisterCompany(campaign);
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.alertService.showToast({ messageString: 'campaigns.novaliddate' });
     }
   }
   async openRegisterSchool(campaign: Campaign) {
@@ -136,7 +141,14 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   //       }
   //     });
   // }
-
+  campaignIsDisabled(campaign: Campaign) {
+    // compare campaign.dateFrom and dateTo with now
+    const now = DateTime.utc().toMillis();
+    if (now > campaign.dateFrom && now < campaign.dateTo) {
+      return false;
+    }
+    return true;
+  }
   joinIsVisible(campaign: Campaign) {
     let joinable = false;
     switch (campaign.type) {

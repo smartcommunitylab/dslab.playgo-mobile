@@ -1,3 +1,14 @@
 .item-divider-sticky {
   top: -1px;
 }
+.empty-trips {
+  margin: auto;
+  padding: 8px;
+  font-size: 20px;
+  text-align: center;
+  -ms-transform: translateY(-50%);
+}
+.campaign-filter {
+  position: absolute;
+  right: 0px;
+}

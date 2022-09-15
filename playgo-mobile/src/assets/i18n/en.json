@@ -171,6 +171,11 @@
       "year": "Year"
     }
   },
+  "trips": {
+    "filter_all_campaigns": "All the campaigns",
+    "filter_all_the_time": "All the periods",
+    "empty": "No journeys stored"
+  },
   "trip_detail": {
     "title": "Trip Details",
     "start": "Start",
@@ -211,6 +216,7 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Join",
+    "novaliddate": "The campaign's period is not valid",
     "noDesc": "Nessuna description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",

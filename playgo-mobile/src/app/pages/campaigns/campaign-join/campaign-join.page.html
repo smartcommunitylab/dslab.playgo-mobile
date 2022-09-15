@@ -25,6 +25,7 @@
             expand="block"
             *ngIf="joinIsVisible(campaign)"
             (click)="joinCampaign(campaign)"
+            [disabled]="campaignIsDisabled(campaign)"
             >{{'campaigns.join'|translate}}
           </ion-button>
         </div>
