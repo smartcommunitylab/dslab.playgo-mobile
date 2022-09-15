@@ -50,10 +50,12 @@
     </ng-template>
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
-    <ng-container *ngIf="thereAreChallengeFuture; else noChallengeFuture">
+    <ng-container
+      *ngIf="thereAreChallengeFuture || userCanInvite; else noChallengeFuture"
+    >
       <div *ngFor="let campaign of campaignsWithChallenges">
         <div
-          *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0"
+          *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0 || canInvite[campaign?.campaign?.campaignId]"
         >
           <app-challenge-container
             #futuri
