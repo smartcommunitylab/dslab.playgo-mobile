@@ -29,8 +29,6 @@ import { AuthService } from 'src/app/core/auth/auth.service';
   providedIn: 'root',
 })
 export class NotificationService {
-  private notificationSinceStorage =
-    this.localStorageService.getStorageOf<number>('notificationSince');
   private since: number = null;
   private notificationStorage =
     this.localStorageService.getStorageOf<Notification[]>('notifications');
@@ -53,7 +51,14 @@ export class NotificationService {
     // warning!! side effects!!!
     switchMap(async () => {
       if (this.since === null) {
-        this.since = (await this.notificationSinceStorage.get()) || 0;
+        const notifications = await this.notificationStorage?.get();
+        if (notifications && notifications.length > 0) {
+          this.since =
+            notifications[0]?.timestamp -
+            DateTime.local().minus({ hour: 1 }).valueOf();
+        } else {
+          this.since = 0;
+        }
       }
       return this.since;
     }),
@@ -63,18 +68,14 @@ export class NotificationService {
         .pipe(this.errorService.getErrorHandler('silent'))
     ),
     // warning!! side effects!!!
-    switchMap(async (serverNotifications) => {
-      if (serverNotifications.length > 0) {
-        this.since =
-          serverNotifications[0].timestamp -
-          DateTime.local().minus({ hour: 1 }).valueOf();
-        if (this.since < 0) {
-          this.since = 0;
-        }
-        await this.notificationSinceStorage.set(this.since);
-      }
-      return serverNotifications;
-    }),
+    // switchMap(async (serverNotifications) => {
+    //   if (serverNotifications.length > 0) {
+    //     this.since =
+    //       serverNotifications[0].timestamp -
+    //       DateTime.local().minus({ hour: 1 }).valueOf();
+    //   }
+    //   return serverNotifications;
+    // }),
     switchMap(async (serverNotifications) => [
       ...((await this.notificationStorage.get()) || []), //merge and eliminate duplicate based on id
       ...serverNotifications,
