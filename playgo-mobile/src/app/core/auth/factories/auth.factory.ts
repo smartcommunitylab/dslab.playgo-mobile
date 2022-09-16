@@ -5,14 +5,20 @@ import { environment } from 'src/environments/environment';
 import { NgZone } from '@angular/core';
 import { Requestor } from '@openid/appauth/built/xhr';
 import { StorageBackend } from '@openid/appauth/built/storage';
+import { SpinnerService } from '../../shared/services/spinner.service';
 
 export const authFactory = (
   platform: Platform,
   ngZone: NgZone,
   requestor: Requestor,
   browser: Browser,
-  storage: StorageBackend
+  storage: StorageBackend,
+  spinnerService: SpinnerService
 ) => {
+  browser.browserCloseListener((closeBrowserEvent: any) => {
+    spinnerService.hide('login');
+  });
+
   const authService = new AuthService(browser, storage, requestor);
   authService.authConfig = environment.authConfig;
   if (!platform.is('cordova')) {

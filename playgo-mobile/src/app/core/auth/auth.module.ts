@@ -13,6 +13,7 @@ import { NgHttpService } from './ng-http.service';
 import { authFactory } from './factories';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
+import { SpinnerService } from '../shared/services/spinner.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -37,7 +38,14 @@ import { AuthInterceptor } from './auth.interceptor';
     {
       provide: 'IonicAppAuthService',
       useFactory: authFactory,
-      deps: [Platform, NgZone, Requestor, Browser, StorageBackend],
+      deps: [
+        Platform,
+        NgZone,
+        Requestor,
+        Browser,
+        StorageBackend,
+        SpinnerService,
+      ],
     },
   ],
 })

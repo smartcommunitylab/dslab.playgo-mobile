@@ -57,7 +57,7 @@ export class SpinnerService {
     await this.loader.present();
   }
 
-  public show(topic: string) {
+  public show(topic: string, timeout?: number) {
     this.loadingRequestedSubject.next({ topic, changeCounter: +1 });
 
     // quick way how to ensure that no topic will be forgotten
@@ -66,7 +66,7 @@ export class SpinnerService {
         topic,
         changeCounter: Number.NEGATIVE_INFINITY,
       });
-    }, 10_000);
+    }, timeout || 10_000);
   }
   public hide(topic: string) {
     this.loadingRequestedSubject.next({ topic, changeCounter: -1 });
