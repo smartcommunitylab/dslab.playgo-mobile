@@ -53,6 +53,9 @@ export const isConstant =
   <T>(arg: T | C): arg is C =>
     arg === constant;
 
+export const isNotNil = <T>(arg: T | null | undefined): arg is T =>
+  arg !== null && arg !== undefined;
+
 export const isInstanceOf =
   <T>(type: new (...args: any[]) => T) =>
   <U>(arg: U | T): arg is T =>
