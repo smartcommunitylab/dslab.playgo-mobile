@@ -49,15 +49,20 @@
   width: 100%;
   height: 100%;
   animation-name: showMap;
-  animation-duration: 0.5s;
+  animation-duration: 0.2s;
   transform: translateY(0px);
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.8);
   .map-wrapper {
     position: absolute;
     bottom: 0;
     border-top: 3px solid var(--ion-color-playgo);
+    background-color: var(--ion-color-playgo);
     height: 60vh;
     width: 100%;
+    ion-spinner {
+      position: absolute;
+      top: 50%;
+    }
   }
 }
 
@@ -68,6 +73,6 @@
   }
   to {
     transform: translateY(0px);
-    background: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.8);
   }
 }
