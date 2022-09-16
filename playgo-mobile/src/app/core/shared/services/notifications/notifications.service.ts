@@ -114,7 +114,7 @@ export class NotificationService {
             notification.content.type === NotificationType.announcement
         )
       ),
-      tapLog('unreadAnnouncements'),
+      // tapLog('unreadAnnouncements'),
       shareReplay(1)
     );
   public readedAnnouncementNotifications$: Observable<Notification[]> =

@@ -40,7 +40,7 @@ export class TabsPage implements OnInit, OnDestroy {
       .getUnreadChallengeNotifications()
       .pipe(
         tap((notifications) => {
-          console.log('unread campaign notification', notifications);
+          // console.log('unread campaign notification', notifications);
           this.challengesUnread = notifications.length;
           // this.cdRef.detectChanges();
         })

@@ -74,7 +74,7 @@ export class ChallengeService {
         switchMap(([refresh, campaigns]) =>
           forkJoin(
             campaigns.map((campaign: PlayerCampaign) => {
-              console.log(campaign);
+              // console.log(campaign);
               if (campaign?.campaign) {
                 return this.challengeControllerService
                   .getChallengesUsingGET({

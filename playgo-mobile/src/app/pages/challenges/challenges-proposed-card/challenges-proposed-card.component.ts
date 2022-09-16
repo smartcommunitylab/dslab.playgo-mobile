@@ -45,7 +45,7 @@ export class ChallengesProposedCardComponent implements OnInit, OnChanges {
     );
   }
   ngOnChanges() {
-    console.log(this.canInvite);
+    // console.log(this.canInvite);
     this.singleChallenges = this.challenges?.filter(
       (challenge) => challenge.otherAttendeeData == null
     );

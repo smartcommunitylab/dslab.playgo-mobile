@@ -16,8 +16,8 @@ export class ChallengeBarStatusComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.status);
-    console.log(this.otherStatus);
+    // console.log(this.status);
+    // console.log(this.otherStatus);
   }
   getWidth(status: number) {
     if (this.challengeType === 'groupCompetitiveTime') {

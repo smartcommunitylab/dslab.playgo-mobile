@@ -215,10 +215,10 @@ export class BackgroundTrackingService {
           device: appAndDeviceInfo,
         },
       };
-      console.log('starting BackgroundGeolocation', config);
+      // console.log('starting BackgroundGeolocation', config);
       const state = await this.backgroundGeolocationPlugin.ready(config);
 
-      console.log('BackgroundGeolocation ready', state);
+      console.log('BackgroundGeolocation ready', state, config);
     } catch (e) {
       console.error('BackgroundGeolocation', e);
     }
@@ -294,7 +294,7 @@ export class BackgroundTrackingService {
 
   private async trySync(): Promise<void> {
     const token = await this.authService.getToken();
-    console.log('sync using token', token);
+    // console.log('sync using token', token);
     await this.backgroundGeolocationPlugin.setConfig({
       authorization: {
         strategy: 'jwt',

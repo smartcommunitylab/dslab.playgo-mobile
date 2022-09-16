@@ -30,7 +30,7 @@ export class NotificationBadgeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.unreadNotification$ = this.getNotifObservable(this.type).pipe(
       tap((notifications) => {
-        console.log('unread campaign notification', notifications);
+        // console.log('unread campaign notification', notifications);
         this.numberOfNotification = notifications.length;
         // this.cdRef.detectChanges();
       })

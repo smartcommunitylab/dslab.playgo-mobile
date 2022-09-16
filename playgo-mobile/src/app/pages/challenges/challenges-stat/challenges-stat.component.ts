@@ -178,8 +178,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
   setChart(stats?: ChallengeStatsInfo[]) {
     // Now we need to supply a Chart element reference with an
     //object that defines the type of chart we want to use, and the type of data we want to display.
-    console.log('setChart based on selected tab', this.selectedPeriod);
-    // eslint-disable-next-line max-len
+    // console.log('setChart based on selected tab', this.selectedPeriod);
     Chart.register(
       LineController,
       BarController,

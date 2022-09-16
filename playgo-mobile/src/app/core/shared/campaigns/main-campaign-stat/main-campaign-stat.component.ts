@@ -26,6 +26,6 @@ export class MainCampaignStatComponent implements OnInit {
   constructor(public campaignService: CampaignService) {}
 
   ngOnInit() {
-    console.log(this.status);
+    // console.log(this.status);
   }
 }

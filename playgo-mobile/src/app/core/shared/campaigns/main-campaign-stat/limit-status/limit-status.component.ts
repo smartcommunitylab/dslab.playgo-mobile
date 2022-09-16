@@ -14,6 +14,6 @@ export class LimitStatusComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log('limitMax' + this.limitMax + 'limitValue' + this.limitValue);
+    // console.log('limitMax' + this.limitMax + 'limitValue' + this.limitValue);
   }
 }
