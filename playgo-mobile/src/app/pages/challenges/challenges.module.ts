@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PlayGoSharedModule } from 'src/app/core/shared/shared.module';
 import { ChallengeCardComponent } from './challenge-card/challenge-card.component';
+import { DetailChallengenModalPage } from './challenge-card/detail-modal/detail.modal';
 import { ChallengeContainerComponent } from './challenge-container/challenge-container.component';
 import { ChallengesProposedCardComponent } from './challenges-proposed-card/challenges-proposed-card.component';
 import { InfoChallengeModalPage } from './challenges-proposed-card/info-challenge-modal/info-challenge.modal';
@@ -31,6 +32,7 @@ import { SingleProposalModalPage } from './single-challenge-proposed/single-prop
     SingleProposalModalPage,
     SentInvitationlModalPage,
     InfoChallengeModalPage,
+    DetailChallengenModalPage,
   ],
 })
 export class ChallengesPageModule {}

@@ -413,6 +413,10 @@
   },
   "challenges": {
     "challenges": "Sfide",
+    "detail": {
+      "title": "Dettaglio sfida",
+      "close": "Chiudi"
+    },
     "sent": "Invito inviato",
     "received": "Invito ricevuto",
     "activate": "Accetta",

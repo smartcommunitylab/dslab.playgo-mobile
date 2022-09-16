@@ -175,6 +175,23 @@ ion-list {
   --background: rgb(14 116 144);
   --color: white;
 }
+.challenge-info {
+  --height: 75%;
+  --width: 85%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.challenge-info::part(backdrop) {
+  background: rgb(35, 36, 37);
+  opacity: 1;
+}
+
+.challenge-info ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
+}
 .modal-challenge {
   --height: 50%;
   --width: 85%;
@@ -200,7 +217,7 @@ ion-list {
     0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 .modal-notification app-notification {
-  background: var(--ion-color-playgo);
+  // background: var(--ion-color-playgo);
 }
 .modal-notification::part(backdrop) {
   background: rgb(35, 36, 37);
