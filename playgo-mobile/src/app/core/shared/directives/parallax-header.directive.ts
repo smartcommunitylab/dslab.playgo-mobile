@@ -114,11 +114,11 @@ export class ParallaxDirective implements AfterContentInit {
     ) as HTMLElement;
 
     this.originalToolbarHeight = this.ionToolbar.el.offsetHeight;
-    console.log('this.originalToolbarHeight', this.originalToolbarHeight);
-    console.log(
-      'this.ionToolbar.el.clientHeight',
-      this.ionToolbar.el.clientHeight
-    );
+    // console.log('this.originalToolbarHeight', this.originalToolbarHeight);
+    // console.log(
+    //   'this.ionToolbar.el.clientHeight',
+    //   this.ionToolbar.el.clientHeight
+    // );
     this.toolbarContainer =
       this.ionToolbar.el.shadowRoot.querySelector('.toolbar-container');
 
@@ -199,17 +199,17 @@ export class ParallaxDirective implements AfterContentInit {
   }
 
   progressLayerHeight(progress: number) {
-    console.log('progress', progress);
+    // console.log('progress', progress);
     const h = Math.max(
       this.getMaxHeightInPx() * (1 - progress),
       this.originalToolbarHeight
     );
-    console.log(
-      'this.getMaxHeightInPx() * (1 - progress)',
-      this.getMaxHeightInPx() * (1 - progress)
-    );
+    // console.log(
+    //   'this.getMaxHeightInPx() * (1 - progress)',
+    //   this.getMaxHeightInPx() * (1 - progress)
+    // );
 
-    console.log('originalToolbarHeight', this.originalToolbarHeight);
+    // console.log('originalToolbarHeight', this.originalToolbarHeight);
     this.renderer.setStyle(this.toolbarContainer, 'height', `${h}px`);
     this.renderer.setStyle(this.imageOverlay, 'height', `100%`);
   }

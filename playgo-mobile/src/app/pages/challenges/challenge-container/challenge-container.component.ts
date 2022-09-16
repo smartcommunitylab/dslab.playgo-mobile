@@ -29,6 +29,6 @@ export class ChallengeContainerComponent implements OnInit, OnChanges {
         this.canInvite = false;
       }
     });
-    console.log(this.challengeProposed);
+    // console.log(this.challengeProposed);
   }
 }

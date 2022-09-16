@@ -30,7 +30,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.notification);
+    // console.log(this.notification);
   }
   ngAfterViewInit() {
     //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser

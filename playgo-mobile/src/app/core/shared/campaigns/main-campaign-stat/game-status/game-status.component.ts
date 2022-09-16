@@ -12,12 +12,12 @@ export class GameStatusComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.status);
-    console.log(
-      (this.status?.score - this.status?.levels[0]?.startLevelScore) /
-        (this.status?.levels[0]?.endLevelScore -
-          this.status?.levels[0]?.startLevelScore)
-    );
+    // console.log(this.status);
+    // console.log(
+    //   (this.status?.score - this.status?.levels[0]?.startLevelScore) /
+    //     (this.status?.levels[0]?.endLevelScore -
+    //       this.status?.levels[0]?.startLevelScore)
+    // );
   }
   getValueScore() {
     const score =

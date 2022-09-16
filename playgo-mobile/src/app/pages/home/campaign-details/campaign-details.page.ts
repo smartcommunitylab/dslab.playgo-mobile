@@ -16,11 +16,12 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { DetailCampaignModalPage } from './detail-modal/detail.modal';
 import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
-import { Subscription } from 'rxjs';
+import { filter, first, map, Subject, Subscription, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 import { Notification } from '../../../core/api/generated/model/notification';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { UnsubscribeModalPage } from './unsubscribe-modal/unsubscribe.modal';
+import { isNotNil } from 'src/app/core/shared/utils';
 @Component({
   selector: 'app-campaign-details',
   templateUrl: './campaign-details.page.html',
@@ -33,8 +34,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   titlePage = '';
   colorCampaign: Campaign.TypeEnum = null;
   language: string;
-  subNotification: Subscription;
-  subCampaign: Subscription;
+  isDestroyed$ = new Subject<void>();
   unreadNotifications: Notification[] = [];
   @ViewChild('ionContent') ionContent: ElementRef;
   constructor(
@@ -49,24 +49,33 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
-  ngOnDestroy(): void {
-    this.subNotification.unsubscribe();
-    this.subCampaign.unsubscribe();
+
+  ngOnDestroy() {
+    this.isDestroyed$.next();
+    this.isDestroyed$.complete();
   }
 
   ngOnInit() {
     this.language = this.userService.getLanguage();
-    this.subNotification = this.notificationService
+    this.notificationService
       .getUnreadCampaignNotifications(this.id)
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe((notifications) => {
         this.unreadNotifications = notifications;
       });
-    this.subCampaign = this.campaignService.myCampaigns$.subscribe(
-      (campaigns) => {
-        this.campaignContainer = campaigns.find(
-          (campaignContainer) =>
-            campaignContainer.campaign.campaignId === this.id
-        );
+    this.campaignService.myCampaigns$
+      .pipe(
+        takeUntil(this.isDestroyed$),
+        map((campaigns) =>
+          campaigns.find(
+            (campaignContainer) =>
+              campaignContainer.campaign.campaignId === this.id
+          )
+        ),
+        filter(isNotNil)
+      )
+      .subscribe((campaignContainer) => {
+        this.campaignContainer = campaignContainer;
         this.titlePage = this.campaignContainer?.campaign?.name[this.language];
         this.colorCampaign = this.campaignContainer?.campaign?.type;
         this.imagePath = this.campaignContainer?.campaign?.logo.url
@@ -74,8 +83,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
           : 'data:image/jpg;base64,' +
             this.campaignContainer?.campaign?.logo.image;
         this.changePageSettings();
-      }
-    );
+      });
   }
 
   ionViewWillEnter() {

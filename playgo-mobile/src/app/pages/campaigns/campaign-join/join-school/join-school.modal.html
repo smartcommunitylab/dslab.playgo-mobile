@@ -76,7 +76,7 @@
         </ion-row>
         <div
           class="error-message ion-padding"
-          *ngIf="isSubmitted && errorControl.rules.errors"
+          *ngIf="isSubmitted && errorControl?.rules?.errors"
         >
           {{'campaigns.joinmodal.rulesRequired'|translate}}
         </div>
