@@ -9,8 +9,11 @@
 <ion-content color="playgo">
   <ion-grid>
     <ion-row
-      ><ion-col><p>{{notification.description}}</p></ion-col></ion-row
-    >
+      ><ion-col
+        ><div
+          [innerHTML]="notification.content['_html'] | safeHtml"
+        ></div></ion-col
+    ></ion-row>
   </ion-grid>
 </ion-content>
 <ion-footer>
