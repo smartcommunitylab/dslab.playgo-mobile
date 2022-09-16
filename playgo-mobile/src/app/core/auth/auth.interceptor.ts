@@ -47,10 +47,11 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const spinnerTopic = request.url + Math.random();
     return this.sharedToken$.pipe(
       take(1),
       // timeout({ first: 5000 }),
-      tap(() => this.spinnerService.show()),
+      tap(() => this.spinnerService.show(spinnerTopic)),
       tap(() => this.refresherService.httpCallStarted()),
       concatMap((token) => {
         const requestWithToken = request.clone({
@@ -75,7 +76,7 @@ export class AuthInterceptor implements HttpInterceptor {
         );
       }),
       finalize(() => {
-        this.spinnerService.hide();
+        this.spinnerService.hide(spinnerTopic);
         this.refresherService.httpCallEnded();
       })
     );

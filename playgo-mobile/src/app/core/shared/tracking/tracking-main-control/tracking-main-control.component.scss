@@ -12,7 +12,7 @@
     height: 10vh;
   }
   &.tracking-ui-active {
-    height: 70vh;
+    height: 200vh;
   }
 
   display: flex;
@@ -43,20 +43,36 @@
     font-size: 21px;
   }
 }
-.map-wrapper {
+
+.slide-wrapper {
   position: relative;
   width: 100%;
-  height: 60vh;
+  height: 100%;
   animation-name: showMap;
-  animation-duration: 0.5s;
+  animation-duration: 0.2s;
   transform: translateY(0px);
+  background: rgba(0, 0, 0, 0.8);
+  .map-wrapper {
+    position: absolute;
+    bottom: 0;
+    border-top: 3px solid var(--ion-color-playgo);
+    background-color: var(--ion-color-playgo);
+    height: 60vh;
+    width: 100%;
+    ion-spinner {
+      position: absolute;
+      top: 50%;
+    }
+  }
 }
 
 @keyframes showMap {
   from {
     transform: translateY(70vh);
+    background: rgba(0, 0, 0, 0);
   }
   to {
     transform: translateY(0px);
+    background: rgba(0, 0, 0, 0.8);
   }
 }

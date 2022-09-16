@@ -42,8 +42,15 @@
         </div>
       </ng-template>
     </div>
-    <div class="map-wrapper" *ngIf="trackingUIActive">
-      <app-map></app-map>
+    <div
+      class="slide-wrapper"
+      *ngIf="trackingUIActive"
+      (click)="backdropClicked($event)"
+    >
+      <div class="map-wrapper">
+        <ion-spinner name="circles"></ion-spinner>
+        <app-map></app-map>
+      </div>
     </div>
   </div>
 </div>
