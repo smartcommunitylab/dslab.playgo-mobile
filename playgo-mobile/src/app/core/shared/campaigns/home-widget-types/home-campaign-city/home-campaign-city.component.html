@@ -17,7 +17,9 @@
       [campaignContainer]="campaignContainer"
       [status]="campaignStatus"
       [showGameStatus]="
-        (activeUncompleteChallenges$ | async)?.length > 0 ? false : true
+        (activeUncompleteChallenges$ | async)?.length === 0 || !header
+          ? true
+          : false
       "
       [reportWeekStat]="reportWeekStat"
       [reportTotalStat]="reportTotalStat"
