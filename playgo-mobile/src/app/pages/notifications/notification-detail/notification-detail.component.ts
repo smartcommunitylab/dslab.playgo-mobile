@@ -10,6 +10,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { Notification } from 'src/app/core/api/generated/model/notification';
 import { Browser } from '@capacitor/browser';
 import { NotificationDetailModalPage } from './notification-modal/notification.modal';
+import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 @Component({
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
@@ -24,7 +25,8 @@ export class NotificationDetailComponent implements OnInit, AfterViewInit {
     public navController: NavController,
     public renderer: Renderer2,
     private elementRef: ElementRef,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewInit {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
+    this.notificationService.markListOfNotificationAsRead([notification]);
   }
   public handleAnchorClick = (event: Event) => {
     // Prevent opening anchors the default way

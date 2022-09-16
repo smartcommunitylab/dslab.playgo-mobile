@@ -32,7 +32,7 @@ export class CampaignNotificationComponent implements OnInit {
   async openDetail(notification: Notification) {
     const modal = await this.modalController.create({
       component: DetailNotificationModalPage,
-      cssClass: 'modal-notification',
+      cssClass: 'campaign-notification',
       componentProps: {
         notification,
         campaign: this.campaign,
