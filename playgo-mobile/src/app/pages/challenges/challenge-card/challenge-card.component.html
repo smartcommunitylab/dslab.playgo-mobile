@@ -15,6 +15,13 @@
         <ion-col>
           <p [innerHTML]="challenge.challDesc | languageMap"></p>
         </ion-col>
+        <ion-col size="1">
+          <ion-icon
+            (click)="moreInfo()"
+            class="popup-icon"
+            name="information-circle-outline"
+          ></ion-icon>
+        </ion-col>
       </ion-row>
       <ion-row>
         <ion-col
@@ -25,6 +32,7 @@
             [type]="type"
             [challengeType]="challenge.type"
             [otherUser]="challenge.otherAttendeeData"
+            [unitHasKm]="getUnitChallenge(challenge)"
           ></app-challenge-users-status
         ></ion-col>
       </ion-row>

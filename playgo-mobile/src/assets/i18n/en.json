@@ -404,6 +404,10 @@
   },
   "challenges": {
     "challenges": "Challenges",
+    "detail": {
+      "title": "Challenge details",
+      "close": "Close"
+    },
     "sent": "Sent",
     "ongoing": "Ongoing",
     "received": "Received",

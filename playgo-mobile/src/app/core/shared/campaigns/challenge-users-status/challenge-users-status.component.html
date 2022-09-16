@@ -24,7 +24,7 @@
             class="ion-align-items-center"
           >
             <ion-col> {{ status }}%</ion-col></ion-row
-          ><ion-row *ngIf="rowStatus !== null && !isHome()"
+          ><ion-row *ngIf="rowStatus !== null && !isHome() && unitHasKm"
             ><ion-col>{{ rowStatus }} Km</ion-col></ion-row
           ></ion-grid
         >
@@ -50,7 +50,7 @@
           ></ion-grid
         >
       </ion-col>
-      <ion-col size="2" *ngIf="otherUser && !isHome()">
+      <ion-col size="2" *ngIf="otherUser && !isHome() && unitHasKm">
         <ion-avatar>
           <img [src]="otherUser?.avatar?.url" alt="avatar" /> </ion-avatar
       ></ion-col>
