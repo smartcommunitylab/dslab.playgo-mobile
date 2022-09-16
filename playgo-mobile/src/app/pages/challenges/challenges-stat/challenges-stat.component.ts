@@ -73,7 +73,6 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
     );
   selectedPeriod$: Observable<Period> = this.statPeriodChangedSubject.pipe(
     map((period) => {
-      console.log(period.group);
       this.selectedPeriod = period;
       return this.getPeriodByReference(period);
     }),
@@ -110,7 +109,6 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
     private errorService: ErrorService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
-      console.log('new stats' + stats);
       this.stats = stats;
       this.setChart(stats);
       this.setTotal(stats);
@@ -140,7 +138,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
     this.selectedSegment = this.periods[0];
   }
   segmentChanged(ev: any) {
-    console.log('Segment changed, change the selected period', ev);
+    // console.log('Segment changed, change the selected period', ev);
   }
   backPeriod() {
     //change referenceDate
