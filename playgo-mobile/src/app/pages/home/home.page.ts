@@ -12,7 +12,6 @@ import { UserService } from 'src/app/core/shared/services/user.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
-  subProfile!: Subscription;
   constructor(
     private router: Router,
     public appStatusService: AppStatusService
@@ -27,7 +26,5 @@ export class HomePage implements OnInit, OnDestroy {
   }
   ngOnInit() {}
 
-  ngOnDestroy() {
-    this.subProfile.unsubscribe();
-  }
+  ngOnDestroy() {}
 }
