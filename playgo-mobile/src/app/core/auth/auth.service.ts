@@ -71,32 +71,37 @@ export class AuthService {
   public async init() {
     await this.ionicAppAuthService.init();
     this.ionicAppAuthService.events$.subscribe((action) => {
-      if (action.action === AuthActions.SignInSuccess) {
+      const actionType = action.action;
+      if (actionType === AuthActions.SignInSuccess) {
         this.onSignInSuccess(action);
       }
-      if (action.action === AuthActions.SignOutSuccess) {
+      if (actionType === AuthActions.SignOutSuccess) {
         this.postLogoutCleanup();
       }
-      if (action.action === AuthActions.SignOutFailed) {
+      if (actionType === AuthActions.SignOutFailed) {
         console.error('sign out failed', action);
         // there is nothing else to do...
         this.postLogoutCleanup();
       }
 
-      if (action.action === AuthActions.SignInFailed) {
+      if (
+        actionType === AuthActions.SignInFailed ||
+        actionType === AuthActions.SignInSuccess
+      ) {
+        console.log('AuthActions hide spinner', actionType);
         this.spinnerService.hide('login');
       }
       if (
-        action.action === AuthActions.SignInFailed ||
-        action.action === AuthActions.RefreshFailed
+        actionType === AuthActions.SignInFailed ||
+        actionType === AuthActions.RefreshFailed
       ) {
         console.error('auth error', action);
         this.logoutAfterAuthFailed();
       }
 
       if (
-        action.action === AuthActions.RefreshSuccess ||
-        action.action === AuthActions.RefreshFailed
+        actionType === AuthActions.RefreshSuccess ||
+        actionType === AuthActions.RefreshFailed
       ) {
         this.refreshTokenCallPromise = null;
       }
@@ -190,7 +195,6 @@ export class AuthService {
   }
 
   private async onSignInSuccess(action: IAuthAction) {
-    this.spinnerService.hide('login');
     const userIsRegistered = await this.isUserRegistered();
     if (userIsRegistered === true) {
       this.alertService.showToast({ messageTranslateKey: 'login.welcome' });
