@@ -157,7 +157,7 @@
       "travels": "{{totalTravels}} viaggi validi",
       "activityDays": "{{activityDays}} giorni di gioco ",
       "activeCampaigns": "{{activeCampaigns}} active campaings",
-      "myCampaigns": "Campagne attive: {{myCampaigns}}"
+      "myCampaigns": "Campagne attive:"
     }
   },
   "report": {
