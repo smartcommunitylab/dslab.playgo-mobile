@@ -24,4 +24,7 @@ export class ChallengeCardComponent implements OnInit {
       presentationStyle: 'popover',
     });
   }
+  getUnitChallenge(challenge: Challenge) {
+    return challenge?.unit?.toLowerCase().includes('km'.toLowerCase());
+  }
 }

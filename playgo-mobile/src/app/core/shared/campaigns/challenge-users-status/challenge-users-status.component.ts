@@ -17,7 +17,7 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   @Input() otherUser?: OtherAttendeeData;
   @Input() position?: string;
   @Input() challengeType: string;
-
+  @Input() unitHasKm: boolean;
   profile: IUser;
   playerAvatarUrl$ = this.userService.userProfile$.pipe(
     map((userProfile) => userProfile.avatar.avatarSmallUrl)
