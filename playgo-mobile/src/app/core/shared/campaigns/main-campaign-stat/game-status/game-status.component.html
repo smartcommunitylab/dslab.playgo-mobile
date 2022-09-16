@@ -6,6 +6,7 @@
     "
   ></span>
   <span
+    class="score"
     [innerHtml]="
       'campaigns.homewidgets.stat.score' | translate: { score: status?.score }
     "
@@ -14,10 +15,7 @@
     <ion-progress-bar
       class="level-bar"
       [color]="type"
-      [value]="
-        (status?.score - status?.levels[0]?.startLevelScore) /
-        (status?.levels[0]?.endLevelScore - status?.levels[0]?.startLevelScore)
-      "
+      [value]="getValueScore()"
     ></ion-progress-bar>
   </div>
 </div>
