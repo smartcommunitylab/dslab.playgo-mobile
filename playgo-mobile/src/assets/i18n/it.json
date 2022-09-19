@@ -18,9 +18,9 @@
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
   "permission": {
-    "title": "Vuoi permettere a {applicationName} ad accedere alla tua posizione in baground?",
-    "message": "Allo scopo di traciare i tuoi percorsi in background, abilitare {backgroundPermissionOptionLabel} ",
-    "positiveAction": "Cambia  {backgroundPermissionOptionLabel}",
+    "title": "Vuoi permettere a {applicationName} ad accedere alla tua posizione in background?",
+    "message": "Allo scopo di tracciare i tuoi percorsi in background, abilitare {backgroundPermissionOptionLabel} ",
+    "positiveAction": "Cambia {backgroundPermissionOptionLabel}",
     "cancelAction": "Annulla"
   },
 
@@ -111,7 +111,7 @@
       "choose_role": "Scegli il tuo ruolo",
       "driver": "Guidatore",
       "passenger": "Passeggero",
-      "manual_code": "Condividi il codice del vaggio:",
+      "manual_code": "Condividi il codice del viaggio:",
       "manual_code_input_label": "Inserisci il codice manualmente:",
       "manual_code_input_example": "Es: 12345",
       "manual_code_input_confirm": "Conferma codice",
@@ -122,7 +122,7 @@
       "errors": {
         "NO_ROLE_CHOSEN": "Nessun ruolo selezionato!",
         "NO_CONFIRMED": "Il codice QR Code va confermato",
-        "NO_PASSENGER_CARPOOLING_ID": "Nessun codice passsegero inserito",
+        "NO_PASSENGER_CARPOOLING_ID": "Nessun codice passeggero inserito",
         "INCORRECT_QR_CODE": "Codice QR Code errato"
       }
     },
@@ -156,7 +156,7 @@
       "totalKm": "{{totalKM}} fatti",
       "travels": "{{totalTravels}} viaggi validi",
       "activityDays": "{{activityDays}} giorni di gioco ",
-      "activeCampaigns": "{{activeCampaigns}} active campaings",
+      "activeCampaigns": "{{activeCampaigns}} campagne attive",
       "myCampaigns": "Campagne attive:"
     }
   },
@@ -213,7 +213,7 @@
   "errors": {
     "error_header": "Errore",
     "not_recoverable": "L'applicazione ha riscontrato un errore irreversibile e verrà riavviata! \n L'avanzamento del tuo viaggio verrà salvato.",
-    "offline": "Questa funzionalitá é disponibile solo online.",
+    "offline": "Questa funzionalità é disponibile solo online.",
     "userNotFound": "Utente non registrato",
     "nickNameExist": "Questo soprannome é giá registrato",
     "defaultErr": "Operazione fallita."
@@ -440,7 +440,7 @@
       "close": "Chiudi"
     },
     "challenge_detail": {
-      "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}",
+      "challenge_future_start": "Questa sfida inizierà il giorno: {{startDate}}",
       "survey": "Questionario",
       "title": "Configura sfida"
     },
@@ -460,7 +460,7 @@
       "title": "Configura sfida",
       "choose_type": "Scegli tipologia di sfida",
       "choose_metric": "Scegli metrica di sfida",
-      "choose_partner": "Scegli il compangno",
+      "choose_partner": "Scegli il compagno",
       "activate": "Attiva sfida",
       "invite": "INVITA",
       "preview": {
@@ -485,7 +485,7 @@
       "description": {
         "groupCompetitivePerformance": "Raggiungi un traguardo prima del tuo avversario!",
         "groupCompetitiveTime": "Supera il tuo avversario su una metrica a scelta entro una settimana",
-        "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
+        "groupCooperative": "Raggiungi un obiettivo collaborando con un altro giocatore."
       },
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
     },
@@ -517,7 +517,7 @@
   "noMessages": "Nessun messaggio",
   "noCampaigns": "Nessuna campagna",
   "messages": "Messaggi",
-  "generalStatistics": "Statistiche attivitá",
+  "generalStatistics": "Statistiche attività",
   "noStatistics": "Nessuna statistica disponibile",
   "activities": "Le mie attività",
   "noActivities": "Nessuna attività disponibile",

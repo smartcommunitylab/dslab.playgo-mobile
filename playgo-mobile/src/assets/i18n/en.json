@@ -8,7 +8,7 @@
   "challengeTitle": "Challenges",
   "tripDetailTitle": "Trip Details",
   "notifications_title": "Notifications",
-  "discovercampaignbutton": "Scopri altre campagne",
+  "discovercampaignbutton": "Discover other campaigns",
   "leaderboard.title": "Leaderboard",
   "green leaves": "Green Leaves",
   "bike aficionado": "Bike Trip Badge",
@@ -31,8 +31,8 @@
     "login_page_title": "Login",
     "loginCardHeader": "Login",
     "loginButton": "Login",
-    "labelSignin": "Signin in...",
-    "labelSignout": "Signin out...",
+    "labelSignin": "Signing in...",
+    "labelSignout": "Signing out...",
     "welcome": "Welcome",
     "loginGoogleButton": "Login with Google",
     "loginFacebookButton": "Login with Facebook",
@@ -62,37 +62,37 @@
       "en": "English"
     },
     "territories": {
-      "territory": "Territiory",
+      "territory": "Territory",
       "select": "Select the territory"
     },
-    "infoTerritory": "Il tuo territorio influenzerà le tue campagne. Per favore seleziona il tuo territorio",
+    "infoTerritory": "Your territory will influence your campaigns. Please select your territory",
     "form": {
       "nameRequired": "The name is required.",
-      "nameMinLength": "Name must be at least 2 charachters long.",
+      "nameMinLength": "Name must be at least 2 characters long.",
       "lastNameRequired": "The surname is required.",
-      "lastNameMinLength": "Lastname must be at least 2 charachters long.",
+      "lastNameMinLength": "Last name must be at least 2 characters long.",
       "mailRequired": "The address is required.",
       "mailPattern": "The email address is not valid.",
       "nicknameRequired": "The nickname is required.",
-      "nicknameMinLength": "Nickname must be at least 2 charachters long.",
+      "nicknameMinLength": "Nickname must be at least 2 characters long.",
       "languageRequired": "The language is required.",
       "territoryRequired": "The territory is required.",
       "privacyRequired": "Privacy is required."
     },
     "territoryPopup": {
       "header": "Territory",
-      "message": "Lorem ipsum"
+      "message": "TODO: Lorem ipsum"
     },
     "privacyPopup": {
       "header": "Pricacy",
-      "message": "Lorem ipsum"
+      "message": "TODO: Lorem ipsum"
     },
     "privacyLink": "Privacy Policy",
     "privacy": "I agree with the privacy policy",
     "sumbmitButton": "Register",
     "confirm": {
-      "header": "Conferma registrazione",
-      "message": "{{nickname}} sei veramente sicuro di iscriverti al gioco Play&go per il seguente territorio: {{territory}}?"
+      "header": "Confirm registration",
+      "message": "{{nickname}}, are you sure you want to register to Play&Go game for the following territory: {{territory}}?"
     }
   },
   "modal": {
@@ -129,7 +129,7 @@
   },
   "profile": {
     "mail": "Email: ",
-    "activeFrom": "Actived since: ",
+    "activeFrom": "Activated since: ",
     "territory": "Territory: ",
     "blacklistedUser": "Blacklist user",
     "Faq": "FAQ",
@@ -154,7 +154,7 @@
       "totalKm": "{{totalKM}} done",
       "travels": "{{totalTravels}} valid travels",
       "activityDays": "{{activityDays}} days of gaming",
-      "activeCampaigns": "{{activeCampaigns}} active campaings",
+      "activeCampaigns": "{{activeCampaigns}} active campaigns",
       "myCampaigns": "Active campaigns:"
     }
   },
@@ -218,13 +218,13 @@
     "title": "Campaigns",
     "join": "Join",
     "novaliddate": "The campaign's period is not valid",
-    "noDesc": "Nessuna description provided",
+    "noDesc": "No description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
     "registered": "Registered",
     "unregistered": "Unregistered",
     "public": {
-      "last": "Durata:"
+      "last": "TODO: Durata:"
     },
 
     "offline": {
@@ -256,8 +256,8 @@
         "header": "Rules"
       },
       "codeInfo": {
-        "header": "Codice dipendente",
-        "message": "Lorem ipsum"
+        "header": "Employee code",
+        "message": "TODO: Lorem ipsum"
       },
       "join": "Join"
     },
@@ -281,7 +281,7 @@
       "journeys": "Journeys",
       "leaderboard": "Leaderboard",
       "description": "Description",
-      "details": "Dettagli campagna"
+      "details": "Campaign details"
     },
     "homewidgets": {
       "personal": {
@@ -388,7 +388,7 @@
     "empty": "No blocked user for this campaign"
   },
   "userprofile": {
-    "title": "Profilo utenti",
+    "title": "User Profile",
     "last_month": "Last month activity",
     "personal_stat_bike": " by bike",
     "personal_stat_walk": " walking",
@@ -412,9 +412,9 @@
     "sent": "Sent",
     "ongoing": "Ongoing",
     "received": "Received",
-    "activate": "Accetta",
-    "reject": "Rifiuta",
-    "cancel": "Annulla",
+    "activate": "Accept",
+    "reject": "Reject",
+    "cancel": "Cancel",
     "singleproposal": "Single challenge",
     "proposed": "Next week challenges",
     "choose_single": "Choose one of the following challenge",
@@ -426,7 +426,6 @@
     "challenge_container": "Challenges {{ type }} of campaign",
     "info": {
       "title": "How do the challenges work? ",
-      "body": "Ogni settimana puoi scegliere solo UNA sfida singola e UNA sfida di coppia. <br> Una volta scelta una sfida, le alternative per quella tipologia di sfida scompaiono. <br> Quindi quando attivi una sfida singola, le altre possibili sfide singole proposte dal sistema scompaiono. <br> <br> Allo stesso modo, quando attivi una sfida di coppia, le alternative scompaiono. <br> <br> Accettare un invito equivale a scegliere una sfida di coppia. <br> <br> Quando qualcuno accetta un invito che hai inviato, la sfida di coppia per la settimana è automaticamente scelta. Tutte le altre sfide alternative scompaiono. <br> <br> Ogni settimana si rinnovano le sfide proposte: a seconda del tuo livello, puoi ricevere fino a un massimo di 3 proposte di sfida singola, 3 inviti e puoi inviare fino a un massimo di 2 inviti.",
       "close": "Close"
     },
     "challenge_detail": {
@@ -467,9 +466,9 @@
       "description": {
         "groupCompetitivePerformance": "Reach the target before your opponent!",
         "groupCompetitiveTime": "Do more than your opponent in a week",
-        "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
+        "groupCooperative": "Reach shared target with another player."
       },
-      "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
+      "disabled_until_level": "Challenge type disabled until level {{level}}!"
     }
   },
   "outof": "{{current}} out of {{total}}",
@@ -482,7 +481,7 @@
   "playNow": "Play now",
   "noMessages": "No messages available",
   "noCampaigns": "No campaigns available",
-  "messages": "Messagges",
+  "messages": "Messages",
   "generalStatistics": "General Statistics",
   "noStatistics": "No statistics available",
   "activities": "My activities",
