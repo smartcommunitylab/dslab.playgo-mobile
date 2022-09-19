@@ -108,6 +108,9 @@ export class CampaignService {
       badges: {
         present: false,
       },
+      dates: {
+        present: false,
+      },
     },
     school: {
       challenge: {
@@ -127,6 +130,9 @@ export class CampaignService {
         present: true,
       },
       badges: {
+        present: true,
+      },
+      dates: {
         present: true,
       },
     },
@@ -149,6 +155,9 @@ export class CampaignService {
       badges: {
         present: false,
       },
+      dates: {
+        present: true,
+      },
     },
     city: {
       challenge: {
@@ -167,6 +176,9 @@ export class CampaignService {
         present: true,
       },
       badges: {
+        present: true,
+      },
+      dates: {
         present: true,
       },
     },

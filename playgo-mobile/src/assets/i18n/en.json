@@ -38,7 +38,8 @@
     "loginAppleButton": "Login with Apple",
     "loginInternalButton": "Login with Username",
     "title": "Welcome in Play&Go",
-    "subtitle": "Sustainable mobility app"
+    "subtitle": "Sustainable mobility app",
+    "subsub": "Beta version"
   },
   "notifications": {
     "empty": "You have no notifications",
@@ -363,7 +364,7 @@
       "leaderboard_type": {
         "co2": "Total CO₂",
         "km": "Total km",
-        "GL": "GL"
+        "GL": "Eco Leaves"
       },
       "unit": {
         "co2": "CO₂",
@@ -371,7 +372,7 @@
       },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
-        "GL": "{{value}} GLs",
+        "GL": "{{value}} Eco Leaves",
         "km": "{{value}} km"
       }
     },
@@ -404,6 +405,8 @@
   },
   "challenges": {
     "challenges": "Challenges",
+    "allchallenges": "All the challenges",
+
     "detail": {
       "title": "Challenge details",
       "close": "Close"
