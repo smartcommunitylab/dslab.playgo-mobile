@@ -538,6 +538,9 @@
   "weeklyTier": "Classifica settimanale",
   "number": {
     "ordinal": {
+      "one": null,
+      "two": null,
+      "few": null,
       "other": "{{ordinal}}°"
     }
   },
