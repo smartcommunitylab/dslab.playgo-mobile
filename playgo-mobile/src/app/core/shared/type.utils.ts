@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import * as itDictionary from '../../../assets/i18n/it.json';
+import * as enDictionary from '../../../assets/i18n/en.json';
 
 type StringableKey<T> = T extends readonly unknown[]
   ? number extends T['length']
@@ -13,9 +14,10 @@ export type StringPath<T> = T extends object
     }[keyof T & StringableKey<T>]
   : never;
 
-type Dictionary = typeof itDictionary;
+export type ItKeys = StringPath<typeof itDictionary>;
+export type EnKeys = StringPath<typeof enDictionary>;
 
-export type TranslateKey = StringPath<Dictionary>;
+export type TranslateKey = ItKeys | EnKeys;
 
 export type TranslateKeyWithParams =
   | TranslateKey
