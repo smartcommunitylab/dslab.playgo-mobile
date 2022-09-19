@@ -54,3 +54,6 @@ export const environment = {
  * on performance if an error is thrown.
  */
 import 'zone.js/dist/zone-error'; // Included with Angular CLI.
+
+import { assertDictionariesAreEqualInRuntime } from 'src/app/core/shared/globalization/i18n/check-dictio-runtime';
+setTimeout(assertDictionariesAreEqualInRuntime, 100);
