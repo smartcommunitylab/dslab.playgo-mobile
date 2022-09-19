@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { TranslateKey } from 'src/app/core/shared/type.utils';
+import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 
 @Component({
   selector: 'app-wizard-step',

@@ -33,11 +33,11 @@ import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampai
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
-import { TranslateKey } from 'src/app/core/shared/type.utils';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 
 @Component({
   selector: 'app-leaderboard',

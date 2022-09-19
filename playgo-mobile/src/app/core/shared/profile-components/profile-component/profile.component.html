@@ -60,10 +60,8 @@
     <ion-item lines="none">
       <ion-label>
         <div>
-          {{
-            "profile.status.myCampaigns"
-              | translate: { myCampaigns: numMyCampaigns }
-          }}
+          {{ "profile.status.myCampaigns" | translate
+          }}<b>{{ numMyCampaigns }}</b>
         </div>
       </ion-label>
     </ion-item>

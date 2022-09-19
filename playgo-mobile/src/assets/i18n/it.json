@@ -1,5 +1,5 @@
 {
-  "---comment cSpell:locale it,en ": null,
+  "---comment-cSpell-locales": "cSpell:locale it,en",
   "helloWorld": "Ciao mondo",
   "homeTtle": "Play&Go",
   "profileTitle": "Profilo",
@@ -8,6 +8,7 @@
   "challengeTitle": "Sfide",
   "tripDetailTitle": "Dettagli viaggio",
   "notifications_title": "Notifiche",
+  "discovercampaignbutton": "Scopri altre campagne",
   "leaderboard.title": "Classifica",
   "green leaves": "Green Leaves",
   "bike aficionado": "Bike Trip Badge",
@@ -18,12 +19,11 @@
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
   "permission": {
-    "title": "Vuoi permettere a {applicationName} ad accedere alla tua posizione in baground?",
-    "message": "Allo scopo di traciare i tuoi percorsi in background, abilitare {backgroundPermissionOptionLabel} ",
-    "positiveAction": "Cambia  {backgroundPermissionOptionLabel}",
+    "title": "Vuoi permettere a {applicationName} ad accedere alla tua posizione in background?",
+    "message": "Allo scopo di tracciare i tuoi percorsi in background, abilitare {backgroundPermissionOptionLabel} ",
+    "positiveAction": "Cambia {backgroundPermissionOptionLabel}",
     "cancelAction": "Annulla"
   },
-
   "badges": {
     "empty": "Non hai ottenuto nessun badge per questa campagna. Gioca per scoprirli."
   },
@@ -71,8 +71,8 @@
       "nameMinLength": "La lunghezza minima é di 2 caratteri",
       "lastNameRequired": "Il cognome é richiesto",
       "lastNameMinLength": "La lunghezza minima é di 2 caratteri",
-      "mailRequired": "L'indirizzo email é richiesto",
-      "mailPattern": "L'indirizzo email non risulta valido",
+      "mailRequired": "L’indirizzo email é richiesto",
+      "mailPattern": "L’indirizzo email non risulta valido",
       "nicknameRequired": "Il nickname é richiesto",
       "nicknameMinLength": "La lunghezza minima é di 2 caratteri",
       "languageRequired": "Il linguaggio é richiesto",
@@ -81,11 +81,11 @@
     },
     "territoryPopup": {
       "header": "Territorio",
-      "message": "Lorem ipsum"
+      "message": "TODO: Lorem ipsum"
     },
     "privacyPopup": {
       "header": "Privacy",
-      "message": "Lorem ipsum"
+      "message": "TODO: Lorem ipsum"
     },
     "privacyLink": "Privacy Policy",
     "privacy": "Accetto il trattamento dei miei dati riportato nella privacy policy",
@@ -111,7 +111,7 @@
       "choose_role": "Scegli il tuo ruolo",
       "driver": "Guidatore",
       "passenger": "Passeggero",
-      "manual_code": "Condividi il codice del vaggio:",
+      "manual_code": "Condividi il codice del viaggio:",
       "manual_code_input_label": "Inserisci il codice manualmente:",
       "manual_code_input_example": "Es: 12345",
       "manual_code_input_confirm": "Conferma codice",
@@ -122,7 +122,7 @@
       "errors": {
         "NO_ROLE_CHOSEN": "Nessun ruolo selezionato!",
         "NO_CONFIRMED": "Il codice QR Code va confermato",
-        "NO_PASSENGER_CARPOOLING_ID": "Nessun codice passsegero inserito",
+        "NO_PASSENGER_CARPOOLING_ID": "Nessun codice passeggero inserito",
         "INCORRECT_QR_CODE": "Codice QR Code errato"
       }
     },
@@ -156,24 +156,13 @@
       "totalKm": "{{totalKM}} fatti",
       "travels": "{{totalTravels}} viaggi validi",
       "activityDays": "{{activityDays}} giorni di gioco ",
-      "activeCampaigns": "{{activeCampaigns}} active campaings",
-      "myCampaigns": "Campagne attive: {{myCampaigns}}"
+      "activeCampaigns": "{{activeCampaigns}} campagne attive",
+      "myCampaigns": "Campagne attive:"
     }
   },
   "report": {
     "stats": {
-      "title": "Dettaglio attività",
-      "period": "Periodo",
-      "total": "Complessivo:",
-      "meansTravel": "{{totalTravel}} viaggi",
-      "meansDuration": "{{totalDuration}} h",
-      "meansDistance": "{{totalDistance}} Km",
-      "changePeriodButton": "Cambia periodo",
-      "chart": {
-        "week": "Settimana",
-        "month": "Mese",
-        "year": "Anno"
-      }
+      "title": "Dettaglio attività"
     }
   },
   "trips": {
@@ -197,9 +186,9 @@
       "car": "Macchina",
       "bike": "Bici",
       "walk": "Piedi",
-      "boat": "Barca",
       "train": "Treno",
-      "bus": "Autobus"
+      "bus": "Autobus",
+      "boat": "Barca"
     },
     "status": {
       "valid": "Valido",
@@ -212,8 +201,8 @@
   },
   "errors": {
     "error_header": "Errore",
-    "not_recoverable": "L'applicazione ha riscontrato un errore irreversibile e verrà riavviata! \n L'avanzamento del tuo viaggio verrà salvato.",
-    "offline": "Questa funzionalitá é disponibile solo online.",
+    "not_recoverable": "L’applicazione ha riscontrato un errore irreversibile e verrà riavviata! \n L’avanzamento del tuo viaggio verrà salvato.",
+    "offline": "Questa funzionalità é disponibile solo online.",
     "userNotFound": "Utente non registrato",
     "nickNameExist": "Questo soprannome é giá registrato",
     "defaultErr": "Operazione fallita."
@@ -232,20 +221,20 @@
     "title": "Campaigns",
     "join": "Iscriviti",
     "novaliddate": "Il periodo della campagna non risulta valido",
-    "registered": "Registrato",
-    "unregistered": "Utente disiscritto",
     "noDesc": "Nessuna descrizione fornita",
     "myCampaigns": "Le mie",
     "allCampaigns": "Tutte",
+    "registered": "Registrato",
+    "unregistered": "Utente disiscritto",
     "public": {
       "last": "Durata:"
     },
     "joinmodal": {
       "modalTitle": "Iscrizione a {{campaignTitle}}",
       "close": "X",
-      "companyselection": "Seleziona l'azienda con cui iscriverti",
+      "companyselection": "Seleziona l’azienda con cui iscriverti",
       "companyPIN": "Inserisci il codice identificativo",
-      "privacyLink": "Leggi l'informativa sulla privacy",
+      "privacyLink": "Leggi l’informativa sulla privacy",
       "privacy": "Accetto il trattamento dei miei dati riportato nella privacy policy",
       "privacyRequired": "La privacy é richiesta",
       "rulesLink": "Leggi il regolamento",
@@ -259,7 +248,7 @@
       },
       "codeInfo": {
         "header": "Codice dipendente",
-        "message": "Lorem ipsum"
+        "message": "TODO: Lorem ipsum"
       },
       "join": "Iscriviti"
     },
@@ -290,13 +279,13 @@
         "active": "Attivo dal: {{startDate}}",
         "totalco2": "CO2 risparmiata: {{totalCO2}} Kg",
         "weeklyco2": "CO2 settimanale: {{weeklyCO2}} Kg",
-        "weklyRanking": "Posizione in classifica: {{weeklyRanking}}"
+        "weeklyRanking": "Posizione in classifica: {{weeklyRanking}}"
       },
       "stat": {
         "weekposition": "{{position}} in classifica settimanale",
         "totalposition": "{{position}} in classifica complessiva",
-        "weekvalue": "<b>{{value}}</b>  settimanale",
-        "monthvalue": "<b>{{value}}</b>  mensile",
+        "weekvalue": "<b>{{value}}</b> settimanale",
+        "monthvalue": "<b>{{value}}</b> mensile",
         "totalvalue": "<b>{{value}}</b> complessivo",
         "levelName": "<b>Livello : {{levelName}}</b>",
         "score": "Punti: {{score}}",
@@ -312,11 +301,6 @@
     "stats": {
       "prova": "Prova",
       "filter": {
-        "period": {
-          "week": "Settimana",
-          "month": "Mese",
-          "year": "Anno"
-        },
         "unit": {
           "km": {
             "label": "Km",
@@ -344,14 +328,19 @@
             "label": "Barca",
             "unit": "boat"
           },
-          "train": {
-            "label": "Treno",
-            "unit": "train"
-          },
           "bus": {
             "label": "Autobus",
             "unit": "bus"
+          },
+          "train": {
+            "label": "Treno",
+            "unit": "train"
           }
+        },
+        "period": {
+          "week": "Settimana",
+          "month": "Mese",
+          "year": "Anno"
         },
         "mean_type": "Mezzo",
         "unit_type": "Unità"
@@ -396,7 +385,7 @@
   },
   "userprofile": {
     "title": "Profilo utenti",
-    "last_month": "Attività dell'ultimo mese",
+    "last_month": "Attività dell’ultimo mese",
     "personal_stat_bike": " in bici",
     "personal_stat_walk": " a piedi",
     "personal_stat_bus": " in bus",
@@ -440,7 +429,7 @@
       "close": "Chiudi"
     },
     "challenge_detail": {
-      "challenge_future_start": "Questa sfida inizierá il giorno: {{startDate}}",
+      "challenge_future_start": "Questa sfida inizierà il giorno: {{startDate}}",
       "survey": "Questionario",
       "title": "Configura sfida"
     },
@@ -460,7 +449,7 @@
       "title": "Configura sfida",
       "choose_type": "Scegli tipologia di sfida",
       "choose_metric": "Scegli metrica di sfida",
-      "choose_partner": "Scegli il compangno",
+      "choose_partner": "Scegli il compagno",
       "activate": "Attiva sfida",
       "invite": "INVITA",
       "preview": {
@@ -485,7 +474,7 @@
       "description": {
         "groupCompetitivePerformance": "Raggiungi un traguardo prima del tuo avversario!",
         "groupCompetitiveTime": "Supera il tuo avversario su una metrica a scelta entro una settimana",
-        "groupCooperative": "Raggiungi un obiettivo colaborando con un altro giocatore."
+        "groupCooperative": "Raggiungi un obiettivo collaborando con un altro giocatore."
       },
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
     },
@@ -510,14 +499,13 @@
   "join": "Scopri",
   "home": "Play&Go",
   "home_title": "Home",
-  "discovercampaignbutton": "Scopri altre campagne",
   "profile_title": "Profilo",
   "campaigns_title": "Campagne disponibili",
   "playNow": "Gioca adesso",
   "noMessages": "Nessun messaggio",
   "noCampaigns": "Nessuna campagna",
   "messages": "Messaggi",
-  "generalStatistics": "Statistiche attivitá",
+  "generalStatistics": "Statistiche attività",
   "noStatistics": "Nessuna statistica disponibile",
   "activities": "Le mie attività",
   "noActivities": "Nessuna attività disponibile",
@@ -538,6 +526,9 @@
   "weeklyTier": "Classifica settimanale",
   "number": {
     "ordinal": {
+      "one": "",
+      "two": "",
+      "few": "",
       "other": "{{ordinal}}°"
     }
   },

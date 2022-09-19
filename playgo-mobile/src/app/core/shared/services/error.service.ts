@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, EMPTY, Observable, OperatorFunction, tap } from 'rxjs';
 import { ERRORS } from '../../constants/error.constants';
-import { TranslateKey } from '../type.utils';
+import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { getDebugStack, isOfflineError } from '../utils';
 import { AlertService } from './alert.service';
 

@@ -39,3 +39,6 @@ export const environment = {
     measurementId: 'G-5QRQJTP30R',
   },
 };
+
+// ---------- Check if translation are same for it, en ----------------- //
+import 'src/app/core/shared/globalization/i18n/check-dictio-compiletime';

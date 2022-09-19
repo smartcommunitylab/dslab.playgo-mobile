@@ -29,8 +29,9 @@ import {
   race,
 } from 'rxjs';
 import { isEqual } from 'lodash-es';
-import { TranslateKey, XOR } from '../type.utils';
+import { XOR } from '../type.utils';
 import { isInstanceOf, tapLog } from '../utils';
+import { TranslateKey } from '../globalization/i18n/i18n.utils';
 
 @Injectable({
   providedIn: 'root',

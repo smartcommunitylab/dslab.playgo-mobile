@@ -1,4 +1,4 @@
-import { TranslateKey } from '../shared/type.utils';
+import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 
 export const ERRORS: KnownError[] = [
   {
