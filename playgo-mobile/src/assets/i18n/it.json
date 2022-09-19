@@ -8,6 +8,7 @@
   "challengeTitle": "Sfide",
   "tripDetailTitle": "Dettagli viaggio",
   "notifications_title": "Notifiche",
+  "discovercampaignbutton": "Scopri altre campagne",
   "leaderboard.title": "Classifica",
   "green leaves": "Green Leaves",
   "bike aficionado": "Bike Trip Badge",
@@ -23,7 +24,6 @@
     "positiveAction": "Cambia {backgroundPermissionOptionLabel}",
     "cancelAction": "Annulla"
   },
-
   "badges": {
     "empty": "Non hai ottenuto nessun badge per questa campagna. Gioca per scoprirli."
   },
@@ -81,11 +81,11 @@
     },
     "territoryPopup": {
       "header": "Territorio",
-      "message": "Lorem ipsum"
+      "message": "TODO: Lorem ipsum"
     },
     "privacyPopup": {
       "header": "Privacy",
-      "message": "Lorem ipsum"
+      "message": "TODO: Lorem ipsum"
     },
     "privacyLink": "Privacy Policy",
     "privacy": "Accetto il trattamento dei miei dati riportato nella privacy policy",
@@ -162,18 +162,7 @@
   },
   "report": {
     "stats": {
-      "title": "Dettaglio attività",
-      "period": "Periodo",
-      "total": "Complessivo:",
-      "meansTravel": "{{totalTravel}} viaggi",
-      "meansDuration": "{{totalDuration}} h",
-      "meansDistance": "{{totalDistance}} Km",
-      "changePeriodButton": "Cambia periodo",
-      "chart": {
-        "week": "Settimana",
-        "month": "Mese",
-        "year": "Anno"
-      }
+      "title": "Dettaglio attività"
     }
   },
   "trips": {
@@ -197,9 +186,9 @@
       "car": "Macchina",
       "bike": "Bici",
       "walk": "Piedi",
-      "boat": "Barca",
       "train": "Treno",
-      "bus": "Autobus"
+      "bus": "Autobus",
+      "boat": "Barca"
     },
     "status": {
       "valid": "Valido",
@@ -232,11 +221,11 @@
     "title": "Campaigns",
     "join": "Iscriviti",
     "novaliddate": "Il periodo della campagna non risulta valido",
-    "registered": "Registrato",
-    "unregistered": "Utente disiscritto",
     "noDesc": "Nessuna descrizione fornita",
     "myCampaigns": "Le mie",
     "allCampaigns": "Tutte",
+    "registered": "Registrato",
+    "unregistered": "Utente disiscritto",
     "public": {
       "last": "Durata:"
     },
@@ -259,7 +248,7 @@
       },
       "codeInfo": {
         "header": "Codice dipendente",
-        "message": "Lorem ipsum"
+        "message": "TODO: Lorem ipsum"
       },
       "join": "Iscriviti"
     },
@@ -290,7 +279,7 @@
         "active": "Attivo dal: {{startDate}}",
         "totalco2": "CO2 risparmiata: {{totalCO2}} Kg",
         "weeklyco2": "CO2 settimanale: {{weeklyCO2}} Kg",
-        "weklyRanking": "Posizione in classifica: {{weeklyRanking}}"
+        "weeklyRanking": "Posizione in classifica: {{weeklyRanking}}"
       },
       "stat": {
         "weekposition": "{{position}} in classifica settimanale",
@@ -312,11 +301,6 @@
     "stats": {
       "prova": "Prova",
       "filter": {
-        "period": {
-          "week": "Settimana",
-          "month": "Mese",
-          "year": "Anno"
-        },
         "unit": {
           "km": {
             "label": "Km",
@@ -344,14 +328,19 @@
             "label": "Barca",
             "unit": "boat"
           },
-          "train": {
-            "label": "Treno",
-            "unit": "train"
-          },
           "bus": {
             "label": "Autobus",
             "unit": "bus"
+          },
+          "train": {
+            "label": "Treno",
+            "unit": "train"
           }
+        },
+        "period": {
+          "week": "Settimana",
+          "month": "Mese",
+          "year": "Anno"
         },
         "mean_type": "Mezzo",
         "unit_type": "Unità"
@@ -510,7 +499,6 @@
   "join": "Scopri",
   "home": "Play&Go",
   "home_title": "Home",
-  "discovercampaignbutton": "Scopri altre campagne",
   "profile_title": "Profilo",
   "campaigns_title": "Campagne disponibili",
   "playNow": "Gioca adesso",
@@ -538,9 +526,9 @@
   "weeklyTier": "Classifica settimanale",
   "number": {
     "ordinal": {
-      "one": null,
-      "two": null,
-      "few": null,
+      "one": "",
+      "two": "",
+      "few": "",
       "other": "{{ordinal}}°"
     }
   },

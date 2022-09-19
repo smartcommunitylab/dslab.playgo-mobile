@@ -29,10 +29,10 @@
   },
   "login": {
     "login_page_title": "Login",
-    "loginCardHeader": "Login",
-    "loginButton": "Login",
     "labelSignin": "Signing in...",
     "labelSignout": "Signing out...",
+    "loginCardHeader": "Login",
+    "loginButton": "Login",
     "welcome": "Welcome",
     "loginGoogleButton": "Login with Google",
     "loginFacebookButton": "Login with Facebook",
@@ -46,8 +46,8 @@
     "close": "Close"
   },
   "registration": {
-    "newUser": "New User. Fill the form with your information",
     "title": "New user",
+    "newUser": "New User. Fill the form with your information",
     "avatar": {
       "title": "Avatar"
     },
@@ -125,7 +125,9 @@
         "NO_PASSENGER_CARPOOLING_ID": "You have to insert the driver code",
         "INCORRECT_QR_CODE": "Wrong QR CODE"
       }
-    }
+    },
+    "stop_header": "TODO: Viaggio concluso con successo!",
+    "stop_body": "TODO: Il tracciamento si è concluso con successo. I dati del viaggio verranno inviati ai nostri server per la validazione."
   },
   "profile": {
     "mail": "Email: ",
@@ -138,18 +140,18 @@
     "logout": "Logout",
     "about": "About",
     "deleteAccount": "Delete account",
+    "changeButton": "Change",
     "change": {
       "modalTitle": "Change Profile",
+      "closeButton": "Save",
+      "saveButton": "Close",
       "lang": {
         "language": "Language",
         "select": "Select the language",
         "it": "Italian",
         "en": "English"
-      },
-      "closeButton": "Close",
-      "saveButton": "Save"
+      }
     },
-    "changeButton": "Change",
     "status": {
       "totalKm": "{{totalKM}} done",
       "travels": "{{totalTravels}} valid travels",
@@ -159,17 +161,8 @@
     }
   },
   "report": {
-    "title": "Activity details",
-    "period": "Period",
-    "total": "Total:",
-    "meansTravel": "{{totalTravel}} journeys",
-    "meansDuration": "{{totalDuration}} h",
-    "meansDistance": "{{totalDistance}} Km",
-    "changePeriodButton": "Change period",
-    "chart": {
-      "week": "Week",
-      "month": "Month",
-      "year": "Year"
+    "stats": {
+      "title": "Activity details"
     }
   },
   "trips": {
@@ -214,6 +207,16 @@
     "nickNameExist": "This nickname already exists!",
     "defaultErr": "Server operation failed!"
   },
+  "offline": {
+    "title": "Offline",
+    "header": "You can continue to track your trips, but some pages may not work!",
+    "page": {
+      "body_1": "No connection available!",
+      "body_2": "This page cannot work without an internet connection",
+      "body_3": "You can still track your trips and play; the data will be sent when the connection is restored.",
+      "return_home": "Return to homepage"
+    }
+  },
   "campaigns": {
     "title": "Campaigns",
     "join": "Join",
@@ -226,18 +229,6 @@
     "public": {
       "last": "TODO: Durata:"
     },
-
-    "offline": {
-      "title": "Offline",
-      "header": "You can continue to track your trips, but some pages may not work!",
-      "page": {
-        "body_1": "No connection available!",
-        "body_2": "This page cannot work without an internet connection",
-        "body_3": "You can still track your trips and play; the data will be sent when the connection is restored.",
-        "return_home": "Return to homepage"
-      }
-    },
-
     "joinmodal": {
       "modalTitle": "Subscribe to {{campaignTitle}}",
       "close": "X",
@@ -273,10 +264,10 @@
       "stats": "Statistics",
       "generalStat": "General",
       "signal": "Contacts and support",
+      "unsubscribe": "Unsubscribe",
       "prizes": "Prizes",
       "dateFrom": "From: ",
       "dateTo": "To: ",
-      "unsubscribe": "Unsubscribe",
       "challenges": "Challenges",
       "journeys": "Journeys",
       "leaderboard": "Leaderboard",
@@ -307,8 +298,8 @@
         "km": " Km"
       }
     },
-
     "stats": {
+      "prova": "TODO: prova",
       "filter": {
         "unit": {
           "km": {
@@ -345,6 +336,11 @@
             "label": "Train",
             "unit": "train"
           }
+        },
+        "period": {
+          "week": "Week",
+          "month": "Month",
+          "year": "Year"
         },
         "mean_type": "Mean",
         "unit_type": "Unit"
@@ -396,6 +392,7 @@
     "personal_stat_train": " by train",
     "personal_stat_car": " by carpooling",
     "personal_stat_boat": " by boat",
+    "empty": "There are not statistics to show",
     "last_week_position": "{{position}} last week",
     "general_position": "{{position}} general ranking",
     "total_points": "{{points}} total points",
@@ -410,11 +407,11 @@
       "close": "Close"
     },
     "sent": "Sent",
-    "ongoing": "Ongoing",
     "received": "Received",
     "activate": "Accept",
     "reject": "Reject",
     "cancel": "Cancel",
+    "ongoing": "Ongoing",
     "singleproposal": "Single challenge",
     "proposed": "Next week challenges",
     "choose_single": "Choose one of the following challenge",
@@ -423,14 +420,18 @@
     "past": "Past",
     "present": "Present",
     "future": "Future",
+    "fromto": "From {{ from }} to {{ to }}",
+    "points": "{{ point }} points",
     "challenge_container": "Challenges {{ type }} of campaign",
     "info": {
       "title": "How do the challenges work? ",
+      "body": "TODO: Ogni settimana puoi scegliere solo UNA sfida singola e UNA sfida di coppia. <br> Una volta scelta una sfida, le alternative per quella tipologia di sfida scompaiono. <br> Quindi quando attivi una sfida singola, le altre possibili sfide singole proposte dal sistema scompaiono. <br> <br> Allo stesso modo, quando attivi una sfida di coppia, le alternative scompaiono. <br> <br> Accettare un invito equivale a scegliere una sfida di coppia. <br> <br> Quando qualcuno accetta un invito che hai inviato, la sfida di coppia per la settimana è automaticamente scelta. Tutte le altre sfide alternative scompaiono. <br> <br> Ogni settimana si rinnovano le sfide proposte: a seconda del tuo livello, puoi ricevere fino a un massimo di 3 proposte di sfida singola, 3 inviti e puoi inviare fino a un massimo di 2 inviti.",
       "close": "Close"
     },
     "challenge_detail": {
       "challenge_future_start": "This challenge will start : {{startDate}}",
-      "survey": "Survey"
+      "survey": "Survey",
+      "title": "Configure a challenge"
     },
     "stats": {
       "empty": "If you want to see your challenges' statistics start to play!",
@@ -449,11 +450,18 @@
       "choose_type": "Choose challenge type",
       "choose_metric": "Choose metric",
       "choose_partner": "Choose opponent",
-      "activate": "Activate challenge"
+      "activate": "Activate challenge",
+      "invite": "INVITE",
+      "preview": {
+        "model": "Type:",
+        "mean": "Selected mean:",
+        "challengeable": "Player to challenge:",
+        "you": "You"
+      },
+      "sent_title": "You have sent a challenge to {{nickname}}",
+      "sent_body": "The invitation will be visible to {{nickname}} for two days. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before 3 days the challenge will be rejected automatically. ",
+      "close": "Close"
     },
-    "sent_title": "You have sent a challenge to {{nickname}}",
-    "sent_body": "The invitation will be visible to {{nickname}} for two days. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before 3 days the challenge will be rejected automatically. ",
-    "close": "Close",
     "challenge_model": {
       "title": "Which kind of challenge you want create?",
       "name": {
@@ -469,7 +477,22 @@
         "groupCooperative": "Reach shared target with another player."
       },
       "disabled_until_level": "Challenge type disabled until level {{level}}!"
+    },
+    "challenge_mean": {
+      "title": "How do you want to face the challenge?",
+      "label": {
+        "Bike_Km": "Km on bike",
+        "Walk_Km": "Km on foot",
+        "Boat_Km": "Km on boat",
+        "Bus_Km": "Km on bus",
+        "Car_Km": "Km in car",
+        "Train_Km": "Km on train"
+      }
     }
+  },
+  "wizard": {
+    "next": "Next",
+    "back": "Back"
   },
   "outof": "{{current}} out of {{total}}",
   "Language": "Language",
