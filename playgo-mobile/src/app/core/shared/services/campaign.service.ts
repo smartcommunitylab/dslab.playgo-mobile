@@ -32,7 +32,7 @@ import { LocalStorageService } from './local-storage.service';
 import { UserService } from './user.service';
 import { ifOfflineUseStored } from '../utils';
 import { ErrorService } from './error.service';
-import { TranslateKey } from '../type.utils';
+import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { CampaignInfo } from '../../api/generated/model/campaignInfo';
 import { RefresherService } from './refresher.service';
 

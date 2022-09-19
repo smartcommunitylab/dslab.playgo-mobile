@@ -16,6 +16,7 @@ import { ChallengeControllerService } from 'src/app/core/api/generated/controlle
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ChallengeChoice } from 'src/app/core/api/generated/model/challengeChoice';
 import { Invitation } from 'src/app/core/api/generated/model/invitation';
+import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { StringLanguageMap } from 'src/app/core/shared/pipes/languageMap.pipe';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
@@ -28,7 +29,6 @@ import {
   transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
-import { TranslateKey } from 'src/app/core/shared/type.utils';
 import { castTo, tapLog } from 'src/app/core/shared/utils';
 import { SentInvitationlModalPage } from './sent-invitation-modal/sent-invitation.modal';
 

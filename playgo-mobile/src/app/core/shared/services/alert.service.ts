@@ -6,7 +6,7 @@ import {
 } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { isString } from 'lodash-es';
-import { TranslateKeyWithParams } from '../type.utils';
+import { TranslateKeyWithParams } from '../globalization/i18n/i18n.utils';
 
 @Injectable({
   providedIn: 'root',

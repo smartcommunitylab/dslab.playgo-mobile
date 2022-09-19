@@ -20,7 +20,7 @@ import {
 import { isNotConstant } from '../utils';
 import { ErrorService } from '../services/error.service';
 import { AlertService } from '../services/alert.service';
-import { TranslateKey } from '../type.utils';
+import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 
 @Injectable({
   providedIn: 'root',
