@@ -15,6 +15,7 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 import { Territory } from 'src/app/core/api/generated/model/territory';
 import { find } from 'lodash-es';
 import { PrivacyModalPage } from './privacy-modal/privacy.modal';
+import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-registration',
@@ -37,7 +38,8 @@ export class RegistrationPage implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer,
     private alertService: AlertService,
     private authService: AuthService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private notificationService: NotificationService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -149,6 +151,7 @@ export class RegistrationPage implements OnInit, AfterViewInit {
             await this.userService.uploadAvatar(await readAsBase64(this.image));
           }
           this.userService.handleAfterUserRegistered();
+          this.notificationService.initPush();
           this.navCtrl.navigateRoot('/pages/tabs/home');
         })
         .catch((error: any) => {

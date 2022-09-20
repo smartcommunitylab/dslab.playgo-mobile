@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
@@ -29,7 +29,8 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
     private alertService: AlertService,
     private campaignService: CampaignService,
     public formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private navCtrl: NavController
   ) {}
   ngOnInit() {
     this.language = this.userService.getLanguage();
@@ -104,6 +105,7 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
                 messageTranslateKey: 'campaigns.registered',
               });
               this.modalController.dismiss(true);
+              this.navCtrl.navigateRoot('/pages/tabs/home');
             }
           },
           (err) => {
