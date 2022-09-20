@@ -143,7 +143,11 @@ export class UserService {
     const avatar = await this.playerControllerService
       .uploadPlayerAvatarUsingPOST(formData)
       .toPromise();
-    this.userProfileEditedSubject.next({ ...player, avatar });
+    const timestampedAvatar = this.timestampAvatarUrls(avatar);
+    this.userProfileEditedSubject.next({
+      ...player,
+      avatar: timestampedAvatar,
+    });
     return avatar;
   }
 
@@ -175,14 +179,27 @@ export class UserService {
         }),
         map((avatar) => ({
           ...avatarDefaults,
-          ...{
-            avatarSmallUrl: avatar.avatarSmallUrl + '?' + Date.now(),
-            avatarUrl: avatar.avatarUrl + '?' + Date.now(),
-          },
+          ...this.timestampAvatarUrls(avatar),
         }))
       )
       .toPromise();
   }
+
+  private timestampAvatarUrls(avatar: Avatar): Avatar {
+    return {
+      ...avatar,
+      avatarUrl: this.timestampUrl(avatar.avatarUrl),
+      avatarSmallUrl: this.timestampUrl(avatar.avatarSmallUrl),
+    };
+  }
+
+  private timestampUrl(url: string): string {
+    if (!url || url.includes('?')) {
+      return url;
+    }
+    return url + '?t=' + new Date().getTime();
+  }
+
   /**
    * do not throw http error
    */

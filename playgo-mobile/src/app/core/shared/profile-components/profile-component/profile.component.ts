@@ -29,7 +29,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   numMyCampaigns: number;
   territory: Territory;
   activeFrom: number;
-  timeStamp: any;
   linkPicture: string;
   constructor(
     private userService: UserService,
@@ -42,9 +41,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subProf = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
-      if (profile) {
-        this.setLinkPicture(this.profile?.avatar?.avatarUrl);
-      }
     });
     this.subTerritory = this.userService.userProfileTerritory$.subscribe(
       (territory) => {
@@ -75,16 +71,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       await readAsBase64(this.image)
     );
   }
-  public getLinkPicture() {
-    if (this.timeStamp) {
-      return this.linkPicture + '?' + this.timeStamp;
-    }
-    return this.linkPicture;
-  }
-  public setLinkPicture(url: string) {
-    this.linkPicture = url;
-    this.timeStamp = new Date().getTime();
-  }
+
   goToProfile() {
     this.navCtrl.navigateForward('/pages/tabs/home/profile');
   }
