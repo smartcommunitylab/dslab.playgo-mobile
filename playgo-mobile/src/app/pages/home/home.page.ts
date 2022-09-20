@@ -12,10 +12,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
-  constructor(
-    private router: Router,
-    public appStatusService: AppStatusService
-  ) {}
+  constructor(private router: Router) {}
 
   campagins() {
     this.router.navigateByUrl('/campaigns');
