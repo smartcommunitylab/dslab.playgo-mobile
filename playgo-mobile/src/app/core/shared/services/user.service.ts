@@ -7,6 +7,7 @@ import {
   merge,
   Observable,
   of,
+  Subject,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../model/user.model';
@@ -32,6 +33,8 @@ import { AlertService } from './alert.service';
 import { AuthService } from '../../auth/auth.service';
 import { ErrorService } from './error.service';
 import { RefresherService } from './refresher.service';
+import { mapTo } from '../rxjs.utils';
+import { Avatar } from '../../api/generated/model/avatar';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -51,11 +54,12 @@ export class UserService {
     shareReplay(1)
   );
 
-  private userProfile: IUser = null;
+  private userProfileEditedSubject = new Subject<void>();
 
   private userProfileCouldBeChanged$ = merge(
-    this.authService.isReadyForApi$.pipe(map(() => ({ isFirst: true }))),
-    this.refresherService.refreshed$.pipe(map(() => ({ isFirst: false })))
+    this.authService.isReadyForApi$.pipe(mapTo({ isFirst: true })),
+    this.userProfileEditedSubject.pipe(mapTo({ isFirst: false })),
+    this.refresherService.refreshed$.pipe(mapTo({ isFirst: false }))
   );
 
   public userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
@@ -124,12 +128,14 @@ export class UserService {
   /**
    * @throws http error
    */
-  public uploadAvatar(file: any): Promise<any> {
+  public async uploadAvatar(file: any): Promise<Avatar> {
     const formData = new FormData();
     formData.append('data', file);
-    return this.playerControllerService
+    const avatar = await this.playerControllerService
       .uploadPlayerAvatarUsingPOST(formData)
       .toPromise();
+    this.userProfileEditedSubject.next();
+    return avatar;
   }
 
   /**
@@ -251,8 +257,7 @@ export class UserService {
       return;
     }
 
-    this.userProfile = user;
-    await this.processUser(user);
+    this.changeLanguage(user.language);
     await this.storeUserInLocalStorage(user);
     return user;
   }
@@ -273,39 +278,7 @@ export class UserService {
    * @throws http error
    */
   public async handleAfterUserRegistered() {
-    //get user profile with avatars
-    await this.getUserProfile();
-    this.refresherService.onRefresh(null);
-  }
-
-  public async updateImages(avatar: any) {
-    this.userProfile.avatar = avatar;
-  }
-
-  /**
-   *
-   * @param user
-   * @throws http error
-   */
-  private async processUser(user: IUser) {
-    await this.setUserProfileMeans(user.territoryId);
-    this.changeLanguage(user.language);
-  }
-
-  /**
-   *
-   * @param territoryId
-   * @returns list of means
-   * @throws http error
-   */
-  private async setUserProfileMeans(
-    territoryId: string
-  ): Promise<TransportType[]> {
-    //get territories means and set available means userProfileMeans$
-    const userTerritory = await this.territoryService
-      .getTerritory(territoryId)
-      .toPromise();
-    return userTerritory.territoryData.means;
+    this.userProfileEditedSubject.next();
   }
 
   /**
@@ -366,7 +339,7 @@ export class UserService {
     const player = await this.playerControllerService
       .updateProfileUsingPUT(user)
       .toPromise();
-    this.processUser(user);
+    this.userProfileEditedSubject.next();
     return player;
   }
   public async deleteAccount(): Promise<any> {

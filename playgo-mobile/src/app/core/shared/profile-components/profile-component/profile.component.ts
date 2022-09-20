@@ -71,15 +71,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       allowEditing: false,
       resultType: CameraResultType.Uri,
     });
-    const avatarData = await this.userService.uploadAvatar(
-      await readAsBase64(this.image)
-    );
-    if (avatarData) {
-      this.userService.updateImages(avatarData);
-      //TODO update doesn't work
-      this.profile.avatar = avatarData;
-      this.setLinkPicture(this.profile.avatar.avatarUrl);
-    }
+    await this.userService.uploadAvatar(await readAsBase64(this.image));
   }
   public getLinkPicture() {
     if (this.timeStamp) {
