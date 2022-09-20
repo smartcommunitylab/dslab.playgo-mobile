@@ -53,28 +53,33 @@ export class UserService {
     shareReplay(1)
   );
 
-  private userProfileEditedSubject = new Subject<void>();
+  private userProfileEditedSubject = new Subject<User>();
 
   private userProfileCouldBeChanged$ = merge(
     this.authService.isReadyForApi$.pipe(mapTo({ isFirst: true })),
-    this.userProfileEditedSubject.pipe(mapTo({ isFirst: false })),
     this.refresherService.refreshed$.pipe(mapTo({ isFirst: false }))
   );
 
-  public userProfile$: Observable<User> = this.userProfileCouldBeChanged$.pipe(
-    switchMap(async (trigger) => {
-      try {
-        return await this.getUserProfile();
-      } catch (e) {
-        this.errorService.handleError(
-          e,
-          trigger.isFirst ? 'blocking' : 'normal'
-        );
-        return EMPTY;
-      }
-    }),
+  public userProfile$: Observable<User> = merge(
+    this.userProfileCouldBeChanged$.pipe(
+      switchMap(async (trigger) => {
+        try {
+          return await this.getUserProfile();
+        } catch (e) {
+          this.errorService.handleError(
+            e,
+            trigger.isFirst ? 'blocking' : 'normal'
+          );
+          return null;
+        }
+      })
+    ),
+    this.userProfileEditedSubject
+  ).pipe(
     filter(Boolean),
-    distinctUntilChanged(isEqual),
+    // we don't want distinctUntilChanged because of avatarUrl, which should be updated
+    // on every read (after update same url will contain different image)
+    // distinctUntilChanged(isEqual),
     switchMap(async (user) => {
       this.changeLanguage(user.language);
       await this.storeUserInLocalStorage(user);
@@ -132,13 +137,13 @@ export class UserService {
   /**
    * @throws http error
    */
-  public async uploadAvatar(file: any): Promise<Avatar> {
+  public async uploadAvatar(player: Player, file: any): Promise<Avatar> {
     const formData = new FormData();
     formData.append('data', file);
     const avatar = await this.playerControllerService
       .uploadPlayerAvatarUsingPOST(formData)
       .toPromise();
-    this.userProfileEditedSubject.next();
+    this.userProfileEditedSubject.next({ ...player, avatar });
     return avatar;
   }
 
@@ -274,23 +279,19 @@ export class UserService {
   }
 
   /**
-   * @throws http error
-   */
-  public async handleAfterUserRegistered() {
-    this.userProfileEditedSubject.next();
-  }
-
-  /**
    *
    * @param user
    * @returns
    * @throws http error
    */
-  public registerPlayer(player: Player): Promise<Player> {
+  public registerPlayer(playerData: Player): Promise<Player> {
     //TODO update local profile
-    return this.playerControllerService
-      .registerPlayerUsingPOST(player)
+    const newPlayer = this.playerControllerService
+      .registerPlayerUsingPOST(playerData)
       .toPromise();
+
+    this.userProfileEditedSubject.next({ ...playerData, avatar: null });
+    return newPlayer;
   }
   /**
    * Call api to test if user is registered
@@ -338,7 +339,7 @@ export class UserService {
     const player = await this.playerControllerService
       .updateProfileUsingPUT(user)
       .toPromise();
-    this.userProfileEditedSubject.next();
+    this.userProfileEditedSubject.next({ ...player, avatar: user.avatar });
     return player;
   }
   public async deleteAccount(): Promise<any> {

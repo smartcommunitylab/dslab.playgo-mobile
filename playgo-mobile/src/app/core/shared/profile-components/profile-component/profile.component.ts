@@ -70,7 +70,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       allowEditing: false,
       resultType: CameraResultType.Uri,
     });
-    await this.userService.uploadAvatar(await readAsBase64(this.image));
+    await this.userService.uploadAvatar(
+      this.profile,
+      await readAsBase64(this.image)
+    );
   }
   public getLinkPicture() {
     if (this.timeStamp) {
