@@ -9,8 +9,7 @@ import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Territory } from 'src/app/core/api/generated/model/territory';
-import { IUser } from 'src/app/core/shared/model/user.model';
-import { UserService } from 'src/app/core/shared/services/user.service';
+import { User, UserService } from 'src/app/core/shared/services/user.service';
 import { CampaignService } from '../../services/campaign.service';
 import { ErrorService } from '../../services/error.service';
 import { readAsBase64 } from '../../utils';
@@ -23,7 +22,7 @@ import { readAsBase64 } from '../../utils';
 export class ProfileComponent implements OnInit, OnDestroy {
   @Input() editable = false;
   image: Photo;
-  profile: IUser;
+  profile: User;
   subProf: Subscription;
   subTerritory: Subscription;
   subCamp: Subscription;

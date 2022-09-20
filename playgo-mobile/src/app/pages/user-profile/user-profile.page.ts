@@ -15,13 +15,13 @@ import {
 import { CampaignInfo } from 'src/app/core/api/generated/model/campaignInfo';
 import { Player } from 'src/app/core/api/generated/model/player';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { Avatar } from 'src/app/core/shared/model/avatar.model';
-import { IUser } from 'src/app/core/shared/model/user.model';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { intersectionWith, isEqual } from 'lodash-es';
 import { tapLog } from 'src/app/core/shared/rxjs.utils';
+import { Avatar } from 'src/app/core/api/generated/model/avatar';
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.page.html',
@@ -38,7 +38,7 @@ export class UserProfilePage implements OnInit {
     distinctUntilChanged(),
     shareReplay(1)
   );
-  public userAvatar$: Observable<IUser['avatar']> = this.userId$.pipe(
+  public userAvatar$: Observable<Avatar> = this.userId$.pipe(
     switchMap((userId) =>
       this.userService
         .getOtherPlayerAvatar(userId)
@@ -76,7 +76,7 @@ export class UserProfilePage implements OnInit {
         this.errorService.getErrorHandler()
       )
     ),
-    tap((campaings) => console.log(campaings)),
+    tap((campaigns) => console.log(campaigns)),
     shareReplay(1)
   );
   // public campaigns: PlayerCampaign[] = [];

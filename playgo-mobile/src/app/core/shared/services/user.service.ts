@@ -10,7 +10,6 @@ import {
   Subject,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IUser } from '../model/user.model';
 import { TransportType } from '../tracking/trip.model';
 import { TerritoryService } from './territory.service';
 import { NavController, RefresherCustomEvent } from '@ionic/angular';
@@ -62,7 +61,7 @@ export class UserService {
     this.refresherService.refreshed$.pipe(mapTo({ isFirst: false }))
   );
 
-  public userProfile$: Observable<IUser> = this.userProfileCouldBeChanged$.pipe(
+  public userProfile$: Observable<User> = this.userProfileCouldBeChanged$.pipe(
     switchMap(async (trigger) => {
       try {
         return await this.getUserProfile();
@@ -79,7 +78,7 @@ export class UserService {
     shareReplay(1)
   );
 
-  private userStorage = this.localStorageService.getStorageOf<IUser>('user');
+  private userStorage = this.localStorageService.getStorageOf<User>('user');
 
   public userProfileTerritory$: Observable<Territory> = combineLatest([
     this.userProfile$,
@@ -141,14 +140,14 @@ export class UserService {
   /**
    * do not throw http error
    */
-  private getAvatar(user: IUser): Promise<IUser['avatar']> {
-    const avatarDefaults: IUser['avatar'] = {
+  private getAvatar(player: Player): Promise<Avatar> {
+    const avatarDefaults: Avatar = {
       avatarSmallUrl: 'assets/images/registration/generic_user.png',
       avatarUrl: 'assets/images/registration/generic_user.png',
     };
 
     return this.playerControllerService
-      .getPlayerAvatarUsingGET(user?.playerId)
+      .getPlayerAvatarUsingGET(player?.playerId)
       .pipe(
         catchError((error) => {
           if (
@@ -177,8 +176,8 @@ export class UserService {
   /**
    * do not throw http error
    */
-  public getOtherPlayerAvatar(playerId: string): Observable<IUser['avatar']> {
-    const avatarDefaults: IUser['avatar'] = {
+  public getOtherPlayerAvatar(playerId: string): Observable<Avatar> {
+    const avatarDefaults: Avatar = {
       avatarSmallUrl: 'assets/images/registration/generic_user.png',
       avatarUrl: 'assets/images/registration/generic_user.png',
     };
@@ -235,15 +234,16 @@ export class UserService {
   /**
    * @throws http error
    */
-  private async getUserProfile(): Promise<IUser> {
-    let user: IUser;
+  private async getUserProfile(): Promise<User> {
+    let user: User;
 
     try {
-      user = await this.getProfile();
-      if (user) {
-        user.avatar = await this.getAvatar(user);
-      }
-      // this.updateTimestamp(user);
+      const profile: Player = await this.getProfile();
+      const avatar: Avatar = await this.getAvatar(profile);
+      user = {
+        ...profile,
+        avatar,
+      };
     } catch (e) {
       if (isOfflineError(e)) {
         user = await this.userStorage.get();
@@ -261,12 +261,8 @@ export class UserService {
     await this.storeUserInLocalStorage(user);
     return user;
   }
-  // updateTimestamp(user: IUser) {
-  //   user?.avatar?.avatarSmallUrl += '?' + Date.now();
-  //   user?.avatar?.avatarUrl = user?.avatar?.avatarSmallUrl + '?' + Date.now();
-  // }
 
-  private async storeUserInLocalStorage(userWithAvatar: IUser) {
+  private async storeUserInLocalStorage(userWithAvatar: User) {
     const lastStoredUser = await this.userStorage.get();
     if (lastStoredUser && lastStoredUser.playerId !== userWithAvatar.playerId) {
       this.localStorageService.clearAll();
@@ -287,10 +283,10 @@ export class UserService {
    * @returns
    * @throws http error
    */
-  public registerPlayer(user: IUser): Promise<IUser> {
+  public registerPlayer(player: Player): Promise<Player> {
     //TODO update local profile
     return this.playerControllerService
-      .registerPlayerUsingPOST(user)
+      .registerPlayerUsingPOST(player)
       .toPromise();
   }
   /**
@@ -334,7 +330,7 @@ export class UserService {
    * @returns updated player profile
    * @throws http error
    */
-  public async updatePlayer(user: IUser): Promise<Player> {
+  public async updatePlayer(user: User): Promise<Player> {
     //TODO update local profile
     const player = await this.playerControllerService
       .updateProfileUsingPUT(user)
@@ -347,4 +343,7 @@ export class UserService {
       .unregisterPlayerUsingPUT()
       .toPromise();
   }
+}
+export interface User extends Player {
+  avatar: Avatar;
 }

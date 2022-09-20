@@ -7,23 +7,18 @@ import {
 } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import {
-  buffer,
   concat,
-  debounceTime,
   filter,
   map,
   Observable,
   of,
   scan,
-  startWith,
   Subject,
   Subscription,
-  throttleTime,
 } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
-import { IUser } from 'src/app/core/shared/model/user.model';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { UserService } from 'src/app/core/shared/services/user.service';
+import { User, UserService } from 'src/app/core/shared/services/user.service';
 import { AboutModalComponent } from './about-modal/about-modal.component';
 import { Browser } from '@capacitor/browser';
 import { environment } from 'src/environments/environment';
@@ -41,7 +36,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ProfilePage implements OnInit, OnDestroy {
   subProf: Subscription;
-  profile: IUser;
+  profile: User;
 
   private developerModeClicksSubject = new Subject<void>();
   private quintupleClicks$ = this.developerModeClicksSubject.pipe(
