@@ -53,7 +53,9 @@ export class RefresherService {
 
   public onRefresh(event: RefresherCustomEvent): void {
     this.refreshSubject.next();
-    this.completeFunction = event.detail.complete;
+    if (event && event.detail) {
+      this.completeFunction = event.detail.complete;
+    }
   }
 
   public httpCallStarted(): void {

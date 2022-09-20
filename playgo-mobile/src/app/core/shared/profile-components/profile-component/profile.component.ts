@@ -43,7 +43,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subProf = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
-      this.setLinkPicture(this.profile.avatar.avatarUrl);
+      if (profile) {
+        this.setLinkPicture(this.profile?.avatar?.avatarUrl);
+      }
     });
     this.subTerritory = this.userService.userProfileTerritory$.subscribe(
       (territory) => {
@@ -53,7 +55,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subCamp = this.campaignService.myCampaigns$.subscribe(
       (myCampaigns) => {
         this.numMyCampaigns = myCampaigns?.length;
-        this.activeFrom = myCampaigns.find(
+        this.activeFrom = myCampaigns?.find(
           (camp) => camp.campaign?.type === 'personal'
         ).subscription?.registrationDate;
       }

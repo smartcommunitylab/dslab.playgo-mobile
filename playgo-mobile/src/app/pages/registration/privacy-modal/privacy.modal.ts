@@ -1,15 +1,14 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Challenge } from '../../challenges.page';
+
 import { Browser } from '@capacitor/browser';
 
 @Component({
-  selector: 'app-detail-modal',
-  templateUrl: './detail.modal.html',
-  styleUrls: ['./detail.modal.scss'],
+  selector: 'app-privacy-modal',
+  templateUrl: './privacy.modal.html',
+  styleUrls: ['./privacy.modal.scss'],
 })
-export class DetailChallengenModalPage implements OnInit, AfterViewInit {
-  challenge: Challenge;
+export class PrivacyModalPage implements OnInit, AfterViewInit {
   public anchors: any;
 
   constructor(

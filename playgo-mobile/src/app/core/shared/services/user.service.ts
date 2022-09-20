@@ -7,26 +7,19 @@ import {
   merge,
   Observable,
   of,
-  ReplaySubject,
-  Subject,
-  throwError,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IUser } from '../model/user.model';
 import { TransportType } from '../tracking/trip.model';
 import { TerritoryService } from './territory.service';
-import { ReportService } from './report.service';
-import { NavController } from '@ionic/angular';
+import { NavController, RefresherCustomEvent } from '@ionic/angular';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
-import { Avatar } from '../../api/generated/model/avatar';
 import { Player } from '../../api/generated/model/player';
-import { tapLog } from '../utils';
 import {
   catchError,
   distinctUntilChanged,
   filter,
-  first,
   map,
   shareReplay,
   switchMap,
@@ -165,7 +158,9 @@ export class UserService {
         catchError((error) => {
           if (
             error instanceof HttpErrorResponse &&
-            (error.status === 404 || error.status === 400) &&
+            (error.status === 404 ||
+              error.status === 400 ||
+              error.status === 500) &&
             error.error?.ex === 'avatar not found'
           ) {
             return of(avatarDefaults);
@@ -250,7 +245,9 @@ export class UserService {
 
     try {
       user = await this.getProfile();
-      user.avatar = await this.getAvatar(user);
+      if (user) {
+        user.avatar = await this.getAvatar(user);
+      }
       // this.updateTimestamp(user);
     } catch (e) {
       if (isOfflineError(e)) {
@@ -289,6 +286,7 @@ export class UserService {
   public async handleAfterUserRegistered() {
     //get user profile with avatars
     await this.getUserProfile();
+    this.refresherService.onRefresh(null);
   }
 
   public async updateImages(avatar: any) {

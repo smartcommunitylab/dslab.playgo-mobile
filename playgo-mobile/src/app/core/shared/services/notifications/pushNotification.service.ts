@@ -12,6 +12,7 @@ import { ModalController, Platform } from '@ionic/angular';
 import { CampaignService } from '../campaign.service';
 import { UserService } from '../user.service';
 import { tapLog } from '../../utils';
+import { ErrorService } from '../error.service';
 import {
   combineLatest,
   first,
@@ -37,12 +38,14 @@ export class PushNotificationService {
   private notificationsSubject = new ReplaySubject<void>(1);
 
   public notifications$ = this.notificationsSubject.asObservable();
+  modal: any;
   constructor(
     private zone: NgZone,
     private campaignService: CampaignService,
     private communicationAccountControllerservice: CommunicationAccountControllerService,
     private userService: UserService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private errorService: ErrorService
   ) {}
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
@@ -111,25 +114,33 @@ export class PushNotificationService {
   }
   async showLastNotification(notification: PushNotificationSchema) {
     //show last notification if received
-    const modal = await this.modalController.create({
-      component: NotificationModalPage,
-      cssClass: 'modal-challenge',
-      componentProps: {
-        notification,
-      },
-      swipeToClose: true,
-    });
-    await modal.present();
-    const { data } = await modal.onWillDismiss();
+    if (!this.modal) {
+      this.modal = await this.modalController.create({
+        component: NotificationModalPage,
+        cssClass: 'modal-challenge',
+        componentProps: {
+          notification,
+        },
+        swipeToClose: true,
+      });
+      await this.modal.present();
+
+      const { data } = await this.modal.onWillDismiss();
+      this.modal = null;
+    }
   }
   async registerToServer(token: string) {
     console.log('registerToServer', token);
-    await this.communicationAccountControllerservice
-      .registerUserToPushUsingPOST({
-        platform: Capacitor.getPlatform(),
-        registrationId: token,
-      })
-      .toPromise();
+    try {
+      await this.communicationAccountControllerservice
+        .registerUserToPushUsingPOST({
+          platform: Capacitor.getPlatform(),
+          registrationId: token,
+        })
+        .toPromise();
+    } catch (e) {
+      this.errorService.handleError(e, 'silent');
+    }
   }
   registerToTopics() {
     console.log('registerToTopics');
