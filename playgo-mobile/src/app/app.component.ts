@@ -124,6 +124,8 @@ export class AppComponent implements AfterContentInit {
       co2: '../assets/icon/co2.svg',
       flower: '../assets/icon/flower.svg',
       shield: '../assets/icon/shield.svg',
+      ecoLeavesCity: '../assets/icon/city-eco-leave.svg',
+      ecoLeavesHsc: '../assets/icon/hsc-eco-leaves.svg',
       offline: '../assets/icon/offline.svg',
       badges: '../assets/icon/badges.svg',
       blockUserColor: '../assets/icon/blockUserColor.svg',

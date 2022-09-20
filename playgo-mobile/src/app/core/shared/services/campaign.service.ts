@@ -255,13 +255,13 @@ export class CampaignService {
       return null;
     }
     if (campaign.type === 'city') {
-      return 'flower';
+      return 'ecoLeavesCity';
     }
     if (campaign.type === 'company') {
       return 'pedal_bike';
     }
     if (campaign.type === 'school') {
-      return 'shield';
+      return 'ecoLeavesHsc';
     }
     if (campaign.type === 'personal') {
       return 'co2';
