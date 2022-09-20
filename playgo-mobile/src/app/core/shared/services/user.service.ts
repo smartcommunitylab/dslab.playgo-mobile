@@ -176,7 +176,10 @@ export class UserService {
         }),
         map((avatar) => ({
           ...avatarDefaults,
-          ...avatar,
+          ...{
+            avatarSmallUrl: avatar.avatarSmallUrl + '?' + Date.now(),
+            avatarUrl: avatar.avatarUrl + '?' + Date.now(),
+          },
         }))
       )
       .toPromise();
@@ -248,6 +251,7 @@ export class UserService {
     try {
       user = await this.getProfile();
       user.avatar = await this.getAvatar(user);
+      // this.updateTimestamp(user);
     } catch (e) {
       if (isOfflineError(e)) {
         user = await this.userStorage.get();
@@ -266,6 +270,10 @@ export class UserService {
     await this.storeUserInLocalStorage(user);
     return user;
   }
+  // updateTimestamp(user: IUser) {
+  //   user?.avatar?.avatarSmallUrl += '?' + Date.now();
+  //   user?.avatar?.avatarUrl = user?.avatar?.avatarSmallUrl + '?' + Date.now();
+  // }
 
   private async storeUserInLocalStorage(userWithAvatar: IUser) {
     const lastStoredUser = await this.userStorage.get();

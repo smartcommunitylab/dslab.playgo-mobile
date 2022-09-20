@@ -249,6 +249,9 @@ ion-list {
   border-radius: 10px;
   overflow: hidden;
 }
+.page {
+  --padding-bottom: 50px;
+}
 @import "material-icons/iconfont/material-icons.scss";
 
 $material-icons-font-path: "./" !default;
