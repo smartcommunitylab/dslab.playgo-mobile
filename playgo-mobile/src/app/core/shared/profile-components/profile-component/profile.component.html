@@ -1,20 +1,22 @@
-<div *ngIf="profile" (click)="goToProfile()">
+<div *ngIf="profile">
   <div *ngIf="!editable; then homeProfile; else editingProfile"></div>
   <ng-template #homeProfile>
-    <ion-icon class="home-cog" name="cog" color="playgo"></ion-icon>
-    <ion-item lines="none">
-      <ion-avatar slot="start" class="avatar">
-        <img
-          [src]="profile.avatar.avatarUrl"
-          title="{{ 'registration.avatar.title' | translate }}"
-        />
-      </ion-avatar>
-      <ion-label>
-        <div class="ion-text-center">
-          <span class="nickname">{{ profile.nickname }}</span>
-        </div>
-      </ion-label>
-    </ion-item>
+    <div (click)="goToProfile()">
+      <ion-icon class="home-cog" name="cog" color="playgo"></ion-icon>
+      <ion-item lines="none">
+        <ion-avatar slot="start" class="avatar">
+          <img
+            [src]="getLinkPicture()"
+            title="{{ 'registration.avatar.title' | translate }}"
+          />
+        </ion-avatar>
+        <ion-label>
+          <div class="ion-text-center">
+            <span class="nickname">{{ profile.nickname }}</span>
+          </div>
+        </ion-label>
+      </ion-item>
+    </div>
   </ng-template>
 
   <ng-template #editingProfile>
