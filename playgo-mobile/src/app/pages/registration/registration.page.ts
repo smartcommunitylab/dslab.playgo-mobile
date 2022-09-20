@@ -2,7 +2,11 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { AlertController, NavController } from '@ionic/angular';
+import {
+  AlertController,
+  ModalController,
+  NavController,
+} from '@ionic/angular';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { TerritoryService } from 'src/app/core/shared/services/territory.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -10,6 +14,7 @@ import { readAsBase64 } from 'src/app/core/shared/utils';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Territory } from 'src/app/core/api/generated/model/territory';
 import { find } from 'lodash-es';
+import { PrivacyModalPage } from './privacy-modal/privacy.modal';
 
 @Component({
   selector: 'app-registration',
@@ -31,7 +36,8 @@ export class RegistrationPage implements OnInit, AfterViewInit {
     private navCtrl: NavController,
     private sanitizer: DomSanitizer,
     private alertService: AlertService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalController: ModalController
   ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -88,12 +94,19 @@ export class RegistrationPage implements OnInit, AfterViewInit {
       cssClass: 'modalConfirm',
     });
   }
-  openPrivacyPopup() {
-    this.alertService.presentAlert({
-      headerTranslateKey: 'registration.privacyPopup.header',
-      messageTranslateKey: 'registration.privacyPopup.message',
-      cssClass: 'modalConfirm',
+  async openPrivacyPopup() {
+    const modal = await this.modalController.create({
+      component: PrivacyModalPage,
+      cssClass: 'modal-challenge',
+      swipeToClose: true,
     });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    // this.alertService.presentAlert({
+    //   headerTranslateKey: 'registration.privacyPopup.header',
+    //   messageTranslateKey: 'registration.privacyPopup.message',
+    //   cssClass: 'modalConfirm',
+    // });
   }
 
   async registrationSubmit() {

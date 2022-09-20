@@ -12,6 +12,7 @@ import { ModalController, Platform } from '@ionic/angular';
 import { CampaignService } from '../campaign.service';
 import { UserService } from '../user.service';
 import { tapLog } from '../../utils';
+import { ErrorService } from '../error.service';
 import {
   combineLatest,
   first,
@@ -42,7 +43,8 @@ export class PushNotificationService {
     private campaignService: CampaignService,
     private communicationAccountControllerservice: CommunicationAccountControllerService,
     private userService: UserService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private errorService: ErrorService
   ) {}
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
@@ -124,12 +126,16 @@ export class PushNotificationService {
   }
   async registerToServer(token: string) {
     console.log('registerToServer', token);
-    await this.communicationAccountControllerservice
-      .registerUserToPushUsingPOST({
-        platform: Capacitor.getPlatform(),
-        registrationId: token,
-      })
-      .toPromise();
+    try {
+      await this.communicationAccountControllerservice
+        .registerUserToPushUsingPOST({
+          platform: Capacitor.getPlatform(),
+          registrationId: token,
+        })
+        .toPromise();
+    } catch (e) {
+      this.errorService.handleError(e, 'silent');
+    }
   }
   registerToTopics() {
     console.log('registerToTopics');
