@@ -75,6 +75,11 @@ export class UserService {
     }),
     filter(Boolean),
     distinctUntilChanged(isEqual),
+    switchMap(async (user) => {
+      this.changeLanguage(user.language);
+      await this.storeUserInLocalStorage(user);
+      return user;
+    }),
     shareReplay(1)
   );
 
@@ -257,8 +262,6 @@ export class UserService {
       return;
     }
 
-    this.changeLanguage(user.language);
-    await this.storeUserInLocalStorage(user);
     return user;
   }
 

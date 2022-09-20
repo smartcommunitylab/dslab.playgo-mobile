@@ -137,33 +137,28 @@ export class RegistrationPage implements OnInit {
       }
     }
   }
-  submitUser() {
+  async submitUser() {
     try {
-      this.userService
-        .registerPlayer(this.registrationForm.value)
-        .then(async () => {
-          if (!this.image) {
-            await this.userService.uploadAvatar(
-              await fetch('assets/images/registration/generic_user.png').then(
-                (r) => r.blob()
-              )
-            );
-          } else {
-            await this.userService.uploadAvatar(await readAsBase64(this.image));
-          }
-          this.userService.handleAfterUserRegistered();
-          this.navCtrl.navigateRoot('/pages/tabs/home');
-        })
-        .catch((error: any) => {
-          this.errorService.handleError(error, 'important');
-          if (error.error.ex === 'nickname already exists') {
-            this.registrationForm.controls.nickname.setErrors({
-              incorrect: true,
-            });
-          }
+      await this.userService.registerPlayer(this.registrationForm.value);
+
+      if (!this.image) {
+        await this.userService.uploadAvatar(
+          await fetch('assets/images/registration/generic_user.png').then((r) =>
+            r.blob()
+          )
+        );
+      } else {
+        await this.userService.uploadAvatar(await readAsBase64(this.image));
+      }
+      this.userService.handleAfterUserRegistered();
+      this.navCtrl.navigateRoot('/pages/tabs/home');
+    } catch (error: any) {
+      this.errorService.handleError(error, 'important');
+      if (error.error.ex === 'nickname already exists') {
+        this.registrationForm.controls.nickname.setErrors({
+          incorrect: true,
         });
-    } catch (error) {
-      this.errorService.handleError(error, 'normal');
+      }
     }
   }
   cancel() {
