@@ -252,6 +252,14 @@ ion-list {
 .page {
   --padding-bottom: 50px;
 }
+ion-modal {
+  ion-footer {
+    padding: 8px;
+  }
+}
+.footer-md::before {
+  background-image: none;
+}
 @import "material-icons/iconfont/material-icons.scss";
 
 $material-icons-font-path: "./" !default;
