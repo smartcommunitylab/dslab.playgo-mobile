@@ -127,8 +127,8 @@
         "INCORRECT_QR_CODE": "Wrong QR CODE"
       }
     },
-    "stop_header": "TODO: Viaggio concluso con successo!",
-    "stop_body": "TODO: Il tracciamento si è concluso con successo. I dati del viaggio verranno inviati ai nostri server per la validazione."
+    "stop_header": "Journey completed successfully!",
+    "stop_body": "Tracking was successful. The trip data will be sent to our servers for validation."
   },
   "profile": {
     "mail": "Email: ",
@@ -300,7 +300,6 @@
       }
     },
     "stats": {
-      "prova": "TODO: prova",
       "filter": {
         "unit": {
           "km": {
@@ -428,7 +427,7 @@
     "challenge_container": "Challenges {{ type }} of campaign",
     "info": {
       "title": "How do the challenges work? ",
-      "body": "TODO: Ogni settimana puoi scegliere solo UNA sfida singola e UNA sfida di coppia. <br> Una volta scelta una sfida, le alternative per quella tipologia di sfida scompaiono. <br> Quindi quando attivi una sfida singola, le altre possibili sfide singole proposte dal sistema scompaiono. <br> <br> Allo stesso modo, quando attivi una sfida di coppia, le alternative scompaiono. <br> <br> Accettare un invito equivale a scegliere una sfida di coppia. <br> <br> Quando qualcuno accetta un invito che hai inviato, la sfida di coppia per la settimana è automaticamente scelta. Tutte le altre sfide alternative scompaiono. <br> <br> Ogni settimana si rinnovano le sfide proposte: a seconda del tuo livello, puoi ricevere fino a un massimo di 3 proposte di sfida singola, 3 inviti e puoi inviare fino a un massimo di 2 inviti.",
+      "body": "Each week you can choose only ONE single challenge and ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a single challenge, the other possible single challenges proposed by the system disappear. <br> <br> Similarly, when you activate a couple challenge, the alternatives disappear. <br> <br> Accepting an invitation is equivalent to choosing a couple challenge. <br> <br> When someone accepts an invitation you sent, the couple challenge for the week is automatically chosen. All other alternate challenges disappear. <br> <br> Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 single challenge proposals, 3 invitations and you can send up to a maximum of 2 invitations.",
       "close": "Close"
     },
     "challenge_detail": {
