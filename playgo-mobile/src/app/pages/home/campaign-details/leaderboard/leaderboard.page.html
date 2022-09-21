@@ -12,7 +12,6 @@
         >
         <ion-select
           class="app-alert"
-          [disabled]="true"
           (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
           [value]="selectedLeaderboardType$ | async"
         >
@@ -34,7 +33,6 @@
         >
         <ion-select
           class="app-alert"
-          [disabled]="true"
           (ionChange)="periodChangedSubject.next($any($event))"
           [value]="selectedPeriod$ | async"
         >
