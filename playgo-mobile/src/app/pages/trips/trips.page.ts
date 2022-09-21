@@ -19,8 +19,10 @@ import {
   EMPTY,
   firstValueFrom,
   from,
+  merge,
   Observable,
   of,
+  ReplaySubject,
   Subject,
   throwError,
 } from 'rxjs';
@@ -28,6 +30,7 @@ import {
   catchError,
   concatMap,
   distinctUntilChanged,
+  filter,
   map,
   scan,
   shareReplay,
@@ -46,6 +49,7 @@ import {
 } from 'src/app/core/shared/tracking/trip.model';
 import {
   groupByConsecutiveValues,
+  isNotNil,
   isOfflineError,
   tapLog,
   trackByProperty,
@@ -65,6 +69,7 @@ import { DateTime } from 'luxon';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { TrackApiService } from 'src/app/core/shared/tracking/track-api.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-trips',
@@ -88,12 +93,50 @@ export class TripsPage implements OnInit, AfterViewInit {
 
   myCampaigns$ = this.campaignService.myCampaigns$;
 
-  campaignFilterSubject = new BehaviorSubject<string>('NO_FILTER');
+  private routingCampaignFilter$: Observable<string> =
+    this.activatedRoute.params.pipe(
+      map((params) => params.id ?? 'NO_FILTER'),
+      shareReplay(1)
+    );
+
+  campaignFilterSubject = new Subject<string>();
+
+  campaignFilter$ = merge(
+    this.routingCampaignFilter$,
+    this.campaignFilterSubject
+  ).pipe(shareReplay(1));
 
   private filterOptions$: Observable<FilterOptions> = combineLatest({
-    campaignId: this.campaignFilterSubject,
+    campaignId: this.campaignFilter$,
     month: this.monthFilterSubject,
-  });
+  }).pipe(shareReplay(1));
+
+  campaignFilterStyle$ = combineLatest([
+    this.campaignFilter$,
+    this.myCampaigns$,
+  ]).pipe(
+    map(([campaignId, campaigns]) => {
+      if (campaignId === 'NO_FILTER') {
+        return undefined;
+      }
+      const campaign = campaigns.find(
+        (c) => c?.campaign?.campaignId === campaignId
+      );
+      if (campaign) {
+        return this.campaignService.getCampaignColor(campaign.campaign);
+      }
+    }),
+    map((color) =>
+      color
+        ? {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'border-bottom': '5px solid',
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'border-bottom-color': 'var(--ion-color-' + color + ')',
+          }
+        : {}
+    )
+  );
 
   resetItems$ = this.filterOptions$.pipe(map(() => Symbol()));
 
@@ -241,7 +284,8 @@ export class TripsPage implements OnInit, AfterViewInit {
     private tripService: TripService,
     private localTripsService: LocalTripsService,
     private alertService: AlertService,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private activatedRoute: ActivatedRoute
   ) {}
   ngAfterViewInit() {
     const selects = document.querySelectorAll('.app-alert');

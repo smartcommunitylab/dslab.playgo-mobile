@@ -18,7 +18,19 @@ const routes: RoutesWithPageSettings = [
     },
   },
   {
-    path: ':id',
+    path: 'campaign/:id',
+    component: TripsPage,
+    data: {
+      title: 'tripsTitle',
+      defaultHref: '/pages/tabs/home/profile',
+      backButton: true,
+      isOfflinePage: true,
+      showPlayButton: true,
+      refresher: true,
+    },
+  },
+  {
+    path: 'trip/:id',
     loadChildren: () =>
       import('./trip-detail/trip-detail.module').then(
         (m) => m.TripDetailPageModule

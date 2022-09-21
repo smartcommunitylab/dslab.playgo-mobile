@@ -81,7 +81,9 @@
       <app-icon name="leaderboard" class="icon-size-normal"></app-icon>
     </ion-item>
   </ion-card>
-  <ion-card [routerLink]="['/pages/tabs/trips']">
+  <ion-card
+    [routerLink]="['/pages/tabs/trips/campaign', campaignContainer?.campaign?.campaignId]"
+  >
     <ion-item [color]="campaignContainer?.campaign?.type">
       <ion-label>{{'campaigns.detail.journeys'|translate}} </ion-label>
       <app-icon name="list" class="icon-size-normal"></app-icon>
