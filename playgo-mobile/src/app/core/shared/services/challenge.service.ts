@@ -228,6 +228,7 @@ export class ChallengeService {
             challenge?.status < 100
         )
       ),
+      map((challenges) => challenges.sort((a, b) => b.status - a.status)),
       shareReplay(1)
     );
   }
