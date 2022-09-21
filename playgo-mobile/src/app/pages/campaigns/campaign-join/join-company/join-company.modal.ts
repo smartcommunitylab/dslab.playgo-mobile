@@ -66,7 +66,7 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.privacyPopup.header' as any,
       messageString: this.privacy.content,
-      cssClass: 'modalConfirm',
+      cssClass: 'modalJoin',
     });
   }
 
@@ -74,7 +74,7 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.rulesPopup.header' as any,
       messageString: this.rules.content,
-      cssClass: 'modalConfirm',
+      cssClass: 'modalJoin',
     });
   }
   openCodeInfoPopup() {

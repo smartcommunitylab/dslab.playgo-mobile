@@ -75,6 +75,24 @@ ion-list {
     background-color: white;
   }
 }
+.modalJoin {
+  --background: var(--ion-color-playgo);
+  color: white;
+  .alert-message.sc-ion-alert-md,
+  .alert-message.sc-ion-alert-ios,
+  .alert-input-group.sc-ion-alert-md,
+  .alert-input-group.sc-ion-alert-ios,
+  .alert-title.sc-ion-alert-md,
+  .alert-title.sc-ion-alert-ios {
+    color: white;
+    max-height: none;
+  }
+  .alert-button.sc-ion-alert-md,
+  .alert-button.sc-ion-alert-ios {
+    color: var(--ion-color-playgo);
+    background-color: white;
+  }
+}
 .app-segment {
   --background: var(--ion-color-playgo);
   color: white;
