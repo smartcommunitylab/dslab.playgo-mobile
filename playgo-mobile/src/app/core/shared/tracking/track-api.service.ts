@@ -3,7 +3,7 @@ import { firstValueFrom, map } from 'rxjs';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { PageTrackedInstanceInfo } from '../../api/generated/model/pageTrackedInstanceInfo';
 import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
-import { TransportType } from './trip.model';
+import { TransportType, transportTypes } from './trip.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,13 +42,29 @@ export class TrackApiService {
     };
   }
   private normalizeTrip(trip: TrackedInstanceInfo) {
-    const unknownMode: TransportType = 'unknown';
     if (!trip) {
       return trip;
     }
     return {
       ...trip,
-      modeType: trip.modeType ?? unknownMode,
+      modeType: this.getTripMode(trip),
     };
+  }
+
+  private getTripMode(trip: TrackedInstanceInfo): TransportType {
+    const unknownMode: TransportType = 'unknown';
+    if (!trip) {
+      return unknownMode;
+    }
+    if (trip.modeType) {
+      return trip.modeType as TransportType;
+    }
+    const modeFromId = transportTypes.find((eachType) =>
+      trip?.clientId?.startsWith(eachType + '_')
+    );
+    if (modeFromId) {
+      return modeFromId;
+    }
+    return unknownMode;
   }
 }
