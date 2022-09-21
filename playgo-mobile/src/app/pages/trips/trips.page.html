@@ -21,9 +21,9 @@
   <ion-select
     class="app-alert campaign-filter"
     (ionChange)="campaignFilterSubject.next($any($event).target.value)"
-    [value]="campaignFilterSubject | async"
+    [value]="campaignFilter$ | async"
     [selectedText]="
-      (campaignFilterSubject | async) === 'NO_FILTER' ?
+      (campaignFilter$ | async) === 'NO_FILTER' ?
       ( 'trips.filter_all_campaigns' | translate ) :
       undefined
     "
