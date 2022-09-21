@@ -189,7 +189,8 @@
       "walk": "Piedi",
       "train": "Treno",
       "bus": "Autobus",
-      "boat": "Barca"
+      "boat": "Barca",
+      "unknown": "Mezzo sconosciuto"
     },
     "status": {
       "valid": "Valido",

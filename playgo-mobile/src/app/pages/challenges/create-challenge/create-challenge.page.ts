@@ -251,6 +251,7 @@ export const meanToPointConcept: Record<
   bus: null,
   car: null,
   train: null,
+  unknown: null,
 };
 
 export type MeanOrGameInfo = {
