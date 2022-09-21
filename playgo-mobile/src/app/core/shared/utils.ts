@@ -200,6 +200,10 @@ export function asyncFilter<T>(
   );
 }
 
+export function mapTo<R>(value: R): OperatorFunction<unknown, R> {
+  return map(() => value);
+}
+
 export function castTo<TO>() {
   return <FROM>(source: Observable<FROM>) =>
     source as unknown as Observable<TO>;
