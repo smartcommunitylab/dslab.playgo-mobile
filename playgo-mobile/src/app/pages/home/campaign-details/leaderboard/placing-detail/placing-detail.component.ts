@@ -27,6 +27,13 @@ export class PlacingDetailComponent implements OnInit {
   );
 
   constructor(private userService: UserService) {}
-
+  getValue(value: number) {
+    if (
+      this.unitLabelKey === 'campaigns.leaderboard.leaderboard_type_unit.km'
+    ) {
+      return value / 1000;
+    }
+    return value;
+  }
   ngOnInit() {}
 }

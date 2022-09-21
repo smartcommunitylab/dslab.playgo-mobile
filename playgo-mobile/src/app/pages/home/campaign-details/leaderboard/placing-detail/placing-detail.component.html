@@ -34,7 +34,10 @@
       </ng-container>
       <ion-col size="8" class="ion-text-end">
         {{ placing.nickname }}
-        {{ unitLabelKey | translate: { value: placing.value | localNumber } }}
+        {{
+          unitLabelKey
+            | translate: { value: getValue(placing.value) | localNumber }
+        }}
       </ion-col>
     </ion-row>
   </ion-grid>
