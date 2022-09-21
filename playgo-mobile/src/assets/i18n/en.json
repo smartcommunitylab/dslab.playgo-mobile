@@ -189,7 +189,8 @@
       "walk": "Walk",
       "train": "Train",
       "bus": "Bus",
-      "boat": "Boat"
+      "boat": "Boat",
+      "unknown": "Unknown Mean"
     },
     "status": {
       "valid": "Valid",

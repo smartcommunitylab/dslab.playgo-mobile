@@ -34,7 +34,14 @@ export class TripPart {
   }
 }
 
-export type TransportType = 'walk' | 'bike' | 'bus' | 'train' | 'car' | 'boat';
+export type TransportType =
+  | 'walk'
+  | 'bike'
+  | 'bus'
+  | 'train'
+  | 'car'
+  | 'boat'
+  | 'unknown';
 
 export const TRIP_END = 'TRIP_END' as const;
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -65,6 +72,7 @@ export const transportTypeColors: Record<TransportType, string> = {
   train: 'blue',
   walk: 'brown',
   boat: 'blue',
+  unknown: 'black',
 };
 export const transportTypeIcons: Record<TransportType, string> = {
   bike: 'pedal_bike',
@@ -73,6 +81,7 @@ export const transportTypeIcons: Record<TransportType, string> = {
   train: 'directions_train',
   walk: 'directions_walk',
   boat: 'directions_boat',
+  unknown: 'help',
 };
 export const transportTypeLabels: Record<TransportType, TranslateKey> = {
   bike: 'trip_detail.mean.bike',
@@ -81,12 +90,16 @@ export const transportTypeLabels: Record<TransportType, TranslateKey> = {
   train: 'trip_detail.mean.train',
   walk: 'trip_detail.mean.walk',
   boat: 'trip_detail.mean.boat',
+  unknown: 'trip_detail.mean.unknown',
 };
 
 export function isTransportType(
   transportType: string
 ): transportType is TransportType {
-  return transportTypes.includes(transportType as TransportType);
+  return (
+    transportTypes.includes(transportType as TransportType) ||
+    transportType === 'unknown'
+  );
 }
 
 export function getTransportTypeIcon(transportType: string): string {

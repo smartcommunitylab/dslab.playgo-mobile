@@ -55,7 +55,6 @@ import {
   toServerDateTime,
 } from 'src/app/core/shared/time.utils';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
-import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 import {
   BackgroundTrackingService,
   TripLocation,
@@ -65,6 +64,7 @@ import { LocalTripsService } from 'src/app/core/shared/tracking/local-trips.serv
 import { DateTime } from 'luxon';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { TrackApiService } from 'src/app/core/shared/tracking/track-api.service';
 
 @Component({
   selector: 'app-trips',
@@ -236,7 +236,7 @@ export class TripsPage implements OnInit, AfterViewInit {
 
   constructor(
     private errorService: ErrorService,
-    private trackControllerService: TrackControllerService,
+    private trackApiService: TrackApiService,
     private backgroundTrackingService: BackgroundTrackingService,
     private tripService: TripService,
     private localTripsService: LocalTripsService,
@@ -342,7 +342,7 @@ export class TripsPage implements OnInit, AfterViewInit {
       newestDate = DateTime.fromMillis(filterOptions.month.to);
     }
 
-    return this.trackControllerService.getTrackedInstanceInfoListUsingGET({
+    return this.trackApiService.getTrackedInstanceInfoList({
       page: pageRequest.page,
       size: pageRequest.size,
       dateFrom: toServerDateTime(oldestDate), //from - older
@@ -373,7 +373,7 @@ export class TripsPage implements OnInit, AfterViewInit {
   async getLastTripDate(): Promise<DateTime> {
     try {
       const firstTripPageInfo = await firstValueFrom(
-        this.trackControllerService.getTrackedInstanceInfoListUsingGET({
+        this.trackApiService.getTrackedInstanceInfoList({
           page: 0,
           size: 1,
         })
@@ -385,7 +385,7 @@ export class TripsPage implements OnInit, AfterViewInit {
       }
 
       const lastTrip = await firstValueFrom(
-        this.trackControllerService.getTrackedInstanceInfoListUsingGET({
+        this.trackApiService.getTrackedInstanceInfoList({
           page: numberOfTrips - 1,
           size: 1,
         })

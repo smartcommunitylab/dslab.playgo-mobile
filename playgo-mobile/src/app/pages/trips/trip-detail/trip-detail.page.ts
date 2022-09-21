@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { flatMap } from 'lodash-es';
 import { Duration } from 'luxon';
-import { TrackControllerService } from 'src/app/core/api/generated/controllers/trackController.service';
 import { CampaignTripInfo } from 'src/app/core/api/generated/model/campaignTripInfo';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { TrackApiService } from 'src/app/core/shared/tracking/track-api.service';
 import {
   getTransportTypeIcon,
   getTransportTypeLabel,
@@ -31,7 +31,7 @@ export class TripDetailPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private errorService: ErrorService,
-    private trackControllerService: TrackControllerService,
+    private trackApiService: TrackApiService,
     public campaignService: CampaignService,
     private userService: UserService
   ) {}
@@ -54,8 +54,6 @@ export class TripDetailPage implements OnInit {
   }
 
   async getTripDetail(id: string): Promise<TrackedInstanceInfo> {
-    return await this.trackControllerService
-      .getTrackedInstanceInfoUsingGET1({ trackedInstanceId: id })
-      .toPromise();
+    return await this.trackApiService.getTrackedInstanceInfoDetail(id);
   }
 }

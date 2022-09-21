@@ -42,7 +42,6 @@ import {
 } from '../utils';
 import { toServerDateTime } from '../time.utils';
 import { LocalStorageService } from '../services/local-storage.service';
-import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
 import {
   BackgroundTrackingService,
@@ -50,6 +49,7 @@ import {
 } from './background-tracking.service';
 import { AuthService } from '../../auth/auth.service';
 import { RefresherService } from '../services/refresher.service';
+import { TrackApiService } from './track-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -207,7 +207,7 @@ export class LocalTripsService {
   constructor(
     private initStream: InitServiceStream,
     private localStorageService: LocalStorageService,
-    private trackControllerService: TrackControllerService,
+    private trackApiService: TrackApiService,
     private backgroundTrackingService: BackgroundTrackingService,
     private authService: AuthService,
     private refresherService: RefresherService
@@ -241,8 +241,8 @@ export class LocalTripsService {
     //     'dd MM yyyy HH:mm'
     //   )} to ${to.toFormat('dd MM yyyy HH:mm')}`
     // );
-    return this.trackControllerService
-      .getTrackedInstanceInfoListUsingGET({
+    return this.trackApiService
+      .getTrackedInstanceInfoList({
         page: 0,
         size: 10000,
         dateFrom: toServerDateTime(from),
