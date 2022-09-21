@@ -111,6 +111,33 @@ export class TripsPage implements OnInit, AfterViewInit {
     month: this.monthFilterSubject,
   }).pipe(shareReplay(1));
 
+  campaignFilterStyle$ = combineLatest([
+    this.campaignFilter$,
+    this.myCampaigns$,
+  ]).pipe(
+    map(([campaignId, campaigns]) => {
+      if (campaignId === 'NO_FILTER') {
+        return undefined;
+      }
+      const campaign = campaigns.find(
+        (c) => c?.campaign?.campaignId === campaignId
+      );
+      if (campaign) {
+        return this.campaignService.getCampaignColor(campaign.campaign);
+      }
+    }),
+    map((color) =>
+      color
+        ? {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'border-bottom': '5px solid',
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'border-bottom-color': 'var(--ion-color-' + color + ')',
+          }
+        : {}
+    )
+  );
+
   resetItems$ = this.filterOptions$.pipe(map(() => Symbol()));
 
   tripsResponse$: Observable<PageableResponse<TrackedInstanceInfo>> =
