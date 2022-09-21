@@ -532,7 +532,8 @@
       "one": "{{ordinal}}st",
       "two": "{{ordinal}}nd",
       "few": "{{ordinal}}rd",
-      "other": "{{ordinal}}th"
+      "other": "{{ordinal}}th",
+      "many": "{{ordinal}}th"
     }
   },
   "date": {
