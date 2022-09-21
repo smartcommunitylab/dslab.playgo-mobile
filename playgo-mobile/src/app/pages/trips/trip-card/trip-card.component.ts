@@ -12,6 +12,7 @@ import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedIns
 import { ServerOrLocalTrip } from '../trips.page';
 import { formatDurationToHoursAndMinutes } from 'src/app/core/shared/utils';
 import { firstValueFrom } from 'rxjs';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-trip-card',
@@ -39,8 +40,7 @@ export class TripCardComponent implements OnInit, OnChanges {
   };
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
+    private navController: NavController,
     private translateService: TranslateService,
     private userService: UserService
   ) {}
@@ -49,9 +49,10 @@ export class TripCardComponent implements OnInit, OnChanges {
     if (this.isLocal(this.trip)) {
       return;
     }
-    this.router.navigate([this.trip.trackedInstanceId], {
-      relativeTo: this.route,
-    });
+    this.navController.navigateForward([
+      '/pages/tabs/trips/trip/',
+      this.trip.trackedInstanceId,
+    ]);
   }
 
   isLocal(trip: ServerOrLocalTrip): boolean {
