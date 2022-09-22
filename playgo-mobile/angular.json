@@ -115,6 +115,9 @@
             "development": {
               "browserTarget": "app:build:development"
             },
+            "testing": {
+              "browserTarget": "app:build:testing"
+            },
             "ci": {
               "progress": false
             }
