@@ -104,10 +104,13 @@ export class PushNotificationService {
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
         this.zone.run(() => {
-          console.log('Push action performed: ' + JSON.stringify(notification));
-          console.log('Push received: ' + JSON.stringify(notification));
           this.notifications.push(notification.notification);
-          this.showLastNotification(notification.notification);
+          if (
+            notification?.notification?.data?.title &&
+            notification?.notification?.data?.description
+          ) {
+            this.showLastNotification(notification.notification);
+          }
         });
       }
     );
