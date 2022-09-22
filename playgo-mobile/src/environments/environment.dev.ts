@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+
 export const environment: Environment = {
-  name: 'Production',
-  production: true,
-  useCodePush: true,
+  name: 'Development',
+  production: false,
+  useCodePush: false,
   support: {
     privacy:
       'https://www.smartcommunitylab.it/playgo_privacy-e-trattamento-dati/',
@@ -24,11 +28,11 @@ export const environment: Environment = {
     apple: 'owbERvU0',
   },
   serverUrl: {
-    api: 'https://backend.playngo.it:443',
+    api: 'https://backenddev.playngo.it:443',
     apiPath: '/playandgo/api',
     pgaziendeUrl:
-      'https://pgaziendaleprod.platform.smartcommunitylab.it/api/public',
-    hscApi: 'https://hsc.playngo.it/playandgo-hsc/publicapi/',
+      'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
+    hscApi: 'https://hscdev.playngo.it/playandgo-hsc/publicapi',
   },
   firebaseConfig: {
     apiKey: 'AIzaSyC4jMIUaDnXVITplF2jIjhw2ElgUMillHE',
@@ -41,6 +45,15 @@ export const environment: Environment = {
   },
 };
 
-// ---------- Check if translation are same for it, en ----------------- //
-import 'src/app/core/shared/globalization/i18n/check-dictio-compiletime';
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+import 'zone.js/dist/zone-error'; // Included with Angular CLI.
+
+import { assertDictionariesAreEqualInRuntime } from 'src/app/core/shared/globalization/i18n/check-dictio-runtime';
 import { Environment } from './type-environment';
+assertDictionariesAreEqualInRuntime();

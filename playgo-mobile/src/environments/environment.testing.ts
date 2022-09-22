@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+/**
+ * Dev like environment, but with production servers
+ */
 export const environment: Environment = {
-  name: 'Production',
-  production: true,
-  useCodePush: true,
+  name: 'Testing',
+  production: false,
+  useCodePush: false,
   support: {
     privacy:
       'https://www.smartcommunitylab.it/playgo_privacy-e-trattamento-dati/',
@@ -41,6 +44,15 @@ export const environment: Environment = {
   },
 };
 
-// ---------- Check if translation are same for it, en ----------------- //
-import 'src/app/core/shared/globalization/i18n/check-dictio-compiletime';
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+import 'zone.js/dist/zone-error'; // Included with Angular CLI.
+
+import { assertDictionariesAreEqualInRuntime } from 'src/app/core/shared/globalization/i18n/check-dictio-runtime';
 import { Environment } from './type-environment';
+assertDictionariesAreEqualInRuntime();
