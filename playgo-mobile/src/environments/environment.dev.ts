@@ -3,7 +3,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+export const environment: Environment = {
+  name: 'Development',
   production: false,
   useCodePush: false,
   support: {
@@ -54,4 +55,5 @@ export const environment = {
 import 'zone.js/dist/zone-error'; // Included with Angular CLI.
 
 import { assertDictionariesAreEqualInRuntime } from 'src/app/core/shared/globalization/i18n/check-dictio-runtime';
+import { Environment } from './type-environment';
 assertDictionariesAreEqualInRuntime();

@@ -2,7 +2,8 @@
 /**
  * Dev like environment, but with production servers
  */
-export const environment = {
+export const environment: Environment = {
+  name: 'Testing',
   production: false,
   useCodePush: false,
   support: {
@@ -53,5 +54,5 @@ export const environment = {
 import 'zone.js/dist/zone-error'; // Included with Angular CLI.
 
 import { assertDictionariesAreEqualInRuntime } from 'src/app/core/shared/globalization/i18n/check-dictio-runtime';
+import { Environment } from './type-environment';
 assertDictionariesAreEqualInRuntime();
-console.log('Testing environment - dev angular build with prod backend');

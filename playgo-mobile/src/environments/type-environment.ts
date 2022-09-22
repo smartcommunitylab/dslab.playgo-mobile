@@ -3,6 +3,7 @@
 export interface Environment {
   production: boolean;
   useCodePush: boolean;
+  name: string;
   support: {
     privacy: string;
     faq: string;
@@ -15,7 +16,6 @@ export interface Environment {
     end_session_redirect_url: string;
     scopes: string;
     automaticSilentRenew: boolean;
-    extras: { prompt: string; idp_hint: string };
     pkce: boolean;
   };
   idp_hint: {

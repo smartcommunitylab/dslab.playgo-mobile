@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-export const environment = {
+export const environment: Environment = {
+  name: 'Production',
   production: true,
   useCodePush: true,
   support: {
@@ -42,3 +43,4 @@ export const environment = {
 
 // ---------- Check if translation are same for it, en ----------------- //
 import 'src/app/core/shared/globalization/i18n/check-dictio-compiletime';
+import { Environment } from './type-environment';

@@ -15,9 +15,7 @@ const gitInfo = internalGitInfo as unknown as GitInfo;
 })
 export class AboutModalComponent implements OnInit {
   angularBuildCommit = gitInfo.raw || gitInfo.hash || '-';
-  angularBuildConfiguration = environment.production
-    ? 'Production'
-    : 'Development';
+  angularBuildConfiguration = environment.name;
   javaBuildCommit = '';
   codePushChannel = '';
 
