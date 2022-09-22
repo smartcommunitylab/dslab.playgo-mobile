@@ -85,7 +85,7 @@ export class TripService {
         this.setCurrentTripPart(initialTrip);
       }
     } catch (e) {
-      alert(e);
+      //alert(e);
       console.error(e);
     }
   }

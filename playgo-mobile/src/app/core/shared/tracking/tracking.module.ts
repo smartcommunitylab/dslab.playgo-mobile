@@ -12,6 +12,7 @@ import { MapComponent } from './map/map/map.component';
 import { CurrentLocationMapControlComponent } from './map/current-location-map-control/current-location-map-control.component';
 import { TrackingStopwatchComponent } from './tracking-stopwatch/tracking-stopwatch.component';
 import { PlayGoSharedModule } from '../shared.module';
+import { FirstTimeBackgrounModalPage } from './first-time-modal/first-time.modal';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PlayGoSharedModule } from '../shared.module';
     CarpoolingRoleDialogComponent,
     CarpoolingShowQRDialogComponent,
     CarpoolingScanQRDialogComponent,
+    FirstTimeBackgrounModalPage,
   ],
   providers: [],
   imports: [CommonModule, PlayGoSharedModule, LeafletModule, QRCodeModule],
