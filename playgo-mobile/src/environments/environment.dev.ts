@@ -27,11 +27,11 @@ export const environment = {
     apple: 'owbERvU0',
   },
   serverUrl: {
-    api: 'https://backend.playngo.it:443',
+    api: 'https://backenddev.playngo.it:443',
     apiPath: '/playandgo/api',
     pgaziendeUrl:
-      'https://pgaziendaleprod.platform.smartcommunitylab.it/api/public',
-    hscApi: 'https://hsc.playngo.it/playandgo-hsc/publicapi/',
+      'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
+    hscApi: 'https://hscdev.playngo.it/playandgo-hsc/publicapi',
   },
   firebaseConfig: {
     apiKey: 'AIzaSyC4jMIUaDnXVITplF2jIjhw2ElgUMillHE',
