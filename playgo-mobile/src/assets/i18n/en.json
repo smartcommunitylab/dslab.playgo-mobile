@@ -20,7 +20,7 @@
   "leaderboard top 3": "Leaderboard Top 3 Badge",
   "firstTime": {
     "title": "Use your location",
-    "message": "Play&go collects location data in background to enable precise tracking even when the app is closed or not in use",
+    "message": "Play&go collects location data to enable the tracking, validation and rewarding of sustainable trips even when the app is closed or not in use.",
     "close": "Deny",
     "accept": "Accept"
   },
@@ -443,7 +443,7 @@
       "survey": "Survey",
       "title": "Configure a challenge",
       "won": "You won!",
-      "prize":"You won {{prize}}",
+      "prize": "You won {{prize}}",
       "lost": "You lost!"
     },
     "stats": {
