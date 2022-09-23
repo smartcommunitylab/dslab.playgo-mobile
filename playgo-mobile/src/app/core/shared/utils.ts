@@ -181,11 +181,11 @@ export function isOffline(): boolean {
 
 export function isOfflineError(error: any): boolean {
   return (
-    (error.status === 0 && isOffline()) ||
+    (error?.status === 0 && isOffline()) ||
     // debug offline from network
     (environment.production === false &&
-      error.status === 418 &&
-      error.error === 'offline')
+      error?.status === 418 &&
+      error?.error === 'offline')
   );
 }
 

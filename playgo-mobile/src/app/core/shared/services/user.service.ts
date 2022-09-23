@@ -158,10 +158,10 @@ export class UserService {
         catchError((error) => {
           if (
             error instanceof HttpErrorResponse &&
-            (error.status === 404 ||
-              error.status === 400 ||
-              error.status === 500) &&
-            error.error?.ex === 'avatar not found'
+            (error?.status === 404 ||
+              error?.status === 400 ||
+              error?.status === 500) &&
+            error?.error?.ex === 'avatar not found'
           ) {
             return of(avatarDefaults);
           }
