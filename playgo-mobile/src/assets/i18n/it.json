@@ -18,6 +18,12 @@
   "bike sharing pioneer": "Bike Sharing Badge",
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "firstTime": {
+    "title": "Utilizzo della posizione",
+    "message": "Play&go utilizza i dati di posizionamento in background allo scopo di abilitare il tracciamento in background anche quando l'app non é chiusa o non utilizzata.",
+    "close": "Rifiuta",
+    "accept": "Accetta"
+  },
   "permission": {
     "title": "Vuoi permettere a {applicationName} ad accedere alla tua posizione in background?",
     "message": "Allo scopo di tracciare i tuoi percorsi in background, abilitare {backgroundPermissionOptionLabel} ",
@@ -124,7 +130,8 @@
         "NO_ROLE_CHOSEN": "Nessun ruolo selezionato!",
         "NO_CONFIRMED": "Il codice QR Code va confermato",
         "NO_PASSENGER_CARPOOLING_ID": "Nessun codice passeggero inserito",
-        "INCORRECT_QR_CODE": "Codice QR Code errato"
+        "INCORRECT_QR_CODE": "Codice QR Code errato",
+        "ACCESS_DENIED": "Accesso alla posizione in background rifiutata"
       }
     },
     "stop_header": "Viaggio concluso con successo!",
@@ -433,7 +440,10 @@
     "challenge_detail": {
       "challenge_future_start": "Questa sfida inizierà il giorno: {{startDate}}",
       "survey": "Questionario",
-      "title": "Configura sfida"
+      "title": "Configura sfida",
+      "won": "Hai vinto!",
+      "prize": "Hai vinto {{prize}}",
+      "lost": "Hai perso!"
     },
     "stats": {
       "empty": "Per visualizzare le statistiche inizia a giocare con le sfide!",

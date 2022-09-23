@@ -143,7 +143,7 @@ export class AuthService {
   }
 
   public async logoutAfterAuthFailed() {
-    alert('You are not longer logged in, please log in again.');
+    //todo alert('You are not longer logged in, please log in again.');
     try {
       await this.ionicAppAuthService.signOut();
     } finally {

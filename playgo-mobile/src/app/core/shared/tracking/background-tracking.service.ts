@@ -37,6 +37,7 @@ import {
 import {
   LOW_ACCURACY,
   POWER_SAVE_MODE,
+  ACCESS_DENIED,
   TransportType,
   TripPart,
   UNABLE_TO_GET_POSITION,
@@ -47,12 +48,17 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/auth.service';
 import { AppStatusService } from '../services/app-status.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '../services/local-storage.service';
+import { ModalController } from '@ionic/angular';
+import { FirstTimeBackgrounModalPage } from './first-time-modal/first-time.modal';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackgroundTrackingService {
   private markAsReady: (val: unknown) => void;
+  private firstTimeBackgroundStorage =
+    this.localStorageService.getStorageOf<boolean>('firstTimeBackground');
   private isReady = new Promise((resolve, reject) => {
     this.markAsReady = resolve;
   });
@@ -165,7 +171,9 @@ export class BackgroundTrackingService {
     private playerControllerService: PlayerControllerService,
     private appStatusService: AppStatusService,
     private zone: NgZone,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private localStorageService: LocalStorageService,
+    private modalController: ModalController
   ) {
     // FIXME: debug only
     (window as any).backgroundGeolocationPlugin =
@@ -236,6 +244,23 @@ export class BackgroundTrackingService {
     const location = await this.setExtrasAndForceLocation(tripPart);
     const accuracy = location.coords.accuracy;
     if (doChecks) {
+      const firstTimePermission = await this.firstTimeBackgroundStorage.get();
+      if (!firstTimePermission) {
+        const modal = await this.modalController.create({
+          component: FirstTimeBackgrounModalPage,
+          backdropDismiss: false,
+          cssClass: 'modal-challenge',
+          swipeToClose: true,
+        });
+        await modal.present();
+        const { data } = await modal.onWillDismiss();
+        if (data) {
+          this.firstTimeBackgroundStorage.set(true);
+        } else {
+          this.firstTimeBackgroundStorage.set(false);
+          throw ACCESS_DENIED;
+        }
+      }
       if (accuracy > this.appConfig.tracking.maximalAccuracy) {
         const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
         if (!userAcceptsLowAccuracy) {

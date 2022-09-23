@@ -274,10 +274,10 @@ export class CampaignService {
       return null;
     }
     if (campaign.type === 'city') {
-      return 'flower';
+      return 'ecoLeavesCity';
     }
     if (campaign.type === 'school') {
-      return 'shield';
+      return 'ecoLeavesHsc';
     }
     return null;
   }

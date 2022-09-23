@@ -18,6 +18,12 @@
   "bike sharing pioneer": "Bike Sharing Badge",
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "firstTime": {
+    "title": "Use your location",
+    "message": "Play&go collects location data in background to enable precise tracking even when the app is closed or not in use",
+    "close": "Deny",
+    "accept": "Accept"
+  },
   "permission": {
     "title": "Allow {applicationName} to access to this device's location in the background?",
     "message": "In order to track your activity in the background, please enable {backgroundPermissionOptionLabel} location permission",
@@ -124,7 +130,8 @@
         "NO_ROLE_CHOSEN": "You have to choose to be passenger or driver!",
         "NO_CONFIRMED": "You have to confirm the QR Code",
         "NO_PASSENGER_CARPOOLING_ID": "You have to insert the driver code",
-        "INCORRECT_QR_CODE": "Wrong QR CODE"
+        "INCORRECT_QR_CODE": "Wrong QR CODE",
+        "ACCESS_DENIED": "Access to background position denied"
       }
     },
     "stop_header": "Journey completed successfully!",
@@ -434,7 +441,10 @@
     "challenge_detail": {
       "challenge_future_start": "This challenge will start : {{startDate}}",
       "survey": "Survey",
-      "title": "Configure a challenge"
+      "title": "Configure a challenge",
+      "won": "You won!",
+      "prize":"You won {{prize}}",
+      "lost": "You lost!"
     },
     "stats": {
       "empty": "If you want to see your challenges' statistics start to play!",

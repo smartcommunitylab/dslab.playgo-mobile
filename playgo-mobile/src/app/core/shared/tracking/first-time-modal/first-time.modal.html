@@ -1,0 +1,23 @@
+<ion-content class="ion-padding ion-text-center">
+  <ion-icon name="location-outline"></ion-icon>
+  <div class="title ion-padding">
+    <span>{{'firstTime.title'|translate}}</span>
+  </div>
+  <div class="ion-padding"><span>{{'firstTime.message'|translate}}</span></div>
+  <div class="footer">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button color="danger" expand="block" (click)="close()"
+            >{{'firstTime.close'|translate}}</ion-button
+          >
+        </ion-col>
+        <ion-col>
+          <ion-button color="personal-stat" expand="block" (click)="accept()"
+            >{{'firstTime.accept'|translate}}</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
