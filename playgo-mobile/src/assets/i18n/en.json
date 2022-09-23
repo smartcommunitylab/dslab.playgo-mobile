@@ -441,7 +441,10 @@
     "challenge_detail": {
       "challenge_future_start": "This challenge will start : {{startDate}}",
       "survey": "Survey",
-      "title": "Configure a challenge"
+      "title": "Configure a challenge",
+      "won": "You won!",
+      "prize":"You won {{prize}}",
+      "lost": "You lost!"
     },
     "stats": {
       "empty": "If you want to see your challenges' statistics start to play!",

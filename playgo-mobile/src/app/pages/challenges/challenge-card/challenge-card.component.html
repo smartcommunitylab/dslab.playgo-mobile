@@ -23,6 +23,35 @@
           ></ion-icon>
         </ion-col>
       </ion-row>
+      <ion-row *ngIf="challengeEnded()">
+        <ion-col class="ion-text-center status-chall">
+          <div *ngIf="challengeWon(); else challengeLost">
+            <p class="won">
+              {{ "challenges.challenge_detail.won" | translate | uppercase }}
+            </p>
+            <p class="prize">
+              {{
+                "challenges.challenge_detail.prize"
+                  | translate
+                    : {
+                        prize: challenge.bonus
+                      }
+              }}
+              <app-icon
+                [name]="
+                  campaignService.getCampaignScoreIcon(challenge.campaign)
+                "
+              ></app-icon>
+            </p>
+          </div>
+
+          <ng-template #challengeLost
+            ><p class="lost">
+              {{ "challenges.challenge_detail.lost" | translate | uppercase }}
+            </p></ng-template
+          >
+        </ion-col>
+      </ion-row>
       <ion-row>
         <ion-col
           ><app-challenge-users-status

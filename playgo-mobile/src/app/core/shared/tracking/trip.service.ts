@@ -55,7 +55,8 @@ export class TripService {
     private tripPersistanceService: LocationsStorageService,
     private backgroundTrackingService: BackgroundTrackingService,
     private carpoolingService: CarPoolingService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private errorService: ErrorService
   ) {
     this.start();
     backgroundTrackingService.isPowerSaveMode$
@@ -86,6 +87,7 @@ export class TripService {
       }
     } catch (e) {
       //alert(e);
+      this.errorService.handleError(e, 'normal');
       console.error(e);
     }
   }
