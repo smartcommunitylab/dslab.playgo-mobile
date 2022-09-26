@@ -175,7 +175,7 @@
   },
   "trips": {
     "filter_all_campaigns": "Tutte le campagne",
-    "filter_all_the_time": "Tutti i tempi",
+    "filter_all_the_time": "Complessivo",
     "empty": "Nessun viaggio presente"
   },
   "trip_detail": {
@@ -272,7 +272,7 @@
       "badges": "Badges",
       "stats": "Statistiche",
       "generalStat": "Generale",
-      "signal": "Segnala e contatta il supporto",
+      "signal": "Contatta il supporto",
       "unsubscribe": "Disiscriviti",
       "prizes": "Premi",
       "dateFrom": "Inizio: ",

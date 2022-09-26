@@ -22,6 +22,8 @@ import { Notification } from '../../../core/api/generated/model/notification';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { UnsubscribeModalPage } from './unsubscribe-modal/unsubscribe.modal';
 import { isNotNil } from 'src/app/core/shared/utils';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-campaign-details',
   templateUrl: './campaign-details.page.html',
@@ -152,5 +154,8 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
 
   back() {
     this.navCtrl.back();
+  }
+  openSupport() {
+    window.open('mailto:' + environment.support.email);
   }
 }
