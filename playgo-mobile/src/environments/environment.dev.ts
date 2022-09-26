@@ -8,8 +8,7 @@ export const environment: Environment = {
   production: false,
   useCodePush: false,
   support: {
-    privacy:
-      'https://www.smartcommunitylab.it/playgo_privacy-e-trattamento-dati/',
+    privacy: 'https://www.smartcommunitylab.it/playandgo-privacy-policy/',
     faq: 'https://www.smartcommunitylab.it/playgo_faq/',
     email: 'playandgo@smartcommunitylab.it',
   },
