@@ -161,7 +161,7 @@ export class NotificationService {
             notification.campaignId === campaignId &&
             !!notification.content &&
             NOTIFICATION_TYPE_ACTIONS.campaignWidgetBadge.types.includes(
-              notification.content.type
+              notification?.content?.type
             )
         )
       )
@@ -177,7 +177,7 @@ export class NotificationService {
             notification.campaignId === campaignId &&
             !!notification.content &&
             NOTIFICATION_TYPE_ACTIONS.campaignWidgetChallengeBadge.types.includes(
-              notification.content.type
+              notification?.content?.type
             )
         )
       )
@@ -190,7 +190,7 @@ export class NotificationService {
           (notification) =>
             !!notification.content &&
             NOTIFICATION_TYPE_ACTIONS.challengeTabBadge.types.includes(
-              notification.content.type
+              notification?.content?.type
             )
         )
       )
@@ -206,7 +206,7 @@ export class NotificationService {
             notification.campaignId === campaignId &&
             !!notification.content &&
             NOTIFICATION_TYPE_ACTIONS.campaignWidgetBadge.types.includes(
-              notification.content.type
+              notification?.content?.type
             )
         )
       )
@@ -220,7 +220,7 @@ export class NotificationService {
           (notification) =>
             !!notification.content &&
             NOTIFICATION_TYPE_ACTIONS.notificationBadge.types.includes(
-              notification.content.type
+              notification?.content?.type
             )
         )
       )

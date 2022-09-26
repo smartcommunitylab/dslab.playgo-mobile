@@ -15,5 +15,8 @@ NSContactsUsageDescription="This application requires access your contacts";
 NSCalendarsUsageDescription="This application requires access your calendar";
 NSPhotoLibraryUsageDescription="This application requires access your photo library";
 NSMicrophoneUsageDescription ="This application requires access your microphone";
+NSCameraUsageDescription="This app requires access to the photo library to take your profile photo";
+NSPhotoLibraryAddUsageDescription="This app  would like to save photos to your photo gallery for choosing your profile photo";
+NSPhotoLibraryUsageDescription="This app would like to save photos to your photo gallery for choosing your profile photo";
 
 
