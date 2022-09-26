@@ -4,21 +4,21 @@
       <ion-col size="10" class="ranking">
         <ng-container *ngIf="reportWeekStat">
           <span class="ion-text-left">
-            {{
-              "campaigns.homewidgets.stat.weekposition"
-                | translate: { position: reportWeekStat?.position }
-            }}
+            <app-ordinal-number
+              [value]="reportWeekStat?.position"
+            ></app-ordinal-number>
+            {{ "campaigns.homewidgets.stat.weekposition" | translate }}
           </span>
         </ng-container>
         <ng-container *ngIf="reportWeekStat && reportTotalStat">
           <span class="ion-text-left">-</span>
         </ng-container>
         <ng-container *ngIf="reportTotalStat" class="ion-text-left">
+          <app-ordinal-number
+            [value]="reportTotalStat?.position"
+          ></app-ordinal-number>
           <span>
-            {{
-              "campaigns.homewidgets.stat.totalposition"
-                | translate: { position: reportTotalStat?.position }
-            }}
+            {{ "campaigns.homewidgets.stat.totalposition" | translate }}
           </span>
         </ng-container>
       </ion-col>

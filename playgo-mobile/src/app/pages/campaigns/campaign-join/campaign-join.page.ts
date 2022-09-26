@@ -108,7 +108,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data) {
-      this.back();
+      this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }
   async openRegisterCompany(campaign: Campaign) {
@@ -126,7 +126,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     const { data } = await modal.onWillDismiss();
     if (data) {
       //update list of campaign
-      this.back();
+      this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }
 
@@ -182,7 +182,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     //this.registerToCompany(campaign, data);
     if (data) {
       //update list of campaign
-      this.back();
+      this.navCtrl.navigateRoot('/pages/tabs/home');
     }
     // this.sub = this.campaignService
     //   .subscribeToCampaign(campaign.campaignId)

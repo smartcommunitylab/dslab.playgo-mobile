@@ -291,8 +291,8 @@
         "weeklyRanking": "Weekly ranking: {{weeklyRanking}}"
       },
       "stat": {
-        "weekposition": "{{position}} weekly position",
-        "totalposition": "{{position}} total position",
+        "weekposition": " weekly position",
+        "totalposition": " total position",
         "weekvalue": "<b>{{value}} weekly value</b>",
         "monthvalue": "<b>{{value}} monthly value</b>",
         "totalvalue": "<b>{{value}} total value</b>",
