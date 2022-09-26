@@ -15,3 +15,6 @@ NSPhotoLibraryUsageDescription="Questa applicazione richiede l'accesso alla tua 
 NSBluetoothPeripheralUsageDescription="Questa applicazione richiede l'accesso alla connessione Bluetooth per localizzare e certificare i tuoi viaggi";
 NSMicrophoneUsageDescription ="Questa applicazione richiede l'accesso al microfono";
 NSBluetoothAlwaysUsageDescription="Questa applicazione richiede l'accesso alla connessione Bluetooth per localizzare e certificare i tuoi viaggi";
+NSCameraUsageDescription="Questa applicazione richiede l'accesso alla tua fotocamera per selezionare la foto profilo.";
+NSPhotoLibraryAddUsageDescription="Questa applicazione richiede l'accesso alla galleria immagini per salvare la voto profilo.";
+NSPhotoLibraryUsageDescription="Questa applicazione richiede l'accesso alla tua libreria di immagini per selezionare la foto profilo.";

@@ -83,7 +83,6 @@ export class JoinCityModalPage implements OnInit {
                 messageTranslateKey: 'campaigns.registered',
               });
               this.modalController.dismiss(true);
-              this.navCtrl.navigateRoot('/pages/tabs/home');
             }
           },
           (err) => {

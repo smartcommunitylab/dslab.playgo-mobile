@@ -175,7 +175,7 @@
   },
   "trips": {
     "filter_all_campaigns": "Tutte le campagne",
-    "filter_all_the_time": "Tutti i tempi",
+    "filter_all_the_time": "Complessivo",
     "empty": "Nessun viaggio presente"
   },
   "trip_detail": {
@@ -272,7 +272,7 @@
       "badges": "Badges",
       "stats": "Statistiche",
       "generalStat": "Generale",
-      "signal": "Segnala e contatta il supporto",
+      "signal": "Contatta il supporto",
       "unsubscribe": "Disiscriviti",
       "prizes": "Premi",
       "dateFrom": "Inizio: ",
@@ -291,8 +291,8 @@
         "weeklyRanking": "Posizione in classifica: {{weeklyRanking}}"
       },
       "stat": {
-        "weekposition": "{{position}} in classifica settimanale",
-        "totalposition": "{{position}} in classifica complessiva",
+        "weekposition": " in classifica settimanale",
+        "totalposition": " in classifica complessiva",
         "weekvalue": "<b>{{value}}</b> settimanale",
         "monthvalue": "<b>{{value}}</b> mensile",
         "totalvalue": "<b>{{value}}</b> complessivo",
@@ -516,6 +516,7 @@
   "playNow": "Gioca adesso",
   "noMessages": "Nessun messaggio",
   "noCampaigns": "Nessuna campagna",
+  "noOtherCampaigns": "Nessuna nuova campagna disponibile.",
   "messages": "Messaggi",
   "generalStatistics": "Statistiche attività",
   "noStatistics": "Nessuna statistica disponibile",

@@ -272,7 +272,7 @@
       "badges": "Badges",
       "stats": "Statistics",
       "generalStat": "General",
-      "signal": "Contacts and support",
+      "signal": "Help and support",
       "unsubscribe": "Unsubscribe",
       "prizes": "Prizes",
       "dateFrom": "From: ",
@@ -291,8 +291,8 @@
         "weeklyRanking": "Weekly ranking: {{weeklyRanking}}"
       },
       "stat": {
-        "weekposition": "{{position}} weekly position",
-        "totalposition": "{{position}} total position",
+        "weekposition": " weekly position",
+        "totalposition": " total position",
         "weekvalue": "<b>{{value}} weekly value</b>",
         "monthvalue": "<b>{{value}} monthly value</b>",
         "totalvalue": "<b>{{value}} total value</b>",
@@ -517,6 +517,7 @@
   "playNow": "Play now",
   "noMessages": "No messages available",
   "noCampaigns": "No campaigns available",
+  "noOtherCampaigns": "No other campaigns available.",
   "messages": "Messages",
   "generalStatistics": "General Statistics",
   "noStatistics": "No statistics available",

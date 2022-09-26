@@ -32,8 +32,10 @@
           </ion-avatar>
         </ion-col>
       </ng-container>
-      <ion-col size="8" class="ion-text-end">
-        {{ placing.nickname }}
+      <ion-col size="3" class="ion-text-start">
+        <span>{{ placing.nickname }}</span>
+      </ion-col>
+      <ion-col size="5" class="ion-text-end">
         {{
           unitLabelKey
             | translate: { value: getValue(placing.value) | localNumber }
