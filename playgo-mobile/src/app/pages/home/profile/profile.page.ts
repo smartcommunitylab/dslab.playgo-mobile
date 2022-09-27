@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Injector,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import {
   buffer,
@@ -24,6 +30,8 @@ import { environment } from 'src/environments/environment';
 import { mapTo, tapLog } from 'src/app/core/shared/utils';
 import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
 import { DeleteModalPage } from './delete-modal/deleteModal.component';
+import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';
+import { BackgroundTrackingService } from 'src/app/core/shared/tracking/background-tracking.service';
 
 @Component({
   selector: 'app-profile',
@@ -54,7 +62,9 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
     private errorService: ErrorService,
     private authService: AuthService,
     private modalController: ModalController,
-    public appStatusService: AppStatusService
+    public appStatusService: AppStatusService,
+    private localStorageService: LocalStorageService,
+    private injector: Injector
   ) {}
 
   ngOnInit() {
@@ -108,13 +118,26 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   public async deleteAccount() {
     const modal = await this.modalController.create({
       component: DeleteModalPage,
-      cssClass: 'modalConfirm',
+      cssClass: 'modal-challenge',
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data) {
       //delete account api e exit application
+      this.postDeleting();
     }
+  }
+  async postDeleting() {
+    // clear out storage
+    await this.localStorageService.clearAll();
+    // clear stored data of plugins
+    const backgroundTrackingService = this.injector.get(
+      BackgroundTrackingService
+    );
+    if (backgroundTrackingService) {
+      await backgroundTrackingService.clearPluginData();
+    }
+    location.replace('login');
   }
   ngAfterViewInit() {
     const selects = document.querySelectorAll('.app-alert');
