@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
-import {
-  BackgroundGeolocation,
+import BackgroundGeolocation, {
   State,
   Location,
   CurrentPositionRequest,
@@ -8,6 +9,7 @@ import {
 } from '@transistorsoft/capacitor-background-geolocation';
 import { last, mapValues, random, sample } from 'lodash-es';
 import { Config } from 'protractor';
+import { waitMs } from '../utils';
 import { getMockMethodAnnotation } from './mock-utils';
 
 const mockMethod = getMockMethodAnnotation({
@@ -39,6 +41,22 @@ export class BackgroundGeolocationMock {
   public static async setConfig(config: Config) {
     BackgroundGeolocationMock.config = config;
   }
+
+  @mockMethod({ async: true })
+  public static async requestPermission() {
+    waitMs(200);
+    const confirmRes = confirm('Allow location tracking? \n (mocked)');
+    waitMs(200);
+    return confirmRes
+      ? BackgroundGeolocationMock.AUTHORIZATION_STATUS_ALWAYS
+      : BackgroundGeolocationMock.AUTHORIZATION_STATUS_DENIED;
+  }
+
+  static AUTHORIZATION_STATUS_ALWAYS =
+    BackgroundGeolocation.AUTHORIZATION_STATUS_ALWAYS;
+  static AUTHORIZATION_STATUS_DENIED =
+    BackgroundGeolocation.AUTHORIZATION_STATUS_DENIED;
+
   @mockMethod({ async: true, wait: 1000 })
   public static async getCurrentPosition(request: CurrentPositionRequest) {
     const location = BackgroundGeolocationMock.getRandomLocation(

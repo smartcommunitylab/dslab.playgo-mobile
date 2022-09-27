@@ -2,6 +2,7 @@ import { Inject, Injectable, NgZone } from '@angular/core';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 
 import {
+  AuthorizationStatus,
   Config,
   Extras,
   Location,
@@ -180,6 +181,25 @@ export class BackgroundTrackingService {
     this.isPowerSaveMode$.subscribe();
   }
 
+  async askForPermissions(): Promise<boolean> {
+    await this.isReady;
+    // Manually request permission with configured locationAuthorizationRequest.
+    let status: AuthorizationStatus;
+    try {
+      status = await this.backgroundGeolocationPlugin.requestPermission();
+    } catch (errorStatus) {
+      status = errorStatus as AuthorizationStatus;
+    }
+    // AUTHORIZATION_STATUS_NOT_DETERMINED | iOS only
+    // AUTHORIZATION_STATUS_RESTRICTED     | iOS only
+    // AUTHORIZATION_STATUS_DENIED         | iOS & Android
+    // AUTHORIZATION_STATUS_ALWAYS         | iOS & Android
+    // AUTHORIZATION_STATUS_WHEN_IN_USE    | iOS only
+
+    return (
+      status === this.backgroundGeolocationPlugin.AUTHORIZATION_STATUS_ALWAYS
+    );
+  }
   async start() {
     try {
       const titlePermission = await firstValueFrom(
