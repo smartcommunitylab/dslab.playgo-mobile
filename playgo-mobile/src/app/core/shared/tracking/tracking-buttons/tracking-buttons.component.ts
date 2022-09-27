@@ -65,16 +65,7 @@ export class TrackingButtonsComponent implements OnInit {
   ) {}
 
   async toggleFabList() {
-    const isBeingOpened = !this.fabListActive;
     await this.openOrCloseFabList(!this.fabListActive);
-    if (isBeingOpened && this.hasPermissions !== true) {
-      // wait until open animation is finished
-      await waitMs(200);
-      this.hasPermissions = await this.askForPermissions();
-      if (!this.hasPermissions) {
-        this.openOrCloseFabList(false);
-      }
-    }
   }
   private async openOrCloseFabList(open: boolean) {
     // I do not know why wait and detect changes is necessary...
@@ -85,31 +76,6 @@ export class TrackingButtonsComponent implements OnInit {
     await waitMs(0);
     this.fabListActivated.emit(this.fabListActive);
     this.changeDetectorRef.detectChanges();
-  }
-
-  private async askForPermissions(): Promise<boolean> {
-    // const firstTimePermission = await this.firstTimeBackgroundStorage.get();
-    // if (!firstTimePermission) {
-    //   const modal = await this.modalController.create({
-    //     component: FirstTimeBackgrounModalPage,
-    //     backdropDismiss: false,
-    //     cssClass: 'modal-challenge',
-    //     swipeToClose: true,
-    //   });
-    //   await modal.present();
-    //   const { data } = await modal.onWillDismiss();
-    //   if (data) {
-    //     this.firstTimeBackgroundStorage.set(true);
-    //   } else {
-    //     this.firstTimeBackgroundStorage.set(false);
-    //     //switch to false after timeout
-    //     this.fabListActive = true;
-    //   }
-    // }
-    // return confirm('Do you want to start tracking?');
-    const hasPermissions =
-      await this.backgroundTrackingService.askForPermissions();
-    return hasPermissions;
   }
 
   async changeTransportType(

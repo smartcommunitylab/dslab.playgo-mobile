@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { PageSettingsService } from '../../services/page-settings.service';
-import { tapLog } from '../../utils';
+import { tapLog, waitMs } from '../../utils';
 // import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
 import { transportTypeIcons, TRIP_END } from '../trip.model';
@@ -17,6 +17,9 @@ import { TripService } from '../trip.service';
 export class TrackingMainControlComponent {
   transportTypeIcons = transportTypeIcons;
   public trackingUIActive = false;
+
+  public hasPermissions: boolean = null;
+
   public showPlayButton$: Observable<boolean> = combineLatest({
     pageWithPlayFab: this.pageSettingsService.pageSettings$.pipe(
       map((pageSettings) => pageSettings.showPlayButton)
@@ -43,12 +46,45 @@ export class TrackingMainControlComponent {
       this.hideMapAndButtons();
     });
   }
-  public fabListActivated(fabListActive: boolean) {
+  async fabListActivated(fabListActive: boolean) {
     if (fabListActive) {
       this.showMapAndButtons();
     } else {
       this.hideMapAndButtons();
     }
+
+    if (fabListActive && this.hasPermissions !== true) {
+      // wait until open animation is finished
+      await waitMs(200);
+      this.hasPermissions = await this.askForPermissions();
+      if (!this.hasPermissions) {
+        this.hideMapAndButtons();
+      }
+    }
+  }
+  private async askForPermissions(): Promise<boolean> {
+    // const firstTimePermission = await this.firstTimeBackgroundStorage.get();
+    // if (!firstTimePermission) {
+    //   const modal = await this.modalController.create({
+    //     component: FirstTimeBackgrounModalPage,
+    //     backdropDismiss: false,
+    //     cssClass: 'modal-challenge',
+    //     swipeToClose: true,
+    //   });
+    //   await modal.present();
+    //   const { data } = await modal.onWillDismiss();
+    //   if (data) {
+    //     this.firstTimeBackgroundStorage.set(true);
+    //   } else {
+    //     this.firstTimeBackgroundStorage.set(false);
+    //     //switch to false after timeout
+    //     this.fabListActive = true;
+    //   }
+    // }
+    // return confirm('Do you want to start tracking?');
+    const hasPermissions =
+      await this.backgroundTrackingService.askForPermissions();
+    return hasPermissions;
   }
 
   public backdropClicked(event: Event) {
