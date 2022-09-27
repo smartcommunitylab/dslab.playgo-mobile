@@ -67,7 +67,7 @@ export class CampaignService {
   public myCampaigns$: Observable<PlayerCampaign[]> =
     this.campaignsCouldBeChanged$.pipe(
       switchMap(() =>
-        this.campaignControllerService.getMyCampaignsUsingGET().pipe(
+        this.campaignControllerService.getMyCampaignsUsingGET({}).pipe(
           ifOfflineUseStored(this.myCampaignsStorage),
           // this is not recoverable, app is bricked...
           // for example new campaign subscription could be added successfully, but
