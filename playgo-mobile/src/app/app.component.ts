@@ -46,7 +46,6 @@ export class AppComponent implements AfterContentInit {
         await window.screen.orientation.lock('portrait');
       } catch (e) {}
       this.loadCustomIcons();
-      // this.pushInit();
       this.initLink();
       this.badgeService.init();
       await this.platform.ready();
