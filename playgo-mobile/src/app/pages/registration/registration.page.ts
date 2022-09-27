@@ -38,8 +38,7 @@ export class RegistrationPage implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer,
     private alertService: AlertService,
     private authService: AuthService,
-    private modalController: ModalController,
-    private notificationService: NotificationService
+    private modalController: ModalController // private notificationService: NotificationService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
       this.territoryList = territories;
@@ -151,7 +150,6 @@ export class RegistrationPage implements OnInit, AfterViewInit {
             await this.userService.uploadAvatar(await readAsBase64(this.image));
           }
           this.userService.handleAfterUserRegistered();
-          this.notificationService.initPush();
           this.navCtrl.navigateRoot('/pages/tabs/home');
         })
         .catch((error: any) => {

@@ -153,7 +153,7 @@ export class AuthService {
     }
   }
 
-  private async postLogoutCleanup() {
+  public async postLogoutCleanup() {
     // clear out storage
     await this.localStorageService.clearAll();
 

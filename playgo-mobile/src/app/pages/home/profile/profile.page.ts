@@ -124,20 +124,13 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
     const { data } = await modal.onWillDismiss();
     if (data) {
       //delete account api e exit application
-      this.postDeleting();
+      try {
+        await this.userService.deleteAccount();
+        this.authService.logout();
+      } catch (e) {
+        this.errorService.handleError(e, 'normal');
+      }
     }
-  }
-  async postDeleting() {
-    // clear out storage
-    await this.localStorageService.clearAll();
-    // clear stored data of plugins
-    const backgroundTrackingService = this.injector.get(
-      BackgroundTrackingService
-    );
-    if (backgroundTrackingService) {
-      await backgroundTrackingService.clearPluginData();
-    }
-    location.replace('login');
   }
   ngAfterViewInit() {
     const selects = document.querySelectorAll('.app-alert');

@@ -92,7 +92,7 @@ export class AuthInterceptor implements HttpInterceptor {
         next.handle(this.changeToken(newToken.accessToken, request))
       ),
       catchError((err) => {
-        this.authService.logoutAfterAuthFailed();
+        this.authService.postLogoutCleanup();
         return throwError(() => err);
       })
     );
