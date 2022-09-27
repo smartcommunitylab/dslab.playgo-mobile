@@ -54,8 +54,6 @@ export class TrackingMainControlComponent {
     }
 
     if (fabListActive && this.hasPermissions !== true) {
-      // wait until open animation is finished
-      await waitMs(200);
       this.hasPermissions = await this.askForPermissions();
       if (!this.hasPermissions) {
         this.hideMapAndButtons();

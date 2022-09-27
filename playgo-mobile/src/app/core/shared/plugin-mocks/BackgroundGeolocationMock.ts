@@ -44,9 +44,8 @@ export class BackgroundGeolocationMock {
 
   @mockMethod({ async: true })
   public static async requestPermission() {
-    waitMs(200);
+    await waitMs(200);
     const confirmRes = confirm('Allow location tracking? \n (mocked)');
-    waitMs(200);
     return confirmRes
       ? BackgroundGeolocationMock.AUTHORIZATION_STATUS_ALWAYS
       : BackgroundGeolocationMock.AUTHORIZATION_STATUS_DENIED;
