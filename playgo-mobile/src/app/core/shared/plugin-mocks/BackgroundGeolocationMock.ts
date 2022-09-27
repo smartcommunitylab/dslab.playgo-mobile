@@ -42,19 +42,25 @@ export class BackgroundGeolocationMock {
     BackgroundGeolocationMock.config = config;
   }
 
-  @mockMethod({ async: true })
-  public static async requestPermission() {
-    await waitMs(200);
-    const confirmRes = confirm('Allow location tracking? \n (mocked)');
-    return confirmRes
-      ? BackgroundGeolocationMock.AUTHORIZATION_STATUS_ALWAYS
-      : BackgroundGeolocationMock.AUTHORIZATION_STATUS_DENIED;
-  }
+  private static lastPermissionStatus: boolean = null;
 
   static AUTHORIZATION_STATUS_ALWAYS =
     BackgroundGeolocation.AUTHORIZATION_STATUS_ALWAYS;
   static AUTHORIZATION_STATUS_DENIED =
     BackgroundGeolocation.AUTHORIZATION_STATUS_DENIED;
+
+  @mockMethod({ async: true })
+  public static async requestPermission() {
+    if (BackgroundGeolocationMock.lastPermissionStatus === true) {
+      return BackgroundGeolocationMock.AUTHORIZATION_STATUS_ALWAYS;
+    }
+    await waitMs(200);
+    const confirmRes = confirm('Allow location tracking? \n (mocked)');
+    BackgroundGeolocationMock.lastPermissionStatus = confirmRes;
+    return confirmRes
+      ? BackgroundGeolocationMock.AUTHORIZATION_STATUS_ALWAYS
+      : BackgroundGeolocationMock.AUTHORIZATION_STATUS_DENIED;
+  }
 
   @mockMethod({ async: true, wait: 1000 })
   public static async getCurrentPosition(request: CurrentPositionRequest) {

@@ -94,7 +94,6 @@ export class TrackingMainControlComponent {
   }
 
   public backdropClicked(event: Event) {
-    console.log(event);
     if ((event.target as any).classList.contains('slide-wrapper')) {
       this.hideMapAndButtons();
     }
