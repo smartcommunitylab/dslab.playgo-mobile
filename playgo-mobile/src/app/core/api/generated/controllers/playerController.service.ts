@@ -148,6 +148,18 @@ export class PlayerControllerService {
   }
 
   /**
+   * unregisterPlayer
+   *
+   */
+  public unregisterPlayerUsingPUT(): Observable<any> {
+    return this.http.request<any>(
+      'put',
+      environment.serverUrl.api + `/playandgo/api/player/unregister`,
+      {}
+    );
+  }
+
+  /**
    * updateProfile
    *
    * @param body
