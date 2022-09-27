@@ -32,7 +32,6 @@ export class AppComponent implements AfterContentInit {
     private appStatusService: AppStatusService,
     private iconService: IconService,
     private authService: AuthService,
-    private notificationService: NotificationService,
     private badgeService: BadgeService,
     @Inject('CodePushPlugin')
     private codePushPlugin: typeof CodePushPluginInternal,
@@ -47,7 +46,6 @@ export class AppComponent implements AfterContentInit {
         await window.screen.orientation.lock('portrait');
       } catch (e) {}
       this.loadCustomIcons();
-      this.pushInit();
       this.initLink();
       this.badgeService.init();
       await this.platform.ready();
@@ -82,18 +80,7 @@ export class AppComponent implements AfterContentInit {
       };
     }
   }
-  pushInit() {
-    this.authService.isReadyForApi$.subscribe(() => {
-      // console.log('Initializing HomePage');
 
-      //init push notification setup after login
-      try {
-        this.notificationService.initPush();
-      } catch (error) {
-        this.errorService.handleError(error, 'silent');
-      }
-    });
-  }
   async codePushSync() {
     try {
       let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';

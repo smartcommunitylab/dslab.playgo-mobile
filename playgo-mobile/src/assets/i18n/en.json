@@ -149,6 +149,12 @@
     "about": "About",
     "deleteAccount": "Delete account",
     "changeButton": "Change",
+    "delete": {
+      "title": "Delete account",
+      "message": "Are you sure you want to delete your account?",
+      "close": "Cancel",
+      "accept": "Confirm"
+    },
     "change": {
       "modalTitle": "Change Profile",
       "closeButton": "Save",

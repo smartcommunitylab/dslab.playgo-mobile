@@ -159,12 +159,16 @@ export class CampaignControllerService {
    *
    * @param territoryId territoryId
    * @param type type
+   * @param currentlyActive currentlyActive
+   * @param onlyVisible onlyVisible
    */
   public getCampaignsUsingGET(args: {
     territoryId: string;
     type?: string;
+    currentlyActive?: boolean;
+    onlyVisible?: boolean;
   }): Observable<Array<Campaign>> {
-    const { territoryId, type } = args;
+    const { territoryId, type, currentlyActive, onlyVisible } = args;
     return this.http.request<Array<Campaign>>(
       'get',
       environment.serverUrl.api + `/playandgo/api/campaign`,
@@ -172,6 +176,8 @@ export class CampaignControllerService {
         params: removeNullOrUndefined({
           territoryId,
           type,
+          currentlyActive,
+          onlyVisible,
         }),
       }
     );
@@ -180,12 +186,23 @@ export class CampaignControllerService {
   /**
    * getMyCampaigns
    *
+   * @param currentlyActive currentlyActive
+   * @param onlyVisible onlyVisible
    */
-  public getMyCampaignsUsingGET(): Observable<Array<PlayerCampaign>> {
+  public getMyCampaignsUsingGET(args: {
+    currentlyActive?: boolean;
+    onlyVisible?: boolean;
+  }): Observable<Array<PlayerCampaign>> {
+    const { currentlyActive, onlyVisible } = args;
     return this.http.request<Array<PlayerCampaign>>(
       'get',
       environment.serverUrl.api + `/playandgo/api/campaign/my`,
-      {}
+      {
+        params: removeNullOrUndefined({
+          currentlyActive,
+          onlyVisible,
+        }),
+      }
     );
   }
 

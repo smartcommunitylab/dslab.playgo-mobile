@@ -27,7 +27,7 @@ export class AuthGuardService implements CanActivate {
     return this.authService.isAuthenticated$.pipe(
       tap((isAuthenticated) => {
         if (!isAuthenticated) {
-          this.authService.logout();
+          this.authService.postLogoutCleanup();
         }
         if (isAuthenticated) {
           this.userService.isUserRegistered().then((isRegistered) => {

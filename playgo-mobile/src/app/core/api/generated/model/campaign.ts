@@ -32,6 +32,7 @@ export interface Campaign {
   territoryId?: string;
   type?: Campaign.TypeEnum;
   validationData?: any;
+  visible?: boolean;
   weekConfs?: Array<CampaignWeekConf>;
 }
 export namespace Campaign {

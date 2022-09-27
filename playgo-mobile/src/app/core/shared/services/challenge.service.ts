@@ -286,7 +286,7 @@ export class ChallengeService {
     this.challengeControllerService
       .changeInvitationStatusUsingPOST({
         campaignId: campaign.campaign.campaignId,
-        challengeName: challenge.challId,
+        challengeId: challenge.challId,
         status: 'accept',
       })
       .toPromise();
@@ -295,7 +295,7 @@ export class ChallengeService {
     this.challengeControllerService
       .changeInvitationStatusUsingPOST({
         campaignId: campaign.campaign.campaignId,
-        challengeName: challenge.challId,
+        challengeId: challenge.challId,
         status: 'refuse',
       })
       .toPromise();
@@ -304,7 +304,7 @@ export class ChallengeService {
     this.challengeControllerService
       .changeInvitationStatusUsingPOST({
         campaignId: campaign.campaign.campaignId,
-        challengeName: challenge.challId,
+        challengeId: challenge.challId,
         status: 'cancel',
       })
       .toPromise();

@@ -78,20 +78,20 @@ export class ChallengeControllerService {
    * changeInvitationStatus
    *
    * @param campaignId campaignId
-   * @param challengeName challengeName
+   * @param challengeId challengeId
    * @param status status
    */
   public changeInvitationStatusUsingPOST(args: {
     campaignId: string;
-    challengeName: string;
+    challengeId: string;
     status: string;
   }): Observable<any> {
-    const { campaignId, challengeName, status } = args;
+    const { campaignId, challengeId, status } = args;
     return this.http.request<any>(
       'post',
       environment.serverUrl.api +
         `/playandgo/api/challenge/invitation/status/${encodeURIComponent(
-          String(challengeName)
+          String(challengeId)
         )}/${encodeURIComponent(String(status))}`,
       {
         params: removeNullOrUndefined({

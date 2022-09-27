@@ -380,4 +380,9 @@ export class UserService {
     this.processUser(user);
     return player;
   }
+  public async deleteAccount(): Promise<any> {
+    return await this.playerControllerService
+      .unregisterPlayerUsingPUT()
+      .toPromise();
+  }
 }

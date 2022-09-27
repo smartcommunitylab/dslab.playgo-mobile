@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Injector,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import {
   buffer,
@@ -23,6 +29,9 @@ import { Browser } from '@capacitor/browser';
 import { environment } from 'src/environments/environment';
 import { mapTo, tapLog } from 'src/app/core/shared/utils';
 import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
+import { DeleteModalPage } from './delete-modal/deleteModal.component';
+import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';
+import { BackgroundTrackingService } from 'src/app/core/shared/tracking/background-tracking.service';
 
 @Component({
   selector: 'app-profile',
@@ -53,7 +62,9 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
     private errorService: ErrorService,
     private authService: AuthService,
     private modalController: ModalController,
-    public appStatusService: AppStatusService
+    public appStatusService: AppStatusService,
+    private localStorageService: LocalStorageService,
+    private injector: Injector
   ) {}
 
   ngOnInit() {
@@ -103,6 +114,23 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
 
   public signOut() {
     this.authService.logout();
+  }
+  public async deleteAccount() {
+    const modal = await this.modalController.create({
+      component: DeleteModalPage,
+      cssClass: 'modal-challenge',
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      //delete account api e exit application
+      try {
+        await this.userService.deleteAccount();
+        this.authService.logout();
+      } catch (e) {
+        this.errorService.handleError(e, 'normal');
+      }
+    }
   }
   ngAfterViewInit() {
     const selects = document.querySelectorAll('.app-alert');

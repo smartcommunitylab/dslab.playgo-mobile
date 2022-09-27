@@ -95,14 +95,19 @@
       appStatusService.codePushLabel$ | async }}
     </ion-col>
   </ion-row>
-  <!-- <ion-row>
+  <ion-row>
     <ion-col text-center>
-      <ion-button expand="block" color="danger" size="large">
+      <ion-button
+        expand="block"
+        color="danger"
+        size="large"
+        (click)="deleteAccount()"
+      >
         <ion-icon slot="end" name="trash-outline"></ion-icon>
         <span class="button-left-icon"
           >{{'profile.deleteAccount'|translate}}</span
         >
       </ion-button>
     </ion-col>
-  </ion-row> -->
+  </ion-row>
 </ion-content>
