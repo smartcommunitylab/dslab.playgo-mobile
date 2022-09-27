@@ -23,6 +23,7 @@ import { Browser } from '@capacitor/browser';
 import { environment } from 'src/environments/environment';
 import { mapTo, tapLog } from 'src/app/core/shared/utils';
 import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
+import { DeleteModalPage } from './delete-modal/deleteModal.component';
 
 @Component({
   selector: 'app-profile',
@@ -103,6 +104,17 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
 
   public signOut() {
     this.authService.logout();
+  }
+  public async deleteAccount() {
+    const modal = await this.modalController.create({
+      component: DeleteModalPage,
+      cssClass: 'modalConfirm',
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      //delete account api e exit application
+    }
   }
   ngAfterViewInit() {
     const selects = document.querySelectorAll('.app-alert');

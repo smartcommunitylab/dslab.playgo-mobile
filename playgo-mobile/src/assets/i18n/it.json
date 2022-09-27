@@ -149,6 +149,12 @@
     "about": "About",
     "deleteAccount": "Elimina account",
     "changeButton": "Modifica",
+    "delete": {
+      "title": "Cancellazione account",
+      "message": "Sei sicuro di voler cancellare il tuo account?",
+      "close": "Annulla",
+      "accept": "Conferma"
+    },
     "change": {
       "modalTitle": "Modifica Profilo",
       "closeButton": "Chiudi",
