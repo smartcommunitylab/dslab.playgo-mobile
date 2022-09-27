@@ -52,16 +52,11 @@ export class TrackingButtonsComponent implements OnInit {
     );
 
   trackTransportFabButton = trackByProperty<TrackingFabButton>('transportType');
-  private firstTimeBackgroundStorage =
-    this.localStorageService.getStorageOf<boolean>('firstTimeBackground');
   constructor(
     public tripService: TripService,
-    private backgroundTrackingService: BackgroundTrackingService,
     private userService: UserService,
     private alertService: AlertService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private modalController: ModalController,
-    private localStorageService: LocalStorageService
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   async toggleFabList() {
