@@ -1,4 +1,5 @@
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
+import { UserError } from '../services/error.service';
 
 export class Trip {
   multimodalId: string;
@@ -51,11 +52,24 @@ export const NO_TRIP_STARTED = 'NO_TRIP_STARTED' as const;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type NO_TRIP_STARTED = typeof NO_TRIP_STARTED;
 
-export const LOW_ACCURACY = 'LOW_ACCURACY' as const;
-export const ACCESS_DENIED = 'ACCESS_DENIED' as const;
-export const POWER_SAVE_MODE = 'POWER_SAVE_MODE' as const;
+export const LOW_ACCURACY = new UserError({
+  id: 'LOW_ACCURACY',
+  message: 'tracking.errors.LOW_ACCURACY',
+});
+export const ACCESS_DENIED = new UserError({
+  id: 'ACCESS_DENIED',
+  message: 'tracking.errors.ACCESS_DENIED',
+});
+export const POWER_SAVE_MODE = new UserError({
+  id: 'POWER_SAVE_MODE',
+  message: 'tracking.errors.POWER_SAVE_MODE',
+});
+
 // probably location services are disabled by user.
-export const UNABLE_TO_GET_POSITION = 'UNABLE_TO_GET_POSITION' as const;
+export const UNABLE_TO_GET_POSITION = new UserError({
+  id: 'UNABLE_TO_GET_POSITION',
+  message: 'tracking.errors.UNABLE_TO_GET_POSITION',
+});
 
 export const transportTypes: TransportType[] = [
   'walk',

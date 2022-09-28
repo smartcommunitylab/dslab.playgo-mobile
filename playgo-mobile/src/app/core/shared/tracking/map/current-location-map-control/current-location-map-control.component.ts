@@ -67,13 +67,8 @@ export class CurrentLocationMapControlComponent
   private iconClicked$ = new Subject<'iconClicked'>();
 
   private mapPanned$: Observable<'mapPanned'> = this.mapInstance$.pipe(
-    tapLog('locationControl map instance'),
     switchMap((mapInstance) => fromEvent(mapInstance, 'dragstart')),
     runInZone(this.zone),
-    filter((e) => {
-      console.log('locationControl movestart event', e);
-      return true;
-    }),
     mapTo('mapPanned')
   );
 

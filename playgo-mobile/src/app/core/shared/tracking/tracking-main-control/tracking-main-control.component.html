@@ -49,7 +49,7 @@
     >
       <div class="map-wrapper">
         <ion-spinner name="circles"></ion-spinner>
-        <app-map></app-map>
+        <app-map *ngIf="hasPermissions"></app-map>
       </div>
     </div>
   </div>

@@ -13,7 +13,8 @@ import { map } from 'rxjs/operators';
 import { AlertService } from '../../services/alert.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { UserService } from '../../services/user.service';
-import { trackByProperty } from '../../utils';
+import { trackByProperty, waitMs } from '../../utils';
+import { BackgroundTrackingService } from '../background-tracking.service';
 import { FirstTimeBackgrounModalPage } from '../first-time-modal/first-time.modal';
 import {
   ACCESS_DENIED,
@@ -36,6 +37,8 @@ export class TrackingButtonsComponent implements OnInit {
 
   inProgressButton: TransportType | 'stop' = null;
 
+  hasPermissions: boolean = null;
+
   public transportTypeOptions$: Observable<TrackingFabButton[]> =
     this.userService.userProfileMeans$.pipe(
       map((userProfileMeans) =>
@@ -49,44 +52,25 @@ export class TrackingButtonsComponent implements OnInit {
     );
 
   trackTransportFabButton = trackByProperty<TrackingFabButton>('transportType');
-  private firstTimeBackgroundStorage =
-    this.localStorageService.getStorageOf<boolean>('firstTimeBackground');
   constructor(
     public tripService: TripService,
     private userService: UserService,
     private alertService: AlertService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private modalController: ModalController,
-    private localStorageService: LocalStorageService
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   async toggleFabList() {
-    // I do not know why this is necessary...  maybe related to https://github.com/ionic-team/ionic-framework/issues/19361
+    await this.openOrCloseFabList(!this.fabListActive);
+  }
+  private async openOrCloseFabList(open: boolean) {
+    // I do not know why wait and detect changes is necessary...
+    // maybe related to https://github.com/ionic-team/ionic-framework/issues/19361
     // but it looks like bug in ionic.
-    const firstTimePermission = await this.firstTimeBackgroundStorage.get();
-    if (!firstTimePermission) {
-      const modal = await this.modalController.create({
-        component: FirstTimeBackgrounModalPage,
-        backdropDismiss: false,
-        cssClass: 'modal-challenge',
-        swipeToClose: true,
-      });
-      await modal.present();
-      const { data } = await modal.onWillDismiss();
-      if (data) {
-        this.firstTimeBackgroundStorage.set(true);
-      } else {
-        this.firstTimeBackgroundStorage.set(false);
-        //switch to false after timeout
-        this.fabListActive = true;
-      }
-    }
-    setTimeout(() => {
-      this.fabListActive = !this.fabListActive;
-      // console.log('toggleFabList', this.fabListActive);
-      this.changeDetectorRef.detectChanges();
-      this.fabListActivated.emit(this.fabListActive);
-    }, 0);
+    await waitMs(0);
+    this.fabListActive = open;
+    await waitMs(0);
+    this.fabListActivated.emit(this.fabListActive);
+    this.changeDetectorRef.detectChanges();
   }
 
   async changeTransportType(
