@@ -57,7 +57,9 @@ export class ErrorService {
     // handleError was called.
     const isOffline = isOfflineError(error);
 
-    const isExpectedError = knownApplicationError || isOffline;
+    const isUserError = error instanceof UserError;
+
+    const isExpectedError = knownApplicationError || isOffline || isUserError;
 
     let messageTranslateKey: TranslateKey = 'errors.defaultErr';
     if (isExpectedError) {
@@ -66,6 +68,9 @@ export class ErrorService {
       }
       if (isOffline) {
         messageTranslateKey = 'errors.offline';
+      }
+      if (isUserError) {
+        messageTranslateKey = error.message;
       }
     }
 
@@ -109,3 +114,11 @@ export type ErrorContextSeverity = 'silent' | 'normal' | 'blocking';
 
 // ideas for another severities:
 // 'page_blocking' - this page is broken, redirect home. For example failed load trip detail.
+
+export class UserError {
+  message: TranslateKey;
+  id: string;
+  constructor(args: UserError) {
+    Object.assign(this, args);
+  }
+}

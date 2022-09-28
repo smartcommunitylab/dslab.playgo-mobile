@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { random, sample } from 'lodash';
+import { UserError } from '../../services/error.service';
 import { CarpoolingRoleDialogComponent } from './carpooling-role-dialog';
 import { CarpoolingScanQRDialogComponent } from './carpooling-scan-qr-dialog/carpooling-scan-qr-dialog.component';
 import { CarpoolingShowQRDialogComponent } from './carpooling-show-qr-dialog/carpooling-show-qr-dialog.component';
@@ -73,7 +74,21 @@ export class CarPoolingService {
 export type CarpoolingRole = 'driver' | 'passenger';
 export const QR_CODE_PREFIX = 'play&go_carpooling_';
 
-const NO_ROLE_CHOSEN = 'NO_ROLE_CHOSEN' as const;
-const NO_CONFIRMED = 'NO_CONFIRMED' as const;
-const NO_PASSENGER_CARPOOLING_ID = 'NO_PASSENGER_CARPOOLING_ID' as const;
-export const INCORRECT_QR_CODE = 'INCORRECT_QR_CODE' as const;
+const NO_ROLE_CHOSEN = new UserError({
+  id: 'NO_ROLE_CHOSEN',
+  message: 'tracking.car.errors.NO_ROLE_CHOSEN',
+});
+const NO_CONFIRMED = new UserError({
+  id: 'NO_CONFIRMED',
+  message: 'tracking.car.errors.NO_CONFIRMED',
+});
+
+const NO_PASSENGER_CARPOOLING_ID = new UserError({
+  id: 'NO_PASSENGER_CARPOOLING_ID',
+  message: 'tracking.car.errors.NO_PASSENGER_CARPOOLING_ID',
+});
+
+export const INCORRECT_QR_CODE = new UserError({
+  id: 'INCORRECT_QR_CODE',
+  message: 'tracking.car.errors.INCORRECT_QR_CODE',
+});

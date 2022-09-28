@@ -134,12 +134,17 @@
         "NO_ROLE_CHOSEN": "You have to choose to be passenger or driver!",
         "NO_CONFIRMED": "You have to confirm the QR Code",
         "NO_PASSENGER_CARPOOLING_ID": "You have to insert the driver code",
-        "INCORRECT_QR_CODE": "Wrong QR CODE",
-        "ACCESS_DENIED": "Access to background position denied"
+        "INCORRECT_QR_CODE": "Wrong QR CODE"
       }
     },
     "stop_header": "Journey completed successfully!",
-    "stop_body": "Tracking was successful. The trip data will be sent to our servers for validation."
+    "stop_body": "Tracking was successful. The trip data will be sent to our servers for validation.",
+    "errors": {
+      "ACCESS_DENIED": "Access to background position denied!",
+      "LOW_ACCURACY": "Low location accuracy detected!",
+      "POWER_SAVE_MODE": "Power save mode is active! This will result in not accurate tracking!",
+      "UNABLE_TO_GET_POSITION": "Unable to get current location! Make sure that location services are enabled and try again."
+    }
   },
   "profile": {
     "mail": "Email: ",

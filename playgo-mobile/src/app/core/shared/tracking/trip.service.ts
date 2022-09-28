@@ -151,11 +151,7 @@ export class TripService {
       }
       this.setCurrentTripPart(newTripPart);
     } catch (e) {
-      const messageTranslateKey = ('tracking.car.errors.' + e) as TranslateKey;
-      this.alertService.showToast({
-        messageTranslateKey,
-      });
-      console.error(e);
+      this.errorService.handleError(e, 'normal');
     } finally {
       this.operationInProgressSubject.next(false);
     }
