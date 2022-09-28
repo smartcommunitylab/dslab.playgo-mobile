@@ -43,20 +43,27 @@ export class BackgroundGeolocationMock {
   }
 
   private static lastPermissionStatus: boolean = null;
+  private static permissionDeniedCount = 0;
 
   static AUTHORIZATION_STATUS_ALWAYS =
     BackgroundGeolocation.AUTHORIZATION_STATUS_ALWAYS;
   static AUTHORIZATION_STATUS_DENIED =
     BackgroundGeolocation.AUTHORIZATION_STATUS_DENIED;
 
-  @mockMethod({ async: true })
+  @mockMethod({ async: true, wait: 1 })
   public static async requestPermission() {
     if (BackgroundGeolocationMock.lastPermissionStatus === true) {
       return BackgroundGeolocationMock.AUTHORIZATION_STATUS_ALWAYS;
     }
+    if (BackgroundGeolocationMock.permissionDeniedCount >= 2) {
+      return BackgroundGeolocationMock.AUTHORIZATION_STATUS_DENIED;
+    }
     await waitMs(200);
     const confirmRes = confirm('Allow location tracking? \n (mocked)');
     BackgroundGeolocationMock.lastPermissionStatus = confirmRes;
+    if (confirmRes === false) {
+      BackgroundGeolocationMock.permissionDeniedCount++;
+    }
     return confirmRes
       ? BackgroundGeolocationMock.AUTHORIZATION_STATUS_ALWAYS
       : BackgroundGeolocationMock.AUTHORIZATION_STATUS_DENIED;

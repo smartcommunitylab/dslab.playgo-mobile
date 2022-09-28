@@ -30,6 +30,10 @@
     "positiveAction": "Change to {backgroundPermissionOptionLabel}",
     "cancelAction": "Cancel"
   },
+  "permission_denied": {
+    "title": "Not able to start tracking",
+    "message": "You have denied the permission to access this device's location. This permission is needed to create tracks of your sustainable trips which are later used to assign you score based on your campaigns. You can enable the permission in the phone's settings."
+  },
   "badges": {
     "empty": "You have not earned any badges for this campaign. Play to find them."
   },

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
+import { AlertService } from '../../services/alert.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { PageSettingsService } from '../../services/page-settings.service';
 import { tapLog, waitMs } from '../../utils';
@@ -45,7 +46,8 @@ export class TrackingMainControlComponent {
     private pageSettingsService: PageSettingsService,
     private localStorageService: LocalStorageService,
     private modalController: ModalController,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.tripStopped$.subscribe(() => {
       this.hideMapAndButtons();
@@ -88,9 +90,18 @@ export class TrackingMainControlComponent {
       }
     }
     // return confirm('Do you want to start tracking?');
-    const hasPermissions =
+    const permissionResult =
       await this.backgroundTrackingService.askForPermissions();
-    return hasPermissions;
+    if (permissionResult === 'ACCEPTED') {
+      return true;
+    }
+    if (permissionResult === 'DENIED_SILENTLY') {
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'permission_denied.title',
+        messageTranslateKey: 'permission_denied.message',
+      });
+    }
+    return false;
   }
 
   public backdropClicked(event: Event) {
