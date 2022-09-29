@@ -284,6 +284,7 @@
       "confirm": "Confirm"
     },
     "detail": {
+      "not_found": "Campaign not found",
       "blacklist": "Blacklist",
       "badges": "Badges",
       "stats": "Statistics",
