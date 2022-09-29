@@ -35,6 +35,14 @@ const routes: RoutesWithPageSettings = [
         (m) => m.TripDetailPageModule
       ),
   },
+
+  {
+    path: 'campaign-detail/:id',
+    loadChildren: () =>
+      import('../home/campaign-details/campaign-details.module').then(
+        (m) => m.CampaignDetailsPageModule
+      ),
+  },
 ];
 
 @NgModule({
