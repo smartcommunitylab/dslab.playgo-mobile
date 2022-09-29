@@ -1,7 +1,7 @@
 <ng-container *ngIf="pageSettingsService.pageSettings$ | async as settings">
   <ion-toolbar [color]="settings.color">
     <ion-buttons slot="start" *ngIf="settings.backButton">
-      <ion-back-button> </ion-back-button>
+      <ion-back-button [defaultHref]="settings.defaultHref"> </ion-back-button>
     </ion-buttons>
     <ion-title>
       <span *ngIf="settings.title">{{ settings.title | translate }}</span>

@@ -10,8 +10,7 @@ const routes: RoutesWithPageSettings = [
     component: TripsPage,
     data: {
       title: 'tripsTitle',
-      defaultHref: '/pages/tabs/home/profile',
-      backButton: true,
+      backButton: false,
       isOfflinePage: true,
       showPlayButton: true,
       refresher: true,
