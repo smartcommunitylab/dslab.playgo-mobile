@@ -59,7 +59,14 @@
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
-        "linebreak-style": ["error", "unix"]
+        "linebreak-style": ["error", "unix"],
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "BindingPipe[name=/^date$/]",
+            "message": "Use localDate pipe instead of date pipe"
+          }
+        ]
       }
     }
   ]
