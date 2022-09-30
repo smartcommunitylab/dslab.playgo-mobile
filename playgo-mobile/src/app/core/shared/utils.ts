@@ -275,6 +275,25 @@ export function trackByProperty<T>(property: keyof T): TrackByFunction<T> {
 export const waitMs = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms));
 
+(window as any).safeStringify = safeStringify;
+// Prints json like structure, but with [cycle] instead of repeating the same object
+export function safeStringify(obj: any): string {
+  const cache = new Set();
+  return JSON.stringify(
+    obj,
+    (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (cache.has(value)) {
+          return '[cycle]';
+        }
+        cache.add(value);
+      }
+      return value;
+    },
+    2
+  );
+}
+
 export function getImgChallenge(challengeType: string) {
   if (
     [

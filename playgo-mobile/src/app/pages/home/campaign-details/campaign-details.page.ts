@@ -16,13 +16,26 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { DetailCampaignModalPage } from './detail-modal/detail.modal';
 import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
-import { filter, first, map, Subject, Subscription, takeUntil } from 'rxjs';
+import {
+  filter,
+  first,
+  map,
+  of,
+  Subject,
+  Subscription,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 import { Notification } from '../../../core/api/generated/model/notification';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { UnsubscribeModalPage } from './unsubscribe-modal/unsubscribe.modal';
-import { isNotNil } from 'src/app/core/shared/utils';
+import { isNotNil, throwIfNil } from 'src/app/core/shared/utils';
 import { environment } from 'src/environments/environment';
+import {
+  ErrorService,
+  UserError,
+} from 'src/app/core/shared/services/error.service';
 
 @Component({
   selector: 'app-campaign-details',
@@ -47,7 +60,8 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private modalController: ModalController,
     private notificationService: NotificationService,
-    private pageSettingsService: PageSettingsService
+    private pageSettingsService: PageSettingsService,
+    private errorService: ErrorService
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
@@ -68,13 +82,30 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     this.campaignService.myCampaigns$
       .pipe(
         takeUntil(this.isDestroyed$),
-        map((campaigns) =>
-          campaigns.find(
-            (campaignContainer) =>
-              campaignContainer.campaign.campaignId === this.id
-          )
-        ),
-        filter(isNotNil)
+        switchMap((campaigns) => {
+          const campaignContainer = campaigns.find(
+            (eachCampaignContainer) =>
+              eachCampaignContainer.campaign.campaignId === this.id
+          );
+          if (campaignContainer) {
+            return of(campaignContainer);
+          } else {
+            return this.campaignService.getCampaignDetailsById(this.id).pipe(
+              throwIfNil(
+                () =>
+                  new UserError({
+                    id: 'campaign-not-found',
+                    message: 'campaigns.detail.not_found',
+                  })
+              ),
+              map((campaign) => ({
+                campaign,
+                player: null,
+              })),
+              this.errorService.getErrorHandler('normal')
+            );
+          }
+        })
       )
       .subscribe((campaignContainer) => {
         this.campaignContainer = campaignContainer;
