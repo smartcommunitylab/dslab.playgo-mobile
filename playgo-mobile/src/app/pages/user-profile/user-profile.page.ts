@@ -21,7 +21,7 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { intersectionWith, isEqual } from 'lodash-es';
-import { tapLog } from 'src/app/core/shared/utils';
+import { tapLog } from 'src/app/core/shared/rxjs.utils';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.page.html',

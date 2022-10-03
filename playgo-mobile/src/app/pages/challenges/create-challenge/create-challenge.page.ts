@@ -29,7 +29,7 @@ import {
   transportTypeIcons,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
-import { castTo, tapLog } from 'src/app/core/shared/utils';
+import { castTo, tapLog } from 'src/app/core/shared/rxjs.utils';
 import { SentInvitationlModalPage } from './sent-invitation-modal/sent-invitation.modal';
 
 @Component({

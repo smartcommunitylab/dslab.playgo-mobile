@@ -24,7 +24,7 @@ import { DeviceInfo } from '@capacitor/device';
 import { environment } from 'src/environments/environment';
 import { ErrorService } from './error.service';
 import { ILocalPackage } from 'capacitor-codepush/dist/esm/package';
-import { runInZone, runOutsideAngular } from '../utils';
+import { runInZone, runOutsideAngular } from '../rxjs.utils';
 
 @Injectable({
   providedIn: 'root',

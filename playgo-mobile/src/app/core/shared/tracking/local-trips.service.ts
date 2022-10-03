@@ -33,13 +33,8 @@ import {
   some,
   sortBy,
 } from 'lodash-es';
-import {
-  groupByConsecutiveValues,
-  mapTo,
-  startFrom,
-  tapLog,
-  withReplayedLatestFrom,
-} from '../utils';
+import { groupByConsecutiveValues } from '../utils';
+import { mapTo, startFrom, withReplayedLatestFrom } from '../rxjs.utils';
 import { toServerDateTime } from '../time.utils';
 import { LocalStorageService } from '../services/local-storage.service';
 import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';

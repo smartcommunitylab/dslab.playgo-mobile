@@ -16,7 +16,6 @@ import {
   TransportType,
   transportTypeColors,
 } from 'src/app/core/shared/tracking/trip.model';
-import { tapLog } from 'src/app/core/shared/utils';
 import { decode } from '@googlemaps/polyline-codec';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 

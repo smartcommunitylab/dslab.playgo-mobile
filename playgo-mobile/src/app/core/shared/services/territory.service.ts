@@ -23,7 +23,7 @@ import { TerritoryControllerService } from '../../api/generated/controllers/terr
 import { Territory } from '../../api/generated/model/territory';
 import { tap } from 'rxjs/operators';
 import { LocalStorageService } from './local-storage.service';
-import { ifOfflineUseStored } from '../utils';
+import { ifOfflineUseStored } from '../rxjs.utils';
 import { ErrorService } from './error.service';
 
 @Injectable({ providedIn: 'root' })

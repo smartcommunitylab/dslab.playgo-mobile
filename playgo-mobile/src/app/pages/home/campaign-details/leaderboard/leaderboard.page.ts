@@ -21,12 +21,8 @@ import {
   transportTypeLabels,
   transportTypes,
 } from 'src/app/core/shared/tracking/trip.model';
-import {
-  cartesian,
-  startFrom,
-  tapLog,
-  throwIfNil,
-} from 'src/app/core/shared/utils';
+import { startFrom, throwIfNil } from 'src/app/core/shared/rxjs.utils';
+import { cartesian } from 'src/app/core/shared/utils';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';

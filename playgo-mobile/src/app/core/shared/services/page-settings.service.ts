@@ -30,7 +30,7 @@ import {
 } from 'rxjs';
 import { isEqual } from 'lodash-es';
 import { XOR } from '../type.utils';
-import { isInstanceOf, tapLog } from '../utils';
+import { isInstanceOf } from '../utils';
 import { TranslateKey } from '../globalization/i18n/i18n.utils';
 
 @Injectable({

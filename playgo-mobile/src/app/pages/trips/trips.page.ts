@@ -49,9 +49,7 @@ import {
 } from 'src/app/core/shared/tracking/trip.model';
 import {
   groupByConsecutiveValues,
-  isNotNil,
   isOfflineError,
-  tapLog,
   trackByProperty,
 } from 'src/app/core/shared/utils';
 import {

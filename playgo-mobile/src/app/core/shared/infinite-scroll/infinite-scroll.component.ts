@@ -29,7 +29,7 @@ import {
 } from 'rxjs/operators';
 import { Sort } from '../../api/generated/model/sort';
 import { SwaggerPageable } from '../../api/generated/model/swaggerPageable';
-import { asyncFilter, tapLog } from '../utils';
+import { asyncFilter, tapLog } from '../rxjs.utils';
 @Directive({
   selector: '[appInfiniteScrollContent]',
 })

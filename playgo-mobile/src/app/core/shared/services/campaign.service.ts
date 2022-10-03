@@ -30,7 +30,7 @@ import { PlayerCampaign } from '../../api/generated/model/playerCampaign';
 import { IUser } from '../model/user.model';
 import { LocalStorageService } from './local-storage.service';
 import { UserService } from './user.service';
-import { ifOfflineUseStored } from '../utils';
+import { ifOfflineUseStored } from '../rxjs.utils';
 import { ErrorService } from './error.service';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { CampaignInfo } from '../../api/generated/model/campaignInfo';

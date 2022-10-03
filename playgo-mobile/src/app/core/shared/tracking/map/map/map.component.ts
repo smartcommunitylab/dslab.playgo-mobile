@@ -45,12 +45,8 @@ import {
   TripLocation,
 } from '../../background-tracking.service';
 import { TransportType, transportTypeColors } from '../../trip.model';
-import {
-  beforeStartUse,
-  getAdjacentPairs,
-  groupByConsecutiveValues,
-  tapLog,
-} from '../../../utils';
+import { groupByConsecutiveValues, getAdjacentPairs } from '../../../utils';
+import { beforeStartUse } from '../../../rxjs.utils';
 
 @Component({
   selector: 'app-map',

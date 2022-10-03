@@ -30,7 +30,7 @@ import { NotificationService } from 'src/app/core/shared/services/notifications/
 import { Notification } from '../../../core/api/generated/model/notification';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { UnsubscribeModalPage } from './unsubscribe-modal/unsubscribe.modal';
-import { isNotNil, throwIfNil } from 'src/app/core/shared/utils';
+import { throwIfNil } from 'src/app/core/shared/rxjs.utils';
 import { environment } from 'src/environments/environment';
 import {
   ErrorService,
