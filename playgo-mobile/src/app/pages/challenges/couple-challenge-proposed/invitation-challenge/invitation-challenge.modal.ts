@@ -7,6 +7,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 import { Challenge } from '../../challenges.page';
 import { TranslateService } from '@ngx-translate/core';
 import { getTypeStringChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 @Component({
   selector: 'app-invitation-challenge',
   templateUrl: './invitation-challenge.modal.html',
@@ -23,7 +24,8 @@ export class InvitationlModalPage implements OnInit {
     private modalController: ModalController,
     private userService: UserService,
     private challengeService: ChallengeService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private errorService: ErrorService
   ) {}
   ngOnInit() {
     this.typeChallenge = this.translateService.instant(
@@ -37,30 +39,36 @@ export class InvitationlModalPage implements OnInit {
   }
   async activate() {
     try {
-      const ret = await this.challengeService.acceptChallenge(
+      await this.challengeService.acceptChallenge(
         this.campaign,
         this.challenge
       );
-      this.challengeService.challengesRefresher$.next(null);
     } catch (e) {
+      this.errorService.handleError(e);
     } finally {
       this.modalController.dismiss(false);
     }
   }
-  reject() {
+  async reject() {
     try {
-      this.challengeService.rejectChallenge(this.campaign, this.challenge);
-      this.challengeService.challengesRefresher$.next(null);
+      await this.challengeService.rejectChallenge(
+        this.campaign,
+        this.challenge
+      );
     } catch (e) {
+      this.errorService.handleError(e);
     } finally {
       this.modalController.dismiss(false);
     }
   }
-  cancel() {
+  async cancel() {
     try {
-      this.challengeService.cancelChallenge(this.campaign, this.challenge);
-      this.challengeService.challengesRefresher$.next(null);
+      await this.challengeService.cancelChallenge(
+        this.campaign,
+        this.challenge
+      );
     } catch (e) {
+      this.errorService.handleError(e);
     } finally {
       this.modalController.dismiss(false);
     }

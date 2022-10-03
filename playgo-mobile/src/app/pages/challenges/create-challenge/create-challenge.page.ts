@@ -148,7 +148,10 @@ export class CreateChallengePage implements OnInit {
 
   previewActive$ = new Subject<void>();
 
-  inviteParams$ = combineLatest({
+  inviteParams$: Observable<{
+    campaignId: string;
+    body?: Invitation;
+  }> = combineLatest({
     campaignId: this.campaignId$,
     selectedChallengeableId: this.selectedChallengeableId$,
     selectedModelName: this.selectedModelName$,
@@ -203,9 +206,7 @@ export class CreateChallengePage implements OnInit {
     console.log('Invite!');
     const inviteParams = await firstValueFrom(this.inviteParams$);
     try {
-      const invitation = await firstValueFrom(
-        this.challengeControllerService.sendInvitationUsingPOST(inviteParams)
-      );
+      await this.challengeService.sendInvitation(inviteParams);
       // await this.alertService.presentAlert({
       //   messageString: JSON.stringify(invitation),
       // });
@@ -219,7 +220,6 @@ export class CreateChallengePage implements OnInit {
       });
       await modal.present();
       this.navController.navigateBack('pages/tabs/challenges');
-      this.challengeService.challengesRefresher$.next(null);
     } catch (e) {
       this.errorService.handleError(e);
     }
