@@ -12,15 +12,15 @@ import {
 import { CampaignInfo } from 'src/app/core/api/generated/model/campaignInfo';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import {
+  getImgChallenge,
+  getTypeStringChallenge,
+} from 'src/app/core/shared/campaigns/campaign.utils';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { ReportService } from 'src/app/core/shared/services/report.service';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
-import {
-  getImgChallenge,
-  getTypeStringChallenge,
-} from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-campaign-stat',

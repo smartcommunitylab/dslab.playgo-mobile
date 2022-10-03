@@ -40,9 +40,12 @@ import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { getPeriods, Period } from 'src/app/core/shared/utils';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import {
+  getPeriods,
+  Period,
+} from 'src/app/core/shared/campaigns/campaign.utils';
 
 @Component({
   selector: 'app-stats',

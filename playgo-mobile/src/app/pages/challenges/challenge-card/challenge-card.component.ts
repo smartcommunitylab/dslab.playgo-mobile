@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { Challenge } from '../challenges.page';
-import { getImgChallenge } from '../../../core/shared/utils';
 import { Browser } from '@capacitor/browser';
 import { DetailChallengenModalPage } from './detail-modal/detail.modal';
 import { ModalController } from '@ionic/angular';
+import { getImgChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
 
 @Component({
   selector: 'app-challenge-card',

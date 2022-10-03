@@ -4,7 +4,7 @@ import { ChallengeStatsInfo } from 'src/app/core/api/generated/model/challengeSt
 import {
   getImgChallenge,
   getTypeStringChallenge,
-} from 'src/app/core/shared/utils';
+} from 'src/app/core/shared/campaigns/campaign.utils';
 
 @Component({
   selector: 'app-challenge-single-stat',

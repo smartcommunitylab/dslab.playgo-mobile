@@ -36,10 +36,12 @@ import { ChallengeStatsInfo } from 'src/app/core/api/generated/model/challengeSt
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
-import { getPeriods, Period } from 'src/app/core/shared/utils';
-import { ChallengeControllerService } from 'src/app/core/api/generated/controllers/challengeController.service';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import {
+  getPeriods,
+  Period,
+} from 'src/app/core/shared/campaigns/campaign.utils';
 
 @Component({
   selector: 'app-challenges-stat',

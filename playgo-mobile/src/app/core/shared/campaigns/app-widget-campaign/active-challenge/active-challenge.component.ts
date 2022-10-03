@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { Challenge } from 'src/app/pages/challenges/challenges.page';
-import { getImgChallenge } from '../../../../../core/shared/utils';
+import { getImgChallenge } from '../../campaign.utils';
 
 @Component({
   selector: 'app-active-challenge',
