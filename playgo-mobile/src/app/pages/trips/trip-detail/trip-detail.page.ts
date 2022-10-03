@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { flatMap } from 'lodash-es';
-import { Duration } from 'luxon';
 import { CampaignTripInfo } from 'src/app/core/api/generated/model/campaignTripInfo';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { UserService } from 'src/app/core/shared/services/user.service';
 import { TrackApiService } from 'src/app/core/shared/tracking/track-api.service';
 import {
   getTransportTypeIcon,
@@ -32,24 +29,21 @@ export class TripDetailPage implements OnInit {
     private route: ActivatedRoute,
     private errorService: ErrorService,
     private trackApiService: TrackApiService,
-    public campaignService: CampaignService,
-    private userService: UserService
+    public campaignService: CampaignService
   ) {}
 
   async ngOnInit() {
     const tripId = this.route.snapshot.paramMap.get('id');
-    if (tripId) {
-      try {
-        this.tripDetail = await this.getTripDetail(tripId);
-        this.showMap = Boolean(this.tripDetail.polyline);
-        this.campaigns = this.tripDetail.campaigns;
-        this.durationLabel = formatDurationToHoursAndMinutes(
-          this.tripDetail.endTime - this.tripDetail.startTime
-        );
-      } catch (e) {
-        // TODO: incorrect id handling
-        this.errorService.handleError(e);
-      }
+
+    try {
+      this.tripDetail = await this.getTripDetail(tripId);
+      this.showMap = Boolean(this.tripDetail.polyline);
+      this.campaigns = this.tripDetail.campaigns;
+      this.durationLabel = formatDurationToHoursAndMinutes(
+        this.tripDetail.endTime - this.tripDetail.startTime
+      );
+    } catch (e) {
+      this.errorService.handleError(e);
     }
   }
 
