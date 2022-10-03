@@ -18,7 +18,7 @@ import {
   takeUntil,
   map,
 } from 'rxjs/operators';
-import { runOutsideAngular } from '../../utils';
+import { runOutsideAngular } from '../../rxjs.utils';
 import { TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
 

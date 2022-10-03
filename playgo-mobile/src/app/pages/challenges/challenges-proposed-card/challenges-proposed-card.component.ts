@@ -1,13 +1,13 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { Challenge } from '../challenges.page';
-import { getImgChallenge } from '../../../core/shared/utils';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { ModalController, NavController } from '@ionic/angular';
 import { combineLatest, Observable, of, Subscription, switchMap } from 'rxjs';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { InfoChallengeModalPage } from './info-challenge-modal/info-challenge.modal';
+import { getImgChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
 
 @Component({
   selector: 'app-challenges-proposed-card',

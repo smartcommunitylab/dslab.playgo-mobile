@@ -27,7 +27,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 import { AboutModalComponent } from './about-modal/about-modal.component';
 import { Browser } from '@capacitor/browser';
 import { environment } from 'src/environments/environment';
-import { mapTo, tapLog } from 'src/app/core/shared/utils';
+import { mapTo, tapLog } from 'src/app/core/shared/rxjs.utils';
 import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
 import { DeleteModalPage } from './delete-modal/deleteModal.component';
 import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';

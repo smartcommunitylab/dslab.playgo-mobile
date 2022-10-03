@@ -43,7 +43,7 @@ import {
   TripPart,
   UNABLE_TO_GET_POSITION,
 } from './trip.model';
-import { runInZone, tapLog } from '../utils';
+import { runInZone } from '../rxjs.utils';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/auth.service';

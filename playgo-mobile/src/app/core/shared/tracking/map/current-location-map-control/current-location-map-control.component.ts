@@ -30,7 +30,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { runInZone, tapLog } from '../../../utils';
+import { runInZone, tapLog } from '../../../rxjs.utils';
 
 @Component({
   selector: 'app-current-location-map-control',

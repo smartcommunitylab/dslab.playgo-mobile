@@ -11,7 +11,7 @@ import { FCM } from '@capacitor-community/fcm';
 import { ModalController, Platform } from '@ionic/angular';
 import { CampaignService } from '../campaign.service';
 import { UserService } from '../user.service';
-import { tapLog } from '../../utils';
+import { tapLog } from '../../rxjs.utils';
 import { ErrorService } from '../error.service';
 import {
   combineLatest,
@@ -42,7 +42,7 @@ export class PushNotificationService {
   constructor(
     private zone: NgZone,
     private campaignService: CampaignService,
-    private communicationAccountControllerservice: CommunicationAccountControllerService,
+    private communicationAccountControllerService: CommunicationAccountControllerService,
     private userService: UserService,
     private modalController: ModalController,
     private errorService: ErrorService
@@ -135,7 +135,7 @@ export class PushNotificationService {
   async registerToServer(token: string) {
     console.log('registerToServer', token);
     try {
-      await this.communicationAccountControllerservice
+      await this.communicationAccountControllerService
         .registerUserToPushUsingPOST({
           platform: Capacitor.getPlatform(),
           registrationId: token,

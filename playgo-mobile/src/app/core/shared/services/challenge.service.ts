@@ -13,6 +13,7 @@ import {
   EMPTY,
   catchError,
   of,
+  firstValueFrom,
 } from 'rxjs';
 import {
   Challenge,
@@ -21,9 +22,11 @@ import {
 import { ChallengeControllerService } from '../../api/generated/controllers/challengeController.service';
 import { ChallengeConceptInfo } from '../../api/generated/model/challengeConceptInfo';
 import { ChallengesData } from '../../api/generated/model/challengesData';
+import { Invitation } from '../../api/generated/model/invitation';
 import { PlayerCampaign } from '../../api/generated/model/playerCampaign';
 import { CampaignService } from './campaign.service';
 import { ErrorService } from './error.service';
+import { PushNotificationService } from './notifications/pushNotification.service';
 import { RefresherService } from './refresher.service';
 
 @Injectable({
@@ -41,12 +44,16 @@ export class ChallengeService {
     ),
     shareReplay(1)
   );
-  public challengesRefresher$ = new ReplaySubject<any>(1);
-  private challengesCouldBeChanged$ = merge(
+  private challengesChangedSubject = new ReplaySubject<void>(1);
+  private challengesCouldBeChanged$: Observable<PlayerCampaign[]> = merge(
     this.campaignsWithChallenges$,
-    this.challengesRefresher$,
-    this.refresherService.refreshed$
-  ).pipe(withLatestFrom(this.campaignsWithChallenges$));
+    this.challengesChangedSubject,
+    this.refresherService.refreshed$,
+    this.pushNotificationService.notifications$
+  ).pipe(
+    withLatestFrom(this.campaignsWithChallenges$),
+    map(([trigger, campaigns]) => campaigns)
+  );
 
   public canInvite$: Observable<any[]> = this.campaignsWithChallenges$
     .pipe(
@@ -71,7 +78,7 @@ export class ChallengeService {
   public allChallenges$: Observable<Challenge[]> =
     this.challengesCouldBeChanged$
       .pipe(
-        switchMap(([refresh, campaigns]) =>
+        switchMap((campaigns) =>
           forkJoin(
             campaigns.map((campaign: PlayerCampaign) => {
               // console.log(campaign);
@@ -146,7 +153,8 @@ export class ChallengeService {
     private campaignService: CampaignService,
     private challengeControllerService: ChallengeControllerService,
     private errorService: ErrorService,
-    private refresherService: RefresherService
+    private refresherService: RefresherService,
+    private pushNotificationService: PushNotificationService
   ) {}
   private processResponseForOneCampaign(
     response: ChallengeConceptInfo,
@@ -258,7 +266,7 @@ export class ChallengeService {
     );
   }
 
-  public removeBlacklist(campaignId: string, playerId: string) {
+  public removeBlacklist(campaignId: string, playerId: string): Promise<any> {
     return this.challengeControllerService
       .deleteFromBlackListUsingDELETE({
         campaignId,
@@ -266,7 +274,7 @@ export class ChallengeService {
       })
       .toPromise();
   }
-  public addBlacklist(campaignId: string, playerId: string) {
+  public addBlacklist(campaignId: string, playerId: string): Promise<any> {
     return this.challengeControllerService
       .addToBlackListUsingPOST({
         campaignId,
@@ -274,25 +282,39 @@ export class ChallengeService {
       })
       .toPromise();
   }
-  public acceptSingleChallenge(campaign: PlayerCampaign, challenge: Challenge) {
-    this.challengeControllerService
-      .chooseChallengeUsingPUT({
+  public async acceptSingleChallenge(
+    campaign: PlayerCampaign,
+    challenge: Challenge
+  ): Promise<any> {
+    const response = await firstValueFrom(
+      this.challengeControllerService.chooseChallengeUsingPUT({
         challengeId: challenge.challId,
         campaignId: campaign.campaign.campaignId,
       })
-      .toPromise();
+    );
+
+    this.challengesChangedSubject.next();
+    return response;
   }
-  public acceptChallenge(campaign: PlayerCampaign, challenge: Challenge) {
-    this.challengeControllerService
-      .changeInvitationStatusUsingPOST({
+  public async acceptChallenge(
+    campaign: PlayerCampaign,
+    challenge: Challenge
+  ): Promise<any> {
+    const response = await firstValueFrom(
+      this.challengeControllerService.changeInvitationStatusUsingPOST({
         campaignId: campaign.campaign.campaignId,
         challengeId: challenge.challId,
         status: 'accept',
       })
-      .toPromise();
+    );
+    this.challengesChangedSubject.next();
+    return response;
   }
-  public rejectChallenge(campaign: PlayerCampaign, challenge: Challenge) {
-    this.challengeControllerService
+  public rejectChallenge(
+    campaign: PlayerCampaign,
+    challenge: Challenge
+  ): Promise<any> {
+    return this.challengeControllerService
       .changeInvitationStatusUsingPOST({
         campaignId: campaign.campaign.campaignId,
         challengeId: challenge.challId,
@@ -300,13 +322,28 @@ export class ChallengeService {
       })
       .toPromise();
   }
-  public cancelChallenge(campaign: PlayerCampaign, challenge: Challenge) {
-    this.challengeControllerService
-      .changeInvitationStatusUsingPOST({
+  public async cancelChallenge(
+    campaign: PlayerCampaign,
+    challenge: Challenge
+  ): Promise<any> {
+    const res = await firstValueFrom(
+      this.challengeControllerService.changeInvitationStatusUsingPOST({
         campaignId: campaign.campaign.campaignId,
         challengeId: challenge.challId,
         status: 'cancel',
       })
-      .toPromise();
+    );
+    this.challengesChangedSubject.next(null);
+    return res;
+  }
+  public async sendInvitation(invitationParams: {
+    campaignId: string;
+    body?: Invitation;
+  }): Promise<any> {
+    const invitation = await firstValueFrom(
+      this.challengeControllerService.sendInvitationUsingPOST(invitationParams)
+    );
+    this.challengesChangedSubject.next();
+    return invitation;
   }
 }

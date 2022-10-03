@@ -1,6 +1,6 @@
 import { App as AppPluginInternal, AppInfo } from '@capacitor/app';
 import { Device as DevicePluginInternal } from '@capacitor/device';
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, NgZone } from '@angular/core';
 import { codePush as CodePushPluginInternal } from 'capacitor-codepush';
 import {
   combineLatest,
@@ -12,12 +12,19 @@ import {
   ReplaySubject,
   shareReplay,
   EMPTY,
+  interval,
 } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 import { DeviceInfo } from '@capacitor/device';
 import { environment } from 'src/environments/environment';
 import { ErrorService } from './error.service';
 import { ILocalPackage } from 'capacitor-codepush/dist/esm/package';
+import { runInZone, runOutsideAngular } from '../rxjs.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +32,14 @@ import { ILocalPackage } from 'capacitor-codepush/dist/esm/package';
 export class AppStatusService {
   public isOnline$: Observable<boolean> = merge(
     of(navigator?.onLine),
+    of(null).pipe(
+      runOutsideAngular(this.zone),
+      switchMap(() => interval(1000)),
+      map(() => navigator?.onLine)
+    ),
     fromEvent(window, 'online').pipe(map(() => true)),
     fromEvent(window, 'offline').pipe(map(() => false))
-  ).pipe(shareReplay(1));
+  ).pipe(distinctUntilChanged(), runInZone(this.zone), shareReplay(1));
 
   public deviceInfo$: Observable<DeviceInfo> = from(
     this.devicePlugin.getInfo()
@@ -84,7 +96,8 @@ export class AppStatusService {
     private devicePlugin: typeof DevicePluginInternal,
     @Inject('CodePushPlugin')
     private codePushPlugin: typeof CodePushPluginInternal,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private zone: NgZone
   ) {}
 
   codePushSyncFinished(success: boolean) {

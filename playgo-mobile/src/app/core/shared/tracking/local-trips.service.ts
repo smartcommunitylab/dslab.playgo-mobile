@@ -15,7 +15,6 @@ import {
   concatMap,
   distinctUntilChanged,
   map,
-  mapTo,
   shareReplay,
   switchMap,
   throttleTime,
@@ -34,12 +33,8 @@ import {
   some,
   sortBy,
 } from 'lodash-es';
-import {
-  groupByConsecutiveValues,
-  startFrom,
-  tapLog,
-  withReplayedLatestFrom,
-} from '../utils';
+import { groupByConsecutiveValues } from '../utils';
+import { mapTo, startFrom, withReplayedLatestFrom } from '../rxjs.utils';
 import { toServerDateTime } from '../time.utils';
 import { LocalStorageService } from '../services/local-storage.service';
 import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
@@ -50,6 +45,7 @@ import {
 import { AuthService } from '../../auth/auth.service';
 import { RefresherService } from '../services/refresher.service';
 import { TrackApiService } from './track-api.service';
+import { PushNotificationService } from '../services/notifications/pushNotification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -89,7 +85,8 @@ export class LocalTripsService {
       mapTo(undefined)
     );
 
-  private pushNotification$: Observable<void> = NEVER;
+  private pushNotification$: Observable<void> =
+    this.pushNotificationService.notifications$.pipe(mapTo(undefined));
 
   private appResumed$: Observable<void> = NEVER;
 
@@ -210,7 +207,8 @@ export class LocalTripsService {
     private trackApiService: TrackApiService,
     private backgroundTrackingService: BackgroundTrackingService,
     private authService: AuthService,
-    private refresherService: RefresherService
+    private refresherService: RefresherService,
+    private pushNotificationService: PushNotificationService
   ) {
     initStream.get().subscribe(() => {
       this.initService();

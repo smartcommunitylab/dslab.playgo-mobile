@@ -30,7 +30,7 @@ import {
 } from 'rxjs';
 import { isEqual } from 'lodash-es';
 import { XOR } from '../type.utils';
-import { isInstanceOf, tapLog } from '../utils';
+import { isInstanceOf } from '../utils';
 import { TranslateKey } from '../globalization/i18n/i18n.utils';
 
 @Injectable({
@@ -94,8 +94,9 @@ export class PageSettingsService {
       shareReplay()
     );
 
-  private title$: Observable<TranslateKey> = this.pageSettings$.pipe(
-    map((settings) => settings.title || 'home')
+  private translatedTitle$: Observable<string> = this.pageSettings$.pipe(
+    map((settings) => settings.title || 'home'),
+    switchMap((title) => this.translateService.stream(title))
   );
 
   constructor(
@@ -104,8 +105,8 @@ export class PageSettingsService {
     private titleService: Title,
     private translateService: TranslateService
   ) {
-    this.title$.subscribe((title) => {
-      this.titleService.setTitle(this.translateService.instant(title));
+    this.translatedTitle$.subscribe((title) => {
+      this.titleService.setTitle(title);
     });
   }
 

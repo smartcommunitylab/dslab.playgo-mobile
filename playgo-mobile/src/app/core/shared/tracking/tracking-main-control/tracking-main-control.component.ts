@@ -6,8 +6,6 @@ import { filter, map, startWith } from 'rxjs/operators';
 import { AlertService } from '../../services/alert.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { PageSettingsService } from '../../services/page-settings.service';
-import { tapLog, waitMs } from '../../utils';
-// import { map } from 'rxjs/operators';
 import { BackgroundTrackingService } from '../background-tracking.service';
 import { FirstTimeBackgrounModalPage } from '../first-time-modal/first-time.modal';
 import { transportTypeIcons, TRIP_END } from '../trip.model';
