@@ -94,8 +94,9 @@ export class PageSettingsService {
       shareReplay()
     );
 
-  private title$: Observable<TranslateKey> = this.pageSettings$.pipe(
-    map((settings) => settings.title || 'home')
+  private translatedTitle$: Observable<string> = this.pageSettings$.pipe(
+    map((settings) => settings.title || 'home'),
+    switchMap((title) => this.translateService.stream(title))
   );
 
   constructor(
@@ -104,8 +105,8 @@ export class PageSettingsService {
     private titleService: Title,
     private translateService: TranslateService
   ) {
-    this.title$.subscribe((title) => {
-      this.titleService.setTitle(this.translateService.instant(title));
+    this.translatedTitle$.subscribe((title) => {
+      this.titleService.setTitle(title);
     });
   }
 

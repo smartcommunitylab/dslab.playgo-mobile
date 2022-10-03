@@ -64,21 +64,26 @@ export class TripCardComponent implements OnInit, OnChanges {
       throw new Error('Trip is not defined');
     }
   }
-  ngOnChanges() {
+  async ngOnChanges() {
+    this.durationLabel = formatDurationToHoursAndMinutes(
+      this.trip.endTime - this.trip.startTime
+    );
+
+    this.validCampaignsLabel = await this.getCampaignsLabel();
+  }
+  async getCampaignsLabel(): Promise<string> {
     const numberOfValidCampaigns = this.trip.campaigns.filter(
       (campaign) => campaign.valid
     ).length;
 
-    firstValueFrom(this.userService.pluralRules$).then((pluralRules) => {
-      const pluralForm = pluralRules.select(numberOfValidCampaigns);
-      this.validCampaignsLabel = this.translateService.instant(
+    const pluralRules = await firstValueFrom(this.userService.pluralRules$);
+    const pluralForm = pluralRules.select(numberOfValidCampaigns);
+    const translated: string = await firstValueFrom(
+      this.translateService.get(
         'trip_detail.valid_for_campaigns.plural_form.' + pluralForm,
         { count: numberOfValidCampaigns }
-      );
-    });
-
-    this.durationLabel = formatDurationToHoursAndMinutes(
-      this.trip.endTime - this.trip.startTime
+      )
     );
+    return translated;
   }
 }
