@@ -49,8 +49,7 @@
     "loginAppleButton": "Login with Apple",
     "loginInternalButton": "Login with Username",
     "title": "Welcome in Play&Go",
-    "subtitle": "Sustainable mobility app",
-    "subsub": "Beta version"
+    "subtitle": "Sustainable mobility app"
   },
   "notifications": {
     "empty": "You have no notifications",

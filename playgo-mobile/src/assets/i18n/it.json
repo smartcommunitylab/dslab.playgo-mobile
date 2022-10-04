@@ -30,6 +30,10 @@
     "positiveAction": "Cambia {backgroundPermissionOptionLabel}",
     "cancelAction": "Annulla"
   },
+  "permission_denied": {
+    "title": "Impossible iniziare il tracciamento",
+    "message": "Hai bloccato il permesso ad accedere alla tua posizione. Questo permesso é necessario per creare i tracciati per i tuoi viaggi sostenibili utilizzati per dare i punti per le tue campagne.  Puoi abilitare il permesso dalle impostazioni del tuo telefono."
+  },
   "badges": {
     "empty": "Non hai ottenuto nessun badge per questa campagna. Gioca per scoprirli."
   },
@@ -45,8 +49,7 @@
     "loginAppleButton": "Entra con Apple",
     "loginInternalButton": "Entra con Username",
     "title": "Benvenuti in Play&Go",
-    "subtitle": "App di mobilità sostenibile",
-    "subsub": "Beta version"
+    "subtitle": "App di mobilità sostenibile"
   },
   "notifications": {
     "empty": "Non ci sono notifiche da mostrare",
@@ -137,7 +140,10 @@
     "stop_header": "Viaggio concluso con successo!",
     "stop_body": "Il tracciamento si è concluso con successo. I dati del viaggio verranno inviati ai nostri server per la validazione.",
     "errors": {
-      "ACCESS_DENIED": "Accesso alla posizione in background rifiutata"
+      "ACCESS_DENIED": "Accesso alla posizione in background rifiutata!",
+      "LOW_ACCURACY": "Bassa precisione nella posizione rilevata!",
+      "POWER_SAVE_MODE": "Modalità Risparmio Energetico attiva! Questo puó comportare un tracciamento impreciso!",
+      "UNABLE_TO_GET_POSITION": "Impossibile recuperare la tua locazione! Assicurati che i servizi di localizzazione siano attivi e riprovare."
     }
   },
   "profile": {

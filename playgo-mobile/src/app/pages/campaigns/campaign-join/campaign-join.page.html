@@ -9,7 +9,7 @@
   <ion-content appContent [fullscreen]="true">
     <ion-card>
       <ion-card-header>
-        <ion-avatar class="avatar-campaign">
+        <ion-avatar class="avatar-campaign" [ngClass]="campaign.type">
           <img [src]="imagePath" title="campaign avatar" />
         </ion-avatar>
       </ion-card-header>
