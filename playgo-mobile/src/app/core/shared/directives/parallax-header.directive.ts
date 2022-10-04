@@ -174,6 +174,11 @@ export class ParallaxDirective implements AfterContentInit {
       'background-position',
       this.bgPosition
     );
+    this.renderer.setStyle(
+      this.imageOverlay,
+      'box-shadow',
+      'rgba(0,0,0,0.3) 1px 80px 60px -60px inset'
+    );
 
     this.toolbarBackground.appendChild(this.imageOverlay);
   }
