@@ -177,7 +177,7 @@ export class ParallaxDirective implements AfterContentInit {
     this.renderer.setStyle(
       this.imageOverlay,
       'box-shadow',
-      'rgba(var(--ion-color-contrast-reversed-rgb),0.3) 1px 80px 60px -60px inset'
+      'rgba(var(--ion-color-contrast-reversed-rgb),0.5) 1px 120px 60px -60px inset'
     );
 
     this.toolbarBackground.appendChild(this.imageOverlay);
