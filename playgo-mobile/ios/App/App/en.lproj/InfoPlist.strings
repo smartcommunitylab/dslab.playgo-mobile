@@ -19,4 +19,3 @@ NSCameraUsageDescription="This app requires access to the photo library to take 
 NSPhotoLibraryAddUsageDescription="This app  would like to save photos to your photo gallery for choosing your profile photo";
 NSPhotoLibraryUsageDescription="This app would like to save photos to your photo gallery for choosing your profile photo";
 
-

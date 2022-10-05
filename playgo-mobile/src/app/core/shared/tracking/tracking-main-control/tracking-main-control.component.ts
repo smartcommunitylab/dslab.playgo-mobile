@@ -96,6 +96,13 @@ export class TrackingMainControlComponent {
     if (permissionResult === 'ACCEPTED') {
       return true;
     }
+    if (permissionResult === 'ACCEPTED_WHEN_IN_USE') {
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'permission_when_in_use.title',
+        messageTranslateKey: 'permission_when_in_use.message',
+      });
+      return true;
+    }
     if (permissionResult === 'DENIED_SILENTLY') {
       await this.alertService.presentAlert({
         headerTranslateKey: 'permission_denied.title',

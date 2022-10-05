@@ -182,7 +182,7 @@ export class BackgroundTrackingService {
   }
 
   async askForPermissions(): Promise<
-    'ACCEPTED' | 'DENIED' | 'DENIED_SILENTLY'
+    'ACCEPTED' | 'DENIED' | 'DENIED_SILENTLY' | 'ACCEPTED_WHEN_IN_USE'
   > {
     await this.isReady;
     // Manually request permission with configured locationAuthorizationRequest.
@@ -196,15 +196,23 @@ export class BackgroundTrackingService {
       // AUTHORIZATION_STATUS_WHEN_IN_USE    | iOS only
 
       status = await this.backgroundGeolocationPlugin.requestPermission();
+      console.log('status requestPermission: ' + status);
     } catch (errorStatus) {
       status = errorStatus as AuthorizationStatus;
     }
     const executionTime = performance.now() - now;
+    console.log('executionTime: ' + executionTime);
 
     if (
       status === this.backgroundGeolocationPlugin.AUTHORIZATION_STATUS_ALWAYS
     ) {
       return 'ACCEPTED';
+    }
+    if (
+      status ===
+      this.backgroundGeolocationPlugin.AUTHORIZATION_STATUS_WHEN_IN_USE
+    ) {
+      return 'ACCEPTED_WHEN_IN_USE';
     }
     // real time is around 400ms
     if (executionTime < 1000) {
@@ -238,6 +246,7 @@ export class BackgroundTrackingService {
         autoSync: false,
         batchSync: true,
         authorization: null,
+        disableLocationAuthorizationAlert: true,
         notification: {
           smallIcon: 'drawable/ic_push',
         },

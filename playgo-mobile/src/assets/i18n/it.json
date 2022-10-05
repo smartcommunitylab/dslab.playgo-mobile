@@ -34,6 +34,10 @@
     "title": "Impossible iniziare il tracciamento",
     "message": "Hai bloccato il permesso ad accedere alla tua posizione. Questo permesso é necessario per creare i tracciati per i tuoi viaggi sostenibili utilizzati per dare i punti per le tue campagne.  Puoi abilitare il permesso dalle impostazioni del tuo telefono."
   },
+  "permission_when_in_use": {
+    "title": "Attenzione",
+    "message": "Se non consenti di condividere la posizione in background, c'è il rischio che le tue tracce siano incomplete. Considera la possibilità di modificare l'autorizzazione in \"Consenti sempre\"."
+  },
   "badges": {
     "empty": "Non hai ottenuto nessun badge per questa campagna. Gioca per scoprirli."
   },
