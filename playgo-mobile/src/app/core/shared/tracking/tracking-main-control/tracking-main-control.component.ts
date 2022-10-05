@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { AlertService } from '../../services/alert.service';
@@ -45,7 +45,8 @@ export class TrackingMainControlComponent {
     private localStorageService: LocalStorageService,
     private modalController: ModalController,
     private router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private platform: Platform
   ) {
     this.tripStopped$.subscribe(() => {
       this.hideMapAndButtons();
@@ -70,27 +71,36 @@ export class TrackingMainControlComponent {
     }
   }
   private async askForPermissions(): Promise<boolean> {
-    const firstTimePermission = await this.firstTimePermission.get();
-    if (!firstTimePermission) {
-      const modal = await this.modalController.create({
-        component: FirstTimeBackgrounModalPage,
-        backdropDismiss: false,
-        cssClass: 'modal-challenge',
-        swipeToClose: true,
-      });
-      await modal.present();
-      const userAcceptsCustomDialog: boolean = (await modal.onWillDismiss())
-        .data;
-      this.firstTimePermission.set(userAcceptsCustomDialog);
+    if (this.platform.is('android')) {
+      const firstTimePermission = await this.firstTimePermission.get();
+      if (!firstTimePermission) {
+        const modal = await this.modalController.create({
+          component: FirstTimeBackgrounModalPage,
+          backdropDismiss: false,
+          cssClass: 'modal-challenge',
+          swipeToClose: true,
+        });
+        await modal.present();
+        const userAcceptsCustomDialog: boolean = (await modal.onWillDismiss())
+          .data;
+        this.firstTimePermission.set(userAcceptsCustomDialog);
 
-      if (!userAcceptsCustomDialog) {
-        return false;
+        if (!userAcceptsCustomDialog) {
+          return false;
+        }
       }
     }
     // return confirm('Do you want to start tracking?');
     const permissionResult =
       await this.backgroundTrackingService.askForPermissions();
     if (permissionResult === 'ACCEPTED') {
+      return true;
+    }
+    if (permissionResult === 'ACCEPTED_WHEN_IN_USE') {
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'permission_when_in_use.title',
+        messageTranslateKey: 'permission_when_in_use.message',
+      });
       return true;
     }
     if (permissionResult === 'DENIED_SILENTLY') {

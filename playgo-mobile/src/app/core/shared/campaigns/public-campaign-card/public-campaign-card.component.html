@@ -5,7 +5,7 @@
       <div class="header">
         <img [src]="bannerPath" alt="banner" class="banner" />
         <div lines="none" class="header-title">
-          <ion-avatar style="margin: 2px" slot="end">
+          <ion-avatar style="margin: 2px" slot="end" [ngClass]="campaign.type">
             <img [src]="imagePath" alt="image" />
           </ion-avatar>
           <ion-label>
