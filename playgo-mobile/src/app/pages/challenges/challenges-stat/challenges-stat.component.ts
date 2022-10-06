@@ -29,6 +29,7 @@ import {
   switchMap,
   distinctUntilChanged,
   combineLatest,
+  filter,
 } from 'rxjs';
 import { isEqual } from 'lodash-es';
 
@@ -93,6 +94,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
     }))
   );
   statResponse$: Observable<ChallengeStatsInfo[]> = this.filterOptions$.pipe(
+    filter((obj) => obj.campaign != null),
     switchMap(({ campaign, period, playerId }) =>
       this.challengeService
         .getChallengeStats({

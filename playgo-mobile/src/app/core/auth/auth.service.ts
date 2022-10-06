@@ -135,21 +135,20 @@ export class AuthService {
     // redirect is handled from global event subscription
     try {
       // in the future, we may not need to perform signOut, just delete the token. (from secure storage)
-      await this.ionicAppAuthService.signOut();
-    } catch (e) {
-      console.log('sign out failed - probably no one is logged in', e);
-      this.postLogoutCleanup();
+      this.ionicAppAuthService.signOut();
+    } finally {
+      setTimeout(() => this.postLogoutCleanup(), 300);
     }
   }
 
   public async logoutAfterAuthFailed() {
     //todo alert('You are not longer logged in, please log in again.');
     try {
-      await this.ionicAppAuthService.signOut();
+      this.ionicAppAuthService.signOut();
     } finally {
       // redirect should be handled from global event subscription,
       // but if not, we do it manually
-      this.postLogoutCleanup();
+      setTimeout(() => this.postLogoutCleanup(), 300);
     }
   }
 

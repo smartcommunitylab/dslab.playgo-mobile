@@ -48,7 +48,10 @@ export class CampaignService {
 
   public allCampaigns$: Observable<Campaign[]> = this.initialUserProfile$.pipe(
     switchMap(({ territoryId }) =>
-      this.campaignControllerService.getCampaignsUsingGET({ territoryId })
+      this.campaignControllerService.getCampaignsUsingGET({
+        territoryId,
+        onlyVisible: true,
+      })
     ),
     shareReplay(1)
   );
