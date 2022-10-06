@@ -3,6 +3,7 @@
     <ion-label>{{ "challenges.stats.filter.campaign" | translate }}</ion-label>
     <ion-select
       class="app-alert"
+      *ngIf="campaigns.length > 0; else noCampaigns"
       (ionChange)="campaignChangedSubject.next($any($event))"
       [value]="selectedCampaign$ | async"
     >
@@ -10,6 +11,11 @@
         {{ campaign.campaign.name | languageMap }}
       </ion-select-option>
     </ion-select>
+    <ng-template #noCampaigns>
+      <ion-label>
+        {{ "challenges.stats.filter.no_campaigns" | translate }}</ion-label
+      >
+    </ng-template>
   </ion-item>
 
   <ion-segment

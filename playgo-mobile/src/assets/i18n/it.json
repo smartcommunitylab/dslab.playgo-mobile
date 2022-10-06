@@ -468,7 +468,8 @@
     "stats": {
       "empty": "Per visualizzare le statistiche inizia a giocare con le sfide!",
       "filter": {
-        "campaign": "Campagna"
+        "campaign": "Campagna",
+        "no_campaigns": "Nessun gioco presente"
       },
       "totalChallenges": "{{totalChallenges}} sfide",
       "totalWon": "{{totalWon}} vinte",
