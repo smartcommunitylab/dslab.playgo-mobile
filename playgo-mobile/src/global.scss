@@ -169,11 +169,15 @@ ion-list {
   width: 100%;
   height: 100%;
   display: -webkit-box;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0px;
   text-align: justify;
+  p {
+    display: inline;
+  }
 }
 .campaign-notification {
   --height: 75%;
