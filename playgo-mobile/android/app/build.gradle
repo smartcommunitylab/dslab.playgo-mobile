@@ -11,8 +11,10 @@ android {
             stage {
               applicationIdSuffix ".stage"
               versionNameSuffix "-stage"
+              manifestPlaceholders = [displayName:"PlayGo - Stage"]
             }
             production {
+              manifestPlaceholders = [displayName:"PlayGo"]
             }
         }
         applicationId "it.dslab.playgo"
