@@ -39,7 +39,8 @@
     <activity
       android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
       android:name="it.dslab.playgo.MainActivity"
-      android:label="@string/title_activity_main"
+      android:label="${displayName}"
+      tools:replace="label"
       android:theme="@style/AppTheme.NoActionBarLaunch"
       android:launchMode="singleTask"
       android:exported="true"
