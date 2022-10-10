@@ -34,7 +34,7 @@
     "build:prod": "npm run before-build && ng build --configuration=production",
     "build:stage": "npm run before-build && ng build --configuration=stage",
     "ionic:sync:testing": "ionic cap sync --configuration=testing",
-    "ionic:sync:stage": "ionic cap sync --configuration=stage",
+    "ionic:sync:stage": "cross-env FLAVOR=stage ionic cap sync --configuration=stage",
     "ionic:sync:prod": "ionic cap sync --prod",
     "ionic:sync:android:prod": "ionic cap sync android --prod",
     "ionic:sync:ios:prod": "ionic cap sync ios --prod",

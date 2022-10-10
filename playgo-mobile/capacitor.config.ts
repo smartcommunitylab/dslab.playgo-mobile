@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CapacitorConfig } from '@capacitor/cli';
 
-const config: CapacitorConfig = {
-  appId: 'it.dslab.playgo',
-  appName: 'Play&Go',
+const productionFlavorConfig: CapacitorConfig = {
+  // appId and appName are used only for initializing the native project
+  // appId: 'it.dslab.playgo',
+  // appName: 'Play&Go',
   webDir: 'www',
   bundledWebRuntime: false,
   server: { allowNavigation: ['*'] },
@@ -33,5 +34,25 @@ const config: CapacitorConfig = {
     },
   },
 };
+
+const stageFlavorConfig: CapacitorConfig = {
+  ...productionFlavorConfig,
+  plugins: {
+    ...productionFlavorConfig.plugins,
+    CodePush: {
+      ANDROID_DEPLOY_KEY: 'URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog',
+      IOS_DEPLOY_KEY: 'KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog',
+    },
+  },
+};
+
+let config: CapacitorConfig;
+if (process.env.FLAVOR === 'stage') {
+  console.log('Using stage flavor in capacitor.config.ts');
+  config = stageFlavorConfig;
+} else {
+  console.log('Using production flavor in capacitor.config.ts');
+  config = productionFlavorConfig;
+}
 
 export default config;
