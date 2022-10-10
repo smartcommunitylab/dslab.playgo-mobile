@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "949696027039",
+    "project_id": "playgo-dev-mobile",
+    "storage_bucket": "playgo-dev-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949696027039:android:5d359403142fd1043085aa",
+        "android_client_info": {
+          "package_name": "it.dslab.playgo.stage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949696027039-bol48na298gd4cbcjtguca6str8vhcln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjeOc7pW0yM76Q9WDUZ13EG_VC540oT8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949696027039-bol48na298gd4cbcjtguca6str8vhcln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
