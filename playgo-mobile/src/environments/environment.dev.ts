@@ -33,15 +33,6 @@ export const environment: Environment = {
       'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
     hscApi: 'https://hscdev.playngo.it/playandgo-hsc/publicapi',
   },
-  firebaseConfig: {
-    apiKey: 'AIzaSyC4jMIUaDnXVITplF2jIjhw2ElgUMillHE',
-    authDomain: 'playgo-mobile.firebaseapp.com',
-    projectId: 'playgo-mobile',
-    storageBucket: 'playgo-mobile.appspot.com',
-    messagingSenderId: '187362305431',
-    appId: '1:187362305431:web:6b28040d084512431810d2',
-    measurementId: 'G-5QRQJTP30R',
-  },
 };
 
 /*

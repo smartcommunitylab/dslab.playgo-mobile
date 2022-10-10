@@ -29,13 +29,4 @@ export interface Environment {
     pgaziendeUrl: string;
     hscApi: string;
   };
-  firebaseConfig: {
-    apiKey: string;
-    authDomain: string;
-    projectId: string;
-    storageBucket: string;
-    messagingSenderId: string;
-    appId: string;
-    measurementId: string;
-  };
 }
