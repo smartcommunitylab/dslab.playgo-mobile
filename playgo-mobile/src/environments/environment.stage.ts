@@ -13,7 +13,7 @@ export const environment: Environment = {
   authConfig: {
     ...prodEnvironment.authConfig,
     server_host: 'https://aac.platform.smartcommunitylab.it',
-    client_id: 'c_6663aed1ba5343db80ebdf98b7ea5667',
+    // client_id: 'c_6663aed1ba5343db80ebdf98b7ea5667',
     redirect_url: 'it.dslab.playgo.stage://callback',
     end_session_redirect_url: 'it.dslab.playgo.stage://endsession',
   },
