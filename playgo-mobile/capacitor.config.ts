@@ -40,6 +40,7 @@ const stageFlavorConfig: CapacitorConfig = {
   plugins: {
     ...productionFlavorConfig.plugins,
     CodePush: {
+      ...productionFlavorConfig.plugins.CodePush,
       ANDROID_DEPLOY_KEY: 'URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog',
       IOS_DEPLOY_KEY: 'KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog',
     },

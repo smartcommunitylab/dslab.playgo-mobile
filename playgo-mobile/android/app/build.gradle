@@ -10,7 +10,6 @@ android {
         productFlavors {
             stage {
               applicationId "it.dslab.playgo.stage"
-              versionNameSuffix "-stage"
               manifestPlaceholders = [
                 displayName:"PlayGo - Stage",
                 customUrlScheme:"it.dslab.playgo.stage"
