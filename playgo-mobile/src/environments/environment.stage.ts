@@ -11,12 +11,10 @@ export const environment: Environment = {
   ...prodEnvironment,
   name: 'Stage',
   authConfig: {
+    ...prodEnvironment.authConfig,
     server_host: 'https://aac.platform.smartcommunitylab.it',
-    client_id: 'c_5445634c-95d6-4c0e-a1ff-829b951b91b3',
+    client_id: 'c_6663aed1ba5343db80ebdf98b7ea5667',
     redirect_url: 'it.dslab.playgo.stage://callback',
     end_session_redirect_url: 'it.dslab.playgo.stage://endsession',
-    scopes: 'openid email profile offline_access',
-    automaticSilentRenew: true,
-    pkce: true,
   },
 };
