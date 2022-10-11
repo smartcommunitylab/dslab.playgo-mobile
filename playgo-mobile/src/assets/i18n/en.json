@@ -95,7 +95,7 @@
     },
     "territoryPopup": {
       "header": "Territory",
-      "message": "The choice of territory determines which campaigns can be played. Once selected, it can no longer be changed."
+      "message": "The choice of the territory determines the validation of the journeys and the availability of the mobility campaigns. Once selected, it will no longer be possible to modify."
     },
     "privacyPopup": {
       "header": "Privacy",
@@ -107,7 +107,7 @@
     "sumbmitButton": "Register",
     "confirm": {
       "header": "Confirm registration",
-      "message": "{{nickname}}, are you sure you want to register to Play&Go game for the following territory: {{territory}}?"
+      "message": "<h1>{{territory}}</h1><br><strong>{{nickname}}</strong>, are you sure you want to register to app Play&Go for the selected territory?"
     }
   },
   "modal": {
@@ -159,6 +159,12 @@
     "Help": "Help",
     "Privacy": "Privacy",
     "logout": "Logout",
+    "logoutpopup": {
+      "title": "Warning",
+      "message": "The unsaved data will be lost. Are you sure you want to exit?",
+      "cancel": "Annulla",
+      "ok": "OK"
+    },
     "about": "About",
     "deleteAccount": "Delete account",
     "changeButton": "Change",
