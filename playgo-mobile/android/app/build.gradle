@@ -9,15 +9,21 @@ android {
         flavorDimensions "version"
         productFlavors {
             stage {
-              applicationIdSuffix ".stage"
+              applicationId "it.dslab.playgo.stage"
               versionNameSuffix "-stage"
-              manifestPlaceholders = [displayName:"PlayGo - Stage"]
+              manifestPlaceholders = [
+                displayName:"PlayGo - Stage",
+                customUrlScheme:"it.dslab.playgo.stage"
+              ]
             }
             production {
-              manifestPlaceholders = [displayName:"PlayGo"]
+              applicationId "it.dslab.playgo"
+              manifestPlaceholders = [
+                displayName:"PlayGo",
+                customUrlScheme:"it.dslab.playgo"
+              ]
             }
         }
-        applicationId "it.dslab.playgo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 100
