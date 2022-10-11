@@ -9,10 +9,10 @@
       <ion-avatar>
         <img [src]="imagePath" alt="Avatar" />
       </ion-avatar>
-      <strong> {{ campaignContainer.campaign.name | languageMap }}</strong>
+      <span> {{ campaignContainer.campaign.name | languageMap }}</span>
     </div>
   </ion-card-header>
-  <ion-card-content class="company-content">
+  <ion-card-content class="company-content ion-no-padding">
     <app-main-campaign-stat
       [campaignContainer]="campaignContainer"
       [reportMonthStat]="reportMonthStat"

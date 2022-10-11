@@ -10,14 +10,20 @@ ion-card {
   ion-card-header {
     text-align: left;
     border-radius: 10px 10px 0px 0px;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 12px;
     div ion-avatar {
       --border-radius: 50%;
-      border: solid 3px var(--ion-color-school);
+      border: solid 5px var(--ion-color-school);
       background-color: var(--ion-color-school);
       position: absolute;
       z-index: 2;
       text-align: center;
-      right: 20px;
+      right: 12px;
+      bottom: -29px;
+      width: 64px;
+      height: 64px;
     }
   }
 }
