@@ -48,9 +48,11 @@
         *ngFor="let period of periods"
         [value]="period"
         checked
+        mode="ios"
         class="app-segment-button"
-        [style.--background]="'var(--ion-color-'+campaignContainer.campaign.type+')'"
-        [style.--color-checked]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'"
+        [style.--radius]="'10px'"
+        [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'"
+        [style.--color-checked]="'black'"
       >
         <ion-label>{{period.labelKey| translate}}</ion-label>
       </ion-segment-button>

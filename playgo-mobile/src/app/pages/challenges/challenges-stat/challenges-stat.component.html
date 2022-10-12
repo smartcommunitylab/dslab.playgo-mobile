@@ -22,6 +22,7 @@
     mode="md"
     class="app-segment"
     [(ngModel)]="selectedSegment"
+    [style.--background]="'var(--ion-color-playgo)'"
     (ionChange)="
       segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)
     "
@@ -31,6 +32,7 @@
       *ngFor="let period of periods"
       [value]="period"
       checked
+      mode="ios"
       class="app-segment-button"
     >
       <ion-label>{{ period.labelKey | translate }}</ion-label>

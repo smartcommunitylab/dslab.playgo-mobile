@@ -2,13 +2,16 @@
 <ion-content appContent [fullscreen]="true" class="page">
   <ion-segment
     mode="md"
-    class="app-segment"
+    class="app-segment app-segment-challenge"
     [(ngModel)]="selectedSegment"
     scrollable
+    class="app-segment"
+    [style.--background]="'var(--ion-color-playgo)'"
   >
     <ion-segment-button
       value="pastChallenges"
       checked
+      mode="ios"
       class="app-segment-button"
     >
       <ion-label>{{'challenges.past' | translate}}</ion-label>
@@ -16,11 +19,16 @@
     <ion-segment-button
       value="activeChallenges"
       checked
+      mode="ios"
       class="app-segment-button"
     >
       <ion-label>{{'challenges.present' | translate}}</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="futureChallenges" class="app-segment-button">
+    <ion-segment-button
+      value="futureChallenges"
+      class="app-segment-button"
+      mode="ios"
+    >
       <ion-label>{{'challenges.future' | translate}}</ion-label>
     </ion-segment-button>
   </ion-segment>
