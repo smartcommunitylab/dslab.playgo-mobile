@@ -4,17 +4,15 @@
  * see android\app\build.gradle
  * Main differences is separate url schema and acc
  */
-import { environment as prodEnvironment } from './environment.prod';
-import { Environment } from './type-environment';
 
-export const environment: Environment = {
-  ...prodEnvironment,
+// ---------- Check if translation are same for it, en ----------------- //
+import 'src/app/core/shared/globalization/i18n/check-dictio-compiletime';
+
+import { createEnvironment, Environment } from './create-environment';
+
+export const environment: Environment = createEnvironment({
   name: 'stage',
-  authConfig: {
-    ...prodEnvironment.authConfig,
-    server_host: 'https://aac.platform.smartcommunitylab.it',
-    // client_id: 'c_6663aed1ba5343db80ebdf98b7ea5667',
-    redirect_url: 'it.dslab.playgo.stage://callback',
-    end_session_redirect_url: 'it.dslab.playgo.stage://endsession',
-  },
-};
+  aac: 'stage',
+  apiServer: 'dev',
+  releaseToStore: true,
+});
