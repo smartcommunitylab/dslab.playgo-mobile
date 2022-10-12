@@ -17,7 +17,7 @@ export class AboutModalComponent implements OnInit {
   angularBuildCommit = gitInfo.raw || gitInfo.hash || '-';
   angularBuildConfiguration = environment.name;
   javaBuildCommit = '';
-  codePushChannel = '';
+  capacitorFlavor = '';
 
   constructor(
     private modalController: ModalController,
@@ -31,8 +31,8 @@ export class AboutModalComponent implements OnInit {
       const javaInfoJson = await Preferences.get({ key: 'gitInfo' });
       const javaInfo: GitInfo = JSON.parse(javaInfoJson.value);
       this.javaBuildCommit = javaInfo?.raw || javaInfo?.hash || '-';
-      this.codePushChannel = (
-        await Preferences.get({ key: 'codePushChannel' })
+      this.capacitorFlavor = (
+        await Preferences.get({ key: 'capacitorFlavor' })
       ).value;
     } catch (e) {
       this.errorService.handleError(e, 'silent');

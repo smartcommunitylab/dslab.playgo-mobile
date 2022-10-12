@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CapacitorConfig } from '@capacitor/cli';
 
-const productionFlavorConfig: CapacitorConfig = {
+const flavor: 'stage' | 'production' =
+  process.env.FLAVOR === 'stage' ? 'stage' : 'production';
+
+const configBase: CapacitorConfig = {
   // appId and appName are used only for initializing the native project
   // appId: 'it.dslab.playgo',
   // appName: 'Play&Go',
@@ -22,38 +25,46 @@ const productionFlavorConfig: CapacitorConfig = {
       presentationOptions: ['badge', 'sound', 'alert'],
     },
     CodePush: {
-      ANDROID_DEPLOY_KEY: 'NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog',
-      IOS_DEPLOY_KEY: 'zb5HmAnKlI5QKIjJCLjC375GAEsf4ksvOXqog',
-      ANDROID___STAGING___DEPLOY_KEY: 'URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog',
-      ANDROID___PROD______DEPLOY_KEY: 'NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog',
-      IOS_______STAGING_________DEPLOY_KEY:
-        'KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog',
-      IOS_______PROD_________DEPLOY_KEY:
-        'zb5HmAnKlI5QKIjJCLjC375GAEsf4ksvOXqog',
+      // we store used flavor (stage/production), so it could be accessed from java, and then sent
+      // to javascript. In the end this value will be shown in 'About' screen.
+      flavor,
       SERVER_URL: 'https://code-push-server.platform.smartcommunitylab.it',
     },
   },
 };
 
 const stageFlavorConfig: CapacitorConfig = {
-  ...productionFlavorConfig,
+  ...configBase,
   plugins: {
-    ...productionFlavorConfig.plugins,
+    ...configBase.plugins,
     CodePush: {
-      ...productionFlavorConfig.plugins.CodePush,
+      ...configBase.plugins.CodePush,
       ANDROID_DEPLOY_KEY: 'URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog',
       IOS_DEPLOY_KEY: 'KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog',
     },
   },
 };
+const productionFlavorConfig: CapacitorConfig = {
+  ...configBase,
+  plugins: {
+    ...configBase.plugins,
+    CodePush: {
+      ...configBase.plugins.CodePush,
+      ANDROID_DEPLOY_KEY: 'NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog',
+      IOS_DEPLOY_KEY: 'zb5HmAnKlI5QKIjJCLjC375GAEsf4ksvOXqog',
+    },
+  },
+};
+
+console.log(`using ${flavor} flavor in capacitor.config.ts`);
 
 let config: CapacitorConfig;
-if (process.env.FLAVOR === 'stage') {
-  console.log('Using stage flavor in capacitor.config.ts');
+if (flavor === 'stage') {
   config = stageFlavorConfig;
-} else {
-  console.log('Using production flavor in capacitor.config.ts');
+} else if (flavor === 'production') {
   config = productionFlavorConfig;
+} else {
+  throw new Error('Unsupported flavor');
 }
 
 export default config;

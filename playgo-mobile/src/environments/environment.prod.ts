@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export const environment: Environment = {
-  name: 'Production',
+  name: 'production',
   production: true,
   useCodePush: true,
   support: {

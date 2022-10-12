@@ -19,7 +19,7 @@ public class MainActivity extends BridgeActivity {
     super.onStart();
     storeBuildInfo();
   }
-  
+
 
   private String getGitVersion() {
     String gitVersion = "{hash:\"--\"}";
@@ -34,20 +34,13 @@ public class MainActivity extends BridgeActivity {
     return gitVersion;
   }
 
-  private String getCodePushChannel() {
+  private String getCapacitorFlavor() {
 
     CapConfig configInstance = getBridge().getConfig();
     PluginConfig codePushConfig = configInstance.getPluginConfiguration("CodePush");
-    String usedDeployKey = codePushConfig.getString("ANDROID_DEPLOY_KEY");
-    String stagingDeployKey = codePushConfig.getString("ANDROID___STAGING___DEPLOY_KEY");
-    String prodDeployKey = codePushConfig.getString("ANDROID___PROD______DEPLOY_KEY");
-    if (usedDeployKey.equals(stagingDeployKey)) {
-      return "Staging";
-    }
-    if (usedDeployKey.equals(prodDeployKey)) {
-      return "Production";
-    }
-    return usedDeployKey;
+    String flavor = codePushConfig.getString("flavor");
+
+    return flavor;
   }
 
   private void storeBuildInfo() {
@@ -56,7 +49,7 @@ public class MainActivity extends BridgeActivity {
       SharedPreferences.Editor editor = gitInfo.edit();
 
       editor.putString("gitInfo", getGitVersion());
-      editor.putString("codePushChannel", getCodePushChannel());
+      editor.putString("capacitorFlavor", getCapacitorFlavor());
 
       editor.apply();
     } catch (Exception e) {

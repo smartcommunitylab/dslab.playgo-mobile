@@ -9,7 +9,7 @@ import { Environment } from './type-environment';
 
 export const environment: Environment = {
   ...prodEnvironment,
-  name: 'Stage',
+  name: 'stage',
   authConfig: {
     ...prodEnvironment.authConfig,
     server_host: 'https://aac.platform.smartcommunitylab.it',
