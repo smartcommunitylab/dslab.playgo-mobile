@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>949696027039-r7fvmgcftissm6o0pt2k62pkblkj8eua.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.949696027039-r7fvmgcftissm6o0pt2k62pkblkj8eua</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDwMi2BEGy8O7pK0tQmLHma2-P2Xp4OFYo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>949696027039</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>it.dslab.playgo.stage</string>
+	<key>PROJECT_ID</key>
+	<string>playgo-dev-mobile</string>
+	<key>STORAGE_BUCKET</key>
+	<string>playgo-dev-mobile.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:949696027039:ios:601e6d254185d2b73085aa</string>
+</dict>
+</plist>

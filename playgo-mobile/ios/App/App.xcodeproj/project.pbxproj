@@ -24,10 +24,10 @@
 		B11F921828F812FE00E23E86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30E1FED79650016851F /* Assets.xcassets */; };
 		B11F921928F812FE00E23E86 /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		B11F921A28F812FE00E23E86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30B1FED79650016851F /* Main.storyboard */; };
-		B11F921B28F812FE00E23E86 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1A303D4288707D4006EBFB3 /* GoogleService-Info.plist */; };
 		B11F921C28F812FE00E23E86 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
 		B166BFEE28EC7DB300DA9EE0 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B166BFED28EC7DB300DA9EE0 /* HealthKit.framework */; };
-		B1A303D5288707D4006EBFB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1A303D4288707D4006EBFB3 /* GoogleService-Info.plist */; };
+		B1A0B27628F8151C0029E1A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1A0B27428F8151C0029E1A5 /* GoogleService-Info.plist */; };
+		B1A0B27728F815240029E1A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1A0B27328F8151C0029E1A5 /* GoogleService-Info.plist */; };
 		B1F499EF27CE305100699086 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1F499F127CE305100699086 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +46,8 @@
 		B11F922128F812FE00E23E86 /* App stage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App stage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B11F922228F812FE00E23E86 /* App stage-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "App stage-Info.plist"; path = "/Users/smartcommunitylab/Documents/work/projects/dslab.playgo-mobile/playgo-mobile/ios/App/App stage-Info.plist"; sourceTree = "<absolute>"; };
 		B166BFED28EC7DB300DA9EE0 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		B1A303D4288707D4006EBFB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B1A0B27328F8151C0029E1A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Firebaseconf/stage/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B1A0B27428F8151C0029E1A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Firebaseconf/prod/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B1A303D628870A18006EBFB3 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		B1F499F027CE305100699086 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B1F499F227CE307400699086 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -107,8 +108,9 @@
 		504EC3061FED79650016851F /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B1A0B27428F8151C0029E1A5 /* GoogleService-Info.plist */,
+				B1A0B27328F8151C0029E1A5 /* GoogleService-Info.plist */,
 				B1A303D628870A18006EBFB3 /* App.entitlements */,
-				B1A303D4288707D4006EBFB3 /* GoogleService-Info.plist */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
 				504EC30B1FED79650016851F /* Main.storyboard */,
@@ -217,12 +219,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */,
+				B1A0B27628F8151C0029E1A5 /* GoogleService-Info.plist in Resources */,
 				B1F499EF27CE305100699086 /* InfoPlist.strings in Resources */,
 				50B271D11FEDC1A000F3C39B /* public in Resources */,
 				504EC30F1FED79650016851F /* Assets.xcassets in Resources */,
 				50379B232058CBB4000EE86E /* capacitor.config.json in Resources */,
 				504EC30D1FED79650016851F /* Main.storyboard in Resources */,
-				B1A303D5288707D4006EBFB3 /* GoogleService-Info.plist in Resources */,
 				2FAD9763203C412B000D30F8 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,12 +234,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B11F921528F812FE00E23E86 /* LaunchScreen.storyboard in Resources */,
+				B1A0B27728F815240029E1A5 /* GoogleService-Info.plist in Resources */,
 				B11F921628F812FE00E23E86 /* InfoPlist.strings in Resources */,
 				B11F921728F812FE00E23E86 /* public in Resources */,
 				B11F921828F812FE00E23E86 /* Assets.xcassets in Resources */,
 				B11F921928F812FE00E23E86 /* capacitor.config.json in Resources */,
 				B11F921A28F812FE00E23E86 /* Main.storyboard in Resources */,
-				B11F921B28F812FE00E23E86 /* GoogleService-Info.plist in Resources */,
 				B11F921C28F812FE00E23E86 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
