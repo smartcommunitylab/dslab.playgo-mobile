@@ -37,3 +37,8 @@ target 'App' do
   # Add your Pods here
   pod 'Firebase/Messaging'
 end
+target 'App stage' do
+  capacitor_pods
+  # Add your Pods here
+  pod 'Firebase/Messaging'
+end

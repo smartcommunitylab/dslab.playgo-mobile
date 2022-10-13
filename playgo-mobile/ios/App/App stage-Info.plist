@@ -25,7 +25,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>it.dslab.playgo</string>
+				<string>it.dslab.playgo.stage</string>
 			</array>
 		</dict>
 	</array>
