@@ -15,6 +15,17 @@
 		504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
 		A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */; };
+		B11F921028F812FE00E23E86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
+		B11F921228F812FE00E23E86 /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */; };
+		B11F921328F812FE00E23E86 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B166BFED28EC7DB300DA9EE0 /* HealthKit.framework */; };
+		B11F921528F812FE00E23E86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
+		B11F921628F812FE00E23E86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1F499F127CE305100699086 /* InfoPlist.strings */; };
+		B11F921728F812FE00E23E86 /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
+		B11F921828F812FE00E23E86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30E1FED79650016851F /* Assets.xcassets */; };
+		B11F921928F812FE00E23E86 /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
+		B11F921A28F812FE00E23E86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30B1FED79650016851F /* Main.storyboard */; };
+		B11F921B28F812FE00E23E86 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1A303D4288707D4006EBFB3 /* GoogleService-Info.plist */; };
+		B11F921C28F812FE00E23E86 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
 		B166BFEE28EC7DB300DA9EE0 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B166BFED28EC7DB300DA9EE0 /* HealthKit.framework */; };
 		B1A303D5288707D4006EBFB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1A303D4288707D4006EBFB3 /* GoogleService-Info.plist */; };
 		B1F499EF27CE305100699086 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1F499F127CE305100699086 /* InfoPlist.strings */; };
@@ -32,6 +43,8 @@
 		50B271D01FEDC1A000F3C39B /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
 		AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.release.xcconfig"; sourceTree = "<group>"; };
+		B11F922128F812FE00E23E86 /* App stage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App stage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B11F922228F812FE00E23E86 /* App stage-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "App stage-Info.plist"; path = "/Users/smartcommunitylab/Documents/work/projects/dslab.playgo-mobile/playgo-mobile/ios/App/App stage-Info.plist"; sourceTree = "<absolute>"; };
 		B166BFED28EC7DB300DA9EE0 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		B1A303D4288707D4006EBFB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B1A303D628870A18006EBFB3 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
@@ -47,6 +60,15 @@
 			files = (
 				A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */,
 				B166BFEE28EC7DB300DA9EE0 /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B11F921128F812FE00E23E86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B11F921228F812FE00E23E86 /* Pods_App.framework in Frameworks */,
+				B11F921328F812FE00E23E86 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +91,7 @@
 				504EC3051FED79650016851F /* Products */,
 				7F8756D8B27F46E3366F6CEA /* Pods */,
 				27E2DDA53C4D2A4D1A88CE4A /* Frameworks */,
+				B11F922228F812FE00E23E86 /* App stage-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				504EC3041FED79650016851F /* App.app */,
+				B11F922128F812FE00E23E86 /* App stage.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,6 +153,25 @@
 			productReference = 504EC3041FED79650016851F /* App.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B11F920D28F812FE00E23E86 /* App stage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B11F921E28F812FE00E23E86 /* Build configuration list for PBXNativeTarget "App stage" */;
+			buildPhases = (
+				B11F920E28F812FE00E23E86 /* [CP] Check Pods Manifest.lock */,
+				B11F920F28F812FE00E23E86 /* Sources */,
+				B11F921128F812FE00E23E86 /* Frameworks */,
+				B11F921428F812FE00E23E86 /* Resources */,
+				B11F921D28F812FE00E23E86 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "App stage";
+			productName = App;
+			productReference = B11F922128F812FE00E23E86 /* App stage.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -141,6 +184,9 @@
 					504EC3031FED79650016851F = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 1100;
+						ProvisioningStyle = Automatic;
+					};
+					B11F920D28F812FE00E23E86 = {
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -160,6 +206,7 @@
 			projectRoot = "";
 			targets = (
 				504EC3031FED79650016851F /* App */,
+				B11F920D28F812FE00E23E86 /* App stage */,
 			);
 		};
 /* End PBXProject section */
@@ -177,6 +224,21 @@
 				504EC30D1FED79650016851F /* Main.storyboard in Resources */,
 				B1A303D5288707D4006EBFB3 /* GoogleService-Info.plist in Resources */,
 				2FAD9763203C412B000D30F8 /* config.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B11F921428F812FE00E23E86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B11F921528F812FE00E23E86 /* LaunchScreen.storyboard in Resources */,
+				B11F921628F812FE00E23E86 /* InfoPlist.strings in Resources */,
+				B11F921728F812FE00E23E86 /* public in Resources */,
+				B11F921828F812FE00E23E86 /* Assets.xcassets in Resources */,
+				B11F921928F812FE00E23E86 /* capacitor.config.json in Resources */,
+				B11F921A28F812FE00E23E86 /* Main.storyboard in Resources */,
+				B11F921B28F812FE00E23E86 /* GoogleService-Info.plist in Resources */,
+				B11F921C28F812FE00E23E86 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +278,39 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App/Pods-App-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B11F920E28F812FE00E23E86 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-App-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B11F921D28F812FE00E23E86 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App/Pods-App-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -224,6 +319,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B11F920F28F812FE00E23E86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B11F921028F812FE00E23E86 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +523,53 @@
 			};
 			name = Release;
 		};
+		B11F921F28F812FE00E23E86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 202210051;
+				DEVELOPMENT_TEAM = X3HGX9BUQ8;
+				INFOPLIST_FILE = "App stage-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
+				PRODUCT_BUNDLE_IDENTIFIER = it.dslab.playgo.stage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		B11F922028F812FE00E23E86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 202210051;
+				DEVELOPMENT_TEAM = X3HGX9BUQ8;
+				INFOPLIST_FILE = "App stage-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = it.dslab.playgo.stage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -437,6 +587,15 @@
 			buildConfigurations = (
 				504EC3171FED79650016851F /* Debug */,
 				504EC3181FED79650016851F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B11F921E28F812FE00E23E86 /* Build configuration list for PBXNativeTarget "App stage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B11F921F28F812FE00E23E86 /* Debug */,
+				B11F922028F812FE00E23E86 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
