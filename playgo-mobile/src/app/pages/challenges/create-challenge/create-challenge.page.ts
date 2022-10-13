@@ -94,7 +94,7 @@ export class CreateChallengePage implements OnInit {
   selectedModelName$ = new Subject<Invitation.ChallengeModelNameEnum>();
 
   pointConcepts$: Observable<MeanOrGameInfo[]> = combineLatest([
-    this.userService.userProfileMeans$,
+    this.campaignService.availableMeans$,
     this.campaign$,
   ]).pipe(
     map(([means, campaign]) => {
