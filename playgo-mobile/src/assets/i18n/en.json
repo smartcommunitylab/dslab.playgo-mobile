@@ -170,9 +170,11 @@
     "changeButton": "Change",
     "delete": {
       "title": "Delete account",
-      "message": "Are you sure you want to delete your account?",
+      "message": "This action will delete all your data and your progress in the Play&Go app",
+      "message2": "This is a irreversible action: you cannot get any data back if you will delete the account",
+      "message3": "Are you sure to delete definetly your account?",
       "close": "Cancel",
-      "accept": "Confirm"
+      "accept": "Delete"
     },
     "change": {
       "modalTitle": "Change Profile",

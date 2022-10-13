@@ -101,6 +101,7 @@ export class TrackingButtonsComponent implements OnInit {
       await this.alertService.presentAlert({
         headerTranslateKey: 'tracking.stop_header',
         messageTranslateKey: 'tracking.stop_body',
+        cssClass: 'app-alert',
       });
     } finally {
       this.inProgressButton = null;

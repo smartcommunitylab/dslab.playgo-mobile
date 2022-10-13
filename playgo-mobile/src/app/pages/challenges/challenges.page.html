@@ -13,6 +13,8 @@
       checked
       mode="ios"
       class="app-segment-button"
+      [style.--color]="'white'"
+      [style.--color-checked]="'black'"
     >
       <ion-label>{{'challenges.past' | translate}}</ion-label>
     </ion-segment-button>
@@ -21,6 +23,8 @@
       checked
       mode="ios"
       class="app-segment-button"
+      [style.--color]="'white'"
+      [style.--color-checked]="'black'"
     >
       <ion-label>{{'challenges.present' | translate}}</ion-label>
     </ion-segment-button>
@@ -28,6 +32,8 @@
       value="futureChallenges"
       class="app-segment-button"
       mode="ios"
+      [style.--color]="'white'"
+      [style.--color-checked]="'black'"
     >
       <ion-label>{{'challenges.future' | translate}}</ion-label>
     </ion-segment-button>

@@ -126,6 +126,7 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
     const ok = await this.translateService.instant('profile.logoutpopup.ok');
     return new Promise(async () => {
       const alert = await this.alertController.create({
+        cssClass: 'app-alert',
         header,
         message,
         buttons: [
@@ -151,7 +152,7 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
   public async deleteAccount() {
     const modal = await this.modalController.create({
       component: DeleteModalPage,
-      cssClass: 'modal-challenge',
+      cssClass: 'modal-playgo',
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();

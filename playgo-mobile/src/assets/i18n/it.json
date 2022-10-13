@@ -169,10 +169,12 @@
     "deleteAccount": "Elimina account",
     "changeButton": "Modifica",
     "delete": {
-      "title": "Cancellazione account",
-      "message": "Sei sicuro di voler cancellare il tuo account?",
+      "title": "Eliminazione profilo",
+      "message": "Questa azione cancellerà tutti i tuoi dati e i tuoi progressi nell’app Play&Go",
+      "message2": "Si tratta di un’azione irreversibile: non potrai recuperare nessun dato del tuo storico (campagne, sfide, ecc.) se elimini il profilo",
+      "message3": "Sei sicuro di voler eliminare definitivamente il tuo profilo Play&Go?",
       "close": "Annulla",
-      "accept": "Conferma"
+      "accept": "Elimina"
     },
     "change": {
       "modalTitle": "Modifica Profilo",
