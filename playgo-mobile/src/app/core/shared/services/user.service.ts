@@ -88,17 +88,6 @@ export class UserService {
     )
   );
 
-  public userProfileMeans$: Observable<TransportType[]> = combineLatest([
-    this.userProfile$,
-    this.territoryService.territories$,
-  ]).pipe(
-    map(
-      ([userProfile, territories]) =>
-        territories.find(
-          (territory) => territory.territoryId === userProfile.territoryId
-        ).territoryData.means
-    )
-  );
   constructor(
     private translateService: TranslateService,
     private territoryService: TerritoryService,

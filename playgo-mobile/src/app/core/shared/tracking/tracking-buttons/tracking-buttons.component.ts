@@ -11,6 +11,7 @@ import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlertService } from '../../services/alert.service';
+import { CampaignService } from '../../services/campaign.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { UserService } from '../../services/user.service';
 import { trackByProperty, waitMs } from '../../utils';
@@ -40,21 +41,19 @@ export class TrackingButtonsComponent implements OnInit {
   hasPermissions: boolean = null;
 
   public transportTypeOptions$: Observable<TrackingFabButton[]> =
-    this.userService.userProfileMeans$.pipe(
-      map((userProfileMeans) =>
-        transportTypes
-          .filter((transportType) => userProfileMeans.includes(transportType))
-          .map((transportType) => ({
-            transportType,
-            icon: transportTypeIcons[transportType],
-          }))
+    this.campaignService.availableMeans$.pipe(
+      map((means) =>
+        means.map((transportType) => ({
+          transportType,
+          icon: transportTypeIcons[transportType],
+        }))
       )
     );
 
   trackTransportFabButton = trackByProperty<TrackingFabButton>('transportType');
   constructor(
     public tripService: TripService,
-    private userService: UserService,
+    private campaignService: CampaignService,
     private alertService: AlertService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}

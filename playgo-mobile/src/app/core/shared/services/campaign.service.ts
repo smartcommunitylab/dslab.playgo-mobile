@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isEqual } from 'lodash-es';
 import {
+  combineLatest,
   EMPTY,
   merge,
   Observable,
@@ -21,6 +22,7 @@ import {
   switchMap,
   find,
   catchError,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { CampaignControllerService } from '../../api/generated/controllers/campaignController.service';
@@ -35,6 +37,7 @@ import { ErrorService } from './error.service';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { CampaignInfo } from '../../api/generated/model/campaignInfo';
 import { RefresherService } from './refresher.service';
+import { TransportType, transportTypes } from '../tracking/trip.model';
 
 @Injectable({
   providedIn: 'root',
@@ -90,6 +93,25 @@ export class CampaignService {
       tap((myCampaigns) => this.myCampaignsStorage.set(myCampaigns)),
       shareReplay(1)
     );
+
+  availableMeans$: Observable<TransportType[]> = combineLatest([
+    this.userService.userProfileTerritory$,
+    this.myCampaigns$,
+  ]).pipe(
+    map(([userTerritory, myCampaigns]) =>
+      transportTypes
+        .filter((eachTransportType) =>
+          userTerritory?.territoryData?.means?.includes(eachTransportType)
+        )
+        .filter((eachTransportType) =>
+          myCampaigns.some((campaign) =>
+            campaign.campaign.validationData.means.includes(eachTransportType)
+          )
+        )
+    ),
+    distinctUntilChanged(isEqual),
+    shareReplay(1)
+  );
 
   mapFunctionalities: Record<string, Record<string, CampaignFunctionality>> = {
     personal: {
