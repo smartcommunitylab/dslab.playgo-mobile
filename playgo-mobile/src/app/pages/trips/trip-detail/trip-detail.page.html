@@ -5,6 +5,15 @@
       *ngIf="showMap"
       [tripParts]="[tripDetail]"
     ></app-trip-detail-map>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div class="no-map">
+            <strong> {{ "trip_detail.no_track" | translate }}</strong>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <ion-card class="absolute-wrapper">
       <ion-grid>
         <ion-row>
@@ -29,6 +38,9 @@
               translate }} {{ this.durationLabel }}
             </ion-row>
           </ion-col>
+        </ion-row>
+        <ion-row *ngIf="campaigns.length === 0">
+          {{ 'trip_detail.no_score' | translate }}
         </ion-row>
         <ion-row
           *ngFor="let campaign of campaigns"
