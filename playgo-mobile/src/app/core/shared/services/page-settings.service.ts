@@ -45,7 +45,7 @@ export class PageSettingsService {
     isOfflinePage: false,
     customHeader: false,
     showNotifications: false,
-    showPlayButton: false,
+    showPlayButton: true,
     refresher: false,
   };
   private routerPageSettings$: Observable<PageSettings> = merge(
