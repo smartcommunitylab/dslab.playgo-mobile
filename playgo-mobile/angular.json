@@ -98,6 +98,14 @@
                 }
               ]
             },
+            "stage": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.stage.ts"
+                }
+              ]
+            },
             "ci": {
               "progress": false
             }
@@ -117,6 +125,9 @@
             },
             "testing": {
               "browserTarget": "app:build:testing"
+            },
+            "stage": {
+              "browserTarget": "app:build:stage"
             },
             "ci": {
               "progress": false

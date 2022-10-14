@@ -7,7 +7,6 @@ import '@capacitor-community/firebase-analytics';
 
 import { Plugins } from '@capacitor/core';
 import { Device } from '@capacitor/device';
-import { environment } from 'src/environments/environment';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const { FirebaseAnalytics } = Plugins;
@@ -33,7 +32,7 @@ export class AnalyticsServiceService {
 
   async initFb() {
     if ((await Device.getInfo()).platform === 'web') {
-      FirebaseAnalytics.initializeFirebase(environment.firebaseConfig);
+      this.analyticsEnabled = false;
     }
   }
 

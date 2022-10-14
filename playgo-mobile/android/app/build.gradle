@@ -6,7 +6,23 @@ apply from: "${background_geolocation.projectDir}/app.gradle"
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "it.dslab.playgo"
+        flavorDimensions "version"
+        productFlavors {
+            stage {
+              applicationId "it.dslab.playgo.stage"
+              manifestPlaceholders = [
+                displayName:"PlayGo - Stage",
+                customUrlScheme:"it.dslab.playgo.stage"
+              ]
+            }
+            production {
+              applicationId "it.dslab.playgo"
+              manifestPlaceholders = [
+                displayName:"PlayGo",
+                customUrlScheme:"it.dslab.playgo"
+              ]
+            }
+        }
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 100

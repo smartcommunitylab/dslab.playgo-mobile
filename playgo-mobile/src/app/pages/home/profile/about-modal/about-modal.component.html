@@ -10,6 +10,10 @@
 <ion-content color="playgo">
   <ion-grid>
     <ion-row>
+      <ion-col>App Id</ion-col>
+      <ion-col>{{ (appStatusService.appInfo$ | async)?.id }} </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col>App Version</ion-col>
       <ion-col>{{ appStatusService.version$ | async }} </ion-col>
     </ion-row>
@@ -18,8 +22,8 @@
       <ion-col>{{ appStatusService.codePushLabel$ | async }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>Code push chanel</ion-col>
-      <ion-col>{{ codePushChannel }}</ion-col>
+      <ion-col>Capacitor Flavor</ion-col>
+      <ion-col>{{ capacitorFlavor }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Angular build commit</ion-col>
