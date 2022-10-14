@@ -12,7 +12,7 @@ import { createEnvironment, Environment } from './create-environment';
 
 export const environment: Environment = createEnvironment({
   name: 'stage',
-  aac: 'stage',
+  aacConfig: 'stage',
   apiServer: 'dev',
   releaseToStore: true,
 });

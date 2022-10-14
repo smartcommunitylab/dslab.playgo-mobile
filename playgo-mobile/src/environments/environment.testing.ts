@@ -7,7 +7,7 @@ import { createEnvironment, Environment } from './create-environment';
 
 export const environment: Environment = createEnvironment({
   name: 'testing',
-  aac: 'default',
+  aacConfig: 'default',
   apiServer: 'dev',
   releaseToStore: false,
 });

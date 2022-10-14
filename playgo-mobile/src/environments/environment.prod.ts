@@ -5,7 +5,7 @@ import { createEnvironment, Environment } from './create-environment';
 
 export const environment: Environment = createEnvironment({
   name: 'production',
-  aac: 'default',
+  aacConfig: 'default',
   apiServer: 'prod',
   releaseToStore: true,
 });

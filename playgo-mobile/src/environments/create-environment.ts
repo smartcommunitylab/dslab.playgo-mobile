@@ -14,7 +14,7 @@ export function createEnvironment(
       faq: 'https://www.smartcommunitylab.it/playgo_faq/',
       email: 'playandgo@smartcommunitylab.it',
     },
-    authConfig: getAuthConfig(opts.aac),
+    authConfig: getAuthConfig(opts.aacConfig),
     idp_hint: {
       facebook: 'koi8jw8x',
       google: 'Nqoa1EDO',
@@ -30,8 +30,10 @@ export function createEnvironment(
   return environment;
 }
 
-function getAuthConfig(aac: 'default' | 'stage'): Environment['authConfig'] {
-  if (aac === 'default') {
+function getAuthConfig(
+  aacConfig: 'default' | 'stage'
+): Environment['authConfig'] {
+  if (aacConfig === 'default') {
     return {
       server_host: `https://aacdev.platform.smartcommunitylab.it`,
       client_id: `c_17006045-af42-467e-bc86-8e826012c1de`,
@@ -42,7 +44,7 @@ function getAuthConfig(aac: 'default' | 'stage'): Environment['authConfig'] {
       pkce: true,
     };
   }
-  if (aac === 'stage') {
+  if (aacConfig === 'stage') {
     return {
       server_host: `https://aacdev.platform.smartcommunitylab.it`,
       client_id: `c_17006045-af42-467e-bc86-8e826012c1de`,
@@ -53,7 +55,7 @@ function getAuthConfig(aac: 'default' | 'stage'): Environment['authConfig'] {
       pkce: true,
     };
   }
-  throw Error('unknown aac variant: ' + aac);
+  throw Error('unknown aacConfig variant: ' + aacConfig);
 }
 
 function getServerUrlConfig(
@@ -61,7 +63,7 @@ function getServerUrlConfig(
 ): Environment['serverUrl'] {
   if (apiServer === 'dev') {
     return {
-      api: 'https://backenddev.playngo.it:4432',
+      api: 'https://backenddev.playngo.it:443',
       apiPath: '/playandgo/api',
       pgaziendeUrl:
         'https://pgaziendaletest.platform.smartcommunitylab.it/api/public',
@@ -83,7 +85,7 @@ function getServerUrlConfig(
 interface EnvironmentOptions {
   name: string;
   releaseToStore: boolean;
-  aac: 'default' | 'stage';
+  aacConfig: 'default' | 'stage';
   apiServer: 'dev' | 'prod';
 }
 
