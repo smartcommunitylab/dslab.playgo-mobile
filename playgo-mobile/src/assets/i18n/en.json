@@ -209,6 +209,8 @@
         "other": "Valid for {{count}} campaigns"
       }
     },
+    "no_score": "No score associated with this journey.",
+    "no_track": "No track associated with this journey.",
     "mean": {
       "car": "Car",
       "bike": "Bike",

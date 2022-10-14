@@ -209,6 +209,8 @@
         "other": "Valido per {{count}} campagne"
       }
     },
+    "no_score": "Nessun punteggio associato a questo viaggio.",
+    "no_track": "Nessun tracciato associato a questo viaggio.",
     "mean": {
       "car": "Macchina",
       "bike": "Bici",

@@ -38,7 +38,7 @@ export class TripDetailPage implements OnInit {
     try {
       this.tripDetail = await this.getTripDetail(tripId);
       this.showMap = Boolean(this.tripDetail.polyline);
-      this.campaigns = this.tripDetail.campaigns;
+      this.campaigns = this.tripDetail.campaigns.filter(campaign=>campaign.valid);
       this.durationLabel = formatDurationToHoursAndMinutes(
         this.tripDetail.endTime - this.tripDetail.startTime
       );
