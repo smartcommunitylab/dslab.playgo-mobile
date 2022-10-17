@@ -54,4 +54,25 @@ use dev servers, and is meant to test new features with internal testers.
  - build process is similar to production build but:
  - run `ionic:sync:stage`
  - choose "stageRelease" in build variants of Android studio
- - choose "App stage" build target in xcode. 
+ - choose "App stage" build target in xcode.
+
+
+### Hot code push
+
+Hot code push can be used to update web part of app - angular's files in both production and stage application released to the stores. Without needing of creating full release, and also user cannot opt-out of update - update is silent. Production and stage apps use different hot code push "channels".
+
+In general workflow is simple. We host hot code push server by ourselves (https://code-push-server.platform.smartcommunitylab.it). All installed apps on the startup will ask server if there is new web code for the app with newer "label". If we want to deploy a new "label", we have to build angular code, and than run command of code-push cli to upload it.
+
+Almost all handy cli commands are listed in package.json as npm scripts. For security reasons access to code-push-server is restricted, and only public api is endpoints used by capacitor plugin in android/ios apps to check/download new code, rest of api is available only on internal network. That also means that all cli commands works only on internal network.
+
+Most useful npm scripts are:
+- `code-push:login` Log in is "persistent" account credentials are stored on developer's machine to be used on every subsequent cod-push cli command   We use one shared account for all developers. Fabio/Matteo has more information.
+- `code-push:(ios/android):(list/history)` checking already published versions (labels)
+- `code-push:(ios/android):clear:(prod/stage)` clearing versions from code-push server. This will not cause uninstall on real devices.
+- `code-push:(ios/android):release:(prod/stage) [app-version]` main command to upload new code to our code-push server and later to user's phones. It is important to run `npm run ionic:(prod/stage)` before running code-push release command. Because release command only copy builded files in `/app/src/main/assets/public` or `ios/App/App/public`. Command has one required argument: app-version of installed apps that should be targeted with this code. 
+
+
+
+
+
+
