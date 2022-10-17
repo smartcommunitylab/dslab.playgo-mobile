@@ -35,7 +35,7 @@ function getAuthConfig(
 ): Environment['authConfig'] {
   if (aacConfig === 'default') {
     return {
-      server_host: `https://aacdev.platform.smartcommunitylab.it`,
+      server_host: `https://aac.platform.smartcommunitylab.it`,
       client_id: `c_17006045-af42-467e-bc86-8e826012c1de`,
       redirect_url: `it.dslab.playgo://callback`,
       end_session_redirect_url: `it.dslab.playgo://endsession`,
@@ -46,7 +46,7 @@ function getAuthConfig(
   }
   if (aacConfig === 'stage') {
     return {
-      server_host: `https://aacdev.platform.smartcommunitylab.it`,
+      server_host: `https://aac.platform.smartcommunitylab.it`,
       client_id: `c_17006045-af42-467e-bc86-8e826012c1de`,
       redirect_url: `it.dslab.playgo.stage://callback`,
       end_session_redirect_url: `it.dslab.playgo.stage://endsession`,
