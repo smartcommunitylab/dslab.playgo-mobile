@@ -66,7 +66,7 @@ function getServerUrlConfig(
       api: 'https://backenddev.playngo.it:443',
       apiPath: '/playandgo/api',
       pgaziendeUrl:
-        'https://pgaziendaletest.platform.smartcommunitylab.it/api/public',
+        'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
       hscApi: 'https://hscdev.playngo.it/playandgo-hsc/publicapi/',
     };
   }
@@ -75,7 +75,7 @@ function getServerUrlConfig(
       api: 'https://backend.playngo.it:443',
       apiPath: '/playandgo/api',
       pgaziendeUrl:
-        'https://pgaziendaleprod.platform.smartcommunitylab.it/api/public',
+        'https://pgaziendale.platform.smartcommunitylab.it/api/public',
       hscApi: 'https://hsc.playngo.it/playandgo-hsc/publicapi/',
     };
   }

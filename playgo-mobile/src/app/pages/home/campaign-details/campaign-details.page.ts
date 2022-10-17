@@ -36,6 +36,7 @@ import {
   ErrorService,
   UserError,
 } from 'src/app/core/shared/services/error.service';
+import { CompaniesCampaignModalPage } from './companies-modal/companies.modal';
 
 @Component({
   selector: 'app-campaign-details',
@@ -142,11 +143,32 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     await modal.present();
     await modal.onWillDismiss();
   }
+  async openCompanies() {
+    const modal = await this.modalController.create({
+      component: CompaniesCampaignModalPage,
+      cssClass: 'modalConfirm',
+      componentProps: {
+        campaignContainer: this.campaignContainer,
+      },
+    });
+    await modal.present();
+    await modal.onWillDismiss();
+  }
+  getCampaignSponsor(details: CampaignDetail[]): Record<string, unknown> {
+    return details.filter((detail) => detail.type === 'sponsor')[0];
+  }
+  campaignHasSponsor(details: CampaignDetail[]): any {
+    return details.filter((detail) => detail.type === 'sponsor').length > 0;
+  }
+
   getCampaign() {
     return JSON.stringify(this.campaignContainer.campaign);
   }
   isPersonal() {
     return this.campaignContainer.campaign.type === 'personal';
+  }
+  isCompany() {
+    return this.campaignContainer.campaign.type === 'company';
   }
   getLeaderboardLink(): [string] {
     const isSchool = this.campaignContainer.campaign.type === 'school';

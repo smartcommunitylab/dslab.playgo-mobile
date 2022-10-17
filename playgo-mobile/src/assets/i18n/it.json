@@ -267,6 +267,10 @@
     "public": {
       "last": "Durata:"
     },
+    "campaignmodal": {
+      "title": "Aziende partecipanti",
+      "close": "X"
+    },
     "joinmodal": {
       "modalTitle": "Iscrizione a {{campaignTitle}}",
       "close": "X",
@@ -297,6 +301,7 @@
       "confirm": "Conferma"
     },
     "detail": {
+      "companies": "Aziende partecipanti",
       "not_found": "Campagna non trovata",
       "blacklist": "Utenti Bloccati",
       "badges": "Badges",
