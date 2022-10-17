@@ -34,6 +34,7 @@ import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
+import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 
 @Component({
   selector: 'app-leaderboard',
@@ -238,7 +239,8 @@ export class LeaderboardPage implements OnInit, AfterViewInit, OnDestroy {
     private reportControllerService: ReportControllerService,
     private userService: UserService,
     private campaignService: CampaignService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private pageSettingsService: PageSettingsService
   ) {
     this.subId = this.route.params.subscribe((params) => {
       this.id = params.id;
@@ -255,6 +257,15 @@ export class LeaderboardPage implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subCampaign.unsubscribe();
     this.subId.unsubscribe();
+  }
+  ionViewWillEnter() {
+    this.changePageSettings();
+  }
+
+  private changePageSettings() {
+    this.pageSettingsService.set({
+      color: this.campaignContainer?.campaign?.type,
+    });
   }
 
   getLeaderboardTypes(campaign: Campaign): LeaderboardType[] {

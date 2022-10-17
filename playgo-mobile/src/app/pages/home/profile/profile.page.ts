@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import {
   buffer,
   concat,
@@ -32,6 +32,7 @@ import { AppStatusService } from 'src/app/core/shared/services/app-status.servic
 import { DeleteModalPage } from './delete-modal/deleteModal.component';
 import { LocalStorageService } from 'src/app/core/shared/services/local-storage.service';
 import { BackgroundTrackingService } from 'src/app/core/shared/tracking/background-tracking.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -63,8 +64,8 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private modalController: ModalController,
     public appStatusService: AppStatusService,
-    private localStorageService: LocalStorageService,
-    private injector: Injector
+    private alertController: AlertController,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
@@ -112,13 +113,46 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
     await modal.onWillDismiss();
   }
 
-  public signOut() {
-    this.authService.logout();
+  public async signOut() {
+    const header = await this.translateService.instant(
+      'profile.logoutpopup.title'
+    );
+    const message = await this.translateService.instant(
+      'profile.logoutpopup.message'
+    );
+    const cancel = await this.translateService.instant(
+      'profile.logoutpopup.cancel'
+    );
+    const ok = await this.translateService.instant('profile.logoutpopup.ok');
+    return new Promise(async () => {
+      const alert = await this.alertController.create({
+        cssClass: 'app-alert',
+        header,
+        message,
+        buttons: [
+          {
+            text: cancel,
+            role: 'cancel',
+            cssClass: 'secondary',
+            id: 'cancel-button',
+          },
+          {
+            text: ok,
+            id: 'confirm-button',
+            handler: () => {
+              this.authService.logout();
+            },
+          },
+        ],
+      });
+
+      await alert.present();
+    });
   }
   public async deleteAccount() {
     const modal = await this.modalController.create({
       component: DeleteModalPage,
-      cssClass: 'modal-challenge',
+      cssClass: 'modal-playgo',
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();

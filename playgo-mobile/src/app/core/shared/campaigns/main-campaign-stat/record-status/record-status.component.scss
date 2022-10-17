@@ -1,3 +1,13 @@
-.level-bar {
-  height: 20px;
+ion-grid {
+  .progress-bar {
+    .level-bar {
+      height: 16px;
+    }
+  }
+  .status {
+    color: var(--dark-grey);
+  }
+  .record {
+    color: var(--dark-grey);
+  }
 }

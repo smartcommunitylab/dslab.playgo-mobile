@@ -77,7 +77,7 @@ export class TrackingMainControlComponent {
         const modal = await this.modalController.create({
           component: FirstTimeBackgrounModalPage,
           backdropDismiss: false,
-          cssClass: 'modal-challenge',
+          cssClass: 'modal-playgo',
           swipeToClose: true,
         });
         await modal.present();
@@ -100,6 +100,7 @@ export class TrackingMainControlComponent {
       await this.alertService.presentAlert({
         headerTranslateKey: 'permission_when_in_use.title',
         messageTranslateKey: 'permission_when_in_use.message',
+        cssClass: 'app-alert',
       });
       return true;
     }
@@ -107,6 +108,7 @@ export class TrackingMainControlComponent {
       await this.alertService.presentAlert({
         headerTranslateKey: 'permission_denied.title',
         messageTranslateKey: 'permission_denied.message',
+        cssClass: 'app-alert',
       });
     }
     return false;

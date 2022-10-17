@@ -2,11 +2,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  color: var(--dark-grey);
 }
 .ranking {
   font-size: 14px;
   font-weight: bold;
   text-align: left;
+  color: var(--dark-grey);
 }
 app-icon {
   font-size: 34px;

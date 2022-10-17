@@ -46,6 +46,7 @@ import {
   getPeriods,
   Period,
 } from 'src/app/core/shared/campaigns/campaign.utils';
+import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 
 @Component({
   selector: 'app-stats',
@@ -187,7 +188,8 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
     private reportService: ReportControllerService,
     private userService: UserService,
     private errorService: ErrorService,
-    private campaignService: CampaignService
+    private campaignService: CampaignService,
+    private pageSettingsService: PageSettingsService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
       console.log('new stats' + stats);
@@ -206,6 +208,16 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
       );
     });
   }
+  ionViewWillEnter() {
+    this.changePageSettings();
+  }
+
+  private changePageSettings() {
+    this.pageSettingsService.set({
+      color: this.campaignContainer?.campaign?.type,
+    });
+  }
+
   setTotal(stats: TransportStat[]) {
     this.totalValue = stats
       .map((stat) => (stat.value >= 0 ? stat.value : 0))

@@ -43,21 +43,20 @@
               | translate: { value: reportWeekStat?.value | localNumber }
           "
         ></p>
-
-        <p
-          *ngIf="reportTotalStat"
-          class="ion-text-left"
-          [innerHtml]="
-            'campaigns.homewidgets.stat.totalvalue'
-              | translate: { value: reportTotalStat?.value | localNumber }
-          "
-        ></p>
         <p
           *ngIf="reportMonthStat"
           class="ion-text-left"
           [innerHtml]="
             'campaigns.homewidgets.stat.monthvalue'
               | translate: { value: reportMonthStat?.value | localNumber }
+          "
+        ></p>
+        <p
+          *ngIf="reportTotalStat"
+          class="ion-text-left"
+          [innerHtml]="
+            'campaigns.homewidgets.stat.totalvalue'
+              | translate: { value: reportTotalStat?.value | localNumber }
           "
         ></p>
       </ion-col>

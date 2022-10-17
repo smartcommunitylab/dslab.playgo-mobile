@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
   templateUrl: './join-company.modal.html',
   styleUrls: ['./join-company.modal.scss'],
 })
-export class JoinCompanyModalPage implements OnInit, OnDestroy {
+export class JoinCompanyModalPage implements OnInit, OnDestroy, AfterViewInit {
   joinCompanyForm: FormGroup;
   campaign: Campaign;
   companies: any;
@@ -113,5 +113,13 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
           }
         );
     }
+  }
+  ngAfterViewInit() {
+    const selects = document.querySelectorAll('.app-alert');
+    selects.forEach((select) => {
+      (select as any).interfaceOptions = {
+        cssClass: 'app-alert',
+      };
+    });
   }
 }

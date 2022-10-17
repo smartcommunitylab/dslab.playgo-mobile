@@ -1,24 +1,32 @@
-<ion-content class="ion-padding ion-text-center">
-  <div class="title ion-padding">
-    <span>{{'profile.delete.title'|translate}}</span>
-  </div>
-  <div class="ion-padding">
-    <span>{{'profile.delete.message'|translate}}</span>
-  </div>
-  <div class="footer">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-button color="danger" expand="block" (click)="close()"
-            >{{'profile.delete.close'|translate}}</ion-button
-          >
-        </ion-col>
-        <ion-col>
-          <ion-button color="personal-stat" expand="block" (click)="accept()"
-            >{{'profile.delete.accept'|translate}}</ion-button
-          >
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+<div class="title ion-padding ion-text-center">
+  <span>{{'profile.delete.title'|translate}}</span>
+</div>
+<ion-content class="ion-padding ion-text-start" color="playgo">
+  <div class="message">
+    <div class="ion-padding">
+      <span>{{'profile.delete.message'|translate}}</span>
+    </div>
+    <div class="ion-padding">
+      <span>{{'profile.delete.message2'|translate}}</span>
+    </div>
+    <div class="ion-padding">
+      <span><b>{{'profile.delete.message2'|translate}}</b></span>
+    </div>
   </div>
 </ion-content>
+<div class="footer">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button color="medium" expand="block" (click)="close()"
+          >{{'profile.delete.close'|translate}}</ion-button
+        >
+      </ion-col>
+      <ion-col>
+        <ion-button color="danger" expand="block" (click)="accept()"
+          >{{'profile.delete.accept'|translate}}</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

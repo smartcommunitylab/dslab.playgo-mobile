@@ -106,8 +106,8 @@
     "privacy": "Ho letto e compreso l'informativa privacy e acconsento al trattamento dei miei dati personali.",
     "sumbmitButton": "Registrati",
     "confirm": {
-      "header": "Conferma registrazione",
-      "message": "<strong>{{nickname}} </strong> sei veramente sicuro di iscriverti al gioco Play&go per il seguente territorio?<br><h1> {{territory}}</h1>"
+      "header": "Conferma territorio",
+      "message": "<h1>{{territory}}</h1><br><strong>{{nickname}} </strong> sei veramente sicuro di voler iscriverti all'app Play&Go per il territorio selezionato?"
     }
   },
   "modal": {
@@ -159,14 +159,22 @@
     "Help": "Help",
     "Privacy": "Privacy",
     "logout": "Esci",
+    "logoutpopup": {
+      "title": "Attenzione",
+      "message": "I dati non salvati veranno persi. Sei sicuro/a di voler uscire dall'app?",
+      "cancel": "Annulla",
+      "ok": "OK"
+    },
     "about": "About",
     "deleteAccount": "Elimina account",
     "changeButton": "Modifica",
     "delete": {
-      "title": "Cancellazione account",
-      "message": "Sei sicuro di voler cancellare il tuo account?",
+      "title": "Eliminazione profilo",
+      "message": "Questa azione cancellerà tutti i tuoi dati e i tuoi progressi nell’app Play&Go",
+      "message2": "Si tratta di un’azione irreversibile: non potrai recuperare nessun dato del tuo storico (campagne, sfide, ecc.) se elimini il profilo",
+      "message3": "Sei sicuro di voler eliminare definitivamente il tuo profilo Play&Go?",
       "close": "Annulla",
-      "accept": "Conferma"
+      "accept": "Elimina"
     },
     "change": {
       "modalTitle": "Modifica Profilo",

@@ -73,21 +73,23 @@ export class CampaignService {
   public myCampaigns$: Observable<PlayerCampaign[]> =
     this.campaignsCouldBeChanged$.pipe(
       switchMap(() =>
-        this.campaignControllerService.getMyCampaignsUsingGET({}).pipe(
-          ifOfflineUseStored(this.myCampaignsStorage),
-          // this is not recoverable, app is bricked...
-          // for example new campaign subscription could be added successfully, but
-          // server could not return the list of my campaigns, data integrity is broken,
-          // but problem when new user, in that case error is 500
-          catchError((error) => {
-            const isErrorExpected = true; // TODO:
-            this.errorService.handleError(
-              error,
-              isErrorExpected ? 'silent' : 'blocking'
-            );
-            return of([]);
-          })
-        )
+        this.campaignControllerService
+          .getMyCampaignsUsingGET({ onlyVisible: true })
+          .pipe(
+            ifOfflineUseStored(this.myCampaignsStorage),
+            // this is not recoverable, app is bricked...
+            // for example new campaign subscription could be added successfully, but
+            // server could not return the list of my campaigns, data integrity is broken,
+            // but problem when new user, in that case error is 500
+            catchError((error) => {
+              const isErrorExpected = true; // TODO:
+              this.errorService.handleError(
+                error,
+                isErrorExpected ? 'silent' : 'blocking'
+              );
+              return of([]);
+            })
+          )
       ),
       distinctUntilChanged(isEqual),
       tap((myCampaigns) => this.myCampaignsStorage.set(myCampaigns)),
