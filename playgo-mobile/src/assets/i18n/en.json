@@ -290,7 +290,7 @@
       },
       "codeInfo": {
         "header": "Employee code",
-        "message": "TODO: Lorem ipsum"
+        "message": "Unique code issued to the employee"
       },
       "join": "Join"
     },

@@ -80,7 +80,7 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy, AfterViewInit {
   openCodeInfoPopup() {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.codeInfo.header' as any,
-      messageString: 'campaigns.joinmodal.codeInfo.message' as any,
+      messageTranslateKey: 'campaigns.joinmodal.codeInfo.message' as any,
       cssClass: 'modalConfirm',
     });
   }
