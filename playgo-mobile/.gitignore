@@ -32,3 +32,6 @@ npm-debug.log*
 
 # jar used to generate the typescript API from swagger
 swagger-codegen-cli.jar
+
+# all secret files that we dont want to store in git.
+/secrets
