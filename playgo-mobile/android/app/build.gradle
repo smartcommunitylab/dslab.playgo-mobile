@@ -4,6 +4,25 @@ Project background_geolocation = project(':transistorsoft-capacitor-background-g
 apply from: "${background_geolocation.projectDir}/app.gradle"
 
 android {
+    def secretProperties = new Properties()
+    file("../../secrets/secrets-android.properties").withInputStream {
+      secretProperties.load(it)
+    }
+
+    signingConfigs {
+      production {
+        storeFile file('../../secrets/playgomulti.keystore')
+        keyAlias 'playgomulti'
+        storePassword secretProperties['PRODUCTION_STORE_PASSWORD']
+        keyPassword secretProperties['PRODUCTION_KEY_PASSWORD']
+      }
+      stage {
+        storeFile file('../../secrets/playgomulti_stage.keystore')
+        keyAlias 'playgomultiStage'
+        storePassword secretProperties['PRODUCTION_STORE_PASSWORD']
+        keyPassword secretProperties['PRODUCTION_KEY_PASSWORD']
+      }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         flavorDimensions "version"
@@ -14,6 +33,7 @@ android {
                 displayName:"PlayGo - Stage",
                 customUrlScheme:"it.dslab.playgo.stage"
               ]
+              signingConfig signingConfigs.stage
             }
             production {
               applicationId "it.dslab.playgo"
@@ -21,6 +41,7 @@ android {
                 displayName:"PlayGo",
                 customUrlScheme:"it.dslab.playgo"
               ]
+              signingConfig signingConfigs.production
             }
         }
         minSdkVersion rootProject.ext.minSdkVersion
