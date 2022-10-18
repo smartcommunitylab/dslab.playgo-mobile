@@ -15,6 +15,7 @@ import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
+import { CompaniesCampaignModalPage } from '../../home/campaign-details/companies-modal/companies.modal';
 import { DetailCampaignModalPage } from '../../home/campaign-details/detail-modal/detail.modal';
 import { JoinCityModalPage } from './join-city/join-city.modal';
 import { JoinCompanyModalPage } from './join-company/join-company.modal';
@@ -129,7 +130,26 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }
-
+  getCampaignSponsor(details: CampaignDetail[]): Record<string, unknown> {
+    return details.filter((detail) => detail.type === 'sponsor')[0];
+  }
+  campaignHasSponsor(details: CampaignDetail[]): any {
+    return details.filter((detail) => detail.type === 'sponsor').length > 0;
+  }
+  isCompany() {
+    return this.campaign.type === 'company';
+  }
+  async openCompanies() {
+    const modal = await this.modalController.create({
+      component: CompaniesCampaignModalPage,
+      cssClass: 'modalConfirm',
+      componentProps: {
+        campaign: this.campaign,
+      },
+    });
+    await modal.present();
+    await modal.onWillDismiss();
+  }
   // registerToCompany(campaign: any, data: any) {
   //   this.sub = this.campaignService
   //     .subscribeToCampaign(campaign.campaignId, data)

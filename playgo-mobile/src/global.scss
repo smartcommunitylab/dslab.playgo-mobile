@@ -224,6 +224,26 @@ ion-segment-button:not(.segment-button-checked) {
   --background: rgb(14 116 144);
   --color: white;
 }
+.modal-search-playgo {
+  ion-toolbar {
+    --background: var(--ion-color-playgo);
+    --color: white;
+  }
+  ion-content {
+    --background: var(--ion-color-playgo);
+    --color: white;
+  }
+  ion-item {
+    --color: white;
+  }
+  ion-label {
+    --color: white;
+  }
+  ion-icon {
+    --color: white;
+    color: white;
+  }
+}
 .modal-playgo {
   --height: 50%;
   --width: 85%;

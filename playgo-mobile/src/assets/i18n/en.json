@@ -272,8 +272,11 @@
       "close": "X"
     },
     "joinmodal": {
+      "noItems": "No companies found",
       "modalTitle": "Subscribe to {{campaignTitle}}",
       "close": "X",
+      "closeString": "Close",
+      "pinRequired": "The univoque code is required",
       "companyselection": "Select the company",
       "companyPIN": "Insert your PIN",
       "privacyLink": "Read the privacy",

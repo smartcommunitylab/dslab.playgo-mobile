@@ -148,7 +148,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
       component: CompaniesCampaignModalPage,
       cssClass: 'modalConfirm',
       componentProps: {
-        campaignContainer: this.campaignContainer,
+        campaign: this.campaignContainer.campaign,
       },
     });
     await modal.present();
