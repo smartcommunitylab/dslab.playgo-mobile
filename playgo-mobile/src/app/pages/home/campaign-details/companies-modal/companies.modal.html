@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title>{{ 'campaigns.campaignmodal.title' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()"
+        >{{ 'campaigns.campaignmodal.close' | translate }}</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngFor="let company of companies">
+    <ion-item><ion-label>{{company.name}}</ion-label></ion-item>
+  </div>
+</ion-content>

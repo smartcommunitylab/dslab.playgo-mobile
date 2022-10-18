@@ -36,7 +36,7 @@ function getAuthConfig(
   if (aacConfig === 'default') {
     return {
       server_host: `https://aac.platform.smartcommunitylab.it`,
-      client_id: `c_17006045-af42-467e-bc86-8e826012c1de`,
+      client_id: `c_5445634c-95d6-4c0e-a1ff-829b951b91b3`,
       redirect_url: `it.dslab.playgo://callback`,
       end_session_redirect_url: `it.dslab.playgo://endsession`,
       scopes: 'openid email profile offline_access',
@@ -47,7 +47,7 @@ function getAuthConfig(
   if (aacConfig === 'stage') {
     return {
       server_host: `https://aac.platform.smartcommunitylab.it`,
-      client_id: `c_17006045-af42-467e-bc86-8e826012c1de`,
+      client_id: `c_5445634c-95d6-4c0e-a1ff-829b951b91b3`,
       redirect_url: `it.dslab.playgo.stage://callback`,
       end_session_redirect_url: `it.dslab.playgo.stage://endsession`,
       scopes: 'openid email profile offline_access',
@@ -66,7 +66,7 @@ function getServerUrlConfig(
       api: 'https://backenddev.playngo.it:443',
       apiPath: '/playandgo/api',
       pgaziendeUrl:
-        'https://pgaziendaletest.platform.smartcommunitylab.it/api/public',
+        'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
       hscApi: 'https://hscdev.playngo.it/playandgo-hsc/publicapi/',
     };
   }

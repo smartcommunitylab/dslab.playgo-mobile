@@ -29,7 +29,7 @@
       >
       </app-campaign-notification>
     </ng-container>
-    <!--TODO TMP <ion-card
+    <ion-card
       *ngIf="campaignHas('blacklist')"
       [routerLink]="['/pages/blacklist/'+campaignContainer.campaign.campaignId]"
     >
@@ -37,7 +37,7 @@
         <ion-label>{{'campaigns.detail.blacklist'|translate}} </ion-label>
         <app-icon name="blacklist" class="icon-size-normal"></app-icon>
       </ion-item>
-    </ion-card> -->
+    </ion-card>
     <ion-card
       *ngIf="campaignHas('leaderboard')"
       [routerLink]="getLeaderboardLink()"
@@ -66,7 +66,7 @@
       </ion-item>
     </ion-card>
 
-    <!--TODO TMP <ion-card
+    <ion-card
       *ngIf="campaignHas('badges')"
       [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/badges']"
     >
@@ -74,7 +74,7 @@
         <ion-label>{{'campaigns.detail.badges'|translate}} </ion-label>
         <app-icon name="badges" class="icon-size-normal"></app-icon>
       </ion-item>
-    </ion-card> -->
+    </ion-card>
 
     <ion-card
       [routerLink]="['/pages/tabs/trips/campaign', campaignContainer?.campaign?.campaignId]"
@@ -101,29 +101,49 @@
         <ion-item lines="none" *ngIf="campaignHas('dates')"
           ><ion-label
             >{{'campaigns.detail.dateTo'|translate}}<span class="text-bold"
-              >{{campaignContainer.campaign.dateTo |localDate}}</span
+              >{{campaignContainer?.campaign?.dateTo |localDate}}</span
             ></ion-label
           ></ion-item
         >
+        <div>
+          <div
+            [innerHTML]="campaignContainer?.campaign?.description | languageMap"
+          ></div>
+        </div>
         <div
-          *ngIf="(campaignContainer.campaign.details | languageMap) as details"
+          *ngIf="(campaignContainer?.campaign?.details | languageMap) as details"
         >
-          <div *ngFor="let detail of details" (click)="openDetail(detail)">
-            <ion-item lines="none">
+          <!-- sponsor part -->
+          <div
+            *ngIf="campaignHasSponsor(campaignContainer?.campaign?.details | languageMap)"
+          >
+            <div
+              [innerHTML]="getCampaignSponsor(campaignContainer?.campaign?.details | languageMap)?.content"
+            ></div>
+          </div>
+          <!-- other details -->
+          <ng-container *ngFor="let detail of details">
+            <div *ngIf="detail.type!=='sponsor'" (click)="openDetail(detail)">
+              <ion-item lines="none">
+                <ion-label
+                  ><span class="text-bold text-underlined">
+                    {{detail.name}}</span
+                  ></ion-label
+                >
+                <ion-icon name="information-circle-outline" end> </ion-icon>
+              </ion-item>
+            </div>
+          </ng-container>
+          <div *ngIf="isCompany()">
+            <ion-item lines="none" (click)="openCompanies()">
               <ion-label
                 ><span class="text-bold text-underlined">
-                  {{detail.name}}</span
-                ></ion-label
+                  {{'campaigns.detail.companies'|translate}}
+                </span></ion-label
               >
               <ion-icon name="information-circle-outline" end> </ion-icon>
             </ion-item>
           </div>
-        </div>
-        <div>
-          <!-- <p class="text-bold">{{'campaigns.detail.description'|translate}}</p> -->
-          <div
-            [innerHTML]="campaignContainer.campaign.description | languageMap"
-          ></div>
         </div>
       </ion-card-content>
     </ion-card>

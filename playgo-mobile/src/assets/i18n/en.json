@@ -267,6 +267,10 @@
     "public": {
       "last": "TODO: Durata:"
     },
+    "campaignmodal": {
+      "title": "Partecipating companies",
+      "close": "X"
+    },
     "joinmodal": {
       "modalTitle": "Subscribe to {{campaignTitle}}",
       "close": "X",
@@ -297,6 +301,7 @@
       "confirm": "Confirm"
     },
     "detail": {
+      "companies": "Partecipating companies",
       "not_found": "Campaign not found",
       "blacklist": "Blacklist",
       "badges": "Badges",
