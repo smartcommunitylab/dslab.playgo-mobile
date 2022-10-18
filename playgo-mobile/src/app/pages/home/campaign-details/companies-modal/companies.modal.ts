@@ -1,9 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
-import { CampaignSubscription } from 'src/app/core/api/generated/model/campaignSubscription';
-import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 
 @Component({
@@ -12,7 +10,7 @@ import { CampaignService } from 'src/app/core/shared/services/campaign.service';
   styleUrls: ['./companies.modal.scss'],
 })
 export class CompaniesCampaignModalPage implements OnInit {
-  campaignContainer?: PlayerCampaign;
+  campaign?: Campaign;
   companies: any;
   sub: Subscription;
   constructor(
@@ -21,7 +19,7 @@ export class CompaniesCampaignModalPage implements OnInit {
   ) {}
   ngOnInit() {
     this.sub = this.campaignService
-      .getCompaniesForSubscription(this.campaignContainer?.campaign?.campaignId)
+      .getCompaniesForSubscription(this?.campaign?.campaignId)
       .subscribe((result) => {
         if (result) {
           this.companies = result;

@@ -272,8 +272,11 @@
       "close": "X"
     },
     "joinmodal": {
+      "noItems": "Nessuna azienda trovata",
       "modalTitle": "Iscrizione a {{campaignTitle}}",
       "close": "X",
+      "closeString": "Chiudi",
+      "pinRequired": "Il codice univoco dipendente é richiesto",
       "companyselection": "Seleziona l’azienda con cui iscriverti",
       "companyPIN": "Inserisci il codice identificativo",
       "privacyLink": "Leggi l’informativa sulla privacy",
@@ -290,7 +293,7 @@
       },
       "codeInfo": {
         "header": "Codice dipendente",
-        "message": "TODO: Lorem ipsum"
+        "message": "Codice univoco rilasciato al dipendente"
       },
       "join": "Iscriviti"
     },
