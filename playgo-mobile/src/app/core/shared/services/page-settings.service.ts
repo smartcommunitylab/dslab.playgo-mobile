@@ -33,6 +33,30 @@ import { XOR } from '../type.utils';
 import { isInstanceOf } from '../utils';
 import { TranslateKey } from '../globalization/i18n/i18n.utils';
 
+/**
+ * Page settings
+ *
+ * Service to manage page settings.
+ * Manages common behavior which is shared between all pages.
+ * Mainly behavior of the header (but not only).
+ *
+ * In order to change behavior of the ion-header we use `appHeader` directive.
+ * See `header.directive.ts`.
+ *
+ * For changes in ion-content component we use `appContent` directive, for example
+ * used to create global refresher. See `content.directive.ts`.
+ *
+ * Settings are defined in the router configuration. Data should by added to 'data' property of
+ * route containing final component property (not loadChildren).
+ * It is possible also to override them in the component using `pageSettingsService.set()`.
+ *
+ * Merged settings are available as an observable `pageSettings$`.
+ *
+ * There could be some problems with ionic, because ionic sometimes do not do real
+ * router navigation but instead just show/hide page by css. Unfortunately, I was
+ * not able to detect such changes. There are methods ionViewWillEnter and ionViewWillLeave
+ * but they are on the level of the component, not the router / global events.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -145,17 +169,46 @@ function getRouterDataFromActivatedRoute(
   }
   return {} as PageSettings;
 }
+/** For defaults see private defaultPageSettings */
 export interface PageSettings {
+  /**
+   * Used in OfflineGuard. Pages that are not offline pages will be redirected
+   * to special offline page, if there is no connection
+   * */
   isOfflinePage?: boolean;
-  // header
+
+  /**
+   * Title of the page. Used in header and also as html title.
+   * */
   title: TranslateKey | '';
+  /**
+   * If false, back button will not be shown in the header.
+   * */
   backButton?: boolean;
+  /**
+   * Color of the header. Usually set dynamically by the page.
+   * */
   color?: string;
+  /**
+   * defaultHref of back-button in header.
+   * */
   defaultHref?: string;
+  /**
+   * Override to not render default header.
+   * */
   customHeader?: boolean;
+  /**
+   * Show notifications button in header.
+   * */
   showNotifications?: boolean;
-  // footer
+  /**
+   * Show start tracking button on the bottom of the page.
+   * */
   showPlayButton?: boolean;
+  /**
+   * Enable refresher on the page. Note refresher is part of the content, not header.
+   * So it is needed to add `appContent` directive to the ion-content component.
+   * */
   refresher?: boolean;
 }
 
