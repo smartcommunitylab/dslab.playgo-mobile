@@ -51,7 +51,7 @@ https://firebase.google.com/docs/projects/multiprojects
    - [only first time] run "Sync project with gradle files" (icon on top right with elephant with arrow) 
    - open Build>Select build variant
    - in first line ":app" choose "productionRelease" (or "productionDebug" to try apk before release)
-   - build apk, or signed bundle 
+   - build apk, or signed bundle - using "Build bundle(s)". Signing is handled in gradle script.
    - (optional) install app and make sure that in about page all environments are production.
    - release to store
  - open xcode
@@ -61,6 +61,10 @@ https://firebase.google.com/docs/projects/multiprojects
  - run `ionic:sync:stage`
  - choose "stageRelease" in build variants of Android studio
  - choose "App stage" build target in xcode.
+
+### Secrets
+
+Keys and tokens that should not be committed and stored publicly on github are stored in `secrets` folder, which is ignored by git. For now files in this folder are used to create signed bundle for android.
 
 
 ### Hot code push
