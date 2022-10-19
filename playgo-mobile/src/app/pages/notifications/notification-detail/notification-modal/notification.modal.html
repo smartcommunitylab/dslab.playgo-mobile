@@ -1,8 +1,10 @@
-<ion-header>
+<ion-header mode="ios">
   <ion-toolbar color="playgo">
     <ion-title class="ion-text-center"> {{notification.title}} </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()">X</ion-button>
+      <ion-button (click)="close()"
+        ><ion-icon name="close-circle"></ion-icon
+      ></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -16,7 +18,7 @@
     ></ion-row>
   </ion-grid>
 </ion-content>
-<ion-footer>
+<ion-footer color="playgo" mode="ios">
   <ion-button color="light" expand="block" (click)="close()"
     >{{'notifications.close'|translate}}</ion-button
   >

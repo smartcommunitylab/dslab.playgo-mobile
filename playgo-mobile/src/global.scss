@@ -342,6 +342,9 @@ ion-modal {
 .footer-md::before {
   background-image: none;
 }
+app-notification {
+  background-color: var(--ion-color-playgo);
+}
 @import "material-icons/iconfont/material-icons.scss";
 
 $material-icons-font-path: "./" !default;
