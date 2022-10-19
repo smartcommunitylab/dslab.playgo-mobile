@@ -47,6 +47,32 @@
             </ion-item>
           </ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item
+              [color]="campaignContainer?.campaign?.type"
+              class="header-radius"
+            >
+              search
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item [color]="campaignContainer?.campaign?.type">
+              <ion-select
+                [interfaceOptions]="{ cssClass: 'app-alert' }"
+                (ionChange)="periodChangedSubject.next($any($event))"
+                [value]="selectedPeriod$ | async"
+              >
+                <ion-select-option
+                  *ngFor="let period of periods"
+                  [value]="period"
+                >
+                  {{period.labelKey |translate}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
         <app-placing-detail
           [placing]="playerPosition$ | async"
           [unitLabelKey]="numberWithUnitKey$ | async"

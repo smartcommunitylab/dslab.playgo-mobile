@@ -16,6 +16,7 @@ import { Territory } from 'src/app/core/api/generated/model/territory';
 import { find } from 'lodash-es';
 import { PrivacyModalPage } from './privacy-modal/privacy.modal';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 
 @Component({
   selector: 'app-registration',
@@ -38,6 +39,7 @@ export class RegistrationPage implements OnInit {
     private sanitizer: DomSanitizer,
     private alertService: AlertService,
     private authService: AuthService,
+    private errorService: ErrorService,
     private modalController: ModalController // private notificationService: NotificationService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
@@ -153,10 +155,15 @@ export class RegistrationPage implements OnInit {
           this.navCtrl.navigateRoot('/pages/tabs/home');
         })
         .catch((error: any) => {
-          console.log(error);
+          this.errorService.handleError(error, 'normal');
+          if (error.error.ex === 'nickname already exists') {
+            this.registrationForm.controls.nickname.setErrors({
+              incorrect: true,
+            });
+          }
         });
     } catch (error) {
-      console.log(error);
+      this.errorService.handleError(error, 'normal');
     }
   }
   cancel() {

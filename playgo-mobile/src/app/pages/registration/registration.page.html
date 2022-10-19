@@ -38,7 +38,6 @@
         class="error-message ion-padding"
         *ngIf="isSubmitted && errorControl.name.errors?.required"
       >
-        <ion-icon name="information-circle-outline"></ion-icon>
         <span>{{'registration.form.nameRequired'|translate}}</span>
       </div>
       <ion-item lines="full" color="playgo">
@@ -55,7 +54,6 @@
         class="error-message ion-padding"
         *ngIf="isSubmitted && errorControl.givenName.errors?.required"
       >
-        <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.lastNameRequired'|translate}}
       </div>
       <ion-item lines="full" color="playgo">
@@ -68,7 +66,6 @@
         class="error-message ion-padding"
         *ngIf="isSubmitted && errorControl.mail.errors?.required"
       >
-        <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.mailRequired'|translate}}
       </div>
       <div
@@ -78,7 +75,7 @@
         <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.mailPattern'|translate}}
       </div>
-      <ion-item lines="full" color="playgo">
+      <ion-item lines="full" color="playgo ion-invalid">
         <ion-label position="floating"
           >{{'registration.nickname'|translate}}</ion-label
         >
@@ -92,7 +89,6 @@
         class="error-message ion-padding"
         *ngIf="isSubmitted && errorControl.nickname.errors?.required"
       >
-        <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.nicknameRequired'|translate}}
       </div>
       <div
@@ -121,7 +117,6 @@
         class="error-message ion-padding"
         *ngIf="isSubmitted && errorControl.language.errors?.required"
       >
-        <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.languageRequired'|translate}}
       </div>
       <ion-item lines="full" color="playgo">
@@ -145,7 +140,6 @@
         class="error-message ion-padding"
         *ngIf="isSubmitted && errorControl.territoryId.errors?.required"
       >
-        <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.territoryRequired'|translate}}
       </div>
       <ion-row class="ion-margin-top">
@@ -192,12 +186,11 @@
         class="error-message ion-padding"
         *ngIf="isSubmitted && errorControl.privacy.errors"
       >
-        <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.privacyRequired'|translate}}
       </div>
       <ion-row>
         <ion-col>
-          <ion-button type="submit" expand="block"
+          <ion-button color="light" type="submit" expand="block"
             >{{'registration.sumbmitButton'|translate}}</ion-button
           >
         </ion-col>
