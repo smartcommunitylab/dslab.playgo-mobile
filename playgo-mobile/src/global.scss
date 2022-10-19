@@ -345,6 +345,15 @@ ion-modal {
 app-notification {
   background-color: var(--ion-color-playgo);
 }
+.header-sticky {
+  position: sticky;
+  top: 8px;
+  z-index: 999;
+  border-radius: 16px 16px 0px 0px;
+  ion-select {
+    width: 100%;
+  }
+}
 @import "material-icons/iconfont/material-icons.scss";
 
 $material-icons-font-path: "./" !default;

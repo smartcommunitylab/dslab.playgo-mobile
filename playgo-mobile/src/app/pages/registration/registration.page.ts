@@ -22,7 +22,7 @@ import { NotificationService } from 'src/app/core/shared/services/notifications/
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })
-export class RegistrationPage implements OnInit, AfterViewInit {
+export class RegistrationPage implements OnInit {
   territoryList: Territory[] = [];
   registrationForm: FormGroup;
   isSubmitted = false;
@@ -161,13 +161,5 @@ export class RegistrationPage implements OnInit, AfterViewInit {
   }
   cancel() {
     this.authService.logout();
-  }
-  ngAfterViewInit() {
-    const selects = document.querySelectorAll('.app-alert');
-    selects.forEach((select) => {
-      (select as any).interfaceOptions = {
-        cssClass: 'app-alert',
-      };
-    });
   }
 }

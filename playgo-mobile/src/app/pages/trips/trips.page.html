@@ -1,7 +1,7 @@
 <ion-header appHeader></ion-header>
 <ion-item color="playgo" [ngStyle]="campaignFilterStyle$ |async">
   <ion-select
-    class="app-alert"
+    [interfaceOptions]="{ cssClass: 'app-alert' }"
     (ionChange)="monthFilterSubject.next($any($event).target.value)"
     [value]="monthFilterSubject | async"
     [selectedText]="
@@ -19,7 +19,8 @@
     </ion-select-option>
   </ion-select>
   <ion-select
-    class="app-alert campaign-filter"
+    class="campaign-filter"
+    [interfaceOptions]="{ cssClass: 'app-alert' }"
     (ionChange)="campaignFilterSubject.next($any($event).target.value)"
     [value]="campaignFilter$ | async"
     [selectedText]="

@@ -6,19 +6,19 @@
   ></app-profile-component>
   <ion-row *ngIf="profile">
     <ion-col text-center>
-      <ion-item lines="full" color="playgo">
+      <ion-item lines="full">
         <ion-label>{{'profile.change.lang.language'|translate}}</ion-label>
         <ion-select
-          class="app-alert"
+          [interfaceOptions]="{ cssClass: 'app-alert' }"
           placeholder="{{'profile.change.lang.select'|translate}}"
           [(ngModel)]="profile.language"
           (ionChange)="updateLanguage()"
         >
           <ion-select-option value="it"
-            >{{'profile.change.lang.it'|translate}}</ion-select-option
+            ><b>{{'profile.change.lang.it'|translate}}</b></ion-select-option
           >
           <ion-select-option value="en"
-            >{{'profile.change.lang.en'|translate}}</ion-select-option
+            ><b>{{'profile.change.lang.en'|translate}}</b></ion-select-option
           >
         </ion-select>
       </ion-item>

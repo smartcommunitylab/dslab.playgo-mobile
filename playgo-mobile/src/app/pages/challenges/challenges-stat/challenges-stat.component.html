@@ -2,7 +2,7 @@
   <ion-item color="playgo" class="header-radius">
     <ion-label>{{ "challenges.stats.filter.campaign" | translate }}</ion-label>
     <ion-select
-      class="app-alert"
+      [interfaceOptions]="{ cssClass: 'app-alert' }"
       *ngIf="campaigns.length > 0; else noCampaigns"
       (ionChange)="campaignChangedSubject.next($any($event))"
       [value]="selectedCampaign$ | async"

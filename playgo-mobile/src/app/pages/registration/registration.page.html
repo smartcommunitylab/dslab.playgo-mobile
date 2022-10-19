@@ -105,7 +105,7 @@
       <ion-item lines="full" color="playgo">
         <ion-label>{{'registration.lang.language'|translate}}</ion-label>
         <ion-select
-          class="app-alert"
+          [interfaceOptions]="{ cssClass: 'app-alert' }"
           placeholder="{{'registration.lang.select'|translate}}"
           formControlName="language"
         >
@@ -129,7 +129,7 @@
           >{{'registration.territories.territory'|translate}}</ion-label
         >
         <ion-select
-          class="app-alert"
+          [interfaceOptions]="{ cssClass: 'app-alert' }"
           placeholder="{{'registration.territories.select'|translate}}"
           formControlName="territoryId"
         >

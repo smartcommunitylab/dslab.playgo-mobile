@@ -1,40 +1,50 @@
 <ion-header appHeader></ion-header>
 <ion-content appContent [fullscreen]="true">
   <div class="header-margin">
-    <ion-item [color]="campaignContainer.campaign.type" class="header-radius">
-      <ion-label
-        >{{ 'campaigns.stats.filter.mean_type' | translate }}</ion-label
-      >
-      <ion-select
-        class="app-alert"
-        (ionChange)="statMeanChangedSubject.next($any($event))"
-        [value]="selectedStatMeanType$ | async"
-      >
-        <ion-select-option
-          *ngFor="let statMeanType of statsMeanTypes$|async"
-          [value]="statMeanType"
-        >
-          {{statMeanType.labelKey |translate}}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item [color]="campaignContainer.campaign.type">
-      <ion-label
-        >{{ 'campaigns.stats.filter.unit_type' | translate }}</ion-label
-      >
-      <ion-select
-        class="app-alert"
-        (ionChange)="statUnitChangedSubject.next($any($event))"
-        [value]="selectedStatUnitType$ | async"
-      >
-        <ion-select-option
-          *ngFor="let statUnitType of statsUnitTypes$|async"
-          [value]="statUnitType"
-        >
-          {{statUnitType.labelKey | translate}}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+    <div
+      class="header-sticky"
+      [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
+      [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'"
+    >
+      <ion-row>
+        <ion-col>
+          <ion-item
+            [color]="campaignContainer.campaign.type"
+            class="header-radius"
+          >
+            <ion-select
+              class="app-alert"
+              [interfaceOptions]="{ cssClass: 'app-alert' }"
+              (ionChange)="statMeanChangedSubject.next($any($event))"
+              [value]="selectedStatMeanType$ | async"
+            >
+              <ion-select-option
+                *ngFor="let statMeanType of statsMeanTypes$|async"
+                [value]="statMeanType"
+              >
+                {{statMeanType.labelKey |translate}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item [color]="campaignContainer.campaign.type">
+            <ion-select
+              [interfaceOptions]="{ cssClass: 'app-alert' }"
+              (ionChange)="statUnitChangedSubject.next($any($event))"
+              [value]="selectedStatUnitType$ | async"
+            >
+              <ion-select-option
+                *ngFor="let statUnitType of statsUnitTypes$|async"
+                [value]="statUnitType"
+              >
+                {{statUnitType.labelKey | translate}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
     <ion-segment
       mode="md"
       class="app-segment"
