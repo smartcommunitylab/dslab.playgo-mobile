@@ -31,31 +31,29 @@
             </ion-item>
           </ion-col>
           <ion-col>
-            <ion-item [color]="campaignContainer?.campaign?.type">
+            <ion-item
+              [color]="campaignContainer?.campaign?.type"
+              class="header-radius"
+            >
               <ion-select
                 [interfaceOptions]="{ cssClass: 'app-alert' }"
-                (ionChange)="periodChangedSubject.next($any($event))"
-                [value]="selectedPeriod$ | async"
+                (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
+                [value]="selectedLeaderboardType$ | async"
               >
                 <ion-select-option
-                  *ngFor="let period of periods"
-                  [value]="period"
+                  *ngFor="let leaderboardType of leaderboardTypes$|async"
+                  [value]="leaderboardType"
                 >
-                  {{period.labelKey |translate}}
+                  {{leaderboardType.labelKey |translate}}
+                  <span *ngIf="leaderboardType?.unitLabelKey"
+                    >[{{ leaderboardType.unitLabelKey | translate }}]</span
+                  >
                 </ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>
-            <ion-item
-              [color]="campaignContainer?.campaign?.type"
-              class="header-radius"
-            >
-              search
-            </ion-item>
-          </ion-col>
           <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type">
               <ion-select
