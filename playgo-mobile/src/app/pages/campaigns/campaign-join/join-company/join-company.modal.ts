@@ -14,7 +14,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
   templateUrl: './join-company.modal.html',
   styleUrls: ['./join-company.modal.scss'],
 })
-export class JoinCompanyModalPage implements OnInit, OnDestroy, AfterViewInit {
+export class JoinCompanyModalPage implements OnInit, OnDestroy {
   joinCompanyForm: FormGroup;
   campaign: Campaign;
   companies: any;
@@ -116,14 +116,6 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy, AfterViewInit {
           }
         );
     }
-  }
-  ngAfterViewInit() {
-    const selects = document.querySelectorAll('.app-alert');
-    selects.forEach((select) => {
-      (select as any).interfaceOptions = {
-        cssClass: 'app-alert',
-      };
-    });
   }
   onSelect(event: {
     component: IonicSelectableComponent;

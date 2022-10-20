@@ -74,7 +74,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './trips.page.html',
   styleUrls: ['./trips.page.scss'],
 })
-export class TripsPage implements OnInit, AfterViewInit {
+export class TripsPage implements OnInit {
   transportTypeLabels = transportTypeLabels;
   scrollRequestSubject = new Subject<PageableRequest>();
 
@@ -285,14 +285,6 @@ export class TripsPage implements OnInit, AfterViewInit {
     private campaignService: CampaignService,
     private activatedRoute: ActivatedRoute
   ) {}
-  ngAfterViewInit() {
-    const selects = document.querySelectorAll('.app-alert');
-    selects.forEach((select) => {
-      (select as any).interfaceOptions = {
-        cssClass: 'app-alert',
-      };
-    });
-  }
 
   ngOnInit() {}
 

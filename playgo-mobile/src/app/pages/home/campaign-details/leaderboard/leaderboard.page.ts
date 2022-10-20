@@ -41,7 +41,7 @@ import { PageSettingsService } from 'src/app/core/shared/services/page-settings.
   templateUrl: './leaderboard.page.html',
   styleUrls: ['./leaderboard.page.scss'],
 })
-export class LeaderboardPage implements OnInit, AfterViewInit, OnDestroy {
+export class LeaderboardPage implements OnInit, OnDestroy {
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
 
@@ -313,14 +313,6 @@ export class LeaderboardPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {}
-  ngAfterViewInit() {
-    const selects = document.querySelectorAll('.app-alert');
-    selects.forEach((select) => {
-      (select as any).interfaceOptions = {
-        cssClass: 'app-alert',
-      };
-    });
-  }
 }
 
 type ArgumentsBase = {
