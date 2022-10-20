@@ -86,6 +86,13 @@ export class ErrorService {
         messageTranslateKey,
       });
     }
+    if (realSeverity === 'important') {
+      console.error('Error handled by popup\n', error, stack);
+      this.alertService.confirmAlert(
+        'errors.error_header',
+        messageTranslateKey
+      );
+    }
     if (realSeverity === 'blocking') {
       console.error('ERROR HANDLED BY FULL PAGE RELOAD!\n', error, stack);
 
@@ -110,7 +117,11 @@ export class ErrorService {
  * 'blocking' after this error, the tracking functionality is broken. For example
  * Territory (needed to get list of means) failed with 404.
  */
-export type ErrorContextSeverity = 'silent' | 'normal' | 'blocking';
+export type ErrorContextSeverity =
+  | 'silent'
+  | 'normal'
+  | 'important'
+  | 'blocking';
 
 // ideas for another severities:
 // 'page_blocking' - this page is broken, redirect home. For example failed load trip detail.

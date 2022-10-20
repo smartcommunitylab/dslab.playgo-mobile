@@ -95,7 +95,7 @@ export class AlertService {
     const ok = await this.translate('modal.ok');
     return new Promise(async (resolve, reject) => {
       const alert = await this.alertController.create({
-        cssClass,
+        cssClass: cssClass ? cssClass : 'app-alert',
         header,
         message,
         buttons: [

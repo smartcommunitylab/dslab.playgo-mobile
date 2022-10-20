@@ -155,7 +155,7 @@ export class RegistrationPage implements OnInit {
           this.navCtrl.navigateRoot('/pages/tabs/home');
         })
         .catch((error: any) => {
-          this.errorService.handleError(error, 'normal');
+          this.errorService.handleError(error, 'important');
           if (error.error.ex === 'nickname already exists') {
             this.registrationForm.controls.nickname.setErrors({
               incorrect: true,
