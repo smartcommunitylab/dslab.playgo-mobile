@@ -52,11 +52,15 @@ export class NotificationService {
       if (this.since === null) {
         const notifications = await this.notificationStorage?.get();
         if (notifications && notifications.length > 0) {
-          this.since =
-            notifications[0]?.timestamp -
-            DateTime.local().minus({ hour: 1 }).valueOf();
+          console.log(
+            'DateTime.local().minus({ hour: 1 }).valueOf();' +
+              DateTime.local().minus({ hour: 1 }).valueOf()
+          );
+          this.since = notifications[0]?.timestamp - 60 * 60 * 1000;
+          console.log('since' + this.since);
         } else {
           this.since = 0;
+          console.log('first time notifications');
         }
       }
       return this.since;
@@ -66,17 +70,8 @@ export class NotificationService {
         .getPlayerNotificationsUsingGET({ since, limit: 100 })
         .pipe(this.errorService.getErrorHandler('silent'))
     ),
-    // warning!! side effects!!!
-    // switchMap(async (serverNotifications) => {
-    //   if (serverNotifications.length > 0) {
-    //     this.since =
-    //       serverNotifications[0].timestamp -
-    //       DateTime.local().minus({ hour: 1 }).valueOf();
-    //   }
-    //   return serverNotifications;
-    // }),
     switchMap(async (serverNotifications) => [
-      ...((await this.notificationStorage.get()) || []), //merge and eliminate duplicate based on id
+      ...((await this.notificationStorage.get()) || []),
       ...serverNotifications,
     ]),
     map((allNotifications) =>
@@ -85,11 +80,15 @@ export class NotificationService {
           index === self.findIndex((t) => t.id === value.id)
       )
     ),
-    tap<Notification[]>((allNotificationsWithoutDuplicates) =>
-      this.notificationStorage.set(
+    tap<Notification[]>(async (allNotificationsWithoutDuplicates) => {
+      await this.notificationStorage.set(
         allNotificationsWithoutDuplicates.slice(0, MAX_NOTIFICATIONS)
-      )
-    ),
+      );
+      if (this.since === 0) {
+        this.markAllNOtificationsAsRead();
+      }
+    }),
+
     shareReplay(1)
   );
   public unreadNotifications$ = this.allNotifications$.pipe(
@@ -225,10 +224,18 @@ export class NotificationService {
       )
     );
   }
-
+  public async markAllNOtificationsAsRead() {
+    const storedNotifications = await this.notificationStorage.get();
+    storedNotifications?.forEach((notification) => {
+      this.markSingleNotificationAsRead(storedNotifications, notification);
+    });
+    this.notificationStorage.set(storedNotifications);
+    //notify the new list of notifications
+    this.notificationRead$.next();
+  }
   public async markAnnouncementAsRead() {
     const storedNotifications = await this.notificationStorage.get();
-    storedNotifications.forEach((notification) => {
+    storedNotifications?.forEach((notification) => {
       if (
         !!notification.content &&
         notification.content.type === NotificationType.announcement

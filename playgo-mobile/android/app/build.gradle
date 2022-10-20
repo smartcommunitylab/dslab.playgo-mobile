@@ -31,7 +31,8 @@ android {
               applicationId "it.dslab.playgo.stage"
               manifestPlaceholders = [
                 displayName:"PlayGo - Stage",
-                customUrlScheme:"it.dslab.playgo.stage"
+                customUrlScheme:"it.dslab.playgo.stage",
+                backgroundKey:"d0de5b4c45ddb86f33ff57edd2f521de9333436d8c981edc00c380ac01a7260c"
               ]
               signingConfig signingConfigs.stage
             }
@@ -39,15 +40,16 @@ android {
               applicationId "it.dslab.playgo"
               manifestPlaceholders = [
                 displayName:"PlayGo",
-                customUrlScheme:"it.dslab.playgo"
+                customUrlScheme:"it.dslab.playgo",
+                backgroundKey:"2e4f62a3935686bc54cb1c7bbe6eca8cf11a5744e49fac82cfee506d79601bee"
               ]
               signingConfig signingConfigs.production
             }
         }
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 100
-        versionName "0.1.0"
+        versionCode 101
+        versionName "0.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

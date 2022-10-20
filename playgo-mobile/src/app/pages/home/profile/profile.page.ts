@@ -39,7 +39,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: 'profile.page.html',
   styleUrls: ['profile.page.scss'],
 })
-export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
+export class ProfilePage implements OnInit, OnDestroy {
   subProf: Subscription;
   profile: IUser;
 
@@ -165,13 +165,5 @@ export class ProfilePage implements OnInit, OnDestroy, AfterViewInit {
         this.errorService.handleError(e, 'normal');
       }
     }
-  }
-  ngAfterViewInit() {
-    const selects = document.querySelectorAll('.app-alert');
-    selects.forEach((select) => {
-      (select as any).interfaceOptions = {
-        cssClass: 'app-alert',
-      };
-    });
   }
 }

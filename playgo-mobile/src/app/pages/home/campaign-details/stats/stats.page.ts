@@ -53,7 +53,7 @@ import { PageSettingsService } from 'src/app/core/shared/services/page-settings.
   templateUrl: './stats.page.html',
   styleUrls: ['./stats.page.scss'],
 })
-export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
+export class StatsPage implements OnInit, OnDestroy {
   @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
@@ -236,14 +236,7 @@ export class StatsPage implements OnInit, OnDestroy, AfterViewInit {
   segmentChanged(ev: any) {
     console.log('Segment changed, change the selected period', ev);
   }
-  ngAfterViewInit() {
-    const selects = document.querySelectorAll('.app-alert');
-    selects.forEach((select) => {
-      (select as any).interfaceOptions = {
-        cssClass: 'app-alert',
-      };
-    });
-  }
+
   backPeriod() {
     //change referenceDate
     this.referenceDate = this.referenceDate.plus({

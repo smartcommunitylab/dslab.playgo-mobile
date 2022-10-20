@@ -5,6 +5,13 @@
 .avatar-container {
   margin-bottom: 33px;
 }
+ion-item {
+  --highlight-background: white;
+}
+
+ion-item.ion-invalid.ion-dirty.ion-touched {
+  --highlight-background: red;
+}
 .avatar-cange {
   background-color: var(--ion-color-primary);
   border-radius: 16px;

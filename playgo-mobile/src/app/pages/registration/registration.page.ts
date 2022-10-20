@@ -16,13 +16,14 @@ import { Territory } from 'src/app/core/api/generated/model/territory';
 import { find } from 'lodash-es';
 import { PrivacyModalPage } from './privacy-modal/privacy.modal';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })
-export class RegistrationPage implements OnInit, AfterViewInit {
+export class RegistrationPage implements OnInit {
   territoryList: Territory[] = [];
   registrationForm: FormGroup;
   isSubmitted = false;
@@ -38,6 +39,7 @@ export class RegistrationPage implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer,
     private alertService: AlertService,
     private authService: AuthService,
+    private errorService: ErrorService,
     private modalController: ModalController // private notificationService: NotificationService
   ) {
     this.territoryService.territories$.subscribe((territories) => {
@@ -153,21 +155,18 @@ export class RegistrationPage implements OnInit, AfterViewInit {
           this.navCtrl.navigateRoot('/pages/tabs/home');
         })
         .catch((error: any) => {
-          console.log(error);
+          this.errorService.handleError(error, 'important');
+          if (error.error.ex === 'nickname already exists') {
+            this.registrationForm.controls.nickname.setErrors({
+              incorrect: true,
+            });
+          }
         });
     } catch (error) {
-      console.log(error);
+      this.errorService.handleError(error, 'normal');
     }
   }
   cancel() {
     this.authService.logout();
-  }
-  ngAfterViewInit() {
-    const selects = document.querySelectorAll('.app-alert');
-    selects.forEach((select) => {
-      (select as any).interfaceOptions = {
-        cssClass: 'app-alert',
-      };
-    });
   }
 }
