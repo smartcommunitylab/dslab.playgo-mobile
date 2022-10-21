@@ -400,6 +400,7 @@
       "period": {
         "today": "Oggi",
         "this_week": "Questa settimana",
+        "last_week": "Settimana scorsa",
         "this_month": "Questo mese",
         "all_time": "Complessivo"
       },
@@ -416,7 +417,8 @@
         "co2": "{{value}} kg CO₂",
         "GL": "{{value}} Eco Leaves",
         "km": "{{value}} km"
-      }
+      },
+      "all_means": "Tutti i mezzi"
     },
     "score_label": {
       "flower": "Eco Leaves",

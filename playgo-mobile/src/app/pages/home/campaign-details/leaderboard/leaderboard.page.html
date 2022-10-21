@@ -7,7 +7,7 @@
         [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
         [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'"
       >
-        <ion-row>
+        <ion-row *ngIf="useMeanAndMetric$ |async">
           <ion-col>
             <ion-item
               [color]="campaignContainer?.campaign?.type"
@@ -15,47 +15,47 @@
             >
               <ion-select
                 [interfaceOptions]="{ cssClass: 'app-alert' }"
-                (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
-                [value]="selectedLeaderboardType$ | async"
+                (ionChange)="selectedMeanChangedSubject.next($any($event))"
+                [value]="selectedMean$ | async"
               >
                 <ion-select-option
-                  *ngFor="let leaderboardType of leaderboardTypes$|async"
-                  [value]="leaderboardType"
+                  *ngFor="let mean of means$|async"
+                  [value]="mean"
                 >
-                  {{leaderboardType.labelKey |translate}}
-                  <span *ngIf="leaderboardType?.unitLabelKey"
-                    >[{{ leaderboardType.unitLabelKey | translate }}]</span
-                  >
+                  {{meanLabels[mean] |translate}}
                 </ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
+
           <ion-col>
-            <ion-item [color]="campaignContainer?.campaign?.type">
+            <ion-item
+              [color]="campaignContainer?.campaign?.type"
+              class="header-radius"
+            >
               <ion-select
                 [interfaceOptions]="{ cssClass: 'app-alert' }"
-                (ionChange)="periodChangedSubject.next($any($event))"
-                [value]="selectedPeriod$ | async"
+                (ionChange)="selectedMetricChangedSubject.next($any($event))"
+                [value]="selectedMetric$ | async"
               >
                 <ion-select-option
-                  *ngFor="let period of periods"
-                  [value]="period"
+                  *ngFor="let metric of metrics"
+                  [value]="metric"
                 >
-                  {{period.labelKey |translate}}
+                  {{metricToUnitLabel[metric] |translate}}
                 </ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row *ngIf="(useMeanAndMetric$ |async) === false">
           <ion-col>
-            <ion-item
-              [color]="campaignContainer?.campaign?.type"
-              class="header-radius"
-            >
-              search
+            <ion-item [color]="campaignContainer?.campaign?.type">
+              {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
             </ion-item>
           </ion-col>
+        </ion-row>
+        <ion-row>
           <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type">
               <ion-select

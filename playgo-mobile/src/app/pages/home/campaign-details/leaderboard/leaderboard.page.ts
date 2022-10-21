@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
 import { find, isEqual, partial } from 'lodash-es';
 
-import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -18,6 +18,7 @@ import {
 import { DateTime } from 'luxon';
 
 import {
+  TransportType,
   transportTypeLabels,
   transportTypes,
 } from 'src/app/core/shared/tracking/trip.model';
@@ -45,77 +46,19 @@ export class LeaderboardPage implements OnInit, OnDestroy {
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
 
-  private metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
+  metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
     km: 'campaigns.leaderboard.leaderboard_type_unit.km',
   } as const;
-  private metricToUnitLabel: Record<Metric, TranslateKey> = {
+  metricToUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.unit.co2',
     km: 'campaigns.leaderboard.unit.km',
   } as const;
 
-  // we need to keep references the same, because they are used as select values.
-  private allLeaderboardTypes: LeaderboardType[] = [
-    {
-      labelKey: 'campaigns.leaderboard.leaderboard_type.GL',
-      numberWithUnitKey: 'campaigns.leaderboard.leaderboard_type_unit.GL',
-      filter: (campaign: Campaign) =>
-        campaign.type === 'city' || campaign.type === 'school',
-      playerApi: (args) =>
-        this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET(
-          args
-        ),
-      leaderboardApi: (args) =>
-        this.reportControllerService.getCampaingPlacingByGameUsingGET(args),
-    },
-    {
-      labelKey: 'campaigns.leaderboard.leaderboard_type.co2',
-      numberWithUnitKey: 'campaigns.leaderboard.leaderboard_type_unit.co2',
-      filter: (campaign: Campaign) => campaign.type !== 'school',
-      playerApi: (args) =>
-        this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
-          {
-            ...args,
-            mean: null,
-            metric: 'co2',
-          }
-        ),
-
-      leaderboardApi: (args) =>
-        this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
-          {
-            ...args,
-            mean: null,
-            metric: 'co2',
-          }
-        ),
-    },
-
-    ...cartesian(transportTypes, ['co2', 'km'] as Metric[]).map(
-      ([transportType, metric]) => ({
-        labelKey: transportTypeLabels[transportType],
-        numberWithUnitKey: this.metricToNumberWithUnitLabel[metric],
-        unitLabelKey: this.metricToUnitLabel[metric],
-        filter: (campaign: Campaign) => campaign.type !== 'school',
-        playerApi: (args: PlayerPlacingArguments) =>
-          this.reportControllerService.getPlayerCampaingPlacingByTransportModeUsingGET(
-            {
-              ...args,
-              mean: transportType,
-              metric,
-            }
-          ),
-        leaderboardApi: (args: LeaderboardArguments) =>
-          this.reportControllerService.getCampaingPlacingByTransportStatsUsingGET(
-            {
-              ...args,
-              mean: transportType,
-              metric,
-            }
-          ),
-      })
-    ),
-  ];
+  meanLabels: Record<Mean, TranslateKey> = {
+    ...transportTypeLabels,
+    [ALL_MEANS]: 'campaigns.leaderboard.all_means',
+  };
 
   campaignId$: Observable<string> = this.route.params.pipe(
     map((params) => params.id),
@@ -134,32 +77,30 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  leaderboardTypes$: Observable<LeaderboardType[]> = this.campaign$.pipe(
-    map((campaign) => this.getLeaderboardTypes(campaign)),
+  useMeanAndMetric$ = this.campaign$.pipe(
+    map((campaign) => campaign.type === 'personal')
+  );
+
+  means$: Observable<Mean[]> = this.campaignService.availableMeans$.pipe(
+    map((availableMeans) => [ALL_MEANS, ...availableMeans])
+  );
+  selectedMeanChangedSubject = new Subject<SelectCustomEvent<Mean>>();
+  selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
+    map((event) => event.detail.value),
+    startWith(ALL_MEANS),
     shareReplay(1)
   );
 
-  leaderboardTypeChangedSubject = new Subject<
-    SelectCustomEvent<LeaderboardType>
-  >();
-
-  selectedLeaderboardType$: Observable<LeaderboardType> =
-    this.leaderboardTypeChangedSubject.pipe(
-      map((event) => event.detail.value),
-      startFrom(
-        // initial select value
-        this.leaderboardTypes$.pipe(
-          first(),
-          map((allLeaderboardTypes) => allLeaderboardTypes[0])
-        )
-      ),
-      shareReplay(1)
-    );
-  numberWithUnitKey$: Observable<TranslateKey> =
-    this.selectedLeaderboardType$.pipe(
-      map((leaderboardType) => leaderboardType.numberWithUnitKey),
-      shareReplay(1)
-    );
+  metrics: Metric[] = ['co2', 'km'];
+  selectedMetricChangedSubject = new Subject<SelectCustomEvent<Metric>>();
+  selectedMetric$: Observable<Metric> = this.selectedMetricChangedSubject.pipe(
+    map((event) => event.detail.value),
+    startWith(
+      // initial select value
+      'co2' as const
+    ),
+    shareReplay(1)
+  );
 
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> = this.periodChangedSubject.pipe(
@@ -169,61 +110,92 @@ export class LeaderboardPage implements OnInit, OnDestroy {
   );
 
   playerId$ = this.userService.userProfile$.pipe(
-    map((userProfile) => userProfile.playerId)
+    map((userProfile) => userProfile.playerId),
+    distinctUntilChanged()
   );
 
-  filterOptions$ = combineLatest([
-    this.selectedLeaderboardType$,
-    this.selectedPeriod$,
-    this.campaignId$,
-    // FIXME: investigate why this is needed.
-    this.playerId$.pipe(distinctUntilChanged(isEqual)),
-  ]).pipe(
-    map(([leaderboardType, period, campaignId, playerId]) => ({
-      leaderboardType,
-      period,
-      campaignId,
-      playerId,
-    }))
+  filterOptions$ = combineLatest({
+    mean: this.selectedMean$,
+    metric: this.selectedMetric$,
+    period: this.selectedPeriod$,
+    campaignId: this.campaignId$,
+    useMeanAndMetric: this.useMeanAndMetric$,
+    playerId: this.playerId$,
+  });
+
+  numberWithUnitKey$: Observable<TranslateKey> = this.filterOptions$.pipe(
+    map(({ useMeanAndMetric, metric }) =>
+      useMeanAndMetric
+        ? this.metricToNumberWithUnitLabel[metric]
+        : 'campaigns.leaderboard.leaderboard_type_unit.GL'
+    ),
+    shareReplay(1)
   );
 
   playerPosition$: Observable<CampaignPlacing> = this.filterOptions$.pipe(
-    switchMap(({ leaderboardType, period, campaignId, playerId }) =>
-      bind(
-        leaderboardType.playerApi,
-        this
-      )({
-        campaignId,
-        playerId,
-        dateFrom: period.from,
-        dateTo: period.to,
-      }).pipe(this.errorService.getErrorHandler())
-    )
+    switchMap(
+      ({ useMeanAndMetric, metric, mean, period, campaignId, playerId }) => {
+        if (useMeanAndMetric) {
+          return this.reportControllerService
+            .getPlayerCampaingPlacingByTransportModeUsingGET({
+              campaignId,
+              metric,
+              mean: mean === ALL_MEANS ? null : mean,
+              playerId,
+              dateFrom: period.from,
+              dateTo: period.to,
+            })
+            .pipe(this.errorService.getErrorHandler());
+        } else {
+          return this.reportControllerService
+            .getPlayerCampaingPlacingByGameUsingGET({
+              campaignId,
+              playerId,
+              dateFrom: period.from,
+              dateTo: period.to,
+            })
+            .pipe(this.errorService.getErrorHandler());
+        }
+      }
+    ),
+    shareReplay(1)
   );
 
   scrollRequestSubject = new Subject<PageableRequest>();
 
   leaderboardScrollResponse$: Observable<PageCampaignPlacing> =
     this.filterOptions$.pipe(
-      switchMap(({ leaderboardType, period, campaignId }) =>
+      switchMap(({ useMeanAndMetric, metric, mean, period, campaignId }) =>
         this.scrollRequestSubject.pipe(
           startWith({
             page: 0,
             size: 10,
           }),
-          switchMap(({ page, size }) =>
-            bind(
-              leaderboardType.leaderboardApi,
-              this.reportControllerService
-            )({
-              campaignId,
-              page,
-              size,
-              sort: null,
-              dateFrom: period.from,
-              dateTo: period.to,
-            }).pipe(this.errorService.getErrorHandler())
-          )
+          switchMap(({ page, size }) => {
+            if (useMeanAndMetric) {
+              return this.reportControllerService
+                .getCampaingPlacingByTransportStatsUsingGET({
+                  page,
+                  size,
+                  campaignId,
+                  metric,
+                  mean: mean === ALL_MEANS ? null : mean,
+                  dateFrom: period.from,
+                  dateTo: period.to,
+                })
+                .pipe(this.errorService.getErrorHandler());
+            } else {
+              return this.reportControllerService
+                .getCampaingPlacingByGameUsingGET({
+                  page,
+                  size,
+                  campaignId,
+                  dateFrom: period.from,
+                  dateTo: period.to,
+                })
+                .pipe(this.errorService.getErrorHandler());
+            }
+          })
         )
       )
     );
@@ -268,10 +240,6 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     });
   }
 
-  getLeaderboardTypes(campaign: Campaign): LeaderboardType[] {
-    return this.allLeaderboardTypes.filter((type) => type.filter(campaign));
-  }
-
   getPeriods(referenceDate: DateTime): Period[] {
     return [
       {
@@ -284,6 +252,14 @@ export class LeaderboardPage implements OnInit, OnDestroy {
         labelKey: 'campaigns.leaderboard.period.this_week',
         from: this.toServerDate(referenceDate.startOf('week')),
         to: this.toServerDate(referenceDate),
+        default: false,
+      },
+      {
+        labelKey: 'campaigns.leaderboard.period.last_week',
+        from: this.toServerDate(
+          referenceDate.startOf('week').minus({ weeks: 1 })
+        ),
+        to: this.toServerDate(referenceDate.startOf('week')),
         default: false,
       },
       {
@@ -315,33 +291,6 @@ export class LeaderboardPage implements OnInit, OnDestroy {
   ngOnInit() {}
 }
 
-type ArgumentsBase = {
-  campaignId: string;
-  dateFrom: string;
-  dateTo: string;
-};
-
-type PlayerPlacingArguments = ArgumentsBase & {
-  playerId: string;
-};
-
-type LeaderboardArguments = ArgumentsBase & {
-  page: number;
-  size: number;
-  sort: string;
-};
-
-type LeaderboardType = {
-  labelKey: TranslateKey;
-  numberWithUnitKey: TranslateKey;
-  unitLabelKey?: TranslateKey;
-  playerApi: (args: PlayerPlacingArguments) => Observable<CampaignPlacing>;
-  leaderboardApi: (
-    args: LeaderboardArguments
-  ) => Observable<PageCampaignPlacing>;
-  filter: (campaign: Campaign) => boolean;
-};
-
 type Period = {
   labelKey: TranslateKey;
   from: string;
@@ -351,10 +300,5 @@ type Period = {
 
 type Metric = 'co2' | 'km';
 
-function bind<F extends (...args: any) => any>(f: F, thisValue: any): F {
-  return (f as any).bind(thisValue);
-}
-
-function isType(campaign: Campaign, ...type: Campaign.TypeEnum[]): boolean {
-  return type.some((t) => campaign.type === t);
-}
+const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
+type Mean = TransportType | typeof ALL_MEANS;
