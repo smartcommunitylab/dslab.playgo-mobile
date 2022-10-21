@@ -15,17 +15,14 @@
             >
               <ion-select
                 [interfaceOptions]="{ cssClass: 'app-alert' }"
-                (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
-                [value]="selectedLeaderboardType$ | async"
+                (ionChange)="selectedMeanChangedSubject.next($any($event))"
+                [value]="selectedMean$ | async"
               >
                 <ion-select-option
-                  *ngFor="let leaderboardType of leaderboardTypes$|async"
-                  [value]="leaderboardType"
+                  *ngFor="let mean of means$|async"
+                  [value]="mean"
                 >
-                  {{leaderboardType.labelKey |translate}}
-                  <span *ngIf="leaderboardType?.unitLabelKey"
-                    >[{{ leaderboardType.unitLabelKey | translate }}]</span
-                  >
+                  {{transportTypeLabels[mean] |translate}}
                 </ion-select-option>
               </ion-select>
             </ion-item>
@@ -37,17 +34,14 @@
             >
               <ion-select
                 [interfaceOptions]="{ cssClass: 'app-alert' }"
-                (ionChange)="leaderboardTypeChangedSubject.next($any($event))"
-                [value]="selectedLeaderboardType$ | async"
+                (ionChange)="selectedMetricChangedSubject.next($any($event))"
+                [value]="selectedMetric$ | async"
               >
                 <ion-select-option
-                  *ngFor="let leaderboardType of leaderboardTypes$|async"
-                  [value]="leaderboardType"
+                  *ngFor="let metric of metrics"
+                  [value]="metric"
                 >
-                  {{leaderboardType.labelKey |translate}}
-                  <span *ngIf="leaderboardType?.unitLabelKey"
-                    >[{{ leaderboardType.unitLabelKey | translate }}]</span
-                  >
+                  {{metricToUnitLabel[metric] |translate}}
                 </ion-select-option>
               </ion-select>
             </ion-item>
