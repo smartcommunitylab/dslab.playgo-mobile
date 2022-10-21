@@ -74,6 +74,10 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
+  useMeanAndMetric$ = this.campaign$.pipe(
+    map((campaign) => campaign.type === 'personal')
+  );
+
   means$: Observable<TransportType[]> = this.campaignService.availableMeans$;
   selectedMeanChangedSubject = new Subject<SelectCustomEvent<TransportType>>();
   selectedMean$: Observable<TransportType> =
@@ -117,14 +121,12 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     metric: this.selectedMetric$,
     period: this.selectedPeriod$,
     campaignId: this.campaignId$,
-    useMeanAndMetric: this.campaign$.pipe(
-      map((campaign) => campaign.type === 'personal')
-    ),
+    useMeanAndMetric: this.useMeanAndMetric$,
     playerId: this.playerId$,
   });
 
   numberWithUnitKey$: Observable<TranslateKey> = this.filterOptions$.pipe(
-    map(({ useMeanAndMetric, metric, mean }) =>
+    map(({ useMeanAndMetric, metric }) =>
       useMeanAndMetric
         ? this.metricToNumberWithUnitLabel[metric]
         : 'campaigns.leaderboard.leaderboard_type_unit.GL'

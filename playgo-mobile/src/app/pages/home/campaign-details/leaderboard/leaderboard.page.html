@@ -7,7 +7,7 @@
         [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
         [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'"
       >
-        <ion-row>
+        <ion-row *ngIf="useMeanAndMetric$ |async">
           <ion-col>
             <ion-item
               [color]="campaignContainer?.campaign?.type"
@@ -27,6 +27,7 @@
               </ion-select>
             </ion-item>
           </ion-col>
+
           <ion-col>
             <ion-item
               [color]="campaignContainer?.campaign?.type"
@@ -44,6 +45,13 @@
                   {{metricToUnitLabel[metric] |translate}}
                 </ion-select-option>
               </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="(useMeanAndMetric$ |async) === false">
+          <ion-col>
+            <ion-item [color]="campaignContainer?.campaign?.type">
+              {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
             </ion-item>
           </ion-col>
         </ion-row>
