@@ -55,7 +55,10 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     km: 'campaigns.leaderboard.unit.km',
   } as const;
 
-  transportTypeLabels = transportTypeLabels;
+  meanLabels: Record<Mean, TranslateKey> = {
+    ...transportTypeLabels,
+    [ALL_MEANS]: 'campaigns.leaderboard.all_means',
+  };
 
   campaignId$: Observable<string> = this.route.params.pipe(
     map((params) => params.id),
@@ -78,20 +81,15 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     map((campaign) => campaign.type === 'personal')
   );
 
-  means$: Observable<TransportType[]> = this.campaignService.availableMeans$;
-  selectedMeanChangedSubject = new Subject<SelectCustomEvent<TransportType>>();
-  selectedMean$: Observable<TransportType> =
-    this.selectedMeanChangedSubject.pipe(
-      map((event) => event.detail.value),
-      startFrom(
-        // initial select value
-        this.means$.pipe(
-          first(),
-          map((means) => means[0])
-        )
-      ),
-      shareReplay(1)
-    );
+  means$: Observable<Mean[]> = this.campaignService.availableMeans$.pipe(
+    map((availableMeans) => [ALL_MEANS, ...availableMeans])
+  );
+  selectedMeanChangedSubject = new Subject<SelectCustomEvent<Mean>>();
+  selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
+    map((event) => event.detail.value),
+    startWith(ALL_MEANS),
+    shareReplay(1)
+  );
 
   metrics: Metric[] = ['co2', 'km'];
   selectedMetricChangedSubject = new Subject<SelectCustomEvent<Metric>>();
@@ -142,7 +140,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
             .getPlayerCampaingPlacingByTransportModeUsingGET({
               campaignId,
               metric,
-              mean,
+              mean: mean === ALL_MEANS ? null : mean,
               playerId,
               dateFrom: period.from,
               dateTo: period.to,
@@ -181,7 +179,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
                   size,
                   campaignId,
                   metric,
-                  mean,
+                  mean: mean === ALL_MEANS ? null : mean,
                   dateFrom: period.from,
                   dateTo: period.to,
                 })
@@ -293,3 +291,6 @@ type Period = {
 };
 
 type Metric = 'co2' | 'km';
+
+const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
+type Mean = TransportType | typeof ALL_MEANS;

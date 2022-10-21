@@ -22,7 +22,7 @@
                   *ngFor="let mean of means$|async"
                   [value]="mean"
                 >
-                  {{transportTypeLabels[mean] |translate}}
+                  {{meanLabels[mean] |translate}}
                 </ion-select-option>
               </ion-select>
             </ion-item>

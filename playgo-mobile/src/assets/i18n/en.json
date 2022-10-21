@@ -416,7 +416,8 @@
         "co2": "{{value}} kg CO₂",
         "GL": "{{value}} Eco Leaves",
         "km": "{{value}} km"
-      }
+      },
+      "all_means": "All means"
     },
     "score_label": {
       "flower": "Eco Leaves",
