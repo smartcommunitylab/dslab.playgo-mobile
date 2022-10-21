@@ -400,6 +400,7 @@
       "period": {
         "today": "Today",
         "this_week": "This Week",
+        "last_week": "Last Week",
         "this_month": "This Month",
         "all_time": "All Time"
       },

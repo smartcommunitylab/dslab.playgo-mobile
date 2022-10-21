@@ -255,6 +255,14 @@ export class LeaderboardPage implements OnInit, OnDestroy {
         default: false,
       },
       {
+        labelKey: 'campaigns.leaderboard.period.last_week',
+        from: this.toServerDate(
+          referenceDate.startOf('week').minus({ weeks: 1 })
+        ),
+        to: this.toServerDate(referenceDate.startOf('week')),
+        default: false,
+      },
+      {
         labelKey: 'campaigns.leaderboard.period.this_month',
         from: this.toServerDate(referenceDate.startOf('month')),
         to: this.toServerDate(referenceDate),

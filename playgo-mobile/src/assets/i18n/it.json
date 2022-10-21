@@ -400,6 +400,7 @@
       "period": {
         "today": "Oggi",
         "this_week": "Questa settimana",
+        "last_week": "Settimana scorsa",
         "this_month": "Questo mese",
         "all_time": "Complessivo"
       },
