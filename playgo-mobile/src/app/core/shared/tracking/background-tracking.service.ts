@@ -162,6 +162,8 @@ export class BackgroundTrackingService {
   );
 
   constructor(
+    // we are not using BackgroundGeolocation directly, but use dependency injection
+    // so we can use mock in web (develop) version.
     @Inject('BackgroundGeolocationPlugin')
     private backgroundGeolocationPlugin: typeof BackgroundGeolocationInternal,
     private alertService: AlertService,
@@ -172,10 +174,6 @@ export class BackgroundTrackingService {
     private translateService: TranslateService,
     private localStorageService: LocalStorageService
   ) {
-    // FIXME: debug only
-    (window as any).backgroundGeolocationPlugin =
-      this.backgroundGeolocationPlugin;
-
     // start observing plugin events
     this.pluginLocation$.subscribe();
     this.isPowerSaveMode$.subscribe();
@@ -196,12 +194,12 @@ export class BackgroundTrackingService {
       // AUTHORIZATION_STATUS_WHEN_IN_USE    | iOS only
 
       status = await this.backgroundGeolocationPlugin.requestPermission();
-      console.log('status requestPermission: ' + status);
+      // console.log('status requestPermission: ' + status);
     } catch (errorStatus) {
       status = errorStatus as AuthorizationStatus;
     }
     const executionTime = performance.now() - now;
-    console.log('executionTime: ' + executionTime);
+    // console.log('executionTime: ' + executionTime);
 
     if (
       status === this.backgroundGeolocationPlugin.AUTHORIZATION_STATUS_ALWAYS
@@ -214,7 +212,12 @@ export class BackgroundTrackingService {
     ) {
       return 'ACCEPTED_WHEN_IN_USE';
     }
-    // real time is around 400ms
+    // After user deny permission two times, then no new popups will be presented,
+    // and permission will be denied silently. If we want to show some information
+    // in this case, we have heuristics measuring how long it takes to get permission.
+    // If it takes more than 1 second, then we can assume that user denied permission.
+    // Otherwise, we can assume that permission was denied silently. Silent denial
+    // takes around 400ms
     if (executionTime < 1000) {
       return 'DENIED_SILENTLY';
     }
@@ -314,11 +317,23 @@ export class BackgroundTrackingService {
   }
 
   public async stopTracking() {
+    // we are forcing to measure user's location at the moment of stopping tracking
+    // this could be important in case of company campaigns, where trip ends have to be
+    // precisely at the workplace.
     await this.setExtrasAndForceLocation(null);
     await this.backgroundGeolocationPlugin.stop();
     await this.sync();
     this.possibleLocationsChangeSubject.next();
   }
+
+  /**
+   * We are running sync after ending each trip and also after each app start.
+   *
+   * We are using batchSync, so we are sending all locations, from potentially all trips
+   * in one request. Locations are sorted to individual trips by server.
+   *
+   * Note that location can stay in plugin database for some time, if sync fails.
+   */
   private async sync() {
     try {
       try {
