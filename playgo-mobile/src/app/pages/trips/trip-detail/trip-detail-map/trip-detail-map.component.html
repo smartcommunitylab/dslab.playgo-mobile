@@ -7,4 +7,6 @@
   <ng-container *ngFor="let layer of tripPartLineLayers$ | async">
     <div [leafletLayer]="layer"></div>
   </ng-container>
+  <div [leafletLayer]="startMarker$ | async"></div>
+  <div [leafletLayer]="endMarker$ | async"></div>
 </div>

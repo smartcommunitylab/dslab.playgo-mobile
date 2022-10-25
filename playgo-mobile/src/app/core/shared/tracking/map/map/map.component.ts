@@ -108,6 +108,25 @@ export class MapComponent implements OnInit {
       )
     );
 
+  public startTripMarker$: Observable<Layer> =
+    this.backgroundTrackingService.currentTripLocations$.pipe(
+      filter((locations) => locations.length > 0),
+      map((locations) => _first(locations)),
+      distinctUntilChanged(isEqual),
+      map(locationToCoordinate),
+      map((coordinate) =>
+        marker(coordinate, {
+          icon: icon({
+            ...Icon.Default.prototype.options,
+            // TODO: set proper svg icon
+            iconUrl: 'assets/marker-icon.png',
+            iconRetinaUrl: 'assets/marker-icon-2x.png',
+            shadowUrl: 'assets/marker-shadow.png',
+          }),
+        })
+      )
+    );
+
   /**
    *
    * We use "slow" currentTripLocations$ to show marker on the map, so it will
@@ -131,20 +150,11 @@ export class MapComponent implements OnInit {
 
   public currentLocationMarkerLayer$: Observable<Layer> =
     this.currentLatLng$.pipe(
-      map(
-        (coordinates) =>
-          circleMarker(coordinates, {
-            radius: 5, // px
-            color: 'blue', // do we want to change colors by mean?
-          })
-        // marker(coordinates, {
-        //   icon: icon({
-        //     ...Icon.Default.prototype.options,
-        //     iconUrl: 'assets/marker-icon.png',
-        //     iconRetinaUrl: 'assets/marker-icon-2x.png',
-        //     shadowUrl: 'assets/marker-shadow.png',
-        //   }),
-        // })
+      map((coordinates) =>
+        circleMarker(coordinates, {
+          radius: 5, // px
+          color: 'blue', // do we want to change colors by mean?
+        })
       )
     );
 

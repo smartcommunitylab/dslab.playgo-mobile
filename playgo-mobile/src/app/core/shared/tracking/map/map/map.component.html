@@ -8,6 +8,7 @@
   >
     <div [leafletLayer]="currentLocationMarkerLayer$ | async"></div>
     <div [leafletLayer]="currentAccuracyMarkerLayers$ | async"></div>
+    <div [leafletLayer]="startTripMarker$ | async"></div>
 
     <ng-container *ngFor="let layer of tripPartLineLayers$ | async">
       <div [leafletLayer]="layer"></div>

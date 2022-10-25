@@ -8,10 +8,14 @@ import {
   polyline,
   tileLayer,
   latLngBounds,
+  marker,
+  icon,
+  LatLngTuple,
+  Icon,
 } from 'leaflet';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, shareReplay, take, takeUntil } from 'rxjs/operators';
-import { concat, map as _map } from 'lodash-es';
+import { concat, map as _map, first as _first, last as _last } from 'lodash-es';
 import {
   TransportType,
   transportTypeColors,
@@ -57,6 +61,44 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
+  private fullPolyLineCoords$: Observable<LatLngTuple[]> =
+    this.tripPartsDecoded$.pipe(
+      map((tripParts) => {
+        const polylines = tripParts.map((tripPart) => tripPart.polyline);
+        const mergedParts = ([] as LatLngTuple[]).concat.apply([], polylines);
+        return mergedParts;
+      })
+    );
+
+  public startMarker$: Observable<Layer> = this.fullPolyLineCoords$.pipe(
+    map(_first),
+    map((coordinate) =>
+      marker(latLng(coordinate), {
+        icon: icon({
+          ...Icon.Default.prototype.options,
+          // TODO: set proper svg icon
+          iconUrl: 'assets/marker-icon.png',
+          iconRetinaUrl: 'assets/marker-icon-2x.png',
+          shadowUrl: 'assets/marker-shadow.png',
+        }),
+      })
+    )
+  );
+  public endMarker$: Observable<Layer> = this.fullPolyLineCoords$.pipe(
+    map(_last),
+    map((coordinate) =>
+      marker(latLng(coordinate), {
+        icon: icon({
+          ...Icon.Default.prototype.options,
+          // TODO: set proper svg icon
+          iconUrl: 'assets/marker-icon.png',
+          iconRetinaUrl: 'assets/marker-icon-2x.png',
+          shadowUrl: 'assets/marker-shadow.png',
+        }),
+      })
+    )
+  );
+
   public tripPartLineLayers$: Observable<Layer[]> = this.tripPartsDecoded$.pipe(
     map((tripParts) =>
       _map(tripParts, (eachPart) =>
@@ -68,11 +110,8 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  public tripBounds$ = this.tripPartsDecoded$.pipe(
-    map((tripParts) => {
-      const fullPolyLineCoords = concat(
-        tripParts.map((tripPart) => tripPart.polyline)
-      );
+  public tripBounds$ = this.fullPolyLineCoords$.pipe(
+    map((fullPolyLineCoords) => {
       const bounds = polyline(fullPolyLineCoords).getBounds();
       const southNorthDistance = bounds.getNorth() - bounds.getSouth();
 
