@@ -81,4 +81,9 @@ Most useful npm scripts are:
 - `code-push:(ios/android):clear:(prod/stage)` clearing versions from code-push server. This will not cause uninstall on real devices.
 - `code-push:(ios/android):release:(prod/stage) [app-version]` main command to upload new code to our code-push server and later to user's phones. It is important to run `npm run ionic:sync:(prod/stage)` before running code-push release command. Because release command only copy builded files in `/app/src/main/assets/public` or `ios/App/App/public`. Command has one required argument: app-version of installed apps that should be targeted with this code. For example when we have version `1.2.0` of the android production app deployed and we want to fix some bug, we can fix the issue in correct branch. Then run `npm run ionic:sync:prod` to build angular, and then `npm run code-push:android:release:prod 1.2.0`.
 
+Full documentation about code-push cli is here: https://github.com/shm-open/code-push-cli
+
+For plugin we use https://github.com/mapiacompany/capacitor-codepush, but repo is not actively maintained. It is possible that we will have to fork it.
+
+Server is https://github.com/shm-open/code-push-server.
 
