@@ -247,6 +247,19 @@ export class TripsPage implements OnInit, AfterViewInit {
     startWith([])
   );
 
+  /**
+   * All trips displayed on page. Consist of trips from:
+   *
+   * - fromPluginTrips. Trips that are still in plugin database and not synchronized yet.
+   *            Mostly ongoing trip, but it is possible that also some older trip could be not
+   *            synchronized yet.
+   *
+   * - recentTrips. Trips that are synchronized with server, but not older than 7 days.
+   *            For some trip, we know that we sent them to server, but verification is still pending.
+   *            We store these trips in storage, for offline use.
+   *
+   * - deepPastTrips. There trips are older than 7 days and are loaded from server using infinite scroll.
+   */
   private trips$: Observable<ServerOrLocalTrip[]> = combineLatest([
     this.fromPluginTrips$,
     this.recentTrips$,

@@ -1,6 +1,7 @@
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { UserError } from '../services/error.service';
 
+/** Whole multimodal trip */
 export class Trip {
   multimodalId: string;
   constructor(data?: Trip) {
@@ -11,6 +12,7 @@ export class Trip {
   }
 }
 
+/** Single part in (potentially) multimodal trip */
 export class TripPart {
   isInitial: boolean;
   idTrip: string;

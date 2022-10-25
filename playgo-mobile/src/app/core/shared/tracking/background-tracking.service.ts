@@ -54,6 +54,10 @@ import { LocalStorageService } from '../services/local-storage.service';
 @Injectable({
   providedIn: 'root',
 })
+/**
+ * Low level service, that controls starting / stopping of tracking.
+ * Calls BackgroundGeolocation Plugin under the hood.
+ */
 export class BackgroundTrackingService {
   private markAsReady: (val: unknown) => void;
 
@@ -91,6 +95,7 @@ export class BackgroundTrackingService {
     shareReplay(1)
   );
 
+  /** appAndDeviceInfo is send to server on each .sync */
   private appAndDeviceInfo$: Observable<DeviceInfo> = combineLatest([
     this.appStatusService.appInfo$,
     this.appStatusService.deviceInfo$,
@@ -110,6 +115,7 @@ export class BackgroundTrackingService {
   private possibleLocationsChangeSubject = new ReplaySubject<void>();
   private currentExtrasSubject = new ReplaySubject<TripExtras>();
 
+  /** Locations that are only in plugin's database */
   public notSynchronizedLocations$: Observable<TripLocation[]> = merge(
     this.currentLocation$,
     this.possibleLocationsChangeSubject.pipe(/*debounceTime(100)*/)
@@ -127,7 +133,7 @@ export class BackgroundTrackingService {
 
   public currentTripLocations$ = combineLatest([
     this.notSynchronizedLocations$,
-    this.currentExtrasSubject, //FIXME: better!
+    this.currentExtrasSubject,
   ]).pipe(
     map(([notSynchronizedLocations, currentExtras]) =>
       _filter(notSynchronizedLocations, {
@@ -137,7 +143,10 @@ export class BackgroundTrackingService {
     shareReplay(1)
   );
 
-  /**  watch all onLocation events, but also take last location from database */
+  /**
+   * Watch all onLocation events, but also take last location from database.
+   * First value will be used in map for "current" location marker.
+   */
   public lastLocation$: Observable<TripLocation> = concat(
     this.notSynchronizedLocations$.pipe(
       first(),
@@ -151,7 +160,11 @@ export class BackgroundTrackingService {
   public synchronizedLocations$ =
     this.synchronizedLocationsSubject.asObservable();
 
-  /** manually get locations without starting the tracking */
+  /**
+   * Manually get locations without starting the tracking. Observable is cold
+   * and not replayed, so each subscription will trigger new execution.
+   * Used in map for "current" location marker.
+   * */
   public coldForegroundLocation$: Observable<Location> = timer(0, 10000).pipe(
     switchMap(() =>
       this.backgroundGeolocationPlugin.getCurrentPosition({
@@ -171,8 +184,7 @@ export class BackgroundTrackingService {
     private playerControllerService: PlayerControllerService,
     private appStatusService: AppStatusService,
     private zone: NgZone,
-    private translateService: TranslateService,
-    private localStorageService: LocalStorageService
+    private translateService: TranslateService
   ) {
     // start observing plugin events
     this.pluginLocation$.subscribe();
@@ -223,6 +235,7 @@ export class BackgroundTrackingService {
     }
     return 'DENIED';
   }
+
   async start() {
     try {
       const titlePermission = await firstValueFrom(
@@ -270,6 +283,7 @@ export class BackgroundTrackingService {
     } catch (e) {
       console.error('BackgroundGeolocation', e);
     }
+    // after this all plugin methods could be called. We can use `await this.isReady`
     this.markAsReady(true);
   }
 
@@ -283,6 +297,7 @@ export class BackgroundTrackingService {
   public async startTracking(tripPart: TripPart, doChecks: boolean) {
     const location = await this.setExtrasAndForceLocation(tripPart);
     const accuracy = location.coords.accuracy;
+    // we are not doing checks in case of change of the mean
     if (doChecks) {
       if (accuracy > this.appConfig.tracking.maximalAccuracy) {
         const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
@@ -308,6 +323,7 @@ export class BackgroundTrackingService {
     );
   }
 
+  /** For example after logout / delete account.. */
   public async clearPluginData() {
     await this.isReady;
     await this.backgroundGeolocationPlugin.setConfig({});
@@ -389,7 +405,8 @@ export class BackgroundTrackingService {
     try {
       currentLocation =
         await this.backgroundGeolocationPlugin.getCurrentPosition({
-          // TODO: this does not work...
+          // TODO: this does not work... I an to sure why but I was not able to set custom
+          // extras in getCurrentPosition call
           extras: { ...extras, forced: true },
         });
     } catch (e) {
@@ -411,6 +428,11 @@ export class BackgroundTrackingService {
     };
   }
 
+  /**
+   * Helper method that uses plugin's "add handler" method, and creates observable.
+   *
+   * Observable runs in angular zone, so it is safe to use it in templates.
+   */
   private getPluginObservable<T>(
     createPluginSubscriptionFn: (callback: (event: T) => void) => Subscription
   ): Observable<T> {

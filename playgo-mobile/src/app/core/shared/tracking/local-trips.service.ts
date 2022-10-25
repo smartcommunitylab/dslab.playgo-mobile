@@ -50,6 +50,7 @@ import { PushNotificationService } from '../services/notifications/pushNotificat
 @Injectable({
   providedIn: 'root',
 })
+/** Needed for delaying start in case of testing */
 export class InitServiceStream {
   get() {
     return of(undefined);
@@ -59,10 +60,29 @@ export class InitServiceStream {
 @Injectable({
   providedIn: 'root',
 })
+/**
+ * This service is responsible for providing most recent trips.
+ *
+ * After backgroundGeolocation plugin sync was called, the trips are not yet
+ * available in the API. This service is responsible for smartly polling the API until
+ * these "pending" trips are available.
+ *
+ * Service keeps list of trips, which some of them are pending. And will call the API
+ * on these triggers:
+ * - reloadPendingTrigger. When this is triggered, the service will reload all pending trips.
+ *        This is triggered few times after each sync, after push notifications,
+ *        after app is resumed (todo), and after network is back online (todo).
+ * - reloadFromLastTripTrigger. Load trips from last trip in the list. This is triggered
+ *       in the app start - to fill any trips that could be tracked on different device.
+ * - reloadAllTrigger. This is triggered when user explicitly requests to reload all trips.
+ *
+ * The trips are also cached in local storage, so that the app can be used offline.
+ */
 export class LocalTripsService {
   private storage =
     this.localStorageService.getStorageOf<StorableTrip[]>('trips');
 
+  /** Specify interval on which LocalTripsService works */
   public localDataFromDate = DateTime.local()
     // .minus({ month: 1 })
     .minus({ days: 7 })
@@ -74,6 +94,8 @@ export class LocalTripsService {
 
   private explicitReload$: Observable<void> = this.refresherService.refreshed$;
 
+  /** After backgroundGeolocation plugin sync was called, we ask server multiple
+   * times, to see if synced trips are already available and validated. */
   private afterSyncTimer$: Observable<void> =
     this.justSynchronizedLocations$.pipe(
       switchMap(() =>
@@ -92,6 +114,8 @@ export class LocalTripsService {
 
   private networkStatusChanged$: Observable<void> = NEVER;
 
+  /** Contains all triggers, for which we will ask server to check on
+   * pending trips. */
   private reloadPendingTrigger$: Observable<TriggerType> = merge(
     this.afterSyncTimer$,
     this.appResumed$,
@@ -210,7 +234,7 @@ export class LocalTripsService {
     private refresherService: RefresherService,
     private pushNotificationService: PushNotificationService
   ) {
-    initStream.get().subscribe(() => {
+    this.initStream.get().subscribe(() => {
       this.initService();
     });
   }

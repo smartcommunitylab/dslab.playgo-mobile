@@ -25,6 +25,10 @@ import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils'
 @Injectable({
   providedIn: 'root',
 })
+/**
+ * High level service, that controls staring / stopping of trip tracking, and handles
+ * multimodal trips. Calls BackgroundTrackingService under the hood.
+ */
 export class TripService {
   private currentTripPart: TripPart | TRIP_END | NO_TRIP_STARTED =
     NO_TRIP_STARTED;
@@ -86,9 +90,7 @@ export class TripService {
         this.setCurrentTripPart(initialTrip);
       }
     } catch (e) {
-      //alert(e);
       this.errorService.handleError(e, 'normal');
-      console.error(e);
     }
   }
 
