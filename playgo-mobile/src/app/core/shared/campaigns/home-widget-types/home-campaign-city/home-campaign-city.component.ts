@@ -18,6 +18,7 @@ import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameSta
 import { Notification } from '../../../../api/generated/model/notification';
 import { ChallengeService } from '../../../services/challenge.service';
 import { Challenge } from 'src/app/pages/challenges/challenges.page';
+import { getCampaignImage } from '../../campaignUtils';
 @Component({
   selector: 'app-home-campaign-city',
   templateUrl: './home-campaign-city.component.html',
@@ -48,9 +49,7 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
       this.challengeService.getActiveUncompletedChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId
       );
-    this.imagePath = this.campaignContainer.campaign.logo.url
-      ? this.campaignContainer.campaign.logo.url
-      : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
+    this.imagePath = getCampaignImage(this.campaignContainer);
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
       // this.subChallActive = this.activeUncompleteChallenges$.subscribe(
       //   (challenges) => {

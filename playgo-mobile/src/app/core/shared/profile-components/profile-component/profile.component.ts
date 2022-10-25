@@ -9,8 +9,7 @@ import { Camera, CameraResultType, Photo } from '@capacitor/camera';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Territory } from 'src/app/core/api/generated/model/territory';
-import { IUser } from 'src/app/core/shared/model/user.model';
-import { UserService } from 'src/app/core/shared/services/user.service';
+import { User, UserService } from 'src/app/core/shared/services/user.service';
 import { CampaignService } from '../../services/campaign.service';
 import { ErrorService } from '../../services/error.service';
 import { readAsBase64 } from '../../utils';
@@ -23,14 +22,13 @@ import { readAsBase64 } from '../../utils';
 export class ProfileComponent implements OnInit, OnDestroy {
   @Input() editable = false;
   image: Photo;
-  profile: IUser;
+  profile: User;
   subProf: Subscription;
   subTerritory: Subscription;
   subCamp: Subscription;
   numMyCampaigns: number;
   territory: Territory;
   activeFrom: number;
-  timeStamp: any;
   linkPicture: string;
   constructor(
     private userService: UserService,
@@ -43,9 +41,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subProf = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
-      if (profile) {
-        this.setLinkPicture(this.profile?.avatar?.avatarUrl);
-      }
     });
     this.subTerritory = this.userService.userProfileTerritory$.subscribe(
       (territory) => {
@@ -71,26 +66,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
       allowEditing: false,
       resultType: CameraResultType.Uri,
     });
-    const avatarData = await this.userService.uploadAvatar(
+    await this.userService.uploadAvatar(
+      this.profile,
       await readAsBase64(this.image)
     );
-    if (avatarData) {
-      this.userService.updateImages(avatarData);
-      //TODO update doesn't work
-      this.profile.avatar = avatarData;
-      this.setLinkPicture(this.profile.avatar.avatarUrl);
-    }
   }
-  public getLinkPicture() {
-    if (this.timeStamp) {
-      return this.linkPicture + '?' + this.timeStamp;
-    }
-    return this.linkPicture;
-  }
-  public setLinkPicture(url: string) {
-    this.linkPicture = url;
-    this.timeStamp = new Date().getTime();
-  }
+
   goToProfile() {
     this.navCtrl.navigateForward('/pages/tabs/home/profile');
   }

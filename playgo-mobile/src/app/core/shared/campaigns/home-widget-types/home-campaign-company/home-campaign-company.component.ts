@@ -9,6 +9,7 @@ import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
 import { toServerDateOnly } from '../../../time.utils';
 import { isOfflineError } from '../../../utils';
+import { getCampaignImage } from '../../campaignUtils';
 
 @Component({
   selector: 'app-home-campaign-company',
@@ -31,9 +32,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.imagePath = this.campaignContainer.campaign.logo.url
-      ? this.campaignContainer.campaign.logo.url
-      : 'data:image/jpg;base64,' + this.campaignContainer.campaign.logo.image;
+    this.imagePath = getCampaignImage(this.campaignContainer);
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
       this.reportService

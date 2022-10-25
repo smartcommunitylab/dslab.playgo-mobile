@@ -29,21 +29,20 @@ import { CampaignControllerService } from '../../api/generated/controllers/campa
 import { Campaign } from '../../api/generated/model/campaign';
 import { CampaignSubscription } from '../../api/generated/model/campaignSubscription';
 import { PlayerCampaign } from '../../api/generated/model/playerCampaign';
-import { IUser } from '../model/user.model';
 import { LocalStorageService } from './local-storage.service';
-import { UserService } from './user.service';
-import { ifOfflineUseStored } from '../rxjs.utils';
+import { User, UserService } from './user.service';
 import { ErrorService } from './error.service';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { CampaignInfo } from '../../api/generated/model/campaignInfo';
 import { RefresherService } from './refresher.service';
 import { TransportType, transportTypes } from '../tracking/trip.model';
+import { ifOfflineUseStored } from '../rxjs.utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CampaignService {
-  private initialUserProfile$: Observable<IUser> =
+  private initialUserProfile$: Observable<User> =
     this.userService.userProfile$.pipe(
       filter((profile) => profile !== null),
       first()
