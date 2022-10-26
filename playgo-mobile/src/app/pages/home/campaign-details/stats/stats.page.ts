@@ -24,7 +24,7 @@ import {
   LineElement,
   PointElement,
 } from 'chart.js';
-import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
 import { DateTime, DateTimeUnit, Interval } from 'luxon';
 import {
   distinctUntilChanged,
@@ -32,6 +32,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { isEqual } from 'lodash-es';
@@ -47,6 +48,8 @@ import {
   Period,
 } from 'src/app/core/shared/campaigns/campaign.utils';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
+import { TransportType, transportTypeLabels } from 'src/app/core/shared/tracking/trip.model';
+import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 
 @Component({
   selector: 'app-stats',
@@ -61,63 +64,35 @@ export class StatsPage implements OnInit, OnDestroy {
   selectedSegment?: Period;
   barChart: any;
   statsSubs: Subscription;
-  statMeanChangedSubject = new Subject<SelectCustomEvent<StatMeanType>>();
-  statUnitChangedSubject = new Subject<SelectCustomEvent<StatUnitType>>();
-  allStatsMeanTypes: StatMeanType[] = [
-    {
-      labelKey: 'campaigns.stats.filter.means.walk.label',
-      unitKey: 'walk',
-    },
+  selectedMeanChangedSubject = new Subject<SelectCustomEvent<Mean>>();
+  selectedMetricChangedSubject = new Subject<SelectCustomEvent<Metric>>();
+  meanLabels: Record<Mean, TranslateKey> = {
+    ...transportTypeLabels,
+  };
+  metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
+    co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
+    km: 'campaigns.leaderboard.leaderboard_type_unit.km',
+  } as const;
+  metricToUnitLabel: Record<Metric, TranslateKey> = {
+    co2: 'campaigns.leaderboard.unit.co2',
+    km: 'campaigns.leaderboard.unit.km',
+  } as const;
+  means$: Observable<Mean[]>;
+  selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
+    map((event) => event.detail.value),
+    shareReplay(1)
+  );
+  metrics: Metric[] = ['co2', 'km'];
+  selectedMetric$: Observable<Metric> = this.selectedMetricChangedSubject.pipe(
+    map((event) => event.detail.value),
+    startWith(
+      // initial select value
+      'co2' as const
+    ),
+    shareReplay(1)
+  );
 
-    {
-      labelKey: 'campaigns.stats.filter.means.bike.label',
-      unitKey: 'bike',
-    },
-
-    {
-      labelKey: 'campaigns.stats.filter.means.boat.label',
-      unitKey: 'boat',
-    },
-    {
-      labelKey: 'campaigns.stats.filter.means.train.label',
-      unitKey: 'train',
-    },
-    {
-      labelKey: 'campaigns.stats.filter.means.bus.label',
-      unitKey: 'bus',
-    },
-    {
-      labelKey: 'campaigns.stats.filter.means.car.label',
-      unitKey: 'car',
-    },
-  ];
-  allStatsUnitTypes: StatUnitType[] = [
-    {
-      labelKey: 'campaigns.stats.filter.unit.km.label',
-      unitKey: 'km',
-      resultLabel: 'Km',
-    },
-    {
-      labelKey: 'campaigns.stats.filter.unit.co2.label',
-      unitKey: 'co2',
-      resultLabel: 'Kg',
-    },
-  ];
-
-  selectedStatMeanType$: Observable<StatMeanType> =
-    this.statMeanChangedSubject.pipe(
-      map((event) => event.detail.value),
-      startWith(this.allStatsMeanTypes[0]),
-      shareReplay(1)
-    );
-  selectedStatUnitType$: Observable<StatUnitType> =
-    this.statUnitChangedSubject.pipe(
-      map((event) => event.detail.value),
-      startWith(this.allStatsUnitTypes[0]),
-      shareReplay(1)
-    );
   referenceDate = DateTime.local();
-  // initPeriods = this.getPeriods(this.referenceDate);
   totalValue = 0;
   periods = getPeriods(this.referenceDate);
   selectedPeriod = this.periods[0];
@@ -135,44 +110,28 @@ export class StatsPage implements OnInit, OnDestroy {
     map((params) => params.id),
     shareReplay(1)
   );
-  statsMeanTypes$: Observable<StatMeanType[]> = this.campaignId$.pipe(
-    map(() => this.allStatsMeanTypes),
-    shareReplay(1)
-  );
-  statsUnitTypes$: Observable<StatUnitType[]> = this.campaignId$.pipe(
-    map(() => this.allStatsUnitTypes),
-    shareReplay(1)
-  );
+
   playerId$ = this.userService.userProfile$.pipe(
     map((userProfile) => userProfile.playerId),
     shareReplay(1)
   );
-  filterOptions$ = combineLatest([
-    this.selectedStatMeanType$,
-    this.selectedStatUnitType$,
-    this.selectedPeriod$,
-    this.campaignId$,
-    // FIXME: investigate why this is needed.
-    this.playerId$.pipe(distinctUntilChanged(isEqual)),
-  ]).pipe(
-    map(([meanType, unitType, period, campaignId, playerId]) => ({
-      meanType,
-      unitType,
-      period,
-      campaignId,
-      playerId,
-    }))
-  );
+  filterOptions$ = combineLatest({
+    mean: this.selectedMean$,
+    metric: this.selectedMetric$,
+    period: this.selectedPeriod$,
+    campaignId: this.campaignId$,
+    playerId: this.playerId$,
+  });
 
   statResponse$: Observable<TransportStat[]> = this.filterOptions$.pipe(
-    switchMap(({ meanType, unitType, period, campaignId, playerId }) =>
+    switchMap(({ mean, metric, period, campaignId, playerId }) =>
       this.reportService
         .getPlayerTransportStatsUsingGET({
           campaignId,
           playerId,
-          metric: unitType.unitKey,
+          metric,
           groupMode: period.group,
-          mean: meanType.unitKey,
+          mean,
           dateFrom: toServerDateOnly(period.from),
           dateTo: toServerDateOnly(period.to),
         })
@@ -204,9 +163,18 @@ export class StatsPage implements OnInit, OnDestroy {
             (campaignContainer) =>
               campaignContainer.campaign.campaignId === this.id
           );
+          if (this.campaignContainer) {
+            this.initMean();
+          }
         }
       );
     });
+  }
+  initMean() {
+    this.means$ = of(this.campaignContainer.campaign.validationData.means);
+    this.selectedMeanChangedSubject.next({
+      detail: { value: this.campaignContainer?.campaign?.validationData?.means[0] },
+    } as SelectCustomEvent<TransportType>);
   }
   ionViewWillEnter() {
     this.changePageSettings();
@@ -412,16 +380,15 @@ export class StatsPage implements OnInit, OnDestroy {
       (a) => a.group === this.selectedSegment.switchTo
     );
     this.statPeriodChangedSubject.next(this.selectedSegment);
-    console.log('Vado a vedere' + label);
   }
 }
 //TODO TranslateKey instead string
-type StatMeanType = {
-  labelKey: string;
-  unitKey: string;
-};
-type StatUnitType = {
-  labelKey: string;
-  unitKey: string;
-  resultLabel: string;
-};
+// type StatMeanType = {
+//   labelKey: string;
+//   unitKey: string;
+// };
+
+type Mean = TransportType;
+
+type Metric = 'co2' | 'km';
+
