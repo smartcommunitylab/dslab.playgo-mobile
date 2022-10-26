@@ -29,7 +29,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private reportService: ReportService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.imagePath = getCampaignImage(this.campaignContainer);
@@ -39,7 +39,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         .getBikeStats(
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId,
-          toServerDateOnly(DateTime.utc().minus({ day: 1 })),
+          toServerDateOnly(DateTime.utc()),
           toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
@@ -57,7 +57,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         .getBikeStats(
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId,
-          toServerDateOnly(DateTime.utc().minus({ month: 1 })),
+          toServerDateOnly(DateTime.utc().startOf('month')),
           toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
