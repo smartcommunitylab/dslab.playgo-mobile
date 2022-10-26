@@ -1,29 +1,23 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
-import { find, isEqual, partial } from 'lodash-es';
+import { find } from 'lodash-es';
 
-import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import {
-  catchError,
   distinctUntilChanged,
-  first,
   map,
   shareReplay,
   startWith,
   switchMap,
-  tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { DateTime } from 'luxon';
 
 import {
   TransportType,
   transportTypeLabels,
-  transportTypes,
 } from 'src/app/core/shared/tracking/trip.model';
-import { startFrom, throwIfNil } from 'src/app/core/shared/rxjs.utils';
-import { cartesian } from 'src/app/core/shared/utils';
+import { throwIfNil } from 'src/app/core/shared/rxjs.utils';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
@@ -31,7 +25,6 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 import { PageableRequest } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
-import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
@@ -288,7 +281,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     return toServerDateOnly(dateTime);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }
 
 type Period = {
