@@ -220,12 +220,12 @@
     "no_score": "Nessun punteggio associato a questo viaggio.",
     "no_track": "Nessun tracciato associato a questo viaggio.",
     "mean": {
-      "car": "Macchina",
+      "car": "Carpooling",
       "bike": "Bici",
       "walk": "Piedi",
       "train": "Treno",
       "bus": "Autobus",
-      "boat": "Barca",
+      "boat": "Battello",
       "unknown": "Mezzo sconosciuto"
     },
     "status": {
@@ -359,7 +359,7 @@
         },
         "means": {
           "car": {
-            "label": "Macchina",
+            "label": "Carpooling",
             "unit": "car"
           },
           "bike": {
@@ -371,7 +371,7 @@
             "unit": "walk"
           },
           "boat": {
-            "label": "Barca",
+            "label": "Battello",
             "unit": "boat"
           },
           "bus": {
@@ -439,7 +439,7 @@
     "personal_stat_bus": " in bus",
     "personal_stat_train": " in treno",
     "personal_stat_car": " in carpooling",
-    "personal_stat_boat": " in barca",
+    "personal_stat_boat": " in battello",
     "empty": "Non sono statistiche da mostrare",
     "last_week_position": "{{position}} ultima settimana",
     "general_position": "{{position}} classifica generale",
@@ -536,9 +536,9 @@
       "label": {
         "Bike_Km": "Km in bici",
         "Walk_Km": "Km a piedi",
-        "Boat_Km": "Km in barca",
+        "Boat_Km": "Km in battello",
         "Bus_Km": "Km in bus",
-        "Car_Km": "Km in macchina",
+        "Car_Km": "Km in carpooling",
         "Train_Km": "Km in treno"
       }
     }
