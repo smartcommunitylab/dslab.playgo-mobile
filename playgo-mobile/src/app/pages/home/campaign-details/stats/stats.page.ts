@@ -192,9 +192,9 @@ export class StatsPage implements OnInit, OnDestroy {
     private pageSettingsService: PageSettingsService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
-      console.log('new stats' + stats);
-      this.barChartMethod(stats);
-      this.setTotal(stats);
+      let convertedStat = stats.map(stat => stat.value >= 0 ? { ...stat, value: (stat.value / 1000) } : { ...stat, value: 0 });
+      this.barChartMethod(convertedStat);
+      this.setTotal(convertedStat);
     });
     this.subId = this.route.params.subscribe((params) => {
       this.id = params.id;
