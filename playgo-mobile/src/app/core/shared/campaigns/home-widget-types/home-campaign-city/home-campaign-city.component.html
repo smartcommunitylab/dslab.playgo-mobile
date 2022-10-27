@@ -1,13 +1,18 @@
-<ion-card class="home-card-widget">
+<ion-card [ngClass]="{'home-card-widget': header}">
   <app-notification-badge *ngIf="header" [type]="'campaign'" [campaignContainer]="campaignContainer">
   </app-notification-badge>
-  <ion-card-header *ngIf="header" color="city">
-    <div lines="none" color="city">
+  <ion-card-header color="city">
+    <div lines="none" color="city" *ngIf="header; else detailHeader">
       <ion-avatar>
         <img [src]="imagePath" alt="Avatar" />
       </ion-avatar>
       <span> {{ campaignContainer.campaign.name | languageMap }}</span>
     </div>
+    <ng-template #detailHeader>
+      <div>
+        <span> {{'campaigns.detail.generalStat'|translate}}</span>
+      </div>
+    </ng-template>
   </ion-card-header>
   <ion-card-content class="city-content ion-no-padding">
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus" [showGameStatus]="

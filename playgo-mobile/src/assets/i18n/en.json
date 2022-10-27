@@ -309,9 +309,9 @@
       "blacklist": "Blacklist",
       "badges": "Badges",
       "stats": "Statistics",
-      "generalStat": "General",
+      "generalStat": "General informazion",
       "signal": "Help and support",
-      "unsubscribe": "Unsubscribe",
+      "unsubscribe": "Leave the campaign",
       "prizes": "Prizes",
       "dateFrom": "From: ",
       "dateTo": "To: ",
@@ -451,7 +451,6 @@
   "challenges": {
     "challenges": "Challenges",
     "allchallenges": "All the challenges",
-
     "detail": {
       "title": "Challenge details",
       "close": "Close"
