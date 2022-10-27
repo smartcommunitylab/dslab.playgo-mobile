@@ -35,9 +35,19 @@ const routes: RoutesWithPageSettings = [
       import('./stats/stats.module').then((m) => m.StatsPageModule),
   },
   {
+    path: 'faq',
+    loadChildren: () =>
+      import('./faq/faq.module').then((m) => m.FaqPageModule),
+  },
+  {
     path: 'badges',
     loadChildren: () =>
       import('./badges/badges.module').then((m) => m.BadgesPageModule),
+  },
+  {
+    path: 'companies',
+    loadChildren: () =>
+      import('./companies/companies.module').then((m) => m.CompaniesPageModule),
   },
 ];
 
@@ -45,4 +55,4 @@ const routes: RoutesWithPageSettings = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CampaignDetailsPageRoutingModule {}
+export class CampaignDetailsPageRoutingModule { }

@@ -1,6 +1,5 @@
 /* eslint-disable prefer-const */
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -25,17 +24,14 @@ import {
   PointElement,
 } from 'chart.js';
 import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
-import { DateTime, DateTimeUnit, Interval } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 import {
-  distinctUntilChanged,
   map,
   shareReplay,
   startWith,
   switchMap,
-  tap,
 } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { isEqual } from 'lodash-es';
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
