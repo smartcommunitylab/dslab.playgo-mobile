@@ -23,7 +23,8 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() limitDayValue?: any;
   @Input() showRanking?: boolean = true;
   @Input() showGameStatus?: boolean = false;
-  constructor(public campaignService: CampaignService) {}
+  @Input() unit?: string = '';
+  constructor(public campaignService: CampaignService) { }
 
   ngOnInit() {
     // console.log(this.status);

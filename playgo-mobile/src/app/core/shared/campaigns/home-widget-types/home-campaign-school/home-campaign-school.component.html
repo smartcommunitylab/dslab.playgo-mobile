@@ -1,9 +1,6 @@
 <ion-card class="home-card-widget">
-  <app-notification-badge
-    *ngIf="header"
-    [type]="'campaign'"
-    [campaignContainer]="campaignContainer"
-  ></app-notification-badge>
+  <app-notification-badge *ngIf="header" [type]="'campaign'" [campaignContainer]="campaignContainer">
+  </app-notification-badge>
   <ion-card-header *ngIf="header" color="school">
     <div lines="none" color="school">
       <ion-avatar>
@@ -13,16 +10,10 @@
     </div>
   </ion-card-header>
   <ion-card-content class="school-content ion-no-padding">
-    <app-main-campaign-stat
-      [campaignContainer]="campaignContainer"
-      [status]="campaignStatus"
-      [reportWeekStat]="reportWeekStat"
-      [reportTotalStat]="reportTotalStat"
-    ></app-main-campaign-stat>
-    <app-home-campaign-challenges
-      *ngIf="header"
-      [campaignContainer]="campaignContainer"
-    >
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
+      [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'EL'">
+      ></app-main-campaign-stat>
+    <app-home-campaign-challenges *ngIf="header" [campaignContainer]="campaignContainer">
     </app-home-campaign-challenges>
   </ion-card-content>
 </ion-card>
