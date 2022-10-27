@@ -43,7 +43,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
-          this.reportDayStat = convertStatToKm(stats);
+          this.reportDayStat = stats;
         })
         .catch((error) => {
           if (isOfflineError(error)) {
@@ -61,7 +61,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
-          this.reportMonthStat = convertStatToKm(stats);
+          this.reportMonthStat = stats;
         })
         .catch((error) => {
           if (isOfflineError(error)) {
@@ -77,7 +77,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           this.profile.playerId
         )
         .then((stats) => {
-          this.reportTotalStat = convertStatToKm(stats);
+          this.reportTotalStat = stats;
         })
         .catch((error) => {
           if (isOfflineError(error)) {
@@ -99,8 +99,5 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subStat.unsubscribe();
   }
-}
-function convertStatToKm(stats: CampaignPlacing): CampaignPlacing {
-  return { ...stats, value: stats.value / 1000 };
 }
 

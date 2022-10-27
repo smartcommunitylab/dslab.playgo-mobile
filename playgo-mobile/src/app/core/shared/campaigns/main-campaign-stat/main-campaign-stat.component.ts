@@ -11,6 +11,7 @@ import { CampaignService } from '../../services/campaign.service';
   styleUrls: ['./main-campaign-stat.component.scss'],
 })
 export class MainCampaignStatComponent implements OnInit {
+
   @Input() campaignContainer: PlayerCampaign;
   @Input() status?: PlayerGameStatus = undefined;
   @Input() record?: TransportStat = undefined;
@@ -25,7 +26,12 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() showGameStatus?: boolean = false;
   @Input() unit?: string = '';
   constructor(public campaignService: CampaignService) { }
-
+  getValueByUnit(value: number, unit: string): number {
+    if ('Km' === unit) {
+      return value / 1000;
+    }
+    return value;
+  }
   ngOnInit() {
     // console.log(this.status);
   }

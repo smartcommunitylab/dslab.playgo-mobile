@@ -12,7 +12,8 @@
     </ion-row>
     <ion-row *ngIf="limitValue?.value; else zeroProgress">
       <ion-col class="progress-bar">
-        <ion-progress-bar class="level-bar" [color]="type" [value]="limitValue?.value / limitMax"></ion-progress-bar>
+        <ion-progress-bar class="level-bar" [color]="type" [value]="(limitValue?.value/ 1000) / limitMax">
+        </ion-progress-bar>
       </ion-col>
     </ion-row>
     <ng-template #zeroProgress>

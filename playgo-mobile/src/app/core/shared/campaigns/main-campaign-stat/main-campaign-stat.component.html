@@ -28,15 +28,15 @@
       <ion-col class="report">
         <p *ngIf="reportWeekStat" class="ion-text-left" [innerHtml]="
             'campaigns.homewidgets.stat.weekvalue'
-              | translate: { value: reportWeekStat?.value | localNumber ,unit: unit}
+              | translate: { value: getValueByUnit(reportWeekStat?.value,unit) | localNumber, unit: unit}
           "></p>
         <p *ngIf="reportMonthStat" class="ion-text-left" [innerHtml]="
             'campaigns.homewidgets.stat.monthvalue'
-              | translate: { value: reportMonthStat?.value | localNumber , unit: unit}
+              | translate: { value: getValueByUnit(reportMonthStat?.value,unit) | localNumber , unit: unit}
           "></p>
         <p *ngIf="reportTotalStat" class="ion-text-left" [innerHtml]="
             'campaigns.homewidgets.stat.totalvalue'
-              | translate: { value: reportTotalStat?.value | localNumber , unit: unit}
+              | translate: { value: getValueByUnit(reportTotalStat?.value,unit) | localNumber , unit: unit}
           "></p>
       </ion-col>
     </ion-row>
