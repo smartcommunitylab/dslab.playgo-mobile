@@ -1,9 +1,6 @@
 <ion-card class="home-card-widget">
-  <app-notification-badge
-    *ngIf="header"
-    [type]="'campaign'"
-    [campaignContainer]="campaignContainer"
-  ></app-notification-badge>
+  <app-notification-badge *ngIf="header" [type]="'campaign'" [campaignContainer]="campaignContainer">
+  </app-notification-badge>
   <ion-card-header *ngIf="header" color="city">
     <div lines="none" color="city">
       <ion-avatar>
@@ -13,22 +10,13 @@
     </div>
   </ion-card-header>
   <ion-card-content class="city-content ion-no-padding">
-    <app-main-campaign-stat
-      [campaignContainer]="campaignContainer"
-      [status]="campaignStatus"
-      [showGameStatus]="
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus" [showGameStatus]="
         (activeUncompleteChallenges$ | async)?.length === 0 || !header
           ? true
           : false
-      "
-      [reportWeekStat]="reportWeekStat"
-      [reportTotalStat]="reportTotalStat"
-    >
+      " [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'EL'">
     </app-main-campaign-stat>
-    <app-home-campaign-challenges
-      *ngIf="header"
-      [campaignContainer]="campaignContainer"
-    >
+    <app-home-campaign-challenges *ngIf="header" [campaignContainer]="campaignContainer">
     </app-home-campaign-challenges>
   </ion-card-content>
 </ion-card>

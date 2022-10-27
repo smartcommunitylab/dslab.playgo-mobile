@@ -331,9 +331,9 @@
       "stat": {
         "weekposition": " in classifica settimanale",
         "totalposition": " in classifica complessiva",
-        "weekvalue": "<b>{{value}}</b> settimanale",
-        "monthvalue": "<b>{{value}}</b> mensile",
-        "totalvalue": "<b>{{value}}</b> complessivo",
+        "weekvalue": "<b>{{value}} {{unit}}</b> settimanale",
+        "monthvalue": "<b>{{value}} {{unit}}</b> mensile",
+        "totalvalue": "<b>{{value}} {{unit}}</b> complessivo",
         "levelName": "<b>Livello : {{levelName}}</b>",
         "score": "Punti: {{score}}",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",

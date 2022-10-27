@@ -43,7 +43,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
-          this.reportDayStat = stats;
+          this.reportDayStat = convertStatToKm(stats);
         })
         .catch((error) => {
           if (isOfflineError(error)) {
@@ -61,7 +61,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           toServerDateOnly(DateTime.utc())
         )
         .then((stats) => {
-          this.reportMonthStat = stats;
+          this.reportMonthStat = convertStatToKm(stats);
         })
         .catch((error) => {
           if (isOfflineError(error)) {
@@ -77,7 +77,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           this.profile.playerId
         )
         .then((stats) => {
-          this.reportTotalStat = stats;
+          this.reportTotalStat = convertStatToKm(stats);
         })
         .catch((error) => {
           if (isOfflineError(error)) {
@@ -100,3 +100,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
     this.subStat.unsubscribe();
   }
 }
+function convertStatToKm(stats: CampaignPlacing): CampaignPlacing {
+  return { ...stats, value: stats.value / 1000 };
+}
+

@@ -5,18 +5,12 @@
         <img [src]="imagePath" alt="Avatar" />
       </ion-avatar>
       <span> {{ campaignContainer.campaign.name | languageMap }}</span>
-      <app-notification-badge
-        [campaignContainer]="campaignContainer"
-      ></app-notification-badge>
+      <app-notification-badge [campaignContainer]="campaignContainer"></app-notification-badge>
     </div>
   </ion-card-header>
   <ion-card-content class="personal-content ion-no-padding">
-    <app-main-campaign-stat
-      [campaignContainer]="campaignContainer"
-      [reportWeekStat]="reportWeekStat"
-      [record]="record"
-      [reportTotalStat]="reportTotalStat"
-    >
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [reportWeekStat]="reportWeekStat" [record]="record"
+      [reportTotalStat]="reportTotalStat" [unit]="'Kg'">
     </app-main-campaign-stat>
   </ion-card-content>
 </ion-card>

@@ -4,9 +4,7 @@
       <ion-col size="10" class="ranking">
         <ng-container *ngIf="reportWeekStat">
           <span class="ion-text-left">
-            <app-ordinal-number
-              [value]="reportWeekStat?.position"
-            ></app-ordinal-number>
+            <app-ordinal-number [value]="reportWeekStat?.position"></app-ordinal-number>
             {{ "campaigns.homewidgets.stat.weekposition" | translate }}
           </span>
         </ng-container>
@@ -14,9 +12,7 @@
           <span class="ion-text-left">-</span>
         </ng-container>
         <ng-container *ngIf="reportTotalStat" class="ion-text-left">
-          <app-ordinal-number
-            [value]="reportTotalStat?.position"
-          ></app-ordinal-number>
+          <app-ordinal-number [value]="reportTotalStat?.position"></app-ordinal-number>
           <span>
             {{ "campaigns.homewidgets.stat.totalposition" | translate }}
           </span>
@@ -24,81 +20,52 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col
-        size="2"
-        *ngIf="reportWeekStat || reportMonthStat || reportTotalStat"
-      >
-        <app-icon
-          [name]="
+      <ion-col size="2" *ngIf="reportWeekStat || reportMonthStat || reportTotalStat">
+        <app-icon [name]="
             campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
-          "
-        ></app-icon>
+          "></app-icon>
       </ion-col>
       <ion-col class="report">
-        <p
-          *ngIf="reportWeekStat"
-          class="ion-text-left"
-          [innerHtml]="
+        <p *ngIf="reportWeekStat" class="ion-text-left" [innerHtml]="
             'campaigns.homewidgets.stat.weekvalue'
-              | translate: { value: reportWeekStat?.value | localNumber }
-          "
-        ></p>
-        <p
-          *ngIf="reportMonthStat"
-          class="ion-text-left"
-          [innerHtml]="
+              | translate: { value: reportWeekStat?.value | localNumber ,unit: unit}
+          "></p>
+        <p *ngIf="reportMonthStat" class="ion-text-left" [innerHtml]="
             'campaigns.homewidgets.stat.monthvalue'
-              | translate: { value: reportMonthStat?.value | localNumber }
-          "
-        ></p>
-        <p
-          *ngIf="reportTotalStat"
-          class="ion-text-left"
-          [innerHtml]="
+              | translate: { value: reportMonthStat?.value | localNumber , unit: unit}
+          "></p>
+        <p *ngIf="reportTotalStat" class="ion-text-left" [innerHtml]="
             'campaigns.homewidgets.stat.totalvalue'
-              | translate: { value: reportTotalStat?.value | localNumber }
-          "
-        ></p>
+              | translate: { value: reportTotalStat?.value | localNumber , unit: unit}
+          "></p>
       </ion-col>
     </ion-row>
     <ng-container *ngIf="showGameStatus">
       <ion-row *ngIf="status !== null; else nullStatus">
         <ion-col>
-          <app-game-status
-            [status]="status"
-            [type]="campaignContainer?.campaign?.type"
-          ></app-game-status>
+          <app-game-status [status]="status" [type]="campaignContainer?.campaign?.type"></app-game-status>
         </ion-col>
       </ion-row>
     </ng-container>
     <ion-row *ngIf="record !== null && reportWeekStat !== null">
       <ion-col>
-        <app-record-status
-          [status]="reportWeekStat"
-          [record]="record"
-          [type]="campaignContainer?.campaign?.type"
-        ></app-record-status>
+        <app-record-status [status]="reportWeekStat" [record]="record" [type]="campaignContainer?.campaign?.type">
+        </app-record-status>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="limitDayValue">
       <ion-col>
-        <app-limit-status
-          [limitMax]="limitDayMax"
-          [limitValue]="limitDayValue"
-          [type]="campaignContainer?.campaign?.type"
-          [header]="'campaigns.homewidgets.stat.today' | translate"
-        ></app-limit-status>
+        <app-limit-status [limitMax]="limitDayMax" [limitValue]="limitDayValue"
+          [type]="campaignContainer?.campaign?.type" [header]="'campaigns.homewidgets.stat.today' | translate">
+        </app-limit-status>
       </ion-col>
     </ion-row>
     <!-- <ng-template #emptyValueDay>Nessun valore giornaliero</ng-template> -->
     <ion-row *ngIf="limitMonthValue !== null">
       <ion-col>
-        <app-limit-status
-          [limitMax]="limitMonthMax"
-          [limitValue]="limitMonthValue"
-          [type]="campaignContainer?.campaign?.type"
-          [header]="'campaigns.homewidgets.stat.lastmonth' | translate"
-        ></app-limit-status>
+        <app-limit-status [limitMax]="limitMonthMax" [limitValue]="limitMonthValue"
+          [type]="campaignContainer?.campaign?.type" [header]="'campaigns.homewidgets.stat.lastmonth' | translate">
+        </app-limit-status>
       </ion-col>
     </ion-row>
     <!-- <ng-template #emptyValueMonth>Nessun valore del mese</ng-template> -->
@@ -106,8 +73,7 @@
     <ng-template #nullStatus>
       <ion-row>
         <ion-col>
-          {{ "campaigns.homewidgets.stat.emptystatus" | translate }}</ion-col
-        >
+          {{ "campaigns.homewidgets.stat.emptystatus" | translate }}</ion-col>
       </ion-row>
     </ng-template>
   </ion-grid>
