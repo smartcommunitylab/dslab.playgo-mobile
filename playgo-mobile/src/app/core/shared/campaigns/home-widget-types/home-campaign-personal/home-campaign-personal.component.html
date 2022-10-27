@@ -1,12 +1,17 @@
-<ion-card class="home-card-widget">
-  <ion-card-header color="personal" *ngIf="header">
-    <div lines="none" color="personal">
+<ion-card [ngClass]="{'home-card-widget': header}">
+  <ion-card-header color="personal">
+    <div lines="none" color="personal" *ngIf="header; else detailHeader">
       <ion-avatar>
         <img [src]="imagePath" alt="Avatar" />
       </ion-avatar>
       <span> {{ campaignContainer.campaign.name | languageMap }}</span>
       <app-notification-badge [campaignContainer]="campaignContainer"></app-notification-badge>
     </div>
+    <ng-template #detailHeader>
+      <div>
+        <span> {{'campaigns.detail.generalStat'|translate}}</span>
+      </div>
+    </ng-template>
   </ion-card-header>
   <ion-card-content class="personal-content ion-no-padding">
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [reportWeekStat]="reportWeekStat" [record]="record"
