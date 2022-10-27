@@ -1,84 +1,51 @@
 <ng-container *ngIf="campaignContainer">
-  <ion-header
-    appHeader
-    parallax
-    [imageUrl]="campaignContainer?.campaign?.banner?.url"
-    height="30vh"
-  ></ion-header>
-  <ion-content
-    appContent
-    [fullscreen]="true"
-    *ngIf="campaignContainer"
-    [scrollEvents]="true"
-    class="page"
-  >
-    <ion-avatar
-      class="avatar-campaign"
-      [ngStyle]="{'border': '3px solid var(--ion-color-'+campaignContainer?.campaign?.type+')'}"
-    >
+  <ion-header appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url" height="30vh"></ion-header>
+  <ion-content appContent [fullscreen]="true" *ngIf="campaignContainer" [scrollEvents]="true" class="page">
+    <ion-avatar class="avatar-campaign"
+      [ngStyle]="{'border': '3px solid var(--ion-color-'+campaignContainer?.campaign?.type+')'}">
       <img [src]="imagePath" title="campaign logo" />
     </ion-avatar>
-    <app-widget-campaign
-      [campaign]="campaignContainer"
-      [header]="false"
-    ></app-widget-campaign>
+    <app-widget-campaign [campaign]="campaignContainer" [header]="false"></app-widget-campaign>
     <ng-container *ngFor="let notification of unreadNotifications">
-      <app-campaign-notification
-        [campaign]="campaignContainer"
-        [notification]="notification"
-      >
+      <app-campaign-notification [campaign]="campaignContainer" [notification]="notification">
       </app-campaign-notification>
     </ng-container>
-    <ion-card
-      *ngIf="campaignHas('blacklist')"
-      [routerLink]="['/pages/blacklist/'+campaignContainer.campaign.campaignId]"
-    >
+    <ion-card *ngIf="campaignHas('blacklist')"
+      [routerLink]="['/pages/blacklist/'+campaignContainer.campaign.campaignId]">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.blacklist'|translate}} </ion-label>
         <app-icon name="blacklist" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
-    <ion-card
-      *ngIf="campaignHas('leaderboard')"
-      [routerLink]="getLeaderboardLink()"
-    >
+    <ion-card *ngIf="campaignHas('leaderboard')" [routerLink]="getLeaderboardLink()">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
         <app-icon name="leaderboard" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
-    <ion-card
-      *ngIf="campaignHas('stats')"
-      [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/stats']"
-    >
+    <ion-card *ngIf="campaignHas('stats')"
+      [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/stats']">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.stats'|translate}} </ion-label>
         <app-icon name="stat" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
-    <ion-card
-      *ngIf="campaignHas('challenge')"
-      [routerLink]="['/pages/tabs/challenges']"
-    >
+    <ion-card *ngIf="campaignHas('challenge')" [routerLink]="['/pages/tabs/challenges']">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.challenges'|translate}} </ion-label>
         <app-icon name="default" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
 
-    <ion-card
-      *ngIf="campaignHas('badges')"
-      [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/badges']"
-    >
+    <ion-card *ngIf="campaignHas('badges')"
+      [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/badges']">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.badges'|translate}} </ion-label>
         <app-icon name="badges" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
 
-    <ion-card
-      [routerLink]="['/pages/tabs/trips/campaign', campaignContainer?.campaign?.campaignId]"
-    >
+    <ion-card [routerLink]="['/pages/tabs/trips/campaign', campaignContainer?.campaign?.campaignId]">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.journeys'|translate}} </ion-label>
         <app-icon name="list" class="icon-size-normal"></app-icon>
@@ -86,78 +53,71 @@
     </ion-card>
     <ion-card>
       <ion-card-title>
-        <ion-item [color]="campaignContainer?.campaign?.type"
-          >{{'campaigns.detail.details'|translate}}
+        <ion-item [color]="campaignContainer?.campaign?.type">{{'campaigns.detail.details'|translate}}
         </ion-item>
       </ion-card-title>
       <ion-card-content>
-        <ion-item lines="none" *ngIf="campaignHas('dates')"
-          ><ion-label
-            >{{'campaigns.detail.dateFrom'|translate}}<span class="text-bold"
-              >{{campaignContainer.campaign.dateFrom|localDate}}</span
-            ></ion-label
-          ></ion-item
-        >
-        <ion-item lines="none" *ngIf="campaignHas('dates')"
-          ><ion-label
-            >{{'campaigns.detail.dateTo'|translate}}<span class="text-bold"
-              >{{campaignContainer?.campaign?.dateTo |localDate}}</span
-            ></ion-label
-          ></ion-item
-        >
+        <ion-item lines="none" *ngIf="campaignHas('dates')">
+          <ion-label>{{'campaigns.detail.dateFrom'|translate}}<span
+              class="text-bold">{{campaignContainer.campaign.dateFrom|localDate}}</span></ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="campaignHas('dates')">
+          <ion-label>{{'campaigns.detail.dateTo'|translate}}<span
+              class="text-bold">{{campaignContainer?.campaign?.dateTo |localDate}}</span></ion-label>
+        </ion-item>
         <div>
-          <div
-            [innerHTML]="campaignContainer?.campaign?.description | languageMap"
-          ></div>
+          <div [innerHTML]="campaignContainer?.campaign?.description | languageMap"></div>
         </div>
-        <div
-          *ngIf="(campaignContainer?.campaign?.details | languageMap) as details"
-        >
+        <div *ngIf="(campaignContainer?.campaign?.details | languageMap) as details">
           <!-- sponsor part -->
-          <div
-            *ngIf="campaignHasSponsor(campaignContainer?.campaign?.details | languageMap)"
-          >
-            <div
-              [innerHTML]="getCampaignSponsor(campaignContainer?.campaign?.details | languageMap)?.content"
-            ></div>
-          </div>
+          <!-- <div *ngIf="campaignHasSponsor(campaignContainer?.campaign?.details | languageMap)">
+            <div [innerHTML]="getCampaignSponsor(campaignContainer?.campaign?.details | languageMap)?.content"></div>
+          </div> -->
           <!-- other details -->
           <ng-container *ngFor="let detail of details">
-            <div *ngIf="detail.type!=='sponsor'" (click)="openDetail(detail)">
+            <div *ngIf="detail.type!=='sponsor' &&  detail.type!=='faq' " (click)="openDetail(detail)">
               <ion-item lines="none">
-                <ion-label
-                  ><span class="text-bold text-underlined">
-                    {{detail.name}}</span
-                  ></ion-label
-                >
+                <ion-label><span class="text-bold text-underlined">
+                    {{detail.name}}</span></ion-label>
                 <ion-icon name="information-circle-outline" end> </ion-icon>
               </ion-item>
             </div>
           </ng-container>
-          <div *ngIf="isCompany()">
-            <ion-item lines="none" (click)="openCompanies()">
-              <ion-label
-                ><span class="text-bold text-underlined">
-                  {{'campaigns.detail.companies'|translate}}
-                </span></ion-label
-              >
-              <ion-icon name="information-circle-outline" end> </ion-icon>
-            </ion-item>
-          </div>
         </div>
       </ion-card-content>
     </ion-card>
+    <ion-card *ngIf="campaignHasFAQ(campaignContainer?.campaign?.details | languageMap)"
+      [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/faq']">
+      <ion-item [color]="campaignContainer?.campaign?.type">
+        <ion-label> {{'campaigns.detail.faq'|translate}}</ion-label>
+        <ion-icon name="help-circle-outline" end></ion-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card *ngIf="campaignHas('companies')"
+      [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/companies']">
+      <ion-item [color]="campaignContainer?.campaign?.type">
+        <ion-label> {{'campaigns.detail.companies'|translate}}</ion-label>
+        <ion-icon name="list" end></ion-icon>
+      </ion-item>
+    </ion-card>
     <ion-card>
-      <ion-item
-        [color]="campaignContainer?.campaign?.type"
-        (click)="openSupport()"
-      >
+      <ion-item [color]="campaignContainer?.campaign?.type" (click)="openSupport()">
         <ion-label>{{'campaigns.detail.signal'|translate}} </ion-label>
         <ion-icon name="help-circle-outline" end></ion-icon>
       </ion-item>
     </ion-card>
+    <ion-card *ngIf="campaignHasSponsor(campaignContainer?.campaign?.details | languageMap)">
+      <ion-card-title>
+        <ion-item [color]="campaignContainer?.campaign?.type">
+          <ion-label>{{'campaigns.detail.sponsor'|translate}}</ion-label>
+        </ion-item>
+      </ion-card-title>
+      <ion-card-content>
+        <div [innerHTML]="getCampaignSponsor(campaignContainer?.campaign?.details | languageMap)?.content"></div>
+      </ion-card-content>
+    </ion-card>
     <ion-card (click)="unsubscribeCampaign()" *ngIf="!isPersonal()">
-      <ion-item [color]="campaignContainer?.campaign?.type">
+      <ion-item color="danger">
         <ion-label>{{'campaigns.detail.unsubscribe'|translate}} </ion-label>
         <app-icon name="leave" class="icon-size-normal"></app-icon>
       </ion-item>

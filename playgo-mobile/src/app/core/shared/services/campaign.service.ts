@@ -137,6 +137,12 @@ export class CampaignService {
       dates: {
         present: false,
       },
+      companies: {
+        present: false,
+      },
+      sponsor: {
+        present: false,
+      },
     },
     school: {
       challenge: {
@@ -161,6 +167,12 @@ export class CampaignService {
       dates: {
         present: true,
       },
+      companies: {
+        present: false,
+      },
+      sponsor: {
+        present: false,
+      },
     },
     company: {
       challenge: {
@@ -182,6 +194,12 @@ export class CampaignService {
         present: false,
       },
       dates: {
+        present: true,
+      },
+      companies: {
+        present: true,
+      },
+      sponsor: {
         present: true,
       },
     },
@@ -207,6 +225,12 @@ export class CampaignService {
       dates: {
         present: true,
       },
+      companies: {
+        present: false,
+      },
+      sponsor: {
+        present: false,
+      },
     },
   };
   public subscribeCampaignAction$ = new Subject<string>();
@@ -218,7 +242,7 @@ export class CampaignService {
     private http: HttpClient,
     private errorService: ErrorService,
     private refresherService: RefresherService
-  ) {}
+  ) { }
   subscribeToCampaign(
     id: string,
     body?: any
@@ -256,7 +280,7 @@ export class CampaignService {
     return this.http.request<CampaignSubscription>(
       'get',
       environment.serverUrl.pgaziendeUrl +
-        `/campaigns/${encodeURIComponent(String(campaignId))}/companies`,
+      `/campaigns/${encodeURIComponent(String(campaignId))}/companies`,
       {}
     );
   }
@@ -284,7 +308,7 @@ export class CampaignService {
       return 'ecoLeavesCity';
     }
     if (campaign.type === 'company') {
-      return 'pedal_bike';
+      return 'ecoLeavesCompany';
     }
     if (campaign.type === 'school') {
       return 'ecoLeavesHsc';

@@ -115,7 +115,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
         this.imagePath = this.campaignContainer?.campaign?.logo.url
           ? this.campaignContainer?.campaign?.logo.url
           : 'data:image/jpg;base64,' +
-            this.campaignContainer?.campaign?.logo.image;
+          this.campaignContainer?.campaign?.logo.image;
         this.changePageSettings();
       });
   }
@@ -159,6 +159,12 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   }
   campaignHasSponsor(details: CampaignDetail[]): any {
     return details.filter((detail) => detail.type === 'sponsor').length > 0;
+  }
+  getCampaignFAQ(details: CampaignDetail[]): Record<string, unknown> {
+    return details.filter((detail) => detail.type === 'faq')[0];
+  }
+  campaignHasFAQ(details: CampaignDetail[]): any {
+    return details.filter((detail) => detail.type === 'faq').length > 0;
   }
 
   getCampaign() {

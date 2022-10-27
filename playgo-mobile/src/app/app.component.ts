@@ -44,7 +44,7 @@ export class AppComponent implements AfterContentInit {
       this.translate.setDefaultLang('it');
       try {
         await window.screen.orientation.lock('portrait');
-      } catch (e) {}
+      } catch (e) { }
       this.loadCustomIcons();
       this.initLink();
       this.badgeService.init();
@@ -111,6 +111,7 @@ export class AppComponent implements AfterContentInit {
       co2: '../assets/icon/co2.svg',
       flower: '../assets/icon/flower.svg',
       shield: '../assets/icon/shield.svg',
+      ecoLeavesCompany: '../assets/icon/company-leaf.svg',
       ecoLeavesCity: '../assets/icon/city-eco-leave.svg',
       ecoLeavesHsc: '../assets/icon/hsc-eco-leaves.svg',
       offline: '../assets/icon/offline.svg',
@@ -132,5 +133,5 @@ export class AppComponent implements AfterContentInit {
     this.iconService.registerSvgIcons(icons);
   }
 
-  ngAfterContentInit() {}
+  ngAfterContentInit() { }
 }
