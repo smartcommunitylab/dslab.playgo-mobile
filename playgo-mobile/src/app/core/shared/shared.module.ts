@@ -39,6 +39,7 @@ import { LimitStatusComponent } from './campaigns/main-campaign-stat/limit-statu
 import { NotificationModalPage } from './notification-modal/notification.modal';
 import { ContentContentComponent } from './layout/content/content-content.component';
 import { ContentDirective } from './layout/content/content.directive';
+import { CompanyLabelComponent } from './campaigns/app-company-label/app-company-label.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -78,6 +79,7 @@ import { ContentDirective } from './layout/content/content.directive';
     DetailNotificationBadgeComponent,
     LimitStatusComponent,
     NotificationModalPage,
+    CompanyLabelComponent
   ],
   entryComponents: [],
   providers: [AlertService],
@@ -118,6 +120,7 @@ import { ContentDirective } from './layout/content/content.directive';
     DetailNotificationBadgeComponent,
     LimitStatusComponent,
     NotificationModalPage,
+    CompanyLabelComponent
   ],
 })
-export class PlayGoSharedModule {}
+export class PlayGoSharedModule { }
