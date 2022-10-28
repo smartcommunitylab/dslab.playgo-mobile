@@ -284,6 +284,19 @@ export class CampaignService {
       {}
     );
   }
+  async getCompanyOfTheUser(campaign: PlayerCampaign): Promise<string> {
+    const companies = await this.http.request<any>(
+      'get',
+      environment.serverUrl.pgaziendeUrl +
+      `/campaigns/${encodeURIComponent(String(campaign.campaign?.campaignId))}/companies`,
+      {}
+    ).toPromise();
+    if (companies) {
+      const company = companies.find((comp: { code: any }) => comp?.code === campaign?.subscription?.campaignData?.companyKey);
+      return company.name ? company.name : '';
+    }
+    return '';
+  }
   getPersonalCampaign(): Observable<PlayerCampaign> {
     return this.myCampaigns$.pipe(
       map((campaigns) =>
