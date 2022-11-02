@@ -53,6 +53,7 @@ import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils'
   styleUrls: ['./stats.page.scss'],
 })
 export class StatsPage implements OnInit, OnDestroy {
+
   @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
@@ -68,34 +69,38 @@ export class StatsPage implements OnInit, OnDestroy {
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
     km: 'campaigns.leaderboard.leaderboard_type_unit.km',
+    // duration: 'campaigns.leaderboard.leaderboard_type_unit.duration',
+    tracks: 'campaigns.leaderboard.leaderboard_type_unit.tracks',
   } as const;
   metricToUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.unit.co2',
     km: 'campaigns.leaderboard.unit.km',
+    // duration: 'campaigns.leaderboard.leaderboard_type_unit.duration',
+    tracks: 'campaigns.leaderboard.unit.tracks',
   } as const;
   means$: Observable<Mean[]>;
   selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
     map((event) => event.detail.value),
     shareReplay(1)
   );
-  metrics: Metric[] = ['co2', 'km'];
+  metrics: Metric[] = ['co2', 'km', 'tracks'];
   selectedMetric$: Observable<Metric> = this.selectedMetricChangedSubject.pipe(
     map((event) => event.detail.value),
     startWith(
       // initial select value
-      'co2' as const
+      'km' as const
     ),
     shareReplay(1)
   );
 
   referenceDate = DateTime.local();
+  todayDate = DateTime.local();
   totalValue = 0;
   periods = getPeriods(this.referenceDate);
   selectedPeriod = this.periods[0];
   statPeriodChangedSubject = new Subject<Period>();
   selectedPeriod$: Observable<Period> = this.statPeriodChangedSubject.pipe(
     map((period) => {
-      console.log(period.group);
       this.selectedPeriod = period;
       return this.getPeriodByReference(period);
     }),
@@ -199,6 +204,25 @@ export class StatsPage implements OnInit, OnDestroy {
   }
   segmentChanged(ev: any) {
     console.log('Segment changed, change the selected period', ev);
+  }
+
+  thereIsPast(): any {
+    // Check if  is not in actual period
+    // get future of the button
+    let refDate = this.referenceDate.plus({
+      [this.selectedPeriod.add]: -1,
+    });
+    return (refDate.startOf(this.selectedPeriod.add)
+      >=
+      DateTime.fromMillis(this.campaignContainer.campaign.dateFrom).startOf(this.selectedPeriod.add));
+  }
+  thereIsFuture(): any {
+    // Check if  is not in actual period
+    // get future of the button
+    let refDate = this.referenceDate.plus({
+      [this.selectedPeriod.add]: 1,
+    });
+    return refDate.startOf(this.selectedPeriod.add) <= this.todayDate.startOf(this.selectedPeriod.add);
   }
 
   backPeriod() {
@@ -378,13 +402,8 @@ export class StatsPage implements OnInit, OnDestroy {
     this.statPeriodChangedSubject.next(this.selectedSegment);
   }
 }
-//TODO TranslateKey instead string
-// type StatMeanType = {
-//   labelKey: string;
-//   unitKey: string;
-// };
 
 type Mean = TransportType;
 
-type Metric = 'co2' | 'km';
+type Metric = 'co2' | 'km' | 'tracks';/* | 'duration'; */
 

@@ -40,7 +40,7 @@
       [style.background-color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat)'">
       <ion-row>
         <ion-col size="2">
-          <ion-button (click)="backPeriod()" fill="clear"
+          <ion-button (click)="backPeriod()" fill="clear" *ngIf="thereIsPast()"
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'">
             <ion-icon name="chevron-back"></ion-icon>
           </ion-button>
@@ -58,7 +58,8 @@
         </ion-col>
         <ion-col size="2">
           <ion-button (click)="forwardPeriod()"
-            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'" fill="clear">
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'" *ngIf="thereIsFuture()"
+            fill="clear">
             <ion-icon name="chevron-forward"></ion-icon>
           </ion-button>
         </ion-col>

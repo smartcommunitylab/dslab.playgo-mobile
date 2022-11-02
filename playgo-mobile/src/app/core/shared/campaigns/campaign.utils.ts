@@ -64,7 +64,7 @@ export function getPeriods(referenceDate: DateTime): Period[] {
 export type Period = {
   labelKey: string;
   label: string;
-  add: string;
+  add: DateTimeUnit;
   format: string;
   switchTo: string;
   group: DateTimeUnit;
