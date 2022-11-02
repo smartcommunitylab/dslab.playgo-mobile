@@ -53,6 +53,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   isDestroyed$ = new Subject<void>();
   unreadNotifications: Notification[] = [];
   @ViewChild('ionContent') ionContent: ElementRef;
+  descriptionExpanded = false;
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
@@ -166,7 +167,10 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   campaignHasFAQ(details: CampaignDetail[]): any {
     return details.filter((detail) => detail.type === 'faq').length > 0;
   }
+  clickDescription() {
+    this.descriptionExpanded = !this.descriptionExpanded;
 
+  }
   getCampaign() {
     return JSON.stringify(this.campaignContainer.campaign);
   }

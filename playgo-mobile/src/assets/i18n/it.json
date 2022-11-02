@@ -304,6 +304,7 @@
       "confirm": "Conferma"
     },
     "detail": {
+      "myCompany": "Azienda:",
       "companies": "Aziende partecipanti",
       "not_found": "Campagna non trovata",
       "blacklist": "Utenti Bloccati",

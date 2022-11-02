@@ -1,3 +1,55 @@
 .avatar-campaign {
   margin: 16px auto;
 }
+.expansion {
+  text-align: center;
+  font-size: xx-large;
+}
+/* Box */
+.box {
+  // margin: 22px auto;
+  // width: 320px;
+  // padding: 12px 32px 64px;
+  max-height: 162px;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+}
+
+.box.open {
+  max-height: 100rem;
+  transition: max-height 0.3s cubic-bezier(0.9, 0, 0.8, 0.2);
+}
+.text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 12px 0;
+  animation: close 0.1s linear 0.1s forwards;
+}
+.open .text {
+  animation: open 0.1s linear 0s forwards;
+}
+
+/* Text */
+@keyframes open {
+  from {
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+  }
+  to {
+    line-clamp: initial;
+    -webkit-line-clamp: initial;
+  }
+}
+
+@keyframes close {
+  from {
+    line-clamp: initial;
+    -webkit-line-clamp: initial;
+  }
+  to {
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+  }
+}

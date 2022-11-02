@@ -304,6 +304,7 @@
       "confirm": "Confirm"
     },
     "detail": {
+      "myCompany": "Company:",
       "companies": "Partecipating companies",
       "not_found": "Campaign not found",
       "blacklist": "Blacklist",
