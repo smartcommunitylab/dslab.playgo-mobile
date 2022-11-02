@@ -26,10 +26,12 @@ import {
 import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
 import { DateTime, Interval } from 'luxon';
 import {
+  last,
   map,
   shareReplay,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -54,6 +56,7 @@ import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils'
 })
 export class StatsPage implements OnInit, OnDestroy {
 
+
   @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild('refresher', { static: false }) refresher: IonRefresher;
@@ -69,13 +72,19 @@ export class StatsPage implements OnInit, OnDestroy {
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
     km: 'campaigns.leaderboard.leaderboard_type_unit.km',
-    // duration: 'campaigns.leaderboard.leaderboard_type_unit.duration',
+    time: 'campaigns.leaderboard.leaderboard_type_unit.duration',
     tracks: 'campaigns.leaderboard.leaderboard_type_unit.tracks',
+  } as const;
+  metricToSelectLabel: Record<Metric, TranslateKey> = {
+    co2: 'campaigns.leaderboard.select.co2',
+    km: 'campaigns.leaderboard.select.km',
+    time: 'campaigns.leaderboard.select.duration',
+    tracks: 'campaigns.leaderboard.select.tracks',
   } as const;
   metricToUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.unit.co2',
     km: 'campaigns.leaderboard.unit.km',
-    // duration: 'campaigns.leaderboard.leaderboard_type_unit.duration',
+    time: 'campaigns.leaderboard.unit.duration',
     tracks: 'campaigns.leaderboard.unit.tracks',
   } as const;
   means$: Observable<Mean[]>;
@@ -83,9 +92,10 @@ export class StatsPage implements OnInit, OnDestroy {
     map((event) => event.detail.value),
     shareReplay(1)
   );
-  metrics: Metric[] = ['co2', 'km', 'tracks'];
+  metrics: Metric[];
   selectedMetric$: Observable<Metric> = this.selectedMetricChangedSubject.pipe(
     map((event) => event.detail.value),
+    tap((metric) => this.setDivider(metric)),
     startWith(
       // initial select value
       'km' as const
@@ -143,6 +153,7 @@ export class StatsPage implements OnInit, OnDestroy {
   id: string;
   subCampaign: Subscription;
   campaignContainer: PlayerCampaign;
+  divider = 1000;
   constructor(
     private route: ActivatedRoute,
     private reportService: ReportControllerService,
@@ -152,7 +163,7 @@ export class StatsPage implements OnInit, OnDestroy {
     private pageSettingsService: PageSettingsService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
-      let convertedStat = stats.map(stat => stat.value >= 0 ? { ...stat, value: (stat.value / 1000) } : { ...stat, value: 0 });
+      let convertedStat = stats.map(stat => stat.value >= 0 ? { ...stat, value: (stat.value / this.divider) } : { ...stat, value: 0 });
       this.barChartMethod(convertedStat);
       this.setTotal(convertedStat);
     });
@@ -165,13 +176,15 @@ export class StatsPage implements OnInit, OnDestroy {
               campaignContainer.campaign.campaignId === this.id
           );
           if (this.campaignContainer) {
-            this.initMean();
+            this.initMeanAndMetrics();
           }
         }
       );
     });
   }
-  initMean() {
+  initMeanAndMetrics() {
+
+    this.metrics = this.campaignContainer.campaign.type === 'company' ? ['co2', 'km'] : ['co2', 'km', 'time', 'tracks'];
     this.means$ = of(this.campaignContainer.campaign.validationData.means);
     this.selectedMeanChangedSubject.next({
       detail: { value: this.campaignContainer?.campaign?.validationData?.means[0] },
@@ -180,7 +193,26 @@ export class StatsPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.changePageSettings();
   }
+  private setDivider(metric: Metric): void {
+    switch (metric) {
+      case 'co2':
+        this.divider = 1000;
+        break;
+      case 'km':
+        this.divider = 1000;
+        break;
+      case 'time':
+        this.divider = 3600;
+        break;
+      case 'tracks':
+        this.divider = 1;
+        break;
+      default:
+        this.divider = 1000;
 
+        break;
+    }
+  }
   private changePageSettings() {
     this.pageSettingsService.set({
       color: this.campaignContainer?.campaign?.type,
@@ -405,5 +437,5 @@ export class StatsPage implements OnInit, OnDestroy {
 
 type Mean = TransportType;
 
-type Metric = 'co2' | 'km' | 'tracks';/* | 'duration'; */
+type Metric = 'co2' | 'km' | 'tracks' | 'time';
 

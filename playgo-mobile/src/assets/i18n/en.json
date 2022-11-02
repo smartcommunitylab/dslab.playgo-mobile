@@ -411,10 +411,17 @@
         "km": "Total km",
         "GL": "Eco Leaves"
       },
+      "select": {
+        "co2": "CO₂",
+        "km": "km",
+        "tracks": "tracks",
+        "duration": "duration"
+      },
       "unit": {
         "co2": "CO₂",
         "km": "km",
-        "tracks": "tracks"
+        "tracks": "tracks",
+        "duration": "hours"
       },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
