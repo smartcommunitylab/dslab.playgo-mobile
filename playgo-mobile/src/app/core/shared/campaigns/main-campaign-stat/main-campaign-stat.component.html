@@ -55,7 +55,7 @@
     </ion-row>
     <ion-row *ngIf="limitDayValue">
       <ion-col>
-        <app-limit-status [limitMax]="limitDayMax" [limitValue]="limitDayValue"
+        <app-limit-status [limitMax]="limitDayMax" [limitValue]="limitDayValue" [infoBox]="true"
           [type]="campaignContainer?.campaign?.type" [header]="'campaigns.homewidgets.stat.today' | translate">
         </app-limit-status>
       </ion-col>
@@ -64,7 +64,8 @@
     <ion-row *ngIf="limitMonthValue !== null">
       <ion-col>
         <app-limit-status [limitMax]="limitMonthMax" [limitValue]="limitMonthValue"
-          [type]="campaignContainer?.campaign?.type" [header]="'campaigns.homewidgets.stat.lastmonth' | translate">
+          [type]="campaignContainer?.campaign?.type"
+          [header]="'campaigns.homewidgets.stat.lastmonth' | translate: {lastmonth:month}">
         </app-limit-status>
       </ion-col>
     </ion-row>

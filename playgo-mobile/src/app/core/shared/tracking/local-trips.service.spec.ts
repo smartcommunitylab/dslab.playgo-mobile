@@ -7,7 +7,6 @@ import { NEVER, Observable, of, ReplaySubject, Subject, timer } from 'rxjs';
 import { delay, elementAt, first } from 'rxjs/operators';
 import { TrackControllerService } from '../../api/generated/controllers/trackController.service';
 import { PageTrackedInstanceInfo } from '../../api/generated/model/pageTrackedInstanceInfo';
-import { TrackedInstanceInfo } from '../../api/generated/model/trackedInstanceInfo';
 import { AppStatusService } from '../services/app-status.service';
 import {
   LocalStorageService,
@@ -270,11 +269,11 @@ describe('LocalTripsService', () => {
     );
   }));
 
-  it('soft trigger should reload only pending trips', () => {});
+  it('soft trigger should reload only pending trips', () => { });
 
-  it('hard trigger should reload whole period', () => {});
+  it('hard trigger should reload whole period', () => { });
 
-  it('should store trips to storage', () => {});
+  it('should store trips to storage', () => { });
 
   // function prepareService(opts: {
   //   storageData?: StorableTrip[] = null;

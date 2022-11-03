@@ -4,6 +4,7 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
 import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { CampaignService } from '../../services/campaign.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-main-campaign-stat',
@@ -11,7 +12,7 @@ import { CampaignService } from '../../services/campaign.service';
   styleUrls: ['./main-campaign-stat.component.scss'],
 })
 export class MainCampaignStatComponent implements OnInit {
-
+  month: string;
   @Input() campaignContainer: PlayerCampaign;
   @Input() status?: PlayerGameStatus = undefined;
   @Input() record?: TransportStat = undefined;
@@ -34,5 +35,6 @@ export class MainCampaignStatComponent implements OnInit {
   }
   ngOnInit() {
     // console.log(this.status);
+    this.month = DateTime.local().toFormat('LLLL yyyy');
   }
 }

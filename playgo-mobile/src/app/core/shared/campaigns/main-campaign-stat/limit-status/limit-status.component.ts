@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
+import { ModalController } from '@ionic/angular';
+import { LimitModalPage } from './limit-modal/limit.modal';
 
 @Component({
   selector: 'app-limit-status',
@@ -11,9 +12,20 @@ export class LimitStatusComponent implements OnInit {
   @Input() limitValue?: any = undefined;
   @Input() type?: string;
   @Input() header?: string;
-  constructor() {}
+  @Input() infoBox?= false;
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
     // console.log('limitMax' + this.limitMax + 'limitValue' + this.limitValue);
+  }
+  async openLimit(event: any) {
+    event.stopPropagation();
+    const modal = await this.modalController.create({
+      component: LimitModalPage,
+      cssClass: 'challenge-info',
+      swipeToClose: true,
+    });
+    await modal.present();
+    await modal.onWillDismiss();
   }
 }
