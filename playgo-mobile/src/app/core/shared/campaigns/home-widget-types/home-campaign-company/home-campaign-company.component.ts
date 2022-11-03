@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { Player } from 'src/app/core/api/generated/model/player';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { TransportStats } from 'src/app/core/api/generated/model/transportStats';
 import { ErrorService } from '../../../services/error.service';
 import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
@@ -24,7 +25,9 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   reportDayStat: CampaignPlacing;
   reportMonthStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
+  lastPaymentStat: TransportStats;
   imagePath: string;
+  lastPaymentDate: any;
   constructor(
     private userService: UserService,
     private reportService: ReportService,
@@ -53,6 +56,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
             this.errorService.handleError(error);
           }
         });
+      this.getLastPayment();
       this.reportService
         .getBikeStats(
           this.campaignContainer.campaign.campaignId,
@@ -88,6 +92,32 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           }
         });
     });
+  }
+  getLastPayment() {
+    const index = this.campaignContainer.campaign.specificData.periods.length - 1;
+    this.lastPaymentDate = this.campaignContainer.campaign.specificData.periods[index].start;
+    const to = this.campaignContainer.campaign.specificData.periods[index].end;
+    this.reportService
+      .getTransportStatsByMeans(
+        this.campaignContainer.campaign.campaignId,
+        this.profile.playerId,
+        'km',
+        '',
+        'bike',
+        toServerDateOnly(DateTime.fromMillis(this.lastPaymentDate).toUTC()),
+        toServerDateOnly(DateTime.fromMillis(to).toUTC())
+      ).toPromise()
+      .then((stats) => {
+        this.lastPaymentStat = stats[0];
+      })
+      .catch((error) => {
+        if (isOfflineError(error)) {
+          this.reportDayStat = null;
+        } else {
+          this.reportDayStat = null;
+          this.errorService.handleError(error);
+        }
+      });
   }
   goToChallenge(event: Event) {
     if (event && event.stopPropagation) {

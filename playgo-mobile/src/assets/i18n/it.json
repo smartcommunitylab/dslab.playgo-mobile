@@ -339,6 +339,7 @@
         "weekvalue": "<b>{{value}} {{unit}}</b> settimanale",
         "monthvalue": "<b>{{value}} {{unit}}</b> mensile",
         "totalvalue": "<b>{{value}} {{unit}}</b> complessivo",
+        "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}}",
         "levelName": "<b>Livello : {{levelName}}</b>",
         "score": "Punti: {{score}}",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",

@@ -38,6 +38,10 @@
             'campaigns.homewidgets.stat.totalvalue'
               | translate: { value: getValueByUnit(reportTotalStat?.value,unit) | localNumber , unit: unit}
           "></p>
+        <p *ngIf="lastPaymentStat" class="ion-text-left" [innerHtml]="
+          'campaigns.homewidgets.stat.lastpaymentkm'
+            | translate: { value: getValueByUnit(lastPaymentStat?.value,unit) | localNumber , unit: unit, date: lastPaymentDate |  localDate}
+        "></p>
       </ion-col>
     </ion-row>
     <ng-container *ngIf="showGameStatus">

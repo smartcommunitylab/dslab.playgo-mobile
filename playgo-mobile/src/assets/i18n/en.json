@@ -339,6 +339,7 @@
         "weekvalue": "<b>{{value}} weekly value</b>",
         "monthvalue": "<b>{{value}} monthly value</b>",
         "totalvalue": "<b>{{value}} total value</b>",
+        "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}}",
         "levelName": "<b>Level : {{levelName}}</b>",
         "score": "Points: {{score}}",
         "emptystatus": "If you want to see your level and points start to play!",

@@ -26,6 +26,8 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() showRanking?: boolean = true;
   @Input() showGameStatus?: boolean = false;
   @Input() unit?: string = '';
+  @Input() lastPaymentStat?: any;
+  @Input() lastPaymentDate?: any;
   constructor(public campaignService: CampaignService) { }
   getValueByUnit(value: number, unit: string): number {
     if ('Km' === unit) {
