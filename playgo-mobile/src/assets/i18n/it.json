@@ -324,7 +324,15 @@
       "description": "Descrizione",
       "details": "Dettagli campagna",
       "limits_title": "Limiti giornalieri e mensili",
-      "limits_text": "Dal regolamento dell'iniziativa Bike2Work sono previsti i seguenti limiti <b>oltre i quali la ricompensa non viene riconosciuta:</b><ul><li>massimo 20 km al giorno.</li><li>massimo 250 km (pari a € 50) al mese.</li></ul>"
+      "limits_text": "Dal regolamento sono previsti i seguenti limiti: <ul><li>massimo 20 km al giorno.</li><li>massimo 250 km al mese.</li></ul> Superato il limite, i viaggi non vengono validati per la campagna e la ricompensa non viene riconosciuta.",
+      "contacts": "Contatti: ",
+      "name": "Nome: ",
+      "address": "Indirizzo: ",
+      "phone": "Telefono: ",
+      "mail": "Email: ",
+      "mm": "Mobility Manager: ",
+      "locations": "Lista sedi valide",
+      "location": "Sede {{index}}:"
     },
     "homewidgets": {
       "personal": {

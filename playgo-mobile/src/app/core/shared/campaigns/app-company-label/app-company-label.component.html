@@ -1,3 +1,4 @@
-<div>
-  {{'campaigns.detail.myCompany'|translate}} <span>{{companyLabel}}</span>
+<div *ngIf="userCompany?.company?.name">
+  <i>{{'campaigns.detail.myCompany'|translate}}</i> <span
+    (click)="openCompanyDetail()">{{userCompany.company.name}}</span>
 </div>

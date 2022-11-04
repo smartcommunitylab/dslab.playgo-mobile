@@ -1,0 +1,29 @@
+ion-content {
+  span {
+    margin: 0px 2px;
+  }
+  .company-name {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+  }
+  .close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .section {
+    font-weight: bold;
+    margin: 24px 0px 8px 0px;
+  }
+  .subsection {
+    font-weight: bold;
+    margin: 24px 0px 8px 0px;
+  }
+}

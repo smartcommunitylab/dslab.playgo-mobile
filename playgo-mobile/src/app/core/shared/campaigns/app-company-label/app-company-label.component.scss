@@ -3,5 +3,9 @@ div {
   text-align: right;
   span {
     font-weight: 700;
+    color: var(--ion-color-playgo);
+    margin: 8px;
+    font-style: italic;
+    text-decoration: underline;
   }
 }

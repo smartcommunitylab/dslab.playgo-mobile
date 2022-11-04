@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignService } from '../../services/campaign.service';
+import { CompanyModalPage } from './company-modal/company.modal';
 
 @Component({
   selector: 'app-company-label',
@@ -11,15 +13,27 @@ import { CampaignService } from '../../services/campaign.service';
 export class CompanyLabelComponent implements OnInit {
   @Input() campaignContainer: PlayerCampaign;
   sub: Subscription;
-  companyLabel: string;
-  constructor(private campaignService: CampaignService) { }
+  userCompany: any;
+  constructor(private campaignService: CampaignService, private modalController: ModalController) { }
 
   ngOnInit() {
     this.initCompanies();
   }
   async initCompanies() {
-    this.companyLabel = await this.campaignService
+    this.userCompany = await this.campaignService
       .getCompanyOfTheUser(this.campaignContainer);
+  }
+  async openCompanyDetail() {
+    const modal = await this.modalController.create({
+      component: CompanyModalPage,
+      componentProps: {
+        userCompany: this.userCompany,
+      },
+      cssClass: 'modalConfirm',
+      swipeToClose: true,
+    });
+    await modal.present();
+    await modal.onWillDismiss();
   }
 
 }
