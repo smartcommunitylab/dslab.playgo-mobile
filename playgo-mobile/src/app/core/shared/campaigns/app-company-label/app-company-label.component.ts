@@ -23,7 +23,8 @@ export class CompanyLabelComponent implements OnInit {
     this.userCompany = await this.campaignService
       .getCompanyOfTheUser(this.campaignContainer);
   }
-  async openCompanyDetail() {
+  async openCompanyDetail(event: any) {
+    event.stopPropagation();
     const modal = await this.modalController.create({
       component: CompanyModalPage,
       componentProps: {
