@@ -1,13 +1,16 @@
 <div class="ion-text-left" *ngIf="limitMax">
   <ion-grid>
     <ion-row class="limit-text">
-      <ion-col size="8">
+      <ion-col size="7">
         <b>{{ header }} {{ limitValue?.value / 1000 | localNumber: '0.0-1'
           }}{{ "campaigns.homewidgets.stat.km" | translate }}</b>
       </ion-col>
       <ion-col size="4" class="ion-text-end">
         {{ limitMax }}{{ "campaigns.homewidgets.stat.km" | translate }}
         {{ "campaigns.homewidgets.stat.max" | translate }}
+      </ion-col>
+      <ion-col *ngIf="infoBox" size="1">
+        <ion-icon class="info-box" name="information-circle-outline" (click)="openLimit($event)"></ion-icon>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="limitValue?.value; else zeroProgress">

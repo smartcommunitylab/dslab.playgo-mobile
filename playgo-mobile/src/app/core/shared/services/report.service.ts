@@ -13,7 +13,7 @@ export class ReportService {
   constructor(
     private reportControllerService: ReportControllerService,
     private gameController: GameControllerService
-  ) {}
+  ) { }
 
   getCo2Stats(
     campaignId: string,
@@ -32,23 +32,7 @@ export class ReportService {
       })
       .toPromise();
   }
-  getBikeStats(
-    campaignId: string,
-    playerId: string,
-    dateFrom?: string,
-    dateTo?: string
-  ): Promise<CampaignPlacing> {
-    return this.reportControllerService
-      .getPlayerCampaingPlacingByTransportModeUsingGET({
-        campaignId,
-        playerId,
-        metric: 'km',
-        mean: 'bike',
-        dateFrom,
-        dateTo,
-      })
-      .toPromise();
-  }
+
   getCo2WeekRecord(
     campaignId: string,
     playerId: string
@@ -74,6 +58,8 @@ export class ReportService {
       shareReplay()
     );
   }
+
+
   getGameStats(
     campaignId?: string,
     playerId?: string,
@@ -86,6 +72,28 @@ export class ReportService {
       dateFrom,
       dateTo,
     });
+  }
+  getBikeStats(
+    campaignId: string,
+    playerId: string,
+    dateFrom?: string,
+    dateTo?: string
+  ): Promise<CampaignPlacing> {
+    return this.reportControllerService
+      .getPlayerTransportStatsUsingGET({
+        campaignId,
+        playerId,
+        metric: 'km',
+        mean: 'bike',
+        dateFrom,
+        dateTo,
+      }).pipe(
+        map(stats => {
+          return {
+            value: stats[0] ? stats[0]?.value : 0
+          } as CampaignPlacing;;
+        })
+      ).toPromise();
   }
   getTransportStatsByMeans(
     campaignId: string,

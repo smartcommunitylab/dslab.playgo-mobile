@@ -83,8 +83,10 @@ function getServerUrlConfig(
     return {
       api: 'https://backenddev.playngo.it:443',
       apiPath: '/playandgo/api',
-      pgaziendeUrl:
+      pgaziendePublicUrl:
         'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
+      pgaziendeUrl:
+        'https://pgaziendaledev.platform.smartcommunitylab.it/api',
       hscApi: 'https://hscdev.playngo.it/playandgo-hsc/publicapi/',
     };
   }
@@ -92,8 +94,10 @@ function getServerUrlConfig(
     return {
       api: 'https://backend.playngo.it:443',
       apiPath: '/playandgo/api',
-      pgaziendeUrl:
+      pgaziendePublicUrl:
         'https://pgaziendaleprod.platform.smartcommunitylab.it/api/public',
+      pgaziendeUrl:
+        'https://pgaziendaledev.platform.smartcommunitylab.it/api',
       hscApi: 'https://hsc.playngo.it/playandgo-hsc/publicapi/',
     };
   }
@@ -152,6 +156,7 @@ export interface Environment {
   serverUrl: {
     api: string;
     apiPath: string;
+    pgaziendePublicUrl: string;
     pgaziendeUrl: string;
     hscApi: string;
   };

@@ -19,7 +19,7 @@
             <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
               (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
               <ion-select-option *ngFor="let metric of metrics" [value]="metric">
-                {{metricToUnitLabel[metric] |translate}}
+                {{metricToSelectLabel[metric] |translate}}
               </ion-select-option>
             </ion-select>
           </ion-item>
@@ -40,7 +40,7 @@
       [style.background-color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat)'">
       <ion-row>
         <ion-col size="2">
-          <ion-button (click)="backPeriod()" fill="clear"
+          <ion-button (click)="backPeriod()" fill="clear" *ngIf="thereIsPast()"
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'">
             <ion-icon name="chevron-back"></ion-icon>
           </ion-button>
@@ -52,13 +52,13 @@
           </p>
           <p class="ion-text-center total-value"
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
-            {{totalValue | localNumber}} {{selectedMetric$
-            |async}}
+            {{totalValue | localNumber}} {{metricToUnitLabel[selectedMetric$|async]|translate}}
           </p>
         </ion-col>
         <ion-col size="2">
           <ion-button (click)="forwardPeriod()"
-            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'" fill="clear">
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'" *ngIf="thereIsFuture()"
+            fill="clear">
             <ion-icon name="chevron-forward"></ion-icon>
           </ion-button>
         </ion-col>

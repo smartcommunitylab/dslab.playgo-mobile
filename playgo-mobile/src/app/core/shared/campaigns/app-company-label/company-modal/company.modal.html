@@ -1,0 +1,48 @@
+<ion-content color="playgo" *ngIf="userCompany" class="ion-padding">
+  <div class="company-name ion-margin">
+    {{userCompany.company.name}}
+  </div>
+  <div class="close" (click)="close()">
+    <ion-icon name="close-circle-outline"></ion-icon>
+  </div>
+  <div>
+    <div class="section">{{'campaigns.detail.contacts'|translate}}</div>
+    <div>
+      <span>{{'campaigns.detail.address'|translate}}</span>
+      <span>{{userCompany.company.address}}</span>
+      <span>{{userCompany.company.streetNumber}}</span><span>{{userCompany.company.city}}</span>
+      <span>{{userCompany.company.province}}</span> <span>{{userCompany.company.zip}}</span>
+    </div>
+
+    <div><span>{{'campaigns.detail.mail'|translate}}</span><span>{{userCompany.company.contactEmail}}</span></div>
+    <div><span>{{'campaigns.detail.phone'|translate}}</span><span>{{userCompany.company.contactPhone}}</span></div>
+
+  </div>
+  <div>
+    <div class="section">{{'campaigns.detail.mm'|translate}}</div>
+    <div *ngFor="let mm of userCompany.mobilityManagers">
+      <div><span>{{'campaigns.detail.name'|translate}}</span><span>{{mm.name}}</span> <span>{{mm.surname}}</span></div>
+      <div><span>{{'campaigns.detail.mail'|translate}}</span><span>{{mm.username}}</span></div>
+      <div><span>{{'campaigns.detail.phone'|translate}}</span><span>{{mm.phone}}</span></div>
+    </div>
+  </div>
+  <div>
+    <div class="section">{{'campaigns.detail.locations'|translate}}</div>
+    <div *ngFor="let location of userCompany.company.locations; let i = index">
+      <div class="subsection">{{
+        'campaigns.detail.location'|translate :{index:i+1}
+        }}</div>
+      <div>
+        <div><span>{{location.address}}</span><span>{{location.streetNumber}}</span>
+          <span>{{location.city}}</span><span>{{location.province}}</span><span>{{location.zip}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer color="playgo" class="ion-text-center">
+  <ion-button expand="block" color="light" (click)="close()">{{
+    "modal.ok" | translate
+    }}</ion-button>
+</ion-footer>

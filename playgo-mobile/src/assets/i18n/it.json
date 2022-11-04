@@ -304,6 +304,7 @@
       "confirm": "Conferma"
     },
     "detail": {
+      "myCompany": "Azienda:",
       "companies": "Aziende partecipanti",
       "not_found": "Campagna non trovata",
       "blacklist": "Utenti Bloccati",
@@ -321,7 +322,17 @@
       "faq": "FAQ",
       "sponsor": "Organizzatori e sponsor",
       "description": "Descrizione",
-      "details": "Dettagli campagna"
+      "details": "Dettagli campagna",
+      "limits_title": "Limiti giornalieri e mensili",
+      "limits_text": "Dal regolamento sono previsti i seguenti limiti: <ul><li>massimo 20 km al giorno.</li><li>massimo 250 km al mese.</li></ul> Superato il limite, i viaggi non vengono validati per la campagna e la ricompensa non viene riconosciuta.",
+      "contacts": "Contatti: ",
+      "name": "Nome: ",
+      "address": "Indirizzo: ",
+      "phone": "Telefono: ",
+      "mail": "Email: ",
+      "mm": "Mobility Manager: ",
+      "locations": "Lista sedi valide",
+      "location": "Sede {{index}}:"
     },
     "homewidgets": {
       "personal": {
@@ -336,13 +347,14 @@
         "weekvalue": "<b>{{value}} {{unit}}</b> settimanale",
         "monthvalue": "<b>{{value}} {{unit}}</b> mensile",
         "totalvalue": "<b>{{value}} {{unit}}</b> complessivo",
+        "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}}",
         "levelName": "<b>Livello : {{levelName}}</b>",
         "score": "Punti: {{score}}",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
         "status": "{{score}} Kg",
         "record": "Record: {{record}} Kg",
         "today": "Oggi",
-        "lastmonth": "Ultimo mese",
+        "lastmonth": "{{lastmonth}}:",
         "max": " max",
         "km": " Km"
       }
@@ -411,14 +423,24 @@
         "km": "Totale km",
         "GL": "Eco Leaves"
       },
+      "select": {
+        "co2": "CO₂",
+        "km": "Km",
+        "tracks": "Percorsi",
+        "duration": "Durata"
+      },
       "unit": {
         "co2": "CO₂",
-        "km": "km"
+        "km": "Km",
+        "tracks": "tracciati",
+        "duration": "ore"
       },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
         "GL": "{{value}} Eco Leaves",
-        "km": "{{value}} km"
+        "km": "{{value}} km",
+        "duration": "{{value}} ore",
+        "tracks": "{{value}}"
       },
       "all_means": "Tutti i mezzi"
     },

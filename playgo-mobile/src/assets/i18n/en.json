@@ -304,6 +304,7 @@
       "confirm": "Confirm"
     },
     "detail": {
+      "myCompany": "Company:",
       "companies": "Partecipating companies",
       "not_found": "Campaign not found",
       "blacklist": "Blacklist",
@@ -321,7 +322,17 @@
       "faq": "FAQ",
       "sponsor": "Organizer and sponsors",
       "description": "Description",
-      "details": "Campaign details"
+      "details": "Campaign details",
+      "limits_title": "Limiti giornalieri e mensili",
+      "limits_text": "The regulation provides for the following limits: <ul><li>maximum 20 km per day.</li><li> maximum 250 km per month.</li><ul> Once the limit is exceeded, the trips are not validated for the campaign and the reward is not recognized.",
+      "contacts": "Contatti: ",
+      "name": "Nome: ",
+      "address": "Indirizzo: ",
+      "phone": "Telefono: ",
+      "mail": "Email: ",
+      "mm": "Mobility Manager: ",
+      "locations": "Lista sedi valide",
+      "location": "Sede {{index}}:"
     },
     "homewidgets": {
       "personal": {
@@ -336,13 +347,14 @@
         "weekvalue": "<b>{{value}} weekly value</b>",
         "monthvalue": "<b>{{value}} monthly value</b>",
         "totalvalue": "<b>{{value}} total value</b>",
+        "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}}",
         "levelName": "<b>Level : {{levelName}}</b>",
         "score": "Points: {{score}}",
         "emptystatus": "If you want to see your level and points start to play!",
         "status": "{{score}} Kg",
         "record": "{{record}} weekly record",
         "today": "Today",
-        "lastmonth": "Last month",
+        "lastmonth": "{{lastmonth}}:",
         "max": " max",
         "km": " Km"
       }
@@ -411,14 +423,24 @@
         "km": "Total km",
         "GL": "Eco Leaves"
       },
+      "select": {
+        "co2": "CO₂",
+        "km": "km",
+        "tracks": "tracks",
+        "duration": "duration"
+      },
       "unit": {
         "co2": "CO₂",
-        "km": "km"
+        "km": "km",
+        "tracks": "tracks",
+        "duration": "hours"
       },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
         "GL": "{{value}} Eco Leaves",
-        "km": "{{value}} km"
+        "km": "{{value}} km",
+        "duration": "{{value}} h",
+        "tracks": "{{value}}"
       },
       "all_means": "All means"
     },

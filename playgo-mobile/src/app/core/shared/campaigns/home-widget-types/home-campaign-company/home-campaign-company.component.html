@@ -15,13 +15,14 @@
     </ng-template>
   </ion-card-header>
   <ion-card-content class="company-content ion-no-padding">
-    <app-company-label [campaignContainer]="campaignContainer"></app-company-label>
-    <app-main-campaign-stat [campaignContainer]="campaignContainer" [reportMonthStat]="reportMonthStat"
-      [showRanking]="false" [reportTotalStat]="reportTotalStat" [limitMonthMax]="
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
+      [lastPaymentDate]="lastPaymentDate" [showRanking]="false" [reportTotalStat]="reportTotalStat" [limitMonthMax]="
         campaignContainer?.campaign?.specificData?.bike?.monthlyLimit
       " [limitMonthValue]="reportMonthStat" [limitDayMax]="
         campaignContainer?.campaign?.specificData?.bike?.dailyLimit
       " [limitDayValue]="reportDayStat" [unit]="'Km'">
     </app-main-campaign-stat>
+    <app-company-label [campaignContainer]="campaignContainer"></app-company-label>
+
   </ion-card-content>
 </ion-card>

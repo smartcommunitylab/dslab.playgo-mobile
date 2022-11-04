@@ -58,9 +58,8 @@ export class AuthInterceptor implements HttpInterceptor {
           // eslint-disable-next-line @typescript-eslint/naming-convention
           setHeaders: {
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            Authorization: `${
-              token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
-            } ${token.accessToken}`,
+            Authorization: `${token.tokenType === 'bearer' ? 'Bearer' : token.tokenType
+              } ${token.accessToken}`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             Accept: '*/*',
           },
@@ -105,6 +104,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private isValidRequestForInterceptor(requestUrl: string): boolean {
     if (requestUrl.indexOf('/userinfo') > 0) {
+      return true;
+    }
+    if (requestUrl.indexOf('api/profile/campaign/') > 0) {
       return true;
     }
     const positionIndicator = 'playandgo/api/';
