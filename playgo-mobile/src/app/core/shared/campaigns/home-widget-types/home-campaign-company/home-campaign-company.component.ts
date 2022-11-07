@@ -108,7 +108,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         toServerDateOnly(DateTime.fromMillis(to).toUTC())
       ).toPromise()
       .then((stats) => {
-        this.lastPaymentStat = stats[0];
+        this.lastPaymentStat = stats[0] ? stats[0] : { mean: null, period: null, value: 0 } as TransportStats;
       })
       .catch((error) => {
         if (isOfflineError(error)) {
