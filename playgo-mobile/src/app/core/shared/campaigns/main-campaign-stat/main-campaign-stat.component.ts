@@ -39,4 +39,8 @@ export class MainCampaignStatComponent implements OnInit {
     // console.log(this.status);
     this.month = DateTime.local().toFormat('LLLL yyyy');
   }
+  getTitle(title: string) {
+    if (!title) { return title; }
+    return title[0].toUpperCase() + title.substr(1).toLowerCase();
+  }
 }
