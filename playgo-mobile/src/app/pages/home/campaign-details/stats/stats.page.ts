@@ -48,6 +48,7 @@ import {
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { TransportType, transportTypeLabels } from 'src/app/core/shared/tracking/trip.model';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
+import { LocalDatePipe } from 'src/app/core/shared/pipes/localDate.pipe';
 
 @Component({
   selector: 'app-stats',
@@ -160,7 +161,8 @@ export class StatsPage implements OnInit, OnDestroy {
     private userService: UserService,
     private errorService: ErrorService,
     private campaignService: CampaignService,
-    private pageSettingsService: PageSettingsService
+    private pageSettingsService: PageSettingsService,
+    private localDatePipe: LocalDatePipe
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
       let convertedStat = stats.map(stat => stat.value >= 0 ? { ...stat, value: (stat.value / this.divider) } : { ...stat, value: 0 });
@@ -406,7 +408,8 @@ export class StatsPage implements OnInit, OnDestroy {
     });
   }
   getSelectedPeriod() {
-    return this.selectedPeriod.from.toFormat(this.selectedPeriod.label);
+    const date = this.localDatePipe.transform(this.selectedPeriod.from, this.selectedPeriod.label);
+    return date.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
   }
   changeView(label: any) {
     // segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)
