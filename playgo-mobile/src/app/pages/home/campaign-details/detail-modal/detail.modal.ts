@@ -8,10 +8,11 @@ import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail'
   styleUrls: ['./detail.modal.scss'],
 })
 export class DetailCampaignModalPage implements OnInit {
+  type = 'playgo';
   detail: CampaignDetail;
 
-  constructor(private modalController: ModalController) {}
-  ngOnInit() {}
+  constructor(private modalController: ModalController) { }
+  ngOnInit() { }
   close() {
     this.modalController.dismiss(false);
   }

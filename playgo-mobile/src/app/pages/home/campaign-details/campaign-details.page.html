@@ -107,7 +107,7 @@
     <ion-card>
       <ion-item [color]="campaignContainer?.campaign?.type" (click)="openSupport()">
         <ion-label>{{'campaigns.detail.signal'|translate}} </ion-label>
-        <ion-icon name="help-circle-outline" end></ion-icon>
+        <ion-icon name="mail-outline" end></ion-icon>
       </ion-item>
     </ion-card>
     <ion-card *ngIf="campaignHasSponsor(campaignContainer?.campaign?.details | languageMap)">

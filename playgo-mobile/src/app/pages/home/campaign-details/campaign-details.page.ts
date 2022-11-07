@@ -139,6 +139,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
       cssClass: 'modalConfirm',
       componentProps: {
         detail,
+        type: this.campaignContainer?.campaign?.type
       },
     });
     await modal.present();

@@ -34,22 +34,30 @@
 /* Text */
 @keyframes open {
   from {
+    display: -webkit-box;
     line-clamp: 3;
     -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
   to {
+    display: -webkit-box;
     line-clamp: initial;
     -webkit-line-clamp: initial;
+    -webkit-box-orient: vertical;
   }
 }
 
 @keyframes close {
   from {
+    display: -webkit-box;
     line-clamp: initial;
     -webkit-line-clamp: initial;
+    -webkit-box-orient: vertical;
   }
   to {
+    display: -webkit-box;
     line-clamp: 3;
     -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 }
