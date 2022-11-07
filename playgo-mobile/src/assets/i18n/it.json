@@ -426,7 +426,7 @@
       "select": {
         "co2": "CO₂",
         "km": "Km",
-        "tracks": "Percorsi",
+        "tracks": "Viaggi",
         "duration": "Durata"
       },
       "unit": {
