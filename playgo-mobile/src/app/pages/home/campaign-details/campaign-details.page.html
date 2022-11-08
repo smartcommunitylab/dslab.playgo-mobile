@@ -67,10 +67,10 @@
         </ion-item>
         <div class="box" (click)="clickDescription()" [ngClass]="descriptionExpanded ? 'open' : ''">
           <div class="text" [innerHTML]="campaignContainer?.campaign?.description | languageMap"></div>
-          <div class="expansion">
-            <ion-icon name="chevron-up-outline" *ngIf="descriptionExpanded"></ion-icon>
-            <ion-icon name="chevron-down-outline" *ngIf="!descriptionExpanded"></ion-icon>
-          </div>
+        </div>
+        <div class="expansion" (click)="clickDescription()">
+          <ion-icon name="chevron-up-outline" *ngIf="descriptionExpanded"></ion-icon>
+          <ion-icon name="chevron-down-outline" *ngIf="!descriptionExpanded"></ion-icon>
         </div>
         <div *ngIf="(campaignContainer?.campaign?.details | languageMap) as details">
           <!-- sponsor part -->

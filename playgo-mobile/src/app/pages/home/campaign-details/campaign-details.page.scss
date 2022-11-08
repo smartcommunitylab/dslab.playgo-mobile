@@ -22,6 +22,7 @@
 .text {
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  padding: 2px;
   text-overflow: ellipsis;
   overflow: hidden;
   margin: 12px 0;
