@@ -12,7 +12,7 @@ import { DateTime } from 'luxon';
   styleUrls: ['./main-campaign-stat.component.scss'],
 })
 export class MainCampaignStatComponent implements OnInit {
-  month: string;
+  month: number;
   @Input() campaignContainer: PlayerCampaign;
   @Input() status?: PlayerGameStatus = undefined;
   @Input() record?: TransportStat = undefined;
@@ -36,11 +36,15 @@ export class MainCampaignStatComponent implements OnInit {
     return value;
   }
   ngOnInit() {
-    // console.log(this.status);
-    this.month = DateTime.local().toFormat('LLLL yyyy');
+    this.month = DateTime.local().toMillis();
+    console.log(this.month);
+
   }
   getTitle(title: string) {
-    if (!title) { return title; }
+    if (!title) {
+      return '';
+    }
+    console.log('title' + title[0].toUpperCase() + title.substr(1).toLowerCase());
     return title[0].toUpperCase() + title.substr(1).toLowerCase();
   }
 }

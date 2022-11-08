@@ -68,8 +68,7 @@
     <ion-row *ngIf="limitMonthValue !== null">
       <ion-col>
         <app-limit-status [limitMax]="limitMonthMax" [limitValue]="limitMonthValue"
-          [type]="campaignContainer?.campaign?.type"
-          [header]="'campaigns.homewidgets.stat.lastmonth' | translate: {lastmonth:getTitle((month| localDate: 'MMMM'))}">
+          [type]="campaignContainer?.campaign?.type" [header]="getTitle(month|localDate: 'LLLL')">
         </app-limit-status>
       </ion-col>
     </ion-row>
