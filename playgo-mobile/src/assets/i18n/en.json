@@ -295,7 +295,8 @@
         "header": "Employee code",
         "message": "Unique code issued to the employee"
       },
-      "join": "Join"
+      "join": "Join",
+      "confirm": "Confirm subscription"
     },
     "unsub": {
       "title": "Unsubscribe",

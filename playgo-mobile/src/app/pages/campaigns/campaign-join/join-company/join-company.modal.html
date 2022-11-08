@@ -1,13 +1,9 @@
 <ion-header>
   <ion-toolbar color="playgo">
-    <ion-title
-      >{{ 'campaigns.joinmodal.modalTitle' |translate :
-      {campaignTitle:campaign?.name | languageMap } }}</ion-title
-    >
+    <ion-title>{{ 'campaigns.joinmodal.modalTitle' |translate :
+      {campaignTitle:campaign?.name | languageMap } }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()"
-        >{{ 'campaigns.joinmodal.close' | translate }}</ion-button
-      >
+      <ion-button (click)="close()">{{ 'campaigns.joinmodal.close' | translate }}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -18,152 +14,87 @@
       <ion-row class="ion-margin-top">
         <ion-col>
           <ion-item color="playgo">
-            <ion-label
-              >{{ 'campaigns.joinmodal.companyselection' | translate
-              }}</ion-label
-            >
+            <ion-label>{{ 'campaigns.joinmodal.companyselection' | translate
+              }}</ion-label>
 
-            <ionic-selectable
-              [(ngModel)]="companySelected"
-              [items]="companies"
-              itemValueField="code"
-              itemTextField="name"
-              formControlName="companySelected"
-              hasSearchText="false"
-              headerColor="playgo"
-              groupColor="playgo"
-              modalCssClass="modal-search-playgo"
-              [searchFailText]=" 'campaigns.joinmodal.noItems' | translate"
-              [canSearch]="true"
-              (onSelect)="onSelect($event)"
-            >
+            <ionic-selectable [(ngModel)]="companySelected" [items]="companies" itemValueField="code"
+              itemTextField="name" formControlName="companySelected" hasSearchText="false" headerColor="playgo"
+              groupColor="playgo" modalCssClass="modal-search-playgo"
+              [searchFailText]=" 'campaigns.joinmodal.noItems' | translate" [canSearch]="true"
+              (onSelect)="onSelect($event)">
               <ng-template ionicSelectableTitleTemplate>
                 {{ 'campaigns.detail.companies' | translate }}
               </ng-template>
               <ng-template ionicSelectableCloseButtonTemplate>
-                <ion-icon
-                  name="close-circle"
-                  style="font-size: 24px"
-                ></ion-icon>
+                <ion-icon name="close-circle" style="font-size: 24px"></ion-icon>
               </ng-template>
-              <ng-template
-                ionicSelectableItemIconTemplate
-                let-port="item"
-                let-isPortSelected="isItemSelected"
-              >
-                <ion-icon
-                  [name]="isPortSelected ? 'checkmark-circle' : 'radio-button-off'"
-                  [color]="isPortSelected ? 'light' : null"
-                >
+              <ng-template ionicSelectableItemIconTemplate let-port="item" let-isPortSelected="isItemSelected">
+                <ion-icon [name]="isPortSelected ? 'checkmark-circle' : 'radio-button-off'"
+                  [color]="isPortSelected ? 'light' : null">
                 </ion-icon>
               </ng-template>
             </ionic-selectable>
           </ion-item>
         </ion-col>
       </ion-row>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl?.companySelected?.errors"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl?.companySelected?.errors">
         {{'campaigns.joinmodal.companyRequired'|translate}}
       </div>
       <ion-row class="ion-margin-top">
         <ion-col>
           <ion-item color="playgo">
-            <ion-label position="floating"
-              >{{ 'campaigns.joinmodal.companyPIN' | translate }}</ion-label
-            >
-            <ion-input
-              [(ngModel)]="companyPIN"
-              formControlName="companyPIN"
-            ></ion-input>
-            <ion-icon
-              class="popup-icon"
-              name="information-circle-outline"
-              slot="end"
-              (click)="openCodeInfoPopup()"
-            >
+            <ion-label position="floating">{{ 'campaigns.joinmodal.companyPIN' | translate }}</ion-label>
+            <ion-input [(ngModel)]="companyPIN" formControlName="companyPIN"></ion-input>
+            <ion-icon class="popup-icon" name="information-circle-outline" slot="end" (click)="openCodeInfoPopup()">
             </ion-icon>
           </ion-item>
         </ion-col>
       </ion-row>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && isSubmitted && errorControl?.companyPIN?.errors"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && isSubmitted && errorControl?.companyPIN?.errors">
         {{'campaigns.joinmodal.pinRequired'|translate}}
       </div>
       <ion-row class="ion-margin-top" *ngIf="privacy">
         <ion-col size="10">
-          <ion-label class="privacy-info"
-            >{{'campaigns.joinmodal.privacyLink'|translate}}</ion-label
-          >
+          <ion-label class="privacy-info">{{'campaigns.joinmodal.privacyLink'|translate}}</ion-label>
         </ion-col>
         <ion-col class="ion-text-center" (click)="openPrivacyPopup()">
-          <ion-icon
-            class="popup-icon"
-            name="information-circle-outline"
-          ></ion-icon>
+          <ion-icon class="popup-icon" name="information-circle-outline"></ion-icon>
         </ion-col>
       </ion-row>
       <ion-row class="ion-margin-top" *ngIf="privacy">
         <ion-col>
           <ion-item color="playgo">
-            <ion-checkbox
-              slot="start"
-              color="playgo"
-              formControlName="privacy"
-            ></ion-checkbox>
-            <ion-label class="ion-text-wrap"
-              >{{'campaigns.joinmodal.privacy'|translate}}</ion-label
-            >
+            <ion-checkbox slot="start" color="playgo" formControlName="privacy"></ion-checkbox>
+            <ion-label class="ion-text-wrap">{{'campaigns.joinmodal.privacy'|translate}}</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl?.privacy?.errors"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl?.privacy?.errors">
         {{'campaigns.joinmodal.privacyRequired'|translate}}
       </div>
       <ion-row class="ion-margin-top" *ngIf="rules">
         <ion-col size="10">
-          <ion-label class="privacy-info"
-            >{{'campaigns.joinmodal.rulesLink'|translate}}</ion-label
-          >
+          <ion-label class="privacy-info">{{'campaigns.joinmodal.rulesLink'|translate}}</ion-label>
         </ion-col>
         <ion-col class="ion-text-center" (click)="openRulesPopup()">
-          <ion-icon
-            class="popup-icon"
-            name="information-circle-outline"
-          ></ion-icon>
+          <ion-icon class="popup-icon" name="information-circle-outline"></ion-icon>
         </ion-col>
       </ion-row>
       <ion-row class="ion-margin-top" *ngIf="rules">
         <ion-col>
           <ion-item color="playgo">
-            <ion-checkbox
-              slot="start"
-              color="playgo"
-              formControlName="rules"
-            ></ion-checkbox>
-            <ion-label class="ion-text-wrap"
-              >{{'campaigns.joinmodal.rules'|translate}}</ion-label
-            >
+            <ion-checkbox slot="start" color="playgo" formControlName="rules"></ion-checkbox>
+            <ion-label class="ion-text-wrap">{{'campaigns.joinmodal.rules'|translate}}</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl?.rules?.errors"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl?.rules?.errors">
         {{'campaigns.joinmodal.rulesRequired'|translate}}
       </div>
       <ion-row>
         <ion-col>
-          <ion-button color="light" type="submit" expand="block"
-            >{{'campaigns.joinmodal.join'|translate}}</ion-button
-          >
+          <ion-button color="light" type="submit" expand="block">{{'campaigns.joinmodal.confirm'|translate}}
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

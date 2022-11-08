@@ -295,7 +295,8 @@
         "header": "Codice dipendente",
         "message": "Codice univoco rilasciato al dipendente"
       },
-      "join": "Iscriviti"
+      "join": "Iscriviti",
+      "confirm": "Conferma iscrizione"
     },
     "unsub": {
       "title": "Disiscrizione",
