@@ -338,13 +338,13 @@
     "homewidgets": {
       "personal": {
         "active": "Attivo dal: {{startDate}}",
-        "totalco2": "CO2 risparmiata: {{totalCO2}} Kg",
-        "weeklyco2": "CO2 settimanale: {{weeklyCO2}} Kg",
+        "totalco2": "CO₂ risparmiata: {{totalCO2}} Kg",
+        "weeklyco2": "CO₂ settimanale: {{weeklyCO2}} Kg",
         "weeklyRanking": "Posizione in classifica: {{weeklyRanking}}"
       },
       "stat": {
-        "weekposition": " in classifica settimanale",
-        "totalposition": " in classifica complessiva",
+        "weekposition": "Settimanale:",
+        "totalposition": "Globale:",
         "weekvalue": "<b>{{value}} {{unit}}</b> settimanale",
         "monthvalue": "<b>{{value}} {{unit}}</b> mensile",
         "totalvalue": "<b>{{value}} {{unit}}</b> complessivo",
@@ -352,8 +352,8 @@
         "levelName": "<b>Livello : {{levelName}}</b>",
         "score": "Punti: {{score}}",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
-        "status": "{{score}} Kg",
-        "record": "Record: {{record}} Kg",
+        "status": "{{score}} Kg CO₂ risparmiata",
+        "record": "{{record}} Record Settimanale",
         "today": "Oggi",
         "lastmonth": "{{lastmonth}}:",
         "max": " max",

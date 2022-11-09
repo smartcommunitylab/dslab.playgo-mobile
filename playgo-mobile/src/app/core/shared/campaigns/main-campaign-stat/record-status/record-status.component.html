@@ -4,25 +4,20 @@
       <ion-col size="6">
         <span class="status">{{
           "campaigns.homewidgets.stat.status"
-            | translate: { score: status.value | localNumber }
-        }}</span>
+          | translate: { score: status.value | localNumber }
+          }}</span>
       </ion-col>
       <ion-col size="6" class="ion-text-end">
-        <span class="record"
-          >{{
-            "campaigns.homewidgets.stat.record"
-              | translate: { record: record.value | localNumber }
+        <span class="record">{{
+          "campaigns.homewidgets.stat.record"
+          | translate: { record: record.value | localNumber }
           }}
         </span>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="progress-bar">
-        <ion-progress-bar
-          class="level-bar"
-          [color]="type"
-          [value]="status?.value / record.value"
-        ></ion-progress-bar>
+        <ion-progress-bar class="level-bar" [color]="type" [value]="status?.value / record.value"></ion-progress-bar>
       </ion-col>
     </ion-row>
   </ion-grid>

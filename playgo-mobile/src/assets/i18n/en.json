@@ -338,13 +338,13 @@
     "homewidgets": {
       "personal": {
         "active": "Active from: {{startDate}}",
-        "totalco2": "Total CO2: {{totalCO2}}",
-        "weeklyco2": "Weekly CO2: {{weeklyCO2}}",
+        "totalco2": "Total CO₂: {{totalCO2}}",
+        "weeklyco2": "Weekly CO₂: {{weeklyCO2}}",
         "weeklyRanking": "Weekly ranking: {{weeklyRanking}}"
       },
       "stat": {
-        "weekposition": " weekly position",
-        "totalposition": " total position",
+        "weekposition": "Week:",
+        "totalposition": "Total:",
         "weekvalue": "<b>{{value}} weekly value</b>",
         "monthvalue": "<b>{{value}} monthly value</b>",
         "totalvalue": "<b>{{value}} total value</b>",
@@ -352,7 +352,7 @@
         "levelName": "<b>Level : {{levelName}}</b>",
         "score": "Points: {{score}}",
         "emptystatus": "If you want to see your level and points start to play!",
-        "status": "{{score}} Kg",
+        "status": "{{score}} Kg CO₂ saved",
         "record": "{{record}} weekly record",
         "today": "Today",
         "lastmonth": "{{lastmonth}}:",
