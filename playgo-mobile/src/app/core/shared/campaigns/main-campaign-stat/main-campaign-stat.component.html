@@ -1,31 +1,66 @@
-<div>
+<div class="container">
   <ion-grid>
-    <ion-row *ngIf="showRanking">
-      <ion-col size="10" class="ranking">
-        <ng-container *ngIf="reportWeekStat">
-          <span class="ion-text-left">
-            <app-ordinal-number [value]="reportWeekStat?.position"></app-ordinal-number>
-            {{ "campaigns.homewidgets.stat.weekposition" | translate }}
-          </span>
-        </ng-container>
-        <ng-container *ngIf="reportWeekStat && reportTotalStat">
-          <span class="ion-text-left">-</span>
-        </ng-container>
-        <ng-container *ngIf="reportTotalStat" class="ion-text-left">
-          <app-ordinal-number [value]="reportTotalStat?.position"></app-ordinal-number>
-          <span>
-            {{ "campaigns.homewidgets.stat.totalposition" | translate }}
-          </span>
-        </ng-container>
-      </ion-col>
-    </ion-row>
-    <ion-row>
+    <ion-row class="min-height">
       <ion-col size="2" *ngIf="reportWeekStat || reportMonthStat || reportTotalStat">
-        <app-icon [name]="
+        <app-icon class="icon-header" *ngIf="showRanking; else typeIcon" name="leaderboard"></app-icon>
+        <ng-template #typeIcon>
+          <app-icon class="icon-header" [name]="
             campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
           "></app-icon>
+        </ng-template>
       </ion-col>
-      <ion-col class="report">
+      <ion-col size="10" *ngIf="showRanking" class="ranking">
+        <ng-container *ngIf="reportWeekStat">
+          <ion-row>
+            <ion-col size="5">
+              <span class="ion-text-left">
+                {{ "campaigns.homewidgets.stat.weekposition" | translate }}
+              </span>
+            </ion-col>
+
+            <ion-col size="auto">
+              <app-ordinal-number [value]="reportWeekStat?.position"></app-ordinal-number>
+            </ion-col>
+            <ion-col size="auto">
+              -
+            </ion-col>
+            <ion-col size="auto">
+              <p>{{getValueByUnit(reportWeekStat?.value,unit) | localNumber}} {{unit}}
+              </p>
+            </ion-col>
+            <ion-col class="ion-text-end">
+              <app-icon class="icon-size-normal" [name]="
+        campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
+      "></app-icon>
+            </ion-col>
+          </ion-row>
+        </ng-container>
+        <ng-container *ngIf="reportTotalStat" class="ion-text-left">
+          <ion-row>
+            <ion-col size="5">
+              <span>
+                {{ "campaigns.homewidgets.stat.totalposition" | translate }} </span>
+            </ion-col>
+            <ion-col size="auto">
+              <app-ordinal-number [value]="reportTotalStat?.position"></app-ordinal-number>
+            </ion-col>
+            <ion-col size="auto">
+              -
+            </ion-col>
+            <ion-col size="auto">
+              <p>{{getValueByUnit(reportTotalStat?.value,unit) | localNumber}} {{unit}}
+              </p>
+            </ion-col>
+            <ion-col class="ion-text-end">
+              <app-icon class="icon-size-normal" [name]="
+            campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
+          "></app-icon>
+            </ion-col>
+
+          </ion-row>
+        </ng-container>
+      </ion-col>
+      <ion-col *ngIf="!showRanking" class="report">
         <p *ngIf="reportWeekStat" class="ion-text-left" [innerHtml]="
             'campaigns.homewidgets.stat.weekvalue'
               | translate: { value: getValueByUnit(reportWeekStat?.value,unit) | localNumber, unit: unit}
