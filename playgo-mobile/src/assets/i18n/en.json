@@ -233,7 +233,8 @@
       "invalid": "Invalid",
       "pending": "Pending",
       "not_synchronized": "Not synchronized",
-      "not_finished": "Ongoing"
+      "not_finished": "Ongoing",
+      "validation": "Validating"
     },
     "historic_values_offline": "To load historic trips, you have to be online."
   },

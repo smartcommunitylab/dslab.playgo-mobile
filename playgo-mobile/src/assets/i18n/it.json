@@ -233,7 +233,8 @@
       "invalid": "Non valido",
       "pending": "In attesa",
       "not_synchronized": "Non sincronizzato",
-      "not_finished": "In corso"
+      "not_finished": "In corso",
+      "validation": "In validazione"
     },
     "historic_values_offline": "Per caricare i viaggi storici, devi essere online."
   },

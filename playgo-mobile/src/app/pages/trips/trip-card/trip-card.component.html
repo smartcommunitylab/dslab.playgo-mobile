@@ -1,11 +1,6 @@
 <ion-row button (click)="openDetail()" detail>
   <ion-col size="4">
-    <div
-      *ngIf="trip.modeType"
-      class="ion-text-start"
-      style="font-size: 24px"
-      class="trip-mode"
-    >
+    <div *ngIf="trip.modeType" class="ion-text-start" style="font-size: 24px" class="trip-mode">
       <app-icon [name]="getTransportTypeIcon(trip.modeType)"></app-icon>
       <span>
         {{ getTransportTypeLabel(trip.modeType) | translate }}
@@ -26,20 +21,27 @@
     {{ "km" | translate }} - {{ durationLabel }}
   </ion-col>
   <ion-col class="ion-text-end">
-    <ion-text color="success" *ngIf="trip.status === Validity.VALID">{{
-      validCampaignsLabel
-    }}</ion-text>
+    <ion-text [color]="oneCampaignUnassigned(trip)? 'warning' : 'success'" *ngIf="trip.status === Validity.VALID">
+      <span *ngIf="oneCampaignUnassigned(trip);else valid">
+        {{'trip_detail.status.validation'| translate}}
+      </span>
+      <ng-template #valid>
+        <span>{{
+          validCampaignsLabel
+          }}</span>
+      </ng-template>
+    </ion-text>
     <ion-text color="danger" *ngIf="trip.status === Validity.INVALID">{{
       "trip_detail.status.invalid" | translate
-    }}</ion-text>
+      }}</ion-text>
     <ion-text color="warning" *ngIf="trip.status === Validity.PENDING">{{
       "trip_detail.status.pending" | translate
-    }}</ion-text>
+      }}</ion-text>
     <ion-text color="warning" *ngIf="trip.status === 'NOT_SYNCHRONIZED'">{{
       "trip_detail.status.not_synchronized" | translate
-    }}</ion-text>
-    <ion-text color="warning" *ngIf="trip.status === 'ONGOING'">{{
+      }}</ion-text>
+    <ion-text color="warning" *ngIf="trip.status === 'ONGOING' ">{{
       "trip_detail.status.not_finished" | translate
-    }}</ion-text>
+      }}</ion-text>
   </ion-col>
 </ion-row>

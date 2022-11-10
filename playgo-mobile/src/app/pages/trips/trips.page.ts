@@ -1,42 +1,31 @@
 import {
-  AfterViewInit,
   Component,
   OnInit,
-  TrackByFunction,
 } from '@angular/core';
 import {
-  clone,
-  cloneDeep,
   first,
   isEqual,
   last,
-  some,
   sortBy,
 } from 'lodash-es';
 import {
   BehaviorSubject,
   combineLatest,
-  EMPTY,
   firstValueFrom,
   from,
   merge,
   Observable,
   of,
-  ReplaySubject,
   Subject,
-  throwError,
 } from 'rxjs';
 import {
   catchError,
   concatMap,
   distinctUntilChanged,
-  filter,
   map,
-  scan,
   shareReplay,
   startWith,
   switchMap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import {
   PageableRequest,
@@ -44,7 +33,6 @@ import {
 } from 'src/app/core/shared/infinite-scroll/infinite-scroll.component';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import {
-  TransportType,
   transportTypeLabels,
 } from 'src/app/core/shared/tracking/trip.model';
 import {
@@ -53,7 +41,6 @@ import {
   trackByProperty,
 } from 'src/app/core/shared/utils';
 import {
-  toServerDateOnly,
   toServerDateTime,
 } from 'src/app/core/shared/time.utils';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
@@ -127,11 +114,11 @@ export class TripsPage implements OnInit {
     map((color) =>
       color
         ? {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            'border-bottom': '5px solid',
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            'border-bottom-color': 'var(--ion-color-' + color + ')',
-          }
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          'border-bottom': '5px solid',
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          'border-bottom-color': 'var(--ion-color-' + color + ')',
+        }
         : {}
     )
   );
@@ -297,9 +284,9 @@ export class TripsPage implements OnInit {
     private alertService: AlertService,
     private campaignService: CampaignService,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   private groupTripsAndFilter(
     allTrips: ServerOrLocalTrip[],

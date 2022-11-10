@@ -43,7 +43,7 @@ export class TripCardComponent implements OnInit, OnChanges {
     private navController: NavController,
     private translateService: TranslateService,
     private userService: UserService
-  ) {}
+  ) { }
 
   openDetail() {
     if (this.isLocal(this.trip)) {
@@ -58,7 +58,9 @@ export class TripCardComponent implements OnInit, OnChanges {
   isLocal(trip: ServerOrLocalTrip): boolean {
     return trip.status === 'NOT_SYNCHRONIZED' || trip.status === 'ONGOING';
   }
-
+  oneCampaignUnassigned(trip: ServerOrLocalTrip): boolean {
+    return trip.campaigns?.some(campaign => campaign.scoreStatus === 'UNASSIGNED');
+  }
   ngOnInit() {
     if (!this.trip) {
       throw new Error('Trip is not defined');

@@ -77,9 +77,9 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
         icon: icon({
           ...Icon.Default.prototype.options,
           // TODO: set proper svg icon
-          iconUrl: 'assets/marker-icon.png',
-          iconRetinaUrl: 'assets/marker-icon-2x.png',
-          shadowUrl: 'assets/marker-shadow.png',
+          iconUrl: 'assets/images/map/markerStart-icon.png',
+          iconRetinaUrl: 'assets/images/map/markerStart-icon-2x.png',
+          shadowUrl: 'assets/images/map/marker-shadow.png',
         }),
       })
     )
@@ -91,9 +91,9 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
         icon: icon({
           ...Icon.Default.prototype.options,
           // TODO: set proper svg icon
-          iconUrl: 'assets/marker-icon.png',
-          iconRetinaUrl: 'assets/marker-icon-2x.png',
-          shadowUrl: 'assets/marker-shadow.png',
+          iconUrl: 'assets/images/map/markerStop-icon.png',
+          iconRetinaUrl: 'assets/images/map/markerStop-icon-2x.png',
+          shadowUrl: 'assets/images/map/marker-shadow.png',
         }),
       })
     )
@@ -125,7 +125,7 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
 
   private componentDestroyed$ = new Subject<boolean>();
 
-  constructor() {}
+  constructor() { }
 
   onMapReady(mapInstance: Map) {
     this.initMap(mapInstance);
@@ -143,7 +143,7 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnDestroy() {
     this.componentDestroyed$.next(true);

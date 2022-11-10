@@ -1,5 +1,6 @@
 .container {
   margin-top: 24px;
+  color: black;
   ion-grid {
     .min-height {
       min-height: 100px;
@@ -9,6 +10,9 @@
       flex-direction: column;
       justify-content: center;
     }
+    app-ordinal-number {
+      font-weight: bold;
+    }
     .report {
       display: flex;
       flex-direction: column;
@@ -17,7 +21,6 @@
     }
     .ranking {
       font-size: 14px;
-      font-weight: bold;
       text-align: left;
       color: var(--dark-grey);
     }
