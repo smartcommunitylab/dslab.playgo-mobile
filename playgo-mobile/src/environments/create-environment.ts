@@ -95,9 +95,9 @@ function getServerUrlConfig(
       api: 'https://backend.playngo.it:443',
       apiPath: '/playandgo/api',
       pgaziendePublicUrl:
-        'https://pgaziendaleprod.platform.smartcommunitylab.it/api/public',
+        'https://pgaziendale.platform.smartcommunitylab.it/api/public',
       pgaziendeUrl:
-        'https://pgaziendaledev.platform.smartcommunitylab.it/api',
+        'https://pgaziendale.platform.smartcommunitylab.it/api',
       hscApi: 'https://hsc.playngo.it/playandgo-hsc/publicapi/',
     };
   }
