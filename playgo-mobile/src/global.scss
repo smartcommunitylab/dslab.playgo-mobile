@@ -187,7 +187,8 @@ ion-segment-button:not(.segment-button-checked) {
   text-overflow: ellipsis;
   padding: 0px;
   text-align: justify;
-  p {
+  white-space: pre-wrap;
+  * {
     display: inline;
   }
 }
