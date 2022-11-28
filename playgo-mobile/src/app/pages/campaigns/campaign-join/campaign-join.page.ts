@@ -31,6 +31,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   campaign?: Campaign;
   imagePath: SafeResourceUrl;
   sub: Subscription;
+  descriptionExpanded = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,7 +62,9 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.changePageSettings();
   }
-
+  clickDescription() {
+    this.descriptionExpanded = !this.descriptionExpanded;
+  }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }

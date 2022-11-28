@@ -259,6 +259,7 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
+    "notStarted": "La campagna non é ancora iniziata",
     "novaliddate": "Il periodo della campagna non risulta valido",
     "noDesc": "Nessuna descrizione fornita",
     "myCampaigns": "Le mie",

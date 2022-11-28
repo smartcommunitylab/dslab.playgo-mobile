@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar color="playgo">
     <ion-buttons slot="end">
-      <ion-button (click)="cancel()"> X </ion-button>
+      <ion-button (click)="cancel()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>
       <span>{{ 'registration.title' | translate }}</span>
@@ -15,184 +17,100 @@
         <ion-col size="4" class="ion-text-center">
           <div class="avatar-container">
             <ion-avatar class="avatar">
-              <img
-                [src]="urlAvatar"
-                title="{{'registration.avatar.title'|translate}}"
-              />
-              <ion-icon
-                class="avatar-cange"
-                name="camera-outline"
-                (click)="changeAvatar()"
-              ></ion-icon>
+              <img [src]="urlAvatar" title="{{'registration.avatar.title'|translate}}" />
+              <ion-icon class="avatar-cange" name="camera-outline" (click)="changeAvatar()"></ion-icon>
             </ion-avatar>
           </div>
         </ion-col>
       </ion-row>
       <ion-item lines="full" color="playgo">
-        <ion-label position="floating"
-          >{{'registration.name'|translate}}</ion-label
-        >
+        <ion-label position="floating">{{'registration.name'|translate}}</ion-label>
         <ion-input type="text" formControlName="name" clearInput></ion-input>
       </ion-item>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.name.errors?.required"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.required">
         <span>{{'registration.form.nameRequired'|translate}}</span>
       </div>
       <ion-item lines="full" color="playgo">
-        <ion-label position="floating"
-          >{{'registration.lastname'|translate}}</ion-label
-        >
-        <ion-input
-          type="text"
-          formControlName="givenName"
-          clearInput
-        ></ion-input>
+        <ion-label position="floating">{{'registration.lastname'|translate}}</ion-label>
+        <ion-input type="text" formControlName="givenName" clearInput></ion-input>
       </ion-item>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.givenName.errors?.required"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.givenName.errors?.required">
         {{'registration.form.lastNameRequired'|translate}}
       </div>
       <ion-item lines="full" color="playgo">
-        <ion-label position="floating"
-          >{{'registration.mail'|translate}}</ion-label
-        >
+        <ion-label position="floating">{{'registration.mail'|translate}}</ion-label>
         <ion-input type="text" formControlName="mail" clearInput></ion-input>
       </ion-item>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.mail.errors?.required"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.mail.errors?.required">
         {{'registration.form.mailRequired'|translate}}
       </div>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.mail.errors?.pattern"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.mail.errors?.pattern">
         <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.mailPattern'|translate}}
       </div>
       <ion-item lines="full" color="playgo ion-invalid">
-        <ion-label position="floating"
-          >{{'registration.nickname'|translate}}</ion-label
-        >
-        <ion-input
-          type="text"
-          formControlName="nickname"
-          clearInput
-        ></ion-input>
+        <ion-label position="floating">{{'registration.nickname'|translate}}</ion-label>
+        <ion-input type="text" formControlName="nickname" clearInput></ion-input>
       </ion-item>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.nickname.errors?.required"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.nickname.errors?.required">
         {{'registration.form.nicknameRequired'|translate}}
       </div>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.nickname.errors?.minlength"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.nickname.errors?.minlength">
         <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.nicknameMinLength'|translate}}
       </div>
       <ion-item lines="full" color="playgo">
         <ion-label>{{'registration.lang.language'|translate}}</ion-label>
-        <ion-select
-          [interfaceOptions]="{ cssClass: 'app-alert' }"
-          placeholder="{{'registration.lang.select'|translate}}"
-          formControlName="language"
-        >
-          <ion-select-option value="it"
-            >{{'registration.lang.it'|translate}}</ion-select-option
-          >
-          <ion-select-option value="en"
-            >{{'registration.lang.en'|translate}}</ion-select-option
-          >
+        <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+          placeholder="{{'registration.lang.select'|translate}}" formControlName="language">
+          <ion-select-option value="it">{{'registration.lang.it'|translate}}</ion-select-option>
+          <ion-select-option value="en">{{'registration.lang.en'|translate}}</ion-select-option>
         </ion-select>
       </ion-item>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.language.errors?.required"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.language.errors?.required">
         {{'registration.form.languageRequired'|translate}}
       </div>
       <ion-item lines="full" color="playgo">
-        <ion-label
-          >{{'registration.territories.territory'|translate}}</ion-label
-        >
-        <ion-select
-          [interfaceOptions]="{ cssClass: 'app-alert' }"
-          placeholder="{{'registration.territories.select'|translate}}"
-          formControlName="territoryId"
-        >
-          <ion-select-option
-            *ngFor="let territory of territoryList"
-            [value]="territory.territoryId"
-          >
-            {{territory.name | languageMap }}</ion-select-option
-          >
+        <ion-label>{{'registration.territories.territory'|translate}}</ion-label>
+        <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+          placeholder="{{'registration.territories.select'|translate}}" formControlName="territoryId">
+          <ion-select-option *ngFor="let territory of territoryList" [value]="territory.territoryId">
+            {{territory.name | languageMap }}</ion-select-option>
         </ion-select>
       </ion-item>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.territoryId.errors?.required"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.territoryId.errors?.required">
         {{'registration.form.territoryRequired'|translate}}
       </div>
       <ion-row class="ion-margin-top">
         <ion-col size="10">
-          <ion-label class="territory-info"
-            >{{'registration.infoTerritory'|translate}}</ion-label
-          >
+          <ion-label class="territory-info">{{'registration.infoTerritory'|translate}}</ion-label>
         </ion-col>
         <ion-col class="ion-text-center" (click)="openTerritoryPopup()">
-          <ion-icon
-            class="popup-icon"
-            name="information-circle-outline"
-          ></ion-icon>
+          <ion-icon class="popup-icon" name="information-circle-outline"></ion-icon>
         </ion-col>
       </ion-row>
       <ion-row class="ion-margin-top">
         <ion-col size="10">
-          <ion-label class="privacy-info"
-            >{{'registration.privacyLink'|translate}}</ion-label
-          >
+          <ion-label class="privacy-info">{{'registration.privacyLink'|translate}}</ion-label>
         </ion-col>
         <ion-col class="ion-text-center" (click)="openPrivacyPopup()">
-          <ion-icon
-            class="popup-icon"
-            name="information-circle-outline"
-          ></ion-icon>
+          <ion-icon class="popup-icon" name="information-circle-outline"></ion-icon>
         </ion-col>
       </ion-row>
       <ion-row class="ion-margin-top">
         <ion-col>
           <ion-item color="playgo">
-            <ion-checkbox
-              slot="start"
-              color="playgo"
-              formControlName="privacy"
-            ></ion-checkbox>
-            <ion-label class="ion-text-wrap"
-              >{{'registration.privacy'|translate}}</ion-label
-            >
+            <ion-checkbox slot="start" color="playgo" formControlName="privacy"></ion-checkbox>
+            <ion-label class="ion-text-wrap">{{'registration.privacy'|translate}}</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
-      <div
-        class="error-message ion-padding"
-        *ngIf="isSubmitted && errorControl.privacy.errors"
-      >
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.privacy.errors">
         {{'registration.form.privacyRequired'|translate}}
       </div>
       <ion-row>
         <ion-col>
-          <ion-button color="light" type="submit" expand="block"
-            >{{'registration.sumbmitButton'|translate}}</ion-button
-          >
+          <ion-button color="light" type="submit" expand="block">{{'registration.sumbmitButton'|translate}}</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
