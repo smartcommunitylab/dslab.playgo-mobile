@@ -18,6 +18,14 @@
   "bike sharing pioneer": "Bike Sharing Badge",
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "appFooter": {
+    "by": "By DSLab, Fondazione Bruno Kessler",
+    "version": "Versione {{version}}",
+    "credits": "Credits",
+    "faq": "FAQ",
+    "help": "Help",
+    "privacy": "Privacy"
+  },
   "firstTime": {
     "title": "Use your location",
     "message": "Play&go collects location data to enable the tracking, validation and rewarding of sustainable trips even when the app is closed or not in use.",
