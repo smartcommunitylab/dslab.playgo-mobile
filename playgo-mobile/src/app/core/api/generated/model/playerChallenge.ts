@@ -9,15 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { ChallengesData } from './challengesData';
 
-export interface Player {
-  deleted?: boolean;
-  familyName?: string;
-  givenName?: string;
-  language?: string;
-  mail?: string;
-  nickname?: string;
+export interface PlayerChallenge {
+  campaignId?: string;
+  challangeId?: string;
+  challengeData?: ChallengesData;
+  id?: string;
   playerId?: string;
-  sendMail?: boolean;
-  territoryId?: string;
 }
