@@ -1,25 +1,28 @@
 <ion-card>
-  <ion-grid>
-    <ion-row>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="first-row">
       <ion-col size="2">
         <app-icon name="homeFooter" class="icon-size-big"></app-icon>
       </ion-col>
       <ion-col *ngIf="(appStatusService.appInfo$ | async)">
-        <div *ngIf="(appStatusService.appInfo$ | async)?.name">{{ (appStatusService.appInfo$ | async)?.name }}</div>
-        <div *ngIf="(appStatusService.appInfo$ | async)?.build">{{ 'appFooter.version'|translate :{ version:
-          (appStatusService.appInfo$ | async)?.build }
-          }}</div>
-        <div>{{ 'appFooter.by' | translate }}
+        <div *ngIf="(appStatusService.appInfo$ | async)?.name"><span>{{ (appStatusService.appInfo$ | async)?.name
+            }}</span></div>
+        <div *ngIf="(appStatusService.appInfo$ | async)?.version"><span class="first-row-text">{{
+            'appFooter.version'|translate :{ version:
+            (appStatusService.appInfo$ | async)?.version }
+            }}</span></div>
+        <div><span class="first-row-text">{{ 'appFooter.by' | translate }}</span>
         </div>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row class="second-row">
       <ion-col>
-        <div (click)="openCredits()">{{ 'appFooter.credits' | translate }}</div>
+        <div (click)="openCredits()"> <span class="second-row-text">{{ 'appFooter.credits' | translate }}</span></div>
       </ion-col>
-      <ion-col><span (click)="openFaq()">{{ 'appFooter.faq' | translate }}</span></ion-col>
-      <ion-col><span (click)="openHelp()">{{ 'appFooter.help' | translate }}</span></ion-col>
-      <ion-col><span (click)="openPrivacy()">{{ 'appFooter.privacy' | translate }}</span></ion-col>
+      <ion-col><span (click)="openFaq()" class="second-row-text">{{ 'appFooter.faq' | translate }}</span></ion-col>
+      <ion-col><span (click)="openHelp()" class="second-row-text">{{ 'appFooter.help' | translate }}</span></ion-col>
+      <ion-col><span (click)="openPrivacy()" class="second-row-text">{{ 'appFooter.privacy' | translate }}</span>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-card>
