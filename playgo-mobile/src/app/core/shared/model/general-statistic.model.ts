@@ -11,7 +11,7 @@ export interface IMeansStat {
   totalTravel: number;
 }
 export class GeneralStatistic implements IGeneralStatistic {
-  constructor(public meansStats: IMeansStat[]) {}
+  constructor(public meansStats: IMeansStat[]) { }
 }
 export class MeansStats implements IMeansStat {
   constructor(
@@ -21,5 +21,5 @@ export class MeansStats implements IMeansStat {
     public totalDistance: number,
     public totalDuration: number,
     public totalTravel: number
-  ) {}
+  ) { }
 }

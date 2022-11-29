@@ -8,13 +8,8 @@ import {
   switchMap,
   combineLatest,
   tap,
-  filter,
-  of,
-  from,
 } from 'rxjs';
 import { CampaignInfo } from 'src/app/core/api/generated/model/campaignInfo';
-import { Player } from 'src/app/core/api/generated/model/player';
-import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
@@ -56,20 +51,20 @@ export class UserProfilePage implements OnInit {
         map(
           //filter my campaigns in order to have only common campaigns
           (otherUserCampaigns) =>
-            // eslint-disable-next-line max-len
-            {
-              const intersection = intersectionWith(
-                otherUserCampaigns.map((campaign) => campaign.campaignId),
-                myCampaigns.map((campaign) => campaign.campaign.campaignId),
-                isEqual
-              );
-              return otherUserCampaigns.filter(
-                (campaign) =>
-                  intersection.includes(campaign.campaignId) &&
-                  campaign.type !== 'personal' &&
-                  campaign.type !== 'company'
-              );
-            }
+          // eslint-disable-next-line max-len
+          {
+            const intersection = intersectionWith(
+              otherUserCampaigns.map((campaign) => campaign.campaignId),
+              myCampaigns.map((campaign) => campaign.campaign.campaignId),
+              isEqual
+            );
+            return otherUserCampaigns.filter(
+              (campaign) =>
+                intersection.includes(campaign.campaignId) &&
+                campaign.type !== 'personal' &&
+                campaign.type !== 'company'
+            );
+          }
         ),
         tapLog('filteredcampaign'),
         ////filter personal campaign and campaigns without challenge 'personal' && 'company'
@@ -85,7 +80,7 @@ export class UserProfilePage implements OnInit {
     private errorService: ErrorService,
     private userService: UserService,
     private campaignService: CampaignService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { Player } from 'src/app/core/api/generated/model/player';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { TransportStats } from 'src/app/core/api/generated/model/transportStats';
 import { ErrorService } from '../../../services/error.service';
 import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
@@ -25,7 +24,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   reportDayStat: CampaignPlacing;
   reportMonthStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
-  lastPaymentStat: TransportStats;
+  lastPaymentStat: any;
   imagePath: string;
   lastPaymentDate: any;
   constructor(
@@ -108,7 +107,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         toServerDateOnly(DateTime.fromMillis(to).toUTC())
       ).toPromise()
       .then((stats) => {
-        this.lastPaymentStat = stats[0] ? stats[0] : { mean: null, period: null, value: 0 } as TransportStats;
+        this.lastPaymentStat = stats[0] ? stats[0] : { mean: null, period: null, value: 0 };
       })
       .catch((error) => {
         if (isOfflineError(error)) {

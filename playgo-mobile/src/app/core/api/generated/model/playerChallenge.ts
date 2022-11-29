@@ -9,12 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { ChallengesData } from './challengesData';
 
-export interface TransportStats {
-  modeType?: string;
-  period?: string;
-  totalCo2?: number;
-  totalDistance?: number;
-  totalDuration?: number;
-  totalTravel?: number;
+export interface PlayerChallenge {
+  campaignId?: string;
+  challangeId?: string;
+  challengeData?: ChallengesData;
+  id?: string;
+  playerId?: string;
 }

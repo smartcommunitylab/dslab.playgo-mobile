@@ -22,7 +22,7 @@ import { UserSignature } from '../model/userSignature';
   providedIn: 'root',
 })
 export class CommunicationAccountControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * getPlayerNotifications
    *

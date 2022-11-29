@@ -19,13 +19,14 @@ import { ChallengeChoice } from '../model/challengeChoice';
 import { ChallengeConceptInfo } from '../model/challengeConceptInfo';
 import { ChallengeStatsInfo } from '../model/challengeStatsInfo';
 import { Invitation } from '../model/invitation';
+import { PlayerChallenge } from '../model/playerChallenge';
 import { Reward } from '../model/reward';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChallengeControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * activateChallengeType
    *
@@ -40,9 +41,9 @@ export class ChallengeControllerService {
     return this.http.request<Array<ChallengeChoice>>(
       'put',
       environment.serverUrl.api +
-        `/playandgo/api/challenge/unlock/${encodeURIComponent(
-          String(challengeName)
-        )}`,
+      `/playandgo/api/challenge/unlock/${encodeURIComponent(
+        String(challengeName)
+      )}`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -90,9 +91,9 @@ export class ChallengeControllerService {
     return this.http.request<any>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/challenge/invitation/status/${encodeURIComponent(
-          String(challengeId)
-        )}/${encodeURIComponent(String(status))}`,
+      `/playandgo/api/challenge/invitation/status/${encodeURIComponent(
+        String(challengeId)
+      )}/${encodeURIComponent(String(status))}`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -115,9 +116,9 @@ export class ChallengeControllerService {
     return this.http.request<any>(
       'put',
       environment.serverUrl.api +
-        `/playandgo/api/challenge/choose/${encodeURIComponent(
-          String(challengeId)
-        )}`,
+      `/playandgo/api/challenge/choose/${encodeURIComponent(
+        String(challengeId)
+      )}`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -256,6 +257,32 @@ export class ChallengeControllerService {
         params: removeNullOrUndefined({
           campaignId,
           filter,
+        }),
+      }
+    );
+  }
+
+  /**
+   * getCompletedChallanges
+   *
+   * @param campaignId campaignId
+   * @param dateFrom UTC millis
+   * @param dateTo UTC millis
+   */
+  public getCompletedChallangesUsingGET(args: {
+    campaignId: string;
+    dateFrom: number;
+    dateTo: number;
+  }): Observable<Array<PlayerChallenge>> {
+    const { campaignId, dateFrom, dateTo } = args;
+    return this.http.request<Array<PlayerChallenge>>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/challenge/completed`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          dateFrom,
+          dateTo,
         }),
       }
     );

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ReportControllerService } from '../../api/generated/controllers/reportController.service';
-import { TransportStats } from '../../api/generated/model/transportStats';
 import { CampaignPlacing } from '../../api/generated/model/campaignPlacing';
 import { GameControllerService } from '../../api/generated/controllers/gameController.service';
 import { TransportStat } from '../../api/generated/model/transportStat';
-import { PlayerStatusReport } from '../../api/generated/model/playerStatusReport';
 import { PlayerGameStatus } from '../../api/generated/model/playerGameStatus';
 import { map, Observable, shareReplay } from 'rxjs';
 
@@ -103,7 +101,7 @@ export class ReportService {
     mean?: string,
     dateFrom?: string,
     dateTo?: string
-  ): Observable<TransportStats[]> {
+  ): Observable<TransportStat[]> {
     return this.reportControllerService.getPlayerTransportStatsUsingGET({
       campaignId,
       playerId,
@@ -113,9 +111,5 @@ export class ReportService {
       dateFrom,
       dateTo,
     });
-  }
-
-  getStatus(): Promise<PlayerStatusReport> {
-    return this.reportControllerService.getPlayerStatusUsingGET().toPromise();
   }
 }
