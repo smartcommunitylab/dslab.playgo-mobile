@@ -13,6 +13,7 @@ import { Image } from './image';
 
 export interface CampaignPlacing {
   avatar?: Image;
+  groupId?: string;
   nickname?: string;
   playerId?: string;
   position?: number;

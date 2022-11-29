@@ -1,4 +1,4 @@
-import { Territory } from './territory.model';
+import { Territory } from '../../api/generated/model/territory';
 
 export interface IStatus {
   playerId?: string;
@@ -18,5 +18,5 @@ export class Status implements IStatus {
     public travels?: number,
     public territory?: Territory,
     public co2?: number
-  ) {}
+  ) { }
 }
