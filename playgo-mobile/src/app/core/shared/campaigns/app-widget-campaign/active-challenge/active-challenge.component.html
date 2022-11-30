@@ -22,11 +22,25 @@
     <app-challenge-bar-status *ngIf="challenge.type !== 'survey'" [status]="challenge.status"
       [rowStatus]="challenge.row_status" [otherStatus]="challenge.otherAttendeeData?.status"
       [challengeType]="challenge.type" [type]="type"></app-challenge-bar-status>
-    <div class="all-challenges" (click)="goToChallenge($event)" [ngStyle]="{
+    <div class="container-challenges">
+
+
+
+      <div (click)="goToChallenge($event)" [ngStyle]="{
       backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
-    }" class="ion-text-end">
-      <span>{{ "challenges.checkallchallenges" | translate }}</span>
-      <ion-icon name="arrow-forward-outline"></ion-icon>
+    }" class="ion-text-end all-challenges">
+        <span>{{ "challenges.checkallchallenges" | translate }}</span>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </div>
+      <div class="third-line line" [ngStyle]="{
+        backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
+      }"></div>
+      <div class="second-line line" [ngStyle]="{
+        backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
+      }"></div>
+      <div class="first-line line" [ngStyle]="{
+        backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
+      }"></div>
     </div>
   </ion-card-content>
 </ion-card>
