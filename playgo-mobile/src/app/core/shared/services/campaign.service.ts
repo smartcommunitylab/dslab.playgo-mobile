@@ -153,7 +153,7 @@ export class CampaignService {
       },
       leaderboard: {
         present: true,
-        api: 'https://hscdev.playngo.it/playandgo-hsc/publicapi',
+        api: environment.serverUrl.hscApi,
       },
       blacklist: {
         present: true,

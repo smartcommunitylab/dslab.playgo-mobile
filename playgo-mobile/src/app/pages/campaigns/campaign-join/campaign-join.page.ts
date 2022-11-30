@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
-  LoadingController,
   ModalController,
   NavController,
 } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
 import { DateTime } from 'luxon';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
-import { UserService } from 'src/app/core/shared/services/user.service';
+import { SchoolApiService } from 'src/app/core/shared/services/school-api.service';
+import { User, UserService } from 'src/app/core/shared/services/user.service';
 import { CompaniesCampaignModalPage } from '../../home/campaign-details/companies-modal/companies.modal';
 import { DetailCampaignModalPage } from '../../home/campaign-details/detail-modal/detail.modal';
 import { JoinCityModalPage } from './join-city/join-city.modal';
@@ -31,8 +30,11 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   campaign?: Campaign;
   imagePath: SafeResourceUrl;
   sub: Subscription;
+  subSchool: Subscription;
+  subProf: Subscription;
   descriptionExpanded = false;
-
+  canSubscribe = false;
+  profile: User;
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
@@ -40,23 +42,64 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private modalController: ModalController,
     private userService: UserService,
-    private pageSettingsService: PageSettingsService
+    private pageSettingsService: PageSettingsService,
+    private schoolApiService: SchoolApiService
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
 
   ngOnInit() {
-    this.sub = this.campaignService
-      .getCampaignDetailsById(this.id)
-      .subscribe((result) => {
-        if (result) {
-          this.campaign = result;
-          this.imagePath = this.campaign.logo.url
-            ? this.campaign.logo.url
-            : 'data:image/jpg;base64,' + this.campaign.logo.image;
-          this.changePageSettings();
-        }
-      });
+    // combineLatest tra profile e campaign per chiamare manageSpecificDetail
+    this.sub = combineLatest([
+      this.userService.userProfile$,
+      this.campaignService
+        .getCampaignDetailsById(this.id),
+    ]).subscribe(([profile, campaign]) => {
+      this.profile = profile;
+      if (campaign) {
+        this.campaign = campaign;
+        this.imagePath = this.campaign.logo.url
+          ? this.campaign.logo.url
+          : 'data:image/jpg;base64,' + this.campaign.logo.image;
+        this.changePageSettings();
+        this.manageSpecificDetail(this.campaign, this.profile?.nickname);
+      }
+    }
+    );
+    // this.subProf = this.userService.userProfile$.subscribe((profile) => {
+    //   this.profile = profile;
+    // });
+    // this.sub = this.campaignService
+    //   .getCampaignDetailsById(this.id)
+    //   .subscribe((result) => {
+    //     if (result) {
+    //       this.campaign = result;
+    //       this.imagePath = this.campaign.logo.url
+    //         ? this.campaign.logo.url
+    //         : 'data:image/jpg;base64,' + this.campaign.logo.image;
+    //       this.changePageSettings();
+    //       this.manageSpecificDetail(this.campaign);
+    //     }
+    //   });
+
+  }
+  manageSpecificDetail(campaign: Campaign, nickname: string) {
+    switch (campaign.type) {
+      case 'city':
+        this.canSubscribe = true;
+        break;
+      case 'school':
+        this.subSchool = this.schoolApiService.canSubscribeUsingGET(this.id, nickname).subscribe(res =>
+          this.canSubscribe = res
+        );
+        break;
+      case 'company':
+        this.canSubscribe = true;
+        break;
+      default:
+        break;
+    }
+
   }
 
   ionViewWillEnter() {
@@ -66,7 +109,8 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     this.descriptionExpanded = !this.descriptionExpanded;
   }
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
+    this.subSchool?.unsubscribe();
   }
 
   private changePageSettings() {
@@ -80,7 +124,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
 
   //based on the type, change interaction
   joinCampaign(campaign: Campaign) {
-    if (!this.campaignIsDisabled(campaign)) {
+    if (!this.campaignNotStarted(campaign)) {
       switch (campaign.type) {
         case 'city':
           this.registerToCity(campaign);
@@ -98,6 +142,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       this.alertService.showToast({ messageString: 'campaigns.novaliddate' });
     }
   }
+
   async openRegisterSchool(campaign: Campaign) {
     const language = this.userService.getLanguage();
     const modal = await this.modalController.create({
@@ -164,7 +209,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   //       }
   //     });
   // }
-  campaignIsDisabled(campaign: Campaign) {
+  campaignNotStarted(campaign: Campaign) {
     // compare campaign.dateFrom and dateTo with now
     const now = DateTime.utc().toMillis();
     if (now > campaign.dateFrom && now < campaign.dateTo) {

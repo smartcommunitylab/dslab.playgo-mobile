@@ -269,6 +269,7 @@
     "join": "Join",
     "novaliddate": "The campaign's period is not valid",
     "notStarted": "The campaign is not yet started",
+    "cantSubscribe": "The campaign is running, but your nickname does not belong to any team. To participate, contact the teacher in charge",
     "noDesc": "No description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
@@ -486,6 +487,7 @@
   "challenges": {
     "challenges": "Challenges",
     "allchallenges": "All the challenges",
+    "checkallchallenges": "Check all challenges",
     "detail": {
       "title": "Challenge details",
       "close": "Close"

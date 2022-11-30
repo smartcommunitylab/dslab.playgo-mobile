@@ -2,7 +2,7 @@
   <div *ngIf="!editable; then homeProfile; else editingProfile"></div>
   <ng-template #homeProfile>
     <div (click)="goToProfile()">
-      <ion-icon class="home-cog" name="cog" color="playgo"></ion-icon>
+      <!-- <ion-icon class="home-cog" name="cog" color="playgo"></ion-icon> -->
       <ion-item lines="none">
         <ion-avatar slot="start" class="avatar">
           <img [src]="profile.avatar.avatarUrl" title="{{ 'registration.avatar.title' | translate }}" />

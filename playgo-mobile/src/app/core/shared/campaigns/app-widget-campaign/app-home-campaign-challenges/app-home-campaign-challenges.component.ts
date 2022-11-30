@@ -22,7 +22,7 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   constructor(
     private challengeService: ChallengeService,
     private navController: NavController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.activeUncompleteChallenges$ =

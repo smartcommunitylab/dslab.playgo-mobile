@@ -15,5 +15,17 @@ ion-card {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    margin: 2px;
+  }
+  ion-icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .all-challenges {
+    width: fit-content;
+    margin-left: auto;
+    span {
+      font-style: italic;
+    }
   }
 }

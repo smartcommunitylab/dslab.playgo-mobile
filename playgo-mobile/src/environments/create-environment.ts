@@ -87,7 +87,7 @@ function getServerUrlConfig(
         'https://pgaziendaledev.platform.smartcommunitylab.it/api/public',
       pgaziendeUrl:
         'https://pgaziendaledev.platform.smartcommunitylab.it/api',
-      hscApi: 'https://hscdev.playngo.it/playandgo-hsc/publicapi/',
+      hscApi: 'https://hscdev.playngo.it/playandgo-hsc',
     };
   }
   if (apiServer === 'prod') {
@@ -98,7 +98,7 @@ function getServerUrlConfig(
         'https://pgaziendale.platform.smartcommunitylab.it/api/public',
       pgaziendeUrl:
         'https://pgaziendale.platform.smartcommunitylab.it/api',
-      hscApi: 'https://hsc.playngo.it/playandgo-hsc/publicapi/',
+      hscApi: 'https://hsc.playngo.it/playandgo-hsc',
     };
   }
   throw Error('unknown apiServer variant: ' + apiServer);

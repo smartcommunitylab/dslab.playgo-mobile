@@ -9,6 +9,7 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 import { Challenge } from 'src/app/pages/challenges/challenges.page';
 import { getImgChallenge } from '../../campaign.utils';
 import { Browser } from '@capacitor/browser';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-active-challenge',
@@ -22,7 +23,7 @@ export class ActiveChallengeComponent implements OnInit, AfterViewInit {
 
   imgChallenge = getImgChallenge;
   type = 'active';
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef, private navController: NavController) { }
   ngAfterViewInit() {
     //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
     this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
@@ -30,7 +31,7 @@ export class ActiveChallengeComponent implements OnInit, AfterViewInit {
       anchor.addEventListener('click', this.handleAnchorClick);
     });
   }
-  ngOnInit() {}
+  ngOnInit() { }
   public handleAnchorClick = (event: Event) => {
     // Prevent opening anchors the default way
     event.preventDefault();
@@ -41,4 +42,10 @@ export class ActiveChallengeComponent implements OnInit, AfterViewInit {
       presentationStyle: 'popover',
     });
   };
+  goToChallenge(event: Event) {
+    if (event && event.stopPropagation) {
+      event.stopPropagation();
+    }
+    this.navController.navigateRoot('/pages/tabs/challenges');
+  }
 }

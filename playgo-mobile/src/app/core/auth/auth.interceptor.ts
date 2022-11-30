@@ -109,6 +109,9 @@ export class AuthInterceptor implements HttpInterceptor {
     if (requestUrl.indexOf('api/profile/campaign/') > 0) {
       return true;
     }
+    if (requestUrl.indexOf('/playandgo-hsc/api') > 0) {
+      return true;
+    }
     const positionIndicator = 'playandgo/api/';
     const position = requestUrl.indexOf(positionIndicator);
     if (position > 0) {

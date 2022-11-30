@@ -7,10 +7,18 @@
         <img [src]="imagePath" title="campaign avatar" />
       </ion-avatar>
       <ion-button class="ion-margin-start ion-margin-end" expand="block" color="playgo" *ngIf="joinIsVisible(campaign)"
-        (click)="joinCampaign(campaign)" [disabled]="campaignIsDisabled(campaign)">{{'campaigns.join'|translate}}
+        (click)="joinCampaign(campaign)" [disabled]="campaignNotStarted(campaign) || !canSubscribe ">
+        {{'campaigns.join'|translate}}
       </ion-button>
       <div class="ion-text-center">
-        <span *ngIf="campaignIsDisabled(campaign)">{{'campaigns.notStarted'|translate}}</span>
+        <span *ngIf="campaignNotStarted(campaign); else started">
+          {{'campaigns.notStarted'|translate}}
+        </span>
+        <ng-template #started>
+          <span *ngIf="!canSubscribe">
+            {{'campaigns.cantSubscribe'|translate}}
+          </span>
+        </ng-template>
       </div>
     </div>
     <ion-card>

@@ -6,17 +6,14 @@
 >
 </app-active-challenge> -->
 <ng-container *ngIf="activeUncompleteChallenges?.length > 0">
-  <app-active-challenge
-    (click)="goToChallenge($event)"
-    [challenge]="activeUncompleteChallenges[0]"
-    [campaign]="campaignContainer"
-  >
+  <app-active-challenge (click)="goToChallenge($event)" [challenge]="activeUncompleteChallenges[0]"
+    [campaign]="campaignContainer">
   </app-active-challenge>
-  <ion-button
+  <!-- <ion-button
     (click)="goToChallenge($event)"
     [color]="campaignContainer.campaign.type"
     expand="block"
   >
     <span>{{ "challenges.allchallenges" | translate }}</span></ion-button
-  >
+  > -->
 </ng-container>
