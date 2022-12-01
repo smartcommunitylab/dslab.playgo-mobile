@@ -22,7 +22,7 @@ import { PageAnnouncement } from '../model/pageAnnouncement';
   providedIn: 'root',
 })
 export class NotificationControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * getNotifications
    *
@@ -45,9 +45,9 @@ export class NotificationControllerService {
     return this.http.request<PageAnnouncement>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/console/notifications/${encodeURIComponent(
-          String(territoryId)
-        )}`,
+      `/playandgo/api/console/notifications/${encodeURIComponent(
+        String(territoryId)
+      )}`,
       {
         params: removeNullOrUndefined({
           page,
@@ -76,9 +76,9 @@ export class NotificationControllerService {
     return this.http.request<Announcement>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/console/notifications/${encodeURIComponent(
-          String(territoryId)
-        )}`,
+      `/playandgo/api/console/notifications/${encodeURIComponent(
+        String(territoryId)
+      )}`,
       {
         body,
         params: removeNullOrUndefined({
