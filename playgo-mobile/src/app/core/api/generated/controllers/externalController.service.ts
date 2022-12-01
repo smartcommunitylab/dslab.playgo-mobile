@@ -18,7 +18,6 @@ import { Observable } from 'rxjs';
 import { CampaignGroupPlacing } from '../model/campaignGroupPlacing';
 import { CampaignSubscription } from '../model/campaignSubscription';
 import { GameStats } from '../model/gameStats';
-import { PageCampaignPlacing } from '../model/pageCampaignPlacing';
 import { PagePlayerInfo } from '../model/pagePlayerInfo';
 import { PlayerInfo } from '../model/playerInfo';
 import { TrackedInstanceInfo } from '../model/trackedInstanceInfo';
@@ -27,7 +26,7 @@ import { TrackedInstanceInfo } from '../model/trackedInstanceInfo';
   providedIn: 'root',
 })
 export class ExternalControllerService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * getCampaignPlacing
    *
@@ -55,31 +54,22 @@ export class ExternalControllerService {
    * getCampaingGroupPlacingByGame
    *
    * @param campaignId campaignId
-   * @param page Results page you want to retrieve (0..N)
-   * @param size Number of records per page
-   * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
   public getCampaingGroupPlacingByGameUsingGET(args: {
     campaignId: string;
-    page: number;
-    size: number;
-    sort?: string;
     dateFrom?: string;
     dateTo?: string;
-  }): Observable<PageCampaignPlacing> {
-    const { campaignId, page, size, sort, dateFrom, dateTo } = args;
-    return this.http.request<PageCampaignPlacing>(
+  }): Observable<Array<CampaignGroupPlacing>> {
+    const { campaignId, dateFrom, dateTo } = args;
+    return this.http.request<Array<CampaignGroupPlacing>>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/ext/campaign/game/group/placing`,
+        `/playandgo/api/ext/campaign/game/group/placing`,
       {
         params: removeNullOrUndefined({
           campaignId,
-          page,
-          size,
-          sort,
           dateFrom,
           dateTo,
         }),
@@ -105,7 +95,7 @@ export class ExternalControllerService {
     return this.http.request<CampaignGroupPlacing>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/ext/campaign/game/group/placing/player`,
+        `/playandgo/api/ext/campaign/game/group/placing/player`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -137,7 +127,7 @@ export class ExternalControllerService {
     return this.http.request<Array<GameStats>>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/ext/campaign/game/group/stats`,
+        `/playandgo/api/ext/campaign/game/group/stats`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -164,35 +154,12 @@ export class ExternalControllerService {
     return this.http.request<PlayerInfo>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/ext/territory/players/${encodeURIComponent(
-        String(playerId)
-      )}`,
+        `/playandgo/api/ext/territory/players/${encodeURIComponent(
+          String(playerId)
+        )}`,
       {
         params: removeNullOrUndefined({
           territory,
-        }),
-      }
-    );
-  }
-
-  /**
-   * getPlayersWithAvatar
-   *
-   * @param territory territory
-   * @param players players
-   */
-  public getPlayersWithAvatarUsingGET(args: {
-    territory: string;
-    players: string;
-  }): Observable<Array<PlayerInfo>> {
-    const { territory, players } = args;
-    return this.http.request<Array<PlayerInfo>>(
-      'get',
-      environment.serverUrl.api + `/playandgo/api/ext/territory/players/avatar`,
-      {
-        params: removeNullOrUndefined({
-          territory,
-          players,
         }),
       }
     );
@@ -214,11 +181,11 @@ export class ExternalControllerService {
     return this.http.request<TrackedInstanceInfo>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/ext/track/${encodeURIComponent(
-        String(campaignId)
-      )}/${encodeURIComponent(String(playerId))}/${encodeURIComponent(
-        String(trackedInstanceId)
-      )}`,
+        `/playandgo/api/ext/track/${encodeURIComponent(
+          String(campaignId)
+        )}/${encodeURIComponent(String(playerId))}/${encodeURIComponent(
+          String(trackedInstanceId)
+        )}`,
       {}
     );
   }
@@ -271,7 +238,7 @@ export class ExternalControllerService {
     return this.http.request<CampaignSubscription>(
       'post',
       environment.serverUrl.api +
-      `/playandgo/api/ext/campaign/subscribe/territory`,
+        `/playandgo/api/ext/campaign/subscribe/territory`,
       {
         body,
         params: removeNullOrUndefined({
@@ -296,7 +263,7 @@ export class ExternalControllerService {
     return this.http.request<CampaignSubscription>(
       'delete',
       environment.serverUrl.api +
-      `/playandgo/api/ext/campaign/unsubscribe/territory`,
+        `/playandgo/api/ext/campaign/unsubscribe/territory`,
       {
         params: removeNullOrUndefined({
           campaignId,

@@ -21,7 +21,7 @@ import { Territory } from '../model/territory';
   providedIn: 'root',
 })
 export class TerritoryControllerService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * deleteTerritory
    *
@@ -33,7 +33,7 @@ export class TerritoryControllerService {
     return this.http.request<Territory>(
       'delete',
       environment.serverUrl.api +
-      `/playandgo/api/territory/${encodeURIComponent(String(territoryId))}`,
+        `/playandgo/api/territory/${encodeURIComponent(String(territoryId))}`,
       {}
     );
   }
@@ -59,7 +59,7 @@ export class TerritoryControllerService {
     return this.http.request<Territory>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/territory/${encodeURIComponent(String(territoryId))}`,
+        `/playandgo/api/territory/${encodeURIComponent(String(territoryId))}`,
       {}
     );
   }

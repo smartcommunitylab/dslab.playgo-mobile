@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 import { CampaignPlacing } from '../model/campaignPlacing';
 import { GameStats } from '../model/gameStats';
 import { PageCampaignPlacing } from '../model/pageCampaignPlacing';
+import { PlayerStatusReport } from '../model/playerStatusReport';
 import { TransportStat } from '../model/transportStat';
 
 @Injectable({
@@ -25,42 +26,6 @@ import { TransportStat } from '../model/transportStat';
 })
 export class ReportControllerService {
   constructor(private http: HttpClient) {}
-  /**
-   * geGroupCampaingPlacingByTransportMode
-   *
-   * @param campaignId campaignId
-   * @param groupId groupId
-   * @param metric metric
-   * @param mean mean
-   * @param dateFrom yyyy-MM-dd
-   * @param dateTo yyyy-MM-dd
-   */
-  public geGroupCampaingPlacingByTransportModeUsingGET(args: {
-    campaignId: string;
-    groupId: string;
-    metric: string;
-    mean?: string;
-    dateFrom?: string;
-    dateTo?: string;
-  }): Observable<CampaignPlacing> {
-    const { campaignId, groupId, metric, mean, dateFrom, dateTo } = args;
-    return this.http.request<CampaignPlacing>(
-      'get',
-      environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/group/transport`,
-      {
-        params: removeNullOrUndefined({
-          campaignId,
-          groupId,
-          metric,
-          mean,
-          dateFrom,
-          dateTo,
-        }),
-      }
-    );
-  }
-
   /**
    * getCampaingPlacingByGame
    *
@@ -70,7 +35,6 @@ export class ReportControllerService {
    * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
-   * @param groupByGroupId groupByGroupId
    */
   public getCampaingPlacingByGameUsingGET(args: {
     campaignId: string;
@@ -79,10 +43,8 @@ export class ReportControllerService {
     sort?: string;
     dateFrom?: string;
     dateTo?: string;
-    groupByGroupId?: boolean;
   }): Observable<PageCampaignPlacing> {
-    const { campaignId, page, size, sort, dateFrom, dateTo, groupByGroupId } =
-      args;
+    const { campaignId, page, size, sort, dateFrom, dateTo } = args;
     return this.http.request<PageCampaignPlacing>(
       'get',
       environment.serverUrl.api + `/playandgo/api/report/campaign/placing/game`,
@@ -94,7 +56,6 @@ export class ReportControllerService {
           sort,
           dateFrom,
           dateTo,
-          groupByGroupId,
         }),
       }
     );
@@ -111,7 +72,6 @@ export class ReportControllerService {
    * @param mean mean
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
-   * @param groupByGroupId groupByGroupId
    */
   public getCampaingPlacingByTransportStatsUsingGET(args: {
     campaignId: string;
@@ -122,19 +82,9 @@ export class ReportControllerService {
     mean?: string;
     dateFrom?: string;
     dateTo?: string;
-    groupByGroupId?: boolean;
   }): Observable<PageCampaignPlacing> {
-    const {
-      campaignId,
-      page,
-      size,
-      metric,
-      sort,
-      mean,
-      dateFrom,
-      dateTo,
-      groupByGroupId,
-    } = args;
+    const { campaignId, page, size, metric, sort, mean, dateFrom, dateTo } =
+      args;
     return this.http.request<PageCampaignPlacing>(
       'get',
       environment.serverUrl.api +
@@ -146,141 +96,6 @@ export class ReportControllerService {
           size,
           sort,
           metric,
-          mean,
-          dateFrom,
-          dateTo,
-          groupByGroupId,
-        }),
-      }
-    );
-  }
-
-  /**
-   * getGroupCampaingPlacingByGame
-   *
-   * @param campaignId campaignId
-   * @param groupId groupId
-   * @param dateFrom yyyy-MM-dd
-   * @param dateTo yyyy-MM-dd
-   */
-  public getGroupCampaingPlacingByGameUsingGET(args: {
-    campaignId: string;
-    groupId: string;
-    dateFrom?: string;
-    dateTo?: string;
-  }): Observable<CampaignPlacing> {
-    const { campaignId, groupId, dateFrom, dateTo } = args;
-    return this.http.request<CampaignPlacing>(
-      'get',
-      environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/group/game`,
-      {
-        params: removeNullOrUndefined({
-          campaignId,
-          groupId,
-          dateFrom,
-          dateTo,
-        }),
-      }
-    );
-  }
-
-  /**
-   * getGroupGameStats
-   *
-   * @param campaignId campaignId
-   * @param groupId groupId
-   * @param groupMode groupMode
-   * @param dateFrom yyyy-MM-dd
-   * @param dateTo yyyy-MM-dd
-   */
-  public getGroupGameStatsUsingGET(args: {
-    campaignId: string;
-    groupId: string;
-    groupMode: string;
-    dateFrom: string;
-    dateTo: string;
-  }): Observable<Array<GameStats>> {
-    const { campaignId, groupId, groupMode, dateFrom, dateTo } = args;
-    return this.http.request<Array<GameStats>>(
-      'get',
-      environment.serverUrl.api + `/playandgo/api/report/group/game/stats`,
-      {
-        params: removeNullOrUndefined({
-          campaignId,
-          groupId,
-          groupMode,
-          dateFrom,
-          dateTo,
-        }),
-      }
-    );
-  }
-
-  /**
-   * getGroupTransportStatsGroupByMean
-   *
-   * @param campaignId campaignId
-   * @param groupId groupId
-   * @param metric metric
-   * @param dateFrom yyyy-MM-dd
-   * @param dateTo yyyy-MM-dd
-   */
-  public getGroupTransportStatsGroupByMeanUsingGET(args: {
-    campaignId: string;
-    groupId: string;
-    metric: string;
-    dateFrom?: string;
-    dateTo?: string;
-  }): Observable<Array<TransportStat>> {
-    const { campaignId, groupId, metric, dateFrom, dateTo } = args;
-    return this.http.request<Array<TransportStat>>(
-      'get',
-      environment.serverUrl.api +
-        `/playandgo/api/report/group/transport/stats/mean`,
-      {
-        params: removeNullOrUndefined({
-          campaignId,
-          groupId,
-          metric,
-          dateFrom,
-          dateTo,
-        }),
-      }
-    );
-  }
-
-  /**
-   * getGroupTransportStats
-   *
-   * @param campaignId campaignId
-   * @param groupId groupId
-   * @param metric metric
-   * @param groupMode groupMode
-   * @param mean mean
-   * @param dateFrom yyyy-MM-dd
-   * @param dateTo yyyy-MM-dd
-   */
-  public getGroupTransportStatsUsingGET(args: {
-    campaignId: string;
-    groupId: string;
-    metric: string;
-    groupMode?: string;
-    mean?: string;
-    dateFrom?: string;
-    dateTo?: string;
-  }): Observable<Array<TransportStat>> {
-    const { campaignId, groupId, metric, groupMode, mean, dateFrom, dateTo } =
-      args;
-    return this.http.request<Array<TransportStat>>(
-      'get',
-      environment.serverUrl.api + `/playandgo/api/report/group/transport/stats`,
-      {
-        params: removeNullOrUndefined({
-          campaignId,
-          groupId,
-          metric,
-          groupMode,
           mean,
           dateFrom,
           dateTo,
@@ -384,6 +199,18 @@ export class ReportControllerService {
           dateTo,
         }),
       }
+    );
+  }
+
+  /**
+   * getPlayerStatus
+   *
+   */
+  public getPlayerStatusUsingGET(): Observable<PlayerStatusReport> {
+    return this.http.request<PlayerStatusReport>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/report/player/status`,
+      {}
     );
   }
 

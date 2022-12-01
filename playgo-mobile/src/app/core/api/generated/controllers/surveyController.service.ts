@@ -21,7 +21,7 @@ import { SurveyRequest } from '../model/surveyRequest';
   providedIn: 'root',
 })
 export class SurveyControllerService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * assignSurveyChallenges
    *

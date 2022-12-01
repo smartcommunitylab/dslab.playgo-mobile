@@ -9,9 +9,15 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Territory } from './territory';
+import { TransportStats } from './transportStats';
 
-export interface Image {
-  contentType?: string;
-  image?: string;
-  url?: string;
+export interface PlayerStatusReport {
+  activityDays?: number;
+  co2?: number;
+  playerId?: string;
+  registrationDate?: number;
+  territory?: Territory;
+  transportStatsList?: Array<TransportStats>;
+  travels?: number;
 }

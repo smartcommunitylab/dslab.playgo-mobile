@@ -191,39 +191,6 @@ export class ConsoleControllerService {
   }
 
   /**
-   * revalidateTrack
-   *
-   * @param territoryId territoryId
-   * @param campaignId campaignId
-   * @param trackedInstanceId trackedInstanceId
-   * @param dateFrom UTC millis
-   * @param dateTo UTC millis
-   */
-  public revalidateTrackUsingGET(args: {
-    territoryId: string;
-    campaignId: string;
-    trackedInstanceId?: string;
-    dateFrom?: number;
-    dateTo?: number;
-  }): Observable<any> {
-    const { territoryId, campaignId, trackedInstanceId, dateFrom, dateTo } =
-      args;
-    return this.http.request<any>(
-      'get',
-      environment.serverUrl.api + `/playandgo/api/console/track/revalidate`,
-      {
-        params: removeNullOrUndefined({
-          territoryId,
-          campaignId,
-          trackedInstanceId,
-          dateFrom,
-          dateTo,
-        }),
-      }
-    );
-  }
-
-  /**
    * searchPlayersByTerritory
    *
    * @param page Results page you want to retrieve (0..N)

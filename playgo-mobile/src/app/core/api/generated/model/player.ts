@@ -11,7 +11,6 @@
  */
 
 export interface Player {
-  deleted?: boolean;
   familyName?: string;
   givenName?: string;
   language?: string;

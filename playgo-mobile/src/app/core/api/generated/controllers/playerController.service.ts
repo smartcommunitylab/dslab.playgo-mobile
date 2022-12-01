@@ -23,7 +23,7 @@ import { PlayerInfo } from '../model/playerInfo';
   providedIn: 'root',
 })
 export class PlayerControllerService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * addPlayer
    *
@@ -65,7 +65,7 @@ export class PlayerControllerService {
     return this.http.request<Player>(
       'delete',
       environment.serverUrl.api +
-      `/playandgo/api/player/${encodeURIComponent(String(playerId))}`,
+        `/playandgo/api/player/${encodeURIComponent(String(playerId))}`,
       {}
     );
   }
@@ -96,7 +96,7 @@ export class PlayerControllerService {
     return this.http.request<Player>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/player/${encodeURIComponent(String(playerId))}`,
+        `/playandgo/api/player/${encodeURIComponent(String(playerId))}`,
       {}
     );
   }

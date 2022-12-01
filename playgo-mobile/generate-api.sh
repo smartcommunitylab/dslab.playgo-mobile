@@ -54,18 +54,6 @@ java -jar \
   --additional-properties modelPropertyNaming=original \
 ;
 
-# generate using custom template. We are overriding just one file.
-java -jar \
-  swagger-codegen-cli.jar \
-  generate \
-  -i https://hscdev.playngo.it/playandgo-hsc/v3/api-docs \
-  -l typescript-angular \
-  --template-dir ./src/app/core/api/templates/ \
-  -o ./src/app/core/api/generated \
-  --type-mappings Date=number \
-  --additional-properties modelPropertyNaming=original \
-;
-
 # clean unwanted files
 
 rm ./src/app/core/api/generated/*.*
@@ -83,4 +71,4 @@ mv ./src/app/core/api/generated/api ./src/app/core/api/generated/controllers
 
 # formatting
 npm run prettier ./src/app/core/api/generated/ -- --write
-# npm run eslint ./src/app/core/api/generated/ -- --fix
+npm run eslint ./src/app/core/api/generated/ -- --fix

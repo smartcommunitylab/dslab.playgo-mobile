@@ -10,8 +10,11 @@
  * Do not edit the class manually.
  */
 
-export interface Image {
-  contentType?: string;
-  image?: string;
-  url?: string;
+export interface TransportStats {
+  modeType?: string;
+  period?: string;
+  totalCo2?: number;
+  totalDistance?: number;
+  totalDuration?: number;
+  totalTravel?: number;
 }

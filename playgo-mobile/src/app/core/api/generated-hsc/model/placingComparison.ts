@@ -9,15 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Image } from './image';
-import { TeamMember } from './teamMember';
+import { CampaignPlacing } from './campaignPlacing';
 
-export interface PlayerTeam {
-  avatar?: Image;
-  customData?: any;
-  expected?: number;
-  id?: string;
-  initiativeId?: string;
-  members?: Array<TeamMember>;
-  owner?: string;
+export interface PlacingComparison { 
+    myPlacing?: CampaignPlacing;
+    nextPlacing?: CampaignPlacing;
+    prevPlacing?: CampaignPlacing;
 }
