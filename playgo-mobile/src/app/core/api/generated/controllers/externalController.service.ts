@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 import { CampaignGroupPlacing } from '../model/campaignGroupPlacing';
 import { CampaignSubscription } from '../model/campaignSubscription';
 import { GameStats } from '../model/gameStats';
+import { PageCampaignPlacing } from '../model/pageCampaignPlacing';
 import { PagePlayerInfo } from '../model/pagePlayerInfo';
 import { PlayerInfo } from '../model/playerInfo';
 import { TrackedInstanceInfo } from '../model/trackedInstanceInfo';
@@ -42,7 +43,7 @@ export class ExternalControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/ext/campaign/game/placing`,
       {
-        body,
+        body: body,
         params: removeNullOrUndefined({
           campaignId,
         }),
@@ -54,22 +55,31 @@ export class ExternalControllerService {
    * getCampaingGroupPlacingByGame
    *
    * @param campaignId campaignId
+   * @param page Results page you want to retrieve (0..N)
+   * @param size Number of records per page
+   * @param sort Sorting option: field,[asc,desc]
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
   public getCampaingGroupPlacingByGameUsingGET(args: {
     campaignId: string;
+    page: number;
+    size: number;
+    sort?: string;
     dateFrom?: string;
     dateTo?: string;
-  }): Observable<Array<CampaignGroupPlacing>> {
-    const { campaignId, dateFrom, dateTo } = args;
-    return this.http.request<Array<CampaignGroupPlacing>>(
+  }): Observable<PageCampaignPlacing> {
+    const { campaignId, page, size, sort, dateFrom, dateTo } = args;
+    return this.http.request<PageCampaignPlacing>(
       'get',
       environment.serverUrl.api +
         `/playandgo/api/ext/campaign/game/group/placing`,
       {
         params: removeNullOrUndefined({
           campaignId,
+          page,
+          size,
+          sort,
           dateFrom,
           dateTo,
         }),
@@ -166,6 +176,29 @@ export class ExternalControllerService {
   }
 
   /**
+   * getPlayersWithAvatar
+   *
+   * @param territory territory
+   * @param players players
+   */
+  public getPlayersWithAvatarUsingGET(args: {
+    territory: string;
+    players: string;
+  }): Observable<Array<PlayerInfo>> {
+    const { territory, players } = args;
+    return this.http.request<Array<PlayerInfo>>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/ext/territory/players/avatar`,
+      {
+        params: removeNullOrUndefined({
+          territory,
+          players,
+        }),
+      }
+    );
+  }
+
+  /**
    * getTrackedInstanceInfo
    *
    * @param campaignId campaignId
@@ -240,7 +273,7 @@ export class ExternalControllerService {
       environment.serverUrl.api +
         `/playandgo/api/ext/campaign/subscribe/territory`,
       {
-        body,
+        body: body,
         params: removeNullOrUndefined({
           campaignId,
           nickname,

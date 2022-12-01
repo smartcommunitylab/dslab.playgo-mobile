@@ -15,34 +15,59 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { SurveyRequest } from '../model/surveyRequest';
-
 @Injectable({
   providedIn: 'root',
 })
-export class SurveyControllerService {
+export class AdminControllerService {
   constructor(private http: HttpClient) {}
   /**
-   * assignSurveyChallenges
+   * uploadCompanyCampaignSubscription
    *
+   * @param territoryId territoryId
    * @param campaignId campaignId
    * @param body
-   * @param playerIds playerIds
    */
-  public assignSurveyChallengesUsingPOST(args: {
+  public uploadCompanyCampaignSubscriptionUsingPOST(args: {
+    territoryId: string;
     campaignId: string;
-    body?: SurveyRequest;
-    playerIds?: string;
-  }): Observable<any> {
-    const { campaignId, body, playerIds } = args;
-    return this.http.request<any>(
+    body?: Object;
+  }): Observable<Array<string>> {
+    const { territoryId, campaignId, body } = args;
+    return this.http.request<Array<string>>(
       'post',
-      environment.serverUrl.api + `/playandgo/api/survey/assign`,
+      environment.serverUrl.api +
+        `/playandgo/api/admin/company/subscribe/upload`,
       {
         body: body,
         params: removeNullOrUndefined({
+          territoryId,
           campaignId,
-          playerIds,
+        }),
+      }
+    );
+  }
+
+  /**
+   * uploadPlayers
+   *
+   * @param territoryId territoryId
+   * @param lang lang
+   * @param body
+   */
+  public uploadPlayersUsingPOST(args: {
+    territoryId: string;
+    lang: string;
+    body?: Object;
+  }): Observable<Array<string>> {
+    const { territoryId, lang, body } = args;
+    return this.http.request<Array<string>>(
+      'post',
+      environment.serverUrl.api + `/playandgo/api/admin/player/upload`,
+      {
+        body: body,
+        params: removeNullOrUndefined({
+          territoryId,
+          lang,
         }),
       }
     );

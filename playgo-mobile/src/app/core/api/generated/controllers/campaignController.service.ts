@@ -38,7 +38,7 @@ export class CampaignControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/campaign`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -61,7 +61,7 @@ export class CampaignControllerService {
           String(campaignId)
         )}/survey`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -240,7 +240,7 @@ export class CampaignControllerService {
           String(campaignId)
         )}/webhook`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -263,7 +263,7 @@ export class CampaignControllerService {
           String(campaignId)
         )}/subscribe`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -296,7 +296,7 @@ export class CampaignControllerService {
       'put',
       environment.serverUrl.api + `/playandgo/api/campaign`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -319,7 +319,7 @@ export class CampaignControllerService {
           String(campaignId)
         )}/banner`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -342,7 +342,7 @@ export class CampaignControllerService {
           String(campaignId)
         )}/logo`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -365,7 +365,7 @@ export class CampaignControllerService {
           String(campaignId)
         )}/reward`,
       {
-        body,
+        body: body,
       }
     );
   }
@@ -388,7 +388,7 @@ export class CampaignControllerService {
           String(campaignId)
         )}/weekconf`,
       {
-        body,
+        body: body,
       }
     );
   }

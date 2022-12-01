@@ -96,7 +96,7 @@ export class TrackControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/track/player/geolocations`,
       {
-        body,
+        body: body,
       }
     );
   }
