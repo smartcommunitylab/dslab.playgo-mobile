@@ -25,7 +25,7 @@ import { PlayerTeam } from '../model/playerTeam';
   providedIn: 'root',
 })
 export class PlayerTeamControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * candidates
    *
@@ -46,9 +46,9 @@ export class PlayerTeamControllerService {
     return this.http.request<PagePlayerInfo>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/team/candidates`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/team/candidates`,
       {
         params: removeNullOrUndefined({
           page,
@@ -74,9 +74,9 @@ export class PlayerTeamControllerService {
     return this.http.request<boolean>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/player/subscribe/check`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/player/subscribe/check`,
       {
         params: removeNullOrUndefined({
           nickname,
@@ -99,9 +99,9 @@ export class PlayerTeamControllerService {
     return this.http.request<any>(
       'delete',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/team/${encodeURIComponent(String(teamId))}`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/team/${encodeURIComponent(String(teamId))}`,
       {}
     );
   }
@@ -115,9 +115,9 @@ export class PlayerTeamControllerService {
     return this.http.request<Initiative>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/model`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/model`,
       {}
     );
   }
@@ -136,9 +136,9 @@ export class PlayerTeamControllerService {
     return this.http.request<PlayerTeam>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/team/${encodeURIComponent(String(teamId))}/my`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/team/${encodeURIComponent(String(teamId))}/my`,
       {}
     );
   }
@@ -154,9 +154,9 @@ export class PlayerTeamControllerService {
     return this.http.request<Array<PlayerTeam>>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/teams`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/teams`,
       {}
     );
   }
@@ -175,9 +175,9 @@ export class PlayerTeamControllerService {
     return this.http.request<Array<PlayerInfo>>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/team/${encodeURIComponent(String(teamId))}/info`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/team/${encodeURIComponent(String(teamId))}/info`,
       {}
     );
   }
@@ -196,9 +196,9 @@ export class PlayerTeamControllerService {
     return this.http.request<PlayerTeam>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/team/${encodeURIComponent(String(teamId))}/public`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/team/${encodeURIComponent(String(teamId))}/public`,
       {}
     );
   }
@@ -212,7 +212,7 @@ export class PlayerTeamControllerService {
     return this.http.request<Avatar>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/team/${encodeURIComponent(String(teamId))}/avatar`,
+      `/playandgo-hsc/api/team/${encodeURIComponent(String(teamId))}/avatar`,
       {}
     );
   }
@@ -238,9 +238,9 @@ export class PlayerTeamControllerService {
     return this.http.request<boolean>(
       'get',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/admin`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/admin`,
       {}
     );
   }
@@ -259,11 +259,11 @@ export class PlayerTeamControllerService {
     return this.http.request<Initiative>(
       'put',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -282,11 +282,11 @@ export class PlayerTeamControllerService {
     return this.http.request<PlayerTeam>(
       'post',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/team`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/team`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -305,9 +305,9 @@ export class PlayerTeamControllerService {
     return this.http.request<Initiative>(
       'put',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/create/${encodeURIComponent(String(value))}`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/create/${encodeURIComponent(String(value))}`,
       {}
     );
   }
@@ -326,9 +326,9 @@ export class PlayerTeamControllerService {
     return this.http.request<Initiative>(
       'put',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/edit/${encodeURIComponent(String(value))}`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/edit/${encodeURIComponent(String(value))}`,
       {}
     );
   }
@@ -347,9 +347,9 @@ export class PlayerTeamControllerService {
     return this.http.request<string>(
       'post',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/initiatives/${encodeURIComponent(
-          String(initiativeId)
-        )}/player/subscribe`,
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/player/subscribe`,
       {
         params: removeNullOrUndefined({
           nickname,
@@ -384,9 +384,9 @@ export class PlayerTeamControllerService {
     return this.http.request<Avatar>(
       'post',
       environment.serverUrl.hscApi +
-        `/playandgo-hsc/api/team/${encodeURIComponent(String(teamId))}/avatar`,
+      `/playandgo-hsc/api/team/${encodeURIComponent(String(teamId))}/avatar`,
       {
-        body: body,
+        body,
       }
     );
   }
