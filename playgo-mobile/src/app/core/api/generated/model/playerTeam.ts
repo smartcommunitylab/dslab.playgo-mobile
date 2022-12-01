@@ -9,9 +9,15 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Image } from './image';
+import { TeamMember } from './teamMember';
 
-export interface SwaggerPageable {
-  page?: number;
-  size?: number;
-  sort?: string;
+export interface PlayerTeam {
+  avatar?: Image;
+  customData?: any;
+  expected?: number;
+  id?: string;
+  initiativeId?: string;
+  members?: Array<TeamMember>;
+  owner?: string;
 }
