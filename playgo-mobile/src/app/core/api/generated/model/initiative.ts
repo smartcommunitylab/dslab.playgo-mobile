@@ -9,9 +9,15 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Campaign } from './campaign';
 
-export interface SwaggerPageable {
-  page?: number;
-  size?: number;
-  sort?: string;
+export interface Initiative {
+  bonus?: number;
+  bonusThreshold?: number;
+  campaign?: Campaign;
+  canCreate?: boolean;
+  canEdit?: boolean;
+  initiativeId?: string;
+  minTeamSize?: number;
+  type?: string;
 }
