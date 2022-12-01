@@ -1,0 +1,12 @@
+.personal {
+  font-style: italic;
+  font-weight: 300;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: left;
+  padding: 16px;
+  display: flex;
+  app-icon {
+    margin-left: 8px;
+  }
+}

@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { DateTime } from 'luxon';
 import { Observable, Subscription, tap } from 'rxjs';
-import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
 import { ErrorService } from '../../../services/error.service';
@@ -15,8 +14,10 @@ import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
 import { toServerDateOnly } from '../../../time.utils';
 import { isOfflineError } from '../../../utils';
-import { Notification } from '../../../../api/generated/model/notification';
 import { getCampaignImage } from '../../campaignUtils';
+import { TeamStatsControllerService } from 'src/app/core/api/generated-hsc/controllers/teamStatsController.service';
+import { CampaignPlacing as PlayerCampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { CampaignPlacing as TeamCampaignPlacing } from 'src/app/core/api/generated-hsc/model/campaignPlacing';
 
 @Component({
   selector: 'app-home-campaign-school',
@@ -28,15 +29,17 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   @Input() header?: boolean = false;
   subStat: Subscription;
   campaignStatus: PlayerGameStatus;
-  reportWeekStat: CampaignPlacing;
-  reportTotalStat: CampaignPlacing;
+  reportWeekStat: TeamCampaignPlacing;
+  reportPersonalWeekStat: PlayerCampaignPlacing;
+  reportTotalStat: TeamCampaignPlacing;
   imagePath: string;
 
   constructor(
     private userService: UserService,
     private reportService: ReportService,
+    private teamStatsControllerService: TeamStatsControllerService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.imagePath = getCampaignImage(this.campaignContainer);
@@ -57,14 +60,29 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
             }
           }
         );
-
-      this.reportService
-        .getGameStats(
-          this.campaignContainer.campaign.campaignId,
-          profile.playerId,
-          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
-          toServerDateOnly(DateTime.utc())
-        )
+      this.teamStatsControllerService.getGroupCampaingPlacingByGameUsingGET({
+        campaignId: this.campaignContainer.campaign.campaignId,
+        groupId: this.campaignContainer?.subscription?.campaignData?.teamId,
+        dateFrom: toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+        dateTo: toServerDateOnly(DateTime.utc())
+      })
+        .subscribe(
+          (stats) => {
+            this.reportWeekStat = stats;
+          },
+          (error) => {
+            if (isOfflineError(error)) {
+              this.reportWeekStat = null;
+            } else {
+              this.reportWeekStat = null;
+              this.errorService.handleError(error);
+            }
+          }
+        );
+      this.teamStatsControllerService.getGroupCampaingPlacingByGameUsingGET({
+        campaignId: this.campaignContainer.campaign.campaignId,
+        groupId: this.campaignContainer?.subscription?.campaignData?.teamId
+      })
         .subscribe(
           (stats) => {
             this.reportTotalStat = stats;
@@ -81,17 +99,19 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
       this.reportService
         .getGameStats(
           this.campaignContainer.campaign.campaignId,
-          profile.playerId
+          profile.playerId,
+          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+          toServerDateOnly(DateTime.utc())
         )
         .subscribe(
           (stats) => {
-            this.reportTotalStat = stats;
+            this.reportPersonalWeekStat = stats;
           },
           (error) => {
             if (isOfflineError(error)) {
-              this.reportTotalStat = null;
+              this.reportPersonalWeekStat = null;
             } else {
-              this.reportTotalStat = null;
+              this.reportPersonalWeekStat = null;
               this.errorService.handleError(error);
             }
           }

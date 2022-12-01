@@ -15,10 +15,12 @@
     </ng-template>
   </ion-card-header>
   <ion-card-content class="school-content ion-no-padding">
+    <app-home-school-profile [campaignContainer]="campaignContainer"></app-home-school-profile>
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
       [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'eL'">
     </app-main-campaign-stat>
     <app-home-campaign-challenges *ngIf="header" [campaignContainer]="campaignContainer">
     </app-home-campaign-challenges>
+    <app-home-user-profile [reportWeekStat]="reportPersonalWeekStat"></app-home-user-profile>
   </ion-card-content>
 </ion-card>

@@ -344,7 +344,8 @@
       "mail": "Email: ",
       "mm": "Mobility Manager: ",
       "locations": "Lista sedi valide",
-      "location": "Sede {{index}}:"
+      "location": "Sede {{index}}:",
+      "personalStatWeek": "Your contribution this week: {{value}}"
     },
     "homewidgets": {
       "personal": {
