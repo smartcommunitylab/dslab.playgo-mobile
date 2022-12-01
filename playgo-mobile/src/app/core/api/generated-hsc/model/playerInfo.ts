@@ -11,10 +11,10 @@
  */
 import { Image } from './image';
 
-export interface PlayerInfo { 
-    avatar?: Image;
-    email?: string;
-    nickname?: string;
-    playerId?: string;
-    subscribed?: boolean;
+export interface PlayerInfo {
+  avatar?: Image;
+  email?: string;
+  nickname?: string;
+  playerId?: string;
+  subscribed?: boolean;
 }

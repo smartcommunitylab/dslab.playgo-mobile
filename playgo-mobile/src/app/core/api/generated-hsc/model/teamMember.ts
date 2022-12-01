@@ -11,9 +11,9 @@
  */
 import { Image } from './image';
 
-export interface TeamMember { 
-    avatar?: Image;
-    nickname?: string;
-    playerId?: string;
-    subscribed?: boolean;
+export interface TeamMember {
+  avatar?: Image;
+  nickname?: string;
+  playerId?: string;
+  subscribed?: boolean;
 }

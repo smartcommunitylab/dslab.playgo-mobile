@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-export interface Binary { 
-    data?: string;
-    type?: string;
+export interface Binary {
+  data?: string;
+  type?: string;
 }

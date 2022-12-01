@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface Sort { 
-    empty?: boolean;
-    sorted?: boolean;
-    unsorted?: boolean;
+export interface Sort {
+  empty?: boolean;
+  sorted?: boolean;
+  unsorted?: boolean;
 }

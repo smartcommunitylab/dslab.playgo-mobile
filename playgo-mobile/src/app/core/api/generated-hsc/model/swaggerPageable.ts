@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface SwaggerPageable { 
-    page?: number;
-    size?: number;
-    sort?: string;
+export interface SwaggerPageable {
+  page?: number;
+  size?: number;
+  sort?: string;
 }

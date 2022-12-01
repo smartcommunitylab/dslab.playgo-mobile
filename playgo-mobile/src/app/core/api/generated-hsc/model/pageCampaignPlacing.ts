@@ -13,16 +13,16 @@ import { CampaignPlacing } from './campaignPlacing';
 import { Sort } from './sort';
 import { SwaggerPageable } from './swaggerPageable';
 
-export interface PageCampaignPlacing { 
-    content?: Array<CampaignPlacing>;
-    empty?: boolean;
-    first?: boolean;
-    last?: boolean;
-    number?: number;
-    numberOfElements?: number;
-    pageable?: SwaggerPageable;
-    size?: number;
-    sort?: Sort;
-    totalElements?: number;
-    totalPages?: number;
+export interface PageCampaignPlacing {
+  content?: Array<CampaignPlacing>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: SwaggerPageable;
+  size?: number;
+  sort?: Sort;
+  totalElements?: number;
+  totalPages?: number;
 }

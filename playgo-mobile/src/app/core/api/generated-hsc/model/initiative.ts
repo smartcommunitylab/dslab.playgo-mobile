@@ -11,13 +11,13 @@
  */
 import { Campaign } from './campaign';
 
-export interface Initiative { 
-    bonus?: number;
-    bonusThreshold?: number;
-    campaign?: Campaign;
-    canCreate?: boolean;
-    canEdit?: boolean;
-    initiativeId?: string;
-    minTeamSize?: number;
-    type?: string;
+export interface Initiative {
+  bonus?: number;
+  bonusThreshold?: number;
+  campaign?: Campaign;
+  canCreate?: boolean;
+  canEdit?: boolean;
+  initiativeId?: string;
+  minTeamSize?: number;
+  type?: string;
 }

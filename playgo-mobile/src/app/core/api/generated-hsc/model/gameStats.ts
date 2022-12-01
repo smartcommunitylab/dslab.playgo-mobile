@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-export interface GameStats { 
-    period?: string;
-    totalScore?: number;
+export interface GameStats {
+  period?: string;
+  totalScore?: number;
 }

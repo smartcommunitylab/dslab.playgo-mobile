@@ -7,12 +7,12 @@ import {
 } from '@ionic/angular';
 import { DateTime } from 'luxon';
 import { combineLatest, Subscription } from 'rxjs';
+import { PlayerTeamControllerService } from 'src/app/core/api/generated-hsc/controllers/playerTeamController.service';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
-import { SchoolApiService } from 'src/app/core/shared/services/school-api.service';
 import { User, UserService } from 'src/app/core/shared/services/user.service';
 import { CompaniesCampaignModalPage } from '../../home/campaign-details/companies-modal/companies.modal';
 import { DetailCampaignModalPage } from '../../home/campaign-details/detail-modal/detail.modal';
@@ -43,7 +43,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     private modalController: ModalController,
     private userService: UserService,
     private pageSettingsService: PageSettingsService,
-    private schoolApiService: SchoolApiService
+    private playerTeamControllerService: PlayerTeamControllerService
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
@@ -89,9 +89,10 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         this.canSubscribe = true;
         break;
       case 'school':
-        this.subSchool = this.schoolApiService.canSubscribeUsingGET(this.id, nickname).subscribe(res =>
-          this.canSubscribe = res
-        );
+        this.subSchool =
+          this.playerTeamControllerService.checkSubscribeTeamMemberUsingGET({ initiativeId: this.id, nickname }).subscribe(res =>
+            this.canSubscribe = res
+          );
         break;
       case 'company':
         this.canSubscribe = true;

@@ -12,12 +12,12 @@
 import { Image } from './image';
 import { TeamMember } from './teamMember';
 
-export interface PlayerTeam { 
-    avatar?: Image;
-    customData?: any;
-    expected?: number;
-    id?: string;
-    initiativeId?: string;
-    members?: Array<TeamMember>;
-    owner?: string;
+export interface PlayerTeam {
+  avatar?: Image;
+  customData?: any;
+  expected?: number;
+  id?: string;
+  initiativeId?: string;
+  members?: Array<TeamMember>;
+  owner?: string;
 }

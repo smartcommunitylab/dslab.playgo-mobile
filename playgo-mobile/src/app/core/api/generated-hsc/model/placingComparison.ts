@@ -11,8 +11,8 @@
  */
 import { CampaignPlacing } from './campaignPlacing';
 
-export interface PlacingComparison { 
-    myPlacing?: CampaignPlacing;
-    nextPlacing?: CampaignPlacing;
-    prevPlacing?: CampaignPlacing;
+export interface PlacingComparison {
+  myPlacing?: CampaignPlacing;
+  nextPlacing?: CampaignPlacing;
+  prevPlacing?: CampaignPlacing;
 }

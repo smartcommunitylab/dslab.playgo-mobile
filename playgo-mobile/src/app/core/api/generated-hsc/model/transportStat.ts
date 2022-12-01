@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface TransportStat { 
-    mean?: string;
-    period?: string;
-    value?: number;
+export interface TransportStat {
+  mean?: string;
+  period?: string;
+  value?: number;
 }

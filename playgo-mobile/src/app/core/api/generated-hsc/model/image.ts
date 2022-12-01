@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface Image { 
-    contentType?: string;
-    image?: string;
-    url?: string;
+export interface Image {
+  contentType?: string;
+  image?: string;
+  url?: string;
 }

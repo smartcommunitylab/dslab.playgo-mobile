@@ -11,13 +11,13 @@
  */
 import { Binary } from './binary';
 
-export interface Avatar { 
-    avatarData?: Binary;
-    avatarDataSmall?: Binary;
-    avatarSmallUrl?: string;
-    avatarUrl?: string;
-    contentType?: string;
-    fileName?: string;
-    id?: string;
-    teamId?: string;
+export interface Avatar {
+  avatarData?: Binary;
+  avatarDataSmall?: Binary;
+  avatarSmallUrl?: string;
+  avatarUrl?: string;
+  contentType?: string;
+  fileName?: string;
+  id?: string;
+  teamId?: string;
 }

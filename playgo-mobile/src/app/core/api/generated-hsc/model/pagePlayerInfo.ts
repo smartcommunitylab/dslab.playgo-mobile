@@ -13,16 +13,16 @@ import { PlayerInfo } from './playerInfo';
 import { Sort } from './sort';
 import { SwaggerPageable } from './swaggerPageable';
 
-export interface PagePlayerInfo { 
-    content?: Array<PlayerInfo>;
-    empty?: boolean;
-    first?: boolean;
-    last?: boolean;
-    number?: number;
-    numberOfElements?: number;
-    pageable?: SwaggerPageable;
-    size?: number;
-    sort?: Sort;
-    totalElements?: number;
-    totalPages?: number;
+export interface PagePlayerInfo {
+  content?: Array<PlayerInfo>;
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  pageable?: SwaggerPageable;
+  size?: number;
+  sort?: Sort;
+  totalElements?: number;
+  totalPages?: number;
 }
