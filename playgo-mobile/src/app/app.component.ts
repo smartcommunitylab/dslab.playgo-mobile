@@ -120,6 +120,7 @@ export class AppComponent implements AfterContentInit {
       blacklist: '../assets/icon/blacklist.svg',
       invitation: '../assets/icon/invitation.svg',
       leaderboard: '../assets/icon/leaderboard.svg',
+      homeFooter: '../assets/images/home/logo.svg',
       level_up: '../assets/icon/level-up.svg',
       stat: '../assets/icon/stat.svg',
       leave: '../assets/icon/leave.svg',

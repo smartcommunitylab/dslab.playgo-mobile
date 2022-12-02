@@ -21,7 +21,7 @@ import { SurveyRequest } from '../model/surveyRequest';
   providedIn: 'root',
 })
 export class SurveyControllerService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * assignSurveyChallenges
    *
@@ -39,7 +39,7 @@ export class SurveyControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/survey/assign`,
       {
-        body,
+        body: body,
         params: removeNullOrUndefined({
           campaignId,
           playerIds,

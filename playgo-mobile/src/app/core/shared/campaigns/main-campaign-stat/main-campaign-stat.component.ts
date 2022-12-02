@@ -44,7 +44,6 @@ export class MainCampaignStatComponent implements OnInit {
     if (!title) {
       return '';
     }
-    console.log('title' + title[0].toUpperCase() + title.substr(1).toLowerCase());
     return title[0].toUpperCase() + title.substr(1).toLowerCase();
   }
 }

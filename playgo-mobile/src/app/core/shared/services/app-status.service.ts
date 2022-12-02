@@ -19,6 +19,7 @@ import {
   distinctUntilChanged,
   map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { DeviceInfo } from '@capacitor/device';
 import { environment } from 'src/environments/environment';
@@ -46,6 +47,7 @@ export class AppStatusService {
   ).pipe(shareReplay(1));
 
   public appInfo$: Observable<AppInfo> = from(this.appPlugin.getInfo()).pipe(
+    tap(info => console.log(info)),
     shareReplay(1)
   );
 
@@ -98,7 +100,7 @@ export class AppStatusService {
     private codePushPlugin: typeof CodePushPluginInternal,
     private errorService: ErrorService,
     private zone: NgZone
-  ) {}
+  ) { }
 
   codePushSyncFinished(success: boolean) {
     this.syncFinished$.next(success);

@@ -2,7 +2,9 @@
   <ion-toolbar [color]="campaign.campaign.type">
     <ion-title> {{campaign.campaign.name|languageMap }} </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()">X</ion-button>
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -31,21 +33,16 @@
     </ion-row>
     <ion-row class="footer">
       <ion-col size="8" class="ion-text-left">
-        <span
-          >{{'challenges.fromto'|translate : { from:
+        <span>{{'challenges.fromto'|translate : { from:
           challenge.startDate|localDate, to: challenge.endDate|localDate }
-          }}</span
-        >
+          }}</span>
       </ion-col>
       <ion-col class="ion-text-end">
-        <span class="flex-center"
-          >{{challenge.bonus}}
-          <app-icon
-            [name]="
+        <span class="flex-center">{{challenge.bonus}}
+          <app-icon [name]="
             campaignService.getCampaignTypeIcon(campaign?.campaign)
-          "
-          ></app-icon
-        ></span>
+          "></app-icon>
+        </span>
       </ion-col>
     </ion-row>
   </ion-grid>

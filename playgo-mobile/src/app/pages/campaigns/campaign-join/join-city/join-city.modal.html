@@ -3,7 +3,9 @@
     <ion-title>{{ 'campaigns.joinmodal.modalTitle' |translate :
       {campaignTitle:campaign?.name | languageMap } }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()">{{ 'campaigns.joinmodal.close' | translate }}</ion-button>
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

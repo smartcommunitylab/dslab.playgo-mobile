@@ -1,44 +1,46 @@
-<ion-card
-  class="ion-no-padding"
-  [ngStyle]="{
+<ion-card class="ion-no-padding" [ngStyle]="{
     border: '4px solid var(--ion-color-' + campaign?.campaign?.type + ')'
-  }"
->
-  <ion-card-header [color]="campaign?.campaign?.type" class="header"
-    ><span>{{ "challenges.ongoing" | translate }}</span>
-  </ion-card-header>
+  }">
+  <!-- <ion-card-header [color]="campaign?.campaign?.type" class="header"><span>{{ "challenges.ongoing" | translate }}</span>
+  </ion-card-header> -->
   <ion-card-header class="ion-no-padding">
-    <ion-grid class="ion-no-padding"
-      ><ion-row class="ion-no-padding"
-        ><ion-col size="2" class="ion-no-padding"
-          ><app-icon
-            [name]="imgChallenge(challenge.type)"
-            class="challenge-icon icon-size-big"
-          ></app-icon></ion-col
-        ><ion-col
-          ><p
-            class="short-desc"
-            [innerHTML]="challenge.challDesc | languageMap"
-          ></p></ion-col></ion-row
-    ></ion-grid>
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-no-padding">
+        <ion-col size="2" class="ion-no-padding">
+          <app-icon [name]="imgChallenge(challenge.type)" class="challenge-icon icon-size-big"></app-icon>
+        </ion-col>
+        <ion-col>
+          <p class="short-desc" [innerHTML]="challenge.challDesc | languageMap"></p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card-header>
-  <ion-card-content>
-    <app-challenge-users-status
-      *ngIf="challenge.type !== 'survey'"
-      [position]="'home'"
-      [status]="challenge.status"
-      [rowStatus]="challenge.row_status"
-      [type]="'type'"
-      [challengeType]="challenge.type"
-      [otherUser]="challenge.otherAttendeeData"
-    ></app-challenge-users-status>
-    <app-challenge-bar-status
-      *ngIf="challenge.type !== 'survey'"
-      [status]="challenge.status"
-      [rowStatus]="challenge.row_status"
-      [otherStatus]="challenge.otherAttendeeData?.status"
-      [challengeType]="challenge.type"
-      [type]="type"
-    ></app-challenge-bar-status>
+  <ion-card-content class="ion-no-padding">
+    <app-challenge-users-status *ngIf="challenge.type !== 'survey'" [position]="'home'" [status]="challenge.status"
+      [rowStatus]="challenge.row_status" [type]="'type'" [challengeType]="challenge.type"
+      [otherUser]="challenge.otherAttendeeData"></app-challenge-users-status>
+    <app-challenge-bar-status *ngIf="challenge.type !== 'survey'" [status]="challenge.status"
+      [rowStatus]="challenge.row_status" [otherStatus]="challenge.otherAttendeeData?.status"
+      [challengeType]="challenge.type" [type]="type"></app-challenge-bar-status>
+    <div class="container-challenges">
+
+
+
+      <div (click)="goToChallenge($event)" [ngStyle]="{
+      backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
+    }" class="ion-text-end all-challenges">
+        <span>{{ "challenges.checkallchallenges" | translate }}</span>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </div>
+      <div class="third-line line" [ngStyle]="{
+        backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
+      }"></div>
+      <div class="second-line line" [ngStyle]="{
+        backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
+      }"></div>
+      <div class="first-line line" [ngStyle]="{
+        backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
+      }"></div>
+    </div>
   </ion-card-content>
 </ion-card>

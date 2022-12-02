@@ -18,6 +18,14 @@
   "bike sharing pioneer": "Bike Sharing Badge",
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "appFooter": {
+    "by": "By DSLab, Fondazione Bruno Kessler",
+    "version": "Versione {{version}}",
+    "credits": "Credits",
+    "faq": "FAQ",
+    "help": "Help",
+    "privacy": "Privacy"
+  },
   "firstTime": {
     "title": "Use your location",
     "message": "Play&go collects location data to enable the tracking, validation and rewarding of sustainable trips even when the app is closed or not in use.",
@@ -260,6 +268,8 @@
     "title": "Campaigns",
     "join": "Join",
     "novaliddate": "The campaign's period is not valid",
+    "notStarted": "The campaign is not yet started",
+    "cantSubscribe": "The campaign is running, but your nickname does not belong to any team. To participate, contact the teacher in charge",
     "noDesc": "No description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
@@ -334,7 +344,8 @@
       "mail": "Email: ",
       "mm": "Mobility Manager: ",
       "locations": "Lista sedi valide",
-      "location": "Sede {{index}}:"
+      "location": "Sede {{index}}:",
+      "personalStatWeek": "Your contribution this week: {{value}}"
     },
     "homewidgets": {
       "personal": {
@@ -477,6 +488,7 @@
   "challenges": {
     "challenges": "Challenges",
     "allchallenges": "All the challenges",
+    "checkallchallenges": "Check all challenges",
     "detail": {
       "title": "Challenge details",
       "close": "Close"

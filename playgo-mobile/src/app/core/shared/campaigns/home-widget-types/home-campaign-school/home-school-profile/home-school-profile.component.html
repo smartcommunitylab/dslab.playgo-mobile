@@ -1,0 +1,12 @@
+<div *ngIf="myTeam$">
+  <ion-grid>
+    <ion-row *ngIf="(myTeam$|async)?.customData?.name">
+      <ion-col class="ion-text-start"><span class="name">{{(myTeam$|async)?.customData?.name}}</span></ion-col>
+    </ion-row>
+    <ion-row *ngIf="(myTeam$|async)?.customData?.institute">
+      <ion-col class="ion-text-start"><span class="institute">{{(myTeam$|async)?.customData?.institute}}</span>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</div>

@@ -33,6 +33,7 @@
 
 # clear generated files
 rm -rf ./src/app/core/api/generated
+rm -rf ./src/app/core/api/generated-hsc
 
 
 # download the swagger codegen jar from maven if needed. (it is in gitignore)
@@ -58,10 +59,10 @@ java -jar \
 java -jar \
   swagger-codegen-cli.jar \
   generate \
-  -i https://hscdev.playngo.it/playandgo-hsc/v3/api-docs \
+  -i https://hscdev.playngo.it:443/playandgo-hsc/v3/api-docs \
   -l typescript-angular \
-  --template-dir ./src/app/core/api/templates/ \
-  -o ./src/app/core/api/generated \
+  --template-dir ./src/app/core/api/templates-hsc/ \
+  -o ./src/app/core/api/generated-hsc \
   --type-mappings Date=number \
   --additional-properties modelPropertyNaming=original \
 ;
@@ -75,12 +76,23 @@ rm -rf ./src/app/core/api/generated/.swagger-codegen/
 rm ./src/app/core/api/generated/api/api.ts
 rm ./src/app/core/api/generated/model/models.ts
 
+rm ./src/app/core/api/generated-hsc/*.*
+rm ./src/app/core/api/generated-hsc/.gitignore
+rm ./src/app/core/api/generated-hsc/.npmignore
+rm -rf ./src/app/core/api/generated-hsc/.swagger-codegen/
+rm ./src/app/core/api/generated-hsc/api/api.ts
+rm ./src/app/core/api/generated-hsc/model/models.ts
+
 # this file can be used if we want to keep some changes in generated files
 rm ./src/app/core/api/generated/.swagger-codegen-ignore
+rm ./src/app/core/api/generated-hsc/.swagger-codegen-ignore
 
 # better folder name
 mv ./src/app/core/api/generated/api ./src/app/core/api/generated/controllers
+mv ./src/app/core/api/generated-hsc/api ./src/app/core/api/generated-hsc/controllers
 
 # formatting
 npm run prettier ./src/app/core/api/generated/ -- --write
 # npm run eslint ./src/app/core/api/generated/ -- --fix
+npm run prettier ./src/app/core/api/generated-hsc/ -- --write
+# npm run eslint ./src/app/core/api/generated-hsc/ -- --fix

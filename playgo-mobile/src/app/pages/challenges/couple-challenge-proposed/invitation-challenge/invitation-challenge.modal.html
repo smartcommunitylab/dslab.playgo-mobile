@@ -2,7 +2,9 @@
   <ion-toolbar [color]="campaign?.campaign?.type">
     <ion-title> {{campaign?.campaign?.name|languageMap }} </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()">X</ion-button>
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -20,9 +22,7 @@
     <ion-row>
       <ion-col> {{challenge?.challDesc|languageMap}} </ion-col>
     </ion-row>
-    <ion-row
-      *ngIf="(playerId$ | async) !== challenge.proposerId; else sentTemplate"
-    >
+    <ion-row *ngIf="(playerId$ | async) !== challenge.proposerId; else sentTemplate">
       <ion-col class="ion-text-center">
         <ion-button (click)="activate()" [color]="campaign?.campaign?.type">
           {{'challenges.activate'|translate}}

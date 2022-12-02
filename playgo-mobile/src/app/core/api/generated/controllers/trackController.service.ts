@@ -23,7 +23,7 @@ import { TrackedInstanceInfo } from '../model/trackedInstanceInfo';
   providedIn: 'root',
 })
 export class TrackControllerService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /**
    * getTrackedInstanceInfoList
    *
@@ -73,9 +73,9 @@ export class TrackControllerService {
     return this.http.request<TrackedInstanceInfo>(
       'get',
       environment.serverUrl.api +
-      `/playandgo/api/track/player/${encodeURIComponent(
-        String(trackedInstanceId)
-      )}`,
+        `/playandgo/api/track/player/${encodeURIComponent(
+          String(trackedInstanceId)
+        )}`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -96,7 +96,7 @@ export class TrackControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/track/player/geolocations`,
       {
-        body,
+        body: body,
       }
     );
   }

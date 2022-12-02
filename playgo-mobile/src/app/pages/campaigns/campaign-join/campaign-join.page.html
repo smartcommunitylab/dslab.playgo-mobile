@@ -1,71 +1,61 @@
 <ng-container *ngIf="campaign">
-  <ion-header
-    appHeader
-    parallax
-    [imageUrl]="campaign?.banner?.url"
-    height="30vh"
-  >
+  <ion-header appHeader parallax [imageUrl]="campaign?.banner?.url" height="30vh">
   </ion-header>
   <ion-content appContent [fullscreen]="true">
     <div class="ion-padding">
       <ion-avatar class="avatar-campaign" [ngClass]="campaign.type">
         <img [src]="imagePath" title="campaign avatar" />
       </ion-avatar>
-      <ion-button
-        class="ion-margin-start ion-margin-end"
-        expand="block"
-        color="playgo"
-        *ngIf="joinIsVisible(campaign)"
-        (click)="joinCampaign(campaign)"
-        [disabled]="campaignIsDisabled(campaign)"
-        >{{'campaigns.join'|translate}}
+      <ion-button class="ion-margin-start ion-margin-end" expand="block" color="playgo" *ngIf="joinIsVisible(campaign)"
+        (click)="joinCampaign(campaign)" [disabled]="campaignNotStarted(campaign) || !canSubscribe ">
+        {{'campaigns.join'|translate}}
       </ion-button>
+      <div class="ion-text-center">
+        <span *ngIf="campaignNotStarted(campaign); else started">
+          {{'campaigns.notStarted'|translate}}
+        </span>
+        <ng-template #started>
+          <span *ngIf="!canSubscribe">
+            {{'campaigns.cantSubscribe'|translate}}
+          </span>
+        </ng-template>
+      </div>
     </div>
     <ion-card>
       <ion-card-content>
         <div *ngIf="campaignHasSponsor(campaign?.details | languageMap)">
-          <div
-            [innerHTML]="getCampaignSponsor(campaign?.details | languageMap)?.content"
-          ></div>
+          <div [innerHTML]="getCampaignSponsor(campaign?.details | languageMap)?.content"></div>
         </div>
-        <ion-item lines="none" class="ion-no-padding ion-no-margin"
-          ><ion-label
-            >{{'campaigns.detail.dateFrom'|translate}}<span class="text-bold"
-              >{{campaign.dateFrom|localDate}}</span
-            ></ion-label
-          ></ion-item
-        >
-        <ion-item lines="none" class="ion-no-padding ion-no-margin"
-          ><ion-label
-            >{{'campaigns.detail.dateTo'|translate}}<span class="text-bold"
-              >{{campaign.dateTo |localDate}}</span
-            ></ion-label
-          ></ion-item
-        >
-        <div>
-          <div [innerHTML]="campaign.description | languageMap"></div>
+        <ion-item lines="none" class="ion-no-padding ion-no-margin">
+          <ion-label>{{'campaigns.detail.dateFrom'|translate}}<span
+              class="text-bold">{{campaign.dateFrom|localDate}}</span></ion-label>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-padding ion-no-margin">
+          <ion-label>{{'campaigns.detail.dateTo'|translate}}<span class="text-bold">{{campaign.dateTo
+              |localDate}}</span></ion-label>
+        </ion-item>
+        <div class="box" (click)="clickDescription()" [ngClass]="descriptionExpanded ? 'open' : ''">
+          <div class="text" [innerHTML]="campaign.description | languageMap"></div>
         </div>
-
+        <div class="expansion" (click)="clickDescription()">
+          <ion-icon name="chevron-up-outline" *ngIf="descriptionExpanded"></ion-icon>
+          <ion-icon name="chevron-down-outline" *ngIf="!descriptionExpanded"></ion-icon>
+        </div>
         <div *ngIf="(campaign.details | languageMap) as details">
           <ng-container *ngFor="let detail of details">
             <div *ngIf="detail.type!=='sponsor'" (click)="openDetail(detail)">
               <ion-item lines="none">
-                <ion-label
-                  ><span class="text-bold text-underlined">
-                    {{detail.name}}</span
-                  ></ion-label
-                >
+                <ion-label><span class="text-bold text-underlined">
+                    {{detail.name}}</span></ion-label>
                 <ion-icon name="information-circle-outline" end> </ion-icon>
               </ion-item>
             </div>
           </ng-container>
           <div *ngIf="isCompany()">
             <ion-item lines="none" (click)="openCompanies()">
-              <ion-label
-                ><span class="text-bold text-underlined">
+              <ion-label><span class="text-bold text-underlined">
                   {{'campaigns.detail.companies'|translate}}
-                </span></ion-label
-              >
+                </span></ion-label>
               <ion-icon name="information-circle-outline" end> </ion-icon>
             </ion-item>
           </div>

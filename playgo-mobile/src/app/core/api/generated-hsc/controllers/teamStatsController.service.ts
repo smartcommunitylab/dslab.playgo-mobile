@@ -47,7 +47,7 @@ export class TeamStatsControllerService {
     const { campaignId, groupId, metric, mean, dateFrom, dateTo } = args;
     return this.http.request<CampaignPlacing>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
         `/playandgo-hsc/api/data/campaign/placing/group/transport`,
       {
         params: removeNullOrUndefined({
@@ -79,7 +79,7 @@ export class TeamStatsControllerService {
     const { campaignId, groupId, dateFrom, dateTo } = args;
     return this.http.request<PlacingComparison>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
         `/playandgo-hsc/api/data/campaign/placing/group/game/comparison`,
       {
         params: removeNullOrUndefined({
@@ -113,7 +113,7 @@ export class TeamStatsControllerService {
     const { campaignId, page, size, sort, dateFrom, dateTo } = args;
     return this.http.request<PageCampaignPlacing>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
         `/playandgo-hsc/api/data/campaign/placing/game`,
       {
         params: removeNullOrUndefined({
@@ -154,7 +154,7 @@ export class TeamStatsControllerService {
       args;
     return this.http.request<PageCampaignPlacing>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
         `/playandgo-hsc/api/data/campaign/placing/transport`,
       {
         params: removeNullOrUndefined({
@@ -188,7 +188,7 @@ export class TeamStatsControllerService {
     const { campaignId, groupId, dateFrom, dateTo } = args;
     return this.http.request<CampaignPlacing>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
         `/playandgo-hsc/api/data/campaign/placing/group/game`,
       {
         params: removeNullOrUndefined({
@@ -220,7 +220,7 @@ export class TeamStatsControllerService {
     const { campaignId, groupId, groupMode, dateFrom, dateTo } = args;
     return this.http.request<Array<GameStats>>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
         `/playandgo-hsc/api/data/campaign/group/game/stats`,
       {
         params: removeNullOrUndefined({
@@ -255,7 +255,7 @@ export class TeamStatsControllerService {
     const { campaignId, groupId, metric, avg, dateFrom, dateTo } = args;
     return this.http.request<Array<TransportStat>>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
         `/playandgo-hsc/api/data/campaign/transport/group/stats/mean`,
       {
         params: removeNullOrUndefined({
@@ -294,7 +294,7 @@ export class TeamStatsControllerService {
       args;
     return this.http.request<Array<TransportStat>>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
         `/playandgo-hsc/api/data/campaign/transport/group/stats`,
       {
         params: removeNullOrUndefined({

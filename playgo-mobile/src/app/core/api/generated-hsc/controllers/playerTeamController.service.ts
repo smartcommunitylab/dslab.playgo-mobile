@@ -45,7 +45,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, page, size, sort, txt } = args;
     return this.http.request<PagePlayerInfo>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/team/candidates`,
@@ -73,7 +73,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, nickname } = args;
     return this.http.request<boolean>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/player/subscribe/check`,
@@ -98,7 +98,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, teamId } = args;
     return this.http.request<any>(
       'delete',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/team/${encodeURIComponent(String(teamId))}`,
@@ -114,7 +114,7 @@ export class PlayerTeamControllerService {
   public getInitativeUsingGET(initiativeId: string): Observable<Initiative> {
     return this.http.request<Initiative>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/model`,
@@ -135,7 +135,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, teamId } = args;
     return this.http.request<PlayerTeam>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/team/${encodeURIComponent(String(teamId))}/my`,
@@ -153,7 +153,7 @@ export class PlayerTeamControllerService {
   ): Observable<Array<PlayerTeam>> {
     return this.http.request<Array<PlayerTeam>>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/teams`,
@@ -174,7 +174,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, teamId } = args;
     return this.http.request<Array<PlayerInfo>>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/team/${encodeURIComponent(String(teamId))}/info`,
@@ -195,7 +195,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, teamId } = args;
     return this.http.request<PlayerTeam>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/team/${encodeURIComponent(String(teamId))}/public`,
@@ -211,7 +211,7 @@ export class PlayerTeamControllerService {
   public getTeamAvatarUsingGET(teamId: string): Observable<Avatar> {
     return this.http.request<Avatar>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/team/${encodeURIComponent(String(teamId))}/avatar`,
       {}
     );
@@ -224,7 +224,7 @@ export class PlayerTeamControllerService {
   public initativesUsingGET(): Observable<Array<Initiative>> {
     return this.http.request<Array<Initiative>>(
       'get',
-      environment.serverUrl.api + `/playandgo-hsc/api/initiatives`,
+      environment.serverUrl.hscApi + `/playandgo-hsc/api/initiatives`,
       {}
     );
   }
@@ -237,7 +237,7 @@ export class PlayerTeamControllerService {
   public isAdminUsingGET(initiativeId: string): Observable<boolean> {
     return this.http.request<boolean>(
       'get',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/admin`,
@@ -258,7 +258,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, body } = args;
     return this.http.request<Initiative>(
       'put',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}`,
@@ -281,7 +281,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, body } = args;
     return this.http.request<PlayerTeam>(
       'post',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/team`,
@@ -304,7 +304,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, value } = args;
     return this.http.request<Initiative>(
       'put',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/create/${encodeURIComponent(String(value))}`,
@@ -325,7 +325,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, value } = args;
     return this.http.request<Initiative>(
       'put',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/edit/${encodeURIComponent(String(value))}`,
@@ -346,7 +346,7 @@ export class PlayerTeamControllerService {
     const { initiativeId, nickname } = args;
     return this.http.request<string>(
       'post',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/initiatives/${encodeURIComponent(
         String(initiativeId)
       )}/player/subscribe`,
@@ -365,7 +365,7 @@ export class PlayerTeamControllerService {
   public syncInitativesUsingPUT(): Observable<Array<Initiative>> {
     return this.http.request<Array<Initiative>>(
       'put',
-      environment.serverUrl.api + `/playandgo-hsc/api/initiatives`,
+      environment.serverUrl.hscApi + `/playandgo-hsc/api/initiatives`,
       {}
     );
   }
@@ -383,7 +383,7 @@ export class PlayerTeamControllerService {
     const { teamId, body } = args;
     return this.http.request<Avatar>(
       'post',
-      environment.serverUrl.api +
+      environment.serverUrl.hscApi +
       `/playandgo-hsc/api/team/${encodeURIComponent(String(teamId))}/avatar`,
       {
         body,

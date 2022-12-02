@@ -2,19 +2,16 @@
   <ion-toolbar color="playgo">
     <ion-title>{{'registration.privacyPopup.title'|translate}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()"> X </ion-button>
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div
-    [innerHTML]="'registration.privacyPopup.message'| translate"
-    class="ion-padding"
-  ></div>
+  <div [innerHTML]="'registration.privacyPopup.message'| translate" class="ion-padding"></div>
 </ion-content>
 <ion-footer>
-  <ion-button color="light" expand="block" (click)="close()"
-    >{{'challenges.detail.close'|translate}}</ion-button
-  >
+  <ion-button color="light" expand="block" (click)="close()">{{'challenges.detail.close'|translate}}</ion-button>
 </ion-footer>

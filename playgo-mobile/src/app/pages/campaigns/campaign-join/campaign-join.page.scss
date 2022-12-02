@@ -10,3 +10,64 @@
 .city {
   border: 3px solid var(--ion-color-city);
 }
+/* Box */
+.box {
+  // margin: 22px auto;
+  // width: 320px;
+  // padding: 12px 32px 64px;
+  max-height: 162px;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+}
+
+.box.open {
+  max-height: 100rem;
+  transition: max-height 0.3s cubic-bezier(0.9, 0, 0.8, 0.2);
+}
+.expansion {
+  text-align: center;
+  font-size: xx-large;
+}
+.text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  padding: 2px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 12px 0;
+  animation: close 0.1s linear 0.1s forwards;
+}
+.open .text {
+  animation: open 0.1s linear 0s forwards;
+}
+
+/* Text */
+@keyframes open {
+  from {
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  to {
+    display: -webkit-box;
+    line-clamp: initial;
+    -webkit-line-clamp: initial;
+    -webkit-box-orient: vertical;
+  }
+}
+
+@keyframes close {
+  from {
+    display: -webkit-box;
+    line-clamp: initial;
+    -webkit-line-clamp: initial;
+    -webkit-box-orient: vertical;
+  }
+  to {
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
