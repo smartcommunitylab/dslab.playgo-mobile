@@ -18,6 +18,7 @@ import { getCampaignImage } from '../../campaignUtils';
 import { TeamStatsControllerService } from 'src/app/core/api/generated-hsc/controllers/teamStatsController.service';
 import { CampaignPlacing as PlayerCampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { CampaignPlacing as TeamCampaignPlacing } from 'src/app/core/api/generated-hsc/model/campaignPlacing';
+import { TeamService } from '../../../services/team.service';
 
 @Component({
   selector: 'app-home-campaign-school',
@@ -38,7 +39,8 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private reportService: ReportService,
     private teamStatsControllerService: TeamStatsControllerService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private teamService: TeamService
   ) { }
 
   ngOnInit() {
@@ -60,12 +62,18 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
             }
           }
         );
-      this.teamStatsControllerService.getGroupCampaingPlacingByGameUsingGET({
-        campaignId: this.campaignContainer.campaign.campaignId,
-        groupId: this.campaignContainer?.subscription?.campaignData?.teamId,
-        dateFrom: toServerDateOnly(DateTime.utc().minus({ week: 1 })),
-        dateTo: toServerDateOnly(DateTime.utc())
-      })
+      this.teamService.getTeamPlacing(
+        this.campaignContainer.campaign.campaignId,
+        this.campaignContainer?.subscription?.campaignData?.teamId,
+        toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+        toServerDateOnly(DateTime.utc())
+      )
+        // this.teamStatsControllerService.getGroupCampaingPlacingByGameUsingGET({
+        //   campaignId: this.campaignContainer.campaign.campaignId,
+        //   groupId: this.campaignContainer?.subscription?.campaignData?.teamId,
+        //   dateFrom: toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+        //   dateTo: toServerDateOnly(DateTime.utc())
+        // })
         .subscribe(
           (stats) => {
             this.reportWeekStat = stats;
@@ -79,10 +87,13 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
             }
           }
         );
-      this.teamStatsControllerService.getGroupCampaingPlacingByGameUsingGET({
-        campaignId: this.campaignContainer.campaign.campaignId,
-        groupId: this.campaignContainer?.subscription?.campaignData?.teamId
-      })
+      this.teamService.getTeamPlacing(this.campaignContainer.campaign.campaignId,
+        this.campaignContainer?.subscription?.campaignData?.teamId
+      )
+        // this.teamStatsControllerService.getGroupCampaingPlacingByGameUsingGET({
+        //   campaignId: this.campaignContainer.campaign.campaignId,
+        //   groupId: this.campaignContainer?.subscription?.campaignData?.teamId
+        // })
         .subscribe(
           (stats) => {
             this.reportTotalStat = stats;

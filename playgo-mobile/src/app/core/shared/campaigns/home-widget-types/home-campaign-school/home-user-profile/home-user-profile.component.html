@@ -1,4 +1,4 @@
-<div class="personal">
-  <span>{{ 'campaigns.detail.personalStatWeek'| translate :{ value: reportWeekStat.value } }} </span>
+<div class="personal" *ngIf="reportWeekStat">
+  <span>{{ 'campaigns.detail.personalStatWeek'| translate :{ value: reportWeekStat?.value } }} </span>
   <app-icon class="icon-size-small" name="ecoLeavesHsc"></app-icon>
 </div>

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { PlayerTeamControllerService } from 'src/app/core/api/generated-hsc/controllers/playerTeamController.service';
 import { PlayerTeam } from 'src/app/core/api/generated-hsc/model/playerTeam';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { TeamService } from 'src/app/core/shared/services/team.service';
 import { User } from 'src/app/core/shared/services/user.service';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 
@@ -19,16 +20,15 @@ export class HomeSchoolProfiloComponent implements OnInit, OnDestroy {
   myTeam$: Observable<PlayerTeam>;
 
   constructor(
-    private playerTeamController: PlayerTeamControllerService
+    private teamService: TeamService
 
   ) { }
 
   ngOnInit() {
-    this.myTeam$ = this.playerTeamController.getMyTeamInfoUsingGET(
-      {
-        initiativeId: this.campaignContainer?.campaign?.campaignId,
-        teamId: this.campaignContainer?.subscription?.campaignData?.teamId
-      });
+    this.myTeam$ = this.teamService.getMyTeam(
+      this.campaignContainer?.campaign?.campaignId,
+      this.campaignContainer?.subscription?.campaignData?.teamId
+    );
   }
   goToChallenge(event: Event) {
 
