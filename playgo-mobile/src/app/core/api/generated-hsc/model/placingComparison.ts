@@ -9,10 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { CampaignPlacing } from './campaignPlacing';
 
 export interface PlacingComparison {
-  myPlacing?: CampaignPlacing;
-  nextPlacing?: CampaignPlacing;
-  prevPlacing?: CampaignPlacing;
+  max?: number;
+  min?: number;
+  value?: number;
 }
