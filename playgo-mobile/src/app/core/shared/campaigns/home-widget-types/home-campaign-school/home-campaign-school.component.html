@@ -19,8 +19,9 @@
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
       [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'eL'">
     </app-main-campaign-stat>
+    <app-home-school-progression [stat]="" [type]="'team'"></app-home-school-progression>
+    <app-home-school-progression [stat]="" [type]="'personal'"></app-home-school-progression>
     <app-home-campaign-challenges *ngIf="header" [campaignContainer]="campaignContainer">
     </app-home-campaign-challenges>
-    <app-home-user-profile [reportWeekStat]="reportPersonalWeekStat"></app-home-user-profile>
   </ion-card-content>
 </ion-card>

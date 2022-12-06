@@ -268,7 +268,7 @@
     "title": "Campaigns",
     "join": "Join",
     "novaliddate": "The campaign's period is not valid",
-    "notStarted": "The campaign is not yet started",
+    "notStarted": "The campaign is not active",
     "cantSubscribe": "The campaign is running, but your nickname does not belong to any team. To participate, contact the teacher in charge",
     "noDesc": "No description provided",
     "myCampaigns": "My campaigns",
@@ -343,8 +343,8 @@
       "phone": "Telefono: ",
       "mail": "Email: ",
       "mm": "Mobility Manager: ",
-      "locations": "Lista sedi valide",
-      "location": "Sede {{index}}:",
+      "locations": "Valid locations:",
+      "location": "location {{index}}:",
       "personalStatWeek": "Your contribution this week: {{value}}"
     },
     "homewidgets": {
@@ -467,6 +467,9 @@
     "intro1": "Here you can find the list of the users you blocked",
     "intro2": "The users you blocked can not send you invites for the challenges in this campaign and you can not challenge them.",
     "empty": "No blocked user for this campaign"
+  },
+  "teamprofile": {
+    "title": "Team profile"
   },
   "userprofile": {
     "title": "User Profile",

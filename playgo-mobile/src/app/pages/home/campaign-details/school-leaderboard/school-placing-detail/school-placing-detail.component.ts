@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { CampaignPlacing } from 'src/app/core/api/generated-hsc/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { UserService } from 'src/app/core/shared/services/user.service';

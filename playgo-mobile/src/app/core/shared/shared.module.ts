@@ -43,7 +43,7 @@ import { CompanyLabelComponent } from './campaigns/app-company-label/app-company
 import { LimitModalPage } from './campaigns/main-campaign-stat/limit-status/limit-modal/limit.modal';
 import { CompanyModalPage } from './campaigns/app-company-label/company-modal/company.modal';
 import { HomeSchoolProfiloComponent } from './campaigns/home-widget-types/home-campaign-school/home-school-profile/home-school-profile.component';
-import { HomeUserProfiloComponent } from './campaigns/home-widget-types/home-campaign-school/home-user-profile/home-user-profile.component';
+import { HomeSchoolProgressionComponent } from './campaigns/home-widget-types/home-campaign-school/home-school-progression/home-school-progression.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -68,7 +68,7 @@ import { HomeUserProfiloComponent } from './campaigns/home-widget-types/home-cam
     OrdinalNumberComponent,
     HomeCampaignCityComponent,
     HomeSchoolProfiloComponent,
-    HomeUserProfiloComponent,
+    HomeSchoolProgressionComponent,
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
@@ -111,9 +111,9 @@ import { HomeUserProfiloComponent } from './campaigns/home-widget-types/home-cam
     InfiniteScrollContentDirective,
     ParallaxDirective,
     OrdinalNumberComponent,
-    HomeUserProfiloComponent,
     HomeCampaignCityComponent,
     HomeSchoolProfiloComponent,
+    HomeSchoolProgressionComponent,
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,

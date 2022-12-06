@@ -267,7 +267,7 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
-    "notStarted": "La campagna non é ancora iniziata",
+    "notStarted": "La campagna non é attiva",
     "cantSubscribe": "La campagna è in corso, il tuo nickname però non appartiene a nessuna squadra. Per partecipare rivolgiti al docente referente",
     "novaliddate": "Il periodo della campagna non risulta valido",
     "noDesc": "Nessuna descrizione fornita",
@@ -467,6 +467,9 @@
     "intro1": "Qui trovi la lista di utenti che hai bloccato in questa campagna",
     "intro2": "Gli utenti che hai bloccato non potranno lanciarti delle sfide nella campagna Trento Play & Go, nè tu potrai sfidare loro",
     "empty": "Non ci sono utenti bloccati per questa campagna"
+  },
+  "teamprofile": {
+    "title": "Profilo squadra"
   },
   "userprofile": {
     "title": "Profilo utenti",

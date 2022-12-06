@@ -4,10 +4,10 @@
     <div class="header-margin">
       <div class="header-sticky" [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
         [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
-        <ion-row *ngIf="useMeanAndMetric$ |async">
+        <ion-row>
           <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
-              <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+              <ion-select [disabled]="(useMeanAndMetric$ |async)===false" [interfaceOptions]="{ cssClass: 'app-alert' }"
                 (ionChange)="selectedMeanChangedSubject.next($any($event))" [value]="selectedMean$ | async">
                 <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
                   {{meanLabels[mean] |translate}}
@@ -16,7 +16,7 @@
             </ion-item>
           </ion-col>
 
-          <ion-col>
+          <ion-col *ngIf="useMeanAndMetric$ |async">
             <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
               <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
                 (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
@@ -26,14 +26,19 @@
               </ion-select>
             </ion-item>
           </ion-col>
-        </ion-row>
-        <ion-row *ngIf="(useMeanAndMetric$ |async) === false">
-          <ion-col>
+          <ion-col *ngIf="(useMeanAndMetric$ |async) === false">
             <ion-item [color]="campaignContainer?.campaign?.type">
               {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
             </ion-item>
           </ion-col>
         </ion-row>
+        <!-- <ion-row *ngIf="(useMeanAndMetric$ |async) === false">
+          <ion-col>
+            <ion-item [color]="campaignContainer?.campaign?.type">
+              {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
+            </ion-item>
+          </ion-col>
+        </ion-row> -->
         <ion-row>
           <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type">
@@ -46,7 +51,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <app-school-placing-detail [placing]="playerPosition$ | async" [unitLabelKey]="numberWithUnitKey$ | async"
+        <app-school-placing-detail [placing]="teamPosition$ | async" [unitLabelKey]="numberWithUnitKey$ | async"
           [first]="true" [campaign]="campaignContainer">
         </app-school-placing-detail>
       </div>

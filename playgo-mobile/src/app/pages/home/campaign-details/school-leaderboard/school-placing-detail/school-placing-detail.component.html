@@ -4,7 +4,7 @@
       : ''
   }" [routerLink]="
     (playerId$ | async) !== placing.playerId
-      ? ['/pages/user-profile/' + placing.playerId + '/' + placing.nickname]
+      ? ['/pages/team-profile/' + placing.playerId + '/' + placing.nickname]
       : []
   " detail="false">
   <ion-grid>
@@ -27,7 +27,8 @@
         </ion-col>
       </ng-container>
       <ion-col size="3" class="ion-text-start">
-        <span>{{ placing.nickname }}</span>
+        <p>{{ placing?.customData?.name }}</p>
+        <p>{{ placing.customData?.institute}} {{ placing.customData?.school}} {{ placing.customData?.cls}}</p>
       </ion-col>
       <ion-col size="5" class="ion-text-end">
         {{

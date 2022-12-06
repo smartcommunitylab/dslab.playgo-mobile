@@ -1,0 +1,86 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+  Observable,
+  map,
+  distinctUntilChanged,
+  shareReplay,
+  switchMap,
+  combineLatest,
+  tap,
+} from 'rxjs';
+import { CampaignInfo } from 'src/app/core/api/generated/model/campaignInfo';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
+import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { UserService } from 'src/app/core/shared/services/user.service';
+import { intersectionWith, isEqual } from 'lodash-es';
+import { tapLog } from 'src/app/core/shared/rxjs.utils';
+import { Avatar } from 'src/app/core/api/generated/model/avatar';
+
+@Component({
+  selector: 'app-team-profile',
+  templateUrl: './team-profile.page.html',
+  styleUrls: ['./team-profile.page.scss'],
+})
+export class TeamProfilePage implements OnInit {
+  public userId$: Observable<string> = this.route.params.pipe(
+    map((params) => params.id),
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+  public userNickname$: Observable<string> = this.route.params.pipe(
+    map((params) => params.nickname),
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+  public userAvatar$: Observable<Avatar> = this.userId$.pipe(
+    switchMap((userId) =>
+      this.userService
+        .getOtherPlayerAvatar(userId)
+        .pipe(this.errorService.getErrorHandler())
+    ),
+    shareReplay(1)
+  );
+  public campaigns$: Observable<CampaignInfo[]> = combineLatest([
+    this.userId$,
+    this.campaignService.myCampaigns$,
+  ]).pipe(
+    switchMap(([userId, myCampaigns]) =>
+      this.campaignService.getCampaignByPlayerId(userId).pipe(
+        tapLog('Initial Campaign'),
+        map(
+          //filter my campaigns in order to have only common campaigns
+          (otherUserCampaigns) =>
+          // eslint-disable-next-line max-len
+          {
+            const intersection = intersectionWith(
+              otherUserCampaigns.map((campaign) => campaign.campaignId),
+              myCampaigns.map((campaign) => campaign.campaign.campaignId),
+              isEqual
+            );
+            return otherUserCampaigns.filter(
+              (campaign) =>
+                intersection.includes(campaign.campaignId) &&
+                campaign.type !== 'personal' &&
+                campaign.type !== 'company'
+            );
+          }
+        ),
+        tapLog('filteredcampaign'),
+        ////filter personal campaign and campaigns without challenge 'personal' && 'company'
+        this.errorService.getErrorHandler()
+      )
+    ),
+    tap((campaigns) => console.log(campaigns)),
+    shareReplay(1)
+  );
+  // public campaigns: PlayerCampaign[] = [];
+  constructor(
+    private route: ActivatedRoute,
+    private errorService: ErrorService,
+    private userService: UserService,
+    private campaignService: CampaignService
+  ) { }
+
+  ngOnInit() { }
+}

@@ -38,7 +38,14 @@ import { RouterModule } from '@angular/router';
             (m) => m.UserProfilePageModule
           ),
       },
+      {
+        path: 'team-profile/:initiativeId/:teamId',
+        loadChildren: () =>
+          import('./team-profile/team-profile.module').then(
+            (m) => m.TeamProfilePageModule
+          ),
+      },
     ]),
   ],
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule { }
