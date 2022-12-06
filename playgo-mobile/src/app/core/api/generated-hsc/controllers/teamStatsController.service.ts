@@ -63,14 +63,14 @@ export class TeamStatsControllerService {
   }
 
   /**
-   * getCampaignPlacingByGameComparison
+   * getCampaignPlacingByGameGroupComparison
    *
    * @param campaignId campaignId
    * @param groupId groupId
    * @param dateFrom yyyy-MM-dd
    * @param dateTo yyyy-MM-dd
    */
-  public getCampaignPlacingByGameComparisonUsingGET(args: {
+  public getCampaignPlacingByGameGroupComparisonUsingGET(args: {
     campaignId: string;
     groupId: string;
     dateFrom?: string;
@@ -85,6 +85,36 @@ export class TeamStatsControllerService {
         params: removeNullOrUndefined({
           campaignId,
           groupId,
+          dateFrom,
+          dateTo,
+        }),
+      }
+    );
+  }
+
+  /**
+   * getCampaignPlacingByGamePlayerComparison
+   *
+   * @param campaignId campaignId
+   * @param playerId playerId
+   * @param dateFrom yyyy-MM-dd
+   * @param dateTo yyyy-MM-dd
+   */
+  public getCampaignPlacingByGamePlayerComparisonUsingGET(args: {
+    campaignId: string;
+    playerId: string;
+    dateFrom?: string;
+    dateTo?: string;
+  }): Observable<PlacingComparison> {
+    const { campaignId, playerId, dateFrom, dateTo } = args;
+    return this.http.request<PlacingComparison>(
+      'get',
+      environment.serverUrl.hscApi +
+        `/playandgo-hsc/api/data/campaign/placing/player/game/comparison`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          playerId,
           dateFrom,
           dateTo,
         }),
