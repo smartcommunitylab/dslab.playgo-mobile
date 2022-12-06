@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, shareReplay } from 'rxjs';
 import { PlayerTeamControllerService } from '../../api/generated-hsc/controllers/playerTeamController.service';
 import { TeamStatsControllerService } from '../../api/generated-hsc/controllers/teamStatsController.service';
+import { PlacingComparison } from '../../api/generated-hsc/model/placingComparison';
 import { PlayerTeam } from '../../api/generated-hsc/model/playerTeam';
 import { CampaignPlacing } from '../../api/generated/model/campaignPlacing';
 
@@ -34,11 +35,29 @@ export class TeamService {
             dateTo,
         });
     }
-    getMyTeam(campaignId?: string, groupId?: string): Observable<PlayerTeam> {
+    getMyTeam(campaignId: string, groupId: string): Observable<PlayerTeam> {
         return this.playerTeamController.getMyTeamInfoUsingGET(
             {
                 initiativeId: campaignId,
                 teamId: groupId
+            }).pipe(shareReplay(1));
+    }
+    getProgressionTeam(campaignId: string, groupId: string, dateFrom?: string, dateTo?: string): Observable<PlacingComparison> {
+        return this.teamStatsControllerService.getCampaignPlacingByGameGroupComparisonUsingGET(
+            {
+                campaignId,
+                groupId,
+                dateFrom,
+                dateTo
+            }).pipe(shareReplay(1));
+    }
+    getProgressionPlayer(campaignId: string, playerId: string, dateFrom?: string, dateTo?: string): Observable<PlacingComparison> {
+        return this.teamStatsControllerService.getCampaignPlacingByGamePlayerComparisonUsingGET(
+            {
+                campaignId,
+                playerId,
+                dateFrom,
+                dateTo
             }).pipe(shareReplay(1));
     }
 }

@@ -316,6 +316,18 @@
       "confirm": "Confirm"
     },
     "detail": {
+      "playerProgression": "How are you going",
+      "teamProgression": "How is your team doing",
+      "points": "Weekly points: ",
+      "noPoints": "Weekly points: 0",
+      "modalTeam": "<div class=\"ion-text-start\"><i>Questo componente mostra la performance della tua squadra in confronto alla squadra più attiva e a quella meno attiva <b> in questa settimana</b>.<br/><br/>A sinistra viene rappresentato il punteggio della squadra meno attiva.<br/><br/> A destra invece quello della squadra più attiva. La barra rappresenta il tuo posizionamento rispetto ai due punteggi. <br/><br/><b>Valori dal {{dateFrom}} al {{dateTo }}</b>:<br /><br/></i></div>",
+      "modalBestTeam": "Punteggio squadra migliore: ",
+      "modalActualTeam": "Punteggio della tua squadra: ",
+      "modalMinTeam": "Punteggio squadra peggiore: ",
+      "modalPersonal": "<div class=\"ion-text-start\"><i>Questo componente mostra la tua performance in confronto al giocatore più attivo e al meno attivo <b> in questa settimana</b>.<br/><br/>  A sinistra viene rappresentato il punteggio del giocatore meno attivo. <br/><br/>A destra invece quello del giocatore più attivo.La barra rappresenta il tuo posizionamento rispetto ai due punteggi. <br/><br/><b>Valori dal {{dateFrom}} al {{dateTo }}</b>:<br /><br/><i></div>",
+      "modalBestPersonal": "Punteggio massimp: ",
+      "modalActualPersonal": "Il tuo punteggio:",
+      "modalMinPersonal": "Punteggio minimo:",
       "myCompany": "Company:",
       "companies": "Partecipating companies",
       "not_found": "Campaign not found",

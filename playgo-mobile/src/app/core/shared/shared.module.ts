@@ -44,6 +44,7 @@ import { LimitModalPage } from './campaigns/main-campaign-stat/limit-status/limi
 import { CompanyModalPage } from './campaigns/app-company-label/company-modal/company.modal';
 import { HomeSchoolProfiloComponent } from './campaigns/home-widget-types/home-campaign-school/home-school-profile/home-school-profile.component';
 import { HomeSchoolProgressionComponent } from './campaigns/home-widget-types/home-campaign-school/home-school-progression/home-school-progression.component';
+import { ComparisonModalPage } from './campaigns/home-widget-types/home-campaign-school/home-school-progression/comparison-modal/comparison.modal';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -66,6 +67,7 @@ import { HomeSchoolProgressionComponent } from './campaigns/home-widget-types/ho
     InfiniteScrollContentDirective,
     ParallaxDirective,
     OrdinalNumberComponent,
+    ComparisonModalPage,
     HomeCampaignCityComponent,
     HomeSchoolProfiloComponent,
     HomeSchoolProgressionComponent,
@@ -111,6 +113,7 @@ import { HomeSchoolProgressionComponent } from './campaigns/home-widget-types/ho
     InfiniteScrollContentDirective,
     ParallaxDirective,
     OrdinalNumberComponent,
+    ComparisonModalPage,
     HomeCampaignCityComponent,
     HomeSchoolProfiloComponent,
     HomeSchoolProgressionComponent,

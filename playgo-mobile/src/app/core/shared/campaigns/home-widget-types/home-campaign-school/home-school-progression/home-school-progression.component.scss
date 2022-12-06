@@ -1,0 +1,26 @@
+.level-bar {
+  height: 16px;
+  --background: none;
+}
+.limit-text {
+  font-size: 14px;
+}
+.info-box {
+  font-size: 19px;
+  display: inline-block;
+  vertical-align: middle;
+  vertical-align: center;
+  color: var(--ion-color-school);
+}
+p {
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 15px;
+  display: flex;
+  justify-content: normal;
+  align-items: center;
+  app-icon {
+    margin: 2px;
+  }
+}

@@ -12,13 +12,14 @@ import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameSta
 import { ErrorService } from '../../../services/error.service';
 import { ReportService } from '../../../services/report.service';
 import { UserService } from '../../../services/user.service';
-import { toServerDateOnly } from '../../../time.utils';
+import { toServerDateOnly, toServerDateTime } from '../../../time.utils';
 import { isOfflineError } from '../../../utils';
 import { getCampaignImage } from '../../campaignUtils';
 import { TeamStatsControllerService } from 'src/app/core/api/generated-hsc/controllers/teamStatsController.service';
 import { CampaignPlacing as PlayerCampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { CampaignPlacing as TeamCampaignPlacing } from 'src/app/core/api/generated-hsc/model/campaignPlacing';
 import { TeamService } from '../../../services/team.service';
+import { PlacingComparison } from 'src/app/core/api/generated-hsc/model/placingComparison';
 
 @Component({
   selector: 'app-home-campaign-school',
@@ -34,11 +35,13 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   reportPersonalWeekStat: PlayerCampaignPlacing;
   reportTotalStat: TeamCampaignPlacing;
   imagePath: string;
+  progressionTeam: PlacingComparison;
+  progressionPlayer: PlacingComparison;
+  referenceDate = DateTime.local();
 
   constructor(
     private userService: UserService,
     private reportService: ReportService,
-    private teamStatsControllerService: TeamStatsControllerService,
     private errorService: ErrorService,
     private teamService: TeamService
   ) { }
@@ -68,12 +71,6 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
         toServerDateOnly(DateTime.utc().minus({ week: 1 })),
         toServerDateOnly(DateTime.utc())
       )
-        // this.teamStatsControllerService.getGroupCampaingPlacingByGameUsingGET({
-        //   campaignId: this.campaignContainer.campaign.campaignId,
-        //   groupId: this.campaignContainer?.subscription?.campaignData?.teamId,
-        //   dateFrom: toServerDateOnly(DateTime.utc().minus({ week: 1 })),
-        //   dateTo: toServerDateOnly(DateTime.utc())
-        // })
         .subscribe(
           (stats) => {
             this.reportWeekStat = stats;
@@ -90,10 +87,6 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
       this.teamService.getTeamPlacing(this.campaignContainer.campaign.campaignId,
         this.campaignContainer?.subscription?.campaignData?.teamId
       )
-        // this.teamStatsControllerService.getGroupCampaingPlacingByGameUsingGET({
-        //   campaignId: this.campaignContainer.campaign.campaignId,
-        //   groupId: this.campaignContainer?.subscription?.campaignData?.teamId
-        // })
         .subscribe(
           (stats) => {
             this.reportTotalStat = stats;
@@ -107,22 +100,38 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
             }
           }
         );
-      this.reportService
-        .getGameStats(
-          this.campaignContainer.campaign.campaignId,
-          profile.playerId,
-          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
-          toServerDateOnly(DateTime.utc())
-        )
+      this.teamService.getProgressionTeam(this.campaignContainer.campaign.campaignId,
+        this.campaignContainer?.subscription?.campaignData?.teamId,
+        toServerDateOnly(this.referenceDate.startOf('week')),
+        toServerDateOnly(this.referenceDate.endOf('week'))
+      )
         .subscribe(
           (stats) => {
-            this.reportPersonalWeekStat = stats;
+            this.progressionTeam = stats;
           },
           (error) => {
             if (isOfflineError(error)) {
-              this.reportPersonalWeekStat = null;
+              this.progressionTeam = null;
             } else {
-              this.reportPersonalWeekStat = null;
+              this.progressionTeam = null;
+              this.errorService.handleError(error);
+            }
+          }
+        );
+      this.teamService.getProgressionPlayer(this.campaignContainer.campaign.campaignId,
+        profile.playerId,
+        toServerDateOnly(this.referenceDate.startOf('week')),
+        toServerDateOnly(this.referenceDate.endOf('week'))
+      )
+        .subscribe(
+          (stats) => {
+            this.progressionPlayer = stats;
+          },
+          (error) => {
+            if (isOfflineError(error)) {
+              this.progressionPlayer = null;
+            } else {
+              this.progressionPlayer = null;
               this.errorService.handleError(error);
             }
           }
