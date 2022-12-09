@@ -267,7 +267,7 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
-    "notStarted": "La campagna non é ancora iniziata",
+    "notStarted": "La campagna non é attiva",
     "cantSubscribe": "La campagna è in corso, il tuo nickname però non appartiene a nessuna squadra. Per partecipare rivolgiti al docente referente",
     "novaliddate": "Il periodo della campagna non risulta valido",
     "noDesc": "Nessuna descrizione fornita",
@@ -316,6 +316,18 @@
       "confirm": "Conferma"
     },
     "detail": {
+      "playerProgression": "Come stai andando",
+      "teamProgression": "Come sta andando la tua squadra",
+      "points": "Punteggio settimanale: ",
+      "noPoints": "Punteggio settimanale: 0",
+      "modalTeam": "<div class=\"ion-text-start\"><i>Questo componente mostra la performance della tua squadra in confronto alla squadra più attiva e a quella meno attiva <b> in questa settimana</b>.<br/><br/>A sinistra viene rappresentato il punteggio della squadra meno attiva.<br/><br/> A destra invece quello della squadra più attiva. La barra rappresenta il tuo posizionamento rispetto ai due punteggi. <br/><br/><b>Valori dal {{dateFrom}} al {{dateTo }}</b>:<br /><br/></i></div>",
+      "modalBestTeam": "Punteggio squadra migliore: ",
+      "modalActualTeam": "Punteggio della tua squadra: ",
+      "modalMinTeam": "Punteggio squadra peggiore:",
+      "modalPersonal": "<div class=\"ion-text-start\" ><i>Questo componente mostra la tua performance in confronto al giocatore più attivo e al meno attivo <b> in questa settimana</b>.<br/><br/>  A sinistra viene rappresentato il punteggio del giocatore meno attivo. <br/><br/>A destra invece quello del giocatore più attivo.La barra rappresenta il tuo posizionamento rispetto ai due punteggi. <br/><br/><b>Valori dal {{dateFrom}} al {{dateTo }}</b>:<br /><br/><i></div>",
+      "modalBestPersonal": "Punteggio massimp:",
+      "modalActualPersonal": "Il tuo punteggio: ",
+      "modalMinPersonal": "Punteggio minimo: ",
       "myCompany": "Azienda:",
       "companies": "Aziende partecipanti",
       "not_found": "Campagna non trovata",
@@ -468,6 +480,9 @@
     "intro2": "Gli utenti che hai bloccato non potranno lanciarti delle sfide nella campagna Trento Play & Go, nè tu potrai sfidare loro",
     "empty": "Non ci sono utenti bloccati per questa campagna"
   },
+  "teamprofile": {
+    "title": "Profilo squadra"
+  },
   "userprofile": {
     "title": "Profilo utenti",
     "last_month": "Attività dell’ultimo mese",
@@ -477,7 +492,7 @@
     "personal_stat_train": " in treno",
     "personal_stat_car": " in carpooling",
     "personal_stat_boat": " in battello",
-    "empty": "Non sono statistiche da mostrare",
+    "empty": "Non ci sono statistiche da mostrare",
     "last_week_position": "{{position}} ultima settimana",
     "general_position": "{{position}} classifica generale",
     "total_points": "{{points}} punti totali",

@@ -1,0 +1,41 @@
+<div class="ion-text-left" *ngIf="stat">
+  <ion-grid>
+    <ion-row class="limit-text">
+      <ion-col>
+        <p *ngIf="type==='team';else player">{{'campaigns.detail.teamProgression'|translate}}</p>
+        <ng-template #player>
+          <p>{{'campaigns.detail.playerProgression'|translate}}</p>
+        </ng-template>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon class="info-box" name="information-circle-outline" (click)="openLimit($event)"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="stat?.value; else zeroProgress">
+      <ion-col class="progress-bar">
+        <ion-progress-bar class="level-bar" color="school" [value]="getPercentage(stat)">
+        </ion-progress-bar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p>{{'campaigns.detail.points'|translate}}<b>{{ stat?.value }}</b>
+          <app-icon name="ecoLeavesHsc"></app-icon>
+        </p>
+
+      </ion-col>
+    </ion-row>
+    <ng-template #zeroProgress>
+      <ion-row>
+        <ion-col class="progress-bar">
+          <ion-progress-bar class="level-bar" color="school" [value]="0"></ion-progress-bar>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <p>{{'campaigns.detail.noPoints'|translate}}</p>
+        </ion-col>
+      </ion-row>
+    </ng-template>
+  </ion-grid>
+</div>

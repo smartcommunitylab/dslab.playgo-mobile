@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { HomeUserProfiloComponent } from './home-user-profile.component';
+import { HomeSchoolProgressionComponent } from './home-school-progression.component';
 
 describe('MyCampaignsWidgetComponent', () => {
-  let component: HomeUserProfiloComponent;
-  let fixture: ComponentFixture<HomeUserProfiloComponent>;
+  let component: HomeSchoolProgressionComponent;
+  let fixture: ComponentFixture<HomeSchoolProgressionComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeUserProfiloComponent],
+      declarations: [HomeSchoolProgressionComponent],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HomeUserProfiloComponent);
+    fixture = TestBed.createComponent(HomeSchoolProgressionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

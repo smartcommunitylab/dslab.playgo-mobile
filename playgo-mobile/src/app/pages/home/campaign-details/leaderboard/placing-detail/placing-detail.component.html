@@ -1,18 +1,12 @@
-<ion-item
-  *ngIf="placing"
-  [class.my-placing]="(playerId$ | async) === placing.playerId"
-  [ngStyle]="{
+<ion-item *ngIf="placing" [class.my-placing]="(playerId$ | async) === placing.playerId" [ngStyle]="{
     border: first
       ? '3px solid var(--ion-color-' + campaign?.campaign?.type + ')'
       : ''
-  }"
-  [routerLink]="
+  }" [routerLink]="
     (playerId$ | async) !== placing.playerId
       ? ['/pages/user-profile/' + placing.playerId + '/' + placing.nickname]
       : []
-  "
-  detail="false"
->
+  " detail="false">
   <ion-grid>
     <ion-row>
       <ion-col size="2">
@@ -27,9 +21,14 @@
       </ng-container>
       <ng-container *ngIf="(playerId$ | async) !== placing.playerId">
         <ion-col size="2">
-          <ion-avatar *ngIf="placing.avatar">
+          <ion-avatar *ngIf="placing.avatar; else alternativeAvatar">
             <img [src]="placing.avatar.url" />
           </ion-avatar>
+          <ng-template #alternativeAvatar>
+            <ion-avatar>
+              <ion-icon name="person-circle-outline"></ion-icon>
+            </ion-avatar>
+          </ng-template>
         </ion-col>
       </ng-container>
       <ion-col size="3" class="ion-text-start">
@@ -37,8 +36,8 @@
       </ion-col>
       <ion-col size="5" class="ion-text-end">
         {{
-          unitLabelKey
-            | translate: { value: getValue(placing.value) | localNumber }
+        unitLabelKey
+        | translate: { value: getValue(placing.value) | localNumber }
         }}
       </ion-col>
     </ion-row>

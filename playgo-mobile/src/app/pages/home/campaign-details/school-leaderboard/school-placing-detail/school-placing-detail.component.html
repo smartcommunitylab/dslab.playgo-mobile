@@ -1,10 +1,10 @@
-<ion-item *ngIf="placing" [class.my-placing]="(playerId$ | async) === placing.playerId" [ngStyle]="{
+<ion-item *ngIf="placing" [class.my-placing]="(myTeam$ | async)?.id === placing.groupId" [ngStyle]="{
     border: first
       ? '3px solid var(--ion-color-' + campaign?.campaign?.type + ')'
       : ''
   }" [routerLink]="
-    (playerId$ | async) !== placing.playerId
-      ? ['/pages/user-profile/' + placing.playerId + '/' + placing.nickname]
+    (myTeam$ | async) !== placing.groupId
+      ? ['/pages/team-profile/' + campaign?.campaign?.campaignId + '/' + placing.groupId]
       : []
   " detail="false">
   <ion-grid>
@@ -12,22 +12,28 @@
       <ion-col size="2">
         <app-ordinal-number [value]="placing.position"></app-ordinal-number>
       </ion-col>
-      <ng-container *ngIf="(playerId$ | async) === placing.playerId">
+      <ng-container *ngIf="(myTeam$ | async)?.id === placing.groupId">
         <ion-col size="2">
           <ion-avatar>
-            <img [src]="playerAvatarUrl$ | async" title="avatar" />
+            <img [src]="(myTeam$ | async)?.avatar.url" title="avatar" />
           </ion-avatar>
         </ion-col>
       </ng-container>
-      <ng-container *ngIf="(playerId$ | async) !== placing.playerId">
+      <ng-container *ngIf="(myTeam$ | async)?.id !== placing.groupId">
         <ion-col size="2">
-          <ion-avatar *ngIf="placing.avatar">
+          <ion-avatar *ngIf="placing.avatar; else alternativeAvatar">
             <img [src]="placing.avatar.url" title="avatar" />
           </ion-avatar>
+          <ng-template #alternativeAvatar>
+            <ion-avatar>
+              <ion-icon name="people-circle-outline"></ion-icon>
+            </ion-avatar>
+          </ng-template>
         </ion-col>
       </ng-container>
       <ion-col size="3" class="ion-text-start">
-        <span>{{ placing.nickname }}</span>
+        <p>{{ placing?.customData?.name }}</p>
+        <p>{{ placing.customData?.institute}} {{ placing.customData?.school}} {{ placing.customData?.cls}}</p>
       </ion-col>
       <ion-col size="5" class="ion-text-end">
         {{

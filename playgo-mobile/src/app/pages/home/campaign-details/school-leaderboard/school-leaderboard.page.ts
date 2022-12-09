@@ -8,15 +8,18 @@ import {
   combineLatest,
   Subject,
   Subscription,
+  of,
 } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   map,
+  tap,
   shareReplay,
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
+// import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PageCampaignPlacing } from 'src/app/core/api/generated/model/pageCampaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
@@ -29,6 +32,9 @@ import { PageSettingsService } from 'src/app/core/shared/services/page-settings.
 import { UserService } from 'src/app/core/shared/services/user.service';
 import { toServerDateOnly } from 'src/app/core/shared/time.utils';
 import { transportTypeLabels, TransportType } from 'src/app/core/shared/tracking/trip.model';
+import { TeamService } from 'src/app/core/shared/services/team.service';
+import { TeamStatsControllerService } from 'src/app/core/api/generated-hsc/controllers/teamStatsController.service';
+import { isInstanceOf } from 'src/app/core/shared/utils';
 
 @Component({
   selector: 'app-school-leaderboard',
@@ -69,6 +75,17 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
     ),
     shareReplay(1)
   );
+  playerCampaign$ = this.campaignId$.pipe(
+    switchMap((campaignId) =>
+      this.campaignService.myCampaigns$.pipe(
+        map((campaigns) => find(campaigns, (playercampaign) => playercampaign.subscription.campaignId === campaignId)),
+        throwIfNil(() => new Error('Campaign not found')),
+        this.errorService.getErrorHandler()
+      )
+    ),
+    tap(campaign => console.log('playercampaign' + campaign)),
+    shareReplay(1)
+  );
 
   useMeanAndMetric$ = this.campaign$.pipe(
     map((campaign) => campaign.type === 'personal')
@@ -102,10 +119,20 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  playerId$ = this.userService.userProfile$.pipe(
-    map((userProfile) => userProfile.playerId),
-    distinctUntilChanged()
+  teamId$: Observable<string> = this.playerCampaign$.pipe(
+    map(campaign => {
+      console.log(campaign);
+      return (campaign as PlayerCampaign)?.subscription?.campaignData?.teamId;
+    }),
+    tap((team: string) => console.log(team)),
+    shareReplay(1)
   );
+  // this.userService.userProfile$.pipe(
+  //   map((userProfile) => userProfile.playerId),
+  //   distinctUntilChanged()
+  // );
+  // this.route.params.pipe(
+  //   map((params) => params.id),
 
   filterOptions$ = combineLatest({
     mean: this.selectedMean$,
@@ -113,7 +140,7 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
     period: this.selectedPeriod$,
     campaignId: this.campaignId$,
     useMeanAndMetric: this.useMeanAndMetric$,
-    playerId: this.playerId$,
+    teamId: this.teamId$,
   });
 
   numberWithUnitKey$: Observable<TranslateKey> = this.filterOptions$.pipe(
@@ -125,29 +152,40 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  playerPosition$: Observable<CampaignPlacing> = this.filterOptions$.pipe(
+  teamPosition$: Observable<CampaignPlacing> = this.filterOptions$.pipe(
     switchMap(
-      ({ useMeanAndMetric, metric, mean, period, campaignId, playerId }) => {
+      ({ useMeanAndMetric, metric, mean, period, campaignId, teamId }) => {
         if (useMeanAndMetric) {
-          return this.reportControllerService
-            .getPlayerCampaingPlacingByTransportModeUsingGET({
+          return this.teamStatsControllerService
+            .geGroupCampaingPlacingByTransportModeUsingGET({
               campaignId,
+              groupId: teamId,
               metric,
               mean: mean === ALL_MEANS ? null : mean,
-              playerId,
               dateFrom: period.from,
               dateTo: period.to,
             })
-            .pipe(this.errorService.getErrorHandler());
+            .pipe(
+              map(place => {
+                place.groupId = teamId;
+                return place;
+              }
+              ), this.errorService.getErrorHandler());
         } else {
-          return this.reportControllerService
-            .getPlayerCampaingPlacingByGameUsingGET({
+          return this.teamStatsControllerService
+            .getGroupCampaingPlacingByGameUsingGET({
               campaignId,
-              playerId,
+              groupId: teamId,
               dateFrom: period.from,
               dateTo: period.to,
             })
-            .pipe(this.errorService.getErrorHandler());
+            .pipe(
+              map(place => {
+                place.groupId = teamId;
+                return place;
+              }
+              ),
+              this.errorService.getErrorHandler());
         }
       }
     ),
@@ -166,7 +204,7 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
           }),
           switchMap(({ page, size }) => {
             if (useMeanAndMetric) {
-              return this.reportControllerService
+              return this.teamStatsControllerService
                 .getCampaingPlacingByTransportStatsUsingGET({
                   page,
                   size,
@@ -178,7 +216,7 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
                 })
                 .pipe(this.errorService.getErrorHandler());
             } else {
-              return this.reportControllerService
+              return this.teamStatsControllerService
                 .getCampaingPlacingByGameUsingGET({
                   page,
                   size,
@@ -201,8 +239,8 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private reportControllerService: ReportControllerService,
-    private userService: UserService,
+    // private reportControllerService: ReportControllerService,
+    private teamStatsControllerService: TeamStatsControllerService,
     private campaignService: CampaignService,
     private errorService: ErrorService,
     private pageSettingsService: PageSettingsService
