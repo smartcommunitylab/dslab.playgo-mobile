@@ -165,7 +165,12 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
               dateFrom: period.from,
               dateTo: period.to,
             })
-            .pipe(this.errorService.getErrorHandler());
+            .pipe(
+              map(place => {
+                place.groupId = teamId;
+                return place;
+              }
+              ), this.errorService.getErrorHandler());
         } else {
           return this.teamStatsControllerService
             .getGroupCampaingPlacingByGameUsingGET({
@@ -174,7 +179,13 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
               dateFrom: period.from,
               dateTo: period.to,
             })
-            .pipe(this.errorService.getErrorHandler());
+            .pipe(
+              map(place => {
+                place.groupId = teamId;
+                return place;
+              }
+              ),
+              this.errorService.getErrorHandler());
         }
       }
     ),

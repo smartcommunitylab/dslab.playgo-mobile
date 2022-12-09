@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CampaignPlacing } from 'src/app/core/api/generated-hsc/model/campaignPlacing';
+import { PlayerTeam } from 'src/app/core/api/generated-hsc/model/playerTeam';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
+import { TeamService } from 'src/app/core/shared/services/team.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
@@ -17,16 +20,18 @@ export class SchoolPlacingDetailComponent implements OnInit {
   unitLabelKey: TranslateKey;
   @Input() first: boolean;
   @Input() campaign: PlayerCampaign;
+  myTeam$: Observable<PlayerTeam>;
+  @Input() teamId: string;
 
-  playerId$ = this.userService.userProfile$.pipe(
-    map((userProfile) => userProfile.playerId)
-  );
+  // playerId$ = this.userService.userProfile$.pipe(
+  //   map((userProfile) => userProfile.playerId)
+  // );
 
-  playerAvatarUrl$ = this.userService.userProfile$.pipe(
-    map((userProfile) => userProfile.avatar.avatarSmallUrl)
-  );
+  // playerAvatarUrl$ = this.userService.userProfile$.pipe(
+  //   map((userProfile) => userProfile.avatar.avatarSmallUrl)
+  // );
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private teamService: TeamService) { }
   getValue(value: number) {
     if (
       this.unitLabelKey === 'campaigns.leaderboard.leaderboard_type_unit.km'
@@ -35,5 +40,12 @@ export class SchoolPlacingDetailComponent implements OnInit {
     }
     return value;
   }
-  ngOnInit() { }
+  ngOnInit() {
+    console.log(this.placing);
+    this.myTeam$ = this.teamService.getMyTeam(
+      this.campaign?.campaign?.campaignId,
+      this.campaign?.subscription?.campaignData?.teamId
+    );
+  }
 }
+

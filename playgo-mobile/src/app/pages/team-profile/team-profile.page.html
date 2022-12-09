@@ -4,13 +4,10 @@
     <ion-avatar>
       <img [src]="(userAvatar$ | async)?.avatarUrl" />
     </ion-avatar>
-    <div class="nickname">{{userNickname$|async}}</div>
+    <!-- <div class="nickname">{{userNickname$|async}}</div> -->
   </div>
-  <app-transport-stat [playerId]="(userId$|async)"></app-transport-stat>
-  <ng-container *ngFor="let campaign of (campaigns$|async)">
-    <app-campaign-stat
-      [playerId]="(userId$|async)"
-      [campaign]="campaign"
-    ></app-campaign-stat>
-  </ng-container>
+  <app-transport-stat [playerId]="(teamId$|async)"></app-transport-stat>
+  <!-- <ng-container *ngFor="let campaign of (campaigns$|async)">
+    <app-campaign-stat [playerId]="(teamId$|async)" [campaign]="campaign"></app-campaign-stat>
+  </ng-container> -->
 </ion-content>

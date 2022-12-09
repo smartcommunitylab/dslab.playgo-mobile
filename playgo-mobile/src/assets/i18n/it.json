@@ -492,7 +492,7 @@
     "personal_stat_train": " in treno",
     "personal_stat_car": " in carpooling",
     "personal_stat_boat": " in battello",
-    "empty": "Non sono statistiche da mostrare",
+    "empty": "Non ci sono statistiche da mostrare",
     "last_week_position": "{{position}} ultima settimana",
     "general_position": "{{position}} classifica generale",
     "total_points": "{{points}} punti totali",
