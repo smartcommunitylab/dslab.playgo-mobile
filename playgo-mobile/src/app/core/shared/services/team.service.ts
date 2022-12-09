@@ -23,15 +23,16 @@ export class TeamService {
     //     ),
     //     shareReplay(1)
     //   );
+    private avatarDefaults: Avatar = {
+        avatarSmallUrl: 'assets/images/registration/people.svg',
+        avatarUrl: 'assets/images/registration/people.svg',
+    };
     constructor(private teamStatsControllerService: TeamStatsControllerService,
         private playerTeamController: PlayerTeamControllerService,
         private errorService: ErrorService) {
     }
     getTeamAvatar(teamId: string): Observable<Avatar> {
-        const avatarDefaults: Avatar = {
-            avatarSmallUrl: 'assets/images/registration/generic_user.png',
-            avatarUrl: 'assets/images/registration/generic_user.png',
-        };
+
         return this.playerTeamController
             .getTeamAvatarUsingGET(teamId)
             .pipe(
@@ -43,24 +44,31 @@ export class TeamService {
                             error?.status === 500) &&
                         error?.error?.ex === 'avatar not found'
                     ) {
-                        return of(avatarDefaults);
+                        return of(this.avatarDefaults);
                     }
                     // we do not want to block app completely.
                     this.errorService.handleError(error, 'normal');
-                    return of(avatarDefaults);
+                    return of(this.avatarDefaults);
                 }),
                 map((avatar) => ({
-                    ...avatarDefaults,
+                    ...this.avatarDefaults,
                     ...this.timestampAvatarUrls(avatar),
                 }))
-            )
+            );
     }
     private timestampAvatarUrls(avatar: Avatar): Avatar {
-        return {
-            ...avatar,
-            avatarUrl: this.timestampUrl(avatar.avatarUrl),
-            avatarSmallUrl: this.timestampUrl(avatar.avatarSmallUrl),
-        };
+        if (avatar) {
+            return {
+                ...avatar,
+                avatarUrl: this.timestampUrl(avatar.avatarUrl),
+                avatarSmallUrl: this.timestampUrl(avatar.avatarSmallUrl),
+            };
+        }
+        else {
+            return {
+                ...this.avatarDefaults
+            };
+        }
     }
     private timestampUrl(url: string): string {
         if (!url || url.includes('?')) {
