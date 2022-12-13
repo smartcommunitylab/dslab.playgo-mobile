@@ -374,7 +374,7 @@
         "totalvalue": "<b>{{value}} total value</b>",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}}",
         "levelName": "<b>Level : {{levelName}}</b>",
-        "score": "Points: {{score}}",
+        "score": " ",
         "emptystatus": "If you want to see your level and points start to play!",
         "status": "{{score}} Kg CO₂ saved",
         "record": "{{record}} weekly record",
@@ -462,7 +462,7 @@
       },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
-        "GL": "{{value}} ecoLeaves",
+        "GL": "{{value}}",
         "km": "{{value}} km",
         "duration": "{{value}} h",
         "tracks": "{{value}}"

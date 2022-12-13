@@ -84,7 +84,8 @@
     <ng-container *ngIf="showGameStatus">
       <ion-row *ngIf="status !== null; else nullStatus">
         <ion-col>
-          <app-game-status [status]="status" [type]="campaignContainer?.campaign?.type"></app-game-status>
+          <app-game-status [status]="status" [campaign]="campaignContainer?.campaign"
+            [type]="campaignContainer?.campaign?.type"></app-game-status>
         </ion-col>
       </ion-row>
     </ng-container>

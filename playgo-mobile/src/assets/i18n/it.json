@@ -374,7 +374,7 @@
         "totalvalue": "<b>{{value}} {{unit}}</b> complessivo",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}}",
         "levelName": "<b>Livello : {{levelName}}</b>",
-        "score": "Punti: {{score}}",
+        "score": " ",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
         "status": "{{score}} Kg CO₂ risparmiata",
         "record": "{{record}} Record Settimanale",
@@ -461,9 +461,9 @@
         "duration": "ore"
       },
       "leaderboard_type_unit": {
-        "co2": "{{value}} kg CO₂",
-        "GL": "{{value}} ecoLeaves",
-        "km": "{{value}} km",
+        "co2": "{{value}} kg",
+        "GL": "{{value}}",
+        "km": "{{value}}",
         "duration": "{{value}} ore",
         "tracks": "{{value}}"
       },

@@ -37,7 +37,7 @@
       <ion-col size="5" class="ion-text-end">
         {{
         unitLabelKey
-        | translate: { value: getValue(placing.value) | localNumber }
+        | translate: { value: getValue(placing.value) | localNumber: '0.0-1' }
         }}
       </ion-col>
     </ion-row>
