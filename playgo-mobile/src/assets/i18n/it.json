@@ -268,7 +268,7 @@
     "title": "Campaigns",
     "join": "Iscriviti",
     "notStarted": "La campagna non é attiva",
-    "cantSubscribe": "La campagna è in corso, il tuo nickname però non appartiene a nessuna squadra. Per partecipare rivolgiti al docente referente",
+    "cantSubscribe": "La campagna è in corso. \n Il tuo nickname non appartiene a nessuna squadra. Per partecipare rivolgiti al docente referente",
     "novaliddate": "Il periodo della campagna non risulta valido",
     "noDesc": "Nessuna descrizione fornita",
     "myCampaigns": "Le mie",

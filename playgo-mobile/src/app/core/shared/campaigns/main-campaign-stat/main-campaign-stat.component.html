@@ -25,10 +25,11 @@
               -
             </ion-col>
             <ion-col size="auto" class="ion-no-margin ion-no-padding">
-              <p><b>{{getValueByUnit(reportWeekStat?.value,unit) | localNumber}} {{unit}}</b>
+              <p class="unit-value"><b>{{getValueByUnit(reportWeekStat?.value,unit) | localNumber: '0.0-1'}} <span
+                    *ngIf="unit!=='eL'">{{unit}}</span></b>
               </p>
             </ion-col>
-            <ion-col class="ion-text-end ion-margin-end ion-margin-end">
+            <ion-col class="ion-text-start ion-margin-end ion-margin-end">
               <app-icon class="icon-size-normal" [name]="
         campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
       "></app-icon>
@@ -48,10 +49,11 @@
               -
             </ion-col>
             <ion-col size="auto" class="ion-no-margin ion-no-padding">
-              <p><b>{{getValueByUnit(reportTotalStat?.value,unit) | localNumber}} {{unit}}</b>
+              <p class="unit-value"><b>{{getValueByUnit(reportTotalStat?.value,unit) | localNumber: '0.0-1'}} <span
+                    *ngIf="unit!=='eL'">{{unit}}</span></b>
               </p>
             </ion-col>
-            <ion-col class="ion-text-end ion-margin-end ion-margin-end">
+            <ion-col class="ion-text-start ion-margin-end ion-margin-end">
               <app-icon class="icon-size-normal" [name]="
             campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
           "></app-icon>
@@ -86,7 +88,7 @@
         </ion-col>
       </ion-row>
     </ng-container>
-    <ion-row *ngIf="record !== null && reportWeekStat !== null">
+    <ion-row *ngIf="record && reportWeekStat">
       <ion-col>
         <app-record-status [status]="reportWeekStat" [record]="record" [type]="campaignContainer?.campaign?.type">
         </app-record-status>
