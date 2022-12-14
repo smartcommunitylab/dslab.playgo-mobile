@@ -18,7 +18,7 @@ export class SchoolPlacingDetailComponent implements OnInit {
   placing: CampaignPlacing;
   @Input()
   unitLabelKey: TranslateKey;
-  @Input() first: boolean;
+  @Input() mine: boolean;
   @Input() campaign: PlayerCampaign;
   myTeam$: Observable<PlayerTeam>;
   @Input() teamId: string;

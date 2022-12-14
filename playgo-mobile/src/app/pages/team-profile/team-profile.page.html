@@ -1,13 +1,100 @@
 <ion-header appHeader></ion-header>
-<ion-content appContent [fullscreen]="true">
+<ion-content appContent [fullscreen]="true" class="ion-padding">
   <div class="user-intro">
-    <ion-avatar>
-      <img [src]="(userAvatar$ | async)?.avatarUrl" />
+    <ion-avatar class="team">
+      <img [src]="(teamAvatar$ | async)?.avatarUrl" />
     </ion-avatar>
     <!-- <div class="nickname">{{userNickname$|async}}</div> -->
   </div>
-  <app-transport-stat [playerId]="(teamId$|async)"></app-transport-stat>
-  <!-- <ng-container *ngFor="let campaign of (campaigns$|async)">
-    <app-campaign-stat [playerId]="(teamId$|async)" [campaign]="campaign"></app-campaign-stat>
-  </ng-container> -->
+  <div class="team">
+    <div *ngIf="team$">
+      <ion-grid>
+        <ion-row *ngIf="(team$|async)?.customData?.name">
+          <ion-col class="ion-text-start"><span class="name">{{(team$|async)?.customData?.name}}</span></ion-col>
+        </ion-row>
+        <ion-row *ngIf="(team$|async)?.customData?.institute">
+          <ion-col class="ion-text-start"><span class="institute">{{(team$|async)?.customData?.institute}}
+              {{(team$|async)?.customData?.school}} {{(team$|async)?.customData?.cls}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <p class="team-detail"><b>{{'campaigns.detail.teamDetailRanking'|translate}}<app-ordinal-number
+                  [value]="(status$|async)?.position">
+                </app-ordinal-number>-
+                {{ (status$|async)?.value }}</b>
+              <app-icon name="ecoLeavesHsc"></app-icon>
+            </p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="myTeam" *ngIf="(type$|async)==='my'; else publicProfile">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="2">
+            <ion-avatar *ngIf="(userProfile$|async)?.avatar?.avatarSmallUrl; else alternativeAvatar">
+              <img [src]="(userProfile$|async).avatar?.avatarSmallUrl" />
+            </ion-avatar>
+            <ng-template #alternativeAvatar>
+              <ion-avatar>
+                <ion-icon name="person-circle-outline"></ion-icon>
+              </ion-avatar>
+            </ng-template>
+          </ion-col>
+          <ion-col>
+            {{(userProfile$|async)?.nickname}}
+          </ion-col>
+          <ion-col>
+            <p class="player-detail">{{(myStatus$|async)?.score}}
+              <app-icon name="ecoLeavesHsc"></app-icon>
+            </p>
+          </ion-col>
+        </ion-row>
+        <ng-container *ngFor="let student of (team$|async)?.members">
+          <ion-row *ngIf="(playerId$|async)!==student.playerId">
+            <ion-col size="2">
+              <ion-avatar *ngIf="student.avatar?.url; else alternativeAvatar">
+                <img [src]="student.avatar?.url" />
+              </ion-avatar>
+              <ng-template #alternativeAvatar>
+                <ion-avatar>
+                  <ion-icon name="person-circle-outline"></ion-icon>
+                </ion-avatar>
+              </ng-template>
+            </ion-col>
+            <ion-col>
+              {{student.nickname}}
+            </ion-col>
+          </ion-row>
+        </ng-container>
+      </ion-grid>
+    </div>
+    <ng-template #publicProfile>
+      <div *ngIf="(stat$|async)">
+        <ion-grid>
+          <ion-row *ngFor="let avg of (stat$|async)">
+            <ion-col size="3" class="ion-text-center">
+              <app-icon class="big-icon" [name]="getTransportTypeIcon(avg.mean)"></app-icon>
+            </ion-col>
+            <ion-col>
+              <div>
+                <span>
+                  {{ getTransportTypeLabel(avg.mean) | translate }}
+                </span>
+
+              </div>
+              <div>{{
+                'campaigns.detail.teamAvg'|translate:{value: (avg.value/1000)| localNumber: '0.0-1' }
+                }}</div>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ng-template>
+    <div>
+    </div>
+  </div>
 </ion-content>

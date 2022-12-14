@@ -10,6 +10,8 @@ const routes: RoutesWithPageSettings = [
     component: SchoolLeaderboardPage,
     data: {
       title: 'leaderboard.title',
+      color: 'school',
+      backButton: true
     },
   },
 ];
@@ -18,4 +20,4 @@ const routes: RoutesWithPageSettings = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SchoolLeaderboardPageRoutingModule {}
+export class SchoolLeaderboardPageRoutingModule { }

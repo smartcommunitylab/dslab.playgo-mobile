@@ -1,11 +1,11 @@
 <ion-item *ngIf="placing" [class.my-placing]="(myTeam$ | async)?.id === placing.groupId" [ngStyle]="{
-    border: first
+    border: mine
       ? '3px solid var(--ion-color-' + campaign?.campaign?.type + ')'
       : ''
   }" [routerLink]="
-    (myTeam$ | async) !== placing.groupId
-      ? ['/pages/team-profile/' + campaign?.campaign?.campaignId + '/' + placing.groupId]
-      : []
+    (myTeam$ | async)?.id !== placing.groupId
+      ? ['/pages/team-profile/' + campaign?.campaign?.campaignId + '/' + placing.groupId+'/public']
+      : ['/pages/team-profile/' + campaign?.campaign?.campaignId + '/' + placing.groupId+'/my']
   " detail="false">
   <ion-grid>
     <ion-row>

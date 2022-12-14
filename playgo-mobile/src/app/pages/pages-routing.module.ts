@@ -39,7 +39,7 @@ import { RouterModule } from '@angular/router';
           ),
       },
       {
-        path: 'team-profile/:initiativeId/:teamId',
+        path: 'team-profile/:initiativeId/:teamId/:type',
         loadChildren: () =>
           import('./team-profile/team-profile.module').then(
             (m) => m.TeamProfilePageModule

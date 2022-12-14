@@ -18,4 +18,4 @@ const routes: RoutesWithPageSettings = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LeaderboardPageRoutingModule {}
+export class LeaderboardPageRoutingModule { }

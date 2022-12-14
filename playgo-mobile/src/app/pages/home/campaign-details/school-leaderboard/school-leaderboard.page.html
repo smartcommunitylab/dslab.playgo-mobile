@@ -52,14 +52,14 @@
           </ion-col>
         </ion-row>
         <app-school-placing-detail [placing]="teamPosition$ | async" [unitLabelKey]="numberWithUnitKey$ | async"
-          [first]="true" [campaign]="campaignContainer">
+          [mine]="true" [campaign]="campaignContainer">
         </app-school-placing-detail>
       </div>
       <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
         <app-infinite-scroll [resetItems]="resetItems$ | async" [response]="leaderboardScrollResponse$ | async"
           (request)="scrollRequestSubject.next($event)">
           <ng-template appInfiniteScrollContent let-placing="item">
-            <app-school-placing-detail [placing]="placing" [unitLabelKey]="numberWithUnitKey$ | async" [first]="false"
+            <app-school-placing-detail [placing]="placing" [unitLabelKey]="numberWithUnitKey$ | async" [mine]="false"
               [campaign]="campaignContainer"></app-school-placing-detail>
           </ng-template>
         </app-infinite-scroll>

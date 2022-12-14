@@ -7,6 +7,7 @@ import { Avatar } from '../../api/generated-hsc/model/avatar';
 import { PlacingComparison } from '../../api/generated-hsc/model/placingComparison';
 import { PlayerTeam } from '../../api/generated-hsc/model/playerTeam';
 import { CampaignPlacing } from '../../api/generated/model/campaignPlacing';
+import { TransportStat } from '../../api/generated/model/transportStat';
 import { ErrorService } from './error.service';
 
 @Injectable({
@@ -76,6 +77,9 @@ export class TeamService {
         }
         return url + '?t=' + new Date().getTime();
     }
+    getTeamAvg(campaignId: string, groupId: string, metric: string): Observable<TransportStat[]> {
+        return this.teamStatsControllerService.getGroupTransportStatsGroupByMeanUsingGET({ campaignId, groupId, metric });
+    }
     getTeamPlacing(
         campaignId?: string,
         groupId?: string,
@@ -91,6 +95,13 @@ export class TeamService {
     }
     getMyTeam(campaignId: string, groupId: string): Observable<PlayerTeam> {
         return this.playerTeamController.getMyTeamInfoUsingGET(
+            {
+                initiativeId: campaignId,
+                teamId: groupId
+            }).pipe(shareReplay(1));
+    }
+    getPublicTeam(campaignId: string, groupId: string): Observable<PlayerTeam> {
+        return this.playerTeamController.getPublicTeamInfoUsingGET(
             {
                 initiativeId: campaignId,
                 teamId: groupId
