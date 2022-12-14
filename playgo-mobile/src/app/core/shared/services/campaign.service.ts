@@ -156,13 +156,13 @@ export class CampaignService {
         api: environment.serverUrl.hscApi,
       },
       blacklist: {
-        present: true,
+        present: false,
       },
       stats: {
         present: true,
       },
       badges: {
-        present: true,
+        present: false,
       },
       dates: {
         present: true,

@@ -1,7 +1,11 @@
 .my-placing {
   font-weight: bold;
 }
-
+.nickname {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 ion-row {
   align-items: center;
 }
