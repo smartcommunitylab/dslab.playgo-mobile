@@ -7,16 +7,17 @@ import {
   shareReplay,
   switchMap,
   combineLatest,
-  tap,
 } from 'rxjs';
-import { CampaignInfo } from 'src/app/core/api/generated/model/campaignInfo';
-import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
-import { intersectionWith, isEqual } from 'lodash-es';
-import { tapLog } from 'src/app/core/shared/rxjs.utils';
 import { Avatar } from 'src/app/core/api/generated/model/avatar';
 import { TeamService } from 'src/app/core/shared/services/team.service';
+import { PlayerTeam } from 'src/app/core/api/generated-hsc/model/playerTeam';
+import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
+import { ReportService } from 'src/app/core/shared/services/report.service';
+import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
+import { TransportStat } from 'src/app/core/api/generated-hsc/model/transportStat';
+import { getTransportTypeIcon, getTransportTypeLabel } from 'src/app/core/shared/tracking/trip.model';
 
 @Component({
   selector: 'app-team-profile',
@@ -24,8 +25,23 @@ import { TeamService } from 'src/app/core/shared/services/team.service';
   styleUrls: ['./team-profile.page.scss'],
 })
 export class TeamProfilePage implements OnInit {
+  getTransportTypeIcon = getTransportTypeIcon;
+  getTransportTypeLabel = getTransportTypeLabel;
+
+  public userProfile$ = this.userService.userProfile$.pipe(
+    shareReplay(1)
+  );
+  public playerId$ = this.userProfile$.pipe(
+    map((userProfile) => userProfile.playerId),
+    shareReplay(1)
+  );
   public teamId$: Observable<string> = this.route.params.pipe(
     map((params) => params.teamId),
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+  public type$: Observable<string> = this.route.params.pipe(
+    map((params) => params.type),
     distinctUntilChanged(),
     shareReplay(1)
   );
@@ -34,7 +50,7 @@ export class TeamProfilePage implements OnInit {
     distinctUntilChanged(),
     shareReplay(1)
   );
-  public userAvatar$: Observable<Avatar> = this.teamId$.pipe(
+  public teamAvatar$: Observable<Avatar> = this.teamId$.pipe(
     switchMap((teamId) =>
       this.teamService
         .getTeamAvatar(teamId)
@@ -42,46 +58,44 @@ export class TeamProfilePage implements OnInit {
     ),
     shareReplay(1)
   );
-  // public campaigns$: Observable<CampaignInfo[]> = combineLatest([
-  //   this.teamId$,
-  //   this.initiativeId$,
-  // ]).pipe(
-  //   switchMap(([userId, myCampaigns]) =>
-  //     this.campaignService.getCampaignByPlayerId(userId).pipe(
-  //       tapLog('Initial Campaign'),
-  //       map(
-  //         //filter my campaigns in order to have only common campaigns
-  //         (otherUserCampaigns) =>
-  //         // eslint-disable-next-line max-len
-  //         {
-  //           const intersection = intersectionWith(
-  //             otherUserCampaigns.map((campaign) => campaign.campaignId),
-  //             myCampaigns.map((campaign) => campaign.campaign.campaignId),
-  //             isEqual
-  //           );
-  //           return otherUserCampaigns.filter(
-  //             (campaign) =>
-  //               intersection.includes(campaign.campaignId) &&
-  //               campaign.type !== 'personal' &&
-  //               campaign.type !== 'company'
-  //           );
-  //         }
-  //       ),
-  //       tapLog('filteredcampaign'),
-  //       ////filter personal campaign and campaigns without challenge 'personal' && 'company'
-  //       this.errorService.getErrorHandler()
-  //     )
-  //   ),
-  //   tap((campaigns) => console.log(campaigns)),
-  //   shareReplay(1)
-  // );
-  // public campaigns: PlayerCampaign[] = [];
+  public team$: Observable<PlayerTeam> = combineLatest([
+    this.teamId$, this.initiativeId$, this.type$
+  ]).pipe(
+    switchMap(([teamId, initiativeId, type]) => {
+      if (type === 'public') {
+        return this.teamService.getPublicTeam(
+          initiativeId,
+          teamId);
+      } else {
+        return this.teamService.getMyTeam(
+          initiativeId,
+          teamId);
+      }
+    }));
+  public status$: Observable<CampaignPlacing> = combineLatest([
+    this.teamId$, this.initiativeId$
+  ]).pipe(
+    switchMap(([teamId, initiativeId]) =>
+      this.teamService.getTeamPlacing(initiativeId, teamId)));
+
+  public myStatus$: Observable<PlayerGameStatus> =
+    this.initiativeId$.pipe(
+      switchMap(initiativeID => this.reportService.getGameStatus(initiativeID)));
+
+  public stat$: Observable<TransportStat[]> = combineLatest([
+    this.teamId$, this.initiativeId$
+  ]).pipe(
+    switchMap(([teamId, initiativeId]) =>
+      this.teamService.getTeamAvg(initiativeId, teamId, 'km')));
   constructor(
     private route: ActivatedRoute,
     private errorService: ErrorService,
     private teamService: TeamService,
-    private campaignService: CampaignService
+    private userService: UserService,
+    private reportService: ReportService
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
+
 }

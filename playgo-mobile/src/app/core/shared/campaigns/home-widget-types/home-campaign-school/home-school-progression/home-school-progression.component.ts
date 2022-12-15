@@ -28,7 +28,9 @@ export class HomeSchoolProgressionComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
   getPercentage(arg0: PlacingComparison) {
-    return (arg0.value - arg0.min) > 0 ? ((arg0.max - arg0.min) / (arg0.value - arg0.min)) : 0;
+    return (arg0.value - arg0.min) > 0 ?
+      ((arg0.max - arg0.min) / (arg0.value - arg0.min)) :
+      ((arg0.max === arg0.min && arg0.min === arg0.value && arg0.value === 0) ? 0 : 100);
   }
   async openLimit(event: any) {
     event.stopPropagation();

@@ -7,7 +7,8 @@
         <ion-row>
           <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
-              <ion-select [disabled]="(useMeanAndMetric$ |async)===false" [interfaceOptions]="{ cssClass: 'app-alert' }"
+              <ion-select interface="action-sheet" [disabled]="(useMeanAndMetric$ |async)===false"
+                [interfaceOptions]="{ cssClass: 'app-alert' }"
                 (ionChange)="selectedMeanChangedSubject.next($any($event))" [value]="selectedMean$ | async">
                 <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
                   {{meanLabels[mean] |translate}}
@@ -18,7 +19,7 @@
 
           <ion-col *ngIf="useMeanAndMetric$ |async">
             <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
-              <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+              <ion-select interface="action-sheet" [interfaceOptions]="{ cssClass: 'app-alert' }"
                 (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
                 <ion-select-option *ngFor="let metric of metrics" [value]="metric">
                   {{metricToUnitLabel[metric] |translate}}
@@ -42,7 +43,7 @@
         <ion-row>
           <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type">
-              <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+              <ion-select interface="action-sheet" [interfaceOptions]="{ cssClass: 'app-alert' }"
                 (ionChange)="periodChangedSubject.next($any($event))" [value]="selectedPeriod$ | async">
                 <ion-select-option *ngFor="let period of periods" [value]="period">
                   {{period.labelKey |translate}}

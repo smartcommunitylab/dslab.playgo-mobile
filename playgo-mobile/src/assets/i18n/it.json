@@ -268,7 +268,7 @@
     "title": "Campaigns",
     "join": "Iscriviti",
     "notStarted": "La campagna non é attiva",
-    "cantSubscribe": "La campagna è in corso, il tuo nickname però non appartiene a nessuna squadra. Per partecipare rivolgiti al docente referente",
+    "cantSubscribe": "La campagna è in corso. <br> Il tuo nickname non appartiene a nessuna squadra. Per partecipare rivolgiti al docente referente",
     "novaliddate": "Il periodo della campagna non risulta valido",
     "noDesc": "Nessuna descrizione fornita",
     "myCampaigns": "Le mie",
@@ -318,6 +318,8 @@
     "detail": {
       "playerProgression": "Come stai andando",
       "teamProgression": "Come sta andando la tua squadra",
+      "teamDetailRanking": "Classifica Generale:",
+      "teamAvg": "{{value}} Km/mese per utente",
       "points": "Punteggio settimanale: ",
       "noPoints": "Punteggio settimanale: 0",
       "modalTeam": "<div class=\"ion-text-start\"><i>Questo componente mostra la performance della tua squadra in confronto alla squadra più attiva e a quella meno attiva <b> in questa settimana</b>.<br/><br/>A sinistra viene rappresentato il punteggio della squadra meno attiva.<br/><br/> A destra invece quello della squadra più attiva. La barra rappresenta il tuo posizionamento rispetto ai due punteggi. <br/><br/><b>Valori dal {{dateFrom}} al {{dateTo }}</b>:<br /><br/></i></div>",
@@ -374,7 +376,7 @@
         "totalvalue": "<b>{{value}} {{unit}}</b> complessivo",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}}",
         "levelName": "<b>Livello : {{levelName}}</b>",
-        "score": "Punti: {{score}}",
+        "score": " ",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
         "status": "{{score}} Kg CO₂ risparmiata",
         "record": "{{record}} Record Settimanale",
@@ -461,9 +463,9 @@
         "duration": "ore"
       },
       "leaderboard_type_unit": {
-        "co2": "{{value}} kg CO₂",
-        "GL": "{{value}} ecoLeaves",
-        "km": "{{value}} km",
+        "co2": "{{value}} kg",
+        "GL": "{{value}}",
+        "km": "{{value}}",
         "duration": "{{value}} ore",
         "tracks": "{{value}}"
       },

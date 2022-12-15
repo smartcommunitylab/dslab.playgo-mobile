@@ -269,7 +269,7 @@
     "join": "Join",
     "novaliddate": "The campaign's period is not valid",
     "notStarted": "The campaign is not active",
-    "cantSubscribe": "The campaign is running, but your nickname does not belong to any team. To participate, contact the teacher in charge",
+    "cantSubscribe": "The campaign is running.<br> Your nickname does not belong to any team. To participate, contact the teacher in charge",
     "noDesc": "No description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
@@ -318,6 +318,8 @@
     "detail": {
       "playerProgression": "How are you going",
       "teamProgression": "How is your team doing",
+      "teamDetailRanking": "General Ranking:",
+      "teamAvg": "{{value}} Km/mese per utente",
       "points": "Weekly points: ",
       "noPoints": "Weekly points: 0",
       "modalTeam": "<div class=\"ion-text-start\"><i>Questo componente mostra la performance della tua squadra in confronto alla squadra più attiva e a quella meno attiva <b> in questa settimana</b>.<br/><br/>A sinistra viene rappresentato il punteggio della squadra meno attiva.<br/><br/> A destra invece quello della squadra più attiva. La barra rappresenta il tuo posizionamento rispetto ai due punteggi. <br/><br/><b>Valori dal {{dateFrom}} al {{dateTo }}</b>:<br /><br/></i></div>",
@@ -374,7 +376,7 @@
         "totalvalue": "<b>{{value}} total value</b>",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}}",
         "levelName": "<b>Level : {{levelName}}</b>",
-        "score": "Points: {{score}}",
+        "score": " ",
         "emptystatus": "If you want to see your level and points start to play!",
         "status": "{{score}} Kg CO₂ saved",
         "record": "{{record}} weekly record",
@@ -462,7 +464,7 @@
       },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
-        "GL": "{{value}} ecoLeaves",
+        "GL": "{{value}}",
         "km": "{{value}} km",
         "duration": "{{value}} h",
         "tracks": "{{value}}"

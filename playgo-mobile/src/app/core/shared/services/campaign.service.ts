@@ -131,6 +131,9 @@ export class CampaignService {
       stats: {
         present: true,
       },
+      statsTeam: {
+        present: false,
+      },
       badges: {
         present: false,
       },
@@ -156,13 +159,16 @@ export class CampaignService {
         api: environment.serverUrl.hscApi,
       },
       blacklist: {
-        present: true,
+        present: false,
       },
       stats: {
+        present: false,
+      },
+      statsTeam: {
         present: true,
       },
       badges: {
-        present: true,
+        present: false,
       },
       dates: {
         present: true,
@@ -189,6 +195,9 @@ export class CampaignService {
       },
       stats: {
         present: true,
+      },
+      statsTeam: {
+        present: false,
       },
       badges: {
         present: false,
@@ -218,6 +227,9 @@ export class CampaignService {
       },
       stats: {
         present: true,
+      },
+      statsTeam: {
+        present: false,
       },
       badges: {
         present: true,

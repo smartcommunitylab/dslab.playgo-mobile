@@ -10,7 +10,9 @@ const routes: RoutesWithPageSettings = [
     component: TeamProfilePage,
     data: {
       title: 'teamprofile.title',
-      customHeader: true,
+      backButton: true,
+      showPlayButton: true,
+      color: 'school'
     },
   },
 ];

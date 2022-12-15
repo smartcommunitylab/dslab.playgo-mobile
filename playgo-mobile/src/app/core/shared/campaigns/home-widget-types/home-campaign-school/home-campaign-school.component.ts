@@ -68,8 +68,8 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
       this.teamService.getTeamPlacing(
         this.campaignContainer.campaign.campaignId,
         this.campaignContainer?.subscription?.campaignData?.teamId,
-        toServerDateOnly(DateTime.utc().minus({ week: 1 })),
-        toServerDateOnly(DateTime.utc())
+        toServerDateOnly(this.referenceDate.startOf('week')),
+        toServerDateOnly(this.referenceDate.endOf('week'))
       )
         .subscribe(
           (stats) => {

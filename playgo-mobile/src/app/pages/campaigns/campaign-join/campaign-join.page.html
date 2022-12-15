@@ -15,8 +15,8 @@
           {{'campaigns.notStarted'|translate}}
         </span>
         <ng-template #started>
-          <span *ngIf="!canSubscribe">
-            {{'campaigns.cantSubscribe'|translate}}
+          <span *ngIf="!canSubscribe" [innerHTML]="'campaigns.cantSubscribe'|translate">
+
           </span>
         </ng-template>
       </div>

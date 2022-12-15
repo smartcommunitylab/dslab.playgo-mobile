@@ -30,6 +30,13 @@
         <app-icon name="stat" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
+    <ion-card *ngIf="campaignHas('statsTeam')"
+      [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/stats-team']">
+      <ion-item [color]="campaignContainer?.campaign?.type">
+        <ion-label>{{'campaigns.detail.stats'|translate}} </ion-label>
+        <app-icon name="stat" class="icon-size-normal"></app-icon>
+      </ion-item>
+    </ion-card>
     <ion-card *ngIf="campaignHas('challenge')" [routerLink]="['/pages/tabs/challenges']">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.challenges'|translate}} </ion-label>
