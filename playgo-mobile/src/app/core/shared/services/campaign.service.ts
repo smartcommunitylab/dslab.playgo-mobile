@@ -131,6 +131,9 @@ export class CampaignService {
       stats: {
         present: true,
       },
+      statsTeam: {
+        present: false,
+      },
       badges: {
         present: false,
       },
@@ -159,6 +162,9 @@ export class CampaignService {
         present: false,
       },
       stats: {
+        present: false,
+      },
+      statsTeam: {
         present: true,
       },
       badges: {
@@ -190,6 +196,9 @@ export class CampaignService {
       stats: {
         present: true,
       },
+      statsTeam: {
+        present: false,
+      },
       badges: {
         present: false,
       },
@@ -218,6 +227,9 @@ export class CampaignService {
       },
       stats: {
         present: true,
+      },
+      statsTeam: {
+        present: false,
       },
       badges: {
         present: true,

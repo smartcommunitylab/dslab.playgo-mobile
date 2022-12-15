@@ -35,6 +35,11 @@ const routes: RoutesWithPageSettings = [
       import('./stats/stats.module').then((m) => m.StatsPageModule),
   },
   {
+    path: 'stats-team',
+    loadChildren: () =>
+      import('./stats-team/stats-team.module').then((m) => m.StatsTeamPageModule),
+  },
+  {
     path: 'faq',
     loadChildren: () =>
       import('./faq/faq.module').then((m) => m.FaqPageModule),

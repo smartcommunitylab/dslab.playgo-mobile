@@ -1,0 +1,69 @@
+<ion-header appHeader></ion-header>
+<ion-content appContent [fullscreen]="true">
+  <div class="header-margin">
+    <div class="header-sticky" [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
+      [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
+      <ion-row>
+        <ion-col>
+          <ion-item [color]="campaignContainer.campaign.type" class="header-radius">
+            <ion-select class="app-alert" [interfaceOptions]="{ cssClass: 'app-alert' }"
+              (ionChange)="selectedMeanChangedSubject.next($any($event))" [value]="selectedMean$ | async">
+              <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
+                {{meanLabels[mean] |translate}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item [color]="campaignContainer.campaign.type">
+            <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+              (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
+              <ion-select-option *ngFor="let metric of metrics" [value]="metric">
+                {{metricToSelectLabel[metric] |translate}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
+    <ion-segment mode="md" class="app-segment"
+      [style.--background]="'var(--ion-color-'+campaignContainer.campaign.type+')'" [(ngModel)]="selectedSegment"
+      (ionChange)="segmentChanged($event);
+      statPeriodChangedSubject.next(selectedSegment)" scrollable>
+      <ion-segment-button *ngFor="let period of periods" [value]="period" checked mode="ios" class="app-segment-button"
+        [style.--radius]="'10px'" [style.--color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'"
+        [style.--color-checked]="'black'">
+        <ion-label>{{period.labelKey| translate}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-grid class="table-header"
+      [style.background-color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat)'">
+      <ion-row>
+        <ion-col size="2">
+          <ion-button (click)="backPeriod()" fill="clear" *ngIf="thereIsPast()"
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'">
+            <ion-icon name="chevron-back"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="8">
+          <p class="ion-text-center period-value"
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
+            {{getSelectedPeriod()}}
+          </p>
+          <p class="ion-text-center total-value"
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
+            {{totalValue | localNumber}} {{metricToUnitLabel[selectedMetric$|async]|translate}}
+          </p>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button (click)="forwardPeriod()"
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'" *ngIf="thereIsFuture()"
+            fill="clear">
+            <ion-icon name="chevron-forward"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <canvas #barCanvas style="position: relative; height: 20vh; width: 40vw" id="statsChart"></canvas>
+  </div>
+</ion-content>

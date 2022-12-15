@@ -93,6 +93,24 @@ export class TeamService {
             dateTo,
         });
     }
+    getGroupStat(
+        campaignId: string,
+        groupId: string,
+        metric: string,
+        groupMode?: string,
+        mean?: string,
+        dateFrom?: string,
+        dateTo?: string): Observable<TransportStat[]> {
+        return this.teamStatsControllerService.getGroupTransportStatsUsingGET({
+            campaignId,
+            groupId,
+            metric,
+            groupMode,
+            mean,
+            dateFrom,
+            dateTo
+        })
+    }
     getMyTeam(campaignId: string, groupId: string): Observable<PlayerTeam> {
         return this.playerTeamController.getMyTeamInfoUsingGET(
             {
