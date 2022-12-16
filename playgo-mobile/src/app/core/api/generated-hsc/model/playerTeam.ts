@@ -19,5 +19,6 @@ export interface PlayerTeam {
   id?: string;
   initiativeId?: string;
   members?: Array<TeamMember>;
+  numMembers?: number;
   owner?: string;
 }

@@ -339,7 +339,7 @@ export class PlayerTeamControllerService {
    * @param initiativeId initiativeId
    * @param nickname nickname
    */
-  public subscribeTeamMemberUsingPOST(args: {
+  public subscribeTeamMemberUsingPOST1(args: {
     initiativeId: string;
     nickname: string;
   }): Observable<string> {
