@@ -71,7 +71,8 @@ export class TeamProfilePage implements OnInit {
           initiativeId,
           teamId);
       }
-    }));
+    }),
+    shareReplay(1));
   public status$: Observable<CampaignPlacing> = combineLatest([
     this.teamId$, this.initiativeId$
   ]).pipe(

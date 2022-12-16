@@ -1,6 +1,6 @@
 <ion-header appHeader></ion-header>
 <ion-content appContent>
-  <ng-container *ngIf="(campaign$ |async) !== null">
+  <ng-container *ngIf="(campaign$ |async) !== null && myTeam!==null">
     <div class="header-margin">
       <div class="header-sticky" [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
         [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
@@ -51,8 +51,8 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <app-school-placing-detail [placing]="teamPosition$ | async" [unitLabelKey]="numberWithUnitKey$ | async"
-          [mine]="true" [campaign]="campaignContainer">
+        <app-school-placing-detail [myTeam]="myTeam" [placing]="teamPosition$ | async"
+          [unitLabelKey]="numberWithUnitKey$ | async" [mine]="true" [campaign]="campaignContainer">
         </app-school-placing-detail>
       </div>
       <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
@@ -60,7 +60,7 @@
           (request)="scrollRequestSubject.next($event)">
           <ng-template appInfiniteScrollContent let-placing="item">
             <app-school-placing-detail [placing]="placing" [unitLabelKey]="numberWithUnitKey$ | async" [mine]="false"
-              [campaign]="campaignContainer"></app-school-placing-detail>
+              [campaign]="campaignContainer" [myTeam]="myTeam"></app-school-placing-detail>
           </ng-template>
         </app-infinite-scroll>
       </ng-container>
