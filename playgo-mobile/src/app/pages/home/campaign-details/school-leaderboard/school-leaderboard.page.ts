@@ -35,6 +35,7 @@ import { transportTypeLabels, TransportType } from 'src/app/core/shared/tracking
 import { TeamService } from 'src/app/core/shared/services/team.service';
 import { TeamStatsControllerService } from 'src/app/core/api/generated-hsc/controllers/teamStatsController.service';
 import { isInstanceOf } from 'src/app/core/shared/utils';
+import { PlayerTeam } from 'src/app/core/api/generated-hsc/model/playerTeam';
 
 @Component({
   selector: 'app-school-leaderboard',
@@ -43,6 +44,8 @@ import { isInstanceOf } from 'src/app/core/shared/utils';
 })
 export class SchoolLeaderboardPage implements OnInit, OnDestroy {
   referenceDate = DateTime.local();
+  myTeam: PlayerTeam;
+  myTeamSub: Subscription;
   periods = this.getPeriods(this.referenceDate);
 
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
@@ -239,7 +242,7 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    // private reportControllerService: ReportControllerService,
+    private teamService: TeamService,
     private teamStatsControllerService: TeamStatsControllerService,
     private campaignService: CampaignService,
     private errorService: ErrorService,
@@ -260,6 +263,7 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subCampaign.unsubscribe();
     this.subId.unsubscribe();
+    this.myTeamSub.unsubscribe();
   }
   ionViewWillEnter() {
     this.changePageSettings();
@@ -319,7 +323,16 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
     return toServerDateOnly(dateTime);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.myTeamSub = combineLatest([
+      this.campaignId$,
+      this.teamId$,
+    ]).pipe(
+      switchMap(([campaignId, teamId]) => this.teamService.getMyTeam(
+        campaignId,
+        teamId
+      ))).subscribe(team => this.myTeam = team);
+  }
 }
 
 type Period = {

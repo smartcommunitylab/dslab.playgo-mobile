@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, shareReplay } from 'rxjs';
+import { catchError, map, Observable, of, shareReplay, take } from 'rxjs';
 import { PlayerTeamControllerService } from '../../api/generated-hsc/controllers/playerTeamController.service';
 import { TeamStatsControllerService } from '../../api/generated-hsc/controllers/teamStatsController.service';
 import { Avatar } from '../../api/generated-hsc/model/avatar';
@@ -109,14 +109,15 @@ export class TeamService {
             mean,
             dateFrom,
             dateTo
-        })
+        });
     }
     getMyTeam(campaignId: string, groupId: string): Observable<PlayerTeam> {
         return this.playerTeamController.getMyTeamInfoUsingGET(
             {
                 initiativeId: campaignId,
                 teamId: groupId
-            }).pipe(shareReplay(1));
+            }).pipe(
+                shareReplay(1));
     }
     getPublicTeam(campaignId: string, groupId: string): Observable<PlayerTeam> {
         return this.playerTeamController.getPublicTeamInfoUsingGET(

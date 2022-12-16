@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { CampaignPlacing } from 'src/app/core/api/generated-hsc/model/campaignPlacing';
 import { PlayerTeam } from 'src/app/core/api/generated-hsc/model/playerTeam';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
@@ -20,7 +20,7 @@ export class SchoolPlacingDetailComponent implements OnInit {
   unitLabelKey: TranslateKey;
   @Input() mine: boolean;
   @Input() campaign: PlayerCampaign;
-  myTeam$: Observable<PlayerTeam>;
+  @Input() myTeam: PlayerTeam;
   @Input() teamId: string;
 
   // playerId$ = this.userService.userProfile$.pipe(
@@ -42,10 +42,10 @@ export class SchoolPlacingDetailComponent implements OnInit {
   }
   ngOnInit() {
     console.log(this.placing);
-    this.myTeam$ = this.teamService.getMyTeam(
-      this.campaign?.campaign?.campaignId,
-      this.campaign?.subscription?.campaignData?.teamId
-    );
+    // this.myTeam$ = this.teamService.getMyTeam(
+    //   this.campaign?.campaign?.campaignId,
+    //   this.campaign?.subscription?.campaignData?.teamId
+    // ).pipe(shareReplay(1));
   }
 }
 
