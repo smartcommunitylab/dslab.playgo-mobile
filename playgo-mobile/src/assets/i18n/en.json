@@ -323,6 +323,7 @@
       "points": "Weekly points: ",
       "noPoints": "Weekly points: 0",
       "members": "{{members}} members",
+      "member": "{{members}} member",
       "modalTeam": "<div class=\"ion-text-start\"><i>This component shows the performance of your team compared to the most active and least active <b>team this week</b> .<br/><br/>The score of the less active team is shown on the left.<br/><br/> The score of the more active team is shown on the right. <br/>The bar represents your position with respect to the two scores. <br /><br/><b>Values from {{dateFrom}} to {{dateTo }}</b>:<br /><br/></i></div>",
       "modalBestTeam": "Best team score: ",
       "modalActualTeam": "Your team score: ",

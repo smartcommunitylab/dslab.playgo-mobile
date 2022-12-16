@@ -18,10 +18,20 @@
           </ion-col>
         </ion-row>
         <ion-row *ngIf="(team$|async)?.members">
-          <ion-col class="ion-text-start"><span class="members">{{
+          <ion-col class="ion-text-start"><span class="members"
+              *ngIf="(team$|async)?.members?.length>1 ||(team$|async)?.numMembers>1 ; else singlePlayer">{{
               'campaigns.detail.members'
-              | translate: { members: (team$|async)?.members?.length }
-              }}</span></ion-col>
+              | translate: { members:
+              (team$|async)?.members?.length?(team$|async)?.members?.length:(team$|async)?.numMembers }
+              }}</span>
+            <ng-template #singlePlayer>
+              <span class="members">{{
+                'campaigns.detail.member'
+                | translate: { members:
+                (team$|async)?.members?.length?(team$|async)?.members?.length:(team$|async)?.numMembers }
+                }}</span>
+            </ng-template>
+          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
