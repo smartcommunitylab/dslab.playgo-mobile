@@ -17,6 +17,12 @@
               {{(team$|async)?.customData?.school}} {{(team$|async)?.customData?.cls}}</span>
           </ion-col>
         </ion-row>
+        <ion-row *ngIf="(team$|async)?.members">
+          <ion-col class="ion-text-start"><span class="members">{{
+              'campaigns.detail.members'
+              | translate: { members: (team$|async)?.members?.length }
+              }}</span></ion-col>
+        </ion-row>
         <ion-row>
           <ion-col>
             <p class="team-detail"><b>{{'campaigns.detail.teamDetailRanking'|translate}}<app-ordinal-number

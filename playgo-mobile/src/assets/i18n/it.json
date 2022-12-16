@@ -322,6 +322,7 @@
       "teamAvg": "{{value}} Km/mese per utente",
       "points": "Punteggio settimanale: ",
       "noPoints": "Punteggio settimanale: 0",
+      "members": "{{members}} membri",
       "modalTeam": "<div class=\"ion-text-start\"><i>Questo componente mostra la performance della tua squadra in confronto alla squadra più attiva e a quella meno attiva <b> in questa settimana</b>.<br/><br/>A sinistra viene rappresentato il punteggio della squadra meno attiva.<br/><br/> A destra invece quello della squadra più attiva.<br/> La barra rappresenta il tuo posizionamento rispetto ai due punteggi. <br/><br/><b>Valori dal {{dateFrom}} al {{dateTo }}</b>:<br /><br/></i></div>",
       "modalBestTeam": "Punteggio squadra migliore: ",
       "modalActualTeam": "Punteggio della tua squadra: ",
