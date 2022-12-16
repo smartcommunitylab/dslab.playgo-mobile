@@ -9,8 +9,14 @@
 ion-row {
   align-items: center;
 }
-
+ion-avatar {
+  width: 48px;
+  height: 48px;
+  img {
+    margin: 4px;
+  }
+}
 ion-icon {
-  width: 45px;
-  height: 45px;
+  width: 59px;
+  height: 59px;
 }
