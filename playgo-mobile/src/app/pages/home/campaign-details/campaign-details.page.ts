@@ -181,6 +181,9 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   isCompany() {
     return this.campaignContainer.campaign.type === 'company';
   }
+  isSchool() {
+    return this.campaignContainer.campaign.type === 'school';
+  }
   getLeaderboardLink(): [string] {
     const isSchool = this.campaignContainer.campaign.type === 'school';
     const page = isSchool ? 'school-leaderboard' : 'leaderboard';

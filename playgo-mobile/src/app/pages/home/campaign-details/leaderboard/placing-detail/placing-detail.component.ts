@@ -26,7 +26,7 @@ export class PlacingDetailComponent implements OnInit {
     map((userProfile) => userProfile.avatar.avatarSmallUrl)
   );
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
   getValue(value: number) {
     if (
       this.unitLabelKey === 'campaigns.leaderboard.leaderboard_type_unit.km'
@@ -35,5 +35,19 @@ export class PlacingDetailComponent implements OnInit {
     }
     return value;
   }
-  ngOnInit() {}
+  ngOnInit() { }
+  getIcon() {
+    //get icon based on unitLabelKey
+    switch (this.unitLabelKey) {
+      case 'campaigns.leaderboard.leaderboard_type_unit.km':
+        return '';
+      case 'campaigns.leaderboard.leaderboard_type_unit.co2':
+        return 'co2';
+      case 'campaigns.leaderboard.leaderboard_type_unit.GL':
+        return 'ecoLeavesCity';
+      default:
+        return '';
+    }
+  }
+
 }

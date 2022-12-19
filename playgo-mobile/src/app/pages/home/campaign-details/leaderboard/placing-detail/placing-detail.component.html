@@ -35,10 +35,12 @@
         <span class="nickname">{{ placing.nickname }}</span>
       </ion-col>
       <ion-col size="3" class="ion-text-end">
-        {{
-        unitLabelKey
-        | translate: { value: getValue(placing.value) | localNumber: '0.0-1' }
-        }}
+        <div class="points">{{
+          unitLabelKey
+          | translate: { value: getValue(placing.value) | localNumber: '0.0-1' }
+          }}
+          <app-icon [name]="getIcon()"></app-icon>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

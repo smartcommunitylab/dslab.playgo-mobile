@@ -127,7 +127,7 @@
         <div [innerHTML]="getCampaignSponsor(campaignContainer?.campaign?.details | languageMap)?.content"></div>
       </ion-card-content>
     </ion-card>
-    <ion-card (click)="unsubscribeCampaign()" *ngIf="!isPersonal()">
+    <ion-card (click)="unsubscribeCampaign()" *ngIf="!isPersonal() && !isSchool()">
       <ion-item color="danger">
         <ion-label>{{'campaigns.detail.unsubscribe'|translate}} </ion-label>
         <app-icon name="leave" class="icon-size-normal"></app-icon>
