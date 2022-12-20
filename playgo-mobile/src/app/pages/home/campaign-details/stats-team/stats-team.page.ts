@@ -298,7 +298,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
     this.statPeriodChangedSubject.next(this.periods[tabIndex]);
   }
 
-  daysFromInterval(): Array<DateTime> {
+  daysFromInterval(): Array<any> {
     const retArr = [];
     const start = this.selectedPeriod.from;
     const end = this.selectedPeriod.to;
@@ -307,7 +307,14 @@ export class StatsTeamPage implements OnInit, OnDestroy {
     cursor = cursor.startOf(this.selectedPeriod.group);
     while (cursor < interval.end) {
       //begin of the element
-      retArr.push(cursor);
+      if (this.selectedPeriod.group !== 'week') { retArr.push({ label: cursor.toFormat(this.selectedPeriod.chartFormat), date: cursor }); }
+      else {
+        retArr.push({
+          label: cursor.toFormat(this.selectedPeriod.chartFormat) +
+            '-' +
+            cursor.endOf('week').toFormat(this.selectedPeriod.chartFormat), date: cursor
+        });
+      }
       cursor = cursor.plus({ [this.selectedPeriod.group]: 1 });
     }
     return retArr;
@@ -384,7 +391,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
 
     //build using stats and this.selectedPeriod
     const arrOfPeriod = this.daysFromInterval();
-    const arrOfValues = this.valuesFromStat(arrOfPeriod, stats);
+    const arrOfValues = this.valuesFromStat(arrOfPeriod.map(period => period.date), stats);
 
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
@@ -399,16 +406,17 @@ export class StatsTeamPage implements OnInit, OnDestroy {
 
           if (points.length) {
             const firstPoint = points[0];
-            const label = this.barChart.data.labels[firstPoint.index];
+            const label = arrOfPeriod.find(data => data.label === this.barChart.data.labels[firstPoint.index])?.date;
+            //const label = this.barChart.data.labels[firstPoint.index];
             //clicked on label x so I have to switch to that view base on what I'm watching
-            this.changeView(label);
+            this.changeView(label.toFormat(this.selectedPeriod.format));
             //const value = this.barChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
           }
         },
       },
       data: {
         labels: arrOfPeriod.map((period) =>
-          period.toFormat(this.selectedPeriod.format)
+          period.label
         ),
         datasets: [
           {
