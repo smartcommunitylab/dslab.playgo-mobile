@@ -33,6 +33,7 @@ export function getPeriods(referenceDate: DateTime): Period[] {
       label: 'dd - MMMM',
       group: 'day',
       format: 'dd-MM',
+      chartFormat: 'EEE',
       add: 'week',
       switchTo: null,
       from: referenceDate.startOf('week'),
@@ -43,6 +44,7 @@ export function getPeriods(referenceDate: DateTime): Period[] {
       label: 'MMMM',
       group: 'week',
       format: 'dd-MM-yyyy',
+      chartFormat: 'dd',
       add: 'month',
       switchTo: 'day',
       from: referenceDate.startOf('month'),
@@ -53,6 +55,7 @@ export function getPeriods(referenceDate: DateTime): Period[] {
       label: 'yyyy',
       group: 'month',
       format: 'MM-yyyy',
+      chartFormat: 'MMM',
       add: 'year',
       switchTo: 'week',
       from: referenceDate.startOf('year'),
@@ -66,6 +69,7 @@ export type Period = {
   label: string;
   add: DateTimeUnit;
   format: string;
+  chartFormat: string;
   switchTo: string;
   group: DateTimeUnit;
   from: DateTime;
