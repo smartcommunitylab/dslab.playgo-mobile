@@ -5,7 +5,7 @@
     <ion-col text-center>
       <ion-item lines="full">
         <ion-label>{{'profile.change.lang.language'|translate}}</ion-label>
-        <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+        <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
           placeholder="{{'profile.change.lang.select'|translate}}" [(ngModel)]="profile.language"
           (ionChange)="updateLanguage()">
           <ion-select-option value="it"><b>{{'profile.change.lang.it'|translate}}</b></ion-select-option>
