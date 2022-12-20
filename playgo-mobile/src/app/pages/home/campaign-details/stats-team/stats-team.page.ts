@@ -162,6 +162,8 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   subCampaign: Subscription;
   campaignContainer: PlayerCampaign;
   divider = 1000;
+  style = getComputedStyle(document.body);
+
   constructor(
     private route: ActivatedRoute,
     private teamService: TeamService,
@@ -421,8 +423,8 @@ export class StatsTeamPage implements OnInit, OnDestroy {
         datasets: [
           {
             data: arrOfValues,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: this.style.getPropertyValue('--ion-color-' + this.campaignContainer.campaign.type),
+            borderColor: this.style.getPropertyValue('--ion-color-' + this.campaignContainer.campaign.type),
             borderWidth: 1,
           },
         ],
