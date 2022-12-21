@@ -1,5 +1,5 @@
 <div class="container">
-  <ion-grid class="ion-no-margin">
+  <ion-grid>
     <ion-row class="min-height ion-no-margin">
       <ion-col class="ion-no-margin" size="2" *ngIf="reportWeekStat || reportMonthStat || reportTotalStat">
         <app-icon class="icon-header" *ngIf="showRanking; else typeIcon" name="leaderboard"></app-icon>
@@ -11,7 +11,7 @@
       </ion-col>
       <ion-col size="10" *ngIf="showRanking" class="ranking ion-no-margin">
         <ng-container *ngIf="reportWeekStat">
-          <ion-row class="ion-no-margin">
+          <ion-row class="ion-no-margin stat-row">
             <ion-col size="5" class="ion-no-margin ion-no-padding">
               <span class="ion-text-left">
                 {{ "campaigns.homewidgets.stat.weekposition" | translate }}
@@ -29,15 +29,15 @@
                     *ngIf="unit!=='eL'">{{unit}}</span></b>
               </p>
             </ion-col>
-            <ion-col class="ion-text-start ion-margin-end ion-margin-end">
-              <app-icon class="icon-size-normal" [name]="
+            <ion-col class="ion-text-start ion-margin-end ion-margin-end ion-no-padding">
+              <app-icon class="icon-size-normal" class="icon-stat" [name]="
         campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
       "></app-icon>
             </ion-col>
           </ion-row>
         </ng-container>
         <ng-container *ngIf="reportTotalStat" class="ion-text-left">
-          <ion-row class="ion-no-margin">
+          <ion-row class="ion-no-margin stat-row">
             <ion-col size="5" class="ion-no-margin ion-no-padding">
               <span>
                 {{ "campaigns.homewidgets.stat.totalposition" | translate }} </span>
@@ -53,8 +53,8 @@
                     *ngIf="unit!=='eL'">{{unit}}</span></b>
               </p>
             </ion-col>
-            <ion-col class="ion-text-start ion-margin-end ion-margin-end">
-              <app-icon class="icon-size-normal" [name]="
+            <ion-col class="ion-text-start ion-margin-end ion-margin-end ion-no-padding">
+              <app-icon class="icon-size-normal" class="icon-stat" [name]="
             campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
           "></app-icon>
             </ion-col>

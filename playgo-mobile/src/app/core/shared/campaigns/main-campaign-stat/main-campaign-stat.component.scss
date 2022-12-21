@@ -3,7 +3,7 @@
   color: black;
   ion-grid {
     .min-height {
-      min-height: 100px;
+      min-height: 70px;
     }
     ion-col {
       display: flex;
@@ -35,4 +35,9 @@
 }
 .unit-value {
   min-width: 40px;
+}
+.stat-row {
+  ion-col {
+    margin: 0px 2px;
+  }
 }
