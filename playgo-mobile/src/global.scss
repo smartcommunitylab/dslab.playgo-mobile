@@ -320,6 +320,11 @@ ion-segment-button:not(.segment-button-checked) {
   justify-content: center;
   align-items: center;
 }
+.flex-end {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
 .progress-bar {
   padding: 2px;
   border: solid 1px var(--ion-color-sad-gray);

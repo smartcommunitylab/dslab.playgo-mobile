@@ -70,6 +70,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   selectedMetricChangedSubject = new Subject<SelectCustomEvent<Metric>>();
   meanLabels: Record<Mean, TranslateKey> = {
     ...transportTypeLabels,
+    [ALL_MEANS]: 'campaigns.leaderboard.all_means',
   };
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
@@ -92,6 +93,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   means$: Observable<Mean[]>;
   selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
     map((event) => event.detail.value),
+    startWith(ALL_MEANS),
     shareReplay(1)
   );
   metrics: Metric[];
@@ -150,7 +152,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
           teamId,
           metric,
           period.group,
-          mean,
+          mean === ALL_MEANS ? null : mean,
           toServerDateOnly(period.from),
           toServerDateOnly(period.to),
         )
@@ -162,6 +164,8 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   subCampaign: Subscription;
   campaignContainer: PlayerCampaign;
   divider = 1000;
+  style = getComputedStyle(document.body);
+
   constructor(
     private route: ActivatedRoute,
     private teamService: TeamService,
@@ -194,10 +198,10 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   initMeanAndMetrics() {
 
     this.metrics = this.campaignContainer.campaign.type === 'company' ? ['co2', 'km'] : ['co2', 'km', 'time', 'tracks'];
-    this.means$ = of(this.campaignContainer.campaign.validationData.means);
-    this.selectedMeanChangedSubject.next({
-      detail: { value: this.campaignContainer?.campaign?.validationData?.means[0] },
-    } as SelectCustomEvent<TransportType>);
+    this.means$ = of([ALL_MEANS, ...this.campaignContainer.campaign.validationData.means]);
+    // this.selectedMeanChangedSubject.next({
+    //   detail: { value: this.campaignContainer?.campaign?.validationData?.means[0] },
+    // } as SelectCustomEvent<TransportType>);
   }
   ionViewWillEnter() {
     this.changePageSettings();
@@ -298,7 +302,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
     this.statPeriodChangedSubject.next(this.periods[tabIndex]);
   }
 
-  daysFromInterval(): Array<DateTime> {
+  daysFromInterval(): Array<any> {
     const retArr = [];
     const start = this.selectedPeriod.from;
     const end = this.selectedPeriod.to;
@@ -307,7 +311,14 @@ export class StatsTeamPage implements OnInit, OnDestroy {
     cursor = cursor.startOf(this.selectedPeriod.group);
     while (cursor < interval.end) {
       //begin of the element
-      retArr.push(cursor);
+      if (this.selectedPeriod.group !== 'week') { retArr.push({ label: cursor.toFormat(this.selectedPeriod.chartFormat), date: cursor }); }
+      else {
+        retArr.push({
+          label: cursor.toFormat(this.selectedPeriod.chartFormat) +
+            '-' +
+            cursor.endOf('week').toFormat(this.selectedPeriod.chartFormat), date: cursor
+        });
+      }
       cursor = cursor.plus({ [this.selectedPeriod.group]: 1 });
     }
     return retArr;
@@ -384,7 +395,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
 
     //build using stats and this.selectedPeriod
     const arrOfPeriod = this.daysFromInterval();
-    const arrOfValues = this.valuesFromStat(arrOfPeriod, stats);
+    const arrOfValues = this.valuesFromStat(arrOfPeriod.map(period => period.date), stats);
 
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
@@ -399,22 +410,23 @@ export class StatsTeamPage implements OnInit, OnDestroy {
 
           if (points.length) {
             const firstPoint = points[0];
-            const label = this.barChart.data.labels[firstPoint.index];
+            const label = arrOfPeriod.find(data => data.label === this.barChart.data.labels[firstPoint.index])?.date;
+            //const label = this.barChart.data.labels[firstPoint.index];
             //clicked on label x so I have to switch to that view base on what I'm watching
-            this.changeView(label);
+            this.changeView(label.toFormat(this.selectedPeriod.format));
             //const value = this.barChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
           }
         },
       },
       data: {
         labels: arrOfPeriod.map((period) =>
-          period.toFormat(this.selectedPeriod.format)
+          period.label
         ),
         datasets: [
           {
             data: arrOfValues,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: this.style.getPropertyValue('--ion-color-' + this.campaignContainer.campaign.type),
+            borderColor: this.style.getPropertyValue('--ion-color-' + this.campaignContainer.campaign.type),
             borderWidth: 1,
           },
         ],
@@ -452,7 +464,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   }
 }
 
-type Mean = TransportType;
-
+type Mean = TransportType | typeof ALL_MEANS;
+const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
 type Metric = 'co2' | 'km' | 'tracks' | 'time';
 

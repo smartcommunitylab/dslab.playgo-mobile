@@ -459,7 +459,7 @@
         "duration": "duration"
       },
       "unit": {
-        "co2": "CO₂",
+        "co2": "CO₂ Kg",
         "km": "km",
         "tracks": "tracks",
         "duration": "hours"

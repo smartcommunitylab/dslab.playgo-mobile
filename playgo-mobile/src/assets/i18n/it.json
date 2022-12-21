@@ -459,13 +459,13 @@
         "duration": "Durata"
       },
       "unit": {
-        "co2": "CO₂",
+        "co2": "CO₂ Kg",
         "km": "Km",
         "tracks": "tracciati",
         "duration": "ore"
       },
       "leaderboard_type_unit": {
-        "co2": "{{value}} kg",
+        "co2": "{{value}}",
         "GL": "{{value}}",
         "km": "{{value}}",
         "duration": "{{value}} ore",

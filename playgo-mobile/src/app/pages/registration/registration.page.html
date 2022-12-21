@@ -61,7 +61,7 @@
       </div>
       <ion-item lines="full" color="playgo">
         <ion-label>{{'registration.lang.language'|translate}}</ion-label>
-        <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+        <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
           placeholder="{{'registration.lang.select'|translate}}" formControlName="language">
           <ion-select-option value="it">{{'registration.lang.it'|translate}}</ion-select-option>
           <ion-select-option value="en">{{'registration.lang.en'|translate}}</ion-select-option>
@@ -72,7 +72,7 @@
       </div>
       <ion-item lines="full" color="playgo">
         <ion-label>{{'registration.territories.territory'|translate}}</ion-label>
-        <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+        <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
           placeholder="{{'registration.territories.select'|translate}}" formControlName="territoryId">
           <ion-select-option *ngFor="let territory of territoryList" [value]="territory.territoryId">
             {{territory.name | languageMap }}</ion-select-option>
