@@ -5,8 +5,11 @@
   height: 102px;
   ion-avatar {
     margin: auto;
+    height: 80px;
+    width: 80px;
   }
   .nickname {
     margin-top: 32px;
+    font-weight: bold;
   }
 }
