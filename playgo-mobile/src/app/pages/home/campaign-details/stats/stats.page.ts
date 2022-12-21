@@ -69,6 +69,7 @@ export class StatsPage implements OnInit, OnDestroy {
   selectedMetricChangedSubject = new Subject<SelectCustomEvent<Metric>>();
   meanLabels: Record<Mean, TranslateKey> = {
     ...transportTypeLabels,
+    [ALL_MEANS]: 'campaigns.leaderboard.all_means',
   };
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
@@ -91,6 +92,7 @@ export class StatsPage implements OnInit, OnDestroy {
   means$: Observable<Mean[]>;
   selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
     map((event) => event.detail.value),
+    startWith(ALL_MEANS),
     shareReplay(1)
   );
   metrics: Metric[];
@@ -143,7 +145,7 @@ export class StatsPage implements OnInit, OnDestroy {
           playerId,
           metric,
           groupMode: period.group,
-          mean,
+          mean: mean === ALL_MEANS ? null : mean,
           dateFrom: toServerDateOnly(period.from),
           dateTo: toServerDateOnly(period.to),
         })
@@ -189,10 +191,10 @@ export class StatsPage implements OnInit, OnDestroy {
   initMeanAndMetrics() {
 
     this.metrics = this.campaignContainer.campaign.type === 'company' ? ['co2', 'km'] : ['co2', 'km', 'time', 'tracks'];
-    this.means$ = of(this.campaignContainer.campaign.validationData.means);
-    this.selectedMeanChangedSubject.next({
-      detail: { value: this.campaignContainer?.campaign?.validationData?.means[0] },
-    } as SelectCustomEvent<TransportType>);
+    this.means$ = of([ALL_MEANS, ...this.campaignContainer.campaign.validationData.means]);
+    // this.selectedMeanChangedSubject.next({
+    //   detail: { value: this.campaignContainer?.campaign?.validationData?.means[0] },
+    // } as SelectCustomEvent<TransportType>);
   }
   ionViewWillEnter() {
     this.changePageSettings();
@@ -449,7 +451,7 @@ export class StatsPage implements OnInit, OnDestroy {
   }
 }
 
-type Mean = TransportType;
-
+type Mean = TransportType | typeof ALL_MEANS;
+const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
 type Metric = 'co2' | 'km' | 'tracks' | 'time';
 
