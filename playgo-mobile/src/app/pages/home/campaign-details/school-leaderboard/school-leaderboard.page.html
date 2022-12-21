@@ -5,7 +5,7 @@
       <div class="header-sticky" [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
         [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
         <ion-row>
-          <ion-col>
+          <!-- <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
               <ion-select interface="popover" [disabled]="(useMeanAndMetric$ |async)===false"
                 [interfaceOptions]="{ cssClass: 'app-alert' }"
@@ -15,9 +15,13 @@
                 </ion-select-option>
               </ion-select>
             </ion-item>
+          </ion-col> -->
+          <ion-col>
+            <ion-item lines="full" [color]="campaignContainer?.campaign?.type">
+              {{'campaigns.leaderboard.all_means' |translate}}
+            </ion-item>
           </ion-col>
-
-          <ion-col *ngIf="useMeanAndMetric$ |async">
+          <!-- <ion-col *ngIf="useMeanAndMetric$ |async">
             <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
               <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
                 (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
@@ -26,10 +30,10 @@
                 </ion-select-option>
               </ion-select>
             </ion-item>
-          </ion-col>
-          <ion-col *ngIf="(useMeanAndMetric$ |async) === false">
-            <ion-item [color]="campaignContainer?.campaign?.type">
-              {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
+          </ion-col> -->
+          <ion-col *ngIf="(useMeanAndMetric$ |async) === false" class="flex-end">
+            <ion-item lines="full" [color]="campaignContainer?.campaign?.type" class="ion-text-end">
+              <span>{{'campaigns.leaderboard.leaderboard_type.GL' |translate}}</span>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -42,7 +46,7 @@
         </ion-row> -->
         <ion-row>
           <ion-col>
-            <ion-item [color]="campaignContainer?.campaign?.type">
+            <ion-item [color]="campaignContainer?.campaign?.type" class="">
               <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
                 (ionChange)="periodChangedSubject.next($any($event))" [value]="selectedPeriod$ | async">
                 <ion-select-option *ngFor="let period of periods" [value]="period">
