@@ -11,10 +11,13 @@
               <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
                 {{meanLabels[mean] |translate}}
               </ion-select-option>
+              <ion-select-option value="GL" *ngIf="hasGame()">
+                {{meanLabels['GL'] |translate}}
+              </ion-select-option>
             </ion-select>
           </ion-item>
         </ion-col>
-        <ion-col>
+        <ion-col *ngIf="(selectedMean$ |async)!=='GL'">
           <ion-item [color]="campaignContainer.campaign.type">
             <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
               (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
@@ -22,6 +25,11 @@
                 {{metricToSelectLabel[metric] |translate}}
               </ion-select-option>
             </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="(selectedMean$ |async)==='GL'">
+          <ion-item [color]="campaignContainer?.campaign?.type">
+            {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
           </ion-item>
         </ion-col>
       </ion-row>
@@ -50,9 +58,13 @@
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
             {{getSelectedPeriod()}}
           </p>
-          <p class="ion-text-center total-value"
+          <p class="ion-text-center total-value" *ngIf="(selectedMean$ |async)!=='GL'"
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
             {{totalValue | localNumber}} {{metricToUnitLabel[selectedMetric$|async]|translate}}
+          </p>
+          <p class="ion-text-center total-value" *ngIf="(selectedMean$ |async)==='GL'"
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
+            {{totalValue | localNumber}} ecoLeaves
           </p>
         </ion-col>
         <ion-col size="2">
