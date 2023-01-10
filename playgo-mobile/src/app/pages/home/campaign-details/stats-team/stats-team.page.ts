@@ -23,7 +23,7 @@ import {
   LineElement,
   PointElement,
 } from 'chart.js';
-import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
+import { combineLatest, iif, Observable, of, Subject, Subscription } from 'rxjs';
 import { DateTime, Interval } from 'luxon';
 import {
   last,
@@ -71,6 +71,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   meanLabels: Record<Mean, TranslateKey> = {
     ...transportTypeLabels,
     [ALL_MEANS]: 'campaigns.leaderboard.all_means',
+    [GL]: 'campaigns.leaderboard.gl',
   };
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
@@ -146,19 +147,28 @@ export class StatsTeamPage implements OnInit, OnDestroy {
 
   statResponse$: Observable<TransportStat[]> = this.filterOptions$.pipe(
     switchMap(({ mean, metric, period, campaignId, teamId }) =>
-      this.teamService
-        .getGroupStat(
-          campaignId,
-          teamId,
-          metric,
-          period.group,
-          mean === ALL_MEANS ? null : mean,
-          toServerDateOnly(period.from),
-          toServerDateOnly(period.to),
-        )
-        .pipe(this.errorService.getErrorHandler())
-    )
-  );
+      iif(() => mean !== 'GL'
+        , this.teamService
+          .getGroupStat(
+            campaignId,
+            teamId,
+            metric,
+            period.group,
+            mean === ALL_MEANS ? null : mean,
+            toServerDateOnly(period.from),
+            toServerDateOnly(period.to),
+          )
+        , this.teamService
+          .getGroupGameStats(
+            campaignId,
+            teamId,
+            period.group,
+            toServerDateOnly(period.from),
+            toServerDateOnly(period.to),
+          )
+          .pipe(this.errorService.getErrorHandler())
+      )
+    ));
   subId: Subscription;
   id: string;
   subCampaign: Subscription;
@@ -232,9 +242,9 @@ export class StatsTeamPage implements OnInit, OnDestroy {
     });
   }
 
-  setTotal(stats: TransportStat[]) {
+  setTotal(stats: any[]) {
     this.totalValue = stats
-      .map((stat) => (stat.value >= 0 ? stat.value : 0))
+      .map((stat) => (stat.totalScore ? stat.totalScore : (stat.value >= 0 ? stat.value : 0)))
       .reduce((prev, next) => prev + next, 0);
   }
 
@@ -347,7 +357,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   }
   valuesFromStat(
     arrOfPeriod: DateTime[],
-    stats: TransportStat[]
+    stats: any[]
   ): Array<number> {
     //  check if stats[i] is part of arrOfPeriod
     let statsArrayDate = stats.map((stat) => {
@@ -362,7 +372,9 @@ export class StatsTeamPage implements OnInit, OnDestroy {
         (statPeriod) => statPeriod.toISO() === period.toISO()
       );
       if (i !== -1) {
-        retArr.push(stats[i].value >= 0 ? stats[i].value : 0);
+        if (stats[i].hasOwnProperty('totalScore')) {
+          retArr.push(stats[i].value >= 0 ? stats[i].totalScore : 0);
+        } else { retArr.push(stats[i].value >= 0 ? stats[i].value : 0); }
       } else {
         retArr.push(0);
       }
@@ -464,7 +476,8 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   }
 }
 
-type Mean = TransportType | typeof ALL_MEANS;
+type Mean = TransportType | typeof ALL_MEANS | typeof GL;
 const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
+const GL: 'GL' = 'GL';
 type Metric = 'co2' | 'km' | 'tracks' | 'time';
 

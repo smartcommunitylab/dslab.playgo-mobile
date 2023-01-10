@@ -426,6 +426,7 @@
             "unit": "train"
           }
         },
+        "GL": "ecoLeaves",
         "period": {
           "week": "Settimana",
           "month": "Mese",
@@ -471,7 +472,8 @@
         "duration": "{{value}} ore",
         "tracks": "{{value}}"
       },
-      "all_means": "Tutti i mezzi"
+      "all_means": "Tutti i mezzi",
+      "gl": "Punteggio"
     },
     "score_label": {
       "flower": "ecoLeaves",

@@ -426,6 +426,7 @@
             "unit": "train"
           }
         },
+        "GL": "ecoLeaves",
         "period": {
           "week": "Week",
           "month": "Month",
@@ -471,7 +472,8 @@
         "duration": "{{value}} h",
         "tracks": "{{value}}"
       },
-      "all_means": "All means"
+      "all_means": "All means",
+      "gl": "Score"
     },
     "score_label": {
       "flower": "ecoLeaves",

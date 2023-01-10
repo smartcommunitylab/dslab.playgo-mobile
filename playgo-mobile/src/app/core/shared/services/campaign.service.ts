@@ -337,6 +337,23 @@ export class CampaignService {
       return 'co2';
     }
   }
+  hasGame(campaign: Campaign): boolean {
+    if (!campaign) {
+      return false;
+    }
+    if (campaign.type === 'city') {
+      return true;
+    }
+    if (campaign.type === 'company') {
+      return false;
+    }
+    if (campaign.type === 'school') {
+      return true;
+    }
+    if (campaign.type === 'personal') {
+      return false;
+    }
+  }
 
   /** returns app-icon name. For example "flower" */
   getCampaignScoreIcon(campaign: Campaign): string {
