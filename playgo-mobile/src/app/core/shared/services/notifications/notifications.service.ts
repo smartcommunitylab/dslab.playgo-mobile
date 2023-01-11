@@ -3,6 +3,7 @@ import { LocalStorageService } from '../local-storage.service';
 import { Notification } from '../../../api/generated/model/notification';
 import {
   catchError,
+  debounceTime,
   EMPTY,
   filter,
   interval,
@@ -54,7 +55,7 @@ export class NotificationService {
         if (notifications && notifications.length > 0) {
           console.log(
             'DateTime.local().minus({ hour: 1 }).valueOf();' +
-              DateTime.local().minus({ hour: 1 }).valueOf()
+            DateTime.local().minus({ hour: 1 }).valueOf()
           );
           this.since = notifications[0]?.timestamp - 60 * 60 * 1000;
           console.log('since' + this.since);
@@ -88,7 +89,7 @@ export class NotificationService {
         this.markAllNOtificationsAsRead();
       }
     }),
-
+    debounceTime(500),
     shareReplay(1)
   );
   public unreadNotifications$ = this.allNotifications$.pipe(
