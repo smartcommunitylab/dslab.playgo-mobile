@@ -4,6 +4,17 @@
   height: 61px;
   width: 61px;
 }
+.nickname-show {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 23px;
+}
+.mail {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .avatar-container {
   margin: 33px;
   position: relative;
