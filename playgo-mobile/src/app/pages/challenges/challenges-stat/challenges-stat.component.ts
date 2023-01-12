@@ -50,7 +50,13 @@ import {
   styleUrls: ['./challenges-stat.component.scss'],
 })
 export class ChallengesStatComponent implements OnInit, OnDestroy {
-  @ViewChild('barCanvas', { static: false }) private barCanvas: ElementRef;
+
+  @ViewChild('barCanvas') private barCanvas: ElementRef;
+  // set content(content: ElementRef) {
+  //   if (content) { // initially setter gets called with undefined
+  //     this.barCanvas = content;
+  //   }
+  // }
   selectedSegment?: Period;
   campaignChangedSubject = new Subject<SelectCustomEvent<PlayerCampaign>>();
   statPeriodChangedSubject = new Subject<Period>();
@@ -208,7 +214,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
       'completed'
     );
     const arrOfValuesFailed = this.valuesFromStat(arrOfPeriod, stats, 'failed');
-
+    // if (stats && stats.length) {
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       options: {
@@ -256,6 +262,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
         ],
       },
     });
+    // }
   }
   valuesFromStat(
     arrOfPeriod: DateTime[],
