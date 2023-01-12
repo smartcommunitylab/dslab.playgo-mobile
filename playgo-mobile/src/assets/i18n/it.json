@@ -437,6 +437,7 @@
       }
     },
     "leaderboard": {
+      "empty": "Nessun viaggio registrato nel periodo",
       "filter": {
         "leaderboard_type": "Valore",
         "period": "Periodo"

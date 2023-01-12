@@ -437,6 +437,7 @@
       }
     },
     "leaderboard": {
+      "empty": "No journeys tracked in this period",
       "filter": {
         "leaderboard_type": "Value",
         "period": "Period"
