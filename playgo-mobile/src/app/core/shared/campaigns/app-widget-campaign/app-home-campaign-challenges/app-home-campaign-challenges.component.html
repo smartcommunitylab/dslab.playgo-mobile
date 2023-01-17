@@ -9,6 +9,37 @@
   <app-active-challenge (click)="goToChallenge($event)" [challenge]="activeUncompleteChallenges[0]"
     [campaign]="campaignContainer">
   </app-active-challenge>
+  <div class="challenges-state">
+    <div>
+      <ion-avatar>
+        <app-icon name="groupCompetitivePerformance" class="type-notif "></app-icon>
+        <ion-badge color="danger">
+          <ion-icon name="alert"></ion-icon>
+        </ion-badge>
+
+      </ion-avatar>in
+      corso:{{activeUncompleteChallenges.length}}
+    </div>
+    <div>
+      <ion-avatar>
+        <app-icon name="default" class="type-notif "></app-icon>
+        <ion-badge color="danger">
+          <ion-icon name="alert"></ion-icon>
+        </ion-badge>
+
+      </ion-avatar>configurabili{{futureChallenges.length}}
+    </div>
+    <div>
+      <ion-avatar>
+        <app-icon name="invitation" class="type-notif "></app-icon>
+        <ion-badge color="danger">
+          <ion-icon name="alert"></ion-icon>
+        </ion-badge>
+
+      </ion-avatar>inviti:
+      da fare
+    </div>
+  </div>
   <!-- <ion-button
     (click)="goToChallenge($event)"
     [color]="campaignContainer.campaign.type"
