@@ -104,7 +104,13 @@ export class AppComponent implements AfterContentInit {
 
   loadCustomIcons() {
     const icons = {
-      custom_carpooling: '../assets/icon/carpooling.svg',
+      custom_carpooling: '../assets/icon/travel/carpooling.svg',
+      bike: '../assets/icon/travel/bike.svg',
+      bus: '../assets/icon/travel/bus.svg',
+      car: '../assets/icon/travel/custom_carpooling.svg',
+      train: '../assets/icon/travel/train.svg',
+      walk: '../assets/icon/travel/walk.svg',
+      boat: 'boat',
       cup: '../assets/icon/cup.svg',
       passenger: '../assets/icon/passenger.svg',
       driver: '../assets/icon/driver.svg',
