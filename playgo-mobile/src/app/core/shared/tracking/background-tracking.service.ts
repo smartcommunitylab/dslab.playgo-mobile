@@ -312,7 +312,9 @@ export class BackgroundTrackingService {
       }
     }
 
-    await this.backgroundGeolocationPlugin.start();
+    await this.backgroundGeolocationPlugin.start().then((state) => {
+      this.backgroundGeolocationPlugin.changePace(true);
+    });
     this.possibleLocationsChangeSubject.next();
   }
 
@@ -473,7 +475,7 @@ export class TripLocation {
   }
 }
 
-interface TripExtras extends Extras, Partial<TripPart> {}
+interface TripExtras extends Extras, Partial<TripPart> { }
 
 interface DeviceInfo {
   isVirtual: boolean;
