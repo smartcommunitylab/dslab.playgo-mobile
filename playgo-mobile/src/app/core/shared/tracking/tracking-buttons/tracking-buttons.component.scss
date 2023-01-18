@@ -1,10 +1,27 @@
 .tracking-button {
   bottom: 60px;
 }
+.default-tracking-button {
+  color: white;
+  background-color: var(--ion-color-playgo);
+}
 
+.activated {
+  --background: white;
+  --border-color: var(--ion-color-playgo);
+  --color: var(--ion-color-playgo);
+  border-color: var(--ion-color-playgo);
+  border-width: 3px;
+  border-radius: 100%;
+  border-style: solid;
+}
 .progress-spinner {
   display: block;
   position: absolute;
   width: 100%;
   height: 100%;
+}
+.fab-button-show {
+  width: 50px;
+  height: 50px;
 }

@@ -1,15 +1,12 @@
 <div class="relative-container">
-  <div
-    class="tracking-container ion-text-center"
-    [ngClass]="{
+  <div class="tracking-container ion-text-center" [ngClass]="{
       'tracking-ui-active': trackingUIActive,
       'show-tracking-info': (tripService.isInTrip$ | async) || trackingUIActive,
       'low-accuracy-container': (backgroundTrackingService.lowAccuracy$ | async)
-    }"
-  >
+    }">
     <div class="current-tracking-info">
       <div *ngIf="tripService.isInTrip$ | async; else chooseMean">
-        <ion-grid>
+        <ion-grid class="ion-no-padding">
           <ion-row *ngIf="backgroundTrackingService.lowAccuracy$ | async">
             <ion-col size="12">
               <div class="low-accuracy">
@@ -20,15 +17,16 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="2" offset="4">
+            <ion-col size="4" class="mean ion-text-end">
+              <span>{{transportTypeLabels[tripService.activeTransportType$ | async]|translate}}</span>
+
+            </ion-col>
+            <ion-col size="2">
               <!-- <div>backgroundTrackingService.isPowerSaveMode$</div>
         <div>{{ backgroundTrackingService.isPowerSaveMode$ | async | json }}</div> -->
-              <app-icon
-                class="icon-size-big"
-                [name]="
+              <app-icon class="icon-size-big" [name]="
                   transportTypeIcons[tripService.activeTransportType$ | async]
-                "
-              ></app-icon>
+                "></app-icon>
             </ion-col>
             <ion-col size="3" class="ion-text-start">
               <app-tracking-stopwatch></app-tracking-stopwatch>
@@ -42,11 +40,7 @@
         </div>
       </ng-template>
     </div>
-    <div
-      class="slide-wrapper"
-      *ngIf="trackingUIActive"
-      (click)="backdropClicked($event)"
-    >
+    <div class="slide-wrapper" *ngIf="trackingUIActive" (click)="backdropClicked($event)">
       <div class="map-wrapper">
         <ion-spinner name="circles"></ion-spinner>
         <app-map *ngIf="hasPermissions"></app-map>
@@ -54,9 +48,6 @@
     </div>
   </div>
 </div>
-<app-tracking-buttons
-  *ngIf="trackingUIActive || (showPlayButton$ | async)"
-  (fabListActivated)="fabListActivated($event)"
-  [fabListActive]="trackingUIActive"
->
+<app-tracking-buttons *ngIf="trackingUIActive || (showPlayButton$ | async)"
+  (fabListActivated)="fabListActivated($event)" [fabListActive]="trackingUIActive">
 </app-tracking-buttons>
