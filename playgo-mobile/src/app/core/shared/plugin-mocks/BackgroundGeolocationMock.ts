@@ -84,6 +84,10 @@ export class BackgroundGeolocationMock {
     BackgroundGeolocationMock.isTracking = true;
   }
   @mockMethod({ async: true })
+  public static async changePace(force: boolean) {
+    BackgroundGeolocationMock.isTracking = true;
+  }
+  @mockMethod({ async: true })
   public static async stop() {
     BackgroundGeolocationMock.isTracking = false;
   }
@@ -118,7 +122,7 @@ export class BackgroundGeolocationMock {
   @mockMethod()
   public static onPowerSaveChange(handler: any) {
     return {
-      remove: () => {},
+      remove: () => { },
     };
   }
 
