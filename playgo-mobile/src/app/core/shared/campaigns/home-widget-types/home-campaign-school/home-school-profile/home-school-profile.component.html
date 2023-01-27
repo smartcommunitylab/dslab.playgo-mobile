@@ -5,7 +5,12 @@
     </ion-row>
     <ion-row *ngIf="(myTeam$|async)?.customData?.institute">
       <ion-col class="ion-text-start"><span class="institute">{{(myTeam$|async)?.customData?.institute}}
-          {{(myTeam$|async)?.customData?.school}} {{(myTeam$|async)?.customData?.cls}}</span>
+        </span>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="(myTeam$|async)?.customData?.address">
+      <ion-col class="ion-text-start"><span class="institute">{{(myTeam$|async)?.customData?.address}}
+        </span>
       </ion-col>
     </ion-row>
 
