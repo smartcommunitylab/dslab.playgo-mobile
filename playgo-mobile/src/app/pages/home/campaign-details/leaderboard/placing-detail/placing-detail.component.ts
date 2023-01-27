@@ -40,7 +40,7 @@ export class PlacingDetailComponent implements OnInit {
     //get icon based on unitLabelKey
     switch (this.unitLabelKey) {
       case 'campaigns.leaderboard.leaderboard_type_unit.km':
-        return '';
+        return 'km';
       case 'campaigns.leaderboard.leaderboard_type_unit.co2':
         return 'co2';
       case 'campaigns.leaderboard.leaderboard_type_unit.GL':

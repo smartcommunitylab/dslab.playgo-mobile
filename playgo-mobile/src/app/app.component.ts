@@ -115,6 +115,7 @@ export class AppComponent implements AfterContentInit {
       passenger: '../assets/icon/passenger.svg',
       driver: '../assets/icon/driver.svg',
       co2: '../assets/icon/co2.svg',
+      km: '../assets/icon/km.svg',
       flower: '../assets/icon/flower.svg',
       shield: '../assets/icon/shield.svg',
       ecoLeavesCompany: '../assets/icon/company-leaf.svg',
