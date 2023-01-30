@@ -205,7 +205,8 @@
   },
   "report": {
     "stats": {
-      "title": "Statistiche"
+      "title": "Statistiche",
+      "title_team": "Statistiche squadra"
     }
   },
   "trips": {

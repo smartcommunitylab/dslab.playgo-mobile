@@ -8,7 +8,7 @@ const routes: RoutesWithPageSettings = [
     path: '',
     component: StatsTeamPage,
     data: {
-      title: 'report.stats.title',
+      title: 'report.stats.title_team',
     },
   },
 ];
