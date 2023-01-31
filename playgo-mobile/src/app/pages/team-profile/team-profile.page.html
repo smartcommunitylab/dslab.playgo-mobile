@@ -38,7 +38,7 @@
             <p class="team-detail"><b>{{'campaigns.detail.teamDetailRanking'|translate}}<app-ordinal-number
                   [value]="(status$|async)?.position">
                 </app-ordinal-number>-
-                {{ (status$|async)?.value }}</b>
+                {{ (status$|async)?.value | localNumber: '0.0-1' }}</b>
               <app-icon name="ecoLeavesHsc"></app-icon>
             </p>
           </ion-col>

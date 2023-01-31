@@ -317,6 +317,7 @@
       "confirm": "Conferma"
     },
     "detail": {
+      "nMembers": "Membri:",
       "playerProgression": "Come stai andando",
       "teamProgression": "Come sta andando la tua squadra",
       "teamDetailRanking": "Classifica Generale:",
