@@ -284,6 +284,8 @@
       "close": "X"
     },
     "joinmodal": {
+      "teamselection": "Select your team",
+      "teams": "Teams",
       "noItems": "No companies found",
       "modalTitle": "Subscribe to {{campaignTitle}}",
       "close": "X",

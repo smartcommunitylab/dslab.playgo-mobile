@@ -284,6 +284,8 @@
       "close": "X"
     },
     "joinmodal": {
+      "teamselection": "Seleziona la squadra",
+      "teams": "Squadre",
       "noItems": "Nessuna azienda trovata",
       "modalTitle": "Iscrizione a {{campaignTitle}}",
       "close": "X",
