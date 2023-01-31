@@ -22,7 +22,7 @@ import { UserSignature } from '../model/userSignature';
   providedIn: 'root',
 })
 export class CommunicationAccountControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * getPlayerNotifications
    *
@@ -61,7 +61,7 @@ export class CommunicationAccountControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/app/register`,
       {
-        body: body,
+        body,
       }
     );
   }

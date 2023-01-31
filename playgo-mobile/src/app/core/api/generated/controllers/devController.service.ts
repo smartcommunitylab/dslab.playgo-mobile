@@ -15,6 +15,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { CampaignSubscription } from '../model/campaignSubscription';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -124,6 +126,18 @@ export class DevControllerService {
     return this.http.request<any>(
       'get',
       environment.serverUrl.api + `/playandgo/api/dev/test/campaign/placing`,
+      {}
+    );
+  }
+
+  /**
+   * testFindByMetaData
+   *
+   */
+  public testFindByMetaDataUsingGET(): Observable<Array<CampaignSubscription>> {
+    return this.http.request<Array<CampaignSubscription>>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/dev/test/campaign/sub/meta`,
       {}
     );
   }

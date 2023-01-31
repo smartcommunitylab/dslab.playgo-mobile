@@ -14,6 +14,7 @@ export interface Player {
   deleted?: boolean;
   familyName?: string;
   givenName?: string;
+  group?: boolean;
   language?: string;
   mail?: string;
   nickname?: string;
