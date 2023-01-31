@@ -27,7 +27,7 @@ import { SurveyRequest } from '../model/surveyRequest';
   providedIn: 'root',
 })
 export class CampaignControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * addCampaign
    *
@@ -38,7 +38,7 @@ export class CampaignControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/campaign`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -57,11 +57,11 @@ export class CampaignControllerService {
     return this.http.request<Array<SurveyRequest>>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/survey`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/survey`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -75,7 +75,7 @@ export class CampaignControllerService {
     return this.http.request<Campaign>(
       'delete',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
+      `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
       {}
     );
   }
@@ -94,9 +94,9 @@ export class CampaignControllerService {
     return this.http.request<Array<SurveyRequest>>(
       'delete',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/survey`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/survey`,
       {
         params: removeNullOrUndefined({
           name,
@@ -114,9 +114,9 @@ export class CampaignControllerService {
     return this.http.request<any>(
       'delete',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/webhook`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/webhook`,
       {}
     );
   }
@@ -130,7 +130,7 @@ export class CampaignControllerService {
     return this.http.request<Campaign>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
+      `/playandgo/api/campaign/${encodeURIComponent(String(campaignId))}`,
       {}
     );
   }
@@ -215,9 +215,9 @@ export class CampaignControllerService {
     return this.http.request<CampaignWebhook>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/webhook`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/webhook`,
       {}
     );
   }
@@ -236,11 +236,11 @@ export class CampaignControllerService {
     return this.http.request<CampaignWebhook>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/webhook`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/webhook`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -259,11 +259,11 @@ export class CampaignControllerService {
     return this.http.request<CampaignSubscription>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/subscribe`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/subscribe`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -279,9 +279,9 @@ export class CampaignControllerService {
     return this.http.request<CampaignSubscription>(
       'put',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/unsubscribe`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/unsubscribe`,
       {}
     );
   }
@@ -296,7 +296,7 @@ export class CampaignControllerService {
       'put',
       environment.serverUrl.api + `/playandgo/api/campaign`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -315,11 +315,11 @@ export class CampaignControllerService {
     return this.http.request<Image>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/banner`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/banner`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -338,11 +338,11 @@ export class CampaignControllerService {
     return this.http.request<Image>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/logo`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/logo`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -361,11 +361,11 @@ export class CampaignControllerService {
     return this.http.request<Array<string>>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/reward`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/reward`,
       {
-        body: body,
+        body,
       }
     );
   }
@@ -384,11 +384,11 @@ export class CampaignControllerService {
     return this.http.request<Array<string>>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/campaign/${encodeURIComponent(
-          String(campaignId)
-        )}/weekconf`,
+      `/playandgo/api/campaign/${encodeURIComponent(
+        String(campaignId)
+      )}/weekconf`,
       {
-        body: body,
+        body,
       }
     );
   }

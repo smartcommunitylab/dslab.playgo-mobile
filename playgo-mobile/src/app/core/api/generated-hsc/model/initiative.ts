@@ -18,6 +18,8 @@ export interface Initiative {
   canCreate?: boolean;
   canEdit?: boolean;
   initiativeId?: string;
-  minTeamSize?: number;
+  maxTeamSize?: number;
+  teamLeaderDomainList?: Array<string>;
+  teamLeaderList?: Array<string>;
   type?: string;
 }
