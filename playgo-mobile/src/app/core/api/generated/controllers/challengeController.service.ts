@@ -26,7 +26,7 @@ import { Reward } from '../model/reward';
   providedIn: 'root',
 })
 export class ChallengeControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * activateChallengeType
    *
@@ -41,9 +41,9 @@ export class ChallengeControllerService {
     return this.http.request<Array<ChallengeChoice>>(
       'put',
       environment.serverUrl.api +
-        `/playandgo/api/challenge/unlock/${encodeURIComponent(
-          String(challengeName)
-        )}`,
+      `/playandgo/api/challenge/unlock/${encodeURIComponent(
+        String(challengeName)
+      )}`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -91,9 +91,9 @@ export class ChallengeControllerService {
     return this.http.request<any>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/challenge/invitation/status/${encodeURIComponent(
-          String(challengeId)
-        )}/${encodeURIComponent(String(status))}`,
+      `/playandgo/api/challenge/invitation/status/${encodeURIComponent(
+        String(challengeId)
+      )}/${encodeURIComponent(String(status))}`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -116,9 +116,9 @@ export class ChallengeControllerService {
     return this.http.request<any>(
       'put',
       environment.serverUrl.api +
-        `/playandgo/api/challenge/choose/${encodeURIComponent(
-          String(challengeId)
-        )}`,
+      `/playandgo/api/challenge/choose/${encodeURIComponent(
+        String(challengeId)
+      )}`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -303,7 +303,7 @@ export class ChallengeControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/challenge/invitation/preview`,
       {
-        body: body,
+        body,
         params: removeNullOrUndefined({
           campaignId,
         }),
@@ -338,7 +338,7 @@ export class ChallengeControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/challenge/invitation`,
       {
-        body: body,
+        body,
         params: removeNullOrUndefined({
           campaignId,
         }),

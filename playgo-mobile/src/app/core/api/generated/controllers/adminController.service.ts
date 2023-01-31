@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AdminControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * uploadCompanyCampaignSubscription
    *
@@ -36,9 +36,9 @@ export class AdminControllerService {
     return this.http.request<Array<string>>(
       'post',
       environment.serverUrl.api +
-        `/playandgo/api/admin/company/subscribe/upload`,
+      `/playandgo/api/admin/company/subscribe/upload`,
       {
-        body: body,
+        body,
         params: removeNullOrUndefined({
           territoryId,
           campaignId,
@@ -64,7 +64,7 @@ export class AdminControllerService {
       'post',
       environment.serverUrl.api + `/playandgo/api/admin/player/upload`,
       {
-        body: body,
+        body,
         params: removeNullOrUndefined({
           territoryId,
           lang,

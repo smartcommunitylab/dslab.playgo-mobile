@@ -25,12 +25,14 @@ export class AdminControllerService {
    *
    * @param initiativeId initiativeId
    * @param nickname nickname
+   * @param teamId teamId
    */
   public subscribeTeamMemberUsingPOST(args: {
     initiativeId: string;
     nickname: string;
+    teamId: string;
   }): Observable<string> {
-    const { initiativeId, nickname } = args;
+    const { initiativeId, nickname, teamId } = args;
     return this.http.request<string>(
       'post',
       environment.serverUrl.hscApi +
@@ -39,6 +41,35 @@ export class AdminControllerService {
         )}/player/subscribe`,
       {
         params: removeNullOrUndefined({
+          nickname,
+          teamId,
+        }),
+      }
+    );
+  }
+
+  /**
+   * unregisterPlayer
+   *
+   * @param initiativeId initiativeId
+   * @param playerId playerId
+   * @param nickname nickname
+   */
+  public unregisterPlayerUsingPOST(args: {
+    initiativeId: string;
+    playerId: string;
+    nickname: string;
+  }): Observable<any> {
+    const { initiativeId, playerId, nickname } = args;
+    return this.http.request<any>(
+      'post',
+      environment.serverUrl.hscApi +
+        `/playandgo-hsc/api/admin/initiatives/${encodeURIComponent(
+          String(initiativeId)
+        )}/player/unregister`,
+      {
+        params: removeNullOrUndefined({
+          playerId,
           nickname,
         }),
       }

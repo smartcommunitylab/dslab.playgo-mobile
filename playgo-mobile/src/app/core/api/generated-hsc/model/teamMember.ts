@@ -16,4 +16,5 @@ export interface TeamMember {
   nickname?: string;
   playerId?: string;
   subscribed?: boolean;
+  unregistered?: boolean;
 }

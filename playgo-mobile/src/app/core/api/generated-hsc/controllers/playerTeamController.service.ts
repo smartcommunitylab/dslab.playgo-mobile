@@ -162,6 +162,19 @@ export class PlayerTeamControllerService {
   }
 
   /**
+   * getPlayerTeamByOwner
+   *
+   */
+  public getPlayerTeamByOwnerUsingGET(): Observable<Array<PlayerTeam>> {
+    return this.http.request<Array<PlayerTeam>>(
+      'get',
+      environment.serverUrl.hscApi +
+      `/playandgo-hsc/api/initiatives/team/owner`,
+      {}
+    );
+  }
+
+  /**
    * getPlayerTeamInfo
    *
    * @param initiativeId initiativeId
@@ -204,6 +217,24 @@ export class PlayerTeamControllerService {
   }
 
   /**
+   * getPublicTeamsInfo
+   *
+   * @param initiativeId initiativeId
+   */
+  public getPublicTeamsInfoUsingGET(
+    initiativeId: string
+  ): Observable<Array<PlayerTeam>> {
+    return this.http.request<Array<PlayerTeam>>(
+      'get',
+      environment.serverUrl.hscApi +
+      `/playandgo-hsc/api/initiatives/${encodeURIComponent(
+        String(initiativeId)
+      )}/teams/public`,
+      {}
+    );
+  }
+
+  /**
    * getTeamAvatar
    *
    * @param teamId teamId
@@ -213,6 +244,19 @@ export class PlayerTeamControllerService {
       'get',
       environment.serverUrl.hscApi +
       `/playandgo-hsc/api/team/${encodeURIComponent(String(teamId))}/avatar`,
+      {}
+    );
+  }
+
+  /**
+   * getTeamLeaderInitiatives
+   *
+   */
+  public getTeamLeaderInitiativesUsingGET(): Observable<Array<Initiative>> {
+    return this.http.request<Array<Initiative>>(
+      'get',
+      environment.serverUrl.hscApi +
+      `/playandgo-hsc/api/initiatives/teamleader`,
       {}
     );
   }
@@ -338,12 +382,14 @@ export class PlayerTeamControllerService {
    *
    * @param initiativeId initiativeId
    * @param nickname nickname
+   * @param teamId teamId
    */
   public subscribeTeamMemberUsingPOST1(args: {
     initiativeId: string;
     nickname: string;
+    teamId: string;
   }): Observable<string> {
-    const { initiativeId, nickname } = args;
+    const { initiativeId, nickname, teamId } = args;
     return this.http.request<string>(
       'post',
       environment.serverUrl.hscApi +
@@ -353,6 +399,7 @@ export class PlayerTeamControllerService {
       {
         params: removeNullOrUndefined({
           nickname,
+          teamId,
         }),
       }
     );
