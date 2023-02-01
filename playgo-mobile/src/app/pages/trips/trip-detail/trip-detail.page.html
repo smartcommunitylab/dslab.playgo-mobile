@@ -42,7 +42,7 @@
               <ng-container *ngIf="campaign.type === 'school' || campaign.type === 'city'">
                 <app-icon [color]="campaignService.getCampaignColor(campaign)"
                   [name]="campaignService.getCampaignScoreIcon(campaign)"></app-icon>
-                <ion-text>{{campaign.score}}</ion-text>
+                <ion-text>{{campaign.score | localNumber: '0.0-1' }}</ion-text>
               </ng-container>
             </ion-col>
             <ion-col size="auto">
