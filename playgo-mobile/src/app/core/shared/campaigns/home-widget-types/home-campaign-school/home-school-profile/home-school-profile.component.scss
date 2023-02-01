@@ -18,3 +18,13 @@
   justify-content: space-evenly;
   flex-direction: column;
 }
+.name-school {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  font-weight: 700;
+  color: var(--ion-color-playgo);
+  margin: 8px;
+  font-style: italic;
+  text-decoration: underline;
+}

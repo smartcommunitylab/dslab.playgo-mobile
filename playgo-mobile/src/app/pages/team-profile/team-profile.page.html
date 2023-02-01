@@ -12,13 +12,14 @@
         <ion-row *ngIf="(team$|async)?.customData?.name">
           <ion-col class="ion-text-start"><span class="name">{{(team$|async)?.customData?.name}}</span></ion-col>
         </ion-row>
-        <ion-row *ngIf="(team$|async)?.customData?.institute">
-          <ion-col class="ion-text-start"><span class="institute">{{(team$|async)?.customData?.institute}}
-              {{(team$|async)?.customData?.school}} {{(team$|async)?.customData?.cls}}</span>
+        <ion-row *ngIf="(team$|async)?.customData?.desc">
+          <ion-col class="ion-text-start"><span class="institute">{{(team$|async)?.customData?.desc}}</span>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="(team$|async)?.members">
-          <ion-col class="ion-text-start"><span class="members"
+        <ion-row *ngIf="(type$|async)==='my'">
+          <ion-col class="ion-text-start" *ngIf="(team$|async)?.members">
+            {{'campaigns.detail.nMembers'|translate}}{{(team$|async)?.members?.length+'/'+(team$|async)?.expected}}
+            <!-- <span class="members"
               *ngIf="(team$|async)?.members?.length>1 ||(team$|async)?.numMembers>1 ; else singlePlayer">{{
               'campaigns.detail.members'
               | translate: { members:
@@ -30,7 +31,7 @@
                 | translate: { members:
                 (team$|async)?.members?.length?(team$|async)?.members?.length:(team$|async)?.numMembers }
                 }}</span>
-            </ng-template>
+            </ng-template> -->
           </ion-col>
         </ion-row>
         <ion-row>
@@ -63,7 +64,7 @@
             {{(userProfile$|async)?.nickname}}
           </ion-col>
           <ion-col>
-            <p class="player-detail">{{(myStatus$|async)?.score}}
+            <p class="player-detail">{{(myStatus$|async)?.score?(myStatus$|async)?.score :0 }}
               <app-icon name="ecoLeavesHsc"></app-icon>
             </p>
           </ion-col>

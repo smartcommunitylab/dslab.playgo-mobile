@@ -14,15 +14,20 @@
       </ion-col>
       <ng-container *ngIf="myTeam?.id === placing.groupId">
         <ion-col size="2">
-          <ion-avatar>
-            <img [src]="myTeam?.avatar.url" title="avatar" />
+          <ion-avatar *ngIf="myTeam?.avatar?.url; else alternativeAvatar">
+            <img [src]="myTeam?.avatar?.url" title="avatar" />
           </ion-avatar>
+          <ng-template #alternativeAvatar>
+            <ion-avatar>
+              <ion-icon name="people-circle-outline"></ion-icon>
+            </ion-avatar>
+          </ng-template>
         </ion-col>
       </ng-container>
       <ng-container *ngIf="myTeam?.id !== placing.groupId">
         <ion-col size="2">
-          <ion-avatar *ngIf="placing.avatar; else alternativeAvatar">
-            <img [src]="placing.avatar.url" title="avatar" />
+          <ion-avatar *ngIf="placing?.avatar; else alternativeAvatar">
+            <img [src]="placing?.avatar?.url" title="avatar" />
           </ion-avatar>
           <ng-template #alternativeAvatar>
             <ion-avatar>

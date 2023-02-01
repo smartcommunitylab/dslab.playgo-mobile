@@ -2,26 +2,27 @@
   <ion-grid>
     <ion-row>
       <ion-col size="auto" class="avatar-col">
-        <div class="user-intro" (click)="gotToProfile($event)">
+        <div class="user-intro">
           <ion-avatar class="team">
             <img [src]="(teamAvatar$ | async)?.avatarUrl" />
           </ion-avatar>
           <!-- <div class="nickname">{{userNickname$|async}}</div> -->
         </div>
       </ion-col>
-      <ion-col>
-        <ion-row *ngIf="(myTeam$|async)?.customData?.name">
-          <ion-col class="ion-text-start" (click)="gotToProfile($event)"><span
-              class="name">{{(myTeam$|async)?.customData?.name}}</span></ion-col>
-        </ion-row>
+      <!-- <ion-col >
+        <ion-row *ngIf="(myTeam$|async)?.customData?.name"> -->
+      <ion-col class="ion-text-start name-school" (click)="gotToProfile($event)"
+        *ngIf="(myTeam$|async)?.customData?.name"><span
+          class="name">{{(myTeam$|async)?.customData?.name}}</span></ion-col>
+      <!-- </ion-row>
         <ion-row *ngIf="(myTeam$|async)?.customData?.desc">
           <ion-col class="ion-text-start"><span class="institute">{{(myTeam$|async)?.customData?.desc}}
             </span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end"><span
               class="institute">{{'campaigns.detail.nMembers'|translate}}{{(myTeam$|async)?.members?.length+'/'+(myTeam$|async)?.expected}}</span></ion-col>
-        </ion-row>
-      </ion-col>
+        </ion-row> 
+      </ion-col>-->
     </ion-row>
   </ion-grid>
 </div>
