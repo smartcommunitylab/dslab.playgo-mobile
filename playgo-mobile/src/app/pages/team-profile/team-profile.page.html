@@ -12,10 +12,10 @@
         <ion-row *ngIf="(team$|async)?.customData?.name">
           <ion-col class="ion-text-start"><span class="name">{{(team$|async)?.customData?.name}}</span></ion-col>
         </ion-row>
-        <ion-row *ngIf="(team$|async)?.customData?.desc">
+        <!-- <ion-row *ngIf="(team$|async)?.customData?.desc">
           <ion-col class="ion-text-start"><span class="institute">{{(team$|async)?.customData?.desc}}</span>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
         <ion-row *ngIf="(type$|async)==='my'">
           <ion-col class="ion-text-start" *ngIf="(team$|async)?.members">
             {{'campaigns.detail.nMembers'|translate}}{{(team$|async)?.members?.length+'/'+(team$|async)?.expected}}
