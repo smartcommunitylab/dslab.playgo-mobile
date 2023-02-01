@@ -23,6 +23,7 @@ import { registerLocaleData } from '@angular/common';
 import { CodePushPluginMock } from './core/shared/plugin-mocks/CodePushPluginMock';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // this is somehow not exported from '@ionic/storage-angular'
 const Drivers = {
@@ -43,6 +44,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     AuthModule,
     BrowserModule,
+    BrowserAnimationsModule,
     PlayGoSharedModule,
     TranslateModule.forRoot({
       loader: {
@@ -88,7 +90,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
 
 const useMock = () => isDevMode() && getPlatformId(window) === 'web';
 

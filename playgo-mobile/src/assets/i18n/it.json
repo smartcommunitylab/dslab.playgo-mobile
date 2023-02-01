@@ -26,6 +26,16 @@
     "help": "Help",
     "privacy": "Privacy"
   },
+  "appCredits": {
+    "by": "Sviluppato da:",
+    "dslab": "DSLab",
+    "fbk": "Fondazione Bruno Kessler",
+    "version": "Versione {{version}}",
+    "credits": "Credits",
+    "faq": "FAQ",
+    "help": "Help",
+    "privacy": "Privacy"
+  },
   "firstTime": {
     "title": "Utilizzo della posizione",
     "message": "Play&go raccoglie i dati sulla posizione per abilitare il tracciamento, validazione e premiazione di viaggi sostenibili anche quando l'applicazione é chiusa o non utilizzata.",
@@ -205,7 +215,8 @@
   },
   "report": {
     "stats": {
-      "title": "Statistiche"
+      "title": "Statistiche",
+      "title_team": "Statistiche squadra"
     }
   },
   "trips": {
@@ -283,6 +294,8 @@
       "close": "X"
     },
     "joinmodal": {
+      "teamselection": "Seleziona la squadra",
+      "teams": "Squadre",
       "noItems": "Nessuna azienda trovata",
       "modalTitle": "Iscrizione a {{campaignTitle}}",
       "close": "X",
@@ -316,6 +329,7 @@
       "confirm": "Conferma"
     },
     "detail": {
+      "nMembers": "Membri:",
       "playerProgression": "Come stai andando",
       "teamProgression": "Come sta andando la tua squadra",
       "teamDetailRanking": "Classifica Generale:",
@@ -437,6 +451,7 @@
       }
     },
     "leaderboard": {
+      "empty": "Nessun viaggio registrato nel periodo",
       "filter": {
         "leaderboard_type": "Valore",
         "period": "Periodo"

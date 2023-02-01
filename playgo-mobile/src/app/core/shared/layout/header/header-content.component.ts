@@ -60,7 +60,7 @@ export class HeaderContentComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private notificationService: NotificationService,
     public pageSettingsService: PageSettingsService
-  ) {}
+  ) { }
   ngOnDestroy(): void {
     this.subunread.unsubscribe();
   }

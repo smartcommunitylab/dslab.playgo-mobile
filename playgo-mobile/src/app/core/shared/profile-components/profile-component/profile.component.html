@@ -17,7 +17,7 @@
   </ng-template>
 
   <ng-template #editingProfile>
-    <ion-item lines="none">
+    <ion-item lines="none" class="ion-margin-bottom">
       <div class="avatar-container">
         <ion-avatar class="avatar">
           <img [src]="profile.avatar.avatarUrl" title="{{ 'registration.avatar.title' | translate }}" />
@@ -25,10 +25,10 @@
         <ion-icon class="avatar-cange" name="camera-outline" (click)="changeAvatar()"></ion-icon>
       </div>
       <ion-label lines="none" *ngIf="profile?.mail">
-        <div class="ion-text-center">
+        <div class="ion-text-start nickname-show ion-margin">
           <b>{{ profile.nickname }}</b>
         </div>
-        <div>
+        <div class="mail ion-margin">
           {{ "profile.mail" | translate }}<b>{{ profile.mail }}</b>
         </div>
       </ion-label>

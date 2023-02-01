@@ -12,19 +12,19 @@
           <div class="points">{{
             'campaigns.detail.modalBestTeam'
             | translate
-            }} <div>{{stat.max}}<app-icon name="ecoLeavesHsc"></app-icon>
+            }} <div>{{stat.max | localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
             </div>
           </div>
           <div class="points">{{
             'campaigns.detail.modalActualTeam'
             | translate
-            }} <div>{{stat.value}}<app-icon name="ecoLeavesHsc"></app-icon>
+            }} <div>{{stat.value| localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
             </div>
           </div>
           <div class="points">{{
             'campaigns.detail.modalMinTeam'
             | translate
-            }}<div>{{stat.min}} <app-icon name="ecoLeavesHsc"></app-icon>
+            }}<div>{{stat.min| localNumber: '0.0-1'}} <app-icon name="ecoLeavesHsc"></app-icon>
             </div>
           </div>
         </div>
@@ -38,19 +38,19 @@
             <div class="points">{{
               'campaigns.detail.modalBestPersonal'
               | translate
-              }}<div>{{stat.max}} <app-icon name="ecoLeavesHsc"></app-icon>
+              }}<div>{{stat.max| localNumber: '0.0-1'}} <app-icon name="ecoLeavesHsc"></app-icon>
               </div>
             </div>
             <div class="points">{{
               'campaigns.detail.modalActualPersonal'
               | translate
-              }} <div>{{stat.value}}<app-icon name="ecoLeavesHsc"></app-icon>
+              }} <div>{{stat.value| localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
               </div>
             </div>
             <div class="points">{{
               'campaigns.detail.modalMinPersonal'
               | translate
-              }} <div>{{stat.min}}<app-icon name="ecoLeavesHsc"></app-icon>
+              }} <div>{{stat.min| localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
               </div>
             </div>
           </div>

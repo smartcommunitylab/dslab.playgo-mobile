@@ -21,7 +21,7 @@ const routes: RoutesWithPageSettings = [
     component: TripsPage,
     data: {
       title: 'tripsTitle',
-      defaultHref: '/pages/tabs/home/profile',
+      defaultHref: '/',
       backButton: true,
       isOfflinePage: true,
       showPlayButton: true,
@@ -49,4 +49,4 @@ const routes: RoutesWithPageSettings = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TripsPageRoutingModule {}
+export class TripsPageRoutingModule { }

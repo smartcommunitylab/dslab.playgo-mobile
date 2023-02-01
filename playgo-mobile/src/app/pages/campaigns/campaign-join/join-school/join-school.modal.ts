@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
+import { IonicSelectableComponent } from 'ionic-selectable';
 import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { TeamService } from 'src/app/core/shared/services/team.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
@@ -13,32 +15,46 @@ import { UserService } from 'src/app/core/shared/services/user.service';
   templateUrl: './join-school.modal.html',
   styleUrls: ['./join-school.modal.scss'],
 })
-export class JoinSchoolModalPage implements OnInit {
+export class JoinSchoolModalPage implements OnInit, OnDestroy {
   joinSchoolForm: FormGroup;
   campaign: Campaign;
   privacy: any;
   rules: any;
   isSubmitted = false;
   language: string;
+  teams: any;
+  teamSelected: any;
+  sub: Subscription;
 
   constructor(
     private modalController: ModalController,
+    private teamService: TeamService,
     private errorService: ErrorService,
     private alertService: AlertService,
     private campaignService: CampaignService,
     public formBuilder: FormBuilder,
     private userService: UserService,
     private navCtrl: NavController
-  ) {}
+  ) { }
   ngOnInit() {
     this.language = this.userService.getLanguage();
     const rules = this.campaign.details[this.language];
     this.rules = rules?.find((detail) => detail.type === 'rules');
     this.privacy = rules?.find((detail) => detail.type === 'privacy');
     this.joinSchoolForm = this.formBuilder.group({
+      teamSelected: ['', [Validators.required]],
       ...(this.privacy && { privacy: [false, Validators.requiredTrue] }),
       ...(this.rules && { rules: [false, Validators.requiredTrue] }),
     });
+    this.sub = this.teamService.getTeamsForSubscription(this.campaign.campaignId)
+      .subscribe((result) => {
+        if (result) {
+          this.teams = result;
+        }
+      });
+  }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
   //computed errorcontrol
   get errorControl() {
@@ -76,8 +92,11 @@ export class JoinSchoolModalPage implements OnInit {
     if (!this.joinSchoolForm.valid) {
       return false;
     } else {
+      const body = {
+        teamId: this.teamSelected.id
+      };
       this.campaignService
-        .subscribeToCampaign(this.campaign.campaignId)
+        .subscribeToCampaign(this.campaign.campaignId, body)
         .subscribe(
           (result) => {
             if (result) {
@@ -93,5 +112,14 @@ export class JoinSchoolModalPage implements OnInit {
           }
         );
     }
+  }
+  onSelect(event: {
+    component: IonicSelectableComponent;
+    item: any;
+    isSelected: boolean;
+  }) {
+    console.log(
+      'item' + JSON.stringify(event.item) + 'isSelected' + event.isSelected
+    );
   }
 }

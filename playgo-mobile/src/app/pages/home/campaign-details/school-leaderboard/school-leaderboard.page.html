@@ -57,10 +57,12 @@
           </ion-col>
         </ion-row>
         <app-school-placing-detail [myTeam]="myTeam" [placing]="teamPosition$ | async"
-          [unitLabelKey]="numberWithUnitKey$ | async" [mine]="true" [campaign]="campaignContainer">
+          [unitLabelKey]="numberWithUnitKey$ | async" [mine]="true" [campaign]="campaignContainer"
+          *ngIf="(leaderboardScrollResponse$ | async)?.totalElements>0">
         </app-school-placing-detail>
       </div>
-      <ng-container *ngIf="(filterOptions$ |async) as filterOptions">
+      <ng-container
+        *ngIf="(leaderboardScrollResponse$ | async)?.totalElements>0 && (filterOptions$ |async) as filterOptions; else emptyLead">
         <app-infinite-scroll [resetItems]="resetItems$ | async" [response]="leaderboardScrollResponse$ | async"
           (request)="scrollRequestSubject.next($event)">
           <ng-template appInfiniteScrollContent let-placing="item">
@@ -69,6 +71,11 @@
           </ng-template>
         </app-infinite-scroll>
       </ng-container>
+      <ng-template #emptyLead>
+        <ion-col>
+          <div class="empty-lead">{{ "campaigns.leaderboard.empty" | translate }}</div>
+        </ion-col>
+      </ng-template>
     </div>
   </ng-container>
 </ion-content>

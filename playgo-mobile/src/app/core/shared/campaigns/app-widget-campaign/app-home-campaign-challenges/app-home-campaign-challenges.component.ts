@@ -14,10 +14,11 @@ import { ChallengeService } from '../../../services/challenge.service';
 export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
   public activeUncompleteChallenges$: Observable<Challenge[]>;
+  activeUncompleteChallenges: Challenge[] = [];
+
   public futureChallenges$: Observable<Challenge[]>;
   subChallActive: Subscription;
   subChallFuture: Subscription;
-  activeUncompleteChallenges: Challenge[] = [];
   futureChallenges: Challenge[] = [];
   constructor(
     private challengeService: ChallengeService,

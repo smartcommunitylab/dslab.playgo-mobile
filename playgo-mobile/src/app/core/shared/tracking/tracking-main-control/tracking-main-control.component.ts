@@ -8,7 +8,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { PageSettingsService } from '../../services/page-settings.service';
 import { BackgroundTrackingService } from '../background-tracking.service';
 import { FirstTimeBackgrounModalPage } from '../first-time-modal/first-time.modal';
-import { transportTypeIcons, TRIP_END } from '../trip.model';
+import { transportTypeIcons, transportTypeLabels, TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
 
 @Component({
@@ -18,6 +18,7 @@ import { TripService } from '../trip.service';
 })
 export class TrackingMainControlComponent {
   transportTypeIcons = transportTypeIcons;
+  transportTypeLabels = transportTypeLabels;
   public trackingUIActive = false;
 
   public hasPermissions: boolean = null;

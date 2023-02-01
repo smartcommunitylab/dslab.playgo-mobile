@@ -77,6 +77,9 @@ export class TeamService {
         }
         return url + '?t=' + new Date().getTime();
     }
+    getTeamsForSubscription(idInitiative: string): Observable<PlayerTeam[]> {
+        return this.playerTeamController.getPublicTeamsInfoUsingGET(idInitiative);
+    }
     getTeamAvg(campaignId: string, groupId: string, metric: string): Observable<TransportStat[]> {
         return this.teamStatsControllerService.getGroupTransportStatsGroupByMeanUsingGET({ campaignId, groupId, metric });
     }

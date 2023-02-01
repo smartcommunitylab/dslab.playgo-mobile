@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Browser } from '@capacitor/browser';
 import { ModalController } from '@ionic/angular';
+import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
 
 
 @Component({
@@ -11,7 +13,8 @@ export class CreditsModalComponent implements OnInit {
 
 
   constructor(
-    private modalController: ModalController
+    private modalController: ModalController,
+    public appStatusService: AppStatusService
   ) { }
 
   async ngOnInit() {
@@ -19,6 +22,14 @@ export class CreditsModalComponent implements OnInit {
   }
   close() {
     this.modalController.dismiss();
+  }
+  openLink(link: string) {
+    Browser.open({
+      url: link,
+      windowName: '_system',
+      presentationStyle: 'popover',
+    });
+    return true;
   }
 }
 
