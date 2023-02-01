@@ -26,6 +26,16 @@
     "help": "Help",
     "privacy": "Privacy"
   },
+  "appCredits": {
+    "by": "Developed by:",
+    "dslab": "DSLab",
+    "fbk": "Fondazione Bruno Kessler",
+    "version": "Versione {{version}}",
+    "credits": "Credits",
+    "faq": "FAQ",
+    "help": "Help",
+    "privacy": "Privacy"
+  },
   "firstTime": {
     "title": "Use your location",
     "message": "Play&go collects location data to enable the tracking, validation and rewarding of sustainable trips even when the app is closed or not in use.",
