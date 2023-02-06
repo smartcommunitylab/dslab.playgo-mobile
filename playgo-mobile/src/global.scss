@@ -51,6 +51,10 @@ body.qr-scanner .scanner-hide {
 ion-list {
   --ion-item-background: transparent;
 }
+ion-card {
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
 .input-clear-icon.sc-ion-input-md,
 .input-clear-icon.sc-ion-input-ios {
   background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><polygon fill='white' points='405,136.798 375.202,107 256,226.202 136.798,107 107,136.798 226.202,256 107,375.202 136.798,405 256,285.798 375.202,405 405,375.202 285.798,256'/></svg>") !important;

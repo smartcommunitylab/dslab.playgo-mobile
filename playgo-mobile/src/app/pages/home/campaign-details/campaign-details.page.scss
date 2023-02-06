@@ -14,7 +14,17 @@
   overflow: hidden;
   transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
 }
-
+ion-card {
+  margin-top: 40px;
+  ion-card-title {
+    font-weight: 600;
+  }
+  ion-item {
+    ion-label {
+      font-weight: 600;
+    }
+  }
+}
 .box.open {
   max-height: 100rem;
   transition: max-height 0.3s cubic-bezier(0.9, 0, 0.8, 0.2);
