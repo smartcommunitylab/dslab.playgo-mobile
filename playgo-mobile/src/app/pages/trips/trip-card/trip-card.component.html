@@ -1,6 +1,6 @@
 <ion-row button (click)="openDetail()" detail>
   <ion-col size="4">
-    <div *ngIf="trip.modeType" class="ion-text-start" style="font-size: 24px" class="trip-mode">
+    <div *ngIf="trip.modeType" class="ion-text-start" class="trip-mode">
       <app-icon [name]="getTransportTypeIcon(trip.modeType)"></app-icon>
       <span>
         {{ getTransportTypeLabel(trip.modeType) | translate }}
@@ -9,19 +9,19 @@
   </ion-col>
   <ion-col class="ion-text-end">
     <span *ngIf="!multiModalTrip">
-      <span>
+      <span class="date">
         {{ trip.startTime | localDate: noMonthOrYearFormat }}
       </span>
     </span>
   </ion-col>
 </ion-row>
 <ion-row button (click)="openDetail()" detail>
-  <ion-col class="ion-text-start">
+  <ion-col class="ion-text-start time-distance">
     {{ trip.distance / 1000 | localNumber: "0.0-1" }}
     {{ "km" | translate }} - {{ durationLabel }}
   </ion-col>
   <ion-col class="ion-text-end">
-    <ion-text [color]="oneCampaignUnassigned(trip)? 'warning' : 'success'" *ngIf="trip.status === Validity.VALID">
+    <ion-text [color]="oneCampaignUnassigned(trip)? 'warning' : 'var(start)'" *ngIf="trip.status === Validity.VALID">
       <span *ngIf="oneCampaignUnassigned(trip);else valid">
         {{'trip_detail.status.validation'| translate}}
       </span>

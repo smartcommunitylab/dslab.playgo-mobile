@@ -1,12 +1,31 @@
 ion-col {
   // outline: 1px solid red;
+  color: var(--dark-grey);
+}
+.date {
+  font-size: 14px;
+  font-weight: 500;
+}
+.time-distance {
+  font-size: 17px;
+  font-weight: 500;
 }
 .trip-mode {
   display: flex;
+  app-icon {
+    font-size: 24px;
+  }
   span {
     margin-left: 20px;
+    font-size: 18px;
+
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
   }
 }
 ion-text {
   font-style: italic;
+  font-size: 12px;
+  font-weight: 600;
 }
