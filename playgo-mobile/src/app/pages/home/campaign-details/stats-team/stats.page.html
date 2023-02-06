@@ -5,7 +5,7 @@
       [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
       <ion-row>
         <ion-col>
-          <ion-item [color]="campaignContainer.campaign.type" class="header-radius">
+          <ion-item [color]="campaignContainer.campaign.type" class="header-radius" lines="none">
             <ion-select interface="popover" class="app-alert" [interfaceOptions]="{ cssClass: 'app-alert' }"
               (ionChange)="selectedMeanChangedSubject.next($any($event))" [value]="selectedMean$ | async">
               <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
@@ -19,7 +19,7 @@
           </ion-item>
         </ion-col>
         <ion-col *ngIf="(selectedMean$ |async)!=='GL'">
-          <ion-item [color]="campaignContainer.campaign.type">
+          <ion-item [color]="campaignContainer.campaign.type" lines="none">
             <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
               (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
               <ion-select-option *ngFor="let metric of metrics" [value]="metric">
@@ -34,6 +34,12 @@
           </ion-item>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="white-line"
+            [style.background-color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"></div>
+        </ion-col>
+      </ion-row>
     </div>
     <ion-segment mode="md" class="app-segment"
       [style.--background]="'var(--ion-color-'+campaignContainer.campaign.type+')'" [(ngModel)]="selectedSegment"
@@ -46,21 +52,21 @@
       </ion-segment-button>
     </ion-segment>
     <ion-grid class="table-header"
-      [style.background-color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat)'">
+      [style.background-color]="'var(--ion-color-'+campaignContainer.campaign.type+'-dark)'">
       <ion-row>
         <ion-col size="2">
           <ion-button (click)="backPeriod()" fill="clear" *ngIf="thereIsPast()"
-            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'">
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-dark-contrast)'">
             <ion-icon name="chevron-back"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col size="8">
           <p class="ion-text-center period-value"
-            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-dark-contrast)'">
             {{getSelectedPeriod()}}
           </p>
           <p class="ion-text-center total-value" *ngIf="(selectedMean$ |async)!=='GL'"
-            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-dark-contrast)'">
             {{totalValue | localNumber}} {{metricToUnitLabel[selectedMetric$|async]|translate}}
           </p>
           <p class="ion-text-center total-value" *ngIf="(selectedMean$ |async)==='GL'"
@@ -70,7 +76,7 @@
         </ion-col>
         <ion-col size="2">
           <ion-button (click)="forwardPeriod()"
-            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'" *ngIf="thereIsFuture()"
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-dark-contrast)'" *ngIf="thereIsFuture()"
             fill="clear">
             <ion-icon name="chevron-forward"></ion-icon>
           </ion-button>

@@ -89,6 +89,27 @@
   --ion-color-playgo-tint: #1a68a5;
   --ion-color-playgo-lighter: #e8f3fc;
 
+  --ion-color-greenplaygo: #359675;
+  --ion-color-greenplaygo-rgb: 53, 150, 117;
+  --ion-color-greenplaygo-contrast: #ffffff;
+  --ion-color-greenplaygo-contrast-rgb: 255, 255, 255;
+  --ion-color-greenplaygo-shade: #2f8467;
+  --ion-color-greenplaygo-tint: #49a183;
+
+  --ion-color-yellowplaygo: #fdc32d;
+  --ion-color-yellowplaygo-rgb: 253, 195, 45;
+  --ion-color-yellowplaygo-contrast: #000000;
+  --ion-color-yellowplaygo-contrast-rgb: 0, 0, 0;
+  --ion-color-yellowplaygo-shade: #dfac28;
+  --ion-color-yellowplaygo-tint: #fdc942;
+
+  --ion-color-redplaygo: #ff0000;
+  --ion-color-redplaygo-rgb: 255, 0, 0;
+  --ion-color-redplaygo-contrast: #ffffff;
+  --ion-color-redplaygo-contrast-rgb: 255, 255, 255;
+  --ion-color-redplaygo-shade: #e00000;
+  --ion-color-redplaygo-tint: #ff1a1a;
+
   --ion-color-start: #14845b;
   --ion-color-start-rgb: 20, 132, 91;
   --ion-color-start-contrast: #ffffff;
@@ -207,6 +228,13 @@
   --ion-color-school-stat-contrast-reversed-rgb: 255, 255, 255;
   --ion-color-school-stat-shade: #d58700;
   --ion-color-school-stat-tint: #f3a31a;
+
+  --ion-color-school-dark: #c06c00;
+  --ion-color-school-dark-rgb: 192, 108, 0;
+  --ion-color-school-dark-contrast: #ffffff;
+  --ion-color-school-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-school-dark-shade: #a95f00;
+  --ion-color-school-dark-tint: #c67b1a;
   // other variables
   --dark-grey: #262626;
 }
@@ -215,10 +243,10 @@
 
 $color-names:
   // not campaign color names
-  "playgo", "start", "sad-gray",
+  "playgo", "start", "sad-gray", "greenplaygo", "yellowplaygo", "redplaygo",
   // school
   "school",
-  "school-light", "school-stat",
+  "school-light", "school-stat", "school-dark",
   // personal
   "personal",
   "personal-light", "personal-stat",
