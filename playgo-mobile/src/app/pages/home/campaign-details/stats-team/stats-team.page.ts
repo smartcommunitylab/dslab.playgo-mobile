@@ -429,6 +429,22 @@ export class StatsTeamPage implements OnInit, OnDestroy {
             //const value = this.barChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
           }
         },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              font: {
+                size: 17,
+                weight: 'bold'
+              }
+            }
+          },
+        },
+
+        responsive: true,
+        maintainAspectRatio: false,
       },
       data: {
         labels: arrOfPeriod.map((period) =>
@@ -440,6 +456,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
             backgroundColor: this.style.getPropertyValue('--ion-color-' + this.campaignContainer.campaign.type),
             borderColor: this.style.getPropertyValue('--ion-color-' + this.campaignContainer.campaign.type),
             borderWidth: 1,
+            borderRadius: 5,
           },
         ],
       },
