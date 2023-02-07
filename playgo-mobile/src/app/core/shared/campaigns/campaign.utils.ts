@@ -30,7 +30,7 @@ export function getPeriods(referenceDate: DateTime): Period[] {
   return [
     {
       labelKey: 'campaigns.stats.filter.period.week',
-      label: 'dd - MMMM',
+      label: 'dd - MMM',
       group: 'day',
       format: 'dd-MM',
       chartFormat: 'EEE',

@@ -64,7 +64,7 @@
             {{(userProfile$|async)?.nickname}}
           </ion-col>
           <ion-col>
-            <p class="player-detail">{{(myStatus$|async)?.score?(myStatus$|async)?.score :0 }}
+            <p class="player-detail">{{(myStatus$|async)?.score?(myStatus$|async)?.score :0 | localNumber: '0.0-1'}}
               <app-icon name="ecoLeavesHsc"></app-icon>
             </p>
           </ion-col>

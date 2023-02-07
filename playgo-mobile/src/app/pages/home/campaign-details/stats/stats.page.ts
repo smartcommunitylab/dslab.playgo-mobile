@@ -432,7 +432,7 @@ export class StatsPage implements OnInit, OnDestroy {
             ticks: {
               font: {
                 size: 17,
-                weight: 'bold'
+                weight: '500'
               }
             }
           },
@@ -458,7 +458,10 @@ export class StatsPage implements OnInit, OnDestroy {
     });
   }
   getSelectedPeriod() {
-    const date = this.localDatePipe.transform(this.selectedPeriod.from, this.selectedPeriod.label);
+    let date = this.localDatePipe.transform(this.selectedPeriod.from, this.selectedPeriod.label);
+    if (this.selectedSegment.group === 'day') {
+      date += ' / ' + this.localDatePipe.transform(this.selectedPeriod.to, this.selectedPeriod.label);
+    }
     return date.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
   }
   changeView(label: any) {
