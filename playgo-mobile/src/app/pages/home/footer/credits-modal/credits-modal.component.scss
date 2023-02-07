@@ -6,10 +6,17 @@
   }
 }
 .dslabicon {
-  background-color: #fff;
   border-radius: 8px;
   padding: 4px;
   margin-top: 16px;
+  max-width: 50%;
+}
+.pgicon {
+  border-radius: 8px;
+  padding: 4px;
+  margin-top: 16px;
+  max-width: 50%;
+  background-color: white;
 }
 .first-row-text {
   font-style: italic;
