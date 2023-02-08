@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { RoutesWithPageSettings } from 'src/app/core/shared/services/page-settings.service';
 import { BadgesPage } from './badges.page';
 
@@ -8,7 +8,7 @@ const routes: RoutesWithPageSettings = [
     path: '',
     component: BadgesPage,
     data: {
-      title: 'blacklist.blacklist',
+      title: 'campaigns.detail.badges',
     },
   },
 ];
@@ -17,4 +17,4 @@ const routes: RoutesWithPageSettings = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class BadgesPageRoutingModule {}
+export class BadgesPageRoutingModule { }
