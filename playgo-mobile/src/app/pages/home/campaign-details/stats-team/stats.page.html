@@ -67,11 +67,11 @@
           </p>
           <p class="ion-text-center total-value" *ngIf="(selectedMean$ |async)!=='GL'"
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-dark-contrast)'">
-            {{totalValue | localNumber}} {{metricToUnitLabel[selectedMetric$|async]|translate}}
+            {{totalValue | localNumber: '0.0-1'}} {{metricToUnitLabel[selectedMetric$|async]|translate}}
           </p>
           <p class="ion-text-center total-value" *ngIf="(selectedMean$ |async)==='GL'"
-            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
-            {{totalValue | localNumber}} ecoLeaves
+            [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-dark-contrast)'">
+            {{totalValue | localNumber: '0.0-1'}} ecoLeaves
           </p>
         </ion-col>
         <ion-col size="2">
