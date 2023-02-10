@@ -188,6 +188,10 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   isCompany() {
     return this.campaign.type === 'company';
   }
+  isSchool() {
+    return this.campaign.type === 'school';
+
+  }
   async openCompanies() {
     const modal = await this.modalController.create({
       component: CompaniesCampaignModalPage,

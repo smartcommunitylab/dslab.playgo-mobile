@@ -4,82 +4,98 @@
     {{ campaign.name | languageMap }}
   </ion-card-header>
   <ion-card-content>
-    <ion-grid>
-      <ion-row class="border">
-        <ion-col size="2">
-          <app-icon name="leaderboard" class="icon-size-big"></app-icon>
-        </ion-col>
-        <ion-col>
-          <div class="result">
-            <div>
-              {{
-              "userprofile.last_week_position"
-              | translate: { position: (reportWeek$ | async)?.position }
-              }}
-            </div>
-            <div>
-              {{
-              "userprofile.general_position"
-              | translate: { position: (reportTotal$ | async)?.position }
-              }}
-            </div>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <div>
+    <div *ngIf="campaign.type!=='school';else school">
       <ion-grid>
         <ion-row class="border">
           <ion-col size="2">
-            <app-icon class="icon-size-big" [name]="campaignService.getCampaignTypeIcon(campaign)"></app-icon>
+            <app-icon name="leaderboard" class="icon-size-big"></app-icon>
           </ion-col>
           <ion-col>
             <div class="result">
-              {{
-              "userprofile.total_points"
-              | translate: { points: (reportTotal$ | async)?.value }
-              }}
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <div>
-      <ion-grid *ngIf="(challengeStat$ | async)?.length>0">
-        <ion-row>
-          <ion-col size="2">
-            <app-icon class="icon-size-big" name="default"></app-icon>
-          </ion-col>
-          <ion-col>
-            <div class="result">
-              <div *ngFor="let challengeType of challengeStat$ | async">
-                <div>
-                  <app-icon [name]="imgChallenge(challengeType)" class="challenge-icon icon-size-normal"></app-icon>
-                  {{ challengeType.completed + challengeType.failed }}
-                  {{ typeChallenge(challengeType.type) }}:
-                  <b>{{
-                    "userprofile.won"
-                    | translate: { won: challengeType.completed }
-                    }}</b>
-                </div>
+              <div>
+                {{
+                "userprofile.last_week_position"
+                | translate: { position: (reportWeek$ | async)?.position }
+                }}
+              </div>
+              <div>
+                {{
+                "userprofile.general_position"
+                | translate: { position: (reportTotal$ | async)?.position }
+                }}
               </div>
             </div>
           </ion-col>
         </ion-row>
       </ion-grid>
+      <div>
+        <ion-grid>
+          <ion-row class="border">
+            <ion-col size="2">
+              <app-icon class="icon-size-big" [name]="campaignService.getCampaignTypeIcon(campaign)"></app-icon>
+            </ion-col>
+            <ion-col>
+              <div class="result">
+                {{
+                "userprofile.total_points"
+                | translate: { points: (reportTotal$ | async)?.value }
+                }}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div>
+        <ion-grid *ngIf="(challengeStat$ | async)?.length>0">
+          <ion-row>
+            <ion-col size="2">
+              <app-icon class="icon-size-big" name="default"></app-icon>
+            </ion-col>
+            <ion-col>
+              <div class="result">
+                <div *ngFor="let challengeType of challengeStat$ | async">
+                  <div>
+                    <app-icon [name]="imgChallenge(challengeType)" class="challenge-icon icon-size-normal"></app-icon>
+                    {{ challengeType.completed + challengeType.failed }}
+                    {{ typeChallenge(challengeType.type) }}:
+                    <b>{{
+                      "userprofile.won"
+                      | translate: { won: challengeType.completed }
+                      }}</b>
+                  </div>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </div>
+      <div class="ion-text-center">
+        <ng-container *ngIf="blacklisted$ | async; else addblacklist">
+          <ion-button class="remove-button" (click)="removeBlacklist()">
+            <app-icon name="invitation" class="icon-size-normal"></app-icon>{{ "userprofile.remove_blacklist" |
+            translate
+            }}
+          </ion-button>
+        </ng-container>
+        <ng-template #addblacklist>
+          <ion-button class="add-button" (click)="addBlacklist()">
+            <app-icon name="blacklist" class="icon-size-normal"></app-icon>{{ "userprofile.add_blacklist" | translate }}
+          </ion-button>
+        </ng-template>
+      </div>
     </div>
-    <div class="ion-text-center">
-      <ng-container *ngIf="blacklisted$ | async; else addblacklist">
-        <ion-button class="remove-button" (click)="removeBlacklist()">
-          <app-icon name="invitation" class="icon-size-normal"></app-icon>{{ "userprofile.remove_blacklist" | translate
-          }}
-        </ion-button>
-      </ng-container>
-      <ng-template #addblacklist>
-        <ion-button class="add-button" (click)="addBlacklist()">
-          <app-icon name="blacklist" class="icon-size-normal"></app-icon>{{ "userprofile.add_blacklist" | translate }}
-        </ion-button>
-      </ng-template>
-    </div>
+    <ng-template #school>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-center">{{
+              "userprofile.user_joined"
+              | translate
+              }}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-template>
   </ion-card-content>
 </ion-card>

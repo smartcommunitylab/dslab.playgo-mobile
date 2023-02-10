@@ -66,7 +66,7 @@ export class AuthService {
     private playerControllerService: PlayerControllerService,
     private injector: Injector,
     private spinnerService: SpinnerService
-  ) {}
+  ) { }
 
   public async init() {
     await this.ionicAppAuthService.init();
@@ -135,7 +135,7 @@ export class AuthService {
     // redirect is handled from global event subscription
     try {
       // in the future, we may not need to perform signOut, just delete the token. (from secure storage)
-      this.ionicAppAuthService.signOut();
+      await this.ionicAppAuthService.signOut();
     } finally {
       setTimeout(() => this.postLogoutCleanup(), 300);
     }
@@ -144,7 +144,7 @@ export class AuthService {
   public async logoutAfterAuthFailed() {
     //todo alert('You are not longer logged in, please log in again.');
     try {
-      this.ionicAppAuthService.signOut();
+      await this.ionicAppAuthService.signOut();
     } finally {
       // redirect should be handled from global event subscription,
       // but if not, we do it manually

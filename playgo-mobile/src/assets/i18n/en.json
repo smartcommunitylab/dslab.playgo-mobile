@@ -19,7 +19,7 @@
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
   "appFooter": {
-    "by": "By DSLab, Fondazione Bruno Kessler",
+    "by": "By Fondazione Bruno Kessler",
     "version": "Versione {{version}}",
     "credits": "Credits",
     "faq": "FAQ",
@@ -29,6 +29,8 @@
   "appCredits": {
     "by": "Developed by:",
     "dslab": "DSLab",
+    "modis": "MoDiS",
+    "pmg": "PMG",
     "fbk": "Fondazione Bruno Kessler",
     "version": "Versione {{version}}",
     "credits": "Credits",
@@ -281,6 +283,7 @@
     "novaliddate": "The campaign's period is not valid",
     "notStarted": "The campaign is not active",
     "cantSubscribe": "The campaign is running.<br> Your nickname does not belong to any team. To participate, contact the teacher in charge",
+    "notStartedHSC": "The campaign is not yet active.<br> To partecipat contact your teacher.",
     "noDesc": "No description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
@@ -520,7 +523,8 @@
     "total_points": "{{points}} total points",
     "won": "won {{won}}",
     "add_blacklist": "Block invites",
-    "remove_blacklist": "Unlock invites"
+    "remove_blacklist": "Unlock invites",
+    "user_joined": "The user participates in this campaign"
   },
   "challenges": {
     "challenges": "Challenges",

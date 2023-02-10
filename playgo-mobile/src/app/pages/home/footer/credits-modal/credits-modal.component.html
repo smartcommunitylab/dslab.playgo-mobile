@@ -9,26 +9,7 @@
 </ion-header>
 
 <ion-content color="playgo">
-  <ion-grid class="ion-no-padding">
-    <ion-row class="ion-text-center ion-margin-top">
-      <ion-col size="12" class="ion-text-center">
-        <img class="pgicon" src="../assets/images/home/logo.svg" />
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-text-center ion-margin-top">
-      <ion-col *ngIf="(appStatusService.appInfo$ | async)">
-        <div *ngIf="(appStatusService.appInfo$ | async)?.name"><span>{{ (appStatusService.appInfo$ | async)?.name
-            }}</span></div>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-text-center">
-      <ion-col>
-        <div *ngIf="(appStatusService.appInfo$ | async)?.version"><span class="first-row-text">{{
-            'appCredits.version'|translate :{ version:
-            (appStatusService.appInfo$ | async)?.version }
-            }}</span></div>
-      </ion-col>
-    </ion-row>
+  <ion-grid>
     <ion-row class="ion-text-center ion-margin-top">
       <ion-col>
         <div><span>{{ 'appCredits.by' | translate }}</span>
@@ -47,9 +28,27 @@
           (click)="openLink('https://www.smartcommunitylab.it/')" />
       </ion-col>
     </ion-row>
+    <ion-row class="ion-justify-content-center  ion-margin-top">
+      <ion-col size="6" class="ion-text-center">
+        <img class="modisicon" src="../../../assets/icon/modis.svg" (click)="openLink('https://modis.fbk.eu/')" />
+      </ion-col>
+      <ion-col size="6" class="ion-text-center">
+        <img class="pmgicon" src="../../../assets/icon/pmg.svg" (click)="openLink('https://pmg.fbk.eu/')" />
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-text-center">
+      <ion-col size="6">
+        <div><span>{{ 'appCredits.modis' | translate }}</span>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div><span>{{ 'appCredits.pmg' | translate }}</span>
+        </div>
+      </ion-col>
+    </ion-row>
     <!-- <ion-row class="ion-text-center">
       <ion-col>
-        <div><span>{{ 'appCredits.dslab' | translate }}</span>
+        <div><span>{{ 'appCredits.pmg' | translate }}</span>
         </div>
       </ion-col>
     </ion-row> -->

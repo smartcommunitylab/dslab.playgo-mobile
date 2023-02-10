@@ -11,9 +11,12 @@
         {{'campaigns.join'|translate}}
       </ion-button>
       <div class="ion-text-center">
-        <span *ngIf="campaignNotStarted(campaign); else started">
-          {{'campaigns.notStarted'|translate}}
-        </span>
+        <div *ngIf="campaignNotStarted(campaign); else started">
+          <span *ngIf="isSchool(); else notHsc">{{'campaigns.notStartedHSC'|translate}}</span>
+          <ng-template #notHsc>
+            <span>{{'campaigns.notStarted'|translate}}</span>
+          </ng-template>
+        </div>
         <ng-template #started>
           <span *ngIf="!canSubscribe" [innerHTML]="'campaigns.cantSubscribe'|translate">
 

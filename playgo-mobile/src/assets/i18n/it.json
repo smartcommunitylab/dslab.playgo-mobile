@@ -19,7 +19,7 @@
   "recommendations": "User Recommendation Badge",
   "leaderboard top 3": "Leaderboard Top 3 Badge",
   "appFooter": {
-    "by": "By DSLab, Fondazione Bruno Kessler",
+    "by": "By Fondazione Bruno Kessler",
     "version": "Versione {{version}}",
     "credits": "Credits",
     "faq": "FAQ",
@@ -34,7 +34,9 @@
     "credits": "Credits",
     "faq": "FAQ",
     "help": "Help",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "modis": "MoDiS",
+    "pmg": "PMG"
   },
   "firstTime": {
     "title": "Utilizzo della posizione",
@@ -280,6 +282,7 @@
     "join": "Iscriviti",
     "notStarted": "La campagna non é attiva",
     "cantSubscribe": "La campagna è in corso. <br> Il tuo nickname non appartiene a nessuna squadra. Per partecipare rivolgiti al docente referente",
+    "notStartedHSC": "La campagna non è ancora attiva. Per partecipare rivolgiti al docente referente",
     "novaliddate": "Il periodo della campagna non risulta valido",
     "noDesc": "Nessuna descrizione fornita",
     "myCampaigns": "Le mie",
@@ -520,7 +523,8 @@
     "total_points": "{{points}} punti totali",
     "won": "{{won}} vinte",
     "add_blacklist": "Blocca inviti",
-    "remove_blacklist": "Sblocca inviti"
+    "remove_blacklist": "Sblocca inviti",
+    "user_joined": "L'utente partecipa a questa campagna"
   },
   "challenges": {
     "challenges": "Sfide",
