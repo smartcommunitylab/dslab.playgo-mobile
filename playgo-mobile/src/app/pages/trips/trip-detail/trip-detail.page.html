@@ -18,12 +18,12 @@
             <app-icon class="big-icon" [name]="getTransportTypeIcon(tripDetail.modeType)"></app-icon>
           </ion-col>
           <ion-col size="9">
-            <ion-row>{{ getTransportTypeLabel(tripDetail.modeType) | translate
+            <ion-row class="mean-label">{{ getTransportTypeLabel(tripDetail.modeType) | translate
               }}</ion-row>
-            <ion-row>{{ tripDetail.startTime | localDate: { year:'numeric', month:
+            <ion-row class="mean-date">{{ tripDetail.startTime | localDate: { year:'numeric', month:
               'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }
               }}</ion-row>
-            <ion-row>
+            <ion-row class="mean-hour">
               {{tripDetail.distance / 1000 | localNumber: '0.0-1' }} {{ 'km' |
               translate }} {{ this.durationLabel }}
             </ion-row>

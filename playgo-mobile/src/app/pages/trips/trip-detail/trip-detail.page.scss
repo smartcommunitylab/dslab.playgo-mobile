@@ -1,7 +1,9 @@
 :host {
   height: 100%;
 }
-
+ion-grid {
+  color: var(--dark-grey);
+}
 .inherit-color {
   color: inherit !important;
 }
@@ -15,6 +17,25 @@
   z-index: 1000;
   right: 0;
   left: 0;
+  ion-row {
+    display: flex;
+    align-items: center !important;
+    .mean-label {
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 25px;
+    }
+    .mean-date {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 25px;
+    }
+    .mean-hour {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 25px;
+    }
+  }
 }
 .ellipsis {
   overflow: hidden;
