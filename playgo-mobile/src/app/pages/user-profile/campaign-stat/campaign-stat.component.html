@@ -6,6 +6,19 @@
   <ion-card-content>
     <div *ngIf="campaign.type!=='school';else school">
       <ion-grid>
+        <ion-row *ngIf="(blacklisted$ | async)===true">
+          <ion-col size="auto" class="chall-line">
+            <app-icon name="blockUserColor" class="icon-size-normal"></app-icon>
+          </ion-col>
+          <ion-col>
+            <span class="blockuser-info">
+              {{
+              "userprofile.blacklist_user"
+              | translate
+              }}
+            </span>
+          </ion-col>
+        </ion-row>
         <ion-row [style.border-bottom]="'3px solid var(--ion-color-'+campaign.type+')'">
           <ion-col size="2">
             <app-icon name="leaderboard" class="icon-size-medium" [color]="campaign.type"></app-icon>

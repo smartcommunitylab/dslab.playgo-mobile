@@ -525,7 +525,8 @@
     "won": "{{won}} vinte",
     "add_blacklist": "Blocca inviti",
     "remove_blacklist": "Sblocca inviti",
-    "user_joined": "L'utente partecipa a questa campagna"
+    "user_joined": "L'utente partecipa a questa campagna",
+    "blacklist_user": "Attenzione: hai bloccato gli inviti per le sfide di questo utente. Non puoi inviare nè ricevere sfide da questo utente. "
   },
   "challenges": {
     "challenges": "Sfide",
