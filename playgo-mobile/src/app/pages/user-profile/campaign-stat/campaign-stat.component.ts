@@ -50,8 +50,13 @@ export class CampaignStatComponent implements OnInit {
     public campaignService: CampaignService,
     private authService: AuthService,
     private errorService: ErrorService
-  ) {}
-
+  ) { }
+  getChallengeFrom() {
+    return toServerDateOnly(DateTime.utc().minus({ month: 1 }));
+  }
+  getChallengeTo() {
+    return toServerDateOnly(DateTime.utc());
+  }
   ngOnInit() {
     this.challengeStat$ = this.challengeService.getChallengeStats({
       campaignId: this.campaign?.campaignId,

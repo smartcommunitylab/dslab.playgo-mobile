@@ -6,23 +6,26 @@
   <ion-card-content>
     <div *ngIf="campaign.type!=='school';else school">
       <ion-grid>
-        <ion-row class="border">
+        <ion-row [style.border-bottom]="'3px solid var(--ion-color-'+campaign.type+')'">
           <ion-col size="2">
-            <app-icon name="leaderboard" class="icon-size-big"></app-icon>
+            <app-icon name="leaderboard" class="icon-size-medium" [color]="campaign.type"></app-icon>
           </ion-col>
           <ion-col>
             <div class="result">
               <div>
+                <app-ordinal-number [value]="(reportWeek$ | async)?.position"></app-ordinal-number>
+
                 {{
                 "userprofile.last_week_position"
-                | translate: { position: (reportWeek$ | async)?.position }
+                | translate
                 }}
               </div>
               <div>
+                <app-ordinal-number [value]="(reportWeek$ | async)?.position"></app-ordinal-number>
+
                 {{
                 "userprofile.general_position"
-                | translate: { position: (reportTotal$ | async)?.position }
-                }}
+                | translate }}
               </div>
             </div>
           </ion-col>
@@ -30,16 +33,18 @@
       </ion-grid>
       <div>
         <ion-grid>
-          <ion-row class="border">
+          <ion-row [style.border-bottom]="'3px solid var(--ion-color-'+campaign.type+')'">
             <ion-col size="2">
-              <app-icon class="icon-size-big" [name]="campaignService.getCampaignTypeIcon(campaign)"></app-icon>
+              <app-icon class="icon-size-medium" [name]="campaignService.getCampaignTypeIcon(campaign)"></app-icon>
             </ion-col>
             <ion-col>
               <div class="result">
-                {{
-                "userprofile.total_points"
-                | translate: { points: (reportTotal$ | async)?.value }
-                }}
+                <div>
+                  <span class="bolded">{{(reportTotal$ | async)?.value}}</span><span>{{
+                    "userprofile.total_points"
+                    | translate
+                    }}</span>
+                </div>
               </div>
             </ion-col>
           </ion-row>
@@ -48,15 +53,24 @@
       <div>
         <ion-grid *ngIf="(challengeStat$ | async)?.length>0">
           <ion-row>
-            <ion-col size="2">
-              <app-icon class="icon-size-big" name="default"></app-icon>
+            <ion-col>
+              <span class="challe-text">{{
+                "userprofile.period_challenge"
+                | translate: { periodFrom: getChallengeFrom()|localDate, periodTo: getChallengeTo()|localDate }
+                }}</span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="2" class="chall-line">
+              <app-icon class="icon-size-medium" name="cup" [color]="campaign.type"></app-icon>
             </ion-col>
             <ion-col>
               <div class="result">
                 <div *ngFor="let challengeType of challengeStat$ | async">
-                  <div>
-                    <app-icon [name]="imgChallenge(challengeType)" class="challenge-icon icon-size-normal"></app-icon>
-                    {{ challengeType.completed + challengeType.failed }}
+                  <div class="chall-line">
+                    <app-icon [name]="imgChallenge(challengeType.type)"
+                      class="challenge-icon icon-size-normal"></app-icon>
+                    <b> {{ challengeType.completed + challengeType.failed }} </b>
                     {{ typeChallenge(challengeType.type) }}:
                     <b>{{
                       "userprofile.won"

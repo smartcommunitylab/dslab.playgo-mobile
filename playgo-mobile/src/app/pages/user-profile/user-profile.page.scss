@@ -1,15 +1,16 @@
 .user-intro {
   text-align: center;
   margin: 52px auto;
-  width: 102px;
-  height: 102px;
+  width: 124px;
+  height: 124px;
   ion-avatar {
     margin: auto;
-    height: 80px;
-    width: 80px;
+    height: 102px;
+    width: 102px;
   }
   .nickname {
     margin-top: 32px;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 18px;
   }
 }

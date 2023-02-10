@@ -509,6 +509,7 @@
     "title": "Team profile"
   },
   "userprofile": {
+    "period_challenge": "Last month's challenges {{periodFrom}} - {{periodTo}}",
     "title": "User Profile",
     "last_month": "Last month activity",
     "personal_stat_bike": " by bike",
@@ -518,9 +519,9 @@
     "personal_stat_car": " by carpooling",
     "personal_stat_boat": " by boat",
     "empty": "There are not statistics to show",
-    "last_week_position": "{{position}} last week",
-    "general_position": "{{position}} general ranking",
-    "total_points": "{{points}} total points",
+    "last_week_position": " last week",
+    "general_position": " general ranking",
+    "total_points": " total points",
     "won": "won {{won}}",
     "add_blacklist": "Block invites",
     "remove_blacklist": "Unlock invites",

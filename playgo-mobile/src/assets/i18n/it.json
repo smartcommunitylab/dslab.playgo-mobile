@@ -509,6 +509,7 @@
     "title": "Profilo squadra"
   },
   "userprofile": {
+    "period_challenge": "Sfide dell'ultimo mese {{periodFrom}} - {{periodTo}}",
     "title": "Profilo utenti",
     "last_month": "Attività dell’ultimo mese",
     "personal_stat_bike": " in bici",
@@ -518,9 +519,9 @@
     "personal_stat_car": " in carpooling",
     "personal_stat_boat": " in battello",
     "empty": "Non ci sono statistiche da mostrare",
-    "last_week_position": "{{position}} ultima settimana",
-    "general_position": "{{position}} classifica generale",
-    "total_points": "{{points}} punti totali",
+    "last_week_position": " ultima settimana",
+    "general_position": " classifica generale",
+    "total_points": " punti totali",
     "won": "{{won}} vinte",
     "add_blacklist": "Blocca inviti",
     "remove_blacklist": "Sblocca inviti",
