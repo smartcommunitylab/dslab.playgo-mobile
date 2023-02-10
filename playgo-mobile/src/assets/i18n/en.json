@@ -283,7 +283,7 @@
     "novaliddate": "The campaign's period is not valid",
     "notStarted": "The campaign is not active",
     "cantSubscribe": "The campaign is running.<br> Your nickname does not belong to any team. To participate, contact the teacher in charge",
-    "notStartedHSC": "The campaign is not yet active.<br> To partecipat contact your teacher.",
+    "notStartedHSC": "The campaign is not yet active. To partecipate contact your teacher.",
     "noDesc": "No description provided",
     "myCampaigns": "My campaigns",
     "allCampaigns": "All campaigns",
