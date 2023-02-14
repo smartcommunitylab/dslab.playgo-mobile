@@ -355,6 +355,8 @@
       "modalBestPersonal": "Punteggio massimo:",
       "modalActualPersonal": "Il tuo punteggio: ",
       "modalMinPersonal": "Punteggio minimo: ",
+      "modalTeamValid": "Vengono prese in considerazione solo le squadre che hanno compiuto almeno un viaggio valido.",
+      "modalPersonalValid": "Vengono prese in considerazione i giocatori che hanno compiuto almeno un viaggio valido.",
       "myCompany": "Azienda:",
       "companies": "Aziende partecipanti",
       "not_found": "Campagna non trovata",

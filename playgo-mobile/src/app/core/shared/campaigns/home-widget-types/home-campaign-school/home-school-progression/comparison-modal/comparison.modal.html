@@ -18,7 +18,7 @@
           <div class="points">{{
             'campaigns.detail.modalActualTeam'
             | translate
-            }} <div>{{stat.value| localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
+            }} <div>{{stat.value===0?'- ':stat.value| localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
             </div>
           </div>
           <div class="points">{{
@@ -26,6 +26,11 @@
             | translate
             }}<div>{{stat.min| localNumber: '0.0-1'}} <app-icon name="ecoLeavesHsc"></app-icon>
             </div>
+          </div>
+
+          <div class="valid" [innerHTML]="
+          'campaigns.detail.modalTeamValid'
+          | translate">
           </div>
         </div>
         <ng-template #personal>
@@ -44,7 +49,7 @@
             <div class="points">{{
               'campaigns.detail.modalActualPersonal'
               | translate
-              }} <div>{{stat.value| localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
+              }} <div>{{stat.value===0?'- ':stat.value| localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
               </div>
             </div>
             <div class="points">{{
@@ -52,6 +57,10 @@
               | translate
               }} <div>{{stat.min| localNumber: '0.0-1'}}<app-icon name="ecoLeavesHsc"></app-icon>
               </div>
+            </div>
+            <div class="valid" [innerHTML]="
+            'campaigns.detail.modalPersonalValid'
+            | translate">
             </div>
           </div>
         </ng-template>

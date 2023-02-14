@@ -355,6 +355,8 @@
       "modalBestPersonal": "Max score: ",
       "modalActualPersonal": "Your score:",
       "modalMinPersonal": "Min score:",
+      "modalTeamValid": "Only teams that have made at least one valid journey are taken into consideration.",
+      "modalPersonalValid": "Only players that have made at least one valid journey are taken into consideration.",
       "myCompany": "Company:",
       "companies": "Partecipating companies",
       "not_found": "Campaign not found",
