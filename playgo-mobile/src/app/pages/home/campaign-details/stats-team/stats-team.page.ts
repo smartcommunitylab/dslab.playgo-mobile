@@ -219,7 +219,7 @@ export class StatsTeamPage implements OnInit, OnDestroy {
   private setDivider(metric: Metric): void {
     switch (metric) {
       case 'co2':
-        this.divider = 1000;
+        this.divider = 1;
         break;
       case 'km':
         this.divider = 1000;
