@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { IonicSelectableComponent } from 'ionic-selectable';
@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
-import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { ErrorService, UserError } from 'src/app/core/shared/services/error.service';
 import { TeamService } from 'src/app/core/shared/services/team.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 
@@ -34,7 +34,8 @@ export class JoinSchoolModalPage implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     public formBuilder: FormBuilder,
     private userService: UserService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private elementRef: ElementRef
   ) { }
   ngOnInit() {
     this.language = this.userService.getLanguage();
@@ -68,7 +69,7 @@ export class JoinSchoolModalPage implements OnInit, OnDestroy {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.privacyPopup.header' as any,
       messageString: this.privacy.content,
-      cssClass: 'modalJoin',
+      cssClass: 'modalJoin'
     });
   }
 
@@ -76,14 +77,14 @@ export class JoinSchoolModalPage implements OnInit, OnDestroy {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.rulesPopup.header' as any,
       messageString: this.rules.content,
-      cssClass: 'modalJoin',
+      cssClass: 'modalJoin'
     });
   }
   openCodeInfoPopup() {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.codeInfo.header' as any,
       messageString: 'campaigns.joinmodal.codeInfo.message' as any,
-      cssClass: 'modalConfirm',
+      cssClass: 'modalConfirm'
     });
   }
   joinSchoolSubmit() {
@@ -108,7 +109,11 @@ export class JoinSchoolModalPage implements OnInit, OnDestroy {
             }
           },
           (err) => {
-            this.errorService.handleError(err);
+            const error = new UserError({
+              id: 'ERROR_TEAM',
+              message: 'campaigns.joinmodal.error.ERROR_TEAM',
+            });
+            this.errorService.handleError(error);
           }
         );
     }

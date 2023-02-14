@@ -18,6 +18,7 @@ import { ReportService } from 'src/app/core/shared/services/report.service';
 import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameStatus';
 import { TransportStat } from 'src/app/core/api/generated-hsc/model/transportStat';
 import { getTransportTypeIcon, getTransportTypeLabel } from 'src/app/core/shared/tracking/trip.model';
+import { TeamMember } from 'src/app/core/api/generated-hsc/model/teamMember';
 
 @Component({
   selector: 'app-team-profile',
@@ -97,6 +98,9 @@ export class TeamProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+  getMembers(members: TeamMember[]): number {
+    return members?.filter(x => x.subscribed === true).length;
   }
 
 }

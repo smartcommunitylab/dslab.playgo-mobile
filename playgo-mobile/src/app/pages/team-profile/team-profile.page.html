@@ -18,7 +18,11 @@
         </ion-row>
         <ion-row *ngIf="(type$|async)==='my'">
           <ion-col class="ion-text-start" *ngIf="(team$|async)?.members">
-            {{'campaigns.detail.nMembers'|translate}}{{(team$|async)?.members?.length+'/'+(team$|async)?.expected}}
+            <span class="members">{{'campaigns.detail.nMembersActive'|translate}}
+              <b>{{getMembers((team$|async)?.members)}}</b> &nbsp;{{'campaigns.detail.nMembersInvited'|translate}}
+              <b>{{(team$|async)?.members?.length}}</b> &nbsp;{{'campaigns.detail.nMembersMax'|translate}}
+              <b>{{(team$|async)?.expected}}</b></span>
+
             <!-- <span class="members"
               *ngIf="(team$|async)?.members?.length>1 ||(team$|async)?.numMembers>1 ; else singlePlayer">{{
               'campaigns.detail.members'
@@ -68,9 +72,12 @@
               <app-icon name="ecoLeavesHsc"></app-icon>
             </p>
           </ion-col>
+          <!-- <ion-col size="auto">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </ion-col> -->
         </ion-row>
         <ng-container *ngFor="let student of (team$|async)?.members">
-          <ion-row *ngIf="(playerId$|async)!==student.playerId">
+          <ion-row *ngIf="(playerId$|async)!==student.playerId && student.subscribed">
             <ion-col size="2">
               <ion-avatar *ngIf="student.avatar?.url; else alternativeAvatar">
                 <img [src]="student.avatar?.url" />
@@ -83,6 +90,29 @@
             </ion-col>
             <ion-col>
               {{student.nickname}}
+            </ion-col>
+            <!-- <ion-col size="auto">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+            </ion-col> -->
+          </ion-row>
+        </ng-container>
+        <ng-container *ngFor="let student of (team$|async)?.members">
+          <ion-row *ngIf="(playerId$|async)!==student.playerId && !student.subscribed" class="player-not-subscribed">
+            <ion-col size="2">
+              <ion-avatar *ngIf="student.avatar?.url; else alternativeAvatar">
+                <img [src]="student.avatar?.url" />
+              </ion-avatar>
+              <ng-template #alternativeAvatar>
+                <ion-avatar class="opaque">
+                  <ion-icon name="person-circle-outline"></ion-icon>
+                </ion-avatar>
+              </ng-template>
+            </ion-col>
+            <ion-col class="opaque">
+              {{student.nickname}}
+            </ion-col>
+            <ion-col size="auto">
+              <span class="label-not-subscribed opaque">{{'campaigns.detail.not_subscribed'|translate}}</span>
             </ion-col>
           </ion-row>
         </ng-container>

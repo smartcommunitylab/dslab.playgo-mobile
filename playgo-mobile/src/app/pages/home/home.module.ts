@@ -10,7 +10,9 @@ import { FooterComponent } from './footer/footer.component';
 import { CreditsModalComponent } from './footer/credits-modal/credits-modal.component';
 @NgModule({
   imports: [PlayGoSharedModule, HomePageRoutingModule],
-  declarations: [MyCampaignsWidgetComponent, AboutModalComponent, HomePage, FooterComponent, CreditsModalComponent],
+  declarations: [MyCampaignsWidgetComponent,
+    AboutModalComponent, HomePage, FooterComponent,
+    CreditsModalComponent],
   exports: [MyCampaignsWidgetComponent],
 })
 export class HomePageModule { }

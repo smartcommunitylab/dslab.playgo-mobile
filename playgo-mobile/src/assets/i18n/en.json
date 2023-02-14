@@ -312,6 +312,9 @@
       "rulesLink": "Read the rules",
       "rules": "Accept the rules",
       "rulesRequired": "Rules is needed",
+      "error": {
+        "ERROR_TEAM": "Subscription error. Check the selected team"
+      },
       "privacyPopup": {
         "header": "Privacy"
       },
@@ -332,7 +335,10 @@
       "confirm": "Confirm"
     },
     "detail": {
-      "nMembers": "Members:",
+      "not_subscribed": "Not subscribed",
+      "nMembersActive": "Members active:",
+      "nMembersInvited": "Invided:",
+      "nMembersMax": "Max team:",
       "playerProgression": "How are you going",
       "teamProgression": "How is your team doing",
       "teamDetailRanking": "General Ranking:",

@@ -312,6 +312,9 @@
       "rulesLink": "Leggi il regolamento",
       "rules": "Accetto il regolamento della campagna",
       "rulesRequired": "Il regolamento é richiesto",
+      "error": {
+        "ERROR_TEAM": "Errore nell'iscrizione. Verificare il team selezionato"
+      },
       "privacyPopup": {
         "header": "Privacy"
       },
@@ -332,7 +335,10 @@
       "confirm": "Conferma"
     },
     "detail": {
-      "nMembers": "Membri:",
+      "not_subscribed": "Non iscritto",
+      "nMembersActive": "Membri attivi:",
+      "nMembersInvited": "Invitati:",
+      "nMembersMax": "Max squadra:",
       "playerProgression": "Come stai andando",
       "teamProgression": "Come sta andando la tua squadra",
       "teamDetailRanking": "Classifica Generale:",
