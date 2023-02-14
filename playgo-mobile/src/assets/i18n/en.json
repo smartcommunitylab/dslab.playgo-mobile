@@ -312,6 +312,9 @@
       "rulesLink": "Read the rules",
       "rules": "Accept the rules",
       "rulesRequired": "Rules is needed",
+      "error": {
+        "ERROR_TEAM": "Subscription error. Check the selected team"
+      },
       "privacyPopup": {
         "header": "Privacy"
       },

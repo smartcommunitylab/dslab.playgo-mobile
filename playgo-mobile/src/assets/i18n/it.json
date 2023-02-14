@@ -312,6 +312,9 @@
       "rulesLink": "Leggi il regolamento",
       "rules": "Accetto il regolamento della campagna",
       "rulesRequired": "Il regolamento é richiesto",
+      "error": {
+        "ERROR_TEAM": "Errore nell'iscrizione. Verificare il team selezionato"
+      },
       "privacyPopup": {
         "header": "Privacy"
       },
