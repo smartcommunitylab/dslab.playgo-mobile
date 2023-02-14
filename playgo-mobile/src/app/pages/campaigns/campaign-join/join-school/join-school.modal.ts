@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { IonicSelectableComponent } from 'ionic-selectable';
@@ -34,7 +34,8 @@ export class JoinSchoolModalPage implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     public formBuilder: FormBuilder,
     private userService: UserService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private elementRef: ElementRef
   ) { }
   ngOnInit() {
     this.language = this.userService.getLanguage();
@@ -68,7 +69,7 @@ export class JoinSchoolModalPage implements OnInit, OnDestroy {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.privacyPopup.header' as any,
       messageString: this.privacy.content,
-      cssClass: 'modalJoin',
+      cssClass: 'modalJoin'
     });
   }
 
@@ -76,14 +77,14 @@ export class JoinSchoolModalPage implements OnInit, OnDestroy {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.rulesPopup.header' as any,
       messageString: this.rules.content,
-      cssClass: 'modalJoin',
+      cssClass: 'modalJoin'
     });
   }
   openCodeInfoPopup() {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.codeInfo.header' as any,
       messageString: 'campaigns.joinmodal.codeInfo.message' as any,
-      cssClass: 'modalConfirm',
+      cssClass: 'modalConfirm'
     });
   }
   joinSchoolSubmit() {

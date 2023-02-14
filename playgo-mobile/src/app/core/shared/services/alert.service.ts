@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
+import { Browser } from '@capacitor/browser';
 import {
   ToastController,
   LoadingController,
@@ -18,7 +19,8 @@ export class AlertService {
     private toastController: ToastController,
     private loadingController: LoadingController,
     private alertController: AlertController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+
   ) {
     // HACK: fix toast not presented when offline, due to lazy loading the toast controller.
     // Can be removed once #17450 is resolved: https://github.com/ionic-team/ionic/issues/17450
@@ -82,8 +84,22 @@ export class AlertService {
       });
 
       await alert.present();
+      const anchors = alert.querySelectorAll('a');
+      anchors.forEach((anchor: HTMLAnchorElement) => {
+        anchor.addEventListener('click', this.handleAnchorClick);
+      });
     });
   }
+  public handleAnchorClick = (event: Event) => {
+    // Prevent opening anchors the default way
+    event.preventDefault();
+    const anchor = event.target as HTMLAnchorElement;
+    Browser.open({
+      url: anchor.href,
+      windowName: '_system',
+      presentationStyle: 'popover',
+    });
+  };
   public async confirmAlert(
     headerTranslateKey: TranslateKeyWithParams,
     messageTranslateKey: TranslateKeyWithParams,
@@ -129,7 +145,7 @@ export class AlertService {
 
     await this.loading.present();
   }
-  public async dismissLoading() {}
+  public async dismissLoading() { }
 
   private async translate(key: TranslateKeyWithParams): Promise<string> {
     if (!key) {
