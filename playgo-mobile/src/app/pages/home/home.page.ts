@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
@@ -10,6 +11,9 @@ import { NotificationService } from 'src/app/core/shared/services/notifications/
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
+  arrowDown = true;
+  @ViewChild('scrollMe') private content: IonContent;
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -26,9 +30,16 @@ export class HomePage implements OnInit, OnDestroy {
   showNotifications() {
     this.router.navigateByUrl('/pages/notifications');
   }
-  ngOnInit() {}
+  ngOnInit() { }
 
-  ngOnDestroy() {}
+  changedVisibility(visibility: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    (visibility === 'VISIBLE') ? this.arrowDown = false : this.arrowDown = true;
+  }
+  goDown() {
+    this.content.scrollToBottom(1000);
+  }
+  ngOnDestroy() { }
   pushInit() {
     this.authService.isReadyForApi$.subscribe(() => {
       // console.log('Initializing HomePage');

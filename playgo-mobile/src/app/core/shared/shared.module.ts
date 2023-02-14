@@ -45,6 +45,7 @@ import { CompanyModalPage } from './campaigns/app-company-label/company-modal/co
 import { HomeSchoolProfiloComponent } from './campaigns/home-widget-types/home-campaign-school/home-school-profile/home-school-profile.component';
 import { HomeSchoolProgressionComponent } from './campaigns/home-widget-types/home-campaign-school/home-school-progression/home-school-progression.component';
 import { ComparisonModalPage } from './campaigns/home-widget-types/home-campaign-school/home-school-progression/comparison-modal/comparison.modal';
+import { EnterTheViewportNotifierDirective } from './directives/enter-viewport.directive';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -66,6 +67,7 @@ import { ComparisonModalPage } from './campaigns/home-widget-types/home-campaign
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
     ParallaxDirective,
+    EnterTheViewportNotifierDirective,
     OrdinalNumberComponent,
     ComparisonModalPage,
     HomeCampaignCityComponent,
@@ -112,6 +114,7 @@ import { ComparisonModalPage } from './campaigns/home-widget-types/home-campaign
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,
     ParallaxDirective,
+    EnterTheViewportNotifierDirective,
     OrdinalNumberComponent,
     ComparisonModalPage,
     HomeCampaignCityComponent,
