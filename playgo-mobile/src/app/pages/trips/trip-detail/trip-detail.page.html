@@ -24,13 +24,19 @@
               'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }
               }}</ion-row>
             <ion-row class="mean-hour">
-              {{tripDetail.distance / 1000 | localNumber: '0.0-1' }} {{ 'km' |
-              translate }} {{ this.durationLabel }}
+              <span *ngIf="tripDetail.distance; else noDistance">{{tripDetail.distance / 1000 | localNumber: '0.0-1' }}
+                {{ 'km' |
+                translate }} {{ this.durationLabel }}</span>
+              <ng-template #noDistance>
+                <span> - {{ 'km' | translate }} / - min </span>
+              </ng-template>
             </ion-row>
           </ion-col>
         </ion-row>
         <ion-row *ngIf="campaigns.length === 0">
-          {{ 'trip_detail.no_score' | translate }}
+          <span class="no-score">
+            {{ 'trip_detail.no_score' | translate }}
+          </span>
         </ion-row>
         <ion-row *ngFor="let campaign of campaigns" class="campaigns-validation">
           <ng-container *ngIf="campaign.valid">
