@@ -298,6 +298,7 @@ export enum NotificationType {
   challengeComplete = 'challenge_complete',
   challengeFailed = 'challenge_failed',
   announcement = 'announcement',
+  bonus = 'bonus'
 }
 export const NOTIFICATION_TYPE_ACTIONS = {
   campaignWidgetBadge: {
