@@ -42,6 +42,7 @@ import {
   TransportType,
   TripPart,
   UNABLE_TO_GET_POSITION,
+  MAX_MS_TRACKING,
 } from './trip.model';
 import { runInZone } from '../rxjs.utils';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
@@ -257,6 +258,7 @@ export class BackgroundTrackingService {
           environment.serverUrl.apiPath +
           '/track/player/geolocations',
         distanceFilter: 10,
+        stopAfterElapsedMinutes: 8 * 60,
         stopOnTerminate: false,
         startOnBoot: false,
         autoSync: false,
@@ -295,6 +297,8 @@ export class BackgroundTrackingService {
   }
 
   public async startTracking(tripPart: TripPart, doChecks: boolean) {
+    console.log('backgroundTracking  service');
+
     const location = await this.setExtrasAndForceLocation(tripPart);
     const accuracy = location.coords.accuracy;
     // we are not doing checks in case of change of the mean
