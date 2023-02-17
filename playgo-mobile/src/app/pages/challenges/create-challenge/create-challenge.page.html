@@ -1,57 +1,33 @@
-<ion-header appHeader></ion-header>
+<ion-header mode="ios" appHeader></ion-header>
 
 <ion-content appContent>
-  <app-wizard
-    *ngIf="campaign$ | async as campaign"
-    [title]="campaign.name | languageMap"
-    [backButton]="false"
-    [ngClass]="'ion-color-' + getCampaignColor(campaign)"
-    [finishButtonLabel]="'challenges.create.invite'|translate"
-    (finish)="onInvite()"
-  >
-    <app-wizard-step
-      title="challenges.create.choose_type"
-      [validForNextStep]="(selectedModelName$|async) !== null"
-    >
+  <app-wizard *ngIf="campaign$ | async as campaign" [title]="campaign.name | languageMap" [backButton]="false"
+    [ngClass]="'ion-color-' + getCampaignColor(campaign)" [finishButtonLabel]="'challenges.create.invite'|translate"
+    (finish)="onInvite()">
+    <app-wizard-step title="challenges.create.choose_type" [validForNextStep]="(selectedModelName$|async) !== null">
       <div class="ion-text-center">
         <h2>{{ 'challenges.challenge_model.title' | translate }}</h2>
       </div>
-      <app-select-challenge-model
-        [availableModels]="challengeModels$ | async"
-        (selectedModel)="selectedModelName$.next($event)"
-      ></app-select-challenge-model>
+      <app-select-challenge-model [availableModels]="challengeModels$ | async"
+        (selectedModel)="selectedModelName$.next($event)"></app-select-challenge-model>
     </app-wizard-step>
-    <app-wizard-step
-      title="challenges.create.choose_metric"
-      [validForNextStep]="(selectedPointConcept$| async) !== null"
-    >
+    <app-wizard-step title="challenges.create.choose_metric"
+      [validForNextStep]="(selectedPointConcept$| async) !== null">
       <div class="ion-text-center">
         <h2>{{ 'challenges.challenge_mean.title' | translate }}</h2>
       </div>
-      <app-select-challenge-mean
-        [availableMeans]="pointConcepts$ | async"
-        (selectedMean)="selectedPointConcept$.next($event)"
-      ></app-select-challenge-mean>
+      <app-select-challenge-mean [availableMeans]="pointConcepts$ | async"
+        (selectedMean)="selectedPointConcept$.next($event)"></app-select-challenge-mean>
     </app-wizard-step>
-    <app-wizard-step
-      title="challenges.create.choose_partner"
-      [validForNextStep]="(selectedChallengeableId$| async) !== null"
-    >
-      <app-select-challengeable
-        [availableChallengeables]="challengeables$ | async"
-        (selectedChallengeable)="selectedChallengeableId$.next($event)"
-      ></app-select-challengeable>
+    <app-wizard-step title="challenges.create.choose_partner"
+      [validForNextStep]="(selectedChallengeableId$| async) !== null">
+      <app-select-challengeable [availableChallengeables]="challengeables$ | async"
+        (selectedChallengeable)="selectedChallengeableId$.next($event)"></app-select-challengeable>
     </app-wizard-step>
-    <app-wizard-step
-      title="challenges.create.activate"
-      (activated)="previewActive$.next()"
-    >
-      <app-challenge-preview
-        [challengeModelName]="selectedModelName$ | async"
-        [pointConcept]="selectedPointConcept$ | async"
-        [challengeable]="selectedChallengeable$ | async"
-        [preview]="preview$ | async"
-      ></app-challenge-preview>
+    <app-wizard-step title="challenges.create.activate" (activated)="previewActive$.next()">
+      <app-challenge-preview [challengeModelName]="selectedModelName$ | async"
+        [pointConcept]="selectedPointConcept$ | async" [challengeable]="selectedChallengeable$ | async"
+        [preview]="preview$ | async"></app-challenge-preview>
     </app-wizard-step>
   </app-wizard>
 </ion-content>

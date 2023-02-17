@@ -1,11 +1,9 @@
-<ion-header appHeader></ion-header>
+<ion-header mode="ios" appHeader></ion-header>
 
 <ion-content appContent fullscreen="true">
   <ng-container *ngIf="notifications?.length > 0; else emptyNotifications">
     <ng-container *ngFor="let notification of notifications">
-      <app-notification-detail
-        [notification]="notification"
-      ></app-notification-detail>
+      <app-notification-detail [notification]="notification"></app-notification-detail>
     </ng-container>
   </ng-container>
   <ng-template #emptyNotifications>
