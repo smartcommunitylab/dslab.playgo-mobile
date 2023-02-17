@@ -141,5 +141,5 @@ export function getTransportTypeColor(transportType: string): string {
   return transportTypeColors[transportType];
 }
 
-// export const MAX_MS_TRACKING = 8 * 60 * 60 * 1000;
-export const MAX_MS_TRACKING = 30 * 1000;
+export const MAX_MS_TRACKING = 8 * 60 * 60 * 1000;
+// export const MAX_MS_TRACKING = 30 * 1000;
