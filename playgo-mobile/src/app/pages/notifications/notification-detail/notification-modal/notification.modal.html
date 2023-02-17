@@ -1,25 +1,18 @@
-<ion-header mode="ios">
+<ion-header mode="ios" mode="ios">
   <ion-toolbar color="playgo">
     <ion-title class="ion-text-center"> {{notification.title}} </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()"
-        ><ion-icon name="close-circle"></ion-icon
-      ></ion-button>
+      <ion-button (click)="close()"><ion-icon name="close-circle"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content color="playgo">
   <ion-grid>
-    <ion-row
-      ><ion-col
-        ><div
-          [innerHTML]="notification.content['_html'] | safeHtml"
-        ></div></ion-col
-    ></ion-row>
+    <ion-row><ion-col>
+        <div [innerHTML]="notification.content['_html'] | safeHtml"></div>
+      </ion-col></ion-row>
   </ion-grid>
 </ion-content>
 <ion-footer color="playgo" mode="ios">
-  <ion-button color="light" expand="block" (click)="close()"
-    >{{'notifications.close'|translate}}</ion-button
-  >
+  <ion-button color="light" expand="block" (click)="close()">{{'notifications.close'|translate}}</ion-button>
 </ion-footer>
