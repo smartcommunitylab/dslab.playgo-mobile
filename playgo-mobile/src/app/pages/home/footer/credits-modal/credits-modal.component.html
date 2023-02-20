@@ -22,26 +22,30 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center  ion-margin-top">
-      <ion-col size="12" class="ion-text-center">
+
+    <ion-row class="ion-justify-content-center  ion-margin-top icons">
+      <ion-col size="4" class="ion-text-center">
         <img class="dslabicon" src="../../../assets/icon/dslab.svg"
           (click)="openLink('https://www.smartcommunitylab.it/')" />
       </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center  ion-margin-top">
-      <ion-col size="6" class="ion-text-center">
+      <ion-col size="4" class="ion-text-center">
         <img class="modisicon" src="../../../assets/icon/modis.svg" (click)="openLink('https://modis.fbk.eu/')" />
       </ion-col>
-      <ion-col size="6" class="ion-text-center">
+
+      <ion-col size="4" class="ion-text-center">
         <img class="pmgicon" src="../../../assets/icon/pmg.svg" (click)="openLink('https://pmg.fbk.eu/')" />
       </ion-col>
     </ion-row>
     <ion-row class="ion-text-center">
-      <ion-col size="6">
+      <ion-col size="4">
+        <div><span>{{ 'appCredits.dslab' | translate }}</span>
+        </div>
+      </ion-col>
+      <ion-col size="4">
         <div><span>{{ 'appCredits.modis' | translate }}</span>
         </div>
       </ion-col>
-      <ion-col size="6">
+      <ion-col size="4">
         <div><span>{{ 'appCredits.pmg' | translate }}</span>
         </div>
       </ion-col>
