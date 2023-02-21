@@ -142,6 +142,17 @@
     "choose_means": "Choose means of tracking",
     "continue_low_accuracy_prompt": "Low accuracy detected! Do you want to continue?",
     "show_current_location": "Show me where I am",
+    "info": {
+      "title": "Means e tracking",
+      "subtitle": "Each icon could correspond to several different vehicles. Here is a legend to better orient you:",
+      "car": "when you share the car with other players;",
+      "bike": "if you travel by bike (muscle and pedal assisted), by scooter, by skateboard, rollers or when you go for a run;",
+      "walk": "when you walk;",
+      "train": "if you go by train;",
+      "bus": "if you take a bus (urban and suburban);",
+      "boat": "when you take the boat;",
+      "unknown": "by any other means;"
+    },
     "car": {
       "choose_role": "Which mode are you?",
       "driver": "Driver",

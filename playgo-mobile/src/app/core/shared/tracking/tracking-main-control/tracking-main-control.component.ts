@@ -10,6 +10,7 @@ import { BackgroundTrackingService } from '../background-tracking.service';
 import { FirstTimeBackgrounModalPage } from '../first-time-modal/first-time.modal';
 import { transportTypeIcons, transportTypeLabels, TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
+import { InfoTrackingModalPage } from './info-tracking-modal/info-tracking.modal';
 
 @Component({
   selector: 'app-tracking-main-control',
@@ -127,5 +128,15 @@ export class TrackingMainControlComponent {
   }
   private async hideMapAndButtons() {
     this.trackingUIActive = false;
+  }
+  async openInfoTracking(event: any) {
+    event.stopPropagation();
+    const modal = await this.modalController.create({
+      component: InfoTrackingModalPage,
+      cssClass: 'challenge-info',
+      swipeToClose: true
+    });
+    await modal.present();
+    await modal.onWillDismiss();
   }
 }
