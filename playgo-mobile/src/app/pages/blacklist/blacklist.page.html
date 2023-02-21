@@ -1,14 +1,11 @@
-<ion-header appHeader></ion-header>
-<ion-content appContent [fullscreen]="true"
-  ><app-icon name="blockUserColor" class="icon-size-big"></app-icon>
+<ion-header mode="ios" appHeader></ion-header>
+<ion-content appContent [fullscreen]="true"><app-icon name="blockUserColor" class="icon-size-big"></app-icon>
   <div class="intro1">{{'blacklist.intro1'|translate}}</div>
   <div class="intro2">{{'blacklist.intro2'|translate}}</div>
   <ng-container *ngIf="(blacklist$ | async)?.length > 0; else emptyStat">
     <div *ngFor="let user of blacklist$|async">
       <ion-item>
-        <div
-          [routerLink]="['/pages/user-profile/' + user.id + '/' + user.nickname] "
-        >
+        <div [routerLink]="['/pages/user-profile/' + user.id + '/' + user.nickname] ">
           <ion-avatar>
             <ng-container *ngIf="user?.avatar?.url; else defaultimg">
               <img [src]="user?.avatar?.url" />
@@ -19,14 +16,9 @@
           </ion-avatar>
           <span>{{user.nickname}}</span>
         </div>
-        <ion-button
-          class="remove-button"
-          size="normal"
-          (click)="removeBlacklist(user.id)"
-        >
+        <ion-button class="remove-button" size="normal" (click)="removeBlacklist(user.id)">
           <app-icon name="invitation" class="icon-size-normal"></app-icon>{{
-          "userprofile.remove_blacklist" | translate }}</ion-button
-        >
+          "userprofile.remove_blacklist" | translate }}</ion-button>
       </ion-item>
     </div>
   </ng-container>

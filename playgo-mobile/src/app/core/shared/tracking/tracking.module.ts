@@ -13,12 +13,14 @@ import { CurrentLocationMapControlComponent } from './map/current-location-map-c
 import { TrackingStopwatchComponent } from './tracking-stopwatch/tracking-stopwatch.component';
 import { PlayGoSharedModule } from '../shared.module';
 import { FirstTimeBackgrounModalPage } from './first-time-modal/first-time.modal';
+import { InfoTrackingModalPage } from './tracking-main-control/info-tracking-modal/info-tracking.modal';
 
 @NgModule({
   declarations: [
     TrackingMainControlComponent,
     TrackingButtonsComponent,
     TrackingStopwatchComponent,
+    InfoTrackingModalPage,
     MapComponent,
     CurrentLocationMapControlComponent,
     CarpoolingRoleDialogComponent,
@@ -30,4 +32,4 @@ import { FirstTimeBackgrounModalPage } from './first-time-modal/first-time.modal
   imports: [CommonModule, PlayGoSharedModule, LeafletModule, QRCodeModule],
   exports: [TrackingMainControlComponent],
 })
-export class TrackingModule {}
+export class TrackingModule { }

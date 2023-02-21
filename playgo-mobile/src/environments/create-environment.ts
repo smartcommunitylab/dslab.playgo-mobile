@@ -29,7 +29,9 @@ export function createEnvironment(
     useCodePush: opts.releaseToStore,
     support: {
       privacy: 'https://www.smartcommunitylab.it/playandgo-privacy-policy/',
+      privacyEng: 'https://www.smartcommunitylab.it/playandgo-privacy-policy-eng/',
       faq: 'https://www.smartcommunitylab.it/playgo_faq/',
+      faqEng: 'https://www.smartcommunitylab.it/playgo_f-a-q_eng/',
       email: 'playandgo@smartcommunitylab.it',
     },
     authConfig: getAuthConfig(opts.aacConfig),
@@ -136,7 +138,9 @@ export interface Environment {
   name: string;
   support: {
     privacy: string;
+    privacyEng: string;
     faq: string;
+    faqEng: string;
     email: string;
   };
   authConfig: {

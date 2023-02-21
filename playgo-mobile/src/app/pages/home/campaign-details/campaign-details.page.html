@@ -1,5 +1,9 @@
 <ng-container *ngIf="campaignContainer">
   <ion-header appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url" height="30vh"></ion-header>
+
+  <!-- <ion-header mode="ios" appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url"
+    text="{{campaignContainer?.campaign?.dateFrom|localDate:'dd MMMM y'}} - {{campaignContainer?.campaign?.dateTo|localDate:'dd MMMM y'}}"
+    [logo]="imagePath" height="30vh"></ion-header> -->
   <ion-content appContent [fullscreen]="true" *ngIf="campaignContainer" [scrollEvents]="true" class="page">
     <ion-avatar class="avatar-campaign"
       [ngStyle]="{'border': '3px solid var(--ion-color-'+campaignContainer?.campaign?.type+')'}">
@@ -66,7 +70,7 @@
       <ion-card-content>
         <ion-item lines="none" *ngIf="campaignHas('dates')">
           <ion-label>{{'campaigns.detail.dateFrom'|translate}}<span
-              class="text-bold">{{campaignContainer.campaign.dateFrom|localDate}}</span></ion-label>
+              class="text-bold">{{campaignContainer?.campaign?.dateFrom|localDate}}</span></ion-label>
         </ion-item>
         <ion-item lines="none" *ngIf="campaignHas('dates')">
           <ion-label>{{'campaigns.detail.dateTo'|translate}}<span

@@ -5,17 +5,13 @@
       </ion-back-button>
     </ion-buttons>
     <ion-title>
-      <span *ngIf="settings.title">{{ settings.title | translate }}</span>
+      <div *ngIf="settings.title">{{ settings.title | translate }}</div>
     </ion-title>
     <ion-buttons slot="secondary" *ngIf="settings.showNotifications">
       <ion-button id="notificationButton" (click)="navigateToNotification()">
         <ion-icon name="notifications"></ion-icon>
-        <ion-badge
-          id="notifications-badge"
-          color="danger"
-          *ngIf="numberOfNotification > 0"
-          >{{ numberOfNotification }}</ion-badge
-        >
+        <ion-badge id="notifications-badge" color="danger" *ngIf="numberOfNotification > 0">{{ numberOfNotification
+          }}</ion-badge>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

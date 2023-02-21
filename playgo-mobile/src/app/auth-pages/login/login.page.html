@@ -1,4 +1,4 @@
-<ion-header appHeader></ion-header>
+<ion-header mode="ios" appHeader></ion-header>
 <ion-content appContent color="playgo">
   <div class="background">
     <ion-grid>
@@ -23,11 +23,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-center">
         <ion-col size="10">
-          <ion-button
-            class="google-button"
-            expand="block"
-            (click)="signIn('google')"
-          >
+          <ion-button class="google-button" expand="block" (click)="signIn('google')">
             <ion-icon slot="start" name="logo-google"></ion-icon>
             {{ 'login.loginGoogleButton' | translate|uppercase }}
           </ion-button>
@@ -35,11 +31,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-center">
         <ion-col size="10">
-          <ion-button
-            class="facebook-button"
-            expand="block"
-            (click)="signIn('facebook')"
-          >
+          <ion-button class="facebook-button" expand="block" (click)="signIn('facebook')">
             <ion-icon slot="start" name="logo-facebook"></ion-icon>
             {{ 'login.loginFacebookButton' | translate|uppercase }}
           </ion-button>
@@ -47,11 +39,7 @@
       </ion-row>
       <ion-row class="ion-justify-content-center">
         <ion-col size="10">
-          <ion-button
-            class="apple-button"
-            expand="block"
-            (click)="signIn('apple')"
-          >
+          <ion-button class="apple-button" expand="block" (click)="signIn('apple')">
             <ion-icon slot="start" name="logo-apple"></ion-icon>
             {{ 'login.loginAppleButton' | translate|uppercase }}
           </ion-button>

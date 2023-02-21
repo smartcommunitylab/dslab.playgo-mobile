@@ -8,8 +8,6 @@
 .dslabicon {
   border-radius: 8px;
   padding: 4px;
-  margin-top: 16px;
-  max-width: 50%;
 }
 .pgicon {
   border-radius: 8px;
@@ -20,11 +18,10 @@
 }
 .modisicon {
   border-radius: 8px;
-  max-width: 40%;
+  width: 63%;
 }
 .pmgicon {
   border-radius: 8px;
-  max-width: 50%;
 }
 .first-row-text {
   font-style: italic;
@@ -33,4 +30,16 @@
 
 .fbkicon {
   margin-top: 16px;
+  width: 50%;
+}
+.icons {
+  margin-top: 40px;
+  ion-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    img {
+      margin: auto;
+    }
+  }
 }

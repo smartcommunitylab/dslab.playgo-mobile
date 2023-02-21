@@ -56,7 +56,7 @@ export class TrackingButtonsComponent implements OnInit {
     private campaignService: CampaignService,
     private alertService: AlertService,
     private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) { }
 
   async toggleFabList() {
     await this.openOrCloseFabList(!this.fabListActive);
@@ -107,10 +107,10 @@ export class TrackingButtonsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }
 
-type TrackingFabButton = {
+export type TrackingFabButton = {
   transportType: TransportType;
   icon: string;
 };

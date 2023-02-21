@@ -1,40 +1,17 @@
-<ion-header appHeader></ion-header>
+<ion-header mode="ios" appHeader></ion-header>
 <ion-content appContent [fullscreen]="true" class="page">
-  <ion-segment
-    mode="md"
-    class="app-segment app-segment-challenge"
-    [(ngModel)]="selectedSegment"
-    scrollable
-    class="app-segment"
-    [style.--background]="'var(--ion-color-playgo)'"
-  >
-    <ion-segment-button
-      value="pastChallenges"
-      checked
-      mode="ios"
-      class="app-segment-button"
-      [style.--color]="'white'"
-      [style.--color-checked]="'black'"
-    >
+  <ion-segment mode="md" class="app-segment app-segment-challenge" [(ngModel)]="selectedSegment" scrollable
+    class="app-segment" [style.--background]="'var(--ion-color-playgo)'">
+    <ion-segment-button value="pastChallenges" checked mode="ios" class="app-segment-button" [style.--color]="'white'"
+      [style.--color-checked]="'black'">
       <ion-label>{{'challenges.past' | translate}}</ion-label>
     </ion-segment-button>
-    <ion-segment-button
-      value="activeChallenges"
-      checked
-      mode="ios"
-      class="app-segment-button"
-      [style.--color]="'white'"
-      [style.--color-checked]="'black'"
-    >
+    <ion-segment-button value="activeChallenges" checked mode="ios" class="app-segment-button" [style.--color]="'white'"
+      [style.--color-checked]="'black'">
       <ion-label>{{'challenges.present' | translate}}</ion-label>
     </ion-segment-button>
-    <ion-segment-button
-      value="futureChallenges"
-      class="app-segment-button"
-      mode="ios"
-      [style.--color]="'white'"
-      [style.--color-checked]="'black'"
-    >
+    <ion-segment-button value="futureChallenges" class="app-segment-button" mode="ios" [style.--color]="'white'"
+      [style.--color-checked]="'black'">
       <ion-label>{{'challenges.future' | translate}}</ion-label>
     </ion-segment-button>
   </ion-segment>
@@ -45,15 +22,9 @@
   <div *ngIf="selectedSegment==='activeChallenges'">
     <ng-container *ngIf="thereAreChallengeActive; else noChallengeActive">
       <div *ngFor="let campaign of campaignsWithChallenges">
-        <div
-          *ngIf=" activeChallenges[campaign?.campaign?.campaignId]?.length>0"
-        >
-          <app-challenge-container
-            #active
-            [campaign]="campaign"
-            [challenges]="activeChallenges[campaign?.campaign?.campaignId]"
-            [type]="'active'"
-          >
+        <div *ngIf=" activeChallenges[campaign?.campaign?.campaignId]?.length>0">
+          <app-challenge-container #active [campaign]="campaign"
+            [challenges]="activeChallenges[campaign?.campaign?.campaignId]" [type]="'active'">
           </app-challenge-container>
         </div>
       </div>
@@ -64,20 +35,13 @@
     </ng-template>
   </div>
   <div *ngIf="selectedSegment==='futureChallenges'">
-    <ng-container
-      *ngIf="thereAreChallengeFuture || userCanInvite; else noChallengeFuture"
-    >
+    <ng-container *ngIf="thereAreChallengeFuture || userCanInvite; else noChallengeFuture">
       <div *ngFor="let campaign of campaignsWithChallenges">
         <div
-          *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0 || canInvite[campaign?.campaign?.campaignId]"
-        >
-          <app-challenge-container
-            #futuri
-            [campaign]="campaign"
-            [challenges]="futureChallenges[campaign?.campaign?.campaignId]"
-            [type]="'future'"
-            [canInvite]="canInvite[campaign?.campaign?.campaignId]"
-          >
+          *ngIf=" futureChallenges[campaign?.campaign?.campaignId]?.length>0 || canInvite[campaign?.campaign?.campaignId]">
+          <app-challenge-container #futuri [campaign]="campaign"
+            [challenges]="futureChallenges[campaign?.campaign?.campaignId]" [type]="'future'"
+            [canInvite]="canInvite[campaign?.campaign?.campaignId]">
           </app-challenge-container>
         </div>
       </div>
