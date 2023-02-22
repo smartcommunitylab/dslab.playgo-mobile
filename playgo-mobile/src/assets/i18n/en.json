@@ -145,9 +145,9 @@
     "info": {
       "title": "Means e tracking",
       "subtitle": "Each icon could correspond to several different vehicles. Here is a legend to better orient you:",
-      "car": "when you share the car with other players",
+      "car": "Shared car, Transport reserved for the disabled with authorized drivers or vehicles",
       "bike": "if you travel by bike (muscle and pedal assisted), by scooter, by skateboard, rollers or when you go for a run",
-      "walk": "when you walk",
+      "walk": "Walking",
       "train": "if you go by train",
       "bus": "if you take a bus (urban and suburban)",
       "boat": "when you take the boat",

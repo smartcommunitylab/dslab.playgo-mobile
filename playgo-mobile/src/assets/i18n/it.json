@@ -145,12 +145,12 @@
     "info": {
       "title": "Mezzi e tracciamento",
       "subtitle": "Ciascuna icona può corrispondere a più mezzi differenti. Ecco una legenda per orientarti meglio:",
-      "car": "quando condividi l’auto con altri giocatori",
-      "bike": "se ti sposti in bici (muscolare e a pedalata assistita), in monopattino, in skateboard, rollers o quando vai a correre",
-      "walk": "quando cammini",
-      "train": "se vai in treno",
-      "bus": "se prendi un autobus di linea (urbano e extraurbano)",
-      "boat": "quando prendi il battello",
+      "car": "Automobile condivisa, Trasporto riservato ai diversamente abili con autisti o mezzi autorizzati",
+      "bike": "Electric/muscle bike, Running, Electric/muscle scooter, Skateboard, Segway, Roller skates",
+      "walk": "Camminata",
+      "train": "Rail transport",
+      "bus": "Urban and suburban line bus",
+      "boat": "Boat",
       "unknown": "per ogni altro mezzo"
     },
     "car": {
