@@ -28,12 +28,14 @@
   border: solid 3px var(--ion-color-playgo);
 }
 .arrow {
-  position: fixed;
+  // position: fixed;
   bottom: 8px;
   left: 50%;
   transform: translate(-50%, 0);
   width: 30px;
   height: 30px;
+  -webkit-position: sticky;
+  position: sticky;
   --border-radius: 30px;
   --padding-start: 0px;
   --padding-end: 0px;
