@@ -108,6 +108,12 @@ export class ParallaxDirective implements AfterContentInit {
       );
       return false;
     }
+    // if (this.ionTitle) {
+    //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'position', 'absolute');
+    //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'top', '60%');
+    //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'text-align', 'center');
+    //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'width', '50%');
+    // }
     if (this.ionButtons) {
       console.log('button', this.ionButtons.get);
       this.renderer.setStyle(this.ionButtons.first.el, 'background-color', 'rgba(0, 0, 0, 0.5)');
@@ -176,7 +182,7 @@ export class ParallaxDirective implements AfterContentInit {
     this.renderer.setStyle(this.textDateOverlay, 'text-align', 'center');
     this.renderer.setStyle(this.textDateOverlay, 'width', '100%');
     this.renderer.setStyle(this.textDateOverlay, 'position', 'relative');
-    this.renderer.setStyle(this.textDateOverlay, 'top', '60%');
+    this.renderer.setStyle(this.textDateOverlay, 'top', '80%');
     this.toolbarBackground.appendChild(this.textDateOverlay);
   }
   private setupImageOverlay() {
