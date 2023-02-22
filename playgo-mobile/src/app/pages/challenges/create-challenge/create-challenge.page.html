@@ -1,4 +1,4 @@
-<ion-header mode="ios" appHeader></ion-header>
+<ion-header appHeader></ion-header>
 
 <ion-content appContent>
   <app-wizard *ngIf="campaign$ | async as campaign" [title]="campaign.name | languageMap" [backButton]="false"

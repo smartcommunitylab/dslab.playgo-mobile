@@ -1,4 +1,4 @@
-<ion-header mode="ios" appHeader></ion-header>
+<ion-header appHeader></ion-header>
 <ion-item color="playgo" [ngStyle]="campaignFilterStyle$ |async">
   <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
     (ionChange)="monthFilterSubject.next($any($event).target.value)" [value]="monthFilterSubject | async"
