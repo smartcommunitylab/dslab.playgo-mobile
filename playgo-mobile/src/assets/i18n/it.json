@@ -144,14 +144,14 @@
     "show_current_location": "Fammi vedere dove sono",
     "info": {
       "title": "Mezzi e tracciamento",
-      "subtitle": "Ciascuna icona può corrisponde a più mezzi differenti. Ecco una legenda per orientarti meglio:",
-      "car": "quando condividi l’auto con altri giocatori;",
-      "bike": "se ti sposti in bici (muscolare e a pedalata assistita), in monopattino, in skateboard, rollers o quando vai a correre;",
-      "walk": "quando cammini;",
-      "train": "se vai in treno;",
-      "bus": "se prendi un autobus di linea (urbano e extraurbano);",
-      "boat": "quando prendi il battello;",
-      "unknown": "per ogni altro mezzo;"
+      "subtitle": "Ciascuna icona può corrispondere a più mezzi differenti. Ecco una legenda per orientarti meglio:",
+      "car": "quando condividi l’auto con altri giocatori",
+      "bike": "se ti sposti in bici (muscolare e a pedalata assistita), in monopattino, in skateboard, rollers o quando vai a correre",
+      "walk": "quando cammini",
+      "train": "se vai in treno",
+      "bus": "se prendi un autobus di linea (urbano e extraurbano)",
+      "boat": "quando prendi il battello",
+      "unknown": "per ogni altro mezzo"
     },
     "car": {
       "choose_role": "Scegli il tuo ruolo",

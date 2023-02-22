@@ -3,19 +3,21 @@ ion-content {
   .title {
     font-weight: 600;
     font-size: 13px;
+    margin: 8px 5px 0px 5px;
+    padding: 12px 5px 0 5px;
   }
   .subtitle {
-    font-weight: 300;
+    font-weight: 400;
     font-size: 13px;
-    margin: 8px 5px;
+    margin: 0px 5px 20px 5px;
   }
   .transport-type {
     font-weight: 700;
     font-size: 10px;
   }
   .description {
-    font-weight: 300;
-    font-size: 11px;
+    font-weight: 400;
+    font-size: 13px;
   }
   .dotted-big {
     border-top: 1.5px dashed #ffffff;
