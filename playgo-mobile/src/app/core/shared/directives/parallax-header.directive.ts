@@ -108,7 +108,14 @@ export class ParallaxDirective implements AfterContentInit {
       );
       return false;
     }
+    if (this.ionButtons) {
+      console.log('button', this.ionButtons.get);
+      this.renderer.setStyle(this.ionButtons.first.el, 'background-color', 'rgba(0, 0, 0, 0.5)');
+      this.renderer.setStyle(this.ionButtons.first.el, 'border-radius', '100%');
+      this.renderer.setStyle(this.ionButtons.first.el, 'width', '31px');
+      this.renderer.setStyle(this.ionButtons.first.el, 'height', '31px');
 
+    }
     const parentElement = this.header.parentElement;
     const ionContent = parentElement.querySelector('ion-content');
 
