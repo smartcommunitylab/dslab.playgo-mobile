@@ -146,11 +146,11 @@
       "title": "Mezzi e tracciamento",
       "subtitle": "Ciascuna icona può corrispondere a più mezzi differenti. Ecco una legenda per orientarti meglio:",
       "car": "Automobile condivisa, Trasporto riservato ai diversamente abili con autisti o mezzi autorizzati",
-      "bike": "Electric/muscle bike, Running, Electric/muscle scooter, Skateboard, Segway, Roller skates",
+      "bike": "Bicicletta muscolare/elettrica, Corsa, Monopattino muscolare/elettrico, Skateboard, Segway, Pattini a rotelle",
       "walk": "Camminata",
-      "train": "Rail transport",
-      "bus": "Urban and suburban line bus",
-      "boat": "Boat",
+      "train": "Trasporto ferroviario ",
+      "bus": "Autobus di linea urbano ed extraurbano",
+      "boat": "Battello o nave",
       "unknown": "per ogni altro mezzo"
     },
     "car": {

@@ -146,11 +146,11 @@
       "title": "Means e tracking",
       "subtitle": "Each icon could correspond to several different vehicles. Here is a legend to better orient you:",
       "car": "Shared car, Transport reserved for the disabled with authorized drivers or vehicles",
-      "bike": "if you travel by bike (muscle and pedal assisted), by scooter, by skateboard, rollers or when you go for a run",
+      "bike": "Electric/muscle bike, Running, Electric/muscle scooter, Skateboard, Segway, Roller skates",
       "walk": "Walking",
-      "train": "if you go by train",
-      "bus": "if you take a bus (urban and suburban)",
-      "boat": "when you take the boat",
+      "train": "Rail transport",
+      "bus": "Urban and suburban line bus",
+      "boat": "Boat",
       "unknown": "by any other means"
     },
     "car": {
