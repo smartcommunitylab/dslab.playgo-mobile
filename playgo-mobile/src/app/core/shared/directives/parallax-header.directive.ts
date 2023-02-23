@@ -29,7 +29,7 @@ export class ParallaxDirective implements AfterContentInit {
   @Input() bgPosition: 'top' | 'center' | 'bottom' = 'top';
   imageOverlay: HTMLElement;
   textDateOverlay: HTMLElement;
-  logoOverlay: HTMLElement;
+  // logoOverlay: HTMLElement;
   private toolbarBackground: HTMLElement;
   private innerScroll: HTMLElement;
   private originalToolbarHeight = 0;
@@ -59,7 +59,7 @@ export class ParallaxDirective implements AfterContentInit {
         this.setupContentPadding();
         this.setupImageOverlay();
         this.setupDate();
-        this.setupLogo();
+        // this.setupLogo();
         this.setupPointerEventsForButtons();
         this.setupEvents();
         this.updateProgress();
@@ -115,11 +115,13 @@ export class ParallaxDirective implements AfterContentInit {
     //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'width', '50%');
     // }
     if (this.ionButtons) {
-      console.log('button', this.ionButtons.get);
-      this.renderer.setStyle(this.ionButtons.first.el, 'background-color', 'rgba(0, 0, 0, 0.5)');
-      this.renderer.setStyle(this.ionButtons.first.el, 'border-radius', '100%');
-      this.renderer.setStyle(this.ionButtons.first.el, 'width', '31px');
-      this.renderer.setStyle(this.ionButtons.first.el, 'height', '31px');
+      if (this.ionButtons.first?.el?.childNodes[0]) {
+        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'background-color',
+          'rgba(var(--ion-color-contrast-reversed-rgb), 0.5)');
+        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'border-radius', '100%');
+        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'width', '36px');
+        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'height', '36px');
+      }
 
     }
     const parentElement = this.header.parentElement;
@@ -212,25 +214,25 @@ export class ParallaxDirective implements AfterContentInit {
 
     this.toolbarBackground.appendChild(this.imageOverlay);
   }
-  setupLogo() {
-    this.logoOverlay = this.renderer.createElement('div');
-    const img = new Image();
-    img.src = this.logo as string;
-    img.width = 50;
-    img.height = 50;
-    img.style.borderRadius = '50px';
-    img.style.border = '3px solid ' + this.color;
-    this.logoOverlay.appendChild(img);
-    this.renderer.addClass(this.logoOverlay, 'logo-overlay');
-    this.renderer.setStyle(this.logoOverlay, 'background-color', 'transparent');
-    this.renderer.setStyle(this.logoOverlay, 'margin', 'auto');
-    this.renderer.setStyle(this.logoOverlay, 'width', '50px');
-    this.renderer.setStyle(this.logoOverlay, 'height', '50px');
-    this.renderer.setStyle(this.logoOverlay, 'position', 'relative');
-    // this.renderer.setStyle(this.logoOverlay, 'top', '70%');
-    this.toolbarBackground.appendChild(this.logoOverlay);
+  // setupLogo() {
+  // this.logoOverlay = this.renderer.createElement('div');
+  // const img = new Image();
+  // img.src = this.logo as string;
+  // img.width = 50;
+  // img.height = 50;
+  // img.style.borderRadius = '50px';
+  // img.style.border = '3px solid ' + this.color;
+  // this.logoOverlay.appendChild(img);
+  // this.renderer.addClass(this.logoOverlay, 'logo-overlay');
+  // this.renderer.setStyle(this.logoOverlay, 'background-color', 'transparent');
+  // this.renderer.setStyle(this.logoOverlay, 'margin', 'auto');
+  // this.renderer.setStyle(this.logoOverlay, 'width', '50px');
+  // this.renderer.setStyle(this.logoOverlay, 'height', '50px');
+  // this.renderer.setStyle(this.logoOverlay, 'position', 'relative');
+  // // this.renderer.setStyle(this.logoOverlay, 'top', '70%');
+  // this.toolbarBackground.appendChild(this.logoOverlay);
 
-  }
+  // }
   private setupEvents() {
     this.innerScroll.addEventListener('scroll', (_event) => {
       if (!this.ticking) {
@@ -249,6 +251,7 @@ export class ParallaxDirective implements AfterContentInit {
     const progress = this.calcProgress(this.innerScroll, h);
     this.progressLayerHeight(progress);
     this.progressLayerOpacity(progress);
+    this.progressLayerBackground(progress);
   }
 
   progressLayerHeight(progress: number) {
@@ -270,9 +273,14 @@ export class ParallaxDirective implements AfterContentInit {
   progressLayerOpacity(progress: number) {
     const op = 1 - progress;
     this.renderer.setStyle(this.imageOverlay, 'opacity', op);
-    this.renderer.setStyle(this.logoOverlay, 'opacity', op);
+    // this.renderer.setStyle(this.logoOverlay, 'opacity', op);
     this.renderer.setStyle(this.textDateOverlay, 'opacity', op);
     // this.renderer.setStyle(this.toolbarContainer, 'opacity', progress);
+  }
+  progressLayerBackground(progress: number) {
+    const op = 0.5 - progress;
+    this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0],
+      'background-color', 'rgba(var(--ion-color-contrast-reversed-rgb),' + op + ')');
   }
 
   private calcProgress(scrollingElement: HTMLElement, maxHeight: number) {
