@@ -62,6 +62,7 @@ export class RegistrationPage implements OnInit {
       language: ['', [Validators.required]],
       territoryId: ['', [Validators.required]],
       privacy: [false, Validators.requiredTrue],
+      sendMail: [true, Validators.required]
     });
     this.userService.getAACUserInfo().then((user) => {
       if (user) {

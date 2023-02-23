@@ -1,5 +1,9 @@
 <ng-container *ngIf="campaignContainer">
-  <ion-header mode="ios" appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url"
+  <!-- <ion-header mode="ios" appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url"
+=======
+  <ion-header appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url" height="30vh"></ion-header> -->
+
+  <ion-header appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url"
     text="{{campaignContainer?.campaign?.dateFrom|localDate:'dd MMMM y'}} - {{campaignContainer?.campaign?.dateTo|localDate:'dd MMMM y'}}"
     [logo]="imagePath" height="30vh"></ion-header>
   <ion-content appContent [fullscreen]="true" *ngIf="campaignContainer" [scrollEvents]="true" class="page">

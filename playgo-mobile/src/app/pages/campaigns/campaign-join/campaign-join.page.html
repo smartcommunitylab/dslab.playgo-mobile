@@ -1,7 +1,7 @@
 <ng-container *ngIf="campaign">
-  <ion-header mode="ios" appHeader parallax [imageUrl]="campaign?.banner?.url" height="30vh">
+  <ion-header appHeader parallax [imageUrl]="campaign?.banner?.url" height="30vh">
   </ion-header>
-  <ion-content appContent [fullscreen]="true">
+  <ion-content appContent [fullscreen]="true" class="page">
     <div class="ion-padding">
       <ion-avatar class="avatar-campaign" [ngClass]="campaign.type">
         <img [src]="imagePath" title="campaign avatar" />

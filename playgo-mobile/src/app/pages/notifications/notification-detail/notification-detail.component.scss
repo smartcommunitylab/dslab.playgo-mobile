@@ -1,7 +1,15 @@
 .notification {
   margin: 20px;
   overflow: visible;
-
+  .close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   .title {
     font-weight: 600;
     font-size: 18px;
@@ -29,6 +37,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    text-align: justify;
   }
 }
 .unread {

@@ -27,7 +27,7 @@
     "privacy": "Privacy"
   },
   "appCredits": {
-    "by": "Sviluppato da:",
+    "by": "Un progetto di ricerca di:",
     "dslab": "DSLab",
     "fbk": "Fondazione Bruno Kessler",
     "version": "Versione {{version}}",
@@ -142,6 +142,17 @@
     "choose_means": "Seleziona un mezzo per tracciare",
     "continue_low_accuracy_prompt": "Bassa precisione rilevata! Vuoi proseguire?",
     "show_current_location": "Fammi vedere dove sono",
+    "info": {
+      "title": "Mezzi e tracciamento",
+      "subtitle": "Ciascuna icona può corrispondere a più mezzi differenti. Ecco una legenda per orientarti meglio:",
+      "car": "Automobile condivisa, Trasporto riservato ai diversamente abili con autisti o mezzi autorizzati",
+      "bike": "Bicicletta muscolare/elettrica, Corsa, Monopattino muscolare/elettrico, Skateboard, Segway, Pattini a rotelle",
+      "walk": "Camminata",
+      "train": "Trasporto ferroviario ",
+      "bus": "Autobus di linea urbano ed extraurbano",
+      "boat": "Battello o nave",
+      "unknown": "per ogni altro mezzo"
+    },
     "car": {
       "choose_role": "Scegli il tuo ruolo",
       "driver": "Guidatore",

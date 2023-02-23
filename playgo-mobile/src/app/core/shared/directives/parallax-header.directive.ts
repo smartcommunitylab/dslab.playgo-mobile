@@ -104,7 +104,7 @@ export class ParallaxDirective implements AfterContentInit {
     }
     if (!this.ionToolbar) {
       console.error(
-        'A <ion-toolbar> element is needed inside <ion-header mode="ios"> or using the [appHeader] directive on the <ion-header mode="ios">'
+        'A <ion-toolbar> element is needed inside <ion-header > or using the [appHeader] directive on the <ion-header >'
       );
       return false;
     }

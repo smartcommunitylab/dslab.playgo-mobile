@@ -36,7 +36,8 @@
       </div>
       <ng-template #chooseMean>
         <div class="choose-mean-string" *ngIf="trackingUIActive">
-          {{ "tracking.choose_means" | translate }}
+          <ion-icon class="info-box" name="information-circle-outline" (click)="openInfoTracking($event)"></ion-icon>
+          <span>{{ "tracking.choose_means" | translate }}</span>
         </div>
       </ng-template>
     </div>

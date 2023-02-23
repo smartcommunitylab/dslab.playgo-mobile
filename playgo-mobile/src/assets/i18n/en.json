@@ -27,7 +27,7 @@
     "privacy": "Privacy"
   },
   "appCredits": {
-    "by": "Developed by:",
+    "by": "A research project by:",
     "dslab": "DSLab",
     "modis": "MoDiS",
     "pmg": "PMG",
@@ -142,6 +142,17 @@
     "choose_means": "Choose means of tracking",
     "continue_low_accuracy_prompt": "Low accuracy detected! Do you want to continue?",
     "show_current_location": "Show me where I am",
+    "info": {
+      "title": "Means e tracking",
+      "subtitle": "Each icon could correspond to several different vehicles. Here is a legend to better orient you:",
+      "car": "Shared car, Transport reserved for the disabled with authorized drivers or vehicles",
+      "bike": "Electric/muscle bike, Running, Electric/muscle scooter, Skateboard, Segway, Roller skates",
+      "walk": "Walking",
+      "train": "Rail transport",
+      "bus": "Urban and suburban line bus",
+      "boat": "Boat",
+      "unknown": "by any other means"
+    },
     "car": {
       "choose_role": "Which mode are you?",
       "driver": "Driver",

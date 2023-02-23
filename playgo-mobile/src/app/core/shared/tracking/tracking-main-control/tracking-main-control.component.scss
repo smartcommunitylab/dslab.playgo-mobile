@@ -19,7 +19,7 @@
   flex-direction: column-reverse;
 
   ion-icon {
-    font-size: 5vh;
+    font-size: 4vh;
   }
 
   .choose-mean-string {
@@ -29,6 +29,11 @@
     margin-left: 8px;
     font-size: 15px;
     width: 80%;
+    ion-icon {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 8px;
+    }
   }
 }
 .current-tracking-info {
