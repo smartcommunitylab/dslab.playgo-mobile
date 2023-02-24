@@ -108,12 +108,9 @@ export class ParallaxDirective implements AfterContentInit {
       );
       return false;
     }
-    // if (this.ionTitle) {
-    //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'position', 'absolute');
-    //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'top', '60%');
-    //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'text-align', 'center');
-    //   this.renderer.setStyle(this.ionTitle.el.firstChild, 'width', '50%');
-    // }
+    if (this.ionTitle) {
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', '100px');
+    }
     if (this.ionButtons) {
       if (this.ionButtons.first?.el?.childNodes[0]) {
         this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'background-color',
@@ -268,6 +265,7 @@ export class ParallaxDirective implements AfterContentInit {
     // console.log('originalToolbarHeight', this.originalToolbarHeight);
     this.renderer.setStyle(this.toolbarContainer, 'height', `${h}px`);
     this.renderer.setStyle(this.imageOverlay, 'height', `100%`);
+
   }
 
   progressLayerOpacity(progress: number) {
@@ -276,6 +274,8 @@ export class ParallaxDirective implements AfterContentInit {
     // this.renderer.setStyle(this.logoOverlay, 'opacity', op);
     this.renderer.setStyle(this.textDateOverlay, 'opacity', op);
     // this.renderer.setStyle(this.toolbarContainer, 'opacity', progress);
+    this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', ((1 - progress) * 100) + 'px');
+
   }
   progressLayerBackground(progress: number) {
     const op = 0.5 - progress;
