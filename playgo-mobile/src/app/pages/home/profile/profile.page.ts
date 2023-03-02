@@ -92,7 +92,10 @@ export class ProfilePage implements OnInit, OnDestroy {
     });
   }
   openSupport() {
-    window.open('mailto:' + environment.support.email);
+    window.open('mailto:' + environment.support.email +
+      '?subject=Play%26go%20Supporto&body=-------------------------------------------------%0D%0A%0D%0AterritoryId: ' +
+      this.profile.territoryId + '%0D%0AplayerId: ' +
+      this.profile.playerId + '%0D%0A%0D%0A-------------------------------------------------');
   }
 
   async openAbout() {

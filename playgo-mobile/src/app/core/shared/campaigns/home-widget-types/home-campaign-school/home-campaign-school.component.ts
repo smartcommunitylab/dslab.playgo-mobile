@@ -38,6 +38,10 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   progressionTeam: PlacingComparison;
   progressionPlayer: PlacingComparison;
   referenceDate = DateTime.local();
+  subTeamPlacingWeek: Subscription;
+  subTeamPlacingTotal: Subscription;
+  subTeamProgressionTeam: Subscription;
+  subTeamProgressionPlayer: Subscription;
 
   constructor(
     private userService: UserService,
@@ -65,7 +69,7 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
             }
           }
         );
-      this.teamService.getTeamPlacing(
+      this.subTeamPlacingWeek = this.teamService.getTeamPlacing(
         this.campaignContainer.campaign.campaignId,
         this.campaignContainer?.subscription?.campaignData?.teamId,
         toServerDateOnly(this.referenceDate.startOf('week')),
@@ -84,7 +88,7 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
             }
           }
         );
-      this.teamService.getTeamPlacing(this.campaignContainer.campaign.campaignId,
+      this.subTeamPlacingTotal = this.teamService.getTeamPlacing(this.campaignContainer.campaign.campaignId,
         this.campaignContainer?.subscription?.campaignData?.teamId
       )
         .subscribe(
@@ -100,7 +104,7 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
             }
           }
         );
-      this.teamService.getProgressionTeam(this.campaignContainer.campaign.campaignId,
+      this.subTeamProgressionTeam = this.teamService.getProgressionTeam(this.campaignContainer.campaign.campaignId,
         this.campaignContainer?.subscription?.campaignData?.teamId,
         toServerDateOnly(this.referenceDate.startOf('week')),
         toServerDateOnly(this.referenceDate.endOf('week'))
@@ -118,7 +122,7 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
             }
           }
         );
-      this.teamService.getProgressionPlayer(this.campaignContainer.campaign.campaignId,
+      this.subTeamProgressionPlayer = this.teamService.getProgressionPlayer(this.campaignContainer.campaign.campaignId,
         profile.playerId,
         toServerDateOnly(this.referenceDate.startOf('week')),
         toServerDateOnly(this.referenceDate.endOf('week'))
@@ -148,5 +152,9 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subStat.unsubscribe();
+    this.subTeamPlacingWeek.unsubscribe();
+    this.subTeamPlacingTotal.unsubscribe();
+    this.subTeamProgressionTeam.unsubscribe();
+    this.subTeamProgressionPlayer.unsubscribe();
   }
 }
