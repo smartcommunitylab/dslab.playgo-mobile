@@ -10,7 +10,7 @@
   "notifications_title": "Notifications",
   "discovercampaignbutton": "Discover other campaigns",
   "leaderboard.title": "Leaderboard",
-  "green leaves": "Green Leaves",
+  "green leaves": "ecoLeaves",
   "bike aficionado": "Bike Trip Badge",
   "sustainable life": "Zero Impact Badge",
   "public transport aficionado": "Public Transport Badge",
@@ -348,7 +348,7 @@
     "detail": {
       "not_subscribed": "Not subscribed",
       "nMembersActive": "Members active:",
-      "nMembersInvited": "Invided:",
+      "nMembersInvited": "Invited:",
       "nMembersMax": "Max team:",
       "playerProgression": "How are you going",
       "teamProgression": "How is your team doing",
