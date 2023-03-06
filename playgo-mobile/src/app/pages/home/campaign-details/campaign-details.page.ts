@@ -279,13 +279,13 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   openSupport() {
     window.open('mailto:' + environment.support.email +
       '?subject=Play%26go%20' + this.campaignContainer?.campaign?.name.it +
-      '%20Supporto&body=-------------------------------------------------%0D%0A%0D%0A' +
+      '%20Supporto&body=-----------NON CANCELLARE-----------%0D%0A%0D%0A' +
       'territoryId: ' + this.profile.territoryId +
       '%0D%0Acampagna: ' + this.campaignContainer?.campaign?.campaignId +
       (this.campaignContainer?.campaign?.type === 'school' ?
         ('%0D%0Ateam: ' + this.team?.customData?.name) : '') +
       '%0D%0AplayerId: ' + this.profile.playerId +
-      '%0D%0A%0D%0A-------------------------------------------------');
+      '%0D%0A%0D%0A-----SCRIVI IL TUO MESSAGGIO QUI SOTTO----');
     // territorio, campagna, nome squadra, ID utente (Oggetto: "Play&go <nome campagna> Supporto"
   }
 }
