@@ -46,6 +46,7 @@ import { HomeSchoolProfiloComponent } from './campaigns/home-widget-types/home-c
 import { HomeSchoolProgressionComponent } from './campaigns/home-widget-types/home-campaign-school/home-school-progression/home-school-progression.component';
 import { ComparisonModalPage } from './campaigns/home-widget-types/home-campaign-school/home-school-progression/comparison-modal/comparison.modal';
 import { EnterTheViewportNotifierDirective } from './directives/enter-viewport.directive';
+import { ChallengeStateComponent } from './campaigns/app-widget-campaign/app-home-campaign-challenges/app-challenge-state/app-challenge-state.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -85,6 +86,7 @@ import { EnterTheViewportNotifierDirective } from './directives/enter-viewport.d
     ActiveChallengeComponent,
     ChallengeUsersStatusComponent,
     ChallengeBarStatusComponent,
+    ChallengeStateComponent,
     DetailNotificationLevelComponent,
     DetailNotificationBadgeComponent,
     LimitStatusComponent,
@@ -123,6 +125,7 @@ import { EnterTheViewportNotifierDirective } from './directives/enter-viewport.d
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,
     HomeCampaignPersonalComponent,
+    ChallengeStateComponent,
     NotificationBadgeComponent,
     GameStatusComponent,
     RecordStatusComponent,

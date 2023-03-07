@@ -548,6 +548,8 @@
     "blacklist_user": "Attenzione: hai bloccato gli inviti per le sfide di questo utente. Non puoi inviare nè ricevere sfide da questo utente. "
   },
   "challenges": {
+    "active": "Active",
+    "invitations": "Invitations",
     "challenges": "Challenges",
     "allchallenges": "All the challenges",
     "checkallchallenges": "Check all challenges",

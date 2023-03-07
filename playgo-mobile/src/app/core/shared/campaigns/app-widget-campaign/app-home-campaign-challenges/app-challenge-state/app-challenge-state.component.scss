@@ -1,0 +1,30 @@
+.challenges-state {
+  background: #fdfdaa;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 8px;
+  ion-avatar {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: solid 4px var(--ion-color-city);
+    background-color: rgba(253, 216, 53, 0.5);
+    .type-notif {
+      width: 45px;
+      /* padding: 8px; */
+      margin: auto;
+      font-size: 33px;
+    }
+    ion-badge {
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      border-radius: 100%;
+    }
+  }
+}

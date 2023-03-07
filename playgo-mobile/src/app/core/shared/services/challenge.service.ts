@@ -33,6 +33,8 @@ import { RefresherService } from './refresher.service';
   providedIn: 'root',
 })
 export class ChallengeService {
+
+
   public campaignsWithChallenges$ = this.campaignService.myCampaigns$.pipe(
     map((campaigns) =>
       // TODO: ask if the condition is correct
@@ -155,7 +157,7 @@ export class ChallengeService {
     private errorService: ErrorService,
     private refresherService: RefresherService,
     private pushNotificationService: PushNotificationService
-  ) {}
+  ) { }
   private processResponseForOneCampaign(
     response: ChallengeConceptInfo,
     campaign: PlayerCampaign
@@ -183,7 +185,7 @@ export class ChallengeService {
     campaign: PlayerCampaign
   ): any {
     return {
-      canInvite: response.canInvite,
+      canInvite: true,
       campaign: campaign.campaign,
     };
   }
@@ -224,6 +226,12 @@ export class ChallengeService {
       ),
       shareReplay(1)
     );
+  }
+  getInvitesChallengesByCampaign(campaignId: string): Observable<Challenge[]> {
+    return EMPTY;
+  }
+  configureChallenges(campaignId: string): Observable<Challenge[]> {
+    return EMPTY;
   }
   public getActiveUncompletedChallengesByCampaign(
     campaignId: string
