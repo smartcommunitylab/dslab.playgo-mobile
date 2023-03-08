@@ -131,6 +131,7 @@ export class AppComponent implements AfterContentInit {
       level_up: '../assets/icon/level-up.svg',
       stat: '../assets/icon/stat.svg',
       leave: '../assets/icon/leave.svg',
+      cupCog: '../assets/icon/cupCog.svg',
       groupCompetitivePerformance:
         '../assets/images/challenges/groupCompetitivePerformance.svg',
       groupCompetitiveTime:

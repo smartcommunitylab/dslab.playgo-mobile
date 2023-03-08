@@ -549,6 +549,7 @@
   },
   "challenges": {
     "active": "Attive",
+    "configure": "Configurabili",
     "invitations": "Inviti",
     "challenges": "Sfide",
     "allchallenges": "Tutte le sfide",

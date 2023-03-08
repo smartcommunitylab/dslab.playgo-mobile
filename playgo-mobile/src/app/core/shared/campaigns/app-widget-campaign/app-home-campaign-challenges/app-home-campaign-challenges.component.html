@@ -2,6 +2,8 @@
   <app-active-challenge (click)="goToChallenge($event)" [challenge]="(activeUncompleteChallenges$ |async)[0]"
     [campaign]="campaignContainer">
   </app-active-challenge>
-  <app-challenge-state [activeChallenges$]="activeChallenges$" [configureChallenges$]="configureChallenges$"
-    [invitesChallenges$]="invitesChallenges$"></app-challenge-state>
+  <app-challenge-state
+    *ngIf="(activeChallenges$ | async)?.length!==0 || (configureChallenges$| async)?.length!==0 || (invitesChallenges$ | async)?.length!==0 "
+    [activeChallenges$]="activeChallenges$" [configureChallenges$]="configureChallenges$"
+    [invitesChallenges$]="invitesChallenges$" [canInvite$]="canInvite$"></app-challenge-state>
 </ng-container>

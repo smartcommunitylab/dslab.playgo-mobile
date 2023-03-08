@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
@@ -37,14 +38,23 @@ export class ChallengesPage implements OnInit, OnDestroy {
     this.challengeService.activeChallenges$;
   public futureChallenges$: Observable<Challenge[]> =
     this.challengeService.futureChallenges$;
+  subSegment: Subscription;
 
   constructor(
     private challengeService: ChallengeService,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    public activatedRoute: ActivatedRoute,
+
+  ) { }
 
   ngOnInit(): void {
     this.selectedSegment = 'activeChallenges';
+    this.subSegment = this.activatedRoute.queryParams.subscribe(params => {
+      if (params && params.selectedSegment) {
+        //store the temp in data
+        this.selectedSegment = params.selectedSegment;
+      }
+    });
     //mark common challenges notification as readed: activated, failed or completed
     this.notificationService.markCommonChallengeNotificationAsRead();
     this.subCampaignChall =
@@ -103,7 +113,13 @@ export class ChallengesPage implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.subCampaignActiveChall.unsubscribe();
+    this.subCampaignCanInvite.unsubscribe();
+    this.subCampaignChall.unsubscribe();
+    this.subCampaignFutureChall.unsubscribe();
+    this.subSegment.unsubscribe();
+  }
 }
 
 export interface Challenge extends ChallengesData {

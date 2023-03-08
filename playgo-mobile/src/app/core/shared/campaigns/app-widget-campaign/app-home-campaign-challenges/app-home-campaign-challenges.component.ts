@@ -25,6 +25,7 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   subChallActive: Subscription;
   subChallFuture: Subscription;
   futureChallenges: Challenge[] = [];
+  canInvite$: Observable<boolean>;
   constructor(
     private challengeService: ChallengeService,
     private navController: NavController
@@ -40,9 +41,12 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
         this.campaignContainer?.campaign?.campaignId
       );
     this.configureChallenges$ =
-      this.challengeService.configureChallenges(
+      this.challengeService.configurableChallenges(
         this.campaignContainer?.campaign?.campaignId
       );
+    this.canInvite$ = this.challengeService.canInviteByCampaign(
+      this.campaignContainer?.campaign?.campaignId
+    );
     this.invitesChallenges$ =
       this.challengeService.getInvitesChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId

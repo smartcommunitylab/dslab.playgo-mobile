@@ -14,6 +14,7 @@ import {
   catchError,
   of,
   firstValueFrom,
+  combineLatest,
 } from 'rxjs';
 import {
   Challenge,
@@ -28,6 +29,7 @@ import { CampaignService } from './campaign.service';
 import { ErrorService } from './error.service';
 import { PushNotificationService } from './notifications/pushNotification.service';
 import { RefresherService } from './refresher.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -40,8 +42,9 @@ export class ChallengeService {
       // TODO: ask if the condition is correct
       campaigns.filter(
         (campaign) =>
-          campaign.campaign.type === 'city' ||
-          campaign.campaign.type === 'school'
+          campaign.campaign.type === 'city'
+        // TODO not yet ready
+        // || campaign.campaign.type === 'school'
       )
     ),
     shareReplay(1)
@@ -77,6 +80,7 @@ export class ChallengeService {
       )
     )
     .pipe(shareReplay(1));
+
   public allChallenges$: Observable<Challenge[]> =
     this.challengesCouldBeChanged$
       .pipe(
@@ -140,6 +144,12 @@ export class ChallengeService {
     ),
     shareReplay(1)
   );
+  public proposedChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
+    map((challenges) =>
+      challenges.filter((challenge) => challenge.challengeType === 'PROPOSED')
+    ),
+    shareReplay(1)
+  );
   public futureChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
     map(
       (challenges) =>
@@ -156,7 +166,8 @@ export class ChallengeService {
     private challengeControllerService: ChallengeControllerService,
     private errorService: ErrorService,
     private refresherService: RefresherService,
-    private pushNotificationService: PushNotificationService
+    private pushNotificationService: PushNotificationService,
+    private userService: UserService
   ) { }
   private processResponseForOneCampaign(
     response: ChallengeConceptInfo,
@@ -185,7 +196,7 @@ export class ChallengeService {
     campaign: PlayerCampaign
   ): any {
     return {
-      canInvite: true,
+      canInvite: response.canInvite,
       campaign: campaign.campaign,
     };
   }
@@ -197,6 +208,16 @@ export class ChallengeService {
     dateTo: string;
   }) {
     return this.challengeControllerService.getChallengeStatsUsingGET(arg0);
+  }
+  public canInviteByCampaign(campaignId: string): Observable<boolean> {
+    return this.canInvite$.pipe(
+      map((canInvites) =>
+        canInvites.filter(
+          (canInvite) => canInvite?.campaign?.campaignId === campaignId && canInvite?.canInvite === true
+        ).length > 0
+      ),
+      shareReplay(1)
+    );
   }
   public getAllChallengesByCampaign(
     campaignId: string
@@ -227,12 +248,40 @@ export class ChallengeService {
       shareReplay(1)
     );
   }
+  //get invitations from other user with proposer !== from my id
   getInvitesChallengesByCampaign(campaignId: string): Observable<Challenge[]> {
-    return EMPTY;
+    return combineLatest([
+      this.userService.userProfile$,
+      this.proposedChallenges$,
+    ]).pipe(
+      switchMap(([profile, challenges]) =>
+        of(challenges.filter(
+          (challenge) => challenge?.campaign?.campaignId === campaignId
+        ).filter((challenge) => challenge.proposerId !== null && challenge.proposerId !== profile.playerId)),
+      ), shareReplay(1));
   }
-  configureChallenges(campaignId: string): Observable<Challenge[]> {
-    return EMPTY;
+  //TODO
+  configurableChallenges(campaignId: string): Observable<Challenge[]> {
+    return combineLatest([
+      this.userService.userProfile$,
+      this.canInvite$,
+      this.proposedChallenges$,
+    ]).pipe(
+      switchMap(([profile, caninvites, challenges]) =>
+        //filter by campaign id challenges proposed and if I can invite number of proposed (no invites) so 
+        //  challenge.proposerId == something and sendinvites is true
+        of(challenges.filter(
+          (challenge) => challenge?.campaign?.campaignId === campaignId
+        ).filter((challenge) => challenge.proposerId === null)),
+      ), shareReplay(1));
+    // console.log(profile, caninvites, challenges);
+    // return EMPTY;
   }
+
+  // of(challenges.filter(
+  //   (challenge) => challenge?.campaign?.campaignId === campaignId
+  // ).filter((challenge) => challenge.proposerId !== profile.playerId)),
+
   public getActiveUncompletedChallengesByCampaign(
     campaignId: string
   ): Observable<Challenge[]> {
