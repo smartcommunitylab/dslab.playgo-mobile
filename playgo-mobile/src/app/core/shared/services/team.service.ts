@@ -80,8 +80,17 @@ export class TeamService {
     getTeamsForSubscription(idInitiative: string): Observable<PlayerTeam[]> {
         return this.playerTeamController.getPublicTeamsInfoUsingGET(idInitiative);
     }
-    getTeamAvg(campaignId: string, groupId: string, metric: string): Observable<TransportStat[]> {
-        return this.teamStatsControllerService.getGroupTransportStatsGroupByMeanUsingGET({ campaignId, groupId, metric });
+    getTeamAvg(campaignId: string, groupId: string, metric: string, avg: boolean, dateFrom?: string,
+        dateTo?: string): Observable<TransportStat[]> {
+        return this.teamStatsControllerService.getGroupTransportStatsGroupByMeanUsingGET(
+            {
+                campaignId,
+                groupId,
+                metric,
+                avg,
+                dateFrom,
+                dateTo
+            });
     }
     getTeamPlacing(
         campaignId?: string,
