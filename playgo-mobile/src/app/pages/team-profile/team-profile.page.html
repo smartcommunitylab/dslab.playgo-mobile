@@ -77,7 +77,7 @@
           </ion-col> -->
         </ion-row>
         <ng-container *ngFor="let student of (team$|async)?.members">
-          <ion-row *ngIf="(playerId$|async)!==student.playerId && student.subscribed">
+          <ion-row *ngIf="(playerId$|async)!==student?.playerId && student?.subscribed && !student?.unregistered ">
             <ion-col size="2">
               <ion-avatar *ngIf="student.avatar?.url; else alternativeAvatar">
                 <img [src]="student.avatar?.url" />
@@ -97,7 +97,8 @@
           </ion-row>
         </ng-container>
         <ng-container *ngFor="let student of (team$|async)?.members">
-          <ion-row *ngIf="(playerId$|async)!==student.playerId && !student.subscribed" class="player-not-subscribed">
+          <ion-row *ngIf="(playerId$|async)!==student.playerId && !student.subscribed && !student.unregistered"
+            class="player-not-subscribed">
             <ion-col size="2">
               <ion-avatar *ngIf="student.avatar?.url; else alternativeAvatar">
                 <img [src]="student.avatar?.url" />
@@ -113,6 +114,21 @@
             </ion-col>
             <ion-col size="auto">
               <span class="label-not-subscribed opaque">{{'campaigns.detail.not_subscribed'|translate}}</span>
+            </ion-col>
+          </ion-row>
+        </ng-container>
+        <ng-container *ngFor="let student of (team$|async)?.members">
+          <ion-row *ngIf="(playerId$|async)!==student.playerId && student.unregistered" class="player-not-subscribed">
+            <ion-col size="2">
+              <ion-avatar class="opaque">
+                <ion-icon name="person-circle-outline"></ion-icon>
+              </ion-avatar>
+            </ion-col>
+            <ion-col class="opaque">
+              ********
+            </ion-col>
+            <ion-col size="auto">
+              <span class="label-not-subscribed opaque">{{'campaigns.detail.unregistered'|translate}}</span>
             </ion-col>
           </ion-row>
         </ng-container>

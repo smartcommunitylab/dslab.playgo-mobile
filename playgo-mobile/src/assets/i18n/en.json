@@ -347,6 +347,7 @@
     },
     "detail": {
       "not_subscribed": "Not subscribed",
+      "unregistered": "Unregistered",
       "nMembersActive": "Members active:",
       "nMembersInvited": "Invided:",
       "nMembersMax": "Max team:",
