@@ -1,29 +1,38 @@
 <div class="challenges-state">
   <div *ngIf="(activeChallenges$ | async)?.length!==0" (click)="goToActiveChallenge($event)">
     <ion-avatar>
-      <app-icon name="groupCompetitivePerformance" class="type-notif"></app-icon>
+      <app-icon name="groupCompetitivePerformance" class="type-notif  icon-size-normal"></app-icon>
       <!-- <ion-badge color="danger">
         <ion-icon name="alert"></ion-icon>
       </ion-badge> -->
 
-    </ion-avatar>{{'challenges.active'|translate}}{{(activeChallenges$ | async)?.length}}
+    </ion-avatar>
+    <div class="challenge-text">{{
+      'challenges.active'|translate: {active: (activeChallenges$ | async)?.length}
+      }}</div>
   </div>
   <div *ngIf="(configureChallenges$| async)?.length!==0" (click)="goToConfigureChallenge($event)">
     <ion-avatar>
-      <app-icon name="cupCog" class="type-notif"></app-icon>
+      <app-icon name="cupCog" class="type-notif  icon-size-normal"></app-icon>
       <!-- <ion-badge color="danger">
         <ion-icon name="alert"></ion-icon>
       </ion-badge> -->
 
-    </ion-avatar>{{'challenges.configure'|translate}}{{(configureChallenges$| async)?.length+((canInvite$| async)?1:0)}}
+    </ion-avatar>
+    <div class="challenge-text">{{
+      'challenges.configure'|translate: {configurable: (configureChallenges$|async)?.length+((canInvite$| async)?1:0)}
+      }}</div>
   </div>
   <div *ngIf="(invitesChallenges$ | async)?.length!==0" (click)="goToInvitationsChallenge($event)">
     <ion-avatar>
-      <app-icon name="invitation" class="type-notif"></app-icon>
+      <app-icon name="invitation" class="type-notif  icon-size-normal"></app-icon>
       <!-- <ion-badge color="danger">
         <ion-icon name="alert"></ion-icon>
       </ion-badge> -->
 
-    </ion-avatar>{{'challenges.invitations'|translate}} {{(invitesChallenges$ | async)?.length}}
+    </ion-avatar>
+    <div class="challenge-text">{{
+      'challenges.invitations'|translate: {invites: (invitesChallenges$ | async)?.length}
+      }}</div>
   </div>
 </div>

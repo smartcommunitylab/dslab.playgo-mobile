@@ -3,57 +3,42 @@
     <ion-row class="ion-no-padding">
       <ion-col size="2" *ngIf="!isHome()">
         <ion-avatar>
-          <img [src]="playerAvatarUrl$ | async" alt="avatar" /> </ion-avatar
-      ></ion-col>
+          <img [src]="playerAvatarUrl$ | async" alt="avatar" /> </ion-avatar></ion-col>
       <ion-col>
-        <ion-grid class="ion-no-padding"
-          ><ion-row class="ion-align-items-center"
-            ><ion-col size="1" *ngIf="isCompetitive()">
-              <div
-                [ngClass]="
+        <ion-grid class="ion-no-padding"><ion-row class="ion-align-items-center"><ion-col size="1"
+              *ngIf="isCompetitive()">
+              <div [ngClass]="
                   isWinning(status, otherUser?.status)
                     ? 'arrow-up'
                     : 'arrow-down'
-                "
-              ></div> </ion-col
-            ><ion-col class="ion-text-start">{{
-              (profile$ | async)?.nickname
-            }}</ion-col></ion-row
-          ><ion-row
-            *ngIf="status !== null && !isHome()"
-            class="ion-align-items-center"
-          >
-            <ion-col> {{ status }}%</ion-col></ion-row
-          ><ion-row *ngIf="rowStatus !== null && !isHome() && unitHasKm"
-            ><ion-col>{{ rowStatus }} Km</ion-col></ion-row
-          ></ion-grid
-        >
+                "></div>
+            </ion-col><ion-col class="ion-text-start"><span class="ion-margin-start">{{
+                (profile$ | async)?.nickname
+                }}</span></ion-col></ion-row><ion-row *ngIf="status !== null && !isHome()"
+            class="ion-align-items-center">
+            <ion-col> {{ status }}%</ion-col></ion-row><ion-row
+            *ngIf="rowStatus !== null && !isHome() && unitHasKm"><ion-col>{{ rowStatus }}
+              Km</ion-col></ion-row></ion-grid>
       </ion-col>
       <ion-col>
         <ion-grid *ngIf="otherUser" class="ion-no-padding">
           <ion-row class="ion-text-end ion-align-items-center">
-            <ion-col class="ion-text-end"> {{ otherUser?.nickname }}</ion-col
-            ><ion-col size="1" *ngIf="isCompetitive()">
-              <div
-                [ngClass]="
+            <ion-col class="ion-text-end"> <span class="ion-margin-end">{{ otherUser?.nickname
+                }}</span></ion-col><ion-col size="1" *ngIf="isCompetitive()">
+              <div [ngClass]="
                   isWinning(otherUser?.status, status)
                     ? 'arrow-up'
                     : 'arrow-down'
-                "
-              ></div>
+                "></div>
             </ion-col>
           </ion-row>
-          <ion-row class="ion-text-end ion-align-items-center" *ngIf="!isHome()"
-            ><ion-col>{{ otherUser.status }}%</ion-col></ion-row
-          ><ion-row class="ion-text-end" *ngIf="!isHome()"
-            ><ion-col>{{ otherUser.row_status }} Km</ion-col></ion-row
-          ></ion-grid
-        >
+          <ion-row class="ion-text-end ion-align-items-center" *ngIf="!isHome()"><ion-col>{{ otherUser.status
+              }}%</ion-col></ion-row><ion-row class="ion-text-end" *ngIf="!isHome()"><ion-col>{{ otherUser.row_status }}
+              Km</ion-col></ion-row></ion-grid>
       </ion-col>
       <ion-col size="2" *ngIf="otherUser && !isHome() && unitHasKm">
         <ion-avatar>
-          <img [src]="otherUser?.avatar?.url" alt="avatar" /> </ion-avatar
-      ></ion-col>
+          <img [src]="otherUser?.avatar?.url" alt="avatar" /> </ion-avatar></ion-col>
     </ion-row>
   </ion-grid>
 </div>

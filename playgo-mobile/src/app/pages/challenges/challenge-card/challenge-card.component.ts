@@ -10,7 +10,8 @@ import { Challenge } from '../challenges.page';
 import { Browser } from '@capacitor/browser';
 import { DetailChallengenModalPage } from './detail-modal/detail.modal';
 import { ModalController } from '@ionic/angular';
-import { getImgChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
+import { getImgChallenge, getTypeStringChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-challenge-card',
@@ -26,8 +27,9 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
   constructor(
     public campaignService: CampaignService,
     private elementRef: ElementRef,
-    private modalController: ModalController
-  ) {}
+    private modalController: ModalController,
+    private translateService: TranslateService
+  ) { }
   ngAfterViewInit() {
     //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
     this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
@@ -45,8 +47,10 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
       presentationStyle: 'popover',
     });
   };
-  ngOnInit() {}
-
+  ngOnInit() { }
+  typeChallenge(type: string) {
+    return this.translateService.instant(getTypeStringChallenge(type));
+  }
   fillSurvey() {
     Browser.open({
       url: this.challenge.extUrl,
