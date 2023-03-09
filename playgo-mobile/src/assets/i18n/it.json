@@ -347,6 +347,7 @@
     },
     "detail": {
       "not_subscribed": "Non iscritto",
+      "unregistered": "Abbandono",
       "nMembersActive": "Membri attivi:",
       "nMembersInvited": "Invitati:",
       "nMembersMax": "Max squadra:",
