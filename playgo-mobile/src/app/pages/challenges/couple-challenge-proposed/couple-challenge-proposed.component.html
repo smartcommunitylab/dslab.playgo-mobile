@@ -12,7 +12,12 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="2">
-          <app-icon name="invitation" class="icon-size-medium"></app-icon>
+          <ion-avatar class="avatar">
+            <img [src]=" challenge.otherAttendeeData.avatar.url"
+              title="{{ 'registration.avatar.title' | translate }}" />
+          </ion-avatar>
+          <app-icon [name]="(playerId$ | async) === challenge.proposerId?'invite':'invitation'"
+            class="icon-size-medium"></app-icon>
         </ion-col>
         <ion-col class="flex-center"><span>{{ challenge.challDesc | languageMap }}</span>
         </ion-col>

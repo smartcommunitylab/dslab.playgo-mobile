@@ -14,14 +14,17 @@ import { InvitationlModalPage } from './invitation-challenge/invitation-challeng
 export class CoupleChallengeProposedComponent implements OnInit {
   @Input() challenge: Challenge;
   @Input() campaign: PlayerCampaign;
+  playerAvatarUrl$ = this.userService.userProfile$.pipe(
+    map((userProfile) => userProfile.avatar.avatarSmallUrl)
+  );
   playerId$ = this.userService.userProfile$.pipe(
     map((userProfile) => userProfile.playerId)
   );
   constructor(
     private userService: UserService,
     private modalController: ModalController
-  ) {}
-  ngOnInit() {}
+  ) { }
+  ngOnInit() { }
   async openInvitationPopup() {
     const modal = await this.modalController.create({
       component: InvitationlModalPage,

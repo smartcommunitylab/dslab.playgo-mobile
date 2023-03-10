@@ -126,6 +126,7 @@ export class AppComponent implements AfterContentInit {
       blockUserColor: '../assets/icon/blockUserColor.svg',
       blacklist: '../assets/icon/blacklist.svg',
       invitation: '../assets/icon/invitation.svg',
+      invite: '../assets/icon/invite.svg',
       leaderboard: '../assets/icon/leaderboard.svg',
       homeFooter: '../assets/images/home/logo.svg',
       level_up: '../assets/icon/level-up.svg',
