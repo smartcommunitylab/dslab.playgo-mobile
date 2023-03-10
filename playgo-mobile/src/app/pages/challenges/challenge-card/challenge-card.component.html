@@ -3,7 +3,7 @@
     <span>{{ challenge?.campaign?.name | languageMap }}</span>
   </ion-card-header>
 
-  <ion-card-content>
+  <ion-card-content class="ion-no-padding">
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col class="ion-text-center challenge-type">
@@ -90,7 +90,7 @@
             }
             }}</span>
         </ion-col>
-        <ion-col size="4" class="ion-text-end">
+        <ion-col size="4" class="ion-text-end point-col">
           <span class="challenge-date">{{ challenge.bonus }}</span>
           <app-icon [name]="campaignService.getCampaignScoreIcon(challenge.campaign)"></app-icon>
         </ion-col>
@@ -99,23 +99,3 @@
     <p></p>
   </ion-card-content>
 </ion-card>
-<!--
-
-  active?: boolean;
-  bonus?: number;
-  challCompleteDesc?: string;
-  challCompletedDate?: number;
-  challDesc?: string;
-  challId?: string;
-  challTarget?: number;
-  daysToEnd?: number;
-  endDate?: number;
-  otherAttendeeData?: OtherAttendeeData;
-  proposerId?: string;
-  row_status?: number;
-  startDate?: number;
-  status?: number;
-  success?: boolean;
-  type?: string;
-  unit?: string;
- -->

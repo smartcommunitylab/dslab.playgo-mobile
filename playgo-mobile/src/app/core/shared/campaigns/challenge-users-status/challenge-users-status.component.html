@@ -12,18 +12,20 @@
                     ? 'arrow-up'
                     : 'arrow-down'
                 "></div>
-            </ion-col><ion-col class="ion-text-start"><span class="ion-margin-start">{{
+            </ion-col><ion-col class="ion-text-start"><span class="ion-margin-start nickname-style">{{
                 (profile$ | async)?.nickname
                 }}</span></ion-col></ion-row><ion-row *ngIf="status !== null && !isHome()"
             class="ion-align-items-center">
-            <ion-col> {{ status }}%</ion-col></ion-row><ion-row
-            *ngIf="rowStatus !== null && !isHome() && unitHasKm"><ion-col>{{ rowStatus }}
+            <ion-col> <span class="ion-margin-start value-style">{{ status }}%</span></ion-col></ion-row><ion-row
+            *ngIf="rowStatus !== null && !isHome() && unitHasKm"><ion-col><span class="ion-margin-start value-style">{{
+                rowStatus
+                }}</span>
               Km</ion-col></ion-row></ion-grid>
       </ion-col>
       <ion-col>
         <ion-grid *ngIf="otherUser" class="ion-no-padding">
           <ion-row class="ion-text-end ion-align-items-center">
-            <ion-col class="ion-text-end"> <span class="ion-margin-end">{{ otherUser?.nickname
+            <ion-col class="ion-text-end"> <span class="ion-margin-end nickname-style">{{ otherUser?.nickname
                 }}</span></ion-col><ion-col size="1" *ngIf="isCompetitive()">
               <div [ngClass]="
                   isWinning(otherUser?.status, status)
@@ -32,9 +34,11 @@
                 "></div>
             </ion-col>
           </ion-row>
-          <ion-row class="ion-text-end ion-align-items-center" *ngIf="!isHome()"><ion-col>{{ otherUser.status
-              }}%</ion-col></ion-row><ion-row class="ion-text-end" *ngIf="!isHome()"><ion-col>{{ otherUser.row_status }}
-              Km</ion-col></ion-row></ion-grid>
+          <ion-row class="ion-text-end ion-align-items-center" *ngIf="!isHome()"><ion-col><span
+                class="ion-margin-end value-style">{{ otherUser.status
+                }}%</span></ion-col></ion-row><ion-row class="ion-text-end" *ngIf="!isHome()"><ion-col><span
+                class="ion-margin-end value-style">{{ otherUser.row_status }}
+                Km</span></ion-col></ion-row></ion-grid>
       </ion-col>
       <ion-col size="2" *ngIf="otherUser && !isHome() && unitHasKm">
         <ion-avatar>
