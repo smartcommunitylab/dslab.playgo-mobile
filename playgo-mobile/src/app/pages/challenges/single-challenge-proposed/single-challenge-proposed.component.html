@@ -5,14 +5,15 @@
     </span>
   </ion-card-header>
   <ion-card-content class="content">
-    <ion-grid
-      ><ion-row
-        ><ion-col size="2"
-          ><app-icon name="default" class="icon-size-big"></app-icon></ion-col
-        ><ion-col class="flex-center"
-          ><span>{{ challenge.challDesc | languageMap }}</span></ion-col
-        ></ion-row
-      ></ion-grid
-    >
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="2">
+          <app-icon name="default" class="icon-size-medium"></app-icon>
+        </ion-col>
+        <ion-col class="flex-center">
+          <span>{{ challenge.challDesc | languageMap }}</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card-content>
 </ion-card>

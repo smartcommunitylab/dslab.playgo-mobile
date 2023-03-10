@@ -14,6 +14,7 @@ import { InvitationlModalPage } from './couple-challenge-proposed/invitation-cha
 import { CreateChallengeButtonComponent } from './create-challenge-button/create-challenge-button.component';
 import { SentInvitationlModalPage } from './create-challenge/sent-invitation-modal/sent-invitation.modal';
 import { SingleChallengeProposedComponent } from './single-challenge-proposed/single-challenge-proposed.component';
+import { SingleProposalAcceptedModalPage } from './single-challenge-proposed/single-proposal-accepted/single-proposal-accepted.modal';
 import { SingleProposalModalPage } from './single-challenge-proposed/single-proposal/single-proposal.modal';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { SingleProposalModalPage } from './single-challenge-proposed/single-prop
     SentInvitationlModalPage,
     InfoChallengeModalPage,
     DetailChallengenModalPage,
+    SingleProposalAcceptedModalPage
   ],
 })
-export class ChallengesPageModule {}
+export class ChallengesPageModule { }

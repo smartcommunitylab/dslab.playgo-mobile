@@ -12,36 +12,41 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col>
+      <ion-col size="3" class="ion-text-center">
         <app-icon name="invitation" class="icon-size-big"></app-icon>
       </ion-col>
-      <ion-col>
-        <p>{{typeChallenge}}</p>
+      <ion-col class="flex-center">
+        <span class="title-challenge">{{typeChallenge}}</span>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col> {{challenge?.challDesc|languageMap}} </ion-col>
+      <ion-col> <span class="desc-challenge">{{challenge?.challDesc|languageMap}} </span></ion-col>
     </ion-row>
-    <ion-row *ngIf="(playerId$ | async) !== challenge.proposerId; else sentTemplate">
-      <ion-col class="ion-text-center">
-        <ion-button (click)="activate()" [color]="campaign?.campaign?.type">
-          {{'challenges.activate'|translate}}
-        </ion-button>
-      </ion-col>
-      <ion-col class="ion-text-center">
-        <ion-button (click)="reject()" color="light">
-          {{'challenges.reject'|translate}}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ng-template #sentTemplate>
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <ion-button (click)="cancel()" [color]="campaign?.campaign?.type">
-            {{'challenges.cancel'|translate}}
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ng-template>
   </ion-grid>
+
+
 </ion-content>
+
+<ion-footer>
+  <ion-row *ngIf="(playerId$ | async) !== challenge.proposerId; else sentTemplate">
+    <ion-col class="ion-text-center">
+      <ion-button (click)="activate()" [color]="campaign?.campaign?.type">
+        {{'challenges.activate'|translate}}
+      </ion-button>
+    </ion-col>
+    <ion-col class="ion-text-center">
+      <ion-button (click)="reject()" color="light">
+        {{'challenges.reject'|translate}}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ng-template #sentTemplate>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="cancel()" [color]="campaign?.campaign?.type">
+          {{'challenges.cancel'|translate}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ng-template>
+</ion-footer>

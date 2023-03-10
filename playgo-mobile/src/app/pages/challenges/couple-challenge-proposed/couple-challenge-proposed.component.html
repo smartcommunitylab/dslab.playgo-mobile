@@ -2,14 +2,21 @@
   <ion-card-header class="header" [color]="campaign.campaign.type">
     <span>
       {{
-        (playerId$ | async) === challenge.proposerId
-          ? ("challenges.sent" | translate)
-          : ("challenges.received" | translate)
+      (playerId$ | async) === challenge.proposerId
+      ? ("challenges.sent" | translate)
+      : ("challenges.received" | translate)
       }}
     </span>
   </ion-card-header>
   <ion-card-content class="content">
-    <app-icon name="invitation" class="icon-size-big"></app-icon
-    ><span>{{ challenge.challDesc | languageMap }}</span>
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="2">
+          <app-icon name="invitation" class="icon-size-medium"></app-icon>
+        </ion-col>
+        <ion-col class="flex-center"><span>{{ challenge.challDesc | languageMap }}</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card-content>
 </ion-card>

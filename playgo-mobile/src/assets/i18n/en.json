@@ -549,6 +549,8 @@
     "blacklist_user": "Attenzione: hai bloccato gli inviti per le sfide di questo utente. Non puoi inviare nè ricevere sfide da questo utente. "
   },
   "challenges": {
+    "singleActivated": "Challenge activated!",
+    "singleDesc": "You activated a single challenge from {{from}} to {{to}}",
     "active": "Active : {{active}}",
     "configure": "Configurable: {{configurable}}",
     "invitations": "Invitations: {{invites}}",
@@ -601,7 +603,7 @@
       "singleChallengeLost": "lost"
     },
     "create": {
-      "configure": "Configure",
+      "configure": "Configure challenge",
       "button_create": "Configure a new challenge",
       "title": "Configure a challenge",
       "choose_type": "Choose challenge type",

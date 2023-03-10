@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { Challenge } from '../challenges.page';
+import { SingleProposalAcceptedModalPage } from './single-proposal-accepted/single-proposal-accepted.modal';
 import { SingleProposalModalPage } from './single-proposal/single-proposal.modal';
 
 @Component({
@@ -12,11 +13,11 @@ import { SingleProposalModalPage } from './single-proposal/single-proposal.modal
 export class SingleChallengeProposedComponent implements OnInit {
   @Input() challenge: Challenge;
   @Input() campaign: PlayerCampaign;
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   async openSelectionPopup() {
-    const modal = await this.modalController.create({
+    let modal = await this.modalController.create({
       component: SingleProposalModalPage,
       cssClass: 'modal-challenge',
       componentProps: {
@@ -27,5 +28,18 @@ export class SingleChallengeProposedComponent implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
+    if (data) {
+      modal = await this.modalController.create({
+        component: SingleProposalAcceptedModalPage,
+        cssClass: 'modal-challenge',
+        componentProps: {
+          challenge: this.challenge,
+          campaign: this.campaign,
+        },
+        swipeToClose: true,
+      });
+      await modal.present();
+      await modal.onWillDismiss();
+    }
   }
 }

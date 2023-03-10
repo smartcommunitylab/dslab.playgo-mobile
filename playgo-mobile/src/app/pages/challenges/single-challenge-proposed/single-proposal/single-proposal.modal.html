@@ -16,34 +16,37 @@
         <app-icon name="default" class="icon-size-big"></app-icon>
       </ion-col>
       <ion-col class="flex-center">
-        {{'challenges.singleproposal'|translate}}
+        <span class="title-challenge">{{'challenges.singleproposal'|translate}}</span>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <span>{{ challenge.challDesc | languageMap }}</span>
+        <span class="desc-challenge">{{ challenge.challDesc | languageMap }}</span>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col class="ion-text-center">
-        <ion-button (click)="activate()" [color]="campaign?.campaign?.type">
-          {{'challenges.activate'|translate}}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row class="footer">
-      <ion-col size="8" class="ion-text-left">
-        <span>{{'challenges.fromto'|translate : { from:
-          challenge.startDate|localDate, to: challenge.endDate|localDate }
-          }}</span>
-      </ion-col>
-      <ion-col class="ion-text-end">
-        <span class="flex-center">{{challenge.bonus}}
-          <app-icon [name]="
-            campaignService.getCampaignTypeIcon(campaign?.campaign)
-          "></app-icon>
-        </span>
-      </ion-col>
-    </ion-row>
+
   </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col class="ion-text-center">
+      <ion-button (click)="activate()" [color]="campaign?.campaign?.type">
+        {{'challenges.activate'|translate}}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="8" class="ion-text-left">
+      <span class="date-challenge">{{'challenges.fromto'|translate : { from:
+        challenge.startDate|localDate, to: challenge.endDate|localDate }
+        }}</span>
+    </ion-col>
+    <ion-col class="ion-text-end">
+      <span class="flex-center date-challenge">{{challenge.bonus}}
+        <app-icon [name]="
+          campaignService.getCampaignTypeIcon(campaign?.campaign)
+        "></app-icon>
+      </span>
+    </ion-col>
+  </ion-row>
+</ion-footer>
