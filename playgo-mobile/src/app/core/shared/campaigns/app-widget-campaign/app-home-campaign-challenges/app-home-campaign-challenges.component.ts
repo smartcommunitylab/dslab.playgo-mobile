@@ -22,7 +22,7 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   //invites received
   public invitesChallenges$: Observable<Challenge[]>;
 
-  subChallActive: Subscription;
+  // subChallActive: Subscription;
   subChallFuture: Subscription;
   futureChallenges: Challenge[] = [];
   canInvite$: Observable<boolean>;
@@ -53,7 +53,7 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
       );
   }
   ngOnDestroy() {
-    this.subChallActive.unsubscribe();
+    // this.subChallActive.unsubscribe();
   }
   goToChallenge(event: Event) {
     if (event && event.stopPropagation) {

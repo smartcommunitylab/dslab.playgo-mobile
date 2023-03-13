@@ -76,7 +76,8 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     switchMap((campaignId) =>
       this.campaignService.myCampaigns$.pipe(
         map((campaigns) => find(campaigns, (playercampaign) => playercampaign.subscription.campaignId === campaignId)),
-        throwIfNil(() => new Error('Campaign not found')),
+        tap((campaigns) => console.log(campaigns)),
+        // throwIfNil(() => new Error('Campaign not found')),
         this.errorService.getErrorHandler()
       )
     ),
@@ -92,6 +93,8 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     tap((team: string) => console.log(team)),
     shareReplay(1)
   );
+  myCampaignSub: Subscription;
+  unsubSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -111,9 +114,12 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.isDestroyed$.next();
     this.isDestroyed$.complete();
-    this.subStat.unsubscribe();
-  }
 
+  }
+  ionViewDidLeave() {
+    this.subStat?.unsubscribe();
+    this.myCampaignSub?.unsubscribe();
+  }
   ngOnInit() {
     this.subTeam = combineLatest([
       this.campaignId$,
@@ -135,7 +141,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
       .subscribe((notifications) => {
         this.unreadNotifications = notifications;
       });
-    this.campaignService.myCampaigns$
+    this.myCampaignSub = this.campaignService.myCampaigns$
       .pipe(
         takeUntil(this.isDestroyed$),
         switchMap((campaigns) => {
@@ -262,12 +268,14 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data) {
-      this.campaignService
+      this.unsubSub = this.campaignService
         .unsubscribeCampaign(this.campaignContainer.campaign.campaignId)
         .subscribe((result) => {
           this.alertService.showToast({
             messageTranslateKey: 'campaigns.unregistered',
           });
+          this.subStat?.unsubscribe();
+          this.myCampaignSub?.unsubscribe();
           this.navCtrl.back();
         });
     }
