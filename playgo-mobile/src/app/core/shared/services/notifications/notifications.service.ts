@@ -302,7 +302,9 @@ export enum NotificationType {
 }
 export const NOTIFICATION_TYPE_ACTIONS = {
   campaignWidgetBadge: {
-    types: [NotificationType.level],
+    types: [
+      NotificationType.level,
+      NotificationType.badge],
   },
   challengeTabBadge: {
     types: [

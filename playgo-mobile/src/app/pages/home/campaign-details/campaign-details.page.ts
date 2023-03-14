@@ -276,7 +276,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
           });
           this.subStat?.unsubscribe();
           this.myCampaignSub?.unsubscribe();
-          this.navCtrl.back();
+          this.navCtrl.navigateRoot('/pages/tabs/home');
         });
     }
   }
