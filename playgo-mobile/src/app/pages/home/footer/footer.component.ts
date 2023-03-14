@@ -24,7 +24,10 @@ export class FooterComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
+  }
+  ionViewDidLeave() {
     this.subStat.unsubscribe();
+
   }
   async openCredits() {
     const modal = await this.modalController.create({

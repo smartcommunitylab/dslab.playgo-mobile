@@ -67,6 +67,8 @@ export class ProfilePage implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
+  }
+  ionViewDidLeave() {
     this.subProf.unsubscribe();
   }
 

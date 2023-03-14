@@ -146,6 +146,9 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
   ngOnInit() { }
 
   ngOnDestroy() {
+
+  }
+  ionViewDidLeave() {
     this.componentDestroyed$.next(true);
     this.componentDestroyed$.complete();
   }

@@ -110,10 +110,11 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     this.descriptionExpanded = !this.descriptionExpanded;
   }
   ngOnDestroy(): void {
+  }
+  ionViewDidLeave() {
     this.sub?.unsubscribe();
     this.subSchool?.unsubscribe();
   }
-
   private changePageSettings() {
     const language = this.userService.getLanguage();
     this.pageSettingsService.set({

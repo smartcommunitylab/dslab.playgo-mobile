@@ -253,6 +253,8 @@ export class StatsPage implements OnInit, OnDestroy {
     this.selectedSegment = this.periods[0];
   }
   ngOnDestroy() {
+  }
+  ionViewDidLeave() {
     this.statsSubs.unsubscribe();
   }
   getPeriodByReference(value: Period): any {

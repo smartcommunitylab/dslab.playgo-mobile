@@ -17,7 +17,7 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     private router: Router,
     private navCtrl: NavController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sub = this.campaignService.myCampaigns$.subscribe((campaigns) => {
@@ -28,6 +28,9 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
     this.navCtrl.navigateRoot('pages/tabs/campaigns');
   }
   ngOnDestroy() {
+  }
+  ionViewDidLeave() {
     this.sub.unsubscribe();
+
   }
 }

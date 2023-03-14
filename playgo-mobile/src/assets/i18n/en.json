@@ -416,6 +416,7 @@
         "totalvalue": "<b>{{value}} total value</b>",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}}",
         "levelName": "<b>Level : {{levelName}}</b>",
+        "maxscore": "You have reached the max score",
         "score": " ",
         "emptystatus": "If you want to see your level and points start to play!",
         "status": "{{score}} Kg CO₂ saved",

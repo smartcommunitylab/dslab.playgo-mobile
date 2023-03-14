@@ -259,6 +259,8 @@ export class StatsTeamPage implements OnInit, OnDestroy {
     ).subscribe();
   }
   ngOnDestroy() {
+  }
+  ionViewDidLeave() {
     this.statsSubs.unsubscribe();
   }
   getPeriodByReference(value: Period): any {
