@@ -13,6 +13,15 @@
 <ion-content color="playgo">
   <form [formGroup]="joinCityForm" (ngSubmit)="joinCitySubmit()">
     <ion-grid>
+      <ion-row class="ion-margin-top">
+        <ion-col>
+          <ion-item lines="full" color="playgo">
+            <ion-label position="floating">{{'campaigns.joinmodal.raccomandation'|translate}}</ion-label>
+            <ion-input type="text" formControlName="name" clearInput
+              placeholder="{{'campaigns.joinmodal.nickname'|translate}}"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
       <ion-row class="ion-margin-top" *ngIf="privacy">
         <ion-col size="10">
           <ion-label class="privacy-info">{{'campaigns.joinmodal.privacyLink'|translate}}</ion-label>

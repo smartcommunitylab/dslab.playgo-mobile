@@ -308,6 +308,8 @@
       "close": "X"
     },
     "joinmodal": {
+      "raccomandation": "Who invited you?",
+      "nickname": "Insert thenickname",
       "teamselection": "Select your team",
       "teams": "Teams",
       "noItems": "No companies found",
@@ -540,7 +542,7 @@
     "personal_stat_car": " by carpooling",
     "personal_stat_boat": " by boat",
     "empty": "There are not statistics to show",
-    "last_week_position": " last week",
+    "last_week_position": " this week",
     "general_position": " general ranking",
     "total_points": " total points",
     "won": "won {{won}}",

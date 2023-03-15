@@ -29,13 +29,14 @@ export class JoinCityModalPage implements OnInit {
     public formBuilder: FormBuilder,
     private userService: UserService,
     private navCtrl: NavController
-  ) {}
+  ) { }
   ngOnInit() {
     this.language = this.userService.getLanguage();
     const rules = this.campaign.details[this.language];
     this.rules = rules?.find((detail) => detail.type === 'rules');
     this.privacy = rules?.find((detail) => detail.type === 'privacy');
     this.joinCityForm = this.formBuilder.group({
+      name: [''],
       ...(this.privacy && { privacy: [false, Validators.requiredTrue] }),
       ...(this.rules && { rules: [false, Validators.requiredTrue] }),
     });
@@ -76,8 +77,12 @@ export class JoinCityModalPage implements OnInit {
     if (!this.joinCityForm.valid) {
       return false;
     } else {
+      const body = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        nick_recommandation: this.joinCityForm.value.name
+      };
       this.campaignService
-        .subscribeToCampaign(this.campaign.campaignId)
+        .subscribeToCampaign(this.campaign.campaignId, body)
         .subscribe(
           (result) => {
             if (result) {

@@ -308,6 +308,8 @@
       "close": "X"
     },
     "joinmodal": {
+      "raccomandation": "Chi ti ha invitato?",
+      "nickname": "Inserisci il nickname",
       "teamselection": "Seleziona la squadra",
       "teams": "Squadre",
       "noItems": "Nessuna azienda trovata",
@@ -413,7 +415,7 @@
         "totalposition": "Globale:",
         "weekvalue": "<b>{{value}} {{unit}}</b> settimanale",
         "monthvalue": "<b>{{value}} {{unit}}</b> mensile",
-        "totalvalue": "<b>{{value}} {{unit}}</b> complessivo",
+        "totalvalue": "<b>{{value}} {{unit}}</b> generale",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}}",
         "levelName": "<b>Livello {{levelIndex}}: {{levelName}}</b>",
         "maxscore": "Hai raggiunto il livello massimo",
@@ -486,7 +488,7 @@
         "this_week": "Questa settimana",
         "last_week": "Settimana scorsa",
         "this_month": "Questo mese",
-        "all_time": "Complessivo"
+        "all_time": "Generale"
       },
       "leaderboard_type": {
         "co2": "Totale CO₂",
@@ -531,7 +533,7 @@
   },
   "userprofile": {
     "period_challenge": "Sfide dell'ultimo mese {{periodFrom}} - {{periodTo}}",
-    "title": "Profilo utenti",
+    "title": "Profilo utente",
     "last_month": "Attività dell’ultimo mese",
     "personal_stat_bike": " in bici",
     "personal_stat_walk": " a piedi",
@@ -540,7 +542,7 @@
     "personal_stat_car": " in carpooling",
     "personal_stat_boat": " in battello",
     "empty": "Non ci sono statistiche da mostrare",
-    "last_week_position": " ultima settimana",
+    "last_week_position": " questa settimana",
     "general_position": " classifica generale",
     "total_points": " punti totali",
     "won": "{{won}} vinte",
