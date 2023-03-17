@@ -12,6 +12,7 @@ import { BackgroundTrackingService } from './background-tracking.service';
 import { CarPoolingService } from './carpooling/carpooling.service';
 import { LocationsStorageService } from './locations-storage.service';
 import {
+  MAX_MS_TRACKING,
   NO_TRIP_STARTED,
   TransportType,
   TripPart,
@@ -21,6 +22,7 @@ import { isNotConstant } from '../utils';
 import { ErrorService } from '../services/error.service';
 import { AlertService } from '../services/alert.service';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +47,8 @@ export class TripService {
       return tripPart.transportType;
     })
   );
-
+  private stopTimerStorage =
+    this.localStorageService.getStorageOf<number>('stopTimer');
   private operationInProgressSubject = new ReplaySubject();
   public operationInProgress$ = this.operationInProgressSubject.asObservable();
 
@@ -60,8 +63,10 @@ export class TripService {
     private backgroundTrackingService: BackgroundTrackingService,
     private carpoolingService: CarPoolingService,
     private alertService: AlertService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private localStorageService: LocalStorageService
   ) {
+    console.log('constructor tripService');
     this.start();
     backgroundTrackingService.isPowerSaveMode$
       .pipe(
@@ -80,17 +85,45 @@ export class TripService {
       const initialTrip: TripPart | NO_TRIP_STARTED =
         await this.tripPersistanceService.getInitialTrip();
       this.tripPersistanceService.storeLastOf(this.tripPart$);
-
+      console.log('startTracking');
       console.log({ initialTrip });
       if (initialTrip === NO_TRIP_STARTED) {
         // maybe we have some location that are not synchronized with the server...
         await this.backgroundTrackingService.syncInitialLocations();
       } else {
-        await this.backgroundTrackingService.startTracking(initialTrip, true);
-        this.setCurrentTripPart(initialTrip);
+        const validTimer = await this.setAutoStopTimer();
+        console.log('validTimer', validTimer);
+        if (validTimer) {
+          await this.backgroundTrackingService.startTracking(initialTrip, true);
+          this.setCurrentTripPart(initialTrip);
+        } else {
+          await this.startOrStop(TRIP_END);
+        }
       }
     } catch (e) {
       this.errorService.handleError(e, 'normal');
+    }
+  }
+
+  async setAutoStopTimer() {
+    console.log('setAutostoptimer');
+
+    let stopTimer: number = await this.stopTimerStorage.get();
+    if (!stopTimer) {
+      stopTimer = Date.now() + MAX_MS_TRACKING;
+      this.stopTimerStorage.set(stopTimer);
+      console.log('set timer in storage', stopTimer);
+
+    }
+    console.log('stopTimer - Date.now()', stopTimer - Date.now());
+    if (stopTimer - Date.now() > 0) {
+      setTimeout(async () => await this.startOrStop(TRIP_END), stopTimer - Date.now());
+      console.log('setTimeout', stopTimer - Date.now());
+
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
@@ -145,11 +178,15 @@ export class TripService {
 
       if (newTripPart === TRIP_END) {
         await this.backgroundTrackingService.stopTracking();
+        this.stopTimerStorage.clear();
       } else {
+        console.log('startOrStop');
+
         await this.backgroundTrackingService.startTracking(
           newTripPart,
           isNewTrip
         );
+        this.setAutoStopTimer();
       }
       this.setCurrentTripPart(newTripPart);
     } catch (e) {
