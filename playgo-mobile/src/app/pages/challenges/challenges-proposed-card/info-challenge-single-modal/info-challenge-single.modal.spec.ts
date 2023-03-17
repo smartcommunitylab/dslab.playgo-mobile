@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { InfoChallengeModalPage } from './info-challenge.modal';
+import { InfoChallengeSingleModalPage } from './info-challenge-single.modal';
 
 describe('CampaignDetailsPage', () => {
-  let component: InfoChallengeModalPage;
-  let fixture: ComponentFixture<InfoChallengeModalPage>;
+  let component: InfoChallengeSingleModalPage;
+  let fixture: ComponentFixture<InfoChallengeSingleModalPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [InfoChallengeModalPage],
+      declarations: [InfoChallengeSingleModalPage],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InfoChallengeModalPage);
+    fixture = TestBed.createComponent(InfoChallengeSingleModalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

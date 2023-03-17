@@ -18,10 +18,11 @@ export class SelectChallengeableComponent {
   @Input() availableChallengeables: Challengeable[];
 
   @Output() selectedChallengeable = new EventEmitter<string>();
+  searchData: string;
 
   selectedChallengeableId: string;
 
-  constructor() {}
+  constructor() { }
 
   selectChallengeable(challengeable: Challengeable) {
     this.selectedChallengeableId = challengeable.id;

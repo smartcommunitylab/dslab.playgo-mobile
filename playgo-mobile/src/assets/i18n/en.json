@@ -582,9 +582,14 @@
     "points": "{{ point }} points",
     "challenge_container": "Challenges {{ type }} of campaign",
     "info": {
-      "title": "How do the challenges work? ",
-      "body": "Each week you can choose only ONE single challenge and ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a single challenge, the other possible single challenges proposed by the system disappear. <br> <br> Similarly, when you activate a couple challenge, the alternatives disappear. <br> <br> Accepting an invitation is equivalent to choosing a couple challenge. <br> <br> When someone accepts an invitation you sent, the couple challenge for the week is automatically chosen. All other alternate challenges disappear. <br> <br> Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 single challenge proposals, 3 invitations and you can send up to a maximum of 2 invitations.",
+      "title": "Single challenge",
+      "body": "Each week you can choose only ONE single challenge and ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a single challenge, the other possible single challenges proposed by the system disappear. <br> <br> Similarly, when you activate a couple challenge, the alternatives disappear. <br> <br>  Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 single challenge proposals.",
       "close": "Close"
+    },
+    "infogroup": {
+      "title": "Group challenges",
+      "body": "Each week you can choose only ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a couple challenge, the other possible couple challenges proposed by the system disappear. <br> <br> Accepting an invitation is equivalent to choosing a couple challenge. <br> <br> When someone accepts an invitation you sent, the couple challenge for the week is automatically chosen. All other alternate challenges disappear. <br> <br> Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 invitations and you can send up to a maximum of 2 invitations.",
+      "close": "Chiudi"
     },
     "challenge_detail": {
       "challenge_future_start": "This challenge will start : {{startDate}}",
@@ -649,6 +654,11 @@
         "Bus_Km": "Km on bus",
         "Car_Km": "Km in car",
         "Train_Km": "Km on train"
+      },
+      "pointconcept": {
+        "Bike_Km": "Km on bike",
+        "Walk_Km": "Km on foot",
+        "green leaves": "Green Leaves"
       }
     }
   },

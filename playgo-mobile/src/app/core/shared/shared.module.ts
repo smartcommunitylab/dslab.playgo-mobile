@@ -47,6 +47,7 @@ import { HomeSchoolProgressionComponent } from './campaigns/home-widget-types/ho
 import { ComparisonModalPage } from './campaigns/home-widget-types/home-campaign-school/home-school-progression/comparison-modal/comparison.modal';
 import { EnterTheViewportNotifierDirective } from './directives/enter-viewport.directive';
 import { ChallengeStateComponent } from './campaigns/app-widget-campaign/app-home-campaign-challenges/app-challenge-state/app-challenge-state.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -63,6 +64,7 @@ import { ChallengeStateComponent } from './campaigns/app-widget-campaign/app-hom
     DetailNotificationModalPage,
     LocalDatePipe,
     LocalNumberPipe,
+    FilterPipe,
     SafeHtmlPipe,
     LanguageMapPipe,
     InfiniteScrollComponent,
@@ -112,6 +114,7 @@ import { ChallengeStateComponent } from './campaigns/app-widget-campaign/app-hom
     ContentContentComponent,
     ContentDirective,
     LocalNumberPipe,
+    FilterPipe,
     SafeHtmlPipe,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,

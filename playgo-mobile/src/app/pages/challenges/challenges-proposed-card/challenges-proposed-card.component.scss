@@ -17,12 +17,14 @@ ion-card-title {
   text-align: center;
   color: #000000;
 }
-
-.popup-icon {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  font-size: 20px;
+.container {
+  position: relative;
+  .popup-icon {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 20px;
+  }
 }
 .header {
   text-align: start;

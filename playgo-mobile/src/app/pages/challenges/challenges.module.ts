@@ -4,7 +4,8 @@ import { ChallengeCardComponent } from './challenge-card/challenge-card.componen
 import { DetailChallengenModalPage } from './challenge-card/detail-modal/detail.modal';
 import { ChallengeContainerComponent } from './challenge-container/challenge-container.component';
 import { ChallengesProposedCardComponent } from './challenges-proposed-card/challenges-proposed-card.component';
-import { InfoChallengeModalPage } from './challenges-proposed-card/info-challenge-modal/info-challenge.modal';
+import { InfoChallengeSingleModalPage } from './challenges-proposed-card/info-challenge-single-modal/info-challenge-single.modal';
+import { InfoChallengeGroupModalPage } from './challenges-proposed-card/info-challenge-group-modal/info-challenge-group.modal';
 import { ChallengesRoutingModule } from './challenges-routing.module';
 import { ChalengeSingleStatComponent } from './challenges-stat/challenge-single-stat/challenge-single-stat.component';
 import { ChallengesStatComponent } from './challenges-stat/challenges-stat.component';
@@ -32,7 +33,8 @@ import { SingleProposalModalPage } from './single-challenge-proposed/single-prop
     InvitationlModalPage,
     SingleProposalModalPage,
     SentInvitationlModalPage,
-    InfoChallengeModalPage,
+    InfoChallengeSingleModalPage,
+    InfoChallengeGroupModalPage,
     DetailChallengenModalPage,
     SingleProposalAcceptedModalPage
   ],

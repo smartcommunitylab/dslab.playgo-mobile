@@ -392,6 +392,15 @@ app-info-challenge {
     color: lightgray;
   }
 }
+app-info-challenge-group {
+  background-color: var(--ion-color-playgo);
+  a:link {
+    color: white;
+  }
+  a:visited {
+    color: lightgray;
+  }
+}
 .header-sticky {
   position: sticky;
   top: 8px;

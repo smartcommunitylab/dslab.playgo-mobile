@@ -6,7 +6,8 @@ import { ModalController, NavController } from '@ionic/angular';
 import { combineLatest, Observable, of, Subscription, switchMap } from 'rxjs';
 import { ChallengeService } from 'src/app/core/shared/services/challenge.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
-import { InfoChallengeModalPage } from './info-challenge-modal/info-challenge.modal';
+import { InfoChallengeSingleModalPage } from './info-challenge-single-modal/info-challenge-single.modal';
+import { InfoChallengeGroupModalPage } from './info-challenge-group-modal/info-challenge-group.modal';
 import { getImgChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
 
 @Component({
@@ -29,7 +30,7 @@ export class ChallengesProposedCardComponent implements OnInit, OnChanges {
     public challengeService: ChallengeService,
     private userService: UserService,
     private modalController: ModalController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sentInvitation$ = combineLatest([
@@ -58,9 +59,18 @@ export class ChallengesProposedCardComponent implements OnInit, OnChanges {
       `/pages/tabs/challenges/create-challenge/${campaign.campaign.campaignId}`
     );
   }
-  async openInfoChallenge() {
+  async openInfoChallengeSingle() {
     const modal = await this.modalController.create({
-      component: InfoChallengeModalPage,
+      component: InfoChallengeSingleModalPage,
+      cssClass: 'modal-challenge',
+      swipeToClose: true,
+    });
+    await modal.present();
+    await modal.onWillDismiss();
+  }
+  async openInfoChallengeGroup() {
+    const modal = await this.modalController.create({
+      component: InfoChallengeGroupModalPage,
       cssClass: 'modal-challenge',
       swipeToClose: true,
     });
