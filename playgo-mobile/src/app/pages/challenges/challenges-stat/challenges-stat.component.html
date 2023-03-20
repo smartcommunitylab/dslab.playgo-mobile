@@ -1,5 +1,7 @@
 <div class="header-margin">
-  <ion-item color="playgo" class="header-radius">
+  <ion-item color="playgo" class="header-radius" [ngStyle]="{
+    borderBottomColor: ' var(--ion-color-' + (selectedCampaign$ | async)?.campaign?.type+ ')'
+  }">
     <ion-label>{{ "challenges.stats.filter.campaign" | translate }}</ion-label>
     <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }" *ngIf="campaigns.length > 0; else noCampaigns"
       (ionChange)="campaignChangedSubject.next($any($event))" [value]="selectedCampaign$ | async">
