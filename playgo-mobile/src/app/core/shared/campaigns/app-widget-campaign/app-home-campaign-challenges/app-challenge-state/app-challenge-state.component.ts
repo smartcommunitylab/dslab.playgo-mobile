@@ -15,7 +15,7 @@ import { Challenge } from 'src/app/pages/challenges/challenges.page';
 })
 export class ChallengeStateComponent implements OnInit {
 
-  @Input() activeChallenges$: Observable<Challenge[]>;
+  @Input() activeUncompleteChallenges$: Observable<Challenge[]>;
   @Input() configureChallenges$: Observable<Challenge[]>;
   @Input() invitesChallenges$: Observable<Challenge[]>;
   @Input() canInvite$: Observable<boolean>;

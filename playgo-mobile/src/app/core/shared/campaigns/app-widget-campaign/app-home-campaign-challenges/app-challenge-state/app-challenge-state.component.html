@@ -1,5 +1,5 @@
 <div class="challenges-state">
-  <div *ngIf="(activeChallenges$ | async)?.length!==0" (click)="goToActiveChallenge($event)">
+  <div *ngIf="(activeUncompleteChallenges$ | async)?.length!==0" (click)="goToActiveChallenge($event)">
     <ion-avatar>
       <app-icon name="groupCompetitivePerformance" class="type-notif  icon-size-normal"></app-icon>
       <!-- <ion-badge color="danger">
@@ -8,7 +8,7 @@
 
     </ion-avatar>
     <div class="challenge-text">{{
-      'challenges.active'|translate: {active: (activeChallenges$ | async)?.length}
+      'challenges.active'|translate: {active: (activeUncompleteChallenges$ | async)?.length}
       }}</div>
   </div>
   <div *ngIf="(configureChallenges$| async)?.length!==0" (click)="goToConfigureChallenge($event)">
@@ -20,7 +20,8 @@
 
     </ion-avatar>
     <div class="challenge-text">{{
-      'challenges.configure'|translate: {configurable: (configureChallenges$|async)?.length+((canInvite$| async)?1:0)}
+      'challenges.configure'|translate: {configurable: (((configureChallenges$|async)?.length>0)?1:0)+((canInvite$|
+      async)?1:0)}
       }}</div>
   </div>
   <div *ngIf="(invitesChallenges$ | async)?.length!==0" (click)="goToInvitationsChallenge($event)">
