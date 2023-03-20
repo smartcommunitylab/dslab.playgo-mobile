@@ -62,7 +62,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
   statPeriodChangedSubject = new Subject<Period>();
   campaigns$ = this.challengeService.campaignsWithChallenges$;
   campaigns: PlayerCampaign[];
-  referenceDate = DateTime.local();
+  referenceDate = DateTime.local().minus({ weeks: 1 });
   periods = getPeriods(this.referenceDate);
   totalChallenges = 0;
   totalWon = 0;
