@@ -48,6 +48,9 @@ export class ChallengesPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+
+  }
+  ionViewWillEnter() {
     this.selectedSegment = 'activeChallenges';
     this.subSegment = this.activatedRoute.queryParams.subscribe(params => {
       if (params && params.selectedSegment) {
@@ -112,13 +115,15 @@ export class ChallengesPage implements OnInit, OnDestroy {
       }
     );
   }
-
   ngOnDestroy(): void {
-    this.subCampaignActiveChall.unsubscribe();
-    this.subCampaignCanInvite.unsubscribe();
-    this.subCampaignChall.unsubscribe();
-    this.subCampaignFutureChall.unsubscribe();
-    this.subSegment.unsubscribe();
+
+  }
+  ionViewDidLeave() {
+    this.subCampaignActiveChall?.unsubscribe();
+    this.subCampaignCanInvite?.unsubscribe();
+    this.subCampaignChall?.unsubscribe();
+    this.subCampaignFutureChall?.unsubscribe();
+    this.subSegment?.unsubscribe();
   }
 }
 
