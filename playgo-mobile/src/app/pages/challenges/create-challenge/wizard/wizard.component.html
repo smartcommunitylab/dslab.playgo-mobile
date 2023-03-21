@@ -13,16 +13,11 @@
     <ion-card-content>
       <div class="form-steps-container">
         <ng-container *ngFor="let step of steps; index as currentStepIndex">
-          <div
-            class="step-divider"
-            [class.first-step]="currentStepIndex === 0"
-          ></div>
-          <div
-            (click)="changeStep(currentStepIndex)"
-            class="step-bubble"
+          <div class="step-divider" [class.first-step]="currentStepIndex === 0"></div>
+          <div (click)="changeStep(currentStepIndex)" class="step-bubble"
+            [class.previous]=" currentStepIndex<selectedStepIndex"
             [class.step-current]="currentStepIndex === selectedStepIndex"
-            [class.last-step]="currentStepIndex === steps.length - 1"
-          >
+            [class.last-step]="currentStepIndex === steps.length - 1">
             {{ currentStepIndex + 1 }}
           </div>
         </ng-container>
@@ -32,35 +27,21 @@
       <ng-container [ngTemplateOutlet]="tmpl"></ng-container>
     </div> -->
       <div class="step-content-wrapper">
-        <ng-container
-          [ngTemplateOutlet]="templates[selectedStepIndex]"
-        ></ng-container>
+        <ng-container [ngTemplateOutlet]="templates[selectedStepIndex]"></ng-container>
       </div>
 
       <div style="display: flex" class="ion-justify-content-around">
-        <ion-button
-          *ngIf="backButton"
-          (click)="changeStep(selectedStepIndex - 1)"
-          [disabled]="selectedStepIndex === 0"
-          color="base"
-        >
+        <ion-button *ngIf="backButton" (click)="changeStep(selectedStepIndex - 1)" [disabled]="selectedStepIndex === 0"
+          color="base">
           {{ "wizard.back" | translate }}
         </ion-button>
 
-        <ion-button
-          (click)="changeStep(selectedStepIndex + 1)"
-          *ngIf="selectedStepIndex !== steps.length - 1"
-          [disabled]="selectedStep.validForNextStep !== true"
-          color="base"
-        >
+        <ion-button (click)="changeStep(selectedStepIndex + 1)" *ngIf="selectedStepIndex !== steps.length - 1"
+          [disabled]="selectedStep.validForNextStep !== true" color="base">
           {{ "wizard.next" | translate }}
         </ion-button>
-        <ion-button
-          (click)="finish.emit()"
-          *ngIf="selectedStepIndex === steps.length - 1"
-          [disabled]="selectedStep.validForNextStep !== true"
-          color="base"
-        >
+        <ion-button (click)="finish.emit()" *ngIf="selectedStepIndex === steps.length - 1"
+          [disabled]="selectedStep.validForNextStep !== true" color="base">
           {{ finishButtonLabel }}
         </ion-button>
       </div>

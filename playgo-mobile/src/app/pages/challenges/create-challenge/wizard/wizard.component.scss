@@ -64,7 +64,9 @@ $selected-bubble-increase: 2px;
     background: $selected-background;
     font-weight: bold;
   }
-
+  &.previous {
+    background-color: #fdfdaa;
+  }
   &.last-step {
     border-radius: 0;
   }
