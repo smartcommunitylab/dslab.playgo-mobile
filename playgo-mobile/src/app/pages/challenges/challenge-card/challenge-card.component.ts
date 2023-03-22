@@ -12,6 +12,7 @@ import { DetailChallengenModalPage } from './detail-modal/detail.modal';
 import { ModalController } from '@ionic/angular';
 import { getImgChallenge, getTypeStringChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
 import { TranslateService } from '@ngx-translate/core';
+import { RefresherService } from 'src/app/core/shared/services/refresher.service';
 
 @Component({
   selector: 'app-challenge-card',
@@ -28,7 +29,8 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
     public campaignService: CampaignService,
     private elementRef: ElementRef,
     private modalController: ModalController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private refresherService: RefresherService
   ) { }
   ngAfterViewInit() {
     //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
@@ -52,6 +54,10 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
     return this.translateService.instant(getTypeStringChallenge(type));
   }
   fillSurvey() {
+    Browser.addListener('browserFinished', () => {
+      //send refresh challenge event
+      this.refresherService.onRefresh(null);
+    });
     Browser.open({
       url: this.challenge.extUrl,
       windowName: '_system',
