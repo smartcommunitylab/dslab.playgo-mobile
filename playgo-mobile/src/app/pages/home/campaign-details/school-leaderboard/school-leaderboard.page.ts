@@ -287,7 +287,7 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
         labelKey: 'campaigns.leaderboard.period.this_week',
         from: this.toServerDate(referenceDate.startOf('week')),
         to: this.toServerDate(referenceDate),
-        default: false,
+        default: true,
       },
       {
         labelKey: 'campaigns.leaderboard.period.last_week',
@@ -295,7 +295,7 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
           referenceDate.startOf('week').minus({ weeks: 1 })
         ),
         to: this.toServerDate(referenceDate.startOf('week')),
-        default: true,
+        default: false,
       },
       {
         labelKey: 'campaigns.leaderboard.period.this_month',
