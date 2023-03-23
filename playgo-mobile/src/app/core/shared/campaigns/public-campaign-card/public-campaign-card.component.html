@@ -2,20 +2,21 @@
 <div>
   <ion-card class="ion-card" [ngClass]="campaign.type">
     <ion-card-header class="ion-no-padding">
-      <div class="header">
+      <div class="header" [ngClass]="campaign.type+'-effect'">
         <img [src]="bannerPath" alt="banner" class="banner" />
-        <div lines="none" class="header-title">
-          <ion-avatar style="margin: 2px" slot="end" [ngClass]="campaign.type">
-            <img [src]="imagePath" alt="image" />
-          </ion-avatar>
-          <ion-label>
-            <h3>{{ campaign.name | languageMap }}</h3>
-            <h4>
-              {{ campaign.dateFrom | localDate }} -
-              {{ campaign.dateTo | localDate }}
-            </h4>
-          </ion-label>
-        </div>
+        <ion-avatar style="margin: 2px" slot="end" [ngClass]="campaign.type">
+          <img [src]="imagePath" alt="image" />
+        </ion-avatar>
+        <ion-label>
+          <h3 [style.color]="'var(--ion-color-'+campaign.type+'-contrast'">{{ campaign.name | languageMap }}</h3>
+          <h4 [style.color]="'var(--ion-color-'+campaign.type+'-contrast'">
+            {{ campaign.dateFrom | localDate }} -
+            {{ campaign.dateTo | localDate }}
+          </h4>
+        </ion-label>
+        <!-- <div lines="none" class="header-title">
+          
+        </div> -->
       </div>
     </ion-card-header>
 
@@ -23,10 +24,7 @@
       <ion-row class="ion-align-items-center">
         <ion-col size="12">
           <ng-container *ngIf="campaign.description | languageMap; else noDesc">
-            <ion-card-content
-              class="card-ellipsis"
-              [innerHTML]="campaign.description | languageMap"
-            >
+            <ion-card-content class="card-ellipsis" [innerHTML]="campaign.description | languageMap">
             </ion-card-content>
           </ng-container>
           <ng-template #noDesc>
@@ -34,11 +32,8 @@
           </ng-template>
         </ion-col>
         <ion-col size="12" class="ion-text-center">
-          <ion-button
-            style="margin-left: 18px; margin-bottom: 6px"
-            (click)="joinCamp()"
-            [color]="campaign.type"
-            >{{ "join" | translate }}
+          <ion-button style="margin-left: 18px; margin-bottom: 6px" (click)="joinCamp()" [color]="campaign.type">{{
+            "join" | translate }}
           </ion-button>
         </ion-col>
       </ion-row>

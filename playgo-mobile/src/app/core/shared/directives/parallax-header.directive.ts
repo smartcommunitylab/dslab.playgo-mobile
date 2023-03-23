@@ -109,7 +109,13 @@ export class ParallaxDirective implements AfterContentInit {
       return false;
     }
     if (this.ionTitle) {
-      this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', '100px');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', '75px');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'overflow', 'hidden');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'white-space', 'normal');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'text-overflow', 'ellipsis');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'display', '-webkit-box');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, '-webkit-line-clamp', '2');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, '-webkit-box-orient', 'vertical');
     }
     if (this.ionButtons) {
       if (this.ionButtons.first?.el?.childNodes[0]) {
@@ -274,7 +280,7 @@ export class ParallaxDirective implements AfterContentInit {
     // this.renderer.setStyle(this.logoOverlay, 'opacity', op);
     this.renderer.setStyle(this.textDateOverlay, 'opacity', op);
     // this.renderer.setStyle(this.toolbarContainer, 'opacity', progress);
-    this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', ((1 - progress) * 100) + 'px');
+    this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', ((1 - progress) * 75) + 'px');
 
   }
   progressLayerBackground(progress: number) {
