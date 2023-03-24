@@ -239,7 +239,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
           y: {
             stacked: true,
             ticks: {
-              stepSize: 1,
+              stepSize: 1
             },
           },
         },
