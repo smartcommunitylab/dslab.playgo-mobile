@@ -64,11 +64,30 @@ export class CampaignStatComponent implements OnInit {
       groupMode: 'month',
       dateFrom: toServerDateOnly(DateTime.utc().minus({ month: 1 })),
       dateTo: toServerDateOnly(DateTime.utc()),
-    });
+    }).pipe(
+      map(challs => challs?.filter(chall => chall?.type !== 'survey')),
+      map(challs => challs?.map(chall => {
+        if (chall?.type !== 'groupCooperative' &&
+          chall?.type !== 'groupCompetitiveTime' &&
+          chall?.type !== 'groupCompetitivePerformance') { chall.type = 'single' }
+        return chall;
+      })),
+      map(challs => challs.reduce((acc, item) => {
+        const existItem = acc.find(({ type }) => item.type === type);
+        if (existItem) {
+          existItem.completed += item.completed;
+          existItem.failed += item.failed;
+        } else {
+          acc.push(item);
+        }
+        return acc;
+      }, [])),
+
+    );
     this.reportWeek$ = this.reportService.getGameStats(
       this.campaign?.campaignId,
       this.playerId,
-      toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+      toServerDateOnly(DateTime.utc().startOf('week')),
       toServerDateOnly(DateTime.utc())
     );
     this.reportTotal$ = this.reportService.getGameStats(

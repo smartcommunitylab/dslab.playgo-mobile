@@ -507,6 +507,12 @@
         "tracks": "tracks",
         "duration": "hours"
       },
+      "unitChart": {
+        "co2": "Kg",
+        "km": "Km",
+        "tracks": "",
+        "duration": "h"
+      },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
         "GL": "{{value}}",

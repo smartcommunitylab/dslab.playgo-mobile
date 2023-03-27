@@ -560,7 +560,7 @@
   "challenges": {
     "singleActivated": "Sfida attivata con successo!",
     "singleDesc": "Hai attivato una sfida singola per la settimana tra il {{from}} e il {{to}}",
-    "active": "Side attive : {{active}}",
+    "active": "Sfide attive : {{active}}",
     "configure": "Sfide configurabili: {{configurable}}",
     "invitations": "Inviti ricevuti: {{invites}}",
     "challenges": "Sfide",
