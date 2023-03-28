@@ -290,7 +290,7 @@ export class ChallengeService {
         challenges.filter(
           (challenge) =>
             challenge?.campaign?.campaignId === campaignId &&
-            challenge?.status < 100
+            !challenge?.success
         )
       ),
       map((challenges) => challenges.sort((a, b) => b.status - a.status)),
