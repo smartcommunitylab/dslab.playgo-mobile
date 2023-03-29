@@ -64,17 +64,17 @@ export class CreateChallengePage implements OnInit {
     map((availableChallenges) => {
       const all: Omit<ChallengeModelOptions, 'available'>[] = [
         {
-          challengeModelName: 'groupCompetitivePerformance',
-          availableFromLevel: 6,
+          challengeModelName: 'groupCooperative',
+          availableFromLevel: 4,
         },
         {
           challengeModelName: 'groupCompetitiveTime',
           availableFromLevel: 5,
         },
         {
-          challengeModelName: 'groupCooperative',
-          availableFromLevel: 4,
-        },
+          challengeModelName: 'groupCompetitivePerformance',
+          availableFromLevel: 6,
+        }
       ];
       const allWithAvailableInfo = all.map((challengeModel) => {
         const serverState = availableChallenges.find(
