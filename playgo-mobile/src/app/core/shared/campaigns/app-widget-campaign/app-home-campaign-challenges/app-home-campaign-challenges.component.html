@@ -4,7 +4,7 @@
   </app-active-challenge>
 </ng-container>
 <ng-container
-  *ngIf="(activeUncompleteChallenges$ | async)?.length!==0 || (configureChallenges$| async)?.length!==0 || (invitesChallenges$ | async)?.length!==0 ">
+  *ngIf="(activeUncompleteChallenges$ | async)?.length!==0 || (configureChallenges$| async)?.length!==0 || (invitesChallenges$ | async)?.length!==0|| (canInvite$ | async) ">
   <app-challenge-state [activeUncompleteChallenges$]="activeUncompleteChallenges$"
     [configureChallenges$]="configureChallenges$" [invitesChallenges$]="invitesChallenges$"
     [canInvite$]="canInvite$"></app-challenge-state>
