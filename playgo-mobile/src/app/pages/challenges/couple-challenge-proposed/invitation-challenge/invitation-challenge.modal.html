@@ -8,31 +8,26 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="3" class="ion-text-center">
-        <app-icon name="invitation" class="icon-size-big"></app-icon>
+  <ion-grid class="ion-margin">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="2">
+        <ion-avatar class="avatar">
+          <img [src]=" challenge.otherAttendeeData.avatar.url" title="{{ 'registration.avatar.title' | translate }}" />
+        </ion-avatar>
+        <app-icon [name]="(playerId$ | async) === challenge.proposerId?'invite':'invitation'"
+          class="icon-size-medium"></app-icon>
       </ion-col>
       <ion-col class="flex-center">
         <span class="title-challenge">{{typeChallenge}}</span>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col> Immagine sfidante</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col> Sfida/ sfidato</ion-col>
-    </ion-row>
-    <ion-row>
       <ion-col> <span class="desc-challenge">{{challenge?.challDesc|languageMap}} </span></ion-col>
     </ion-row>
   </ion-grid>
 
-
 </ion-content>
-
 <ion-footer>
   <ion-row *ngIf="(playerId$ | async) !== challenge.proposerId; else sentTemplate">
     <ion-col class="ion-text-center">
