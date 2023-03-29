@@ -572,9 +572,9 @@
     },
     "sent": "Invito inviato",
     "received": "Invito ricevuto",
-    "activate": "Accetta",
-    "reject": "Rifiuta",
-    "cancel": "Annulla",
+    "activate": "Accetta invito",
+    "reject": "Rifiuta invito",
+    "cancel": "Annulla invito",
     "ongoing": "Sfida in corso",
     "singleproposal": "Sfida singola",
     "proposed": "Sfide della prossima settimana",
@@ -645,8 +645,8 @@
         "default": "Sfida"
       },
       "description": {
-        "groupCompetitivePerformance": "Raggiungi un traguardo prima del tuo avversario!",
-        "groupCompetitiveTime": "Supera il tuo avversario su una metrica a scelta entro una settimana",
+        "groupCompetitivePerformance": "Supera il tuo avversario su una metrica a scelta entro una settimana",
+        "groupCompetitiveTime": "Raggiungi un traguardo prima del tuo avversario!",
         "groupCooperative": "Raggiungi un obiettivo collaborando con un altro giocatore."
       },
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"

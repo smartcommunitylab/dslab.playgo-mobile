@@ -645,8 +645,8 @@
         "default": "Challenge"
       },
       "description": {
-        "groupCompetitivePerformance": "Reach the target before your opponent!",
-        "groupCompetitiveTime": "Do more than your opponent in a week",
+        "groupCompetitivePerformance": "Do more than your opponent in a week",
+        "groupCompetitiveTime": "Reach the target before your opponent!",
         "groupCooperative": "Reach shared target with another player."
       },
       "disabled_until_level": "Challenge type disabled until level {{level}}!"
