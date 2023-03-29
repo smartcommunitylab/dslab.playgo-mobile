@@ -65,15 +65,15 @@ export class CreateChallengePage implements OnInit {
       const all: Omit<ChallengeModelOptions, 'available'>[] = [
         {
           challengeModelName: 'groupCompetitivePerformance',
-          availableFromLevel: 13,
+          availableFromLevel: 6,
         },
         {
           challengeModelName: 'groupCompetitiveTime',
-          availableFromLevel: 9,
+          availableFromLevel: 5,
         },
         {
           challengeModelName: 'groupCooperative',
-          availableFromLevel: 0,
+          availableFromLevel: 4,
         },
       ];
       const allWithAvailableInfo = all.map((challengeModel) => {
@@ -198,9 +198,9 @@ export class CreateChallengePage implements OnInit {
     private alertService: AlertService,
     private challengeService: ChallengeService,
     private modalController: ModalController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async onInvite() {
     console.log('Invite!');
