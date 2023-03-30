@@ -79,18 +79,30 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
     const { data } = await modal.onWillDismiss();
   }
   challengeEnded() {
-    if (
-      this.challenge?.status === 100 ||
-      this.challenge?.success === true ||
-      this.challenge?.otherAttendeeData?.status === 100
-    ) {
-      return true;
+    if (!this.isGroupCompetitivePerformance()) {
+      {
+        if (
+          this.challenge?.status === 100 ||
+          this.challenge?.success === true ||
+          this.challenge?.otherAttendeeData?.status === 100
+        ) {
+          return true;
+        }
+      }
     }
     return false;
   }
   challengeWon() {
-    if (this.challenge?.status === 100 || this.challenge.success === true) {
-      return true;
+    if (!this.isGroupCompetitivePerformance()) {
+      if (this.challenge?.status === 100 || this.challenge.success === true) {
+        return true;
+      }
+      else {
+        return this.challenge.success;
+      }
     }
+  }
+  private isGroupCompetitivePerformance() {
+    return this.challenge.type === 'groupCompetitivePerformance';
   }
 }
