@@ -69,6 +69,29 @@ export class ExternalControllerService {
   }
 
   /**
+   * deletePlayerSubscription
+   *
+   * @param playerId playerId
+   * @param campaignId campaignId
+   */
+  public deletePlayerSubscriptionUsingDELETE(args: {
+    playerId: string;
+    campaignId: string;
+  }): Observable<any> {
+    const { playerId, campaignId } = args;
+    return this.http.request<any>(
+      'delete',
+      environment.serverUrl.api + `/playandgo/api/ext/player/campaign/sub`,
+      {
+        params: removeNullOrUndefined({
+          playerId,
+          campaignId,
+        }),
+      }
+    );
+  }
+
+  /**
    * getCampaignPlacing
    *
    * @param campaignId campaignId

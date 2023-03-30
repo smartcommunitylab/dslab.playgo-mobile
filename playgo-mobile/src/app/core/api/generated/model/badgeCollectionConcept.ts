@@ -13,6 +13,7 @@ import { BadgeConcept } from './badgeConcept';
 
 export interface BadgeCollectionConcept {
   badgeEarned?: Array<BadgeConcept>;
+  hidden?: boolean;
   id?: string;
   name?: string;
 }

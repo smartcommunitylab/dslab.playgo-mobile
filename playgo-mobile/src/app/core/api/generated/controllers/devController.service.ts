@@ -90,6 +90,32 @@ export class DevControllerService {
   }
 
   /**
+   * revalidateTrack
+   *
+   * @param territoryId territoryId
+   * @param playerId playerId
+   * @param trackedInstanceId trackedInstanceId
+   */
+  public revalidateTrackUsingGET1(args: {
+    territoryId: string;
+    playerId: string;
+    trackedInstanceId: string;
+  }): Observable<any> {
+    const { territoryId, playerId, trackedInstanceId } = args;
+    return this.http.request<any>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/dev/track/revalidate`,
+      {
+        params: removeNullOrUndefined({
+          territoryId,
+          playerId,
+          trackedInstanceId,
+        }),
+      }
+    );
+  }
+
+  /**
    * subscribeAziendale
    *
    * @param campaignId campaignId

@@ -145,6 +145,29 @@ export class ConsoleControllerService {
   }
 
   /**
+   * modifyToCheck
+   *
+   * @param trackId trackId
+   * @param toCheck toCheck
+   */
+  public modifyToCheckUsingPUT(args: {
+    trackId: string;
+    toCheck: boolean;
+  }): Observable<any> {
+    const { trackId, toCheck } = args;
+    return this.http.request<any>(
+      'put',
+      environment.serverUrl.api + `/playandgo/api/console/track/check`,
+      {
+        params: removeNullOrUndefined({
+          trackId,
+          toCheck,
+        }),
+      }
+    );
+  }
+
+  /**
    * removeCampaignManager
    *
    * @param userName userName

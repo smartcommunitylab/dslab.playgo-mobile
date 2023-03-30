@@ -17,13 +17,13 @@ export interface Invitation {
 }
 export namespace Invitation {
   export type ChallengeModelNameEnum =
-    | 'groupCooperative'
+    | 'groupCompetitivePerformance'
     | 'groupCompetitiveTime'
-    | 'groupCompetitivePerformance';
+    | 'groupCooperative';
   export const ChallengeModelNameEnum = {
-    GroupCooperative: 'groupCooperative' as ChallengeModelNameEnum,
-    GroupCompetitiveTime: 'groupCompetitiveTime' as ChallengeModelNameEnum,
     GroupCompetitivePerformance:
       'groupCompetitivePerformance' as ChallengeModelNameEnum,
+    GroupCompetitiveTime: 'groupCompetitiveTime' as ChallengeModelNameEnum,
+    GroupCooperative: 'groupCooperative' as ChallengeModelNameEnum,
   };
 }
