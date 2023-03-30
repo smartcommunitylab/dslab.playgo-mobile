@@ -27,7 +27,7 @@
       ">
       <ion-icon class="popup-icon" name="information-circle-outline" (click)="openInfoChallengeGroup()"></ion-icon>
 
-      <p class="ion-text-center">
+      <p class="ion-text-center subtext-proposed">
         {{ "challenges.choose_or_configure" | translate }}
       </p>
       <app-create-challenge-button *ngIf="canInvite && (sentInvitation$ | async) === false" [campaign]="campaign"

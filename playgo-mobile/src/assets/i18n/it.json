@@ -10,14 +10,14 @@
   "notifications_title": "Notifiche",
   "discovercampaignbutton": "Scopri altre campagne",
   "leaderboard.title": "Classifica",
-  "green leaves": "ecoLeaves",
-  "bike aficionado": "Bike Trip Badge",
-  "sustainable life": "Zero Impact Badge",
-  "public transport aficionado": "Public Transport Badge",
-  "park and ride pioneer": "Park And Ride Badge",
-  "bike sharing pioneer": "Bike Sharing Badge",
-  "recommendations": "User Recommendation Badge",
-  "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "green leaves": "Badge ecoLeaves",
+  "bike aficionado": "Badge Viaggi in bici",
+  "sustainable life": "Badge Impatto zero",
+  "public transport aficionado": "Badge Trasporto pubblico",
+  "park and ride pioneer": "Badge Park And Ride ",
+  "bike sharing pioneer": "Badge Bike Sharing",
+  "recommendations": "Badge Raccomandazione utente",
+  "leaderboard top 3": "Badge Classifica",
   "appFooter": {
     "by": "By Fondazione Bruno Kessler",
     "version": "Versione {{version}}",
@@ -589,12 +589,12 @@
     "challenge_container": "Sfide {{ type }} di campagna",
     "info": {
       "title": "Sfide singole",
-      "body": "Ogni settimana puoi scegliere solo UNA sfida singola. <br> Una volta scelta una sfida, le alternative per quella tipologia di sfida scompaiono. <br> Quindi quando attivi una sfida singola, le altre possibili sfide singole proposte dal sistema scompaiono. <br> <br> Allo stesso modo, quando attivi una sfida di coppia, le alternative scompaiono. <br> <br> Ogni settimana si rinnovano le sfide proposte: a seconda del tuo livello, puoi ricevere fino a un massimo di 3 proposte di sfida singola.",
+      "body": "Ogni settimana puoi scegliere solo UNA sfida singola tra quelle proposte. <br> Una volta scelta una sfida, le alternative vengono automaticamente eliminate.",
       "close": "Chiudi"
     },
     "infogroup": {
       "title": "Sfide di coppia",
-      "body": "Ogni settimana puoi scegliere solo UNA sfida di coppia. <br> Una volta scelta una sfida, le alternative per quella tipologia di sfida scompaiono. <br> Quindi quando attivi una sfida di coppia,le altre possibili sfide di gruppo proposte dal sistema scompaiono. <br> <br> Accettare un invito equivale a scegliere una sfida di coppia. <br> <br> Quando qualcuno accetta un invito che hai inviato, la sfida di coppia per la settimana è automaticamente scelta. Tutte le altre sfide alternative scompaiono. <br> <br> Ogni settimana si rinnovano le sfide proposte: a seconda del tuo livello, puoi ricevere fino a un massimo di 3 inviti e puoi inviare fino a un massimo di 2 inviti.",
+      "body": "Ogni settimana puoi scegliere solo UNA sfida di coppia.  Puoi mandare un solo invito e riceverne 3.<br><br> Accettare un invito equivale a scegliere una sfida di coppia, altri inviti ricevuti/mandati vengono automaticamente annullati. <br> <br> Se il tuo invito viene accettato, la sfida viene automaticamente assegnata ad entrambi i partecipanti, eventuali inviti ricevuti vengono automaticamente annullati.",
       "close": "Chiudi"
     },
     "challenge_detail": {
@@ -617,8 +617,8 @@
       "singleChallengeLost": "persa"
     },
     "create": {
-      "configure": "Configura sfida",
-      "button_create": "Configura una nuova sfida",
+      "configure": "Sfida di coppia",
+      "button_create": "Clicca qui per creare la tua sfida!",
       "title": "Configura sfida",
       "choose_type": "Scegli tipologia di sfida",
       "choose_metric": "Scegli metrica di sfida",
@@ -632,7 +632,7 @@
         "you": "Tu"
       },
       "sent_title": "Hai invitato {{nickname}} ad una sfida di coppia",
-      "sent_body": "L’invito sarà visibile sull’app di {{nickname}}. Riceverai una notifica se {{nickname}} accetta o rifiuta la sfida. Nel caso non rispondesse entro il tempo massimo, la sfida sarà annullata. ",
+      "sent_body": "L’invito sarà visibile sull’app di {{nickname}}. Riceverai una notifica se {{nickname}} accetta o rifiuta la sfida. Nel caso non rispondesse entro il tempo massimo (venerdì ore 12), la sfida sarà annullata. ",
       "close": "Chiudi"
     },
     "challenge_model": {
@@ -664,7 +664,7 @@
       "pointconcept": {
         "Bike_Km": "Km in bici",
         "Walk_Km": "Km a piedi",
-        "green leaves": "Green Leaves"
+        "green leaves": "ecoLeaves"
       }
     }
   },
