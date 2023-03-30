@@ -290,6 +290,33 @@ export class PlayerTeamControllerService {
   }
 
   /**
+   * removePlayerFromTeam
+   *
+   * @param initiativeId initiativeId
+   * @param teamId teamId
+   * @param playerId playerId
+   */
+  public removePlayerFromTeamUsingDELETE(args: {
+    initiativeId: string;
+    teamId: string;
+    playerId: string;
+  }): Observable<any> {
+    const { initiativeId, teamId, playerId } = args;
+    return this.http.request<any>(
+      'delete',
+      environment.serverUrl.hscApi +
+      `/playandgo-hsc/api/initiatives/team/player`,
+      {
+        params: removeNullOrUndefined({
+          initiativeId,
+          teamId,
+          playerId,
+        }),
+      }
+    );
+  }
+
+  /**
    * saveInitiative
    *
    * @param initiativeId initiativeId
