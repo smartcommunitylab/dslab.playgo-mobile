@@ -632,7 +632,7 @@
         "you": "You"
       },
       "sent_title": "You have sent a challenge to {{nickname}}",
-      "sent_body": "The invitation will be visible to {{nickname}} for two days. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before 3 days the challenge will be rejected automatically. ",
+      "sent_body": "The invitation will be visible to {{nickname}}. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before the time limit the challenge will be rejected automatically. ",
       "close": "Close"
     },
     "challenge_model": {
