@@ -13,7 +13,7 @@
 <ion-content color="playgo">
   <form [formGroup]="joinCityForm" (ngSubmit)="joinCitySubmit()">
     <ion-grid>
-      <ion-row class="ion-margin-top">
+      <ion-row class="ion-margin-top" *ngIf="!isAlreadySubscribed()">
         <ion-col>
           <ion-item lines="full" color="playgo">
             <ion-label position="floating">{{'campaigns.joinmodal.raccomandation'|translate}}</ion-label>

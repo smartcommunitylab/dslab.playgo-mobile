@@ -268,6 +268,7 @@ export class CampaignService {
         map((res) => {
           this.subscribeCampaignAction$.next(id);
           this.playerCampaignSubscribed$.next(null);
+          this.refresherService.onRefresh(null);
           return res;
         })
       );
@@ -278,6 +279,7 @@ export class CampaignService {
       map((res) => {
         this.unsubscribeCampaignAction$.next(id);
         this.playerCampaignUnSubscribed$.next(null);
+        this.refresherService.onRefresh(null);
         return res;
       })
     );

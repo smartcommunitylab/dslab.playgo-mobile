@@ -6,7 +6,7 @@ import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { UserService } from 'src/app/core/shared/services/user.service';
+import { User, UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
   selector: 'app-join-city',
@@ -20,6 +20,7 @@ export class JoinCityModalPage implements OnInit {
   rules: any;
   isSubmitted = false;
   language: string;
+  profile: User;
 
   constructor(
     private modalController: ModalController,
@@ -48,7 +49,9 @@ export class JoinCityModalPage implements OnInit {
   close() {
     this.modalController.dismiss(false);
   }
-
+  isAlreadySubscribed() {
+    return this.profile?.personalData?.registeredIds?.includes(this.campaign?.campaignId);
+  }
   openPrivacyPopup() {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.privacyPopup.header' as any,

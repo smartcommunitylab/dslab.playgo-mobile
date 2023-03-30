@@ -247,6 +247,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       componentProps: {
         campaign,
         language,
+        profile: this.profile
       },
       cssClass: 'modalConfirm',
       swipeToClose: true,
