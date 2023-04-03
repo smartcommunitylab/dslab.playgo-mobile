@@ -187,7 +187,7 @@ export class CampaignService {
         present: false,
       },
       prizes: {
-        present: true,
+        present: false,
       },
       leaderboard: {
         present: false,

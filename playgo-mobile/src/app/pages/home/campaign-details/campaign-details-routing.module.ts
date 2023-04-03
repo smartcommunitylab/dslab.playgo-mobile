@@ -30,6 +30,11 @@ const routes: RoutesWithPageSettings = [
       ),
   },
   {
+    path: 'prizes',
+    loadChildren: () =>
+      import('./prizes/prizes.module').then((m) => m.PrizesPageModule),
+  },
+  {
     path: 'stats',
     loadChildren: () =>
       import('./stats/stats.module').then((m) => m.StatsPageModule),

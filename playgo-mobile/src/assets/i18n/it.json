@@ -382,6 +382,8 @@
       "signal": "Contatta il supporto",
       "unsubscribe": "Abbandona la campagna",
       "prizes": "Premi",
+      "from": "Dal ",
+      "to": "al",
       "dateFrom": "Inizio: ",
       "dateTo": "Fine: ",
       "challenges": "Sfide",

@@ -52,6 +52,7 @@ import { find } from 'lodash-es';
   styleUrls: ['./campaign-details.page.scss'],
 })
 export class CampaignDetailsPage implements OnInit, OnDestroy {
+
   id: string;
   campaignContainer?: PlayerCampaign;
   imagePath: SafeResourceUrl;
