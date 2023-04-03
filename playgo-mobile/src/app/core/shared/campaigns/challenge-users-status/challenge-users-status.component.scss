@@ -9,6 +9,10 @@ ion-avatar {
   }
   padding: 4px;
 }
+ion-icon {
+  width: 30px;
+  height: 30px;
+}
 .arrow-up {
   width: 0;
   height: 0;
@@ -28,6 +32,10 @@ ion-avatar {
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
 }
 .value-style {
   font-style: normal;
