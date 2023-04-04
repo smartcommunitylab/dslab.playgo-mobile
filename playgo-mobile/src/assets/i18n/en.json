@@ -382,8 +382,14 @@
       "signal": "Help and support",
       "unsubscribe": "Leave the campaign",
       "prizes": "Prizes",
-      "from": "Dal ",
-      "to": "al",
+      "prize": {
+        "title": "Prizes",
+        "desc": "The first prize will be awarded by right to the first player in the weekly eco-leaves ranking while the other prizes will be drawn at random among the top 50 classified players. Check the rules to find out which players can compete for the weekly prizes, such as cases of equality and other details on assignment methods and times are managed."
+      },
+      "from": "From ",
+      "to": "to",
+      "info": "Prizes information",
+      "current": "On going",
       "dateFrom": "From: ",
       "dateTo": "To: ",
       "challenges": "Challenges",

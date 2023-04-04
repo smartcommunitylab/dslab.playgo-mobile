@@ -1,10 +1,37 @@
 ion-card-title {
   font-size: 16px;
   font-weight: 300;
+  display: flex;
+  justify-content: space-between;
 }
 ion-card-content {
   .prize {
     font-weight: 700;
+  }
+  .info-prize {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    ion-icon {
+      font-size: 22px;
+      margin: 6px;
+    }
+  }
+  ion-grid {
+    ion-row {
+      ion-col {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        ion-icon {
+          margin: auto;
+          font-size: 30px;
+        }
+      }
+      ion-col:first-child {
+        text-align: center;
+      }
+    }
   }
 }
 
@@ -16,4 +43,10 @@ ion-card-content {
 }
 .bronze {
   color: chocolate;
+}
+.active {
+  background-color: gold;
+}
+.on-going {
+  font-style: italic;
 }
