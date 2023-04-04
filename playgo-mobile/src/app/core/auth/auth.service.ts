@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { PlayerControllerService } from '../api/generated/controllers/playerController.service';
 import { AlertService } from '../shared/services/alert.service';
 import { LocalStorageService } from '../shared/services/local-storage.service';
+import { PushNotificationService } from '../shared/services/notifications/pushNotification.service';
 import { SpinnerService } from '../shared/services/spinner.service';
 import { BackgroundTrackingService } from '../shared/tracking/background-tracking.service';
 
@@ -163,7 +164,6 @@ export class AuthService {
     if (backgroundTrackingService) {
       await backgroundTrackingService.clearPluginData();
     }
-
     // clear local state stored in variables of all services. By doing
     // hard page reload.
     location.replace('login');
