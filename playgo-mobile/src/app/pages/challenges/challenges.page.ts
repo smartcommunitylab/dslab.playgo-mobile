@@ -66,10 +66,6 @@ export class ChallengesPage implements OnInit, OnDestroy {
       });
     this.subCampaignActiveChall =
       this.challengeService.activeChallenges$.subscribe((challenges) => {
-        // this.activeChallenges = challenges.reduce(
-        //   (result, item) => ({ ...result, [item.campaign.campaignId]: item }),
-        //   {}
-        // );
         this.activeChallenges = challenges.reduce(
           (result: any, a) => (
             (result[a.campaign.campaignId] =

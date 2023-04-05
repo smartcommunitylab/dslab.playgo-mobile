@@ -23,7 +23,7 @@
                     ? 'arrow-up'
                     : 'arrow-down'
                 ]"></div>
-            </ion-col><ion-col class="ion-text-start" size="11"><span class="ion-margin-start nickname-style">{{
+            </ion-col><ion-col class="ion-text-start"><span class="ion-margin-start nickname-style">{{
                 (profile$ | async)?.nickname
                 }}</span></ion-col></ion-row><ion-row
             *ngIf="status !== null && !isHome() && !isGroupCompetitivePerformance() && !isFuture()"
@@ -38,7 +38,7 @@
       <ion-col>
         <ion-grid *ngIf="otherUser" class="ion-no-padding">
           <ion-row class="ion-text-end ion-align-items-center">
-            <ion-col class="ion-text-end" size="11"> <span class="ion-margin-end nickname-style">{{ otherUser?.nickname
+            <ion-col class="ion-text-end"> <span class="ion-margin-end nickname-style">{{ otherUser?.nickname
                 }}</span></ion-col><ion-col size="1" *ngIf="isCompetitive() && !isFuture()" [ngClass]="
                 isHome()?'ion-margin-end':''">
               <div [ngClass]="[
