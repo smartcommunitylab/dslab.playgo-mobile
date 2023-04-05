@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { DateTime, Interval } from 'luxon';
 import { Observable, map, shareReplay, Subscription } from 'rxjs';
+import { CampaignWeekConf } from 'src/app/core/api/generated/model/campaignWeekConf';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
@@ -19,6 +20,7 @@ import { PrizeModalPage } from './prize-modal/prize.modal';
   styleUrls: ['./prizes.page.scss'],
 })
 export class PrizesPage implements OnInit, OnDestroy {
+
   campaignId$: Observable<string> = this.route.params.pipe(
     map((params) => params.id),
     shareReplay(1)
@@ -28,6 +30,7 @@ export class PrizesPage implements OnInit, OnDestroy {
   subCampaign: Subscription;
   campaignContainer: PlayerCampaign;
   id: string;
+  dateTimeToCheck = DateTime.utc();
   constructor(
     private route: ActivatedRoute,
     private pageSettingsService: PageSettingsService,
@@ -65,8 +68,7 @@ export class PrizesPage implements OnInit, OnDestroy {
   }
   isThisPeriod(dateFrom: number, dateTo: number): boolean {
     const interval = Interval.fromDateTimes(DateTime.fromMillis(dateFrom), DateTime.fromMillis(dateTo));
-    let dateTimeToCheck = DateTime.utc();
-    return interval.contains(dateTimeToCheck);
+    return interval.contains(this.dateTimeToCheck);
   }
   private changePageSettings() {
     this.pageSettingsService.set({
@@ -80,12 +82,15 @@ export class PrizesPage implements OnInit, OnDestroy {
   async openPrize() {
     const modal = await this.modalController.create({
       component: PrizeModalPage,
-      cssClass: 'modalConfirm',
+      cssClass: 'challenge-info',
 
     });
     await modal.present();
     await modal.onWillDismiss();
   }
 
+  isBeforeNow(conf: CampaignWeekConf): any {
+    return DateTime.fromMillis(conf?.dateFrom) < this.dateTimeToCheck;
+  }
 }
 

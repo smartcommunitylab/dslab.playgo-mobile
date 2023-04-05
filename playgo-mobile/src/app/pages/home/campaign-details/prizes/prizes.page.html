@@ -1,8 +1,9 @@
 <ion-header appHeader></ion-header>
 <ion-content appContent [fullscreen]="true">
   <ng-container *ngFor="let conf of this.campaignContainer?.campaign?.weekConfs">
-    <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom  && conf?.dateTo">
-      <ion-card-header [ngClass]="{'active':isThisPeriod(conf?.dateFrom,conf?.dateTo)}">
+    <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom  && conf?.dateTo && isBeforeNow(conf)">
+      <ion-card-header
+        [ngClass]="{'active':isThisPeriod(conf?.dateFrom,conf?.dateTo),'not-active':!isThisPeriod(conf?.dateFrom,conf?.dateTo)}">
         <ion-card-title><span>{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
             {{"campaigns.detail.to"|translate}} {{conf.dateTo|localDate}}</span><span
             *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)"
@@ -28,7 +29,7 @@
             </ion-grid>
           </ion-item>
         </ion-list>
-        <div class="info-prize">
+        <div class="info-prize" *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)">
           <span>{{"campaigns.detail.info"|translate}}</span>
           <ion-icon name="information-circle-outline" (click)="openPrize()"></ion-icon>
         </div>

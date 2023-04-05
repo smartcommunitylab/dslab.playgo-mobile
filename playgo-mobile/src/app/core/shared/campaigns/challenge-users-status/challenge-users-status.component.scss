@@ -3,7 +3,7 @@ ion-avatar {
   height: 10vw;
   margin: auto;
   img {
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 50% !important;
     border: lightgray solid 1px;
   }

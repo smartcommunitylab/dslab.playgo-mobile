@@ -252,7 +252,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
         from: this.toServerDate(
           referenceDate.startOf('week').minus({ weeks: 1 })
         ),
-        to: this.toServerDate(referenceDate.startOf('week')),
+        to: this.toServerDate(referenceDate.startOf('week').minus({ weeks: 1 }).endOf('week')),
         default: false,
       },
       {
