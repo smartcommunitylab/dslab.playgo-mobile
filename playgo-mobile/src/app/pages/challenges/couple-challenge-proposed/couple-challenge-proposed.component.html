@@ -1,10 +1,11 @@
 <ion-card (click)="openInvitationPopup()">
   <ion-card-header class="header" [color]="campaign.campaign.type">
+
     <span>
       {{
       (playerId$ | async) === challenge.proposerId
-      ? ("challenges.sent" | translate)
-      : ("challenges.received" | translate)
+      ? ("challenges.sent" | translate: {nickname: challenge.otherAttendeeData.nickname})
+      : ("challenges.received" | translate: {nickname: challenge.otherAttendeeData.nickname})
       }}
     </span>
   </ion-card-header>

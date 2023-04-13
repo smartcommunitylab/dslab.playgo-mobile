@@ -578,8 +578,8 @@
       "title": "Challenge details",
       "close": "Close"
     },
-    "sent": "Sent",
-    "received": "Received",
+    "sent": "Invitation sent to {{nickame}}",
+    "received": "Invitation received from {{nickame}}",
     "activate": "Accept",
     "reject": "Reject",
     "cancel": "Cancel",

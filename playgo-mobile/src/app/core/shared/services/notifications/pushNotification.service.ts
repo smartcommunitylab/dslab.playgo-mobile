@@ -27,6 +27,7 @@ import {
 } from 'rxjs';
 import { CommunicationAccountControllerService } from '../../../api/generated/controllers/communicationAccountController.service';
 import { NotificationModalPage } from '../../notification-modal/notification.modal';
+import { RefresherService } from '../refresher.service';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +47,8 @@ export class PushNotificationService {
     private communicationAccountControllerService: CommunicationAccountControllerService,
     private userService: UserService,
     private modalController: ModalController,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private refresherService: RefresherService
   ) { }
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
@@ -110,6 +112,7 @@ export class PushNotificationService {
           console.log('Push received: ' + JSON.stringify(notification));
           this.notifications.push(notification);
           this.showLastNotification(notification);
+          this.refresherService.onRefresh(null);
         });
       }
     );

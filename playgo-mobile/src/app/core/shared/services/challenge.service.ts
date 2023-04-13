@@ -268,7 +268,7 @@ export class ChallengeService {
       this.proposedChallenges$,
     ]).pipe(
       switchMap(([profile, caninvites, challenges]) =>
-        //filter by campaign id challenges proposed and if I can invite number of proposed (no invites) so 
+        //filter by campaign id challenges proposed and if I can invite number of proposed (no invites) so
         //  challenge.proposerId == something and sendinvites is true
         of(challenges.filter(
           (challenge) => challenge?.campaign?.campaignId === campaignId
@@ -367,17 +367,19 @@ export class ChallengeService {
     this.challengesChangedSubject.next();
     return response;
   }
-  public rejectChallenge(
+  public async rejectChallenge(
     campaign: PlayerCampaign,
     challenge: Challenge
   ): Promise<any> {
-    return this.challengeControllerService
+    const res = await this.challengeControllerService
       .changeInvitationStatusUsingPOST({
         campaignId: campaign.campaign.campaignId,
         challengeId: challenge.challId,
         status: 'refuse',
       })
       .toPromise();
+    this.challengesChangedSubject.next(null);
+    return res;
   }
   public async cancelChallenge(
     campaign: PlayerCampaign,
