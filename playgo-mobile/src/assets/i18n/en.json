@@ -621,8 +621,14 @@
       },
       "totalChallenges": "{{totalChallenges}} challenges",
       "totalWon": "{{totalWon}} won",
-      "singleChallengeWin": "won",
-      "singleChallengeLost": "lost"
+      "singleChallengeWin": {
+        "single": "won",
+        "plural": "won"
+      },
+      "singleChallengeLost": {
+        "single": "lost",
+        "plural": "lost"
+      }
     },
     "create": {
       "configure": "Configure challenge",

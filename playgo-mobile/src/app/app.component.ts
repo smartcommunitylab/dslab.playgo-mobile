@@ -140,6 +140,7 @@ export class AppComponent implements AfterContentInit {
         '../assets/images/challenges/groupCompetitiveTime.svg',
       groupCooperative: '../assets/images/challenges/groupCooperative.svg',
       default: '../assets/images/challenges/default.svg',
+      listCircle: '../assets/images/challenges/list-circle-outline.svg'
     };
     this.iconService.registerSvgIcons(icons);
   }

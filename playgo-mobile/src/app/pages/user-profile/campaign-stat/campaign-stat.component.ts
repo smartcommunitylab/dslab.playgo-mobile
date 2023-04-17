@@ -69,7 +69,7 @@ export class CampaignStatComponent implements OnInit {
       map(challs => challs?.map(chall => {
         if (chall?.type !== 'groupCooperative' &&
           chall?.type !== 'groupCompetitiveTime' &&
-          chall?.type !== 'groupCompetitivePerformance') { chall.type = 'single' }
+          chall?.type !== 'groupCompetitivePerformance') { chall.type = 'single'; }
         return chall;
       })),
       map(challs => challs.reduce((acc, item) => {

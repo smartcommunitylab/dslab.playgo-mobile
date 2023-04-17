@@ -10,6 +10,7 @@ export function getImgChallenge(challengeType: string) {
   ) {
     return challengeType;
   }
+  if ('survey' === challengeType) { return 'listCircle'; }
   return 'default';
 }
 export function getTypeStringChallenge(challengeType: string) {

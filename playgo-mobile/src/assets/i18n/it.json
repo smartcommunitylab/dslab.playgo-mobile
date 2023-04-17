@@ -621,8 +621,14 @@
       },
       "totalChallenges": "{{totalChallenges}} sfide",
       "totalWon": "{{totalWon}} vinte",
-      "singleChallengeWin": "vinte",
-      "singleChallengeLost": "persa"
+      "singleChallengeWin": {
+        "single": "vinta",
+        "plural": "vinte"
+      },
+      "singleChallengeLost": {
+        "single": "persa",
+        "plural": "perse"
+      }
     },
     "create": {
       "configure": "Sfida di coppia",
