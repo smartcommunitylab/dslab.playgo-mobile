@@ -11,7 +11,7 @@ import { NotificationService } from 'src/app/core/shared/services/notifications/
 export class NotificationsPage implements OnInit, OnDestroy {
   subNotification: Subscription;
   notifications: Notification[];
-  constructor(private notificationService: NotificationService) {}
+  constructor(private notificationService: NotificationService) { }
 
   ngOnInit() {
     console.log('ngOnInit');
@@ -25,6 +25,8 @@ export class NotificationsPage implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
+  }
+  ionViewDidLeave() {
     this.subNotification.unsubscribe();
   }
 }

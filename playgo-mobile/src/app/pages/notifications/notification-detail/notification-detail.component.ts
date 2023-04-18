@@ -5,6 +5,7 @@ import {
   OnInit,
   Renderer2,
   AfterViewInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { Notification } from 'src/app/core/api/generated/model/notification';
@@ -15,6 +16,7 @@ import { NotificationService } from 'src/app/core/shared/services/notifications/
   selector: 'app-notification-detail',
   templateUrl: './notification-detail.component.html',
   styleUrls: ['./notification-detail.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NotificationDetailComponent implements OnInit, AfterViewInit {
   @Input()
@@ -27,7 +29,7 @@ export class NotificationDetailComponent implements OnInit, AfterViewInit {
     private elementRef: ElementRef,
     private modalController: ModalController,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // console.log(this.notification);

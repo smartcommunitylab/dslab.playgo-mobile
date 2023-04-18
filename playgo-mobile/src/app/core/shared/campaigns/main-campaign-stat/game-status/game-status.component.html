@@ -4,17 +4,23 @@
       <ion-col size="8">
         <span class="level-name" [innerHtml]="
             'campaigns.homewidgets.stat.levelName'
-              | translate: { levelName: status?.levels[0]?.levelValue }
+              | translate: { levelIndex: status?.levels[0]?.levelIndex, levelName: status?.levels[0]?.levelValue }
           "></span>
       </ion-col>
       <ion-col size="4">
-        <span class="score">{{status?.levels[0]?.toNextLevel}} <app-icon [name]="getIcon()"></app-icon>
+        <span class="score" *ngIf="status?.levels[0]?.toNextLevel>0">{{status?.levels[0]?.toNextLevel}} <app-icon
+            [name]="getIcon()"></app-icon>
           {{'campaigns.homewidgets.stat.score'|
           translate}}</span>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="progress-bar">
+  <div class="progress-bar" *ngIf="status?.levels[0]?.toNextLevel>0; else topScore">
     <ion-progress-bar class="level-bar" [color]="type" [value]="getValueScore()"></ion-progress-bar>
   </div>
+  <ng-template #topScore>
+    <div class="max">
+      {{'campaigns.homewidgets.stat.maxscore'|translate}}
+    </div>
+  </ng-template>
 </div>

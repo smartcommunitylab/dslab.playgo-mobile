@@ -3,11 +3,15 @@ ion-avatar {
   height: 10vw;
   margin: auto;
   img {
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 50% !important;
     border: lightgray solid 1px;
   }
   padding: 4px;
+}
+ion-icon {
+  width: 30px;
+  height: 30px;
 }
 .arrow-up {
   width: 0;
@@ -23,4 +27,18 @@ ion-avatar {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 5px solid #f00;
+}
+.nickname-style {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+.value-style {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 15px;
 }

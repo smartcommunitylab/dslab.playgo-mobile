@@ -18,6 +18,7 @@ export interface Player {
   language?: string;
   mail?: string;
   nickname?: string;
+  personalData?: any;
   playerId?: string;
   sendMail?: boolean;
   territoryId?: string;

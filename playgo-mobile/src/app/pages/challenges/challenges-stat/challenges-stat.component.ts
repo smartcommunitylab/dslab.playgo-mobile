@@ -62,7 +62,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
   statPeriodChangedSubject = new Subject<Period>();
   campaigns$ = this.challengeService.campaignsWithChallenges$;
   campaigns: PlayerCampaign[];
-  referenceDate = DateTime.local();
+  referenceDate = DateTime.local().minus({ weeks: 1 });
   periods = getPeriods(this.referenceDate);
   totalChallenges = 0;
   totalWon = 0;
@@ -119,7 +119,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
     private errorService: ErrorService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
-      this.stats = stats;
+      this.stats = this.groupStat(stats);
       this.setChart(stats);
       this.setTotal(stats);
     });
@@ -129,6 +129,42 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
         detail: { value: campaigns[0] },
       } as SelectCustomEvent<PlayerCampaign>);
     });
+  }
+  groupStat(stats: ChallengeStatsInfo[]): ChallengeStatsInfo[] {
+    const holder: any = {};
+    stats.forEach((d) => {
+      //check even the type if is not group or survey put everything in the same
+      if (d?.type !== 'groupCooperative' &&
+        d?.type !== 'groupCompetitiveTime' &&
+        d?.type !== 'groupCompetitivePerformance' && d?.type !== 'survey') {
+        d.type = 'single';
+      }
+      if (holder.hasOwnProperty(d.type)) {
+        holder[d.type].completed = holder[d.type].completed + d.completed;
+        holder[d.type].failed = holder[d.type].failed + d.failed;
+      } else {
+        holder[d.type] = {};
+        holder[d.type].completed = d.completed;
+        holder[d.type].failed = d.failed;
+      }
+    });
+    const obj2: ChallengeStatsInfo[] = [];
+    // eslint-disable-next-line guard-for-in
+    for (const prop in holder) {
+      obj2.push({ type: prop, completed: holder[prop].completed, failed: holder[prop].failed });
+    }
+    return obj2;
+    //   //group stat if not know type
+    //   let returnStats: ChallengeStatsInfo[] = [];
+    //   stats.forEach(stat => {
+    //     if (stat.type !== 'groupCooperative' &&
+    //       stat?.type !== 'groupCompetitiveTime' &&
+    //       stat?.type !== 'groupCompetitivePerformance' && stat?.type!== 'survey') {
+    //         returnStats
+    //       }
+    // })
+    // }
+    //   return returnStats;
   }
   setTotal(stats: ChallengeStatsInfo[]) {
     this.totalChallenges = stats
@@ -239,7 +275,7 @@ export class ChallengesStatComponent implements OnInit, OnDestroy {
           y: {
             stacked: true,
             ticks: {
-              stepSize: 1,
+              stepSize: 1
             },
           },
         },

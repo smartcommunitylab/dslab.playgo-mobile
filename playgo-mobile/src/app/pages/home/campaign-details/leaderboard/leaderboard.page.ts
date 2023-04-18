@@ -245,14 +245,14 @@ export class LeaderboardPage implements OnInit, OnDestroy {
         labelKey: 'campaigns.leaderboard.period.this_week',
         from: this.toServerDate(referenceDate.startOf('week')),
         to: this.toServerDate(referenceDate),
-        default: false,
+        default: true,
       },
       {
         labelKey: 'campaigns.leaderboard.period.last_week',
         from: this.toServerDate(
           referenceDate.startOf('week').minus({ weeks: 1 })
         ),
-        to: this.toServerDate(referenceDate.startOf('week')),
+        to: this.toServerDate(referenceDate.startOf('week').minus({ weeks: 1 }).endOf('week')),
         default: false,
       },
       {
@@ -268,7 +268,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
         // maybe it is not such deal, "All Time" leaderboard will not change so rapidly.
         from: null, //this.toServerDate(minusInfDate),
         to: null, //this.toServerDate(referenceDate),
-        default: true,
+        default: false,
       },
     ];
   }

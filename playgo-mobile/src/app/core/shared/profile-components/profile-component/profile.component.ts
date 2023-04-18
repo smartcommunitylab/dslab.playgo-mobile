@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private errorService: ErrorService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.subProf = this.userService.userProfile$.subscribe((profile) => {
@@ -52,7 +52,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.numMyCampaigns = myCampaigns?.length;
         this.activeFrom = myCampaigns?.find(
           (camp) => camp.campaign?.type === 'personal'
-        ).subscription?.registrationDate;
+        )?.subscription?.registrationDate;
       }
     );
   }

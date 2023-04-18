@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title>{{ 'challenges.infogroup.title'| translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding" color="playgo">
+  <div [innerHTML]="'challenges.infogroup.body'|translate">
+  </div>
+</ion-content>
+<ion-footer color="playgo">
+  <ion-button color="light" expand="block" (click)="close()">{{'challenges.info.close'|translate}}</ion-button>
+</ion-footer>

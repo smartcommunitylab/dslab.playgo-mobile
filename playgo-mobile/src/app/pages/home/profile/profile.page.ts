@@ -24,6 +24,7 @@ import { mapTo } from 'src/app/core/shared/rxjs.utils';
 import { AppStatusService } from 'src/app/core/shared/services/app-status.service';
 import { DeleteModalPage } from './delete-modal/deleteModal.component';
 import { TranslateService } from '@ngx-translate/core';
+import { PushNotificationService } from 'src/app/core/shared/services/notifications/pushNotification.service';
 
 @Component({
   selector: 'app-profile',
@@ -56,7 +57,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     private modalController: ModalController,
     public appStatusService: AppStatusService,
     private alertController: AlertController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private pushNotificationService: PushNotificationService
   ) { }
 
   ngOnInit() {
@@ -67,6 +69,8 @@ export class ProfilePage implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
+  }
+  ionViewDidLeave() {
     this.subProf.unsubscribe();
   }
 
@@ -92,7 +96,10 @@ export class ProfilePage implements OnInit, OnDestroy {
     });
   }
   openSupport() {
-    window.open('mailto:' + environment.support.email);
+    window.open('mailto:' + environment.support.email +
+      '?subject=Play%26go%20Supporto&body=-----------NON CANCELLARE-----------%0D%0A%0D%0AterritoryId: ' +
+      this.profile.territoryId + '%0D%0AplayerId: ' +
+      this.profile.playerId + '%0D%0A%0D%0A-----SCRIVI IL TUO MESSAGGIO QUI SOTTO----');
   }
 
   async openAbout() {
@@ -132,6 +139,7 @@ export class ProfilePage implements OnInit, OnDestroy {
             id: 'confirm-button',
             handler: () => {
               this.authService.logout();
+              this.pushNotificationService.unregisterToTopics();
             },
           },
         ],

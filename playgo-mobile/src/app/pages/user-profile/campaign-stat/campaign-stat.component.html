@@ -34,7 +34,7 @@
                 }}
               </div>
               <div>
-                <app-ordinal-number [value]="(reportWeek$ | async)?.position"></app-ordinal-number>
+                <app-ordinal-number [value]="(reportTotal$ | async)?.position"></app-ordinal-number>
 
                 {{
                 "userprofile.general_position"
@@ -85,7 +85,7 @@
                       class="challenge-icon icon-size-normal"></app-icon>
                     <b> {{ challengeType.completed + challengeType.failed }} </b>
                     {{ typeChallenge(challengeType.type) }}:
-                    <b>{{
+                    <b> {{
                       "userprofile.won"
                       | translate: { won: challengeType.completed }
                       }}</b>

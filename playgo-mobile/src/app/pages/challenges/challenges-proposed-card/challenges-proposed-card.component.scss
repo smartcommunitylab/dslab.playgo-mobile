@@ -3,17 +3,36 @@ ion-card-title {
 }
 .text-proposed {
   text-align: center;
-  font-weight: bold;
+  font-style: normal;
+  font-weight: 600;
   font-size: 18px;
+  text-align: center;
+  color: #000000;
 }
-.popup-icon {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  font-size: 20px;
+.subtext-proposed {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  color: #000000;
+}
+.container {
+  position: relative;
+  .popup-icon {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 20px;
+  }
 }
 .header {
-  padding: 2px;
-  text-align: right;
+  text-align: start;
+  padding: 4px;
   font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  span {
+    margin-left: 18px;
+  }
 }

@@ -19,6 +19,8 @@ import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameSta
 import { TransportStat } from 'src/app/core/api/generated-hsc/model/transportStat';
 import { getTransportTypeIcon, getTransportTypeLabel } from 'src/app/core/shared/tracking/trip.model';
 import { TeamMember } from 'src/app/core/api/generated-hsc/model/teamMember';
+import { toServerDateOnly } from 'src/app/core/shared/time.utils';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-team-profile',
@@ -88,7 +90,13 @@ export class TeamProfilePage implements OnInit {
     this.teamId$, this.initiativeId$
   ]).pipe(
     switchMap(([teamId, initiativeId]) =>
-      this.teamService.getTeamAvg(initiativeId, teamId, 'km')));
+      this.teamService.getTeamAvg(
+        initiativeId,
+        teamId,
+        'km',
+        true,
+        toServerDateOnly(DateTime.utc().minus({ month: 1 })),
+        toServerDateOnly(DateTime.utc()),)));
   constructor(
     private route: ActivatedRoute,
     private errorService: ErrorService,

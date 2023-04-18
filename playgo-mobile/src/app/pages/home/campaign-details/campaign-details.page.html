@@ -16,13 +16,7 @@
       <app-campaign-notification [campaign]="campaignContainer" [notification]="notification">
       </app-campaign-notification>
     </ng-container>
-    <ion-card *ngIf="campaignHas('blacklist')"
-      [routerLink]="['/pages/blacklist/'+campaignContainer.campaign.campaignId]">
-      <ion-item [color]="campaignContainer?.campaign?.type">
-        <ion-label>{{'campaigns.detail.blacklist'|translate}} </ion-label>
-        <app-icon name="blacklist" class="icon-size-normal"></app-icon>
-      </ion-item>
-    </ion-card>
+
     <ion-card *ngIf="campaignHas('leaderboard')" [routerLink]="getLeaderboardLink()">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
@@ -49,7 +43,6 @@
         <app-icon name="default" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
-
     <ion-card *ngIf="campaignHas('badges')"
       [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/badges']">
       <ion-item [color]="campaignContainer?.campaign?.type">
@@ -57,11 +50,24 @@
         <app-icon name="badges" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
-
+    <ion-card *ngIf="campaignHas('prizes') && campaignContainer?.campaign?.weekConfs"
+      [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/prizes']">
+      <ion-item [color]="campaignContainer?.campaign?.type">
+        <ion-label>{{'campaigns.detail.prizes'|translate}} </ion-label>
+        <ion-icon name="gift" class="icon-size-normal"></ion-icon>
+      </ion-item>
+    </ion-card>
     <ion-card [routerLink]="['/pages/tabs/trips/campaign', campaignContainer?.campaign?.campaignId]">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label>{{'campaigns.detail.journeys'|translate}} </ion-label>
         <app-icon name="list" class="icon-size-normal"></app-icon>
+      </ion-item>
+    </ion-card>
+    <ion-card *ngIf="campaignHas('blacklist')"
+      [routerLink]="['/pages/blacklist/'+campaignContainer.campaign.campaignId]">
+      <ion-item [color]="campaignContainer?.campaign?.type">
+        <ion-label>{{'campaigns.detail.blacklist'|translate}} </ion-label>
+        <app-icon name="blacklist" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
     <ion-card>

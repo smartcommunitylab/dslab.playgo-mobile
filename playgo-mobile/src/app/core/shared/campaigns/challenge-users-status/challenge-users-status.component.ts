@@ -26,7 +26,7 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // if (this.otherUser?.playerId) {
@@ -35,12 +35,15 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
     //   );
     // }
   }
-  ngOnDestroy() {}
+  ngOnDestroy() { }
   isWinning(me: number, other: number) {
     if (me > other) {
       return true;
     }
     return false;
+  }
+  isFuture() {
+    return this.type === 'future';
   }
   isCompetitive() {
     if (
@@ -53,5 +56,8 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   }
   isHome() {
     return this.position === 'home';
+  }
+  isGroupCompetitivePerformance() {
+    return this.challengeType === 'groupCompetitivePerformance';
   }
 }

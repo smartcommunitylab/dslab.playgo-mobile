@@ -2,4 +2,12 @@
   padding: 2px;
   text-align: right;
   font-style: italic;
+  span {
+    margin: 4px;
+  }
+}
+span {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 13px;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { find } from 'lodash-es';
 import {
@@ -64,17 +64,17 @@ export class CreateChallengePage implements OnInit {
     map((availableChallenges) => {
       const all: Omit<ChallengeModelOptions, 'available'>[] = [
         {
-          challengeModelName: 'groupCompetitivePerformance',
-          availableFromLevel: 13,
+          challengeModelName: 'groupCooperative',
+          availableFromLevel: 4,
         },
         {
           challengeModelName: 'groupCompetitiveTime',
-          availableFromLevel: 9,
+          availableFromLevel: 5,
         },
         {
-          challengeModelName: 'groupCooperative',
-          availableFromLevel: 0,
-        },
+          challengeModelName: 'groupCompetitivePerformance',
+          availableFromLevel: 6,
+        }
       ];
       const allWithAvailableInfo = all.map((challengeModel) => {
         const serverState = availableChallenges.find(
@@ -191,16 +191,13 @@ export class CreateChallengePage implements OnInit {
     private route: ActivatedRoute,
     private campaignService: CampaignService,
     private challengeControllerService: ChallengeControllerService,
-    private reportService: ReportService,
     private errorService: ErrorService,
-    private userService: UserService,
     private navController: NavController,
-    private alertService: AlertService,
     private challengeService: ChallengeService,
     private modalController: ModalController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async onInvite() {
     console.log('Invite!');
@@ -219,7 +216,12 @@ export class CreateChallengePage implements OnInit {
         swipeToClose: true,
       });
       await modal.present();
-      this.navController.navigateBack('pages/tabs/challenges');
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          selectedSegment: 'futureChallenges'
+        }
+      };
+      this.navController.navigateBack('pages/tabs/challenges', navigationExtras);
     } catch (e) {
       this.errorService.handleError(e);
     }

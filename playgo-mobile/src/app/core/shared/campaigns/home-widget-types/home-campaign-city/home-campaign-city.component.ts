@@ -77,7 +77,7 @@ export class HomeCampaignCityComponent implements OnInit, OnDestroy {
         .getGameStats(
           this.campaignContainer.campaign.campaignId,
           profile.playerId,
-          toServerDateOnly(DateTime.utc().minus({ week: 1 })),
+          toServerDateOnly(DateTime.utc().startOf('week')),
           toServerDateOnly(DateTime.utc())
         )
         .subscribe(

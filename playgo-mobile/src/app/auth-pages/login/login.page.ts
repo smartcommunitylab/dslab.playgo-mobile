@@ -11,10 +11,10 @@ export class LoginPage {
   constructor(
     private authService: AuthService,
     private spinnerService: SpinnerService
-  ) {}
+  ) { }
 
-  public signIn(provider?: AuthProvider) {
+  public async signIn(provider?: AuthProvider) {
     this.spinnerService.show('login', 30_000);
-    this.authService.login(provider);
+    await this.authService.login(provider);
   }
 }

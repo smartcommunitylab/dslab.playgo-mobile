@@ -6,7 +6,7 @@ import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
-import { UserService } from 'src/app/core/shared/services/user.service';
+import { User, UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
   selector: 'app-join-city',
@@ -20,6 +20,7 @@ export class JoinCityModalPage implements OnInit {
   rules: any;
   isSubmitted = false;
   language: string;
+  profile: User;
 
   constructor(
     private modalController: ModalController,
@@ -29,13 +30,14 @@ export class JoinCityModalPage implements OnInit {
     public formBuilder: FormBuilder,
     private userService: UserService,
     private navCtrl: NavController
-  ) {}
+  ) { }
   ngOnInit() {
     this.language = this.userService.getLanguage();
     const rules = this.campaign.details[this.language];
     this.rules = rules?.find((detail) => detail.type === 'rules');
     this.privacy = rules?.find((detail) => detail.type === 'privacy');
     this.joinCityForm = this.formBuilder.group({
+      name: [''],
       ...(this.privacy && { privacy: [false, Validators.requiredTrue] }),
       ...(this.rules && { rules: [false, Validators.requiredTrue] }),
     });
@@ -47,7 +49,9 @@ export class JoinCityModalPage implements OnInit {
   close() {
     this.modalController.dismiss(false);
   }
-
+  isAlreadySubscribed() {
+    return this.profile?.personalData?.registeredIds?.includes(this.campaign?.campaignId);
+  }
   openPrivacyPopup() {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.privacyPopup.header' as any,
@@ -76,8 +80,12 @@ export class JoinCityModalPage implements OnInit {
     if (!this.joinCityForm.valid) {
       return false;
     } else {
+      const body = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        nick_recommandation: this.joinCityForm.value.name
+      };
       this.campaignService
-        .subscribeToCampaign(this.campaign.campaignId)
+        .subscribeToCampaign(this.campaign.campaignId, body)
         .subscribe(
           (result) => {
             if (result) {

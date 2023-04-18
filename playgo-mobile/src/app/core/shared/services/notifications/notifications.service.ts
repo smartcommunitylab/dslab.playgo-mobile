@@ -24,6 +24,7 @@ import { ErrorService } from '../error.service';
 import { DateTime } from 'luxon';
 import { PushNotificationService } from './pushNotification.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { RefresherService } from '../refresher.service';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,7 @@ export class NotificationService {
     this.appResumed$,
     this.networkStatusChanged$,
     this.pushNotification$,
+    this.refresherService.refreshed$,
     this.notificationRead$
   ).pipe(throttleTime(500));
 
@@ -137,7 +139,9 @@ export class NotificationService {
     private errorService: ErrorService,
     private authService: AuthService,
     private communicationAccountController: CommunicationAccountControllerService,
-    private pushNotificationService: PushNotificationService
+    private pushNotificationService: PushNotificationService,
+    private refresherService: RefresherService
+
   ) {
     this.authService.isReadyForApi$.subscribe(() => {
       this.allNotifications$.subscribe((notifications) => {
@@ -302,7 +306,9 @@ export enum NotificationType {
 }
 export const NOTIFICATION_TYPE_ACTIONS = {
   campaignWidgetBadge: {
-    types: [NotificationType.level],
+    types: [
+      NotificationType.level,
+      NotificationType.badge],
   },
   challengeTabBadge: {
     types: [

@@ -22,8 +22,8 @@ export class SingleProposalModalPage implements OnInit {
     private challengeService: ChallengeService,
     public campaignService: CampaignService,
     private errorService: ErrorService
-  ) {}
-  ngOnInit() {}
+  ) { }
+  ngOnInit() { }
   //computed errorcontrol
 
   close() {
@@ -38,7 +38,7 @@ export class SingleProposalModalPage implements OnInit {
     } catch (e) {
       this.errorService.handleError(e);
     } finally {
-      this.modalController.dismiss(false);
+      this.modalController.dismiss(true);
     }
   }
 }

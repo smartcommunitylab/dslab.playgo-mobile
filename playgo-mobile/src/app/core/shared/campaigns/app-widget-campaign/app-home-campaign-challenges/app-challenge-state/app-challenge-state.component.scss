@@ -1,0 +1,35 @@
+.challenges-state {
+  background: #fdfdaa;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 8px;
+  .challenge-text {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 10px;
+  }
+  ion-avatar {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    //display: flex;
+    //flex-direction: column;
+    //justify-content: space-around;
+    border: solid 4px var(--ion-color-city);
+    background-color: rgba(253, 216, 53, 0.5);
+    .type-notif {
+      display: flex;
+      justify-content: space-around;
+      flex-direction: row;
+      padding-bottom: 4px;
+    }
+    ion-badge {
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      border-radius: 100%;
+    }
+  }
+}

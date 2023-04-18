@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/core/shared/services/notifications/
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { Notification } from 'src/app/core/api/generated/model/notification';
 import { TripService } from 'src/app/core/shared/tracking/trip.service';
+import { PushNotificationService } from 'src/app/core/shared/services/notifications/pushNotification.service';
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
@@ -33,8 +34,9 @@ export class TabsPage implements OnInit, OnDestroy {
     private router: Router,
     public pageSettingsService: PageSettingsService,
     private notificationService: NotificationService,
-    private tripService: TripService
-  ) {}
+    private tripService: TripService,
+    private pushNotificationService: PushNotificationService
+  ) { }
   ngOnInit(): void {
     this.unreadChallengeNotification$ = this.notificationService
       .getUnreadChallengeNotifications()
@@ -46,6 +48,7 @@ export class TabsPage implements OnInit, OnDestroy {
         })
       );
     this.subUnread = this.unreadChallengeNotification$.subscribe();
+    this.pushNotificationService.registerToTopics();
   }
   ngOnDestroy(): void {
     this.subUnread.unsubscribe();

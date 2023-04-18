@@ -13,13 +13,19 @@ import { ChallengeService } from '../../../services/challenge.service';
 })
 export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
+  //unfinished challenge to show in the home
   public activeUncompleteChallenges$: Observable<Challenge[]>;
-  activeUncompleteChallenges: Challenge[] = [];
+  //active challenges to show in the widget
+  public activeChallenges$: Observable<Challenge[]>;
+  //configurable challenges means choosable and possibility to send invites
+  public configureChallenges$: Observable<Challenge[]>;
+  //invites received
+  public invitesChallenges$: Observable<Challenge[]>;
 
-  public futureChallenges$: Observable<Challenge[]>;
-  subChallActive: Subscription;
+  // subChallActive: Subscription;
   subChallFuture: Subscription;
   futureChallenges: Challenge[] = [];
+  canInvite$: Observable<boolean>;
   constructor(
     private challengeService: ChallengeService,
     private navController: NavController
@@ -30,21 +36,24 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
       this.challengeService.getActiveUncompletedChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId
       );
-    this.subChallActive = this.activeUncompleteChallenges$.subscribe(
-      (challenges) => {
-        this.activeUncompleteChallenges = challenges;
-      }
-    );
-    this.futureChallenges$ =
-      this.challengeService.getFutureChallengesByCampaign(
+    this.activeChallenges$ =
+      this.challengeService.getActiveChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId
       );
-    this.subChallFuture = this.futureChallenges$.subscribe((challenges) => {
-      this.futureChallenges = challenges;
-    });
+    this.configureChallenges$ =
+      this.challengeService.configurableChallenges(
+        this.campaignContainer?.campaign?.campaignId
+      );
+    this.canInvite$ = this.challengeService.canInviteByCampaign(
+      this.campaignContainer?.campaign?.campaignId
+    );
+    this.invitesChallenges$ =
+      this.challengeService.getInvitesChallengesByCampaign(
+        this.campaignContainer?.campaign?.campaignId
+      );
   }
   ngOnDestroy() {
-    this.subChallActive.unsubscribe();
+    // this.subChallActive.unsubscribe();
   }
   goToChallenge(event: Event) {
     if (event && event.stopPropagation) {

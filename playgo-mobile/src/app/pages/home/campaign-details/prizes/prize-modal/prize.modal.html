@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title>{{'campaigns.detail.prize.title'|translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" color="playgo">
+  <div [innerHTML]="'campaigns.detail.prize.desc'|translate"></div>
+</ion-content>
+<ion-footer color="playgo" class="ion-text-center">
+  <ion-button expand="block" color="light" (click)="close()">{{
+    "modal.ok" | translate
+    }}</ion-button>
+</ion-footer>

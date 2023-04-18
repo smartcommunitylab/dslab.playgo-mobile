@@ -75,11 +75,13 @@ export class CampaignService {
         this.campaignControllerService
           .getMyCampaignsUsingGET({ onlyVisible: true })
           .pipe(
+            tap((myCampaigns) => console.log(myCampaigns)),
             ifOfflineUseStored(this.myCampaignsStorage),
             // this is not recoverable, app is bricked...
             // for example new campaign subscription could be added successfully, but
             // server could not return the list of my campaigns, data integrity is broken,
             // but problem when new user, in that case error is 500
+            tap((myCampaigns) => console.log(myCampaigns)),
             catchError((error) => {
               const isErrorExpected = true; // TODO:
               this.errorService.handleError(
@@ -185,7 +187,7 @@ export class CampaignService {
         present: false,
       },
       prizes: {
-        present: true,
+        present: false,
       },
       leaderboard: {
         present: false,
@@ -266,6 +268,7 @@ export class CampaignService {
         map((res) => {
           this.subscribeCampaignAction$.next(id);
           this.playerCampaignSubscribed$.next(null);
+          this.refresherService.onRefresh(null);
           return res;
         })
       );
@@ -276,6 +279,7 @@ export class CampaignService {
       map((res) => {
         this.unsubscribeCampaignAction$.next(id);
         this.playerCampaignUnSubscribed$.next(null);
+        this.refresherService.onRefresh(null);
         return res;
       })
     );

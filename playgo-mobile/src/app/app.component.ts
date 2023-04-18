@@ -126,17 +126,21 @@ export class AppComponent implements AfterContentInit {
       blockUserColor: '../assets/icon/blockUserColor.svg',
       blacklist: '../assets/icon/blacklist.svg',
       invitation: '../assets/icon/invitation.svg',
+      invite: '../assets/icon/invite.svg',
       leaderboard: '../assets/icon/leaderboard.svg',
       homeFooter: '../assets/images/home/logo.svg',
       level_up: '../assets/icon/level-up.svg',
       stat: '../assets/icon/stat.svg',
       leave: '../assets/icon/leave.svg',
+      checked: '../assets/icon/checked.svg',
+      cupCog: '../assets/icon/cupCog.svg',
       groupCompetitivePerformance:
         '../assets/images/challenges/groupCompetitivePerformance.svg',
       groupCompetitiveTime:
         '../assets/images/challenges/groupCompetitiveTime.svg',
       groupCooperative: '../assets/images/challenges/groupCooperative.svg',
       default: '../assets/images/challenges/default.svg',
+      listCircle: '../assets/images/challenges/list-circle-outline.svg'
     };
     this.iconService.registerSvgIcons(icons);
   }

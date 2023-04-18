@@ -112,7 +112,7 @@ export class UserService {
     private refresherService: RefresherService,
     private alertService: AlertService,
     private errorService: ErrorService
-  ) {}
+  ) { }
 
   /**
    * User language

@@ -1,32 +1,22 @@
 <div class="container">
-  <div class="single-stat-container" *ngIf="stat.completed">
+  <div class="single-stat-container">
     <div class="single-stat-content">
       <div class="ion-text-center">
-        <app-icon
-          class="icon-size-big"
-          [name]="imgChallenge(stat.type)"
-        ></app-icon>
+        <app-icon class="icon-size-big" [name]="imgChallenge(stat.type)"></app-icon>
       </div>
       <div class="ion-text-center">
         <div>{{ typeChallenge }}</div>
-        <div class="challenge-won">
-          {{ "challenges.stats.singleChallengeWin" | translate }}
+        <div class="challenge-won" *ngIf="stat.completed">
+          <span>{{stat.completed}}</span> <span *ngIf="stat.completed<=1">&nbsp;{{
+            "challenges.stats.singleChallengeWin.single" | translate }}</span> <span *ngIf="stat.completed>1">&nbsp;{{
+            "challenges.stats.singleChallengeWin.plural" | translate }}</span>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="single-stat-container" *ngIf="stat.failed">
-    <div class="single-stat-content">
-      <div class="ion-text-center">
-        <app-icon
-          class="icon-size-big"
-          [name]="imgChallenge(stat.type)"
-        ></app-icon>
-      </div>
-      <div class="ion-text-center">
-        <div>{{ typeChallenge }}</div>
-        <div class="challenge-lost">
-          {{ "challenges.stats.singleChallengeLost" | translate }}
+        <div class="challenge-lost" *ngIf="stat.failed">
+          <span>{{stat.failed}}</span> <span *ngIf="stat.failed<=1">&nbsp;{{
+            "challenges.stats.singleChallengeLost.single" |
+            translate }}</span> <span *ngIf="stat.failed>1">&nbsp;{{ "challenges.stats.singleChallengeLost.plural" |
+            translate
+            }}</span>
         </div>
       </div>
     </div>

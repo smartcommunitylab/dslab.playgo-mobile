@@ -10,7 +10,9 @@ import { Challenge } from '../challenges.page';
 import { Browser } from '@capacitor/browser';
 import { DetailChallengenModalPage } from './detail-modal/detail.modal';
 import { ModalController } from '@ionic/angular';
-import { getImgChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
+import { getImgChallenge, getTypeStringChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
+import { TranslateService } from '@ngx-translate/core';
+import { RefresherService } from 'src/app/core/shared/services/refresher.service';
 
 @Component({
   selector: 'app-challenge-card',
@@ -26,8 +28,10 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
   constructor(
     public campaignService: CampaignService,
     private elementRef: ElementRef,
-    private modalController: ModalController
-  ) {}
+    private modalController: ModalController,
+    private translateService: TranslateService,
+    private refresherService: RefresherService
+  ) { }
   ngAfterViewInit() {
     //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
     this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
@@ -45,9 +49,15 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
       presentationStyle: 'popover',
     });
   };
-  ngOnInit() {}
-
+  ngOnInit() { }
+  typeChallenge(type: string) {
+    return this.translateService.instant(getTypeStringChallenge(type));
+  }
   fillSurvey() {
+    Browser.addListener('browserFinished', () => {
+      //send refresh challenge event
+      this.refresherService.onRefresh(null);
+    });
     Browser.open({
       url: this.challenge.extUrl,
       windowName: '_system',
@@ -69,18 +79,30 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
     const { data } = await modal.onWillDismiss();
   }
   challengeEnded() {
-    if (
-      this.challenge?.status === 100 ||
-      this.challenge.success === true ||
-      this.challenge?.otherAttendeeData?.status === 100
-    ) {
-      return true;
+    if (!this.isGroupCompetitivePerformance()) {
+      {
+        if (
+          this.challenge?.status === 100 ||
+          this.challenge?.success === true ||
+          this.challenge?.otherAttendeeData?.status === 100
+        ) {
+          return true;
+        }
+      }
     }
     return false;
   }
   challengeWon() {
-    if (this.challenge?.status === 100 || this.challenge.success === true) {
-      return true;
+    if (!this.isGroupCompetitivePerformance()) {
+      if (this.challenge?.status === 100 || this.challenge.success === true) {
+        return true;
+      }
+      else {
+        return this.challenge.success;
+      }
     }
+  }
+  private isGroupCompetitivePerformance() {
+    return this.challenge.type === 'groupCompetitivePerformance';
   }
 }

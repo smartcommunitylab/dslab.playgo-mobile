@@ -60,7 +60,11 @@ export class CompaniesCampaignPage implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
+
+  }
+  ionViewDidLeave() {
     this.subCampaignContainer.unsubscribe();
     this.subCampaignId.unsubscribe();
   }
+
 }

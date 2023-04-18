@@ -27,12 +27,14 @@ import {
 } from 'rxjs';
 import { CommunicationAccountControllerService } from '../../../api/generated/controllers/communicationAccountController.service';
 import { NotificationModalPage } from '../../notification-modal/notification.modal';
+import { RefresherService } from '../refresher.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PushNotificationService {
   sub: any;
+  subUn: any;
   notifications: PushNotificationSchema[] = [];
   topicName: any;
   private notificationsSubject = new ReplaySubject<void>(1);
@@ -45,14 +47,29 @@ export class PushNotificationService {
     private communicationAccountControllerService: CommunicationAccountControllerService,
     private userService: UserService,
     private modalController: ModalController,
-    private errorService: ErrorService
-  ) {}
+    private errorService: ErrorService,
+    private refresherService: RefresherService
+  ) { }
   initPush() {
     if (Capacitor.getPlatform() !== 'web') {
       this.registerPush();
+      this.campaignService.subscribeCampaignAction$.subscribe((topicName) => {
+        this.userService.userProfileTerritory$
+          .pipe(first(), tapLog('userProfileTerritory$'))
+          .subscribe((profile) => {
+            FCM.subscribeTo({ topic: `${profile.territoryId}-${topicName}` });
+          });
+      });
+      this.campaignService.unsubscribeCampaignAction$.subscribe((topicName) => {
+        this.userService.userProfileTerritory$
+          .pipe(first(), tapLog('userProfileTerritory$'))
+          .subscribe((profile) => {
+            FCM.unsubscribeFrom({ topic: `${profile.territoryId}-${topicName}` });
+          });
+      });
     }
   }
-  private async registerPush() {
+  public async registerPush() {
     let permStatus = await PushNotifications.checkPermissions();
 
     if (permStatus.receive === 'prompt') {
@@ -95,6 +112,7 @@ export class PushNotificationService {
           console.log('Push received: ' + JSON.stringify(notification));
           this.notifications.push(notification);
           this.showLastNotification(notification);
+          this.refresherService.onRefresh(null);
         });
       }
     );
@@ -173,19 +191,38 @@ export class PushNotificationService {
         })
       )
       .subscribe();
-    this.campaignService.subscribeCampaignAction$.subscribe((topicName) => {
-      this.userService.userProfileTerritory$
-        .pipe(first(), tapLog('userProfileTerritory$'))
-        .subscribe((profile) => {
-          FCM.subscribeTo({ topic: `${profile.territoryId}-${topicName}` });
-        });
-    });
-    this.campaignService.unsubscribeCampaignAction$.subscribe((topicName) => {
-      this.userService.userProfileTerritory$
-        .pipe(first(), tapLog('userProfileTerritory$'))
-        .subscribe((profile) => {
-          FCM.unsubscribeFrom({ topic: `${profile.territoryId}-${topicName}` });
-        });
-    });
+
+  }
+
+  unregisterToTopics() {
+    console.log('unregisterToTopics');
+    if (Capacitor.getPlatform() !== 'web') {
+      this.subUn = combineLatest([
+        this.campaignService.myCampaigns$,
+        this.userService.userProfileTerritory$,
+      ])
+        .pipe(
+          first(),
+          switchMap(([campaigns, profile]) =>
+            merge(
+              from(campaigns).pipe(
+                tapLog('campaigns'),
+                mergeMap((val) => {
+                  console.log(val);
+                  return FCM.unsubscribeFrom({
+                    topic: `${profile.territoryId}-${val?.campaign?.campaignId}`,
+                  });
+                }),
+                toArray()
+              ),
+              from(FCM.unsubscribeFrom({ topic: profile?.territoryId }))
+            )
+          ),
+          catchError((err) => {
+            throw err;
+          })
+        )
+        .subscribe();
+    }
   }
 }

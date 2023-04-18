@@ -49,6 +49,7 @@ import { PageSettingsService } from 'src/app/core/shared/services/page-settings.
 import { TransportType, transportTypeLabels } from 'src/app/core/shared/tracking/trip.model';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { LocalDatePipe } from 'src/app/core/shared/pipes/localDate.pipe';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-stats',
@@ -90,6 +91,12 @@ export class StatsPage implements OnInit, OnDestroy {
     time: 'campaigns.leaderboard.unit.duration',
     tracks: 'campaigns.leaderboard.unit.tracks',
   } as const;
+  metricToUnitChartLabel: Record<Metric, TranslateKey> = {
+    co2: 'campaigns.leaderboard.unitChart.co2',
+    km: 'campaigns.leaderboard.unitChart.km',
+    time: 'campaigns.leaderboard.unitChart.duration',
+    tracks: 'campaigns.leaderboard.unitChart.tracks',
+  } as const;
   means$: Observable<Mean[]>;
   selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
     map((event) => event.detail.value),
@@ -104,6 +111,7 @@ export class StatsPage implements OnInit, OnDestroy {
       // initial select value
       'km' as const
     ),
+    tap((metric) => this.metric = metric),
     shareReplay(1)
   );
 
@@ -168,6 +176,7 @@ export class StatsPage implements OnInit, OnDestroy {
   campaignContainer: PlayerCampaign;
   divider = 1000;
   style = getComputedStyle(document.body);
+  metric: Metric;
 
   constructor(
     private route: ActivatedRoute,
@@ -176,7 +185,8 @@ export class StatsPage implements OnInit, OnDestroy {
     private errorService: ErrorService,
     private campaignService: CampaignService,
     private pageSettingsService: PageSettingsService,
-    private localDatePipe: LocalDatePipe
+    private localDatePipe: LocalDatePipe,
+    private translateService: TranslateService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
       let convertedStat = stats.map(stat => stat.value >= 0 ? { ...stat, value: (stat.value / this.divider) } : { ...stat, value: 0 });
@@ -253,6 +263,8 @@ export class StatsPage implements OnInit, OnDestroy {
     this.selectedSegment = this.periods[0];
   }
   ngOnDestroy() {
+  }
+  ionViewDidLeave() {
     this.statsSubs.unsubscribe();
   }
   getPeriodByReference(value: Period): any {
@@ -436,6 +448,12 @@ export class StatsPage implements OnInit, OnDestroy {
               }
             }
           },
+          y: {
+            ticks: {
+              callback: (value, index, ticks) => value + ' ' + this.translateService.instant(this.metricToUnitChartLabel[this.metric])
+            }
+          }
+
         },
         responsive: true,
         maintainAspectRatio: false,

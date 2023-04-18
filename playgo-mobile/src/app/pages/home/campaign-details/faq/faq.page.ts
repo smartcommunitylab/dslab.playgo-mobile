@@ -59,6 +59,9 @@ export class FaqPage implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
+
+  }
+  ionViewDidLeave() {
     this.subCampaignContainer.unsubscribe();
     this.subCampaignId.unsubscribe();
   }

@@ -13,7 +13,7 @@ export class ChallengeBarStatusComponent implements OnInit {
   @Input() challengeType: string;
   // @Input() position?: string;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     // console.log(this.status);

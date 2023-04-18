@@ -10,14 +10,14 @@
   "notifications_title": "Notifiche",
   "discovercampaignbutton": "Scopri altre campagne",
   "leaderboard.title": "Classifica",
-  "green leaves": "Green Leaves",
-  "bike aficionado": "Bike Trip Badge",
-  "sustainable life": "Zero Impact Badge",
-  "public transport aficionado": "Public Transport Badge",
-  "park and ride pioneer": "Park And Ride Badge",
-  "bike sharing pioneer": "Bike Sharing Badge",
-  "recommendations": "User Recommendation Badge",
-  "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "green leaves": "Badge ecoLeaves",
+  "bike aficionado": "Badge Viaggi in bici",
+  "sustainable life": "Badge Impatto zero",
+  "public transport aficionado": "Badge Trasporto pubblico",
+  "park and ride pioneer": "Badge Park And Ride ",
+  "bike sharing pioneer": "Badge Bike Sharing",
+  "recommendations": "Badge Raccomandazione utente",
+  "leaderboard top 3": "Badge Classifica",
   "appFooter": {
     "by": "By Fondazione Bruno Kessler",
     "version": "Versione {{version}}",
@@ -308,6 +308,8 @@
       "close": "X"
     },
     "joinmodal": {
+      "raccomandation": "Chi ti ha invitato?",
+      "nickname": "Inserisci il nickname",
       "teamselection": "Seleziona la squadra",
       "teams": "Squadre",
       "noItems": "Nessuna azienda trovata",
@@ -347,6 +349,7 @@
     },
     "detail": {
       "not_subscribed": "Non iscritto",
+      "unregistered": "Abbandono",
       "nMembersActive": "Membri attivi:",
       "nMembersInvited": "Invitati:",
       "nMembersMax": "Max squadra:",
@@ -378,7 +381,15 @@
       "generalStat": "Informazioni generali",
       "signal": "Contatta il supporto",
       "unsubscribe": "Abbandona la campagna",
-      "prizes": "Premi",
+      "prizes": "Premi settimanali",
+      "prize": {
+        "title": "Premi",
+        "desc": "Il primo premio verrà assegnato di diritto al primo giocatore nella classifica settimanale delle eco-leaves mentre gli altri premi saranno estratti a sorte tra i primi 50 classificati. Verifica il regolamento per sapere qual giocatori possono concorrere ai premi settimanali, come sono gestiti i casi di parità e gli altri dettagli su modalità e tempi di assegnazione."
+      },
+      "from": "Dal ",
+      "to": "al",
+      "info": "Informazione premi",
+      "current": "In corso",
       "dateFrom": "Inizio: ",
       "dateTo": "Fine: ",
       "challenges": "Sfide",
@@ -412,9 +423,10 @@
         "totalposition": "Globale:",
         "weekvalue": "<b>{{value}} {{unit}}</b> settimanale",
         "monthvalue": "<b>{{value}} {{unit}}</b> mensile",
-        "totalvalue": "<b>{{value}} {{unit}}</b> complessivo",
+        "totalvalue": "<b>{{value}} {{unit}}</b> generale",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}}",
-        "levelName": "<b>Livello : {{levelName}}</b>",
+        "levelName": "<b>Livello {{levelIndex}}: {{levelName}}</b>",
+        "maxscore": "Hai raggiunto il livello massimo",
         "score": " ",
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
         "status": "{{score}} Kg CO₂ risparmiata",
@@ -484,7 +496,7 @@
         "this_week": "Questa settimana",
         "last_week": "Settimana scorsa",
         "this_month": "Questo mese",
-        "all_time": "Complessivo"
+        "all_time": "Generale"
       },
       "leaderboard_type": {
         "co2": "Totale CO₂",
@@ -501,6 +513,12 @@
         "co2": "CO₂ Kg",
         "km": "Km",
         "tracks": "tracciati",
+        "duration": "ore"
+      },
+      "unitChart": {
+        "co2": "Kg",
+        "km": "Km",
+        "tracks": "",
         "duration": "ore"
       },
       "leaderboard_type_unit": {
@@ -529,7 +547,7 @@
   },
   "userprofile": {
     "period_challenge": "Sfide dell'ultimo mese {{periodFrom}} - {{periodTo}}",
-    "title": "Profilo utenti",
+    "title": "Profilo utente",
     "last_month": "Attività dell’ultimo mese",
     "personal_stat_bike": " in bici",
     "personal_stat_walk": " a piedi",
@@ -538,7 +556,7 @@
     "personal_stat_car": " in carpooling",
     "personal_stat_boat": " in battello",
     "empty": "Non ci sono statistiche da mostrare",
-    "last_week_position": " ultima settimana",
+    "last_week_position": " questa settimana",
     "general_position": " classifica generale",
     "total_points": " punti totali",
     "won": "{{won}} vinte",
@@ -548,6 +566,11 @@
     "blacklist_user": "Attenzione: hai bloccato gli inviti per le sfide di questo utente. Non puoi inviare nè ricevere sfide da questo utente. "
   },
   "challenges": {
+    "singleActivated": "Sfida attivata con successo!",
+    "singleDesc": "Hai attivato una sfida singola per la settimana tra il {{from}} e il {{to}}",
+    "active": "Sfide attive : {{active}}",
+    "configure": "Sfide configurabili: {{configurable}}",
+    "invitations": "Inviti ricevuti: {{invites}}",
     "challenges": "Sfide",
     "allchallenges": "Tutte le sfide",
     "checkallchallenges": "Vedi tutte le sfide",
@@ -555,11 +578,11 @@
       "title": "Dettaglio sfida",
       "close": "Chiudi"
     },
-    "sent": "Invito inviato",
-    "received": "Invito ricevuto",
-    "activate": "Accetta",
-    "reject": "Rifiuta",
-    "cancel": "Annulla",
+    "sent": "Invito inviato a {{nickname}}",
+    "received": "Invito ricevuto da {{nickname}}",
+    "activate": "Accetta invito",
+    "reject": "Rifiuta invito",
+    "cancel": "Annulla invito",
     "ongoing": "Sfida in corso",
     "singleproposal": "Sfida singola",
     "proposed": "Sfide della prossima settimana",
@@ -573,8 +596,13 @@
     "points": "{{ point }} points",
     "challenge_container": "Sfide {{ type }} di campagna",
     "info": {
-      "title": "Come funzionano le sfide ",
-      "body": "Ogni settimana puoi scegliere solo UNA sfida singola e UNA sfida di coppia. <br> Una volta scelta una sfida, le alternative per quella tipologia di sfida scompaiono. <br> Quindi quando attivi una sfida singola, le altre possibili sfide singole proposte dal sistema scompaiono. <br> <br> Allo stesso modo, quando attivi una sfida di coppia, le alternative scompaiono. <br> <br> Accettare un invito equivale a scegliere una sfida di coppia. <br> <br> Quando qualcuno accetta un invito che hai inviato, la sfida di coppia per la settimana è automaticamente scelta. Tutte le altre sfide alternative scompaiono. <br> <br> Ogni settimana si rinnovano le sfide proposte: a seconda del tuo livello, puoi ricevere fino a un massimo di 3 proposte di sfida singola, 3 inviti e puoi inviare fino a un massimo di 2 inviti.",
+      "title": "Sfide singole",
+      "body": "Ogni settimana puoi scegliere solo UNA sfida singola tra quelle proposte. <br> Una volta scelta una sfida, le alternative vengono automaticamente eliminate.",
+      "close": "Chiudi"
+    },
+    "infogroup": {
+      "title": "Sfide di coppia",
+      "body": "Ogni settimana puoi scegliere solo UNA sfida di coppia.  Puoi mandare un solo invito e riceverne 3.<br><br> Accettare un invito equivale a scegliere una sfida di coppia, altri inviti ricevuti/mandati vengono automaticamente annullati. <br> <br> Se il tuo invito viene accettato, la sfida viene automaticamente assegnata ad entrambi i partecipanti, eventuali inviti ricevuti vengono automaticamente annullati.",
       "close": "Chiudi"
     },
     "challenge_detail": {
@@ -593,12 +621,18 @@
       },
       "totalChallenges": "{{totalChallenges}} sfide",
       "totalWon": "{{totalWon}} vinte",
-      "singleChallengeWin": "vinte",
-      "singleChallengeLost": "persa"
+      "singleChallengeWin": {
+        "single": "vinta",
+        "plural": "vinte"
+      },
+      "singleChallengeLost": {
+        "single": "persa",
+        "plural": "perse"
+      }
     },
     "create": {
-      "configure": "Configura",
-      "button_create": "Configura una nuova sfida",
+      "configure": "Sfida di coppia",
+      "button_create": "Clicca qui per creare la tua sfida!",
       "title": "Configura sfida",
       "choose_type": "Scegli tipologia di sfida",
       "choose_metric": "Scegli metrica di sfida",
@@ -612,7 +646,7 @@
         "you": "Tu"
       },
       "sent_title": "Hai invitato {{nickname}} ad una sfida di coppia",
-      "sent_body": "L’invito sarà visibile sull’app di {{nickname}} per due giorni. Riceverai una notifica se {{nickname}} accetta o rifiuta la sfida. Nel caso non rispondesse entro tre giorni, la sfida sarà annullata. ",
+      "sent_body": "L’invito sarà visibile sull’app di {{nickname}}. Riceverai una notifica se {{nickname}} accetta o rifiuta la sfida. Nel caso non rispondesse entro il tempo massimo (venerdì ore 12), la sfida sarà annullata. ",
       "close": "Chiudi"
     },
     "challenge_model": {
@@ -625,8 +659,8 @@
         "default": "Sfida"
       },
       "description": {
-        "groupCompetitivePerformance": "Raggiungi un traguardo prima del tuo avversario!",
-        "groupCompetitiveTime": "Supera il tuo avversario su una metrica a scelta entro una settimana",
+        "groupCompetitivePerformance": "Supera il tuo avversario su una metrica a scelta entro una settimana",
+        "groupCompetitiveTime": "Raggiungi un traguardo prima del tuo avversario!",
         "groupCooperative": "Raggiungi un obiettivo collaborando con un altro giocatore."
       },
       "disabled_until_level": "Tipologia sfida sbloccata al livello {{level}}!"
@@ -640,6 +674,11 @@
         "Bus_Km": "Km in bus",
         "Car_Km": "Km in carpooling",
         "Train_Km": "Km in treno"
+      },
+      "pointconcept": {
+        "Bike_Km": "Km in bici",
+        "Walk_Km": "Km a piedi",
+        "green leaves": "ecoLeaves"
       }
     }
   },

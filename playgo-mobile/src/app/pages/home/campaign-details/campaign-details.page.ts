@@ -8,23 +8,28 @@ import {
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
-import { UserService } from 'src/app/core/shared/services/user.service';
+import { User, UserService } from 'src/app/core/shared/services/user.service';
 import { DetailCampaignModalPage } from './detail-modal/detail.modal';
 import { CampaignDetail } from 'src/app/core/api/generated/model/campaignDetail';
 import {
+  combineLatest,
+  distinctUntilChanged,
+  EMPTY,
   filter,
   first,
   map,
+  Observable,
   of,
+  shareReplay,
   Subject,
   Subscription,
   switchMap,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 import { Notification } from '../../../core/api/generated/model/notification';
@@ -37,6 +42,9 @@ import {
   UserError,
 } from 'src/app/core/shared/services/error.service';
 import { CompaniesCampaignModalPage } from './companies-modal/companies.modal';
+import { TeamService } from 'src/app/core/shared/services/team.service';
+import { PlayerTeam } from 'src/app/core/api/generated-hsc/model/playerTeam';
+import { find } from 'lodash-es';
 
 @Component({
   selector: 'app-campaign-details',
@@ -44,6 +52,7 @@ import { CompaniesCampaignModalPage } from './companies-modal/companies.modal';
   styleUrls: ['./campaign-details.page.scss'],
 })
 export class CampaignDetailsPage implements OnInit, OnDestroy {
+
   id: string;
   campaignContainer?: PlayerCampaign;
   imagePath: SafeResourceUrl;
@@ -54,6 +63,40 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   unreadNotifications: Notification[] = [];
   @ViewChild('ionContent') ionContent: ElementRef;
   descriptionExpanded = false;
+  subStat: Subscription;
+  subTeam: Subscription;
+  profile: User;
+  team: PlayerTeam;
+  campaignId$: Observable<string> = this.route.params.pipe(
+    map((params) => params.id),
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+
+  playerCampaign$ = this.campaignId$.pipe(
+    switchMap((campaignId) =>
+      this.campaignService.myCampaigns$.pipe(
+        map((campaigns) => find(campaigns, (playercampaign) => playercampaign.subscription.campaignId === campaignId)),
+        tap((campaigns) => console.log(campaigns)),
+        // throwIfNil(() => new Error('Campaign not found')),
+        this.errorService.getErrorHandler()
+      )
+    ),
+    tap(campaign => console.log('playercampaign' + campaign)),
+    shareReplay(1)
+  );
+
+  teamId$: Observable<string> = this.playerCampaign$.pipe(
+    map(campaign => {
+      console.log(campaign);
+      return (campaign as PlayerCampaign)?.subscription?.campaignData?.teamId;
+    }),
+    tap((team: string) => console.log(team)),
+    shareReplay(1)
+  );
+  myCampaignSub: Subscription;
+  unsubSub: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
@@ -63,7 +106,8 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     private modalController: ModalController,
     private notificationService: NotificationService,
     private pageSettingsService: PageSettingsService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private teamService: TeamService
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
@@ -71,9 +115,26 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.isDestroyed$.next();
     this.isDestroyed$.complete();
-  }
 
+  }
+  ionViewDidLeave() {
+    this.subStat?.unsubscribe();
+    this.myCampaignSub?.unsubscribe();
+  }
   ngOnInit() {
+    this.subTeam = combineLatest([
+      this.campaignId$,
+      this.teamId$,
+    ]).pipe(
+      switchMap(([campaignId, teamId]) => teamId ? this.teamService.getMyTeam(
+        campaignId,
+        teamId
+      ) : EMPTY),
+      this.errorService.getErrorHandler()).subscribe(team => this.team = team);
+    this.subStat = this.userService.userProfile$
+      .subscribe((profile) => {
+        this.profile = profile;
+      });
     this.language = this.userService.getLanguage();
     this.notificationService
       .getUnreadCampaignNotifications(this.id)
@@ -81,7 +142,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
       .subscribe((notifications) => {
         this.unreadNotifications = notifications;
       });
-    this.campaignService.myCampaigns$
+    this.myCampaignSub = this.campaignService.myCampaigns$
       .pipe(
         takeUntil(this.isDestroyed$),
         switchMap((campaigns) => {
@@ -208,13 +269,15 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data) {
-      this.campaignService
+      this.unsubSub = this.campaignService
         .unsubscribeCampaign(this.campaignContainer.campaign.campaignId)
         .subscribe((result) => {
           this.alertService.showToast({
             messageTranslateKey: 'campaigns.unregistered',
           });
-          this.navCtrl.back();
+          this.subStat?.unsubscribe();
+          this.myCampaignSub?.unsubscribe();
+          this.navCtrl.navigateRoot('/pages/tabs/home');
         });
     }
   }
@@ -223,6 +286,15 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     this.navCtrl.back();
   }
   openSupport() {
-    window.open('mailto:' + environment.support.email);
+    window.open('mailto:' + environment.support.email +
+      '?subject=Play%26go%20' + this.campaignContainer?.campaign?.name.it +
+      '%20Supporto&body=-----------NON CANCELLARE-----------%0D%0A%0D%0A' +
+      'territoryId: ' + this.profile.territoryId +
+      '%0D%0Acampagna: ' + this.campaignContainer?.campaign?.campaignId +
+      (this.campaignContainer?.campaign?.type === 'school' ?
+        ('%0D%0Ateam: ' + this.team?.customData?.name) : '') +
+      '%0D%0AplayerId: ' + this.profile.playerId +
+      '%0D%0A%0D%0A-----SCRIVI IL TUO MESSAGGIO QUI SOTTO----');
+    // territorio, campagna, nome squadra, ID utente (Oggetto: "Play&go <nome campagna> Supporto"
   }
 }

@@ -10,7 +10,7 @@
   "notifications_title": "Notifications",
   "discovercampaignbutton": "Discover other campaigns",
   "leaderboard.title": "Leaderboard",
-  "green leaves": "Green Leaves",
+  "green leaves": "ecoLeaves",
   "bike aficionado": "Bike Trip Badge",
   "sustainable life": "Zero Impact Badge",
   "public transport aficionado": "Public Transport Badge",
@@ -308,6 +308,8 @@
       "close": "X"
     },
     "joinmodal": {
+      "raccomandation": "Who invited you?",
+      "nickname": "Insert thenickname",
       "teamselection": "Select your team",
       "teams": "Teams",
       "noItems": "No companies found",
@@ -347,8 +349,9 @@
     },
     "detail": {
       "not_subscribed": "Not subscribed",
+      "unregistered": "Unregistered",
       "nMembersActive": "Members active:",
-      "nMembersInvited": "Invided:",
+      "nMembersInvited": "Invited:",
       "nMembersMax": "Max team:",
       "playerProgression": "How are you going",
       "teamProgression": "How is your team doing",
@@ -379,6 +382,14 @@
       "signal": "Help and support",
       "unsubscribe": "Leave the campaign",
       "prizes": "Prizes",
+      "prize": {
+        "title": "Prizes",
+        "desc": "The first prize will be awarded by right to the first player in the weekly eco-leaves ranking while the other prizes will be drawn at random among the top 50 classified players. Check the rules to find out which players can compete for the weekly prizes, such as cases of equality and other details on assignment methods and times are managed."
+      },
+      "from": "From ",
+      "to": "to",
+      "info": "Prizes information",
+      "current": "On going",
       "dateFrom": "From: ",
       "dateTo": "To: ",
       "challenges": "Challenges",
@@ -415,6 +426,7 @@
         "totalvalue": "<b>{{value}} total value</b>",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}}",
         "levelName": "<b>Level : {{levelName}}</b>",
+        "maxscore": "You have reached the max score",
         "score": " ",
         "emptystatus": "If you want to see your level and points start to play!",
         "status": "{{score}} Kg CO₂ saved",
@@ -503,6 +515,12 @@
         "tracks": "tracks",
         "duration": "hours"
       },
+      "unitChart": {
+        "co2": "Kg",
+        "km": "Km",
+        "tracks": "",
+        "duration": "h"
+      },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
         "GL": "{{value}}",
@@ -538,7 +556,7 @@
     "personal_stat_car": " by carpooling",
     "personal_stat_boat": " by boat",
     "empty": "There are not statistics to show",
-    "last_week_position": " last week",
+    "last_week_position": " this week",
     "general_position": " general ranking",
     "total_points": " total points",
     "won": "won {{won}}",
@@ -548,6 +566,11 @@
     "blacklist_user": "Attenzione: hai bloccato gli inviti per le sfide di questo utente. Non puoi inviare nè ricevere sfide da questo utente. "
   },
   "challenges": {
+    "singleActivated": "Challenge activated!",
+    "singleDesc": "You activated a single challenge from {{from}} to {{to}}",
+    "active": "Active : {{active}}",
+    "configure": "Configurable: {{configurable}}",
+    "invitations": "Invitations: {{invites}}",
     "challenges": "Challenges",
     "allchallenges": "All the challenges",
     "checkallchallenges": "Check all challenges",
@@ -555,8 +578,8 @@
       "title": "Challenge details",
       "close": "Close"
     },
-    "sent": "Sent",
-    "received": "Received",
+    "sent": "Invitation sent to {{nickame}}",
+    "received": "Invitation received from {{nickame}}",
     "activate": "Accept",
     "reject": "Reject",
     "cancel": "Cancel",
@@ -573,9 +596,14 @@
     "points": "{{ point }} points",
     "challenge_container": "Challenges {{ type }} of campaign",
     "info": {
-      "title": "How do the challenges work? ",
-      "body": "Each week you can choose only ONE single challenge and ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a single challenge, the other possible single challenges proposed by the system disappear. <br> <br> Similarly, when you activate a couple challenge, the alternatives disappear. <br> <br> Accepting an invitation is equivalent to choosing a couple challenge. <br> <br> When someone accepts an invitation you sent, the couple challenge for the week is automatically chosen. All other alternate challenges disappear. <br> <br> Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 single challenge proposals, 3 invitations and you can send up to a maximum of 2 invitations.",
+      "title": "Single challenge",
+      "body": "Each week you can choose only ONE single challenge and ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a single challenge, the other possible single challenges proposed by the system disappear. <br> <br> Similarly, when you activate a couple challenge, the alternatives disappear. <br> <br>  Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 single challenge proposals.",
       "close": "Close"
+    },
+    "infogroup": {
+      "title": "Group challenges",
+      "body": "Each week you can choose only ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a couple challenge, the other possible couple challenges proposed by the system disappear. <br> <br> Accepting an invitation is equivalent to choosing a couple challenge. <br> <br> When someone accepts an invitation you sent, the couple challenge for the week is automatically chosen. All other alternate challenges disappear. <br> <br> Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 invitations and you can send up to a maximum of 2 invitations.",
+      "close": "Chiudi"
     },
     "challenge_detail": {
       "challenge_future_start": "This challenge will start : {{startDate}}",
@@ -593,11 +621,17 @@
       },
       "totalChallenges": "{{totalChallenges}} challenges",
       "totalWon": "{{totalWon}} won",
-      "singleChallengeWin": "won",
-      "singleChallengeLost": "lost"
+      "singleChallengeWin": {
+        "single": "won",
+        "plural": "won"
+      },
+      "singleChallengeLost": {
+        "single": "lost",
+        "plural": "lost"
+      }
     },
     "create": {
-      "configure": "Configure",
+      "configure": "Configure challenge",
       "button_create": "Configure a new challenge",
       "title": "Configure a challenge",
       "choose_type": "Choose challenge type",
@@ -612,7 +646,7 @@
         "you": "You"
       },
       "sent_title": "You have sent a challenge to {{nickname}}",
-      "sent_body": "The invitation will be visible to {{nickname}} for two days. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before 3 days the challenge will be rejected automatically. ",
+      "sent_body": "The invitation will be visible to {{nickname}}. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before the time limit the challenge will be rejected automatically. ",
       "close": "Close"
     },
     "challenge_model": {
@@ -625,8 +659,8 @@
         "default": "Challenge"
       },
       "description": {
-        "groupCompetitivePerformance": "Reach the target before your opponent!",
-        "groupCompetitiveTime": "Do more than your opponent in a week",
+        "groupCompetitivePerformance": "Do more than your opponent in a week",
+        "groupCompetitiveTime": "Reach the target before your opponent!",
         "groupCooperative": "Reach shared target with another player."
       },
       "disabled_until_level": "Challenge type disabled until level {{level}}!"
@@ -640,6 +674,11 @@
         "Bus_Km": "Km on bus",
         "Car_Km": "Km in car",
         "Train_Km": "Km on train"
+      },
+      "pointconcept": {
+        "Bike_Km": "Km on bike",
+        "Walk_Km": "Km on foot",
+        "green leaves": "ecoLeaves"
       }
     }
   },

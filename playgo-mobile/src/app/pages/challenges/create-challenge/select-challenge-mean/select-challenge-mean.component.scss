@@ -13,13 +13,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f2f6fa;
 
   // margin: 10px;
   &.disabled {
     border-color: gray;
+    background-color: lightgray;
   }
   &.selected {
     border-width: 4px;
+    background-color: #fdfdaa;
   }
   app-icon {
     font-size: 56px;
