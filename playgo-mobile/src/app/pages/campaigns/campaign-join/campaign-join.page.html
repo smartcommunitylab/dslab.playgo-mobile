@@ -1,6 +1,9 @@
 <ng-container *ngIf="campaign">
-  <ion-header appHeader parallax [imageUrl]="campaign?.banner?.url" height="30vh">
-  </ion-header>
+  <!-- <ion-header appHeader parallax [imageUrl]="campaign?.banner?.url" height="30vh"> -->
+  <!-- </ion-header> -->
+  <ion-header mode="ios" appHeader parallax [imageUrl]="campaign?.banner?.url"
+    text="{{campaign?.dateFrom|localDate:'dd MMMM y'}} - {{campaign?.dateTo|localDate:'dd MMMM y'}}" [logo]="imagePath"
+    height="30vh"></ion-header>
   <ion-content appContent [fullscreen]="true" class="page">
     <div class="ion-padding">
       <ion-avatar class="avatar-campaign" [ngClass]="campaign.type">

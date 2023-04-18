@@ -37,15 +37,31 @@
 .ion-card {
   color: black;
   background-color: white;
-  div ion-avatar {
-    --border-radius: 50%;
-    // border: solid 3px rgba(0, 0, 0, 0);
-    background-color: white;
-    position: absolute;
-    z-index: 2;
-    text-align: center;
-    right: 20px;
-    top: 20px;
+
+  .header {
+    ion-label {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      bottom: 20px;
+      z-index: 2;
+      text-align: center;
+      bottom: 20px;
+      width: 100%;
+    }
+    ion-avatar {
+      --border-radius: 50%;
+      // border: solid 3px rgba(0, 0, 0, 0);
+      background-color: white;
+      position: absolute;
+      z-index: 2;
+      text-align: center;
+      right: 20px;
+      bottom: -20px;
+    }
+  }
+  ion-grid {
+    margin-top: 15px;
   }
 }
 .company {
@@ -75,3 +91,59 @@
     padding: 8px;
   }
 }
+.company-effect:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 30%,
+    var(--ion-color-company) 75%
+  );
+  z-index: 1;
+}
+.school-effect:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 30%,
+    var(--ion-color-school) 75%
+  );
+  z-index: 1;
+}
+.city-effect:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 30%,
+    var(--ion-color-city) 75%
+  );
+  z-index: 1;
+}
+// .header:before {
+//   content: "";
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background: linear-gradient(
+//     to bottom,
+//     rgba(0, 0, 0, 0) 0%,
+//     rgba(0, 0, 0, 1) 100%
+//   );
+//   z-index: 1;
+// }

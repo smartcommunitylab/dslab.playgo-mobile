@@ -2,10 +2,10 @@
   <app-notification-badge *ngIf=" header" [type]="'campaign'" [campaignContainer]="campaignContainer">
   </app-notification-badge>
   <ion-card-header color="company">
+    <ion-avatar>
+      <img [src]="imagePath" alt="Avatar" />
+    </ion-avatar>
     <div lines="none" color="company" *ngIf="header; else detailHeader">
-      <ion-avatar>
-        <img [src]="imagePath" alt="Avatar" />
-      </ion-avatar>
       <span> {{ campaignContainer.campaign.name | languageMap }}</span>
     </div>
     <ng-template #detailHeader>

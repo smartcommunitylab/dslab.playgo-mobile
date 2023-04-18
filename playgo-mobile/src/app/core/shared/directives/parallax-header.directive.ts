@@ -22,13 +22,13 @@ import { waitMs } from '../utils';
 })
 export class ParallaxDirective implements AfterContentInit {
   @Input() imageUrl: string;
-  // @Input() text: string;
-  // @Input() logo: SafeResourceUrl;
+  @Input() text: string;
+  @Input() logo: SafeResourceUrl;
   @Input() color: string;
   @Input() height: string | number = 300;
   @Input() bgPosition: 'top' | 'center' | 'bottom' = 'top';
   imageOverlay: HTMLElement;
-  // textDateOverlay: HTMLElement;
+  textDateOverlay: HTMLElement;
   // logoOverlay: HTMLElement;
   private toolbarBackground: HTMLElement;
   private innerScroll: HTMLElement;
@@ -58,7 +58,7 @@ export class ParallaxDirective implements AfterContentInit {
       if (this.initElements()) {
         this.setupContentPadding();
         this.setupImageOverlay();
-        // this.setupDate();
+        this.setupDate();
         // this.setupLogo();
         this.setupPointerEventsForButtons();
         this.setupEvents();
@@ -108,7 +108,25 @@ export class ParallaxDirective implements AfterContentInit {
       );
       return false;
     }
+    if (this.ionTitle) {
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', '75px');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'overflow', 'hidden');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'white-space', 'normal');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'text-overflow', 'ellipsis');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, 'display', '-webkit-box');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, '-webkit-line-clamp', '2');
+      this.renderer.setStyle(this.ionTitle.el.firstChild, '-webkit-box-orient', 'vertical');
+    }
+    if (this.ionButtons) {
+      if (this.ionButtons.first?.el?.childNodes[0]) {
+        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'background-color',
+          'rgba(var(--ion-color-contrast-reversed-rgb), 0.5)');
+        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'border-radius', '100%');
+        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'width', '36px');
+        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'height', '36px');
+      }
 
+    }
     const parentElement = this.header.parentElement;
     const ionContent = parentElement.querySelector('ion-content');
 
@@ -161,17 +179,17 @@ export class ParallaxDirective implements AfterContentInit {
       `${contentPaddingPx + coverHeightPx}px`
     );
   }
-  // private setupDate() {
-  //   this.textDateOverlay = this.renderer.createElement('div');
-  //   this.textDateOverlay.innerHTML += this.text;
-  //   this.renderer.addClass(this.textDateOverlay, 'text-overlay');
-  //   this.renderer.setStyle(this.textDateOverlay, 'background-color', 'transparent');
-  //   this.renderer.setStyle(this.textDateOverlay, 'text-align', 'center');
-  //   this.renderer.setStyle(this.textDateOverlay, 'width', '100%');
-  //   this.renderer.setStyle(this.textDateOverlay, 'position', 'relative');
-  //   this.renderer.setStyle(this.textDateOverlay, 'top', '60%');
-  //   this.toolbarBackground.appendChild(this.textDateOverlay);
-  // }
+  private setupDate() {
+    this.textDateOverlay = this.renderer.createElement('div');
+    this.textDateOverlay.innerHTML += this.text;
+    this.renderer.addClass(this.textDateOverlay, 'text-overlay');
+    this.renderer.setStyle(this.textDateOverlay, 'background-color', 'transparent');
+    this.renderer.setStyle(this.textDateOverlay, 'text-align', 'center');
+    this.renderer.setStyle(this.textDateOverlay, 'width', '100%');
+    this.renderer.setStyle(this.textDateOverlay, 'position', 'relative');
+    this.renderer.setStyle(this.textDateOverlay, 'top', '80%');
+    this.toolbarBackground.appendChild(this.textDateOverlay);
+  }
   private setupImageOverlay() {
     this.imageOverlay = this.renderer.createElement('div');
     this.renderer.addClass(this.imageOverlay, 'image-overlay');
@@ -184,7 +202,7 @@ export class ParallaxDirective implements AfterContentInit {
 
     this.renderer.setStyle(this.imageOverlay, 'height', `100%`);
     this.renderer.setStyle(this.imageOverlay, 'width', '100%');
-    // this.renderer.setStyle(this.imageOverlay, 'position', 'absolute');
+    this.renderer.setStyle(this.imageOverlay, 'position', 'absolute');
     this.renderer.setStyle(this.imageOverlay, 'background-size', 'cover');
     this.renderer.setStyle(
       this.imageOverlay,
@@ -194,30 +212,28 @@ export class ParallaxDirective implements AfterContentInit {
     this.renderer.setStyle(
       this.imageOverlay,
       'box-shadow',
-      // 'inset 0px -170px 102px -57px rgba(var(--ion-color-base-rgb),1), 4px 5px 15px 5px rgb(0 0 0 / 0%)'
-      'rgba(var(--ion-color-contrast-reversed-rgb),0.5) 1px 120px 60px -60px inset'
-
+      'inset 0px -170px 102px -57px rgba(var(--ion-color-base-rgb),1), 4px 5px 15px 5px rgb(0 0 0 / 0%)'
     );
 
     this.toolbarBackground.appendChild(this.imageOverlay);
   }
   // setupLogo() {
-  //   this.logoOverlay = this.renderer.createElement('div');
-  //   const img = new Image();
-  //   img.src = this.logo as string;
-  //   img.width = 50;
-  //   img.height = 50;
-  //   img.style.borderRadius = '50px';
-  //   img.style.border = '3px solid ' + this.color;
-  //   this.logoOverlay.appendChild(img);
-  //   this.renderer.addClass(this.logoOverlay, 'logo-overlay');
-  //   this.renderer.setStyle(this.logoOverlay, 'background-color', 'transparent');
-  //   this.renderer.setStyle(this.logoOverlay, 'margin', 'auto');
-  //   this.renderer.setStyle(this.logoOverlay, 'width', '50px');
-  //   this.renderer.setStyle(this.logoOverlay, 'height', '50px');
-  //   this.renderer.setStyle(this.logoOverlay, 'position', 'relative');
-  //   // this.renderer.setStyle(this.logoOverlay, 'top', '70%');
-  //   this.toolbarBackground.appendChild(this.logoOverlay);
+  // this.logoOverlay = this.renderer.createElement('div');
+  // const img = new Image();
+  // img.src = this.logo as string;
+  // img.width = 50;
+  // img.height = 50;
+  // img.style.borderRadius = '50px';
+  // img.style.border = '3px solid ' + this.color;
+  // this.logoOverlay.appendChild(img);
+  // this.renderer.addClass(this.logoOverlay, 'logo-overlay');
+  // this.renderer.setStyle(this.logoOverlay, 'background-color', 'transparent');
+  // this.renderer.setStyle(this.logoOverlay, 'margin', 'auto');
+  // this.renderer.setStyle(this.logoOverlay, 'width', '50px');
+  // this.renderer.setStyle(this.logoOverlay, 'height', '50px');
+  // this.renderer.setStyle(this.logoOverlay, 'position', 'relative');
+  // // this.renderer.setStyle(this.logoOverlay, 'top', '70%');
+  // this.toolbarBackground.appendChild(this.logoOverlay);
 
   // }
   private setupEvents() {
@@ -238,6 +254,7 @@ export class ParallaxDirective implements AfterContentInit {
     const progress = this.calcProgress(this.innerScroll, h);
     this.progressLayerHeight(progress);
     this.progressLayerOpacity(progress);
+    this.progressLayerBackground(progress);
   }
 
   progressLayerHeight(progress: number) {
@@ -254,13 +271,22 @@ export class ParallaxDirective implements AfterContentInit {
     // console.log('originalToolbarHeight', this.originalToolbarHeight);
     this.renderer.setStyle(this.toolbarContainer, 'height', `${h}px`);
     this.renderer.setStyle(this.imageOverlay, 'height', `100%`);
+
   }
 
   progressLayerOpacity(progress: number) {
     const op = 1 - progress;
     this.renderer.setStyle(this.imageOverlay, 'opacity', op);
     // this.renderer.setStyle(this.logoOverlay, 'opacity', op);
-    // this.renderer.setStyle(this.textDateOverlay, 'opacity', op);
+    this.renderer.setStyle(this.textDateOverlay, 'opacity', op);
+    // this.renderer.setStyle(this.toolbarContainer, 'opacity', progress);
+    this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', ((1 - progress) * 75) + 'px');
+
+  }
+  progressLayerBackground(progress: number) {
+    const op = 0.5 - progress;
+    this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0],
+      'background-color', 'rgba(var(--ion-color-contrast-reversed-rgb),' + op + ')');
   }
 
   private calcProgress(scrollingElement: HTMLElement, maxHeight: number) {

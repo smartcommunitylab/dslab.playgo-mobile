@@ -1,14 +1,16 @@
 <ng-container *ngIf="campaignContainer">
-  <ion-header appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url" height="30vh"></ion-header>
+  <!-- <ion-header mode="ios" appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url"
+=======
+  <ion-header appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url" height="30vh"></ion-header> -->
 
-  <!-- <ion-header  appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url"
+  <ion-header mode="ios" appHeader parallax [imageUrl]="campaignContainer?.campaign?.banner?.url"
     text="{{campaignContainer?.campaign?.dateFrom|localDate:'dd MMMM y'}} - {{campaignContainer?.campaign?.dateTo|localDate:'dd MMMM y'}}"
-    [logo]="imagePath" height="30vh"></ion-header> -->
+    [logo]="imagePath" height="30vh"></ion-header>
   <ion-content appContent [fullscreen]="true" *ngIf="campaignContainer" [scrollEvents]="true" class="page">
-    <ion-avatar class="avatar-campaign"
+    <!-- <ion-avatar class="avatar-campaign"
       [ngStyle]="{'border': '3px solid var(--ion-color-'+campaignContainer?.campaign?.type+')'}">
       <img [src]="imagePath" title="campaign logo" />
-    </ion-avatar>
+    </ion-avatar> -->
     <app-widget-campaign [campaign]="campaignContainer" [header]="false"></app-widget-campaign>
     <ng-container *ngFor="let notification of unreadNotifications">
       <app-campaign-notification [campaign]="campaignContainer" [notification]="notification">

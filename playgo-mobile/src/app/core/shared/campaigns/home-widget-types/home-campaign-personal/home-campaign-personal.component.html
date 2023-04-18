@@ -1,9 +1,10 @@
 <ion-card [ngClass]="{'home-card-widget': header}">
   <ion-card-header color="personal">
+    <ion-avatar>
+      <img [src]="imagePath" alt="Avatar" />
+    </ion-avatar>
     <div lines="none" color="personal" *ngIf="header; else detailHeader">
-      <ion-avatar>
-        <img [src]="imagePath" alt="Avatar" />
-      </ion-avatar>
+
       <span> {{ campaignContainer.campaign.name | languageMap }}</span>
       <app-notification-badge [campaignContainer]="campaignContainer"></app-notification-badge>
     </div>
