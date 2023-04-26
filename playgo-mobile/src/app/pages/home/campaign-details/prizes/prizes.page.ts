@@ -21,6 +21,7 @@ import { PrizeModalPage } from './prize-modal/prize.modal';
 })
 export class PrizesPage implements OnInit, OnDestroy {
 
+  selectedSegment?: string;
   campaignId$: Observable<string> = this.route.params.pipe(
     map((params) => params.id),
     shareReplay(1)
@@ -55,6 +56,7 @@ export class PrizesPage implements OnInit, OnDestroy {
   }
   ionViewWillEnter() {
     this.changePageSettings();
+    this.selectedSegment = 'periodicPrizes';
   }
   getPostion(arg0: number) {
     switch (arg0) {

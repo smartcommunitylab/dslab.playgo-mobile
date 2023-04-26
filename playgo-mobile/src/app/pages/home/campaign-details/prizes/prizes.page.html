@@ -1,39 +1,92 @@
 <ion-header appHeader></ion-header>
 <ion-content appContent [fullscreen]="true">
-  <ng-container *ngFor="let conf of this.campaignContainer?.campaign?.weekConfs">
-    <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom  && conf?.dateTo && isBeforeNow(conf)">
-      <ion-card-header
-        [ngClass]="{'active':isThisPeriod(conf?.dateFrom,conf?.dateTo),'not-active':!isThisPeriod(conf?.dateFrom,conf?.dateTo)}">
-        <ion-card-title><span>{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
-            {{"campaigns.detail.to"|translate}} {{conf.dateTo|localDate}}</span><span
-            *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)"
-            class="on-going">{{'campaigns.detail.current'|translate}}</span></ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list *ngFor="let reward of conf.rewards">
-          <ion-item class="ion-no-padding">
+  <ion-segment mode="md" class="app-segment app-segment-challenge" [(ngModel)]="selectedSegment" scrollable
+    class="app-segment" [style.--background]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
+    <ion-segment-button value="periodicPrizes" checked mode="ios" class="app-segment-button"
+      [style.--color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'"
+      [style.--color-checked]="'black'">
+      <ion-label>{{'campaigns.detail.prize.periodic' | translate}}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="finalPrizes" checked mode="ios" class="app-segment-button"
+      [style.--color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'"
+      [style.--color-checked]="'black'">
+      <ion-label>{{'campaigns.detail.prize.final' | translate}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div *ngIf="selectedSegment==='periodicPrizes'">
+    <ng-container *ngFor="let conf of this.campaignContainer?.campaign?.weekConfs">
+      <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom  && conf?.dateTo && isBeforeNow(conf)">
+        <ion-card-header
+          [ngClass]="{'active':isThisPeriod(conf?.dateFrom,conf?.dateTo),'not-active':!isThisPeriod(conf?.dateFrom,conf?.dateTo)}">
+          <ion-card-title><span>{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
+              {{"campaigns.detail.to"|translate}} {{conf.dateTo|localDate}}</span><span
+              *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)"
+              class="on-going">{{'campaigns.detail.current'|translate}}</span></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list *ngFor="let reward of conf.rewards">
+            <ion-item class="ion-no-padding">
 
-            <ion-grid>
-              <ion-row>
-                <ion-col size="2">
-                  <ion-icon name="gift" [ngClass]="getPostion(reward?.position)"></ion-icon>
-                  <app-ordinal-number [value]="reward?.position"
-                    [ngClass]="getPostion(reward?.position)"></app-ordinal-number>
-                </ion-col>
-                <ion-col>
-                  <span class="prize"> {{
-                    reward.desc|languageMap
-                    }}</span>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-item>
-        </ion-list>
-        <div class="info-prize" *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)">
-          <span>{{"campaigns.detail.info"|translate}}</span>
-          <ion-icon name="information-circle-outline" (click)="openPrize()"></ion-icon>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="2">
+                    <ion-icon name="gift" [ngClass]="getPostion(reward?.position)"></ion-icon>
+                    <app-ordinal-number [value]="reward?.position"
+                      [ngClass]="getPostion(reward?.position)"></app-ordinal-number>
+                  </ion-col>
+                  <ion-col>
+                    <span class="prize"> {{
+                      reward.desc|languageMap
+                      }}</span>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+          </ion-list>
+          <div class="info-prize" *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)">
+            <span>{{"campaigns.detail.info"|translate}}</span>
+            <ion-icon name="information-circle-outline" (click)="openPrize()"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </div>
+  <div *ngIf="selectedSegment==='finalPrizes'">
+    <ng-container *ngFor="let conf of this.campaignContainer?.campaign?.weekConfs">
+      <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom  && conf?.dateTo && isBeforeNow(conf)">
+        <ion-card-header
+          [ngClass]="{'active':isThisPeriod(conf?.dateFrom,conf?.dateTo),'not-active':!isThisPeriod(conf?.dateFrom,conf?.dateTo)}">
+          <ion-card-title><span>{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
+              {{"campaigns.detail.to"|translate}} {{conf.dateTo|localDate}}</span><span
+              *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)"
+              class="on-going">{{'campaigns.detail.current'|translate}}</span></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list *ngFor="let reward of conf.rewards">
+            <ion-item class="ion-no-padding">
+
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="2">
+                    <ion-icon name="gift" [ngClass]="getPostion(reward?.position)"></ion-icon>
+                    <app-ordinal-number [value]="reward?.position"
+                      [ngClass]="getPostion(reward?.position)"></app-ordinal-number>
+                  </ion-col>
+                  <ion-col>
+                    <span class="prize"> {{
+                      reward.desc|languageMap
+                      }}</span>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+          </ion-list>
+          <div class="info-prize" *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)">
+            <span>{{"campaigns.detail.info"|translate}}</span>
+            <ion-icon name="information-circle-outline" (click)="openPrize()"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </div>
 </ion-content>
