@@ -53,8 +53,8 @@
   </div>
   <div *ngIf="selectedSegment==='finalPrizes'">
     <ng-container *ngIf="getFinalPrize() as finalPrize; else noFinal">
-      <div class="final-header"><span>{{'campaigns.detail.prize.final' | translate}}<ion-icon name="information-circle"
-            (click)="openWeekDescFinal()"></ion-icon></span> </div>
+      <div class="final-header"><span>{{'campaigns.detail.prize.prizefinal' | translate}}<ion-icon
+            name="information-circle" (click)="openWeekDescFinal()"></ion-icon></span> </div>
       <ion-card *ngFor="let reward of finalPrize.rewards; let i = index;">
         <ion-card-header [ngClass]="getPostion(i)">
           <ion-card-title>

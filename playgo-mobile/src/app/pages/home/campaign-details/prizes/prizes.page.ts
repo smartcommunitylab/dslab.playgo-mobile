@@ -97,12 +97,14 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   }
   getPostion(arg0: number) {
     switch (arg0) {
-      case 1:
+      case 0:
         return 'gold';
-      case 2:
+      case 1:
         return 'silver';
-      default:
+      case 2:
         return 'bronze';
+      default:
+        return '';
     }
   }
   isThisPeriod(dateFrom: number, dateTo: number): boolean {

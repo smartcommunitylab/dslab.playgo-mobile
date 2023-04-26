@@ -54,8 +54,14 @@ ion-card-content {
 .on-going {
   font-style: italic;
 }
+ion-card-header {
+  border-bottom: 1px solid #e0e0e0;
+}
 .final-header {
   text-align: center;
+  height: 70px;
+  display: flex;
+  justify-content: center;
   span {
     font-size: 18px;
     font-weight: bold;
@@ -64,6 +70,7 @@ ion-card-content {
     align-items: center;
     ion-icon {
       color: #00000042;
+      margin-left: 8px;
     }
   }
 }
