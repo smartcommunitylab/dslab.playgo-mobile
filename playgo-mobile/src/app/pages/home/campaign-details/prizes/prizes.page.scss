@@ -36,13 +36,14 @@ ion-card-content {
 }
 
 .gold {
-  color: gold;
+  background-color: gold;
 }
 .silver {
-  color: silver;
+  background-color: silver;
 }
 .bronze {
-  color: chocolate;
+  background-color: chocolate;
+  color: white;
 }
 .active {
   background-color: gold;
@@ -52,4 +53,31 @@ ion-card-content {
 }
 .on-going {
   font-style: italic;
+}
+.final-header {
+  text-align: center;
+  span {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ion-icon {
+      color: #00000042;
+    }
+  }
+}
+.sponsor {
+  .desc {
+  }
+  .detail {
+    background-color: #b6b6b61a;
+    .sponsorby {
+      color: #00000026;
+    }
+    .website {
+      color: #ecd56c;
+      text-decoration: underline;
+    }
+  }
 }

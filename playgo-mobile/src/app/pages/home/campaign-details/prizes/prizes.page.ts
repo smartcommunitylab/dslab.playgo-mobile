@@ -1,5 +1,6 @@
 /* eslint-disable prefer-const */
 import {
+  AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
@@ -13,14 +14,16 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { PrizeModalPage } from './prize-modal/prize.modal';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-stats',
   templateUrl: './prizes.page.html',
   styleUrls: ['./prizes.page.scss'],
 })
-export class PrizesPage implements OnInit, OnDestroy {
+export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
 
+  public anchors: any;
   selectedSegment?: string;
   campaignId$: Observable<string> = this.route.params.pipe(
     map((params) => params.id),
@@ -57,6 +60,40 @@ export class PrizesPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.changePageSettings();
     this.selectedSegment = 'periodicPrizes';
+  }
+  getFinalPrize() {
+    return this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
+  }
+  openWeekDescFinal() {
+    console.log('openWeekDescFinal');
+  }
+  openRewardDescFinal() {
+    console.log('openRewardDescFinal');
+
+  }
+  ngAfterViewInit() {
+    // //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
+    // this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
+    // this.anchors.forEach((anchor: HTMLAnchorElement) => {
+    //   anchor.addEventListener('click', this.handleAnchorClick);
+    // });
+  }
+  // public handleAnchorClick = (event: Event) => {
+  //   // Prevent opening anchors the default way
+  //   event.preventDefault();
+  //   const anchor = event.target as HTMLAnchorElement;
+  //   Browser.open({
+  //     url: anchor.href,
+  //     windowName: '_system',
+  //     presentationStyle: 'popover',
+  //   });
+  // };
+  openLink(link: string) {
+    Browser.open({
+      url: link,
+      windowName: '_system',
+      presentationStyle: 'popover',
+    });
   }
   getPostion(arg0: number) {
     switch (arg0) {

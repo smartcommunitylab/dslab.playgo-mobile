@@ -52,41 +52,48 @@
     </ng-container>
   </div>
   <div *ngIf="selectedSegment==='finalPrizes'">
-    <ng-container *ngFor="let conf of this.campaignContainer?.campaign?.weekConfs">
-      <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom  && conf?.dateTo && isBeforeNow(conf)">
-        <ion-card-header
-          [ngClass]="{'active':isThisPeriod(conf?.dateFrom,conf?.dateTo),'not-active':!isThisPeriod(conf?.dateFrom,conf?.dateTo)}">
-          <ion-card-title><span>{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
-              {{"campaigns.detail.to"|translate}} {{conf.dateTo|localDate}}</span><span
-              *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)"
-              class="on-going">{{'campaigns.detail.current'|translate}}</span></ion-card-title>
+    <ng-container *ngIf="getFinalPrize() as finalPrize; else noFinal">
+      <div class="final-header"><span>{{'campaigns.detail.prize.final' | translate}}<ion-icon name="information-circle"
+            (click)="openWeekDescFinal()"></ion-icon></span> </div>
+      <ion-card *ngFor="let reward of finalPrize.rewards; let i = index;">
+        <ion-card-header [ngClass]="getPostion(i)">
+          <ion-card-title>
+            <span><ion-icon name="gift"></ion-icon><app-ordinal-number [value]="i+1"></app-ordinal-number></span>
+            <ion-icon name="information-circle" (click)="openRewardDescFinal()"></ion-icon>
+          </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-list *ngFor="let reward of conf.rewards">
-            <ion-item class="ion-no-padding">
-
-              <ion-grid>
-                <ion-row>
-                  <ion-col size="2">
-                    <ion-icon name="gift" [ngClass]="getPostion(reward?.position)"></ion-icon>
-                    <app-ordinal-number [value]="reward?.position"
-                      [ngClass]="getPostion(reward?.position)"></app-ordinal-number>
+          <div class="ion-no-padding">
+            <div class="sponsor">
+              <ion-grid *ngIf="reward.desc">
+                <ion-row class="desc">
+                  <ion-col class="ion-text-start">
+                    <b>{{reward.desc| languageMap}}</b>
                   </ion-col>
+                </ion-row>
+                <ion-row class="detail">
                   <ion-col>
-                    <span class="prize"> {{
-                      reward.desc|languageMap
-                      }}</span>
+                    <div class="ion-text-start sponsorby">{{"campaigns.detail.prize.sponsorBy"| translate|uppercase}}
+                    </div>
+                    <div *ngIf="reward.sponsor" class="ion-text-start"><b>{{reward.sponsor}}</b></div>
+                    <div *ngIf="reward.sponsorDesc" class="ion-text-start">{{reward.sponsorDesc|languageMap}}</div>
+                    <div *ngIf="reward.sponsorWebsite" (click)="openLink(reward.sponsorWebsite)"
+                      class="ion-text-end website">
+                      {{"campaigns.detail.prize.website"| translate}}</div>
                   </ion-col>
                 </ion-row>
               </ion-grid>
-            </ion-item>
-          </ion-list>
-          <div class="info-prize" *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)">
+            </div>
+          </div>
+          <div class="info-prize" *ngIf="isThisPeriod(finalPrize?.dateFrom, finalPrize?.dateTo)">
             <span>{{"campaigns.detail.info"|translate}}</span>
-            <ion-icon name="information-circle-outline" (click)="openPrize()"></ion-icon>
+            <ion-icon name="information-circle" (click)="openPrize()"></ion-icon>
           </div>
         </ion-card-content>
       </ion-card>
     </ng-container>
+    <ng-template #noFinal>
+      no finale
+    </ng-template>
   </div>
 </ion-content>
