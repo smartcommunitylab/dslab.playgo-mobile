@@ -388,10 +388,15 @@
         "periodic": "Periodic",
         "final": "Final",
         "prizefinal": "Final prizes",
+        "prizeactual": "Current prizes",
         "finalWeekTitle": "Prizes",
         "finalRewardTitle": "Prize's information",
         "sponsorBy": "Sponsor by:",
-        "website": "website"
+        "website": "website",
+        "noFinal": "No final prizes founded",
+        "noActual": "No weekly prizes founded",
+        "expand": "Show past periods",
+        "expanded": "Past prizes"
       },
       "from": "From ",
       "to": "to",

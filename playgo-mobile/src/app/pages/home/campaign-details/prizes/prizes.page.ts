@@ -24,7 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./prizes.page.scss'],
 })
 export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
-
+  notExpanded = true;
   public anchors: any;
   selectedSegment?: string;
   campaignId$: Observable<string> = this.route.params.pipe(
@@ -67,7 +67,10 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   getFinalPrize() {
     return this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
   }
-  async openWeekDescFinal(finalPrize: CampaignWeekConf) {
+  getActualPrize() {
+    return this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x.dateFrom, x.dateTo));
+  }
+  async openWeekDescActual(finalPrize: CampaignWeekConf) {
     const titlePrize = await firstValueFrom(
       this.translateService.get('campaigns.detail.prize.finalWeekTitle')
     );
@@ -76,6 +79,37 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
       componentProps: {
         title: titlePrize,
         detail: finalPrize.desc,
+      },
+      cssClass: 'challenge-info',
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+  }
+  async openRewardDescActual(actualPrize: CampaignWeekConf, index: number) {
+    const titlePrize = await firstValueFrom(
+      this.translateService.get('campaigns.detail.prize.finalRewardTitle')
+    );
+    const modal = await this.modalController.create({
+      component: DetailPrizeModalPage,
+      componentProps: {
+        title: titlePrize,
+        detail: actualPrize?.rewards[index].desc,
+      },
+      cssClass: 'challenge-info',
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+  }
+  async openWeekDescFinal(actualPrize: CampaignWeekConf) {
+    const titlePrize = await firstValueFrom(
+      this.translateService.get('campaigns.detail.prize.finalWeekTitle')
+    );
+    const modal = await this.modalController.create({
+      component: DetailPrizeModalPage,
+      componentProps: {
+        title: titlePrize,
+        detail: actualPrize.desc,
       },
       cssClass: 'challenge-info',
     });
@@ -105,7 +139,9 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     //   anchor.addEventListener('click', this.handleAnchorClick);
     // });
   }
-
+  expandPrizes() {
+    this.notExpanded = false;
+  }
   openLink(link: string) {
     Browser.open({
       url: link,

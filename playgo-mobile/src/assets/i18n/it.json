@@ -388,10 +388,15 @@
         "periodic": "Periodici",
         "final": "Finali",
         "prizefinal": "Premi finali",
+        "prizeactual": "Premi periodici in palio",
         "finalWeekTitle": "Premi e incentivi",
         "finalRewardTitle": "Info premio",
         "sponsorBy": "Offerto da:",
-        "website": "website"
+        "website": "website",
+        "noFinal": "Nessun premio finale trovato",
+        "noActual": "Nessun premio nella settimana attuale trovato",
+        "expand": "Mostra periodi passati",
+        "expanded": "Premi periodici passati"
       },
       "from": "Dal ",
       "to": "al",
