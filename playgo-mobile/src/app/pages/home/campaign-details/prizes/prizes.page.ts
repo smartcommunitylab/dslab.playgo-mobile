@@ -8,13 +8,15 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { DateTime, Interval } from 'luxon';
-import { Observable, map, shareReplay, Subscription } from 'rxjs';
+import { Observable, map, shareReplay, Subscription, firstValueFrom } from 'rxjs';
 import { CampaignWeekConf } from 'src/app/core/api/generated/model/campaignWeekConf';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { PrizeModalPage } from './prize-modal/prize.modal';
 import { Browser } from '@capacitor/browser';
+import { DetailPrizeModalPage } from './detail-modal/detail.modal';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-stats',
@@ -39,7 +41,8 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private pageSettingsService: PageSettingsService,
     private campaignService: CampaignService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translateService: TranslateService
   ) {
     this.subId = this.route.params.subscribe((params) => {
       this.id = params.id;
@@ -64,12 +67,36 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   getFinalPrize() {
     return this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
   }
-  openWeekDescFinal() {
-    console.log('openWeekDescFinal');
-  }
-  openRewardDescFinal() {
-    console.log('openRewardDescFinal');
+  async openWeekDescFinal(finalPrize: CampaignWeekConf) {
+    const titlePrize = await firstValueFrom(
+      this.translateService.get('campaigns.detail.prize.finalWeekTitle')
+    );
+    const modal = await this.modalController.create({
+      component: DetailPrizeModalPage,
+      componentProps: {
+        title: titlePrize,
+        detail: finalPrize.desc,
+      },
+      cssClass: 'challenge-info',
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
 
+  }
+  async openRewardDescFinal(finalPrize: CampaignWeekConf, index: number) {
+    const titlePrize = await firstValueFrom(
+      this.translateService.get('campaigns.detail.prize.finalRewardTitle')
+    );
+    const modal = await this.modalController.create({
+      component: DetailPrizeModalPage,
+      componentProps: {
+        title: titlePrize,
+        detail: finalPrize?.rewards[index].desc,
+      },
+      cssClass: 'challenge-info',
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
   }
   ngAfterViewInit() {
     // //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
@@ -78,16 +105,7 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     //   anchor.addEventListener('click', this.handleAnchorClick);
     // });
   }
-  // public handleAnchorClick = (event: Event) => {
-  //   // Prevent opening anchors the default way
-  //   event.preventDefault();
-  //   const anchor = event.target as HTMLAnchorElement;
-  //   Browser.open({
-  //     url: anchor.href,
-  //     windowName: '_system',
-  //     presentationStyle: 'popover',
-  //   });
-  // };
+
   openLink(link: string) {
     Browser.open({
       url: link,

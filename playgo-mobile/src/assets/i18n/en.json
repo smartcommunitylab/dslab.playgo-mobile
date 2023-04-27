@@ -388,6 +388,8 @@
         "periodic": "Periodic",
         "final": "Final",
         "prizefinal": "Final prizes",
+        "finalWeekTitle": "Prizes",
+        "finalRewardTitle": "Prize's information",
         "sponsorBy": "Sponsor by:",
         "website": "website"
       },
