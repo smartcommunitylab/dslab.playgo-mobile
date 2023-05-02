@@ -36,12 +36,22 @@ ion-card-content {
 }
 
 .gold {
-  color: gold;
+  background-color: gold;
 }
 .silver {
-  color: silver;
+  background-color: silver;
 }
 .bronze {
+  background-color: chocolate;
+  color: white;
+}
+.packet-gold {
+  color: gold;
+}
+.packet-silver {
+  color: silver;
+}
+.packet-bronze {
   color: chocolate;
 }
 .active {
@@ -52,4 +62,54 @@ ion-card-content {
 }
 .on-going {
   font-style: italic;
+}
+ion-card-header {
+  border-bottom: 1px solid #e0e0e0;
+}
+.final-header {
+  text-align: center;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -20px;
+  span {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ion-icon {
+      color: #00000042;
+      margin-left: 8px;
+    }
+  }
+}
+.actual-header {
+  text-align: center;
+  height: 70px;
+  justify-content: center;
+  p {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ion-icon {
+      color: #00000042;
+      margin-left: 8px;
+    }
+  }
+}
+.sponsor {
+  .desc {
+  }
+  .detail {
+    background-color: #b6b6b61a;
+    .sponsorby {
+      color: #00000026;
+    }
+    .website {
+      color: #ecd56c;
+      text-decoration: underline;
+    }
+  }
 }
