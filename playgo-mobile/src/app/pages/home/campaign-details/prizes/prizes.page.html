@@ -43,8 +43,9 @@
                   <ion-col>
                     <div class="ion-text-start sponsorby">{{"campaigns.detail.prize.sponsorBy"| translate|uppercase}}
                     </div>
-                    <div *ngIf="reward.sponsor" class="ion-text-start"><b>{{reward.sponsor}}</b></div>
-                    <div *ngIf="reward.sponsorDesc" class="ion-text-start">{{reward.sponsorDesc|languageMap}}</div>
+                    <div *ngIf="reward.sponsor" class="ion-text-start" [innerHTML]="reward.sponsor"></div>
+                    <div *ngIf="reward.sponsorDesc" class="ion-text-start"
+                      [innerHTML]="reward.sponsorDesc| languageMap"></div>
                     <div *ngIf="reward.sponsorWebsite" (click)="openLink(reward.sponsorWebsite)"
                       class="ion-text-end website">
                       {{"campaigns.detail.prize.website"| translate}}</div>
@@ -59,7 +60,8 @@
     <ng-template #noRewards>
       {{'campaigns.detail.prize.noActual' | translate}}
     </ng-template>
-    <ion-button expand="block" color="light" (click)="expandPrizes()" *ngIf="notExpanded; else expanded">{{
+    <ion-button class="ion-margin" expand="block" [color]="campaignContainer?.campaign?.type" (click)="expandPrizes()"
+      *ngIf="notExpanded; else expanded">{{
       "campaigns.detail.prize.expand" | translate
       }}</ion-button>
     <ng-template #expanded>
@@ -85,12 +87,10 @@
                           <ion-col size="2">
                             <ion-icon name="gift" [ngClass]="'packet-'+getPostion(reward?.position-1)"></ion-icon>
                             <app-ordinal-number [value]="reward?.position"
-                              [ngClass]="'packet-'+getPostion(reward?.position)"></app-ordinal-number>
+                              [ngClass]="'packet-'+getPostion(reward?.position-1)"></app-ordinal-number>
                           </ion-col>
                           <ion-col>
-                            <span class="prize"> {{
-                              reward.desc|languageMap
-                              }}</span>
+                            <span class="prize" [innerHTML]="reward.desc|languageMap"></span>
                           </ion-col>
                         </ion-row>
                       </ion-grid>
@@ -101,8 +101,9 @@
                     <div class="detail ion-padding">
                       <div class="ion-text-start sponsorby">{{"campaigns.detail.prize.sponsorBy"| translate|uppercase}}
                       </div>
-                      <div *ngIf="reward.sponsor" class="ion-text-start"><b>{{reward.sponsor}}</b></div>
-                      <div *ngIf="reward.sponsorDesc" class="ion-text-start">{{reward.sponsorDesc|languageMap}}</div>
+                      <div *ngIf="reward.sponsor" class="ion-text-start" [innerHTML]="reward.sponsor"></div>
+                      <div *ngIf="reward.sponsorDesc" class="ion-text-start"
+                        [innerHTML]="reward.sponsorDesc| languageMap"></div>
                       <div *ngIf="reward.sponsorWebsite" (click)="openLink(reward.sponsorWebsite)"
                         class="ion-text-end website">
                         {{"campaigns.detail.prize.website"| translate}}</div>
@@ -132,8 +133,7 @@
             <div class="sponsor">
               <ion-grid *ngIf="reward.desc">
                 <ion-row class="desc">
-                  <ion-col class="ion-text-start">
-                    <b>{{reward.desc| languageMap}}</b>
+                  <ion-col class="ion-text-start" [innerHTML]="reward.desc| languageMap">
                   </ion-col>
                 </ion-row>
                 <ion-row class="detail"
@@ -141,8 +141,9 @@
                   <ion-col>
                     <div class="ion-text-start sponsorby">{{"campaigns.detail.prize.sponsorBy"| translate|uppercase}}
                     </div>
-                    <div *ngIf="reward.sponsor" class="ion-text-start"><b>{{reward.sponsor}}</b></div>
-                    <div *ngIf="reward.sponsorDesc" class="ion-text-start">{{reward.sponsorDesc|languageMap}}</div>
+                    <div *ngIf="reward.sponsor" class="ion-text-start" [innerHTML]="reward.sponsor"></div>
+                    <div *ngIf="reward.sponsorDesc" class="ion-text-start"
+                      [innerHTML]="reward.sponsorDesc| languageMap"></div>
                     <div *ngIf="reward.sponsorWebsite" (click)="openLink(reward.sponsorWebsite)"
                       class="ion-text-end website">
                       {{"campaigns.detail.prize.website"| translate}}</div>

@@ -185,7 +185,7 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isBeforeNow(conf: CampaignWeekConf): any {
-    return DateTime.fromMillis(conf?.dateFrom) < this.dateTimeToCheck;
+    return DateTime.fromMillis(conf?.dateTo) < this.dateTimeToCheck;
   }
 }
 

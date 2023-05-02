@@ -395,8 +395,8 @@
         "website": "website",
         "noFinal": "Nessun premio finale trovato",
         "noActual": "Nessun premio nella settimana attuale trovato",
-        "expand": "Mostra periodi passati",
-        "expanded": "Premi periodici passati"
+        "expand": "Mostra premi passati",
+        "expanded": "Premi passati"
       },
       "from": "Dal ",
       "to": "al",
