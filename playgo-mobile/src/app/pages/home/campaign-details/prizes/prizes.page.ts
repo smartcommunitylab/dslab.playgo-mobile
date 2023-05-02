@@ -84,7 +84,22 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
+  }
 
+  async openWeekDescPast(confPrize: CampaignWeekConf) {
+    const titlePrize = await firstValueFrom(
+      this.translateService.get('campaigns.detail.prize.finalWeekTitle')
+    );
+    const modal = await this.modalController.create({
+      component: DetailPrizeModalPage,
+      componentProps: {
+        title: titlePrize,
+        detail: confPrize.desc,
+      },
+      cssClass: 'challenge-info',
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
   }
   async openRewardDescActual(actualPrize: CampaignWeekConf, index: number) {
     const titlePrize = await firstValueFrom(
