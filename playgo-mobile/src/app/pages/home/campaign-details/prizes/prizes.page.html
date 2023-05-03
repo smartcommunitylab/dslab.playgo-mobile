@@ -26,7 +26,8 @@
         <ion-card-header [ngClass]="getPostion(i)">
           <ion-card-title>
             <span><ion-icon name="gift"></ion-icon><app-ordinal-number [value]="i+1"></app-ordinal-number></span>
-            <ion-icon name="information-circle" (click)="openRewardDescActual(actualPrize,i)"></ion-icon>
+            <ion-icon class="information" name="information-circle"
+              (click)="openRewardDescActual(actualPrize,i)"></ion-icon>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
@@ -72,11 +73,11 @@
         <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom  && conf?.dateTo && isBeforeNow(conf)">
           <ion-card-header [style.--background]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
             <ion-card-title>
-              <span>{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
+              <span class="date-prize">{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
                 {{"campaigns.detail.to"|translate}} {{conf.dateTo|localDate}}</span>
               <span *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)"
                 class="on-going">{{'campaigns.detail.current'|translate}}</span>
-              <ion-icon name="information-circle" (click)="openWeekDescPast(conf)"></ion-icon>
+              <ion-icon class="information" name="information-circle" (click)="openWeekDescPast(conf)"></ion-icon>
             </ion-card-title>
           </ion-card-header>
           <ion-card-content class="ion-no-padding">
@@ -126,7 +127,8 @@
         <ion-card-header [ngClass]="getPostion(i)">
           <ion-card-title>
             <span><ion-icon name="gift"></ion-icon><app-ordinal-number [value]="i+1"></app-ordinal-number></span>
-            <ion-icon name="information-circle" (click)="openRewardDescFinal(finalPrize,i)"></ion-icon>
+            <ion-icon class="information" name="information-circle"
+              (click)="openRewardDescFinal(finalPrize,i)"></ion-icon>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>

@@ -103,13 +103,13 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   }
   async openRewardDescActual(actualPrize: CampaignWeekConf, index: number) {
     const titlePrize = await firstValueFrom(
-      this.translateService.get('campaigns.detail.prize.finalRewardTitle')
+      this.translateService.get('campaigns.detail.prize.periodicWeekTitle')
     );
     const modal = await this.modalController.create({
       component: DetailPrizeModalPage,
       componentProps: {
         title: titlePrize,
-        detail: actualPrize?.rewards[index].desc,
+        detail: actualPrize?.rewards[index].rewardNote,
       },
       cssClass: 'challenge-info',
     });
@@ -140,7 +140,7 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
       component: DetailPrizeModalPage,
       componentProps: {
         title: titlePrize,
-        detail: finalPrize?.rewards[index].desc,
+        detail: finalPrize?.rewards[index].rewardNote,
       },
       cssClass: 'challenge-info',
     });
