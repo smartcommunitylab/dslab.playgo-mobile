@@ -4,6 +4,9 @@ ion-card-title {
   display: flex;
   justify-content: space-between;
 }
+ion-card {
+  color: black;
+}
 ion-card-content {
   .prize {
     font-weight: 700;
@@ -99,11 +102,26 @@ ion-card-header {
     }
   }
 }
+.sub-header {
+  text-align: center;
+  justify-content: center;
+  padding: 8px;
+  p {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ion-icon {
+      color: #00000042;
+      margin-left: 8px;
+    }
+  }
+}
 .information {
   opacity: 50%;
 }
 .date-prize {
-  font-weight: bold;
+  font-weight: 300;
 }
 .sponsor {
   .desc {
@@ -116,6 +134,18 @@ ion-card-header {
     .website {
       color: #ecd56c;
       text-decoration: underline;
+    }
+  }
+}
+.no-prizes {
+  text-align: center;
+  margin: 40px;
+  font-weight: 700;
+}
+ion-accordion-group {
+  ion-accordion {
+    .container {
+      width: 100%;
     }
   }
 }

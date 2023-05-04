@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -17,6 +18,7 @@ import { PrizeModalPage } from './prize-modal/prize.modal';
 import { Browser } from '@capacitor/browser';
 import { DetailPrizeModalPage } from './detail-modal/detail.modal';
 import { TranslateService } from '@ngx-translate/core';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-stats',
@@ -24,6 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./prizes.page.scss'],
 })
 export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild(IonContent, { static: false }) content: IonContent;
   notExpanded = true;
   public anchors: any;
   selectedSegment?: string;
@@ -72,7 +75,7 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   }
   async openWeekDescActual(finalPrize: CampaignWeekConf) {
     const titlePrize = await firstValueFrom(
-      this.translateService.get('campaigns.detail.prize.finalWeekTitle')
+      this.translateService.get('campaigns.detail.prize.actualWeekTitle')
     );
     const modal = await this.modalController.create({
       component: DetailPrizeModalPage,
@@ -85,10 +88,14 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     await modal.present();
     const { data } = await modal.onWillDismiss();
   }
+  scrollTo(elementId: string) {
+    let id = document.getElementById('subprizes');
+    this.content.scrollToPoint(0, id.offsetTop, 500);
 
+  }
   async openWeekDescPast(confPrize: CampaignWeekConf) {
     const titlePrize = await firstValueFrom(
-      this.translateService.get('campaigns.detail.prize.finalWeekTitle')
+      this.translateService.get('campaigns.detail.prize.actualWeekTitle')
     );
     const modal = await this.modalController.create({
       component: DetailPrizeModalPage,
@@ -156,6 +163,7 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   }
   expandPrizes() {
     this.notExpanded = false;
+    this.scrollTo('subprizes');
   }
   openLink(link: string) {
     Browser.open({
