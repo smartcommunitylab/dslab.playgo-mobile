@@ -2,22 +2,15 @@
   <div *ngIf="(activeUncompleteChallenges$ | async)?.length!==0" (click)="goToActiveChallenge($event)">
     <ion-avatar>
       <app-icon name="groupCompetitivePerformance" class="type-notif  icon-size-normal"></app-icon>
-      <!-- <ion-badge color="danger">
-        <ion-icon name="alert"></ion-icon>
-      </ion-badge> -->
-
     </ion-avatar>
     <div class="challenge-text">{{
       'challenges.active'|translate: {active: (activeUncompleteChallenges$ | async)?.length}
       }}</div>
   </div>
-  <div *ngIf="(configureChallenges$| async)?.length!==0" (click)="goToConfigureChallenge($event)">
+  <div *ngIf="(configureChallenges$| async)?.length!==0 || (canInvite$ | async)"
+    (click)="goToConfigureChallenge($event)">
     <ion-avatar>
       <app-icon name="cupCog" class="type-notif  icon-size-normal"></app-icon>
-      <!-- <ion-badge color="danger">
-        <ion-icon name="alert"></ion-icon>
-      </ion-badge> -->
-
     </ion-avatar>
     <div class="challenge-text">{{
       'challenges.configure'|translate: {configurable: (((configureChallenges$|async)?.length>0)?1:0)+((canInvite$|
@@ -27,10 +20,6 @@
   <div *ngIf="(invitesChallenges$ | async)?.length!==0" (click)="goToInvitationsChallenge($event)">
     <ion-avatar>
       <app-icon name="invitation" class="type-notif  icon-size-normal"></app-icon>
-      <!-- <ion-badge color="danger">
-        <ion-icon name="alert"></ion-icon>
-      </ion-badge> -->
-
     </ion-avatar>
     <div class="challenge-text">{{
       'challenges.invitations'|translate: {invites: (invitesChallenges$ | async)?.length}

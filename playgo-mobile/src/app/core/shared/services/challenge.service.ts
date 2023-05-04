@@ -260,7 +260,6 @@ export class ChallengeService {
         ).filter((challenge) => challenge.proposerId !== null && challenge.proposerId !== profile.playerId)),
       ), shareReplay(1));
   }
-  //TODO
   configurableChallenges(campaignId: string): Observable<Challenge[]> {
     return combineLatest([
       this.userService.userProfile$,
@@ -274,8 +273,6 @@ export class ChallengeService {
           (challenge) => challenge?.campaign?.campaignId === campaignId
         ).filter((challenge) => challenge.proposerId === null)),
       ), shareReplay(1));
-    // console.log(profile, caninvites, challenges);
-    // return EMPTY;
   }
 
   // of(challenges.filter(
