@@ -68,7 +68,9 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     this.selectedSegment = 'periodicPrizes';
   }
   getFinalPrize() {
-    return this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
+    let prize = this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
+    if (prize.rewards?.length > 0) { return prize; }
+    return null;
   }
   getActualPrize() {
     let prize = this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x.dateFrom, x.dateTo));
