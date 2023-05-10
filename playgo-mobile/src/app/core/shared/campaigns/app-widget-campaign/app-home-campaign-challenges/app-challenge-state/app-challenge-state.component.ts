@@ -6,6 +6,7 @@ import {
 import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { Challenge } from 'src/app/pages/challenges/challenges.page';
 
 @Component({
@@ -14,7 +15,7 @@ import { Challenge } from 'src/app/pages/challenges/challenges.page';
   styleUrls: ['./app-challenge-state.component.scss'],
 })
 export class ChallengeStateComponent implements OnInit {
-
+  @Input() campaignContainer: PlayerCampaign;
   @Input() activeUncompleteChallenges$: Observable<Challenge[]>;
   @Input() configureChallenges$: Observable<Challenge[]>;
   @Input() invitesChallenges$: Observable<Challenge[]>;

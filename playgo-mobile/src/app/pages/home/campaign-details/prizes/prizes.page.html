@@ -57,10 +57,12 @@
           </div>
         </ion-card-content>
       </ion-card>
-      <ion-button id="subprizes" class="ion-margin" expand="block" [color]="campaignContainer?.campaign?.type"
-        (click)="expandPrizes()" *ngIf="notExpanded; else expanded">{{
-        "campaigns.detail.prize.expand" | translate
-        }}</ion-button>
+      <ng-container *ngIf="pastprizes()">
+        <ion-button id="subprizes" class="ion-margin" expand="block" [color]="campaignContainer?.campaign?.type"
+          (click)="expandPrizes()" *ngIf="notExpanded ; else expanded">{{
+          "campaigns.detail.prize.expand" | translate
+          }}</ion-button>
+      </ng-container>
     </ng-container>
     <ng-template #noRewards>
       <div class="no-prizes">{{'campaigns.detail.prize.noActual' | translate}}</div>
