@@ -6,6 +6,6 @@
 <ng-container
   *ngIf="(activeUncompleteChallenges$ | async)?.length!==0 || (configureChallenges$| async)?.length!==0 || (invitesChallenges$ | async)?.length!==0|| (canInvite$ | async) ">
   <app-challenge-state [activeUncompleteChallenges$]="activeUncompleteChallenges$"
-    [configureChallenges$]="configureChallenges$" [invitesChallenges$]="invitesChallenges$"
-    [canInvite$]="canInvite$"></app-challenge-state>
+    [configureChallenges$]="configureChallenges$" [invitesChallenges$]="invitesChallenges$" [canInvite$]="canInvite$"
+    [campaignContainer]="campaignContainer"></app-challenge-state>
 </ng-container>

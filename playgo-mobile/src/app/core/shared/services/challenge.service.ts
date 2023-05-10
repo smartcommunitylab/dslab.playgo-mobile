@@ -43,8 +43,7 @@ export class ChallengeService {
       campaigns.filter(
         (campaign) =>
           campaign.campaign.type === 'city'
-        // TODO not yet ready
-        // || campaign.campaign.type === 'school'
+          || campaign.campaign.type === 'school'
       )
     ),
     shareReplay(1)

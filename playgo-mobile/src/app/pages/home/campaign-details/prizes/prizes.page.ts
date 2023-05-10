@@ -71,7 +71,9 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     return this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
   }
   getActualPrize() {
-    return this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x.dateFrom, x.dateTo));
+    let prize = this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x.dateFrom, x.dateTo));
+    if (prize.rewards?.length > 0) { return prize; }
+    return null;
   }
   async openWeekDescActual(finalPrize: CampaignWeekConf) {
     const titlePrize = await firstValueFrom(
@@ -90,8 +92,17 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   }
   scrollTo(elementId: string) {
     let id = document.getElementById('subprizes');
-    this.content.scrollToPoint(0, id.offsetTop, 500);
+    this.content.scrollToPoint(0, id.offsetTop, 1000);
 
+  }
+  pastprizes() {
+    //get all the confs and check if there are confs before dateTimetocheck
+    // eslint-disable-next-line arrow-body-style
+    return this.campaignContainer.campaign?.weekConfs?.find(x => {
+      console.log((DateTime.fromMillis(x.dateTo) < this.dateTimeToCheck), x.rewards?.length > 0);
+      return DateTime.fromMillis(x.dateTo) < this.dateTimeToCheck && x.rewards?.length > 0;
+    }
+    );
   }
   async openWeekDescPast(confPrize: CampaignWeekConf) {
     const titlePrize = await firstValueFrom(
