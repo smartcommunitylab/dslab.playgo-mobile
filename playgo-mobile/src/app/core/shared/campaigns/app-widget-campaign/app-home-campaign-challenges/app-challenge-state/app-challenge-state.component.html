@@ -12,17 +12,19 @@
       'challenges.active'|translate: {active: (activeUncompleteChallenges$ | async)?.length}
       }}</div>
   </div>
-  <div *ngIf="(configureChallenges$| async)?.length!==0 || (canInvite$ | async)"
+  <div *ngIf="(configureChallenges$| async)?.length!==0 || ((canInvite$ | async) && (coupled$|async)===false)"
     (click)="goToConfigureChallenge($event)">
+
     <ion-avatar [ngStyle]="{
       borderColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + ')',
       backgroundColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + '-light)'
     }">
       <app-icon name="cupCog" class="type-notif  icon-size-normal"></app-icon>
     </ion-avatar>
+    {{coupled$|async}}
     <div class="challenge-text">{{
       'challenges.configure'|translate: {configurable: (((configureChallenges$|async)?.length>0)?1:0)+((canInvite$|
-      async)?1:0)}
+      async) && (coupled$|async)===false ?1:0)}
       }}</div>
   </div>
   <div *ngIf="(invitesChallenges$ | async)?.length!==0" (click)="goToInvitationsChallenge($event)">

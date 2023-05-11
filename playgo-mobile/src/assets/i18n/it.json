@@ -395,8 +395,8 @@
         "finalRewardTitle": "Informazioni premio",
         "sponsorBy": "Offerto da:",
         "website": "website",
-        "noFinal": "Nessun premio finale trovato",
-        "noActual": "Nessun premio nella settimana attuale trovato",
+        "noFinal": "Nessun premio finale disponibile",
+        "noActual": "Nessun premio nella settimana attuale disponibile",
         "expand": "Mostra premi passati",
         "expanded": "Premi passati"
       },

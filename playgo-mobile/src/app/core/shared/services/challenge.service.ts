@@ -149,6 +149,12 @@ export class ChallengeService {
     ),
     shareReplay(1)
   );
+  public onlyFutureChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
+    map((challenges) =>
+      challenges.filter((challenge) => challenge.challengeType === 'FUTURE')
+    ),
+    shareReplay(1)
+  );
   public futureChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
     map(
       (challenges) =>
@@ -298,6 +304,18 @@ export class ChallengeService {
     campaignId: string
   ): Observable<Challenge[]> {
     return this.pastChallenges$.pipe(
+      map((challenges) =>
+        challenges.filter(
+          (challenge) => challenge?.campaign?.campaignId === campaignId
+        )
+      ),
+      shareReplay(1)
+    );
+  }
+  public getOnlyFutureChallengesByCampaign(
+    campaignId: string
+  ): Observable<Challenge[]> {
+    return this.onlyFutureChallenges$.pipe(
       map((challenges) =>
         challenges.filter(
           (challenge) => challenge?.campaign?.campaignId === campaignId

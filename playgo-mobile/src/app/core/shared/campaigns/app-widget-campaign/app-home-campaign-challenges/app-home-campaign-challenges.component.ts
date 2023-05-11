@@ -21,7 +21,7 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   public configureChallenges$: Observable<Challenge[]>;
   //invites received
   public invitesChallenges$: Observable<Challenge[]>;
-
+  public onlyFutureChallenges$: Observable<Challenge[]>;
   // subChallActive: Subscription;
   subChallFuture: Subscription;
   futureChallenges: Challenge[] = [];
@@ -38,6 +38,10 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
       );
     this.activeChallenges$ =
       this.challengeService.getActiveChallengesByCampaign(
+        this.campaignContainer?.campaign?.campaignId
+      );
+    this.onlyFutureChallenges$ =
+      this.challengeService.getOnlyFutureChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId
       );
     this.configureChallenges$ =
