@@ -101,7 +101,6 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     //get all the confs and check if there are confs before dateTimetocheck
     // eslint-disable-next-line arrow-body-style
     return this.campaignContainer.campaign?.weekConfs?.find(x => {
-      console.log((DateTime.fromMillis(x.dateTo) < this.dateTimeToCheck), x.rewards?.length > 0);
       return DateTime.fromMillis(x.dateTo) < this.dateTimeToCheck && x.rewards?.length > 0;
     }
     );
