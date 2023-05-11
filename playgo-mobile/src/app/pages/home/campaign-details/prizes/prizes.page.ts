@@ -65,16 +65,29 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   }
   ionViewWillEnter() {
     this.changePageSettings();
-    this.selectedSegment = 'periodicPrizes';
+    let pastPrizes = this.pastprizes();
+    let actualPrizes = this.getActualPrize();
+    if (!pastPrizes && !actualPrizes) {
+      this.selectedSegment = 'finalPrizes';
+      return;
+    }
+    else {
+      this.selectedSegment = 'periodicPrizes';
+    }
+    if (!actualPrizes) {
+      this.notExpanded = false;
+    }
   }
   getFinalPrize() {
     let prize = this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
-    if (prize.rewards?.length > 0) { return prize; }
+    if (prize?.rewards?.length > 0) { return prize; }
     return null;
   }
   getActualPrize() {
     let prize = this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x.dateFrom, x.dateTo));
-    if (prize.rewards?.length > 0) { return prize; }
+    if (prize?.rewards?.length > 0) {
+      return prize;
+    }
     return null;
   }
   async openWeekDescActual(finalPrize: CampaignWeekConf) {
@@ -100,9 +113,8 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   pastprizes() {
     //get all the confs and check if there are confs before dateTimetocheck
     // eslint-disable-next-line arrow-body-style
-    return this.campaignContainer.campaign?.weekConfs?.find(x => {
-      return DateTime.fromMillis(x.dateTo) < this.dateTimeToCheck && x.rewards?.length > 0;
-    }
+    return this.campaignContainer.campaign?.weekConfs?.find(
+      x => DateTime.fromMillis(x.dateTo) < this.dateTimeToCheck && x.rewards?.length > 0
     );
   }
   async openWeekDescPast(confPrize: CampaignWeekConf) {

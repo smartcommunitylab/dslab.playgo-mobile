@@ -59,7 +59,6 @@
           </ion-card-content>
         </ion-card>
       </ng-container>
-
       <ng-container *ngIf="pastprizes()">
         <ion-button id="subprizes" class="ion-margin" expand="block" [color]="campaignContainer?.campaign?.type"
           (click)="expandPrizes()" *ngIf="notExpanded ; else expanded">{{
@@ -70,7 +69,6 @@
     <ng-template #noRewards>
       <div class="no-prizes">{{'campaigns.detail.prize.noActual' | translate}}</div>
     </ng-template>
-
     <ng-template #expanded>
       <div class="sub-header">
         <p><b>{{'campaigns.detail.prize.expanded' | translate}}</b></p>

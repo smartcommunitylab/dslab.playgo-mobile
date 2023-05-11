@@ -20,6 +20,8 @@ import { CampaignPlacing as PlayerCampaignPlacing } from 'src/app/core/api/gener
 import { CampaignPlacing as TeamCampaignPlacing } from 'src/app/core/api/generated-hsc/model/campaignPlacing';
 import { TeamService } from '../../../services/team.service';
 import { PlacingComparison } from 'src/app/core/api/generated-hsc/model/placingComparison';
+import { Challenge } from 'src/app/pages/challenges/challenges.page';
+import { ChallengeService } from '../../../services/challenge.service';
 
 @Component({
   selector: 'app-home-campaign-school',
@@ -29,6 +31,7 @@ import { PlacingComparison } from 'src/app/core/api/generated-hsc/model/placingC
 export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
   @Input() header?: boolean = false;
+  public activeUncompleteChallenges$: Observable<Challenge[]>;
   subStat: Subscription;
   campaignStatus: PlayerGameStatus;
   reportWeekStat: TeamCampaignPlacing;
@@ -47,10 +50,15 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private reportService: ReportService,
     private errorService: ErrorService,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private challengeService: ChallengeService
   ) { }
 
   ngOnInit() {
+    this.activeUncompleteChallenges$ =
+      this.challengeService.getActiveUncompletedChallengesByCampaign(
+        this.campaignContainer?.campaign?.campaignId
+      );
     this.imagePath = getCampaignImage(this.campaignContainer);
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
       // this.status = status;
