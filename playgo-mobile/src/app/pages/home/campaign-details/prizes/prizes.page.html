@@ -14,7 +14,7 @@
     </ion-segment-button>
   </ion-segment>
   <div *ngIf="selectedSegment==='periodicPrizes'">
-    <ng-container *ngIf="pastprizes() || getActualPrize() as actualPrize; else noRewards ">
+    <ng-container *ngIf="pastprizes() || prizePresent; else noRewards ">
       <div class="actual-header">
         <p><b>{{'campaigns.detail.prize.prizeactual' | translate}}</b><ion-icon name="information-circle"
             (click)="openWeekDescActual(actualPrize)"></ion-icon></p>
@@ -22,7 +22,7 @@
           &nbsp;{{"campaigns.detail.to"|translate}}{{actualPrize.dateTo|localDate:
           " d MMMM y"}}</p>
       </div>
-      <ng-container *ngIf="getActualPrize(); else noRewards">
+      <ng-container *ngIf="prizePresent; else noRewards">
         <ion-card *ngFor="let reward of actualPrize.rewards; let i = index;">
           <ion-card-header [ngClass]="getPostion(i)">
             <ion-card-title>

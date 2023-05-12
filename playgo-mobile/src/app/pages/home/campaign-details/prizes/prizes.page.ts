@@ -40,6 +40,8 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   campaignContainer: PlayerCampaign;
   id: string;
   dateTimeToCheck = DateTime.utc();
+  prizePresent = false;
+  actualPrize: CampaignWeekConf;
   constructor(
     private route: ActivatedRoute,
     private pageSettingsService: PageSettingsService,
@@ -61,22 +63,22 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   ngOnInit() {
-
   }
   ionViewWillEnter() {
     this.changePageSettings();
     let pastPrizes = this.pastprizes();
-    let actualPrizes = this.getActualPrize();
-    if (!pastPrizes && !actualPrizes) {
+    this.actualPrize = this.getActualPrize();
+    if (!pastPrizes && !this.prizePresent) {
       this.selectedSegment = 'finalPrizes';
       return;
     }
     else {
       this.selectedSegment = 'periodicPrizes';
     }
-    if (!actualPrizes) {
+    if (!this.prizePresent) {
       this.notExpanded = false;
     }
+    console.log('actualPrizes', this.actualPrize);
   }
   getFinalPrize() {
     let prize = this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
@@ -86,9 +88,9 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   getActualPrize() {
     let prize = this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x.dateFrom, x.dateTo));
     if (prize?.rewards?.length > 0) {
-      return prize;
+      this.prizePresent = true;
     }
-    return null;
+    return prize;
   }
   async openWeekDescActual(finalPrize: CampaignWeekConf) {
     const titlePrize = await firstValueFrom(
