@@ -280,9 +280,12 @@ export class StatsPage implements OnInit, OnDestroy {
     let refDate = this.referenceDate.plus({
       [this.selectedPeriod.add]: -1,
     });
-    return (refDate.startOf(this.selectedPeriod.add)
-      >=
-      DateTime.fromMillis(this.campaignContainer.campaign.dateFrom).startOf(this.selectedPeriod.add));
+    if (this.campaignContainer?.campaign?.dateFrom) {
+      return (refDate.startOf(this.selectedPeriod.add)
+        >=
+        DateTime.fromMillis(this.campaignContainer?.campaign?.dateFrom).startOf(this.selectedPeriod.add));
+    }
+    return false;
   }
   thereIsFuture(): any {
     // Check if  is not in actual period
