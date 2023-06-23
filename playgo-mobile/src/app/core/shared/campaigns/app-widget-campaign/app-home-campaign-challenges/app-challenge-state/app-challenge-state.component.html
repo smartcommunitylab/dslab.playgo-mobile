@@ -21,7 +21,6 @@
     }">
       <app-icon name="cupCog" class="type-notif  icon-size-normal"></app-icon>
     </ion-avatar>
-    {{coupled$|async}}
     <div class="challenge-text">{{
       'challenges.configure'|translate: {configurable: (((configureChallenges$|async)?.length>0)?1:0)+((canInvite$|
       async) && (coupled$|async)===false ?1:0)}
