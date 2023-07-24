@@ -515,25 +515,29 @@
       "leaderboard_type": {
         "co2": "Total CO₂",
         "km": "Total km",
-        "GL": "ecoLeaves"
+        "GL": "ecoLeaves",
+        "virtualScore": ""
       },
       "select": {
         "co2": "CO₂",
         "km": "km",
         "tracks": "tracks",
-        "duration": "duration"
+        "duration": "duration",
+        "virtualScore": ""
       },
       "unit": {
         "co2": "CO₂ Kg",
         "km": "km",
         "tracks": "tracks",
-        "duration": "hours"
+        "duration": "hours",
+        "virtualScore": ""
       },
       "unitChart": {
         "co2": "Kg",
         "km": "Km",
         "tracks": "",
-        "duration": "h"
+        "duration": "h",
+        "virtualScore": ""
       },
       "leaderboard_type_unit": {
         "co2": "{{value}} kg CO₂",
@@ -543,7 +547,8 @@
         "tracks": "{{value}}"
       },
       "all_means": "All means",
-      "gl": "Score"
+      "gl": "Score",
+      "virtualScore": "Virtual Score"
     },
     "score_label": {
       "flower": "ecoLeaves",

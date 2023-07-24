@@ -66,40 +66,50 @@ export class StatsPage implements OnInit, OnDestroy {
   selectedSegment?: Period;
   barChart: any;
   statsSubs: Subscription;
+  virtualScore: boolean;
   selectedMeanChangedSubject = new Subject<SelectCustomEvent<Mean>>();
   selectedMetricChangedSubject = new Subject<SelectCustomEvent<Metric>>();
   meanLabels: Record<Mean, TranslateKey> = {
     ...transportTypeLabels,
     [ALL_MEANS]: 'campaigns.leaderboard.all_means',
     [GL]: 'campaigns.leaderboard.gl',
+    [VIRTUALSCORE]: null
   };
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
     km: 'campaigns.leaderboard.leaderboard_type_unit.km',
     time: 'campaigns.leaderboard.leaderboard_type_unit.duration',
     tracks: 'campaigns.leaderboard.leaderboard_type_unit.tracks',
+    virtualScore: 'campaigns.leaderboard.leaderboard_type_unit.virtualScore',
   } as const;
   metricToSelectLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.select.co2',
     km: 'campaigns.leaderboard.select.km',
     time: 'campaigns.leaderboard.select.duration',
     tracks: 'campaigns.leaderboard.select.tracks',
+    virtualScore: 'campaigns.leaderboard.select.virtualScore',
+
   } as const;
   metricToUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.unit.co2',
     km: 'campaigns.leaderboard.unit.km',
     time: 'campaigns.leaderboard.unit.duration',
     tracks: 'campaigns.leaderboard.unit.tracks',
+    virtualScore: 'campaigns.leaderboard.unit.virtualScore',
+
   } as const;
   metricToUnitChartLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.unitChart.co2',
     km: 'campaigns.leaderboard.unitChart.km',
     time: 'campaigns.leaderboard.unitChart.duration',
     tracks: 'campaigns.leaderboard.unitChart.tracks',
+    virtualScore: 'campaigns.leaderboard.unitChart.virtualScore',
+
   } as const;
   means$: Observable<Mean[]>;
   selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
     map((event) => event.detail.value),
+    map(value => this.setVirtualScore(value)),
     startWith(ALL_MEANS),
     shareReplay(1)
   );
@@ -147,9 +157,12 @@ export class StatsPage implements OnInit, OnDestroy {
   });
 
   statResponse$: Observable<TransportStat[]> = this.filterOptions$.pipe(
-    switchMap(({ mean, metric, period, campaignId, playerId }) =>
-      iif(() => mean !== 'GL'
-        , this.reportService
+    switchMap(({ mean, metric, period, campaignId, playerId }) => {
+      if (mean !== 'GL' && mean !== 'VIRTUALSCORE')
+      // iif(() => mean !== 'GL'
+      //   ,
+      {
+        return this.reportService
           .getPlayerTransportStatsUsingGET({
             campaignId,
             playerId,
@@ -158,8 +171,20 @@ export class StatsPage implements OnInit, OnDestroy {
             mean: mean === ALL_MEANS ? null : mean,
             dateFrom: toServerDateOnly(period.from),
             dateTo: toServerDateOnly(period.to),
-          })
-        , this.reportService
+          });
+      }
+      else if (mean === 'VIRTUALSCORE') {
+        return this.reportService
+          .getPlayerTransportStatsUsingGET({
+            campaignId,
+            playerId,
+            metric: 'virtualScore',
+            groupMode: period.group,
+            dateFrom: toServerDateOnly(period.from),
+            dateTo: toServerDateOnly(period.to),
+          });
+      } else if (mean === 'GL') {
+        return this.reportService
           .getPlayerGameStatsUsingGET1({
             campaignId,
             playerId,
@@ -167,9 +192,9 @@ export class StatsPage implements OnInit, OnDestroy {
             dateFrom: toServerDateOnly(period.from),
             dateTo: toServerDateOnly(period.to),
           })
-          .pipe(this.errorService.getErrorHandler())
-      )
-    ));
+          .pipe(this.errorService.getErrorHandler());
+      }
+    }));
   subId: Subscription;
   id: string;
   subCampaign: Subscription;
@@ -189,7 +214,8 @@ export class StatsPage implements OnInit, OnDestroy {
     private translateService: TranslateService
   ) {
     this.statsSubs = this.statResponse$.subscribe((stats) => {
-      let convertedStat = stats.map(stat => stat.value >= 0 ? { ...stat, value: (stat.value / this.divider) } : { ...stat, value: 0 });
+      let convertedStat = stats.map(stat => stat.value >= 0 ?
+        { ...stat, value: (stat.value / (this.virtualScore ? 1 : this.divider)) } : { ...stat, value: 0 });
       this.barChartMethod(convertedStat);
       this.setTotal(convertedStat);
     });
@@ -219,10 +245,14 @@ export class StatsPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.changePageSettings();
   }
+  isCompanyCampaign() {
+    return this.campaignContainer.campaign.type === 'company';
+  }
   hasGame() {
     return this.campaignService.hasGame(this.campaignContainer?.campaign);
   }
   private setDivider(metric: Metric): void {
+    this.virtualScore = false;
     switch (metric) {
       case 'co2':
         this.divider = 1;
@@ -237,8 +267,7 @@ export class StatsPage implements OnInit, OnDestroy {
         this.divider = 1;
         break;
       default:
-        this.divider = 1000;
-
+        this.divider = 1;
         break;
     }
   }
@@ -478,6 +507,12 @@ export class StatsPage implements OnInit, OnDestroy {
       },
     });
   }
+  setVirtualScore(mean: Mean): Mean {
+    if (mean === 'VIRTUALSCORE') { this.virtualScore = true; }
+    else { this.virtualScore = false; }
+    return mean;
+  }
+
   getSelectedPeriod() {
     let date = this.localDatePipe.transform(this.selectedPeriod.from, this.selectedPeriod.label);
     if (this.selectedSegment.group === 'day') {
@@ -512,8 +547,9 @@ export class StatsPage implements OnInit, OnDestroy {
   }
 }
 
-type Mean = TransportType | typeof ALL_MEANS | typeof GL;
+type Mean = TransportType | typeof ALL_MEANS | typeof GL | typeof VIRTUALSCORE;
 const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
 const GL: 'GL' = 'GL';
-type Metric = 'co2' | 'km' | 'tracks' | 'time';
+const VIRTUALSCORE: 'VIRTUALSCORE' = 'VIRTUALSCORE';
+type Metric = 'co2' | 'km' | 'tracks' | 'time' | 'virtualScore';
 

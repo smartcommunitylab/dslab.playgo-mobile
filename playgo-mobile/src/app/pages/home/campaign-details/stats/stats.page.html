@@ -14,10 +14,13 @@
               <ion-select-option value="GL" *ngIf="hasGame()">
                 {{meanLabels['GL'] |translate}}
               </ion-select-option>
+              <ion-select-option value="VIRTUALSCORE" *ngIf="isCompanyCampaign()">
+                {{this.campaignContainer?.campaign?.specificData?.virtualScore?.label}}
+              </ion-select-option>
             </ion-select>
           </ion-item>
         </ion-col>
-        <ion-col *ngIf="(selectedMean$ |async)!=='GL'">
+        <ion-col *ngIf="(selectedMean$ |async)!=='GL' && (selectedMean$ |async)!=='VIRTUALSCORE'">
           <ion-item [color]="campaignContainer.campaign.type" lines="none">
             <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
               (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
@@ -30,6 +33,11 @@
         <ion-col *ngIf="(selectedMean$ |async)==='GL'">
           <ion-item [color]="campaignContainer?.campaign?.type">
             {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="(selectedMean$ |async)==='VIRTUALSCORE'">
+          <ion-item [color]="campaignContainer?.campaign?.type">
+
           </ion-item>
         </ion-col>
       </ion-row>

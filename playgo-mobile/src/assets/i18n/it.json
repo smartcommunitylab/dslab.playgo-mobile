@@ -515,35 +515,41 @@
       "leaderboard_type": {
         "co2": "Totale CO₂",
         "km": "Totale km",
-        "GL": "ecoLeaves"
+        "GL": "ecoLeaves",
+        "virtualScore": ""
       },
       "select": {
         "co2": "CO₂",
         "km": "Km",
         "tracks": "Viaggi",
-        "duration": "Durata"
+        "duration": "Durata",
+        "virtualScore": ""
       },
       "unit": {
         "co2": "CO₂ Kg",
         "km": "Km",
         "tracks": "tracciati",
-        "duration": "ore"
+        "duration": "ore",
+        "virtualScore": ""
       },
       "unitChart": {
         "co2": "Kg",
         "km": "Km",
         "tracks": "",
-        "duration": "ore"
+        "duration": "ore",
+        "virtualScore": ""
       },
       "leaderboard_type_unit": {
         "co2": "{{value}}",
         "GL": "{{value}}",
         "km": "{{value}}",
         "duration": "{{value}} ore",
-        "tracks": "{{value}}"
+        "tracks": "{{value}}",
+        "virtualScore": "{{value}}"
       },
       "all_means": "Tutti i mezzi",
-      "gl": "Punteggio"
+      "gl": "Punteggio",
+      "virtualScore": "Punteggio"
     },
     "score_label": {
       "flower": "ecoLeaves",
