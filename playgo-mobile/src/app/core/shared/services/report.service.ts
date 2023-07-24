@@ -81,8 +81,7 @@ export class ReportService {
       .getPlayerTransportStatsUsingGET({
         campaignId,
         playerId,
-        metric: 'km',
-        mean: 'bike',
+        metric: 'virtualScore',
         dateFrom,
         dateTo,
       }).pipe(

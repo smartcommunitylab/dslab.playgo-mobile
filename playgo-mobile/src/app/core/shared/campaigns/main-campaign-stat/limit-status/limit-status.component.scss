@@ -12,3 +12,9 @@
   vertical-align: center;
   color: var(--ion-color-company);
 }
+.max-length {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -25,6 +25,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   reportMonthStat: CampaignPlacing;
   reportTotalStat: CampaignPlacing;
   lastPaymentStat: any;
+  virtualScoreLabel: string;
   imagePath: string;
   lastPaymentDate: any;
   constructor(
@@ -34,6 +35,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.virtualScoreLabel = this.campaignContainer?.campaign?.specificData?.virtualScore?.label;
     this.imagePath = getCampaignImage(this.campaignContainer);
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
@@ -100,9 +102,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
       .getTransportStatsByMeans(
         this.campaignContainer.campaign.campaignId,
         this.profile.playerId,
-        'km',
-        '',
-        'bike',
+        'virtualScore',
         toServerDateOnly(DateTime.fromMillis(this.lastPaymentDate).toUTC()),
         toServerDateOnly(DateTime.fromMillis(to).toUTC())
       ).toPromise()

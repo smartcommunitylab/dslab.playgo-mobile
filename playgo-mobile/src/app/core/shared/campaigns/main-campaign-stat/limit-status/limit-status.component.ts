@@ -13,6 +13,7 @@ export class LimitStatusComponent implements OnInit {
   @Input() type?: string;
   @Input() header?: string;
   @Input() infoBox?= false;
+  @Input() virtualScoreLabel?: string;
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
