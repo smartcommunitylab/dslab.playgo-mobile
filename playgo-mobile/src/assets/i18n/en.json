@@ -544,7 +544,8 @@
         "GL": "{{value}}",
         "km": "{{value}} km",
         "duration": "{{value}} h",
-        "tracks": "{{value}}"
+        "tracks": "{{value}}",
+        "virtualScore": "{{value}}"
       },
       "all_means": "All means",
       "gl": "Score",

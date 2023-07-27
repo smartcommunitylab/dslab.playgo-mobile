@@ -57,7 +57,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
             this.errorService.handleError(error);
           }
         });
-      this.getLastPayment();
+      if (this.campaignContainer.campaign.specificData.periods) { this.getLastPayment(); }
       this.reportService
         .getBikeStats(
           this.campaignContainer.campaign.campaignId,

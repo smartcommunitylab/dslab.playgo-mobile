@@ -17,9 +17,9 @@
   <ion-card-content class="company-content ion-no-padding">
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
       [lastPaymentDate]="lastPaymentDate" [showRanking]="false" [reportTotalStat]="reportTotalStat" [limitMonthMax]="
-        campaignContainer?.campaign?.specificData?.bike?.monthlyLimit
+        campaignContainer?.campaign?.specificData?.virtualScore?.scoreMonthlyLimit
       " [limitMonthValue]="reportMonthStat" [limitDayMax]="
-        campaignContainer?.campaign?.specificData?.bike?.dailyLimit
+        campaignContainer?.campaign?.specificData?.virtualScore?.scoreDailyLimit
       " [limitDayValue]="reportDayStat" [unit]="virtualScoreLabel">
     </app-main-campaign-stat>
     <app-company-label [campaignContainer]="campaignContainer"></app-company-label>

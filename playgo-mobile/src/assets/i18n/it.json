@@ -437,7 +437,7 @@
         "totalposition": "Globale:",
         "weekvalue": "<b>{{value}} {{unit}}</b> settimanale",
         "monthvalue": "<b>{{value}} {{unit}}</b> mensile",
-        "totalvalue": "<b>{{value}} {{unit}}</b> generale",
+        "totalvalue": "<b>{{value}} {{unit}}</b> totale",
         "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}}",
         "levelName": "<b>Livello {{levelIndex}}: {{levelName}}</b>",
         "maxscore": "Hai raggiunto il livello massimo",
