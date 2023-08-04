@@ -5,6 +5,9 @@
       <span>
         {{ getTransportTypeLabel(trip.modeType) | translate }}
       </span>
+      <span *ngIf="indexTrip && length" class="subnumber">
+        {{ indexTrip}}/{{length}}
+      </span>
     </div>
   </ion-col>
   <ion-col class="ion-text-end">

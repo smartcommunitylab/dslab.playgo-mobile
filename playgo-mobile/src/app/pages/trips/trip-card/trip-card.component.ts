@@ -28,6 +28,8 @@ export class TripCardComponent implements OnInit, OnChanges {
   @Input() trip: ServerOrLocalTrip;
   @Input() isOneDayTrip = true;
   @Input() multiModalTrip = false;
+  @Input() indexTrip: number;
+  @Input() length: number;
 
   validCampaignsLabel = '';
   durationLabel = '';

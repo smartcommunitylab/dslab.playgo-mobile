@@ -58,9 +58,9 @@
                     {{ multiTrip.date | localDate: noMonthOrYearFormat }}
                   </ion-col>
                 </ion-row>
-                <ng-container *ngFor="let trip of multiTrip.trips; trackBy: trackTrip">
-                  <app-trip-card *ngIf="trip" [trip]="trip" [isOneDayTrip]="multiTrip.isOneDayTrip"
-                    [multiModalTrip]="true">
+                <ng-container *ngFor="let trip of multiTrip.trips; trackBy: trackTrip; let i = index">
+                  <app-trip-card *ngIf="trip" [trip]="trip" [isOneDayTrip]="multiTrip.isOneDayTrip" [indexTrip]="i+1"
+                    [length]="multiTrip.trips.length" [multiModalTrip]="true">
                   </app-trip-card>
                 </ng-container>
               </ng-container>
