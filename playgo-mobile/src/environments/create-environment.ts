@@ -36,7 +36,7 @@ export function createEnvironment(
     },
     authConfig: getAuthConfig(opts.aacConfig),
     idp_hint: {
-      facebook: 'koi8jw8x',
+      facebook: 'rSDHs4bv',
       google: 'Nqoa1EDO',
       apple: 'owbERvU0',
     },
