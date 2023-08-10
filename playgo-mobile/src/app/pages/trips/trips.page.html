@@ -1,6 +1,6 @@
 <ion-header appHeader></ion-header>
 <ion-item color="playgo" [ngStyle]="campaignFilterStyle$ |async">
-  <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }"
+  <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
     (ionChange)="monthFilterSubject.next($any($event).target.value)" [value]="monthFilterSubject | async"
     [selectedText]="
       (monthFilterSubject | async) === 'NO_FILTER' ?
@@ -15,7 +15,7 @@
       {{ month.from | localDate: "MMMM y" }}
     </ion-select-option>
   </ion-select>
-  <ion-select class="campaign-filter" [interfaceOptions]="{ cssClass: 'app-alert' }"
+  <ion-select interface="popover" class="campaign-filter" [interfaceOptions]="{ cssClass: 'app-alert' }"
     (ionChange)="campaignFilterSubject.next($any($event).target.value)" [value]="campaignFilter$ | async"
     [selectedText]="
       (campaignFilter$ | async) === 'NO_FILTER' ?
