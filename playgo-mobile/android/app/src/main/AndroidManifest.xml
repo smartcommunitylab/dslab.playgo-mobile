@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools" package="it.dslab.playgo">
+  xmlns:tools="http://schemas.android.com/tools" >
 
   <!-- Android App version is set in android\app\build.gradle -->
   <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="${displayName}" tools:replace="label" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme" android:hardwareAccelerated="true" android:usesCleartextTraffic="true">

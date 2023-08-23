@@ -4,6 +4,7 @@ Project background_geolocation = project(':transistorsoft-capacitor-background-g
 apply from: "${background_geolocation.projectDir}/app.gradle"
 
 android {
+    namespace "it.dslab.playgo"
     def secretProperties = new Properties()
     file("../../secrets/secrets-android.properties").withInputStream {
       secretProperties.load(it)
@@ -48,8 +49,8 @@ android {
         }
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 124
-        versionName "1.2.4"
+        versionCode 125
+        versionName "1.2.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
