@@ -16,11 +16,12 @@
   </ion-card-header>
   <ion-card-content class="company-content ion-no-padding">
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
-      [lastPaymentDate]="lastPaymentDate" [showRanking]="false" [reportTotalStat]="reportTotalStat" [limitMonthMax]="campaignContainer?.campaign?.specificData?.virtualScore?.scoreMonthlyLimit?
+      [lastPaymentDate]="lastPaymentDate" [showRanking]="false" [reportTotalStat]="reportTotalStat" [limitMonthMax]="campaignContainer?.campaign?.specificData?.virtualScore?
         campaignContainer?.campaign?.specificData?.virtualScore?.scoreMonthlyLimit:campaignContainer?.campaign?.specificData?.bike?.monthlyLimit
-      " [limitMonthValue]="reportMonthStat" [limitDayMax]=" campaignContainer?.campaign?.specificData?.virtualScore?.scoreDailyLimit?
+      " [limitMonthValue]="reportMonthStat" [limitDayMax]="campaignContainer?.campaign?.specificData?.virtualScore?
         campaignContainer?.campaign?.specificData?.virtualScore?.scoreDailyLimit:campaignContainer?.campaign?.specificData?.bike?.dailyLimit
-      " [limitDayValue]="reportDayStat" [unit]="virtualScoreLabel">
+      " [limitDayValue]="reportDayStat"
+      [unit]="campaignContainer?.campaign?.specificData?.virtualScore?virtualScoreLabel:'Km'">
     </app-main-campaign-stat>
     <app-company-label [campaignContainer]="campaignContainer"></app-company-label>
 

@@ -43,6 +43,8 @@
 	<string>This app requires to access your photo library to show image on profile and send via chat</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires to access your photo library to show image on profile and send via chat</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>When tracking a trip, this app requires constant access to your location in order to track your position, even when the screen is off or the app is in the background.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

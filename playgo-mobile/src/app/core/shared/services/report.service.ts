@@ -75,13 +75,15 @@ export class ReportService {
     campaignId: string,
     playerId: string,
     dateFrom?: string,
-    dateTo?: string
+    dateTo?: string,
+    virtualScoreLabel?: string
   ): Promise<CampaignPlacing> {
     return this.reportControllerService
       .getPlayerTransportStatsUsingGET({
         campaignId,
         playerId,
-        metric: 'virtualScore',
+        metric: virtualScoreLabel ? 'virtualScore' : 'km',
+        mean: virtualScoreLabel ? null : 'bike',
         dateFrom,
         dateTo,
       }).pipe(

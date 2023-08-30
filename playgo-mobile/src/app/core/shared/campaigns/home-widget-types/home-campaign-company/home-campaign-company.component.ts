@@ -35,7 +35,8 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.virtualScoreLabel = this.campaignContainer?.campaign?.specificData?.virtualScore?.label;
+    this.virtualScoreLabel = this.campaignContainer?.campaign?.specificData?.virtualScore ?
+      this.campaignContainer?.campaign?.specificData?.virtualScore?.label : '';
     this.imagePath = getCampaignImage(this.campaignContainer);
     this.subStat = this.userService.userProfile$.subscribe((profile) => {
       this.profile = profile;
@@ -44,7 +45,8 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId,
           toServerDateOnly(DateTime.utc()),
-          toServerDateOnly(DateTime.utc())
+          toServerDateOnly(DateTime.utc()),
+          this.virtualScoreLabel
         )
         .then((stats) => {
           this.reportDayStat = stats;
@@ -63,7 +65,8 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           this.campaignContainer.campaign.campaignId,
           this.profile.playerId,
           toServerDateOnly(DateTime.utc().startOf('month')),
-          toServerDateOnly(DateTime.utc())
+          toServerDateOnly(DateTime.utc()),
+          this.virtualScoreLabel
         )
         .then((stats) => {
           this.reportMonthStat = stats;
@@ -79,7 +82,10 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
       this.reportService
         .getBikeStats(
           this.campaignContainer.campaign.campaignId,
-          this.profile.playerId
+          this.profile.playerId,
+          null,
+          null,
+          this.virtualScoreLabel
         )
         .then((stats) => {
           this.reportTotalStat = stats;
@@ -102,7 +108,9 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
       .getTransportStatsByMeans(
         this.campaignContainer.campaign.campaignId,
         this.profile.playerId,
-        'virtualScore',
+        this.campaignContainer?.campaign?.specificData?.virtualScore ? 'virtualScore' : 'km',
+        this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : '',
+        this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : 'bike',
         toServerDateOnly(DateTime.fromMillis(this.lastPaymentDate).toUTC()),
         toServerDateOnly(DateTime.fromMillis(to).toUTC())
       ).toPromise()
