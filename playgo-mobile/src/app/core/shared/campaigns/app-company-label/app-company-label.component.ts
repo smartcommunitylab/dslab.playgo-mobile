@@ -20,8 +20,12 @@ export class CompanyLabelComponent implements OnInit {
     this.initCompanies();
   }
   async initCompanies() {
-    this.userCompany = await this.campaignService
-      .getCompanyOfTheUser(this.campaignContainer);
+    try {
+      this.userCompany = await this.campaignService
+        .getCompanyOfTheUser(this.campaignContainer);
+    } catch (error) {
+      console.error(error);
+    }
   }
   async openCompanyDetail(event: any) {
     event.stopPropagation();
