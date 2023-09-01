@@ -1,49 +1,53 @@
-.notification {
-  margin: 20px;
-  overflow: visible;
-  .close {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 25px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .title {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 21px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  .time {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-  }
-
+.notif {
+  position: relative;
   ion-badge {
     position: absolute;
-    right: -10px;
-    top: -10px;
+    z-index: 99;
+    right: 10px;
+    top: -6px;
   }
-  .not-content {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    text-align: justify;
-    * {
-      display: inline;
+  .notification {
+    margin: 20px;
+    overflow: visible;
+    .close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .title {
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 21px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .time {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+    }
+
+    .not-content {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      text-align: justify;
+      * {
+        display: inline;
+      }
     }
   }
-}
-.unread {
-  background-color: #f2f6fa;
-  border: solid 2px var(--ion-color-playgo);
+  .unread {
+    background-color: #f2f6fa;
+    border: solid 2px var(--ion-color-playgo);
+  }
 }

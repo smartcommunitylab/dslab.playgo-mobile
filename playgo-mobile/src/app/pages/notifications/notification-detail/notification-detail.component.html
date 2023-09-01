@@ -1,18 +1,20 @@
-<ion-card class="notification" [ngClass]="{
+<div class="notif">
+  <ion-badge color="danger" *ngIf="!notification.readed"><ion-icon name="alert"></ion-icon></ion-badge>
+  <ion-card class="notification" [ngClass]="{
     unread: !notification.readed
   }" (click)="openNotification(notification)">
-  <ion-badge color="danger" *ngIf="!notification.readed"><ion-icon name="alert"></ion-icon></ion-badge>
-  <ion-grid>
-    <ion-row>
-      <ion-col class="ion-text-start"><span class="title">{{ notification.title }}</span></ion-col><ion-col size="auto"
-        class="ion-text-end">
-        <span class="time">{{
-          notification.timestamp | localDate
-          }}</span></ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <div class="not-content" [id]="notification.id" [innerHTML]="notification.content['_html'] | safeHtml"></div>
-      </ion-col></ion-row>
-  </ion-grid>
-</ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-start"><span class="title">{{ notification.title }}</span></ion-col><ion-col
+          size="auto" class="ion-text-end">
+          <span class="time">{{
+            notification.timestamp | localDate
+            }}</span></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="not-content" [id]="notification.id" [innerHTML]="notification.content['_html'] | safeHtml"></div>
+        </ion-col></ion-row>
+    </ion-grid>
+  </ion-card>
+</div>
