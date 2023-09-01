@@ -6,7 +6,7 @@
         {{ getTransportTypeLabel(trip.modeType) | translate }}
       </span>
       <span *ngIf="indexTrip && length" class="subnumber">
-        {{ indexTrip}}/{{length}}
+        {{ length-(indexTrip-1)}}/{{length}}
       </span>
     </div>
   </ion-col>
