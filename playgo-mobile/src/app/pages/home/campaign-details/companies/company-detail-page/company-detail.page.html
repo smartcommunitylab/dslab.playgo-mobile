@@ -1,0 +1,66 @@
+<ion-header appHeader></ion-header>
+<ion-content class="ion-padding">
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-thumbnail>
+            <img alt="Logo" [src]="imagePath" *ngIf="imagePath; else companyIcon" />
+            <ng-template #companyIcon>
+              <ion-icon name="briefcase-outline" size="large"></ion-icon>
+            </ng-template>
+          </ion-thumbnail>
+        </ion-col>
+        <ion-col size="8" class="company-desc">
+          <div class="desc"> {{company.name}} </div>
+          <div *ngIf="company.web" class="website"><span (click)="openWebsite(company.web)">{{
+              'campaigns.detail.companiesPage.website' | translate }}</span></div>
+          <div *ngIf="company.contactEmail" class="website">
+            <span (click)="openMail(company.contactEmail)">{{
+              'campaigns.detail.companiesPage.email' | translate }}</span>
+          </div>
+          <div *ngIf="company.contactPhone" class="website">
+            <span (click)="openPhone(company.contactPhone)">{{
+              'campaigns.detail.companiesPage.phone' | translate }}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div>
+            {{
+            'campaigns.detail.companiesPage.address' | translate }}
+          </div>
+          <div>
+            <span>{{company.address}} </span> <span>{{company.streetNumber}} </span> <span>{{company.zip}} </span>
+            <span>{{company.city}}</span>
+          </div>
+
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="location">
+            {{
+            'campaigns.detail.companiesPage.location' | translate }}
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let location of company.locations">
+        <ion-col size="10">
+          <div class="id">{{location.id}}</div>
+          <div class="address">{{location.address}}
+            {{location.streetNumber}}
+            {{location.zip}}
+            {{location.city}}
+          </div>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button (click)="openMap(location,company.locations,location)" color="playgo">
+            <ion-icon name="map-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

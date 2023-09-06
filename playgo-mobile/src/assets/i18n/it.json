@@ -423,7 +423,14 @@
       "mm": "Mobility Manager: ",
       "locations": "Lista sedi valide",
       "location": "Sede {{index}}:",
-      "personalStatWeek": "Il tuo contributo questa settimana: {{value}}"
+      "personalStatWeek": "Il tuo contributo questa settimana: {{value}}",
+      "companiesPage": {
+        "website": "Sito internet [->]",
+        "email": "Email [->]",
+        "phone": "Telefono [->]",
+        "address": "Indirizzo: ",
+        "location": "Sedi"
+      }
     },
     "homewidgets": {
       "personal": {

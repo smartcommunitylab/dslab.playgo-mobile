@@ -423,7 +423,14 @@
       "mm": "Mobility Manager: ",
       "locations": "Valid locations:",
       "location": "location {{index}}:",
-      "personalStatWeek": "Your contribution this week: {{value}}"
+      "personalStatWeek": "Your contribution this week: {{value}}",
+      "companiesPage": {
+        "website": "Website[->]",
+        "email": "Email [->]",
+        "phone": "Phone [->]",
+        "address": "Address: ",
+        "location": "Locations"
+      }
     },
     "homewidgets": {
       "personal": {

@@ -1,0 +1,17 @@
+<ion-card>
+  <ion-grid class="ion-no-padding">
+    <ion-row (click)="navigateCompany()">
+      <ion-col size="2">
+        <ion-thumbnail>
+          <img alt="Logo" [src]="imagePath" *ngIf="imagePath; else companyIcon" />
+          <ng-template #companyIcon>
+            <ion-icon name="briefcase-outline" size="large"></ion-icon>
+          </ng-template>
+        </ion-thumbnail>
+      </ion-col>
+      <ion-col class="company-desc">
+        <div class="desc"> {{company.name}} </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

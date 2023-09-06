@@ -1,0 +1,18 @@
+ion-thumbnail {
+  width: 80px;
+  height: 80px;
+  // margin: 8px;
+  object-fit: cover;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.company-desc {
+  display: flex;
+  align-items: center;
+  .desc {
+    width: 100%;
+    text-align: center;
+  }
+}
