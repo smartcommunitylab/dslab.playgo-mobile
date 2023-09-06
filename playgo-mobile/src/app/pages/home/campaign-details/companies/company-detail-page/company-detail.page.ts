@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription, distinctUntilChanged, map, shareReplay } from 'rxjs';
+import { Router } from '@angular/router';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
-import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { CompanyMapModalPage } from './company-map/company-map.modal';
 import { ModalController } from '@ionic/angular';
 import { Browser } from '@capacitor/browser';

@@ -1,7 +1,5 @@
 <ng-container>
-  <!-- [leafletCenter]="tripInitialLatLng$ | async" -->
   <div class="ngx-leaflet" leaflet [leafletOptions]="mapOptions" (leafletMapReady)="onMapReady($event)">
     <div [leafletLayer]="sedi"></div>
-    <!-- <div [leafletLayer]="radiusLayer"></div> -->
   </div>
 </ng-container>

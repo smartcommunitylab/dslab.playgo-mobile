@@ -11,8 +11,6 @@ export class CompanyMapModalPage implements OnInit {
   allLocations: any;
   selectedLocation: any;
   center: any;
-  // mapFitToBounds: L.LatLngBounds;
-  // mapFitToBoundsOptions: L.FitBoundsOptions;
   mapOptions: any = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -25,14 +23,11 @@ export class CompanyMapModalPage implements OnInit {
     zoom: 15,
     center: latLng([0.0, 0.0])
   };
-  // radiusLayer: any;
-  // placeLayer: any;
+
   sedi: FeatureGroup = new FeatureGroup();
-  // itemsSedi: LayerGroup = new LayerGroup();
 
   constructor(private modalController: ModalController) { }
   ngOnInit() {
-    // this.mapFitToBoundsOptions = { maxZoom: 12, animate: true };
 
   }
   onMapReady(map: Map) {
@@ -46,18 +41,6 @@ export class CompanyMapModalPage implements OnInit {
 
 
   initMap() {
-    // this.mapOptions = {
-    //   layers: [
-    //     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //       maxZoom: 19, // for lower zooms there are no tiles!
-    //       minZoom: 10,
-    //       attribution:
-    //         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    //     }),
-    //   ],
-    //   zoom: 15,
-    //   center: latLng(this.center.latitute, this.center.longitute)
-    // };
     for (const location of this.allLocations) {
       const newMarker = marker([location.latitude, location.longitude], {
         icon: icon({

@@ -18,9 +18,7 @@ export class CompanyItemComponent implements OnInit {
 
   async ngOnInit() {
     this.campaignId = this.route.snapshot.paramMap.get('id');
-
     this.imagePath = this.company.logo;
-
   }
   navigateCompany() {
     this.navCtrl.navigateForward('/pages/tabs/home/details/' + this.campaignId + '/companies/' + this.company.id, { state: this.company });
