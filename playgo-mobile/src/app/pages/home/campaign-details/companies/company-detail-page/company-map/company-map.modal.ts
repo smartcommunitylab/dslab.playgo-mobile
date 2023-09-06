@@ -1,7 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FeatureGroup, Icon, LatLng, LayerGroup, Map, Marker, circle, icon, latLng, marker, polygon, tileLayer } from 'leaflet';
+import { FeatureGroup, Icon, Map, icon, latLng, marker, tileLayer } from 'leaflet';
 @Component({
   selector: 'app-company-map-modal',
   templateUrl: './company-map.modal.html',
@@ -36,6 +37,12 @@ export class CompanyMapModalPage implements OnInit {
     setTimeout(() => {
       map.fitBounds(this.sedi.getBounds());
       map.invalidateSize();
+      this.sedi.eachLayer((layer: any) => {
+        if (layer._latlng.lat === this.selectedLocation.latitude &&
+          layer._latlng.lng === this.selectedLocation.longitude) {
+          layer.openPopup();
+        }
+      });
     }, 500);
   }
 
@@ -49,9 +56,13 @@ export class CompanyMapModalPage implements OnInit {
           iconRetinaUrl: 'assets/marker-icon-2x.png',
           shadowUrl: 'assets/marker-shadow.png',
         })
-      });
+      }).bindPopup(`
+      <div><span style="font-weight:bold">${location.id}</span></div>
+      <div><span style="font-style:italic">${location.address} ${location.streetNumber}</span></div>
+      `);
       newMarker.addTo(this.sedi);
     }
+
   }
   close() {
     this.modalController.dismiss(false);
