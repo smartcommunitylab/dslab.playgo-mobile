@@ -14,6 +14,7 @@ export interface CampaignTripInfo {
   campaignId?: string;
   campaignName?: { [key: string]: string };
   distance?: number;
+  virtualScore?: number;
   errorCode?: string;
   score?: number;
   scoreStatus?: CampaignTripInfo.ScoreStatusEnum;

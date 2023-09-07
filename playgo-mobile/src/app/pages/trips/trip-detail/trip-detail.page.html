@@ -41,9 +41,12 @@
         <ion-row *ngFor="let campaign of campaigns" class="campaigns-validation">
           <ng-container *ngIf="campaign.valid">
             <ion-col size="3" class="ion-text-right">
-              <ng-container *ngIf="campaign.type === 'personal' || campaign.type === 'company'">
+              <ng-container *ngIf="campaign.type === 'personal' ">
                 {{campaign.distance / 1000 | localNumber: '0.0-1' }} {{ 'km' |
                 translate }}
+              </ng-container>
+              <ng-container *ngIf="campaign.type === 'company'">
+                {{campaign.virtualScore | localNumber: '0.0-1' }} {{ getLabelObs(campaign)|async }}
               </ng-container>
               <ng-container *ngIf="campaign.type === 'school' || campaign.type === 'city'">
                 <app-icon [color]="campaignService.getCampaignColor(campaign)"

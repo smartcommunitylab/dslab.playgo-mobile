@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, map } from 'rxjs';
 import { CampaignTripInfo } from 'src/app/core/api/generated/model/campaignTripInfo';
 import { TrackedInstanceInfo } from 'src/app/core/api/generated/model/trackedInstanceInfo';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
@@ -18,6 +19,7 @@ import { formatDurationToHoursAndMinutes } from 'src/app/core/shared/utils';
   styleUrls: ['./trip-detail.page.scss'],
 })
 export class TripDetailPage implements OnInit {
+
   tripDetail: TrackedInstanceInfo = null;
   campaigns: CampaignTripInfo[];
   showMap: boolean;
@@ -30,7 +32,7 @@ export class TripDetailPage implements OnInit {
     private errorService: ErrorService,
     private trackApiService: TrackApiService,
     public campaignService: CampaignService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     const tripId = this.route.snapshot.paramMap.get('id');
@@ -38,7 +40,7 @@ export class TripDetailPage implements OnInit {
     try {
       this.tripDetail = await this.getTripDetail(tripId);
       this.showMap = Boolean(this.tripDetail.polyline);
-      this.campaigns = this.tripDetail.campaigns.filter(campaign=>campaign.valid);
+      this.campaigns = this.tripDetail.campaigns.filter(campaign => campaign.valid);
       this.durationLabel = formatDurationToHoursAndMinutes(
         this.tripDetail.endTime - this.tripDetail.startTime
       );
@@ -49,5 +51,16 @@ export class TripDetailPage implements OnInit {
 
   async getTripDetail(id: string): Promise<TrackedInstanceInfo> {
     return await this.trackApiService.getTrackedInstanceInfoDetail(id);
+  }
+  getLabelObs(campaign: CampaignTripInfo): Observable<string> {
+    return this.campaignService.myCampaigns$.pipe(
+      map(
+        (campaigns) =>
+          campaigns.find(
+            (campaignContainer) =>
+              campaignContainer.campaign.campaignId === campaign.campaignId
+          )?.campaign?.specificData?.virtualScore?.label
+      )
+    );
   }
 }
