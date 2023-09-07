@@ -1,5 +1,5 @@
 <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="tracking-button" [activated]="fabListActive"
-  (click)="toggleFabList()">
+  (click)="toggleFabList()" #fabelement>
   <ion-fab-button color="start" close-icon="chevron-down">
     <ion-icon name="chevron-up" *ngIf="(tripService.isInTrip$ | async) === true; else playbutton"></ion-icon>
     <ng-template #playbutton>

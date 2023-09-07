@@ -1,11 +1,13 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   NgZone,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
@@ -31,10 +33,12 @@ import { TripService } from '../trip.service';
   styleUrls: ['./tracking-buttons.component.scss'],
 })
 export class TrackingButtonsComponent implements OnInit {
+
   @Input()
   fabListActive = false;
   @Output()
   fabListActivated = new EventEmitter<boolean>();
+  @ViewChild('fabelement') el: ElementRef;
 
   inProgressButton: TransportType | 'stop' = null;
 
@@ -61,6 +65,9 @@ export class TrackingButtonsComponent implements OnInit {
   async toggleFabList() {
     await this.openOrCloseFabList(!this.fabListActive);
   }
+  preventDefault($event: MouseEvent) {
+    $event.stopPropagation();
+  }
   private async openOrCloseFabList(open: boolean) {
     // I do not know why wait and detect changes is necessary...
     // maybe related to https://github.com/ionic-team/ionic-framework/issues/19361
@@ -77,8 +84,8 @@ export class TrackingButtonsComponent implements OnInit {
     transportType: TransportType,
     fabButtonState: 'disabled' | 'enabled'
   ) {
+    this.stopClose();
     event.stopPropagation();
-
     // https://github.com/ionic-team/ionic-framework/issues/14719
     if (fabButtonState === 'disabled') {
       return;
@@ -91,8 +98,11 @@ export class TrackingButtonsComponent implements OnInit {
       this.inProgressButton = transportType;
     }
   }
-
+  stopClose() {
+    (this.el as any).activated = false;
+  }
   async stop(event: Event) {
+    this.stopClose();
     event.stopPropagation();
     this.inProgressButton = 'stop';
     try {

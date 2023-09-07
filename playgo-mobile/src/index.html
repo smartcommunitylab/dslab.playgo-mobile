@@ -23,9 +23,9 @@
         upgrade-insecure-requests;
         base-uri 'self';
         default-src 'self';
-        script-src 'self' 'unsafe-eval' 'unsafe-inline';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
         style-src 'self' 'unsafe-inline';
-        img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+        img-src * 'self' data: https:; 
         connect-src 'self'  http://localhost  https://aac.platform.smartcommunitylab.it https://backenddev.playngo.it/playandgo/api/ https://backend.playngo.it/playandgo/api/  https://pgaziendaledev.platform.smartcommunitylab.it https://pgaziendale.platform.smartcommunitylab.it https://hscdev.playngo.it https://hsc.playngo.it blob: data: ;
         form-action 'none';
         object-src 'none';
