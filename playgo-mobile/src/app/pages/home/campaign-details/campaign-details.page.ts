@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   Component,
   ElementRef,
   OnDestroy,
@@ -51,7 +52,7 @@ import { find } from 'lodash-es';
   templateUrl: './campaign-details.page.html',
   styleUrls: ['./campaign-details.page.scss'],
 })
-export class CampaignDetailsPage implements OnInit, OnDestroy {
+export class CampaignDetailsPage implements OnInit, OnDestroy, AfterViewChecked {
 
   id: string;
   campaignContainer?: PlayerCampaign;
@@ -62,6 +63,8 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   isDestroyed$ = new Subject<void>();
   unreadNotifications: Notification[] = [];
   @ViewChild('ionContent') ionContent: ElementRef;
+  @ViewChild('descText') descText: ElementRef;
+
   descriptionExpanded = false;
   subStat: Subscription;
   subTeam: Subscription;
@@ -120,6 +123,15 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
   ionViewDidLeave() {
     this.subStat?.unsubscribe();
     this.myCampaignSub?.unsubscribe();
+  }
+  ngAfterViewChecked() {
+    if (this.descText?.nativeElement) {
+      console.log(this.descText.nativeElement.offsetHeight < this.descText.nativeElement.scrollHeight ||
+        this.descText.nativeElement.offsetWidth < this.descText.nativeElement.scrollWidth);
+      return (this.descText.nativeElement.offsetHeight < this.descText.nativeElement.scrollHeight ||
+        this.descText.nativeElement.offsetWidth < this.descText.nativeElement.scrollWidth);
+    }
+    return false;
   }
   ngOnInit() {
     this.subTeam = combineLatest([
@@ -230,7 +242,9 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
     return details.filter((detail) => detail.type === 'faq').length > 0;
   }
   clickDescription() {
-    this.descriptionExpanded = !this.descriptionExpanded;
+    if (this.isTextOverflow('descText') || this.descriptionExpanded) {
+      this.descriptionExpanded = !this.descriptionExpanded;
+    }
 
   }
   getCampaign() {
@@ -284,6 +298,15 @@ export class CampaignDetailsPage implements OnInit, OnDestroy {
 
   back() {
     this.navCtrl.back();
+  }
+  isTextOverflow(elementId: string): boolean {
+    const elem = document.getElementById(elementId);
+    if (elem) {
+      return (elem.offsetHeight < elem.scrollHeight);
+    }
+    else {
+      return false;
+    }
   }
   openSupport() {
     window.open('mailto:' + environment.support.email +
