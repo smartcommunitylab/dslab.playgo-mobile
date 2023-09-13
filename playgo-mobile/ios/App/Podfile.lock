@@ -7,9 +7,6 @@ PODS:
     - Capacitor
   - CapacitorCamera (5.0.7):
     - Capacitor
-  - CapacitorCodepush (1.0.0):
-    - Capacitor
-    - SSZipArchive
   - CapacitorCommunityBarcodeScanner (2.1.1):
     - Capacitor
   - CapacitorCommunityFcm (2.0.2):
@@ -47,6 +44,9 @@ PODS:
   - CocoaLumberjack/Core (3.7.4)
   - CordovaPlugins (5.2.3):
     - CapacitorCordova
+  - DwimcoreCapacitorCodepush (5.0.0):
+    - Capacitor
+    - SSZipArchive
   - Firebase/Analytics (8.12.1):
     - Firebase/Core
   - Firebase/Core (8.12.1):
@@ -160,7 +160,6 @@ DEPENDENCIES:
   - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
   - "CapacitorBrowser (from `../../node_modules/@capacitor/browser`)"
   - "CapacitorCamera (from `../../node_modules/@capacitor/camera`)"
-  - CapacitorCodepush (from `../../node_modules/capacitor-codepush`)
   - "CapacitorCommunityBarcodeScanner (from `../../node_modules/@capacitor-community/barcode-scanner`)"
   - "CapacitorCommunityFcm (from `../../node_modules/@capacitor-community/fcm`)"
   - "CapacitorCommunityFirebaseAnalytics (from `../../node_modules/@capacitor-community/firebase-analytics`)"
@@ -177,6 +176,7 @@ DEPENDENCIES:
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
   - CordovaPlugins (from `../capacitor-cordova-ios-plugins`)
+  - "DwimcoreCapacitorCodepush (from `../../node_modules/@dwimcore/capacitor-codepush`)"
   - Firebase/Messaging
   - "TransistorsoftCapacitorBackgroundFetch (from `../../node_modules/@transistorsoft/capacitor-background-fetch`)"
   - "TransistorsoftCapacitorBackgroundGeolocation (from `../../node_modules/@transistorsoft/capacitor-background-geolocation`)"
@@ -207,8 +207,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/browser"
   CapacitorCamera:
     :path: "../../node_modules/@capacitor/camera"
-  CapacitorCodepush:
-    :path: "../../node_modules/capacitor-codepush"
   CapacitorCommunityBarcodeScanner:
     :path: "../../node_modules/@capacitor-community/barcode-scanner"
   CapacitorCommunityFcm:
@@ -241,6 +239,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/status-bar"
   CordovaPlugins:
     :path: "../capacitor-cordova-ios-plugins"
+  DwimcoreCapacitorCodepush:
+    :path: "../../node_modules/@dwimcore/capacitor-codepush"
   TransistorsoftCapacitorBackgroundFetch:
     :path: "../../node_modules/@transistorsoft/capacitor-background-fetch"
   TransistorsoftCapacitorBackgroundGeolocation:
@@ -251,7 +251,6 @@ SPEC CHECKSUMS:
   CapacitorApp: 024e1b1bea5f883d79f6330d309bc441c88ad04a
   CapacitorBrowser: 6192948e0ce804fd72aaf77f4114a3ad2e08c760
   CapacitorCamera: 084b0b228bba7d00587910337b1c89e93b1d32ab
-  CapacitorCodepush: 248514ef1ab70341ed054214b5d7192703a3a461
   CapacitorCommunityBarcodeScanner: bea57c113f36d86a12407d4094a1e6211f4e8b1e
   CapacitorCommunityFcm: af38ba6452104d1b3c4eef9007d9856b2805a6e8
   CapacitorCommunityFirebaseAnalytics: 885642f48219c3df420e215119628b052c3b6989
@@ -269,6 +268,7 @@ SPEC CHECKSUMS:
   CapacitorStatusBar: 565c0a1ebd79bb40d797606a8992b4a105885309
   CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
   CordovaPlugins: 392b78fd94e21b0fe749f6266436bafcbd22ea70
+  DwimcoreCapacitorCodepush: 689a2563c98a7963a21869a5ba286f9c8a5feb4f
   Firebase: 580d09e8edafc3073ebf09c03fd42e4d80d35fe9
   FirebaseAnalytics: bd10d7706ba8d6e01ea2816f8fe9e9b881cb0918
   FirebaseCore: 8138de860a90ca7eec5e324da5788fb0ebf1d93c
@@ -285,6 +285,6 @@ SPEC CHECKSUMS:
   TransistorsoftCapacitorBackgroundFetch: 5f8ed3e3634f93731ec5dafa9d95c5f28c843256
   TransistorsoftCapacitorBackgroundGeolocation: ee62011f147c91bb41e29adce516edb3a3e47579
 
-PODFILE CHECKSUM: 5e49f215fe1d6285e068346a375f5d14d7f8cc26
+PODFILE CHECKSUM: 2933777a69c19a58426a5ac55e5b4ab1b5bc105d
 
 COCOAPODS: 1.11.2

@@ -64,16 +64,16 @@
 		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
 	},
 	{
+		"pkg": "@dwimcore/capacitor-codepush",
+		"classpath": "com.microsoft.capacitor.CodePush"
+	},
+	{
 		"pkg": "@transistorsoft/capacitor-background-fetch",
 		"classpath": "com.transistorsoft.bgfetch.capacitor.BackgroundFetchPlugin"
 	},
 	{
 		"pkg": "@transistorsoft/capacitor-background-geolocation",
 		"classpath": "com.transistorsoft.bggeo.capacitor.BackgroundGeolocationPlugin"
-	},
-	{
-		"pkg": "capacitor-codepush",
-		"classpath": "com.microsoft.capacitor.CodePush"
 	},
 	{
 		"pkg": "capacitor-secure-storage-plugin",

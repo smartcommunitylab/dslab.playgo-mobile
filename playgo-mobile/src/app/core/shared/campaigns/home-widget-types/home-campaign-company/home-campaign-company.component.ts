@@ -50,6 +50,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportDayStat = stats;
+          if (!this.campaignContainer?.campaign?.specificData?.virtualScore) { this.reportDayStat.value = this.reportDayStat.value / 1000; }
         })
         .catch((error) => {
           if (isOfflineError(error)) {
@@ -70,6 +71,11 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         )
         .then((stats) => {
           this.reportMonthStat = stats;
+          console.log(this.reportMonthStat.value);
+          if (!this.campaignContainer?.campaign?.specificData?.virtualScore) {
+            this.reportMonthStat.value = this.reportMonthStat.value / 1000;
+          }
+          console.log(this.reportMonthStat.value);
         })
         .catch((error) => {
           if (isOfflineError(error)) {
@@ -88,7 +94,15 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           this.virtualScoreLabel
         )
         .then((stats) => {
+          console.log('stats', stats);
           this.reportTotalStat = stats;
+          //if (!this.campaignContainer?.campaign?.specificData?.virtualScore) {
+          //  console.log('divido', this.reportTotalStat.value, '/1000');
+
+          //  this.reportTotalStat.value = this.reportTotalStat.value / 1000;
+          //console.log('this.reportTotalStat.value', this.reportTotalStat.value);
+          // }
+
         })
         .catch((error) => {
           if (isOfflineError(error)) {

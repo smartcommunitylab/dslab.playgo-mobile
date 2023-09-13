@@ -17,7 +17,7 @@ export class LimitStatusComponent implements OnInit {
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
-    // console.log('limitMax' + this.limitMax + 'limitValue' + this.limitValue);
+    // console.log('limitMax', this.limitMax, 'limitValue', this.limitValue);
   }
   async openLimit(event: any) {
     event.stopPropagation();

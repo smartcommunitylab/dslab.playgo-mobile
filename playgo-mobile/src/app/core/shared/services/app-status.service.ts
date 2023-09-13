@@ -1,7 +1,7 @@
 import { App as AppPluginInternal, AppInfo } from '@capacitor/app';
 import { Device as DevicePluginInternal } from '@capacitor/device';
 import { Inject, Injectable, NgZone } from '@angular/core';
-import { codePush as CodePushPluginInternal } from 'capacitor-codepush';
+import { codePush as CodePushPluginInternal } from '@dwimcore/capacitor-codepush';
 import {
   combineLatest,
   of,
@@ -24,7 +24,7 @@ import {
 import { DeviceInfo } from '@capacitor/device';
 import { environment } from 'src/environments/environment';
 import { ErrorService } from './error.service';
-import { ILocalPackage } from 'capacitor-codepush/dist/esm/package';
+import { ILocalPackage } from '@dwimcore/capacitor-codepush/dist/esm/package';
 import { runInZone, runOutsideAngular } from '../rxjs.utils';
 
 @Injectable({

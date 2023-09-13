@@ -14,7 +14,7 @@ import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocat
 import { BackgroundGeolocationMock } from './core/shared/plugin-mocks/BackgroundGeolocationMock';
 import { App } from '@capacitor/app';
 import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
-import { codePush } from 'capacitor-codepush';
+import { codePush } from '@dwimcore/capacitor-codepush';
 import { GlobalErrorHandler } from './core/shared/services/global-error-handler';
 import { Device } from '@capacitor/device';
 import { DevicePluginMock } from './core/shared/plugin-mocks/DevicePluginMock';

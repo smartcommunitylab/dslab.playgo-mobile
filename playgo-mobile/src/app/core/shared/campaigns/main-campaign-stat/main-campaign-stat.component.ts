@@ -29,8 +29,8 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() lastPaymentStat?: any;
   @Input() lastPaymentDate?: any;
   constructor(public campaignService: CampaignService) { }
-  getValueByUnit(value: number, unit: string): number {
-    if ('Km' === unit) {
+  getValueByUnit(value: number, unit: string, virtualSore: boolean): number {
+    if ('Km' === unit && !virtualSore) {
       return value / 1000;
     }
     return value;

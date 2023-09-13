@@ -370,6 +370,9 @@ export class CampaignService {
     if (campaign.type === 'school') {
       return 'ecoLeavesHsc';
     }
+    if (campaign.type === 'company') {
+      return 'ecoLeavesCompany';
+    }
     return null;
   }
 

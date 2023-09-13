@@ -46,7 +46,10 @@
                 translate }}
               </ng-container>
               <ng-container *ngIf="campaign.type === 'company'">
-                {{campaign.virtualScore | localNumber: '0.0-1' }} {{ getLabelObs(campaign)|async }}
+                <app-icon [color]="campaignService.getCampaignColor(campaign)"
+                  [name]="campaignService.getCampaignScoreIcon(campaign)"></app-icon>
+                <ion-text>{{campaign.virtualScore | localNumber: '0.0-1' }}</ion-text>
+                <!-- {{campaign.virtualScore | localNumber: '0.0-1' }} {{ getLabelObs(campaign)|async }} -->
               </ng-container>
               <ng-container *ngIf="campaign.type === 'school' || campaign.type === 'city'">
                 <app-icon [color]="campaignService.getCampaignColor(campaign)"

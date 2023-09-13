@@ -1,5 +1,5 @@
-import { ILocalPackage } from 'capacitor-codepush/dist/esm/package';
-import { SyncStatus } from 'capacitor-codepush/dist/esm/syncStatus';
+import { ILocalPackage } from '@dwimcore/capacitor-codepush/dist/esm/package';
+import { SyncStatus } from '@dwimcore/capacitor-codepush/dist/esm/syncStatus';
 import { getMockMethodAnnotation } from './mock-utils';
 
 const mockMethod = getMockMethodAnnotation({
