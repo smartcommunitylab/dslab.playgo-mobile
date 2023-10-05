@@ -116,29 +116,31 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   }
   getLastPayment() {
     const index = this.campaignContainer.campaign.specificData.periods.length - 1;
-    this.lastPaymentDate = this.campaignContainer.campaign.specificData.periods[index].start;
-    const to = this.campaignContainer.campaign.specificData.periods[index].end;
-    this.reportService
-      .getTransportStatsByMeans(
-        this.campaignContainer.campaign.campaignId,
-        this.profile.playerId,
-        this.campaignContainer?.campaign?.specificData?.virtualScore ? 'virtualScore' : 'km',
-        this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : '',
-        this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : 'bike',
-        toServerDateOnly(DateTime.fromMillis(this.lastPaymentDate).toUTC()),
-        toServerDateOnly(DateTime.fromMillis(to).toUTC())
-      ).toPromise()
-      .then((stats) => {
-        this.lastPaymentStat = stats[0] ? stats[0] : { mean: null, period: null, value: 0 };
-      })
-      .catch((error) => {
-        if (isOfflineError(error)) {
-          this.reportDayStat = null;
-        } else {
-          this.reportDayStat = null;
-          this.errorService.handleError(error);
-        }
-      });
+    if (index !== -1) {
+      this.lastPaymentDate = this.campaignContainer.campaign.specificData.periods[index].start;
+      const to = this.campaignContainer.campaign.specificData.periods[index].end;
+      this.reportService
+        .getTransportStatsByMeans(
+          this.campaignContainer.campaign.campaignId,
+          this.profile.playerId,
+          this.campaignContainer?.campaign?.specificData?.virtualScore ? 'virtualScore' : 'km',
+          this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : '',
+          this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : 'bike',
+          toServerDateOnly(DateTime.fromMillis(this.lastPaymentDate).toUTC()),
+          toServerDateOnly(DateTime.fromMillis(to).toUTC())
+        ).toPromise()
+        .then((stats) => {
+          this.lastPaymentStat = stats[0] ? stats[0] : { mean: null, period: null, value: 0 };
+        })
+        .catch((error) => {
+          if (isOfflineError(error)) {
+            this.reportDayStat = null;
+          } else {
+            this.reportDayStat = null;
+            this.errorService.handleError(error);
+          }
+        });
+    }
   }
   goToChallenge(event: Event) {
     if (event && event.stopPropagation) {
