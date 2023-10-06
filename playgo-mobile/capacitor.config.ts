@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CapacitorConfig } from '@capacitor/cli';
-
 const flavor: 'stage' | 'production' =
   process.env.FLAVOR === 'stage' ? 'stage' : 'production';
-
-const configBase: CapacitorConfig = {
-  // appId and appName are used only for initializing the native project
-  // appId: 'it.dslab.playgo',
-  // appName: 'Play&Go',
+const config: CapacitorConfig = {
+  appId: 'it.smartcommunitylab.comuneintasca.trento',
+  appName: 'La mia Trento',
   webDir: 'www',
   bundledWebRuntime: false,
   server: { allowNavigation: ['*'] },
@@ -32,39 +29,38 @@ const configBase: CapacitorConfig = {
     },
   },
 };
-
 const stageFlavorConfig: CapacitorConfig = {
-  ...configBase,
+  ...config,
   plugins: {
-    ...configBase.plugins,
+    ...config.plugins,
     CodePush: {
-      ...configBase.plugins.CodePush,
+      ...config.plugins.CodePush,
       ANDROID_DEPLOY_KEY: 'URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog',
       IOS_DEPLOY_KEY: 'KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog',
     },
   },
 };
 const productionFlavorConfig: CapacitorConfig = {
-  ...configBase,
+  ...config,
   plugins: {
-    ...configBase.plugins,
+    ...config.plugins,
     CodePush: {
-      ...configBase.plugins.CodePush,
+      ...config.plugins.CodePush,
       ANDROID_DEPLOY_KEY: 'NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog',
       IOS_DEPLOY_KEY: 'zb5HmAnKlI5QKIjJCLjC375GAEsf4ksvOXqog',
     },
   },
 };
 
-console.log(`using ${flavor} flavor in capacitor.config.ts`);
+// console.log(`using ${flavor} flavor in capacitor.config.ts`);
 
-let config: CapacitorConfig;
+let configCurrent: CapacitorConfig;
 if (flavor === 'stage') {
-  config = stageFlavorConfig;
+  configCurrent = stageFlavorConfig;
 } else if (flavor === 'production') {
-  config = productionFlavorConfig;
+  configCurrent = productionFlavorConfig;
 } else {
   throw new Error('Unsupported flavor');
 }
+export default configCurrent;
 
-export default config;

@@ -3,7 +3,8 @@ App/Pods
 App/App/public
 DerivedData
 xcuserdata
-
+App/output 
 # Cordova plugins for Capacitor
 capacitor-cordova-ios-plugins
+
 
