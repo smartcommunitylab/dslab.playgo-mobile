@@ -63,7 +63,7 @@
             </ion-col>
             <ion-col class="ellipsis">
               <ion-text [color]="campaignService.getCampaignColor(campaign)">
-                <a class="inherit-color" [routerLink]="'/pages/tabs/trips/campaign-detail/' + campaign.campaignId"
+                <a class="inherit-color underline" (click)="openCampaign(campaign)"
                   routerDirection="forward">{{campaign.campaignName | languageMap }}</a>
               </ion-text>
             </ion-col>

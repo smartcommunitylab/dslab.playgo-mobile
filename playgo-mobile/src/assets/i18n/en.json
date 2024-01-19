@@ -292,6 +292,7 @@
     "title": "Campaigns",
     "join": "Join",
     "novaliddate": "The campaign's period is not valid",
+    "removed": "The campaign is over",
     "notStarted": "The campaign is not active",
     "cantSubscribe": "The campaign is running.<br> Your nickname does not belong to any team. To participate, contact the teacher in charge",
     "notStartedHSC": "The campaign is not yet active. To partecipate contact your teacher.",
