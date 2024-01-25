@@ -72,11 +72,13 @@
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-contrast)'">
             {{getSelectedPeriod()}}
           </p>
-          <p class="ion-text-center total-value" *ngIf="(selectedMean$ |async)!=='GL'"
+          <p class="ion-text-center total-value"
+            *ngIf="(selectedMean$ |async)!=='GL'&& (selectedMean$ |async)!=='VIRTUALSCORE'"
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'">
             {{totalValue | localNumber: '0.0-1'}} {{metricToUnitLabel[selectedMetric$|async]|translate}}
           </p>
-          <p class="ion-text-center total-value" *ngIf="(selectedMean$ |async)==='GL'"
+          <p class="ion-text-center total-value"
+            *ngIf="(selectedMean$ |async)==='GL'|| (selectedMean$ |async)==='VIRTUALSCORE'"
             [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'">
             {{totalValue | localNumber: '0.0-1'}} ecoLeaves
           </p>

@@ -482,7 +482,8 @@ export class StatsPage implements OnInit, OnDestroy {
           },
           y: {
             ticks: {
-              callback: (value, index, ticks) => value + ' ' + this.translateService.instant(this.metricToUnitChartLabel[this.metric])
+              callback: (value, index, ticks) => value + ' ' +
+                this.translateService.instant(this.metricToUnitChartLabel[this.virtualScore ? 'virtualScore' : this.metric])
             }
           }
 
@@ -508,7 +509,7 @@ export class StatsPage implements OnInit, OnDestroy {
     });
   }
   setVirtualScore(mean: Mean): Mean {
-    if (mean === 'VIRTUALSCORE') { this.virtualScore = true; }
+    if (mean === 'VIRTUALSCORE' || mean === 'GL') { this.virtualScore = true; }
     else { this.virtualScore = false; }
     return mean;
   }
