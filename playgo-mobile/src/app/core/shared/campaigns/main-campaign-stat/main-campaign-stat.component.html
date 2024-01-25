@@ -99,7 +99,8 @@
     </ion-row>
     <ion-row *ngIf="limitDayValue">
       <ion-col>
-        <app-limit-status [limitMax]="limitDayMax" [limitValue]="limitDayValue" [infoBox]="true"
+        <app-limit-status [campaign]="campaignContainer?.campaign" [limitMax]="limitDayMax" [limitValue]="limitDayValue"
+          [infoBox]="true"
           [virtualScoreLabel]="campaignContainer?.campaign?.specificData?.virtualScore?campaignContainer?.campaign?.specificData?.virtualScore?.label:'Km'"
           [type]="campaignContainer?.campaign?.type" [header]="'campaigns.homewidgets.stat.today' | translate">
         </app-limit-status>

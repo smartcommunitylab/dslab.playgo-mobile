@@ -7,7 +7,10 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <div class="limit-text" [innerHtml]="'campaigns.detail.limits_text'|translate"></div>
+        <div class="limit-text"
+          [innerHtml]="campaign?.specificData?.limitCompanyDesc?(campaign.specificData.limitCompanyDesc | languageMap): 'campaigns.detail.limits_text'|translate">
+        </div>
+
       </ion-col>
     </ion-row>
 
