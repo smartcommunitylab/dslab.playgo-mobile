@@ -27,7 +27,7 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
   sub: Subscription;
   isSubmitted = false;
   language: string;
-
+  hasOnlyOne = false;
   constructor(
     private modalController: ModalController,
     private errorService: ErrorService,
@@ -54,8 +54,10 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result) {
           this.companies = result;
+
           if (this.companies.length === 1) {
             this.companySelected = this.companies[0];
+            this.hasOnlyOne = true;
           }
         }
       });

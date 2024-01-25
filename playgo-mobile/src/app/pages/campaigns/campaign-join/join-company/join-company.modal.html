@@ -13,7 +13,7 @@
 <ion-content color="playgo">
   <form [formGroup]="joinCompanyForm" (ngSubmit)="joinCompanySubmit()">
     <ion-grid>
-      <ion-row class="ion-margin-top">
+      <ion-row class="ion-margin-top" [ngClass]="{'hide-company-selection':hasOnlyOne}">
         <ion-col>
           <ion-item color="playgo">
             <ion-label>{{ 'campaigns.joinmodal.companyselection' | translate
