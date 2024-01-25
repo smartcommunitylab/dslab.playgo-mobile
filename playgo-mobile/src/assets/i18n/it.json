@@ -336,8 +336,8 @@
         "header": "Regolamento"
       },
       "codeInfo": {
-        "header": "Codice dipendente",
-        "message": "Codice univoco rilasciato al dipendente"
+        "header": "Codice giocatore",
+        "message": "Codice univoco rilasciato al giocatore"
       },
       "join": "Iscriviti",
       "confirm": "Conferma iscrizione"
@@ -374,6 +374,7 @@
       "modalPersonalValid": "Vengono prese in considerazione i giocatori che hanno compiuto almeno un viaggio valido.",
       "myCompany": "Azienda:",
       "companies": "Aziende partecipanti",
+      "companySubscribe": "Inserisci il codice identificativo",
       "not_found": "Campagna non trovata",
       "blacklist": "Utenti Bloccati",
       "badges": "Badges",

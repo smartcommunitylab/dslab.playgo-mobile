@@ -57,7 +57,7 @@
               </ion-item>
             </div>
           </ng-container>
-          <div *ngIf="isCompany()">
+          <div *ngIf="isCompany() && campaign?.specificData?.hideCompanyDesc!== true">
             <ion-item lines="none" (click)="openCompanies()">
               <ion-label><span class="text-bold text-underlined">
                   {{'campaigns.detail.companies'|translate}}

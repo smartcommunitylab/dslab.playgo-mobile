@@ -336,8 +336,8 @@
         "header": "Rules"
       },
       "codeInfo": {
-        "header": "Employee code",
-        "message": "Unique code issued to the employee"
+        "header": "Player code",
+        "message": "Unique code issued to the player"
       },
       "join": "Join",
       "confirm": "Confirm subscription"
@@ -374,6 +374,7 @@
       "modalPersonalValid": "Only players that have made at least one valid journey are taken into consideration.",
       "myCompany": "Company:",
       "companies": "Partecipating companies",
+      "companySubscribe": "Insert your identification code",
       "not_found": "Campaign not found",
       "blacklist": "Blacklist",
       "badges": "Badges",

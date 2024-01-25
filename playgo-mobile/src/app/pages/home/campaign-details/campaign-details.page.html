@@ -103,7 +103,7 @@
         </div>
       </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="campaignHas('companies')"
+    <ion-card *ngIf="campaignHas('companies') && campaignContainer?.campaign?.specificData.hideCompanyDesc!== true"
       [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/companies']">
       <ion-item [color]="campaignContainer?.campaign?.type">
         <ion-label> {{'campaigns.detail.companies'|translate}}</ion-label>

@@ -27,7 +27,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   lastPaymentStat: any;
   virtualScoreLabel: string;
   imagePath: string;
-  lastPaymentDate: any;
+  lastPaymentDate: number;
   constructor(
     private userService: UserService,
     private reportService: ReportService,
@@ -126,8 +126,8 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           this.campaignContainer?.campaign?.specificData?.virtualScore ? 'virtualScore' : 'km',
           this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : '',
           this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : 'bike',
-          toServerDateOnly(DateTime.fromMillis(this.lastPaymentDate).toUTC()),
-          toServerDateOnly(DateTime.fromMillis(to).toUTC())
+          toServerDateOnly(DateTime.fromMillis(Number(this.lastPaymentDate)).toUTC()),
+          toServerDateOnly(DateTime.fromMillis(Number(to)).toUTC())
         ).toPromise()
         .then((stats) => {
           this.lastPaymentStat = stats[0] ? stats[0] : { mean: null, period: null, value: 0 };

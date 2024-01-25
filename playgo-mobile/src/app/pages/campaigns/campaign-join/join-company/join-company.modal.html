@@ -45,7 +45,10 @@
       <ion-row class="ion-margin-top">
         <ion-col>
           <ion-item color="playgo">
-            <ion-label position="floating">{{ 'campaigns.joinmodal.companyPIN' | translate }}</ion-label>
+            <!-- <ion-label position="floating">{{ 'campaigns.joinmodal.companyPIN' | translate }}</ion-label> -->
+            <ion-label position="floating">
+              {{ 'campaigns.detail.companySubscribe' | translate }}
+            </ion-label>
             <ion-input [(ngModel)]="companyPIN" formControlName="companyPIN"></ion-input>
             <ion-icon class="popup-icon" name="information-circle-outline" slot="end" (click)="openCodeInfoPopup()">
             </ion-icon>

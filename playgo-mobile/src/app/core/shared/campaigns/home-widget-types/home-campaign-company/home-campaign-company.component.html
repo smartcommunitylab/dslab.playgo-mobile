@@ -23,7 +23,8 @@
       " [limitDayValue]="reportDayStat"
       [unit]="campaignContainer?.campaign?.specificData?.virtualScore?virtualScoreLabel:'Km'">
     </app-main-campaign-stat>
-    <app-company-label [campaignContainer]="campaignContainer"></app-company-label>
+    <app-company-label [campaignContainer]="campaignContainer"
+      *ngIf="!campaignContainer?.campaign?.specificData.hideCompanyDesc"></app-company-label>
 
   </ion-card-content>
 </ion-card>

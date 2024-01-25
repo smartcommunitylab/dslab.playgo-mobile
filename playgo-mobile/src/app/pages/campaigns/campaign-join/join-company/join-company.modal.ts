@@ -4,6 +4,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
+import { LanguageMapPipe } from 'src/app/core/shared/pipes/languageMap.pipe';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
@@ -13,6 +14,7 @@ import { UserService } from 'src/app/core/shared/services/user.service';
   selector: 'app-join-company',
   templateUrl: './join-company.modal.html',
   styleUrls: ['./join-company.modal.scss'],
+  providers: [LanguageMapPipe]
 })
 export class JoinCompanyModalPage implements OnInit, OnDestroy {
   joinCompanyForm: FormGroup;
@@ -33,8 +35,9 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
     private campaignService: CampaignService,
     public formBuilder: FormBuilder,
     private userService: UserService,
-    private navCtrl: NavController
-  ) {}
+    private navCtrl: NavController,
+    private languageMap: LanguageMapPipe
+  ) { }
   ngOnInit() {
     this.language = this.userService.getLanguage();
     const rules = this.campaign.details[this.language];
@@ -51,6 +54,9 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result) {
           this.companies = result;
+          if (this.companies.length === 1) {
+            this.companySelected = this.companies[0];
+          }
         }
       });
   }
@@ -83,7 +89,9 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
   openCodeInfoPopup() {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.codeInfo.header' as any,
-      messageTranslateKey: 'campaigns.joinmodal.codeInfo.message' as any,
+      messageTranslateKey: this.campaign.specificData.registrationCompanyDesc ?
+        (this.languageMap.transform(this.campaign.specificData.registrationCompanyDesc)) :
+        'campaigns.joinmodal.companyPIN' as any,
       cssClass: 'modalConfirm',
     });
   }
