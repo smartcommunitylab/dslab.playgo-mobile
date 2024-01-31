@@ -317,7 +317,7 @@
       "modalTitle": "Iscrizione a {{campaignTitle}}",
       "close": "X",
       "closeString": "Chiudi",
-      "pinRequired": "Il codice univoco dipendente é richiesto",
+      "pinRequired": "E' richiesto il codice identificativo",
       "companyselection": "Seleziona l’azienda con cui iscriverti",
       "companyPIN": "Inserisci il codice identificativo",
       "privacyLink": "Leggi l’informativa sulla privacy",
