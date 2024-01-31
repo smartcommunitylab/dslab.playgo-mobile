@@ -88,7 +88,7 @@ export class JoinCompanyModalPage implements OnInit, OnDestroy {
       cssClass: 'modalJoin',
     });
   }
-  openCodeInfoPopup() {
+  openCodeInfoPopup(event: Event) {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.codeInfo.header' as any,
       messageTranslateKey: this.campaign.specificData.registrationCompanyDesc ?
