@@ -345,8 +345,61 @@ export class ChallengeControllerService {
       }
     );
   }
-}
 
+  /**
+    * getCompletedChallangesByTeam
+    *
+    * @param campaignId campaignId
+    * @param teamId teamId
+    * @param dateFrom UTC millis
+    * @param dateTo UTC millis
+    */
+  public getCompletedChallangesByTeamUsingGET(args: {
+    campaignId: string;
+    teamId: string;
+    dateFrom: number;
+    dateTo: number;
+  }): Observable<Array<PlayerChallenge>> {
+    const { campaignId, teamId, dateFrom, dateTo } = args;
+    return this.http.request<Array<PlayerChallenge>>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/challenge/completed/team`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          teamId,
+          dateFrom,
+          dateTo,
+        }),
+      }
+    );
+  }
+  /**
+   * getChallengesByTeam
+   *
+   * @param campaignId campaignId
+   * @param teamId teamId
+   * @param filter filter
+   */
+  public getChallengesByTeamUsingGET(args: {
+    campaignId: string;
+    teamId: string;
+    filter?: string;
+  }): Observable<ChallengeConceptInfo> {
+    const { campaignId, teamId, filter } = args;
+    return this.http.request<ChallengeConceptInfo>(
+      'get',
+      environment.serverUrl.api + `/playandgo/api/challenge/team`,
+      {
+        params: removeNullOrUndefined({
+          campaignId,
+          teamId,
+          filter,
+        }),
+      }
+    );
+  }
+}
 function removeNullOrUndefined(obj: any) {
   const newObj: any = {};
   Object.keys(obj).forEach((key) => {

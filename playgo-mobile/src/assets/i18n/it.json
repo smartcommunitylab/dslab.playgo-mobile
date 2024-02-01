@@ -309,6 +309,7 @@
       "close": "X"
     },
     "joinmodal": {
+      "search": "Cerca",
       "raccomandation": "Chi ti ha invitato?",
       "nickname": "Inserisci il nickname",
       "teamselection": "Seleziona la squadra",

@@ -309,6 +309,7 @@
       "close": "X"
     },
     "joinmodal": {
+      "search": "Search",
       "raccomandation": "Who invited you?",
       "nickname": "Insert thenickname",
       "teamselection": "Select your team",

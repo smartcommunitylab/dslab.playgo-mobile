@@ -23,7 +23,7 @@
               itemTextField="name" formControlName="companySelected" hasSearchText="false" headerColor="playgo"
               groupColor="playgo" modalCssClass="modal-search-playgo"
               [searchFailText]=" 'campaigns.joinmodal.noItems' | translate" [canSearch]="true"
-              (onSelect)="onSelect($event)">
+              [searchPlaceholder]=" 'campaigns.joinmodal.search' | translate" (onSelect)="onSelect($event)">
               <ng-template ionicSelectableTitleTemplate>
                 {{ 'campaigns.detail.companies' | translate }}
               </ng-template>
