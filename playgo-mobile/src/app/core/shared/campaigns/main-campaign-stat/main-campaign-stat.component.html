@@ -79,7 +79,7 @@
           "></p>
         <p *ngIf="lastPaymentStat" class="ion-text-left" [innerHtml]="
           'campaigns.homewidgets.stat.lastpaymentkm'
-            | translate: { value: getValueByUnit(lastPaymentStat?.value,unit,campaignContainer?.campaign?.specificData?.virtualScore) | localNumber: '0.0-1' , unit: unit, date: lastPaymentDate |  localDate}
+            | translate: { value: getValueByUnit(lastPaymentStat?.value,unit,campaignContainer?.campaign?.specificData?.virtualScore) | localNumber: '0.0-1' , unit: unit, date: lastPaymentDate |  localDate, dateTo: lastPaymentDateTo |  localDate}
         "></p>
       </ion-col>
     </ion-row>

@@ -28,6 +28,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   virtualScoreLabel: string;
   imagePath: string;
   lastPaymentDate: number;
+  lastPaymentDateTo: number;
   constructor(
     private userService: UserService,
     private reportService: ReportService,
@@ -118,7 +119,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
     const index = this.campaignContainer.campaign.specificData.periods.length - 1;
     if (index !== -1) {
       this.lastPaymentDate = this.campaignContainer.campaign.specificData.periods[index].start;
-      const to = this.campaignContainer.campaign.specificData.periods[index].end;
+      this.lastPaymentDateTo = this.campaignContainer.campaign.specificData.periods[index].end;
       this.reportService
         .getTransportStatsByMeans(
           this.campaignContainer.campaign.campaignId,
@@ -127,7 +128,7 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
           this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : '',
           this.campaignContainer?.campaign?.specificData?.virtualScore ? '' : 'bike',
           toServerDateOnly(DateTime.fromMillis(Number(this.lastPaymentDate)).toUTC()),
-          toServerDateOnly(DateTime.fromMillis(Number(to)).toUTC())
+          toServerDateOnly(DateTime.fromMillis(Number(this.lastPaymentDateTo)).toUTC())
         ).toPromise()
         .then((stats) => {
           this.lastPaymentStat = stats[0] ? stats[0] : { mean: null, period: null, value: 0 };

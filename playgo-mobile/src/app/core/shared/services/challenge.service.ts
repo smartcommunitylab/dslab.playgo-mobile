@@ -80,13 +80,43 @@ export class ChallengeService {
     )
     .pipe(shareReplay(1));
 
+
+  public allChallengesTeam$: Observable<Challenge[]> =
+    this.challengesCouldBeChanged$
+      .pipe(
+        switchMap((campaigns) =>
+          forkJoin(
+            campaigns.map((campaign: PlayerCampaign) => {
+              if (campaign?.campaign && campaign.subscription?.campaignData?.teamId) {
+                return this.challengeControllerService
+                  .getChallengesByTeamUsingGET({
+                    campaignId: campaign.campaign.campaignId,
+                    teamId: campaign.subscription?.campaignData?.teamId,
+                  })
+                  .pipe(
+                    catchError((error) => {
+                      this.errorService.handleError(error, 'silent');
+                      return of(null);
+                    }),
+                    map((response) =>
+                      this.processResponseForOneCampaign(response, campaign)
+                    )
+                  );
+              } else {
+                return of(null);
+              }
+            })
+          ).pipe(map((challengesPerCampaign) => flatten(challengesPerCampaign)))
+        )
+      )
+      .pipe(shareReplay(1));
+
   public allChallenges$: Observable<Challenge[]> =
     this.challengesCouldBeChanged$
       .pipe(
         switchMap((campaigns) =>
           forkJoin(
             campaigns.map((campaign: PlayerCampaign) => {
-              // console.log(campaign);
               if (campaign?.campaign) {
                 return this.challengeControllerService
                   .getChallengesUsingGET({
@@ -131,9 +161,47 @@ export class ChallengeService {
   //   )
   //   .pipe(shareReplay(1));
 
+  //team challenges
+  public activeChallengesTeam$: Observable<Challenge[]> = this.allChallengesTeam$.pipe(
+    map((challenges) =>
+      challenges.filter((challenge) => challenge?.challengeType === 'ACTIVE')
+    ),
+    shareReplay(1)
+  );
+  public pastChallengesTeam$: Observable<Challenge[]> = this.allChallengesTeam$.pipe(
+    map((challenges) =>
+      challenges.filter((challenge) => challenge?.challengeType === 'OLD')
+    ),
+    shareReplay(1)
+  );
+  public proposedChallengesTeam$: Observable<Challenge[]> = this.allChallengesTeam$.pipe(
+    map((challenges) =>
+      challenges.filter((challenge) => challenge?.challengeType === 'PROPOSED')
+    ),
+    shareReplay(1)
+  );
+  public onlyFutureChallengesTeam$: Observable<Challenge[]> = this.allChallengesTeam$.pipe(
+    map((challenges) =>
+      challenges.filter((challenge) => challenge?.challengeType === 'FUTURE')
+    ),
+    shareReplay(1)
+  );
+  public futureChallengesTeam$: Observable<Challenge[]> = this.allChallengesTeam$.pipe(
+    map(
+      (challenges) =>
+        challenges.filter(
+          (challenge) =>
+            challenge?.challengeType === 'FUTURE' ||
+            challenge?.challengeType === 'PROPOSED'
+        ),
+      shareReplay(1)
+    )
+  );
+
+  // single challenges
   public activeChallenges$: Observable<Challenge[]> = this.allChallenges$.pipe(
     map((challenges) =>
-      challenges.filter((challenge) => challenge.challengeType === 'ACTIVE')
+      challenges.filter((challenge) => challenge?.challengeType === 'ACTIVE')
     ),
     shareReplay(1)
   );
@@ -253,6 +321,18 @@ export class ChallengeService {
       shareReplay(1)
     );
   }
+  public getActiveChallengesTeamByCampaign(
+    campaignId: string
+  ): Observable<Challenge[]> {
+    return this.activeChallengesTeam$.pipe(
+      map((challenges) =>
+        challenges.filter(
+          (challenge) => challenge?.campaign?.campaignId === campaignId
+        )
+      ),
+      shareReplay(1)
+    );
+  }
   //get invitations from other user with proposer !== from my id
   getInvitesChallengesByCampaign(campaignId: string): Observable<Challenge[]> {
     return combineLatest([
@@ -288,6 +368,21 @@ export class ChallengeService {
     campaignId: string
   ): Observable<Challenge[]> {
     return this.activeChallenges$.pipe(
+      map((challenges) =>
+        challenges.filter(
+          (challenge) =>
+            challenge?.campaign?.campaignId === campaignId &&
+            !challenge?.success
+        )
+      ),
+      map((challenges) => challenges.sort((a, b) => b.status - a.status)),
+      shareReplay(1)
+    );
+  }
+  public getActiveUncompletedChallengesTeamByCampaign(
+    campaignId: string
+  ): Observable<Challenge[]> {
+    return this.activeChallengesTeam$.pipe(
       map((challenges) =>
         challenges.filter(
           (challenge) =>

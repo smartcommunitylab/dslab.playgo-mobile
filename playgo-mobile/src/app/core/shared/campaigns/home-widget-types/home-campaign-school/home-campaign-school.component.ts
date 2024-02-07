@@ -32,6 +32,7 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
   @Input() header?: boolean = false;
   public activeUncompleteChallenges$: Observable<Challenge[]>;
+  public activeUncompleteChallengesTeam$: Observable<Challenge[]>;
   subStat: Subscription;
   campaignStatus: PlayerGameStatus;
   reportWeekStat: TeamCampaignPlacing;
@@ -58,6 +59,11 @@ export class HomeCampaignSchoolComponent implements OnInit, OnDestroy {
     this.activeUncompleteChallenges$ =
       this.challengeService.getActiveUncompletedChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId
+      );
+    this.activeUncompleteChallengesTeam$ =
+      this.challengeService.getActiveUncompletedChallengesTeamByCampaign(
+        this.campaignContainer?.campaign?.campaignId
+
       );
     this.imagePath = getCampaignImage(this.campaignContainer);
     this.subStat = this.userService.userProfile$.subscribe((profile) => {

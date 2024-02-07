@@ -20,12 +20,21 @@
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
       [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'eL'">
     </app-main-campaign-stat>
-    <app-home-school-progression [stat]="progressionTeam" [type]="'team'"
-      *ngIf="(activeUncompleteChallenges$ | async)?.length === 0 && header "></app-home-school-progression>
-    <app-home-school-progression [stat]="progressionPlayer" [type]="'personal'"
-      *ngIf="(activeUncompleteChallenges$ | async)?.length === 0  && header"></app-home-school-progression>
-    <app-home-campaign-challenges *ngIf="(activeUncompleteChallenges$ | async)?.length !== 0  && header"
-      [campaignContainer]="campaignContainer">
-    </app-home-campaign-challenges>
+    <!-- if no challenges and home page -->
+    <ng-container *ngIf="header; else noHome">
+      <app-home-school-progression [stat]="progressionTeam" [type]="'team'"
+        *ngIf="(activeUncompleteChallenges$ | async)?.length === 0 && (activeUncompleteChallengesTeam$ | async)?.length === 0  "></app-home-school-progression>
+      <app-home-school-progression [stat]="progressionPlayer" [type]="'personal'"
+        *ngIf="(activeUncompleteChallenges$ | async)?.length === 0 && (activeUncompleteChallengesTeam$ | async)?.length === 0 "></app-home-school-progression>
+      <!-- if it is home page and I have challenges -->
+      <app-home-campaign-challenges
+        *ngIf="((activeUncompleteChallenges$ | async)?.length !== 0 || (activeUncompleteChallengesTeam$ | async)?.length !== 0) "
+        [campaignContainer]="campaignContainer">
+      </app-home-campaign-challenges>
+    </ng-container>
+    <ng-template #noHome>
+      <app-home-school-progression [stat]="progressionTeam" [type]="'team'"></app-home-school-progression>
+      <app-home-school-progression [stat]="progressionPlayer" [type]="'personal'"></app-home-school-progression>
+    </ng-template>
   </ion-card-content>
 </ion-card>

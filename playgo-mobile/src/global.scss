@@ -239,7 +239,8 @@ ion-segment-button:not(.segment-button-checked) {
     --color: white;
   }
   ion-searchbar {
-    --color: white;
+    --background: white;
+    --color: black;
   }
   ion-content {
     --background: var(--ion-color-playgo);

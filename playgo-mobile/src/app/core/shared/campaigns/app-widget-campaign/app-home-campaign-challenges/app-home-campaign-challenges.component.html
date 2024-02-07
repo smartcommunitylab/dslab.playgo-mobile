@@ -1,5 +1,10 @@
-<ng-container *ngIf="(activeUncompleteChallenges$ |async)?.length > 0">
+<ng-container *ngIf="(activeUncompleteChallenges$ |async)?.length > 0 ">
   <app-active-challenge (click)="goToChallenge($event)" [challenge]="(activeUncompleteChallenges$ |async)[0]"
+    [campaign]="campaignContainer">
+  </app-active-challenge>
+</ng-container>
+<ng-container *ngIf="(activeUncompleteChallengesTeam$ |async)?.length > 0 ">
+  <app-active-challenge (click)="goToChallenge($event)" [challenge]="(activeUncompleteChallengesTeam$ |async)[0]"
     [campaign]="campaignContainer">
   </app-active-challenge>
 </ng-container>

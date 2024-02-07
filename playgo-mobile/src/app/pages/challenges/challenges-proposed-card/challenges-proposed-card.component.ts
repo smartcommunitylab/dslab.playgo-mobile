@@ -36,9 +36,11 @@ export class ChallengesProposedCardComponent implements OnInit, OnChanges {
     this.sentInvitation$ = combineLatest([
       this.userService.userProfile$,
       this.challengeService.futureChallenges$,
+      this.challengeService.futureChallengesTeam$,
     ]).pipe(
-      switchMap(([profile, challenges]) => {
-        if (challenges.some((chall) => chall.proposerId === profile.playerId)) {
+      switchMap(([profile, challenges, challengesTeam]) => {
+        if (challenges.some((chall) => chall.proposerId === profile.playerId) ||
+          challengesTeam.some((chall) => chall.proposerId === profile.playerId)) {
           return of(true);
         }
         return of(false);

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, forkJoin } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { ChallengesData } from 'src/app/core/api/generated/model/challengesData';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
@@ -29,7 +29,9 @@ export class ChallengesPage implements OnInit, OnDestroy {
   thereAreChallengeActive = false;
   thereAreChallengeFuture = false;
   activeChallenges: any = {};
+  activeChallengesTeam: any = {};
   futureChallenges: any = {};
+  futureChallengesTeam: any = {};
   canInvite: any = {};
   userCanInvite: boolean;
   // public pastChallenges$: Observable<Challenge[]> =
@@ -65,33 +67,59 @@ export class ChallengesPage implements OnInit, OnDestroy {
         this.campaignsWithChallenges = campaigns;
       });
     this.subCampaignActiveChall =
-      this.challengeService.activeChallenges$.subscribe((challenges) => {
-        this.activeChallenges = challenges.reduce(
-          (result: any, a) => (
-            (result[a.campaign.campaignId] =
-              result[a.campaign.campaignId] || []).push(a),
-            result
-          ),
-          {}
-        );
-
-        if (challenges.length > 0) {
-          this.thereAreChallengeActive = true;
-        } else {
-          this.thereAreChallengeActive = false;
-        }
-      });
+      combineLatest(
+        [
+          this.challengeService.activeChallenges$,
+          this.challengeService.activeChallengesTeam$
+        ]
+      )
+        .subscribe(([active, team]) => {
+          this.activeChallenges = active.reduce(
+            (result: any, a) => (
+              (result[a.campaign.campaignId] =
+                result[a.campaign.campaignId] || []).push(a),
+              result
+            ),
+            {}
+          );
+          this.activeChallengesTeam = team.reduce(
+            (result: any, a) => (
+              (result[a.campaign.campaignId] =
+                result[a.campaign.campaignId] || []).push(a),
+              result
+            ),
+            {}
+          );
+          if (active.length > 0 || team.length > 0) {
+            this.thereAreChallengeActive = true;
+          } else {
+            this.thereAreChallengeActive = false;
+          }
+        });
     this.subCampaignFutureChall =
-      this.challengeService.futureChallenges$.subscribe((challenges) => {
-        this.futureChallenges = challenges.reduce(
-          (result: any, a) => (
+      combineLatest(
+        [
+          this.challengeService.futureChallenges$,
+          this.challengeService.futureChallengesTeam$
+        ]
+      ).subscribe(([future, team]) => {
+        this.futureChallenges = future.reduce(
+          (result: any, a: any) => (
             (result[a.campaign.campaignId] =
               result[a.campaign.campaignId] || []).push(a),
             result
           ),
           {}
         );
-        if (challenges.length > 0) {
+        this.futureChallengesTeam = team.reduce(
+          (result: any, a: any) => (
+            (result[a.campaign.campaignId] =
+              result[a.campaign.campaignId] || []).push(a),
+            result
+          ),
+          {}
+        );
+        if (future.length > 0 || team.length > 0) {
           this.thereAreChallengeFuture = true;
         } else {
           this.thereAreChallengeFuture = false;

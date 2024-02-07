@@ -448,7 +448,7 @@
         "weekvalue": "<b>{{value}} {{unit}}</b> settimanale",
         "monthvalue": "<b>{{value}} {{unit}}</b> mensile",
         "totalvalue": "<b>{{value}} {{unit}}</b> totale",
-        "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}}",
+        "lastpaymentkm": "<b>{{value}} {{unit}}</b> dal {{date}} al {{dateTo}}",
         "levelName": "<b>Livello {{levelIndex}}: {{levelName}}</b>",
         "maxscore": "Hai raggiunto il livello massimo",
         "score": " ",
@@ -686,7 +686,8 @@
         "groupCompetitiveTime": "Competitiva a tempo",
         "groupCooperative": "Cooperativa",
         "survey": "Questionario",
-        "default": "Sfida"
+        "default": "Sfida",
+        "team": "Sfida di squadra"
       },
       "description": {
         "groupCompetitivePerformance": "Supera il tuo avversario su una metrica a scelta entro una settimana",

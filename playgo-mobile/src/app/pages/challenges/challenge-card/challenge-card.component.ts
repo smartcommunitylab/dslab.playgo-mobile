@@ -22,6 +22,7 @@ import { RefresherService } from 'src/app/core/shared/services/refresher.service
 export class ChallengeCardComponent implements OnInit, AfterViewInit {
   @Input() challenge: Challenge;
   @Input() type: string;
+  @Input() team?: boolean = false;
   public anchors: any;
 
   imgChallenge = getImgChallenge;
@@ -51,6 +52,10 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
   };
   ngOnInit() { }
   typeChallenge(type: string) {
+    if (this.team) {
+      return this.translateService.instant('challenges.challenge_model.name.team');
+
+    }
     return this.translateService.instant(getTypeStringChallenge(type));
   }
   fillSurvey() {

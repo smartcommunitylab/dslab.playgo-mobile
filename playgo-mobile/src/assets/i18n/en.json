@@ -448,7 +448,7 @@
         "weekvalue": "<b>{{value}} weekly value</b>",
         "monthvalue": "<b>{{value}} monthly value</b>",
         "totalvalue": "<b>{{value}} total value</b>",
-        "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}}",
+        "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}} to {{dateTo}}",
         "levelName": "<b>Level : {{levelName}}</b>",
         "maxscore": "You have reached the max score",
         "score": " ",
@@ -686,7 +686,8 @@
         "groupCompetitiveTime": "Competitive time",
         "groupCooperative": "Cooperative",
         "survey": "Survey",
-        "default": "Challenge"
+        "default": "Challenge",
+        "team": "Team challenge"
       },
       "description": {
         "groupCompetitivePerformance": "Do more than your opponent in a week",

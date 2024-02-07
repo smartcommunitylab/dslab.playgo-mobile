@@ -14,12 +14,13 @@ export class ChallengeContainerComponent implements OnInit, OnChanges {
   @Input() challenges: Challenge[];
   @Input() type: string;
   @Input() canInvite: boolean;
+  @Input() team?: boolean = false;
   challengeProposed: Challenge[];
   challengeTracking = trackByProperty<Challenge>('challId');
 
-  constructor(public campaignService: CampaignService) {}
+  constructor(public campaignService: CampaignService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   ngOnChanges() {
     this.challengeProposed = this.challenges?.filter(
       (challenge) => challenge.challengeType === 'PROPOSED'

@@ -15,8 +15,10 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
   //unfinished challenge to show in the home
   public activeUncompleteChallenges$: Observable<Challenge[]>;
+  public activeUncompleteChallengesTeam$: Observable<Challenge[]>;
   //active challenges to show in the widget
   public activeChallenges$: Observable<Challenge[]>;
+  public activeChallengesTeam$: Observable<Challenge[]>;
   //configurable challenges means choosable and possibility to send invites
   public configureChallenges$: Observable<Challenge[]>;
   //invites received
@@ -36,8 +38,16 @@ export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
       this.challengeService.getActiveUncompletedChallengesByCampaign(
         this.campaignContainer?.campaign?.campaignId
       );
+    this.activeUncompleteChallengesTeam$ =
+      this.challengeService.getActiveUncompletedChallengesTeamByCampaign(
+        this.campaignContainer?.campaign?.campaignId
+      );
     this.activeChallenges$ =
       this.challengeService.getActiveChallengesByCampaign(
+        this.campaignContainer?.campaign?.campaignId
+      );
+    this.activeChallengesTeam$ =
+      this.challengeService.getActiveChallengesTeamByCampaign(
         this.campaignContainer?.campaign?.campaignId
       );
     this.onlyFutureChallenges$ =

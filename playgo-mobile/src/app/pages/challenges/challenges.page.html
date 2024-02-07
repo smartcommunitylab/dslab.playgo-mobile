@@ -27,6 +27,11 @@
             [challenges]="activeChallenges[campaign?.campaign?.campaignId]" [type]="'active'">
           </app-challenge-container>
         </div>
+        <div *ngIf="activeChallengesTeam[campaign?.campaign?.campaignId]?.length>0">
+          <app-challenge-container #active [campaign]="campaign" [team]="true"
+            [challenges]="activeChallengesTeam[campaign?.campaign?.campaignId]" [type]="'active'">
+          </app-challenge-container>
+        </div>
       </div>
     </ng-container>
 
@@ -42,6 +47,11 @@
           <app-challenge-container #futuri [campaign]="campaign"
             [challenges]="futureChallenges[campaign?.campaign?.campaignId]" [type]="'future'"
             [canInvite]="canInvite[campaign?.campaign?.campaignId]">
+          </app-challenge-container>
+        </div>
+        <div *ngIf=" futureChallengesTeam[campaign?.campaign?.campaignId]?.length>0 ">
+          <app-challenge-container #futuri [campaign]="campaign"
+            [challenges]="futureChallengesTeam[campaign?.campaign?.campaignId]" [type]="'future'">
           </app-challenge-container>
         </div>
       </div>
