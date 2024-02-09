@@ -686,7 +686,7 @@
         "groupCompetitiveTime": "Competitive time",
         "groupCooperative": "Cooperative",
         "survey": "Survey",
-        "default": "Challenge",
+        "default": "Single Challenge",
         "team": "Team challenge"
       },
       "description": {

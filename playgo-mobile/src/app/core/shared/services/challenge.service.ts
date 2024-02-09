@@ -99,7 +99,7 @@ export class ChallengeService {
                       return of(null);
                     }),
                     map((response) =>
-                      this.processResponseForOneCampaign(response, campaign)
+                      this.processResponseForOneCampaign(response, campaign, "team")
                     )
                   );
               } else {
@@ -128,7 +128,7 @@ export class ChallengeService {
                       return of(null);
                     }),
                     map((response) =>
-                      this.processResponseForOneCampaign(response, campaign)
+                      this.processResponseForOneCampaign(response, campaign, "single")
                     )
                   );
               } else {
@@ -244,7 +244,8 @@ export class ChallengeService {
   ) { }
   private processResponseForOneCampaign(
     response: ChallengeConceptInfo,
-    campaign: PlayerCampaign
+    campaign: PlayerCampaign,
+    kind: string
   ): Challenge[] {
     if (response) {
       const challengesPerOneCampaign: Challenge[][] = Object.entries(
@@ -254,6 +255,7 @@ export class ChallengeService {
           ...challenge,
           challengeType: challengeType as ChallengeType,
           campaign: campaign.campaign,
+          kind
         }))
       );
       const challengesOfAllTypesPerOneCampaign: Challenge[] = flatten(

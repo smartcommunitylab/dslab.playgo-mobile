@@ -2,12 +2,16 @@
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-no-padding">
       <ion-col size="2" *ngIf="!isHome()">
-        <!-- <ion-avatar>
-          <img [src]="playerAvatarUrl$ | async" alt="avatar" /> 
-        </ion-avatar> -->
-        <ion-avatar *ngIf="(playerAvatarUrl$|async); else alternativeAvatar">
-          <img [src]="(playerAvatarUrl$|async)" />
-        </ion-avatar>
+        <ng-container *ngIf="kind==='team'; else singlePlayer">
+          <ion-avatar class="team" *ngIf="(teamAvatar$|async); else alternativeAvatar">
+            <img [src]="(teamAvatar$ | async)?.avatarUrl" />
+          </ion-avatar>
+        </ng-container>
+        <ng-template #singlePlayer>
+          <ion-avatar *ngIf="(playerAvatarUrl$|async); else alternativeAvatar">
+            <img [src]="(playerAvatarUrl$|async)" />
+          </ion-avatar>
+        </ng-template>
         <ng-template #alternativeAvatar>
           <ion-avatar>
             <ion-icon name="person-circle-outline"></ion-icon>
@@ -23,10 +27,18 @@
                     ? 'arrow-up'
                     : 'arrow-down'
                 ]"></div>
-            </ion-col><ion-col class="ion-text-start"><span class="ion-margin-start nickname-style">{{
-                (profile$ | async)?.nickname
-                }}</span></ion-col></ion-row><ion-row
-            *ngIf="status !== null && !isHome() && !isGroupCompetitivePerformance() && !isFuture()"
+            </ion-col><ion-col class="ion-text-start">
+              <ng-container *ngIf="kind==='team'; else singlePlayer">
+                <span class="ion-margin-start nickname-style">{{(myTeam$|async)?.customData?.name}}</span>
+              </ng-container>
+              <ng-template #singlePlayer>
+                <span class="ion-margin-start nickname-style">{{
+                  (profile$ | async)?.nickname
+                  }}</span>
+              </ng-template>
+            </ion-col>
+
+          </ion-row><ion-row *ngIf="status !== null && !isHome() && !isGroupCompetitivePerformance() && !isFuture()"
             class="ion-align-items-center">
             <ion-col> <span class="ion-margin-start value-style">{{ status }}%</span></ion-col></ion-row><ion-row
             *ngIf="rowStatus !== null && !isHome() && unitHasKm && !isFuture()"><ion-col><span

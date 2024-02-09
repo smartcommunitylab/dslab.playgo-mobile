@@ -7,7 +7,7 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col class="ion-text-center challenge-type">
-          {{typeChallenge(challenge.type)}}
+          {{typeChallenge(challenge.kind,challenge.type)}}
         </ion-col>
       </ion-row>
       <ion-row class="ion-align-items-center">
@@ -49,7 +49,7 @@
       <ion-row>
         <ion-col><app-challenge-users-status *ngIf="challenge.type !== 'survey'" [status]="challenge.status"
             [rowStatus]="challenge.row_status" [type]="type" [challengeType]="challenge.type"
-            [otherUser]="challenge.otherAttendeeData"
+            [otherUser]="challenge.otherAttendeeData" [kind]="challenge.kind" [campaignContainer]="campaignContainer"
             [unitHasKm]="getUnitChallenge(challenge)"></app-challenge-users-status></ion-col>
       </ion-row>
       <ion-row>

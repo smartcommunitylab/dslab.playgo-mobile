@@ -13,6 +13,7 @@ import { ModalController } from '@ionic/angular';
 import { getImgChallenge, getTypeStringChallenge } from 'src/app/core/shared/campaigns/campaign.utils';
 import { TranslateService } from '@ngx-translate/core';
 import { RefresherService } from 'src/app/core/shared/services/refresher.service';
+import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 
 @Component({
   selector: 'app-challenge-card',
@@ -20,6 +21,7 @@ import { RefresherService } from 'src/app/core/shared/services/refresher.service
   styleUrls: ['./challenge-card.component.scss'],
 })
 export class ChallengeCardComponent implements OnInit, AfterViewInit {
+  @Input() campaignContainer: PlayerCampaign;
   @Input() challenge: Challenge;
   @Input() type: string;
   @Input() team?: boolean = false;
@@ -51,12 +53,8 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
     });
   };
   ngOnInit() { }
-  typeChallenge(type: string) {
-    if (this.team) {
-      return this.translateService.instant('challenges.challenge_model.name.team');
-
-    }
-    return this.translateService.instant(getTypeStringChallenge(type));
+  typeChallenge(kind: string, type: string) {
+    return (kind === "team" ? this.translateService.instant('challenges.challenge_model.name.team') : this.translateService.instant(getTypeStringChallenge(type)));
   }
   fillSurvey() {
     Browser.addListener('browserFinished', () => {

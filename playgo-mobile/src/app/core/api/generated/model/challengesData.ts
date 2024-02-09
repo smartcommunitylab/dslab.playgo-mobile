@@ -28,6 +28,7 @@ export interface ChallengesData {
   startDate?: number;
   status?: number;
   success?: boolean;
+  kind?: string;
   type?: string;
   unit?: string;
 }
