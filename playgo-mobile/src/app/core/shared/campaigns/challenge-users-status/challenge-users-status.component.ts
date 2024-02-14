@@ -31,6 +31,8 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
   profile$ = this.userService.userProfile$;
   myTeam$: Observable<PlayerTeam>;
   teamAvatar$: Observable<Avatar>;
+  otherTeam$: Observable<PlayerTeam>;
+  otherTeamAvatar$: Observable<Avatar>;
   // opponentAvatarUrl$: Observable<IUser['avatar']>;
   constructor(
     private userService: UserService,
@@ -51,6 +53,20 @@ export class ChallengeUsersStatusComponent implements OnInit, OnDestroy {
       ),
       shareReplay(1)
     );
+    if (this.otherUser) {
+      this.otherTeam$ = this.teamService.getPublicTeam(
+        this.campaignContainer?.campaign?.campaignId,
+        this.otherUser.playerId
+      );
+      this.otherTeamAvatar$ = this.otherTeam$.pipe(
+        switchMap((otherTeam) =>
+          this.teamService
+            .getTeamAvatar(otherTeam.id)
+            .pipe(this.errorService.getErrorHandler())
+        ),
+        shareReplay(1)
+      );
+    }
   }
   ngOnDestroy() { }
   isWinning(me: number, other: number) {

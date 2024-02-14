@@ -50,8 +50,17 @@
       <ion-col>
         <ion-grid *ngIf="otherUser" class="ion-no-padding">
           <ion-row class="ion-text-end ion-align-items-center">
-            <ion-col class="ion-text-end"> <span class="ion-margin-end nickname-style">{{ otherUser?.nickname
-                }}</span></ion-col><ion-col size="1" *ngIf="isCompetitive() && !isFuture()" [ngClass]="
+            <ion-col class="ion-text-end">
+              <ng-container *ngIf="kind==='team'; else singlePlayer">
+                <span class="ion-margin-start nickname-style">{{(otherTeam$|async)?.customData?.name}}</span>
+              </ng-container>
+              <ng-template #singlePlayer>
+                <span class="ion-margin-start nickname-style">{{
+                  otherUser?.nickname
+                  }}</span>
+              </ng-template>
+
+            </ion-col><ion-col size="1" *ngIf="isCompetitive() && !isFuture()" [ngClass]="
                 isHome()?'ion-margin-end':''">
               <div [ngClass]="[
                   isWinning(otherUser?.status, status)
@@ -70,9 +79,19 @@
                 Km</span></ion-col></ion-row></ion-grid>
       </ion-col>
       <ion-col size="2" *ngIf="otherUser && !isHome()">
-        <ion-avatar *ngIf="otherUser?.avatar?.url; else alternativeAvatar">
-          <img [src]="otherUser?.avatar?.url" />
-        </ion-avatar>
+
+        <ng-container *ngIf="kind==='team'; else singlePlayer">
+          <ion-avatar class="team" *ngIf="(otherTeamAvatar$|async); else alternativeAvatar">
+            <img [src]="(otherTeamAvatar$ | async)?.avatarUrl" />
+          </ion-avatar>
+
+        </ng-container>
+        <ng-template #singlePlayer>
+          <ion-avatar *ngIf="otherUser?.avatar?.url; else alternativeAvatar">
+            <img [src]="otherUser?.avatar?.url" />
+          </ion-avatar>
+
+        </ng-template>
         <ng-template #alternativeAvatar>
           <ion-avatar>
             <ion-icon name="person-circle-outline"></ion-icon>
