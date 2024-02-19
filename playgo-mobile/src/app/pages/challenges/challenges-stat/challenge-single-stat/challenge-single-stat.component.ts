@@ -13,13 +13,13 @@ import {
 })
 export class ChalengeSingleStatComponent implements OnInit {
   @Input() stat: ChallengeStatsInfo;
+  @Input() kind: string;
   imgChallenge = getImgChallenge;
   typeChallenge: string;
-  constructor(private translateService: TranslateService) {}
+  constructor(private translateService: TranslateService) { }
 
   ngOnInit() {
-    this.typeChallenge = this.translateService.instant(
-      getTypeStringChallenge(this.stat.type)
-    );
+    this.typeChallenge = (this.kind === "school" && this.stat.type === 'single') ? this.translateService.instant('challenges.challenge_model.name.default-team') : this.translateService.instant(
+      getTypeStringChallenge(this.stat.type));
   }
 }

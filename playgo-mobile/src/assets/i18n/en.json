@@ -687,7 +687,8 @@
         "groupCooperative": "Cooperative",
         "survey": "Survey",
         "default": "Single Challenge",
-        "team": "Team challenge"
+        "default-team": "Team challenge",
+        "teams": "Teams challenge"
       },
       "description": {
         "groupCompetitivePerformance": "Do more than your opponent in a week",

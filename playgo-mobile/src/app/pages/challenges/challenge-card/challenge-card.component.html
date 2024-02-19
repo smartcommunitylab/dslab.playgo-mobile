@@ -7,13 +7,13 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col class="ion-text-center challenge-type">
-          {{typeChallenge(challenge.kind,challenge.type)}}
+          {{typeChallenge(challenge.kind,challenge.type,challenge.otherAttendeeData?true:false)}}
         </ion-col>
       </ion-row>
       <ion-row class="ion-align-items-center">
         <ion-col size="2"><app-icon class="icon-size-medium" [name]="imgChallenge(challenge.type)"></app-icon></ion-col>
         <ion-col>
-          <p [innerHTML]="challenge.challDesc | languageMap"></p>
+          <p [innerHTML]="challDesc(challenge?.challDesc | languageMap,(otherTeam$|async)?.customData?.name)"></p>
         </ion-col>
         <ion-col size="1">
           <ion-icon (click)="moreInfo()" class="popup-icon" name="information-circle-outline"></ion-icon>

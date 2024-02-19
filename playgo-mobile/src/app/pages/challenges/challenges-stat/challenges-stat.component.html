@@ -54,7 +54,7 @@
       <ion-grid>
         <ion-row>
           <ion-col *ngFor="let stat of stats">
-            <app-challenge-single-stat [stat]="stat">
+            <app-challenge-single-stat [stat]="stat" [kind]="(selectedCampaign$ | async)?.campaign?.type">
             </app-challenge-single-stat>
           </ion-col>
         </ion-row>

@@ -687,7 +687,8 @@
         "groupCooperative": "Cooperativa",
         "survey": "Questionario",
         "default": "Sfida singola",
-        "team": "Sfida di squadra"
+        "default-team": "Sfida di squadra",
+        "teams": "Sfida fra squadre"
       },
       "description": {
         "groupCompetitivePerformance": "Supera il tuo avversario su una metrica a scelta entro una settimana",

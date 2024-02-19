@@ -14,6 +14,9 @@ import { getImgChallenge, getTypeStringChallenge } from 'src/app/core/shared/cam
 import { TranslateService } from '@ngx-translate/core';
 import { RefresherService } from 'src/app/core/shared/services/refresher.service';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { Observable } from 'rxjs';
+import { PlayerTeam } from 'src/app/core/api/generated-hsc/model/playerTeam';
+import { TeamService } from 'src/app/core/shared/services/team.service';
 
 @Component({
   selector: 'app-challenge-card',
@@ -21,19 +24,21 @@ import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign'
   styleUrls: ['./challenge-card.component.scss'],
 })
 export class ChallengeCardComponent implements OnInit, AfterViewInit {
+
   @Input() campaignContainer: PlayerCampaign;
   @Input() challenge: Challenge;
   @Input() type: string;
   @Input() team?: boolean = false;
   public anchors: any;
-
+  otherTeam$: Observable<PlayerTeam>;
   imgChallenge = getImgChallenge;
   constructor(
     public campaignService: CampaignService,
     private elementRef: ElementRef,
     private modalController: ModalController,
     private translateService: TranslateService,
-    private refresherService: RefresherService
+    private refresherService: RefresherService,
+    private teamService: TeamService
   ) { }
   ngAfterViewInit() {
     //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
@@ -52,9 +57,18 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
       presentationStyle: 'popover',
     });
   };
-  ngOnInit() { }
-  typeChallenge(kind: string, type: string) {
-    return (kind === "team" ? this.translateService.instant('challenges.challenge_model.name.team') : this.translateService.instant(getTypeStringChallenge(type)));
+  ngOnInit() {
+    if (this.team && this.challenge?.otherAttendeeData) {
+      this.otherTeam$ = this.teamService.getPublicTeam(
+        this.campaignContainer?.campaign?.campaignId,
+        this.challenge?.otherAttendeeData.playerId
+      )
+    };
+
+
+  }
+  typeChallenge(kind: string, type: string, other: boolean) {
+    return (kind === "team" ? (other ? this.translateService.instant('challenges.challenge_model.name.teams') : this.translateService.instant('challenges.challenge_model.name.team')) : this.translateService.instant(getTypeStringChallenge(type)));
   }
   fillSurvey() {
     Browser.addListener('browserFinished', () => {
@@ -74,7 +88,9 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
     const modal = await this.modalController.create({
       component: DetailChallengenModalPage,
       componentProps: {
+        campaignContainer: this.campaignContainer,
         challenge: this.challenge,
+        team: this.team
       },
       cssClass: 'challenge-info',
     });
@@ -107,5 +123,12 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
   }
   private isGroupCompetitivePerformance() {
     return this.challenge.type === 'groupCompetitivePerformance';
+  }
+
+  challDesc(desc: string, name: string) {
+    //sub id with name
+    if (this.team && name)
+      return desc.replace(this.challenge?.otherAttendeeData.playerId, name);
+    return desc
   }
 }

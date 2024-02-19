@@ -50,7 +50,7 @@
           </app-challenge-container>
         </div>
         <div *ngIf=" futureChallengesTeam[campaign?.campaign?.campaignId]?.length>0 ">
-          <app-challenge-container #futuri [campaign]="campaign"
+          <app-challenge-container #futuri [campaign]="campaign" [team]="true"
             [challenges]="futureChallengesTeam[campaign?.campaign?.campaignId]" [type]="'future'">
           </app-challenge-container>
         </div>
