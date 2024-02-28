@@ -12,6 +12,7 @@
 
 export interface CampaignReward {
   desc?: { [key: string]: string };
+  label?: { [key: string]: string };
   position?: number;
   rewardNote?: { [key: string]: string };
   sponsor?: string;

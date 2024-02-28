@@ -276,7 +276,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   async openDetail(detail: CampaignDetail) {
     const modal = await this.modalController.create({
       component: DetailCampaignModalPage,
-      cssClass: 'modalConfirm',
+      cssClass: 'modalInfo',
       componentProps: {
         detail,
       },

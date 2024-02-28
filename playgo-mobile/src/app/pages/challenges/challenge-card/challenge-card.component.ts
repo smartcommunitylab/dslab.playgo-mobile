@@ -68,7 +68,7 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
 
   }
   typeChallenge(kind: string, type: string, other: boolean) {
-    return (kind === "team" ? (other ? this.translateService.instant('challenges.challenge_model.name.teams') : this.translateService.instant('challenges.challenge_model.name.team')) : this.translateService.instant(getTypeStringChallenge(type)));
+    return (kind === "team" ? (other ? this.translateService.instant('challenges.challenge_model.name.teams') : this.translateService.instant('challenges.challenge_model.name.default-team')) : this.translateService.instant(getTypeStringChallenge(type)));
   }
   fillSurvey() {
     Browser.addListener('browserFinished', () => {

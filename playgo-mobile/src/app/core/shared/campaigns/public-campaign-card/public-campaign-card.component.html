@@ -8,7 +8,9 @@
           <img [src]="imagePath" alt="image" />
         </ion-avatar>
         <ion-label>
-          <h3 [style.color]="'var(--ion-color-'+campaign.type+'-contrast'">{{ campaign.name | languageMap }}</h3>
+          <h3 [style.color]="'var(--ion-color-'+campaign.type+'-contrast'" [style.fontWeight]="'bold'">{{ campaign.name
+            |
+            languageMap }}</h3>
           <h4 [style.color]="'var(--ion-color-'+campaign.type+'-contrast'">
             {{ campaign.dateFrom | localDate }} -
             {{ campaign.dateTo | localDate }}

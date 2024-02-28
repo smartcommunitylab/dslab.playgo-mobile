@@ -209,7 +209,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy, AfterViewChecked 
   async openDetail(detail: CampaignDetail) {
     const modal = await this.modalController.create({
       component: DetailCampaignModalPage,
-      cssClass: 'modalConfirm',
+      cssClass: 'modalInfo',
       componentProps: {
         detail,
         type: this.campaignContainer?.campaign?.type

@@ -327,6 +327,7 @@
       "rulesLink": "Leggi il regolamento",
       "rules": "Accetto il regolamento della campagna",
       "rulesRequired": "Il regolamento é richiesto",
+      "companyRequired": "É necessario eseguire la selezione",
       "error": {
         "ERROR_TEAM": "Errore nell'iscrizione. Verificare il team selezionato"
       },

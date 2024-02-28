@@ -24,9 +24,17 @@
       </div>
       <ng-container *ngIf="prizePresent; else noRewards">
         <ion-card *ngFor="let reward of actualPrize.rewards; let i = index;">
-          <ion-card-header [ngClass]="getPostion(i)">
+          <ion-card-header [ngClass]="getPostion(reward.position-1)">
             <ion-card-title>
-              <span><ion-icon name="gift"></ion-icon><app-ordinal-number [value]="i+1"></app-ordinal-number></span>
+              <span>
+                <ion-icon name="gift"></ion-icon>
+                <ng-container *ngIf="reward.label|languageMap; else ordinaryNumber">
+                  {{reward.label|languageMap}}
+                </ng-container>
+                <ng-template #ordinaryNumber>
+                  <app-ordinal-number [value]="i+1"></app-ordinal-number>
+                </ng-template>
+              </span>
               <ion-icon class="information" name="information-circle"
                 (click)="openRewardDescActual(actualPrize,i)"></ion-icon>
             </ion-card-title>
@@ -99,7 +107,7 @@
                             [ngClass]="'packet-'+getPostion(reward?.position-1)"></app-ordinal-number>
                         </ion-col>
                         <ion-col>
-                          <span class="prize"><b>{{reward.desc| languageMap}}</b></span>
+                          <span class="prize">{{reward.desc| languageMap}}</span>
                         </ion-col>
                       </ion-row>
                     </ion-grid>
@@ -130,9 +138,16 @@
       <div class="final-header"><span>{{'campaigns.detail.prize.prizefinal' | translate}}<ion-icon
             name="information-circle" (click)="openWeekDescFinal(finalPrize)"></ion-icon></span> </div>
       <ion-card *ngFor="let reward of finalPrize.rewards; let i = index;">
-        <ion-card-header [ngClass]="getPostion(i)">
+        <ion-card-header [ngClass]="getPostion(reward.position-1)">
           <ion-card-title>
-            <span><ion-icon name="gift"></ion-icon><app-ordinal-number [value]="i+1"></app-ordinal-number></span>
+            <span><ion-icon name="gift"></ion-icon>
+              <ng-container *ngIf="reward.label|languageMap; else ordinaryNumber">
+                <b>{{reward.label|languageMap}}</b>
+              </ng-container>
+              <ng-template #ordinaryNumber>
+                <b><app-ordinal-number [value]="i+1"></app-ordinal-number></b>
+              </ng-template>
+            </span>
             <ion-icon class="information" name="information-circle"
               (click)="openRewardDescFinal(finalPrize,i)"></ion-icon>
           </ion-card-title>
@@ -142,7 +157,7 @@
             <div class="sponsor">
               <ion-grid *ngIf="reward.desc">
                 <ion-row class="desc">
-                  <ion-col class="ion-text-start"><b>{{reward.desc| languageMap}}</b>
+                  <ion-col class="ion-text-start">{{reward.desc| languageMap}}
                   </ion-col>
                 </ion-row>
                 <ion-row class="detail"

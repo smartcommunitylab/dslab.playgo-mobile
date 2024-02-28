@@ -16,7 +16,9 @@
   background-color: lightgrey;
   border-radius: 10px;
 }
-
+ion-card-header ion-label {
+  font-weight: bold;
+}
 .border-class {
   border: 1px solid rgb(63, 63, 63);
   margin-left: 18px;

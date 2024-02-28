@@ -233,6 +233,26 @@ ion-segment-button:not(.segment-button-checked) {
   --background: rgb(14 116 144);
   --color: white;
 }
+.modalInfo {
+  --background: var(--ion-color-playgo);
+  color: white;
+  .alert-message.sc-ion-alert-md,
+  .alert-message.sc-ion-alert-ios,
+  .alert-input-group.sc-ion-alert-md,
+  .alert-input-group.sc-ion-alert-ios,
+  .alert-title.sc-ion-alert-md,
+  .alert-title.sc-ion-alert-ios {
+    color: white;
+  }
+  .alert-button.sc-ion-alert-md,
+  .alert-button.sc-ion-alert-ios {
+    color: var(--ion-color-playgo);
+    background-color: white;
+  }
+  a:link {
+    color: rgb(0, 0, 238);
+  }
+}
 .modal-search-playgo {
   ion-toolbar {
     --background: var(--ion-color-playgo);

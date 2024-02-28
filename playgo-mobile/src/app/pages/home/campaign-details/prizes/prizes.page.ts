@@ -86,7 +86,7 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     return null;
   }
   getActualPrize() {
-    let prize = this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x.dateFrom, x.dateTo));
+    let prize = this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x.dateFrom, x.dateTo) && x.weekNumber !== 0);
     if (prize?.rewards?.length > 0) {
       this.prizePresent = true;
     }
