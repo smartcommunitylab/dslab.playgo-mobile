@@ -111,7 +111,8 @@
       "nicknameMinLength": "La lunghezza minima é di 2 caratteri",
       "languageRequired": "Il linguaggio é richiesto",
       "territoryRequired": "Il territorio é richiesto",
-      "privacyRequired": "La privacy é richiesta"
+      "privacyRequired": "La privacy é richiesta",
+      "nicknamePattern": "Utilizzare solo caratteri alfanumerici"
     },
     "territoryPopup": {
       "header": "Territorio",

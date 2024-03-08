@@ -111,7 +111,8 @@
       "nicknameMinLength": "Nickname must be at least 2 characters long.",
       "languageRequired": "The language is required.",
       "territoryRequired": "The territory is required.",
-      "privacyRequired": "Privacy is required."
+      "privacyRequired": "Privacy is required.",
+      "nicknamePattern": "Use only alphanumeric characters"
     },
     "territoryPopup": {
       "header": "Territory",

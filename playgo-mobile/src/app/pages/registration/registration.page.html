@@ -59,6 +59,10 @@
         <ion-icon name="information-circle-outline"></ion-icon>
         {{'registration.form.nicknameMinLength'|translate}}
       </div>
+      <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl.nickname.errors?.pattern">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        {{'registration.form.nicknamePattern'|translate}}
+      </div>
       <ion-item lines="full" color="playgo">
         <ion-label>{{'registration.lang.language'|translate}}</ion-label>
         <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
