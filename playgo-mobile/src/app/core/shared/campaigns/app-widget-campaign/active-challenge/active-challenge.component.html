@@ -10,7 +10,8 @@
           <app-icon [name]="imgChallenge(challenge.type)" class="challenge-icon icon-size-big"></app-icon>
         </ion-col>
         <ion-col>
-          <p class="short-desc" [innerHTML]="challenge.challDesc | languageMap"></p>
+          <p class="short-desc"
+            [innerHTML]="challDesc(challenge?.challDesc | languageMap,(otherTeam$|async)?.customData?.name)"></p>
         </ion-col>
       </ion-row>
     </ion-grid>

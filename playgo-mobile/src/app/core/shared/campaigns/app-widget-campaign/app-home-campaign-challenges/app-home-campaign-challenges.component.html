@@ -1,16 +1,17 @@
 <ng-container *ngIf="(activeUncompleteChallenges$ |async)?.length > 0 ">
   <app-active-challenge (click)="goToChallenge($event)" [challenge]="(activeUncompleteChallenges$ |async)[0]"
-    [campaign]="campaignContainer">
+    [team]="team" [campaign]="campaignContainer">
   </app-active-challenge>
 </ng-container>
 <ng-container *ngIf="(activeUncompleteChallengesTeam$ |async)?.length > 0 ">
   <app-active-challenge (click)="goToChallenge($event)" [challenge]="(activeUncompleteChallengesTeam$ |async)[0]"
-    [campaign]="campaignContainer">
+    [team]="team" [campaign]="campaignContainer">
   </app-active-challenge>
 </ng-container>
 <ng-container
-  *ngIf="(activeUncompleteChallenges$ | async)?.length!==0 || (configureChallenges$| async)?.length!==0 || (invitesChallenges$ | async)?.length!==0|| (canInvite$ | async) ">
+  *ngIf="(activeUncompleteChallenges$ | async)?.length!==0 || (activeUncompleteChallengesTeam$ | async)?.length!==0  ||(configureChallenges$| async)?.length!==0 || (invitesChallenges$ | async)?.length!==0|| (canInvite$ | async) ">
   <app-challenge-state [activeUncompleteChallenges$]="activeUncompleteChallenges$"
-    [configureChallenges$]="configureChallenges$" [invitesChallenges$]="invitesChallenges$" [canInvite$]="canInvite$"
-    [campaignContainer]="campaignContainer" [onlyFutureChallenges$]="onlyFutureChallenges$"></app-challenge-state>
+    [activeUncompleteChallengesTeam$]="activeUncompleteChallengesTeam$" [configureChallenges$]="configureChallenges$"
+    [invitesChallenges$]="invitesChallenges$" [canInvite$]="canInvite$" [campaignContainer]="campaignContainer"
+    [onlyFutureChallenges$]="onlyFutureChallenges$"></app-challenge-state>
 </ng-container>

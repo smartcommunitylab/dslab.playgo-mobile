@@ -13,6 +13,7 @@ import { ChallengeService } from '../../../services/challenge.service';
 })
 export class HomeCampaignChallengeComponent implements OnInit, OnDestroy {
   @Input() campaignContainer: PlayerCampaign;
+  @Input() team?: boolean = false;
   //unfinished challenge to show in the home
   public activeUncompleteChallenges$: Observable<Challenge[]>;
   public activeUncompleteChallengesTeam$: Observable<Challenge[]>;

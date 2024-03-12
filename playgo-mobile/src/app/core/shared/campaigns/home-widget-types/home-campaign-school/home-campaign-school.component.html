@@ -27,7 +27,7 @@
       <app-home-school-progression [stat]="progressionPlayer" [type]="'personal'"
         *ngIf="(activeUncompleteChallenges$ | async)?.length === 0 && (activeUncompleteChallengesTeam$ | async)?.length === 0 "></app-home-school-progression>
       <!-- if it is home page and I have challenges -->
-      <app-home-campaign-challenges
+      <app-home-campaign-challenges [team]="true"
         *ngIf="((activeUncompleteChallenges$ | async)?.length !== 0 || (activeUncompleteChallengesTeam$ | async)?.length !== 0) "
         [campaignContainer]="campaignContainer">
       </app-home-campaign-challenges>

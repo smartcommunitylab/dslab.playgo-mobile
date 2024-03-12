@@ -1,7 +1,8 @@
 <div class="challenges-state" [ngStyle]="{
   backgroundColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + '-light)'
 }">
-  <div *ngIf="(activeUncompleteChallenges$ | async)?.length!==0" (click)="goToActiveChallenge($event)">
+  <div *ngIf="(activeUncompleteChallenges$ | async)?.length!==0 ||(activeUncompleteChallengesTeam$ | async)?.length!==0"
+    (click)="goToActiveChallenge($event)">
     <ion-avatar [ngStyle]="{
       borderColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + ')',
        backgroundColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + '-light)'
@@ -9,7 +10,8 @@
       <app-icon name="groupCompetitivePerformance" class="type-notif  icon-size-normal"></app-icon>
     </ion-avatar>
     <div class="challenge-text">{{
-      'challenges.active'|translate: {active: (activeUncompleteChallenges$ | async)?.length}
+      'challenges.active'|translate: {active: (activeUncompleteChallenges$ |
+      async)?.length+(activeUncompleteChallengesTeam$ | async)?.length}
       }}</div>
   </div>
   <div *ngIf="(configureChallenges$| async)?.length!==0 || ((canInvite$ | async) && (coupled$|async)===false)"
