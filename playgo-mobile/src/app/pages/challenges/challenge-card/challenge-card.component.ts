@@ -127,8 +127,11 @@ export class ChallengeCardComponent implements OnInit, AfterViewInit {
 
   challDesc(desc: string, name: string) {
     //sub id with name
-    if (this.team && name)
-      return desc.replace(this.challenge?.otherAttendeeData.playerId, name);
+    const search = this.challenge?.otherAttendeeData.playerId;
+    const searchRegExp = new RegExp(search, 'g');
+    const replaceWith = name;
+    if (this.team && name && desc)
+      return desc.replace(searchRegExp, replaceWith);
     return desc
   }
 }
