@@ -67,7 +67,7 @@ export class ActiveChallengeComponent implements OnInit, AfterViewInit {
   }
   challDesc(desc: string, name: string) {
     //sub id with name
-    const search = this.challenge?.otherAttendeeData.playerId;
+    const search = this.challenge?.otherAttendeeData?.playerId;
     const searchRegExp = new RegExp(search, 'g');
     const replaceWith = name;
     if (this.team && name && desc)
