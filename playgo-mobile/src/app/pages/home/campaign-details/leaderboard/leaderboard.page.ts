@@ -43,10 +43,10 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
     km: 'campaigns.leaderboard.leaderboard_type_unit.km',
   } as const;
-  metricToUnitLabel: Record<Metric, TranslateKey> = {
+  metricToUnitLabel: Record<any, TranslateKey> = {
     co2: 'campaigns.leaderboard.unit.co2',
     km: 'campaigns.leaderboard.unit.km',
-  } as const;
+  };
 
   meanLabels: Record<Mean, TranslateKey> = {
     ...transportTypeLabels,
@@ -71,8 +71,11 @@ export class LeaderboardPage implements OnInit, OnDestroy {
   );
 
   useMeanAndMetric$ = this.campaign$.pipe(
-    map((campaign) => campaign.type === 'personal')
+    map((campaign) => campaign.type === 'personal' || campaign.type === 'company' && this.campaignContainer?.campaign?.campaignPlacement.active)
   );
+  // useMeanAndMetric$ = this.campaign$.pipe(
+  //   map((campaign) => campaign.type === 'personal' || campaign.type === 'company' && this.campaignContainer?.campaign?.campaignPlacement.active || campaign.type === 'city'),
+  // );
 
   means$: Observable<Mean[]> = this.campaignService.availableMeans$.pipe(
     map((availableMeans) => [ALL_MEANS, ...availableMeans])
@@ -84,6 +87,12 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
+  metrics$: Observable<any[]> = this.campaign$.pipe(
+    map((campaign) => {
+      campaign?.campaignPlacement?.active ? this.metricToUnitLabel['virtualScore'] = 'campaigns.leaderboard.unit.virtualScore' : null
+      return [...this.metrics, campaign?.campaignPlacement?.active ? 'virtualScore' : null]
+    })
+  );
   metrics: Metric[] = ['co2', 'km'];
   selectedMetricChangedSubject = new Subject<SelectCustomEvent<Metric>>();
   selectedMetric$: Observable<Metric> = this.selectedMetricChangedSubject.pipe(
@@ -137,6 +146,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
               playerId,
               dateFrom: period.from,
               dateTo: period.to,
+              filterByGroupId: filterByGroup(this.campaignContainer) ? this.campaignContainer?.subscription?.campaignData?.companyKey : null,
             })
             .pipe(this.errorService.getErrorHandler());
         } else {
@@ -175,6 +185,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
                   mean: mean === ALL_MEANS ? null : mean,
                   dateFrom: period.from,
                   dateTo: period.to,
+                  filterByGroupId: filterByGroup(this.campaignContainer) ? this.campaignContainer?.subscription?.campaignData?.companyKey : null,
                 })
                 .pipe(this.errorService.getErrorHandler());
             } else {
@@ -295,3 +306,8 @@ type Metric = 'co2' | 'km';
 
 const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
 type Mean = TransportType | typeof ALL_MEANS;
+
+function filterByGroup(campaignContainer: PlayerCampaign) {
+  return campaignContainer?.campaign?.campaignPlacement?.active;
+}
+
