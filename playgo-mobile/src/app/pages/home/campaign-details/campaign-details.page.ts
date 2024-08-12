@@ -271,8 +271,11 @@ export class CampaignDetailsPage implements OnInit, OnDestroy, AfterViewChecked 
       this.campaignService.getFunctionalityByType(
         what,
         this.campaignContainer.campaign.type
-      )?.present || false
+      )?.present || false || this.campaignHasPlacement(this.campaignContainer.campaign)
     );
+  }
+  campaignHasPlacement(campaign: Campaign): boolean {
+    return (campaign.type === 'company' && campaign.campaignPlacement?.active);
   }
   async unsubscribeCampaign() {
     const modal = await this.modalController.create({
