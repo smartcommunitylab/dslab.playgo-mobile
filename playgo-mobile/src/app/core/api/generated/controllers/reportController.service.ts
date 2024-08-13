@@ -24,7 +24,7 @@ import { TransportStat } from '../model/transportStat';
   providedIn: 'root',
 })
 export class ReportControllerService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /**
    * geGroupCampaingPlacingByTransportMode
    *
@@ -47,7 +47,7 @@ export class ReportControllerService {
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/group/transport`,
+      `/playandgo/api/report/campaign/placing/group/transport`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -123,6 +123,7 @@ export class ReportControllerService {
     dateFrom?: string;
     dateTo?: string;
     groupByGroupId?: boolean;
+    filterByGroupId?: string;
   }): Observable<PageCampaignPlacing> {
     const {
       campaignId,
@@ -134,11 +135,13 @@ export class ReportControllerService {
       dateFrom,
       dateTo,
       groupByGroupId,
+      filterByGroupId
+
     } = args;
     return this.http.request<PageCampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/transport`,
+      `/playandgo/api/report/campaign/placing/transport`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -150,6 +153,7 @@ export class ReportControllerService {
           dateFrom,
           dateTo,
           groupByGroupId,
+          filterByGroupId
         }),
       }
     );
@@ -173,7 +177,7 @@ export class ReportControllerService {
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/group/game`,
+      `/playandgo/api/report/campaign/placing/group/game`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -237,7 +241,7 @@ export class ReportControllerService {
     return this.http.request<Array<TransportStat>>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/group/transport/stats/mean`,
+      `/playandgo/api/report/group/transport/stats/mean`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -307,7 +311,7 @@ export class ReportControllerService {
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/player/game`,
+      `/playandgo/api/report/campaign/placing/player/game`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -336,12 +340,13 @@ export class ReportControllerService {
     mean?: string;
     dateFrom?: string;
     dateTo?: string;
+    filterByGroupId?: string;
   }): Observable<CampaignPlacing> {
-    const { campaignId, playerId, metric, mean, dateFrom, dateTo } = args;
+    const { campaignId, playerId, metric, mean, dateFrom, dateTo, filterByGroupId } = args;
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/campaign/placing/player/transport`,
+      `/playandgo/api/report/campaign/placing/player/transport`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -350,6 +355,7 @@ export class ReportControllerService {
           mean,
           dateFrom,
           dateTo,
+          filterByGroupId
         }),
       }
     );
@@ -407,7 +413,7 @@ export class ReportControllerService {
     return this.http.request<Array<TransportStat>>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/player/transport/record`,
+      `/playandgo/api/report/player/transport/record`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -440,7 +446,7 @@ export class ReportControllerService {
     return this.http.request<Array<TransportStat>>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/player/transport/stats/mean`,
+      `/playandgo/api/report/player/transport/stats/mean`,
       {
         params: removeNullOrUndefined({
           campaignId,
@@ -478,7 +484,7 @@ export class ReportControllerService {
     return this.http.request<Array<TransportStat>>(
       'get',
       environment.serverUrl.api +
-        `/playandgo/api/report/player/transport/stats`,
+      `/playandgo/api/report/player/transport/stats`,
       {
         params: removeNullOrUndefined({
           campaignId,

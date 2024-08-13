@@ -34,6 +34,7 @@ export interface Campaign {
   validationData?: any;
   visible?: boolean;
   weekConfs?: Array<CampaignWeekConf>;
+  campaignPlacement?: any;
 }
 export namespace Campaign {
   export type TypeEnum = 'city' | 'company' | 'personal' | 'school';
