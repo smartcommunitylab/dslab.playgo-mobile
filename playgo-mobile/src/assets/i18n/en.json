@@ -430,9 +430,9 @@
       "location": "location {{index}}:",
       "personalStatWeek": "Your contribution this week: {{value}}",
       "companiesPage": {
-        "website": "Website[->]",
-        "email": "Email [->]",
-        "phone": "Phone [->]",
+        "website": "Website",
+        "email": "Email",
+        "phone": "Phone",
         "address": "Address: ",
         "location": "Locations"
       }

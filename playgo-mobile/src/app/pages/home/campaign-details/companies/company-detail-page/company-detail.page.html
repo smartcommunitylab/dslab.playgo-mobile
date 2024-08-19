@@ -13,29 +13,30 @@
         </ion-col>
         <ion-col size="8" class="company-desc">
           <div class="desc"> {{company.name}} </div>
-          <div *ngIf="company.web" class="website"><span (click)="openWebsite(company.web)">{{
-              'campaigns.detail.companiesPage.website' | translate }}</span></div>
-          <div *ngIf="company.contactEmail" class="website">
-            <span (click)="openMail(company.contactEmail)">{{
-              'campaigns.detail.companiesPage.email' | translate }}</span>
-          </div>
-          <div *ngIf="company.contactPhone" class="website">
-            <span (click)="openPhone(company.contactPhone)">{{
-              'campaigns.detail.companiesPage.phone' | translate }}</span>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <div>
-            {{
-            'campaigns.detail.companiesPage.address' | translate }}
-          </div>
           <div>
             <span>{{company.address}} </span> <span>{{company.streetNumber}} </span> <span>{{company.zip}} </span>
             <span>{{company.city}}</span>
           </div>
-
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding ion-no-margin">
+        <ion-col size="4" class="ion-no-padding ion-no-margin">
+          <div *ngIf="company.web" class="website"><ion-button (click)="openWebsite(company.web)" expand="block"
+              color="playgo"><ion-icon slot="start" name="globe"></ion-icon>{{
+              'campaigns.detail.companiesPage.website' | translate }}</ion-button></div>
+        </ion-col>
+        <ion-col size="4" class="ion-no-padding ion-no-margin">
+          <div *ngIf="company.contactEmail" class="website">
+            <ion-button (click)="openMail(company.contactEmail)" expand="block" color="playgo"><ion-icon slot="start"
+                name="mail"></ion-icon>{{
+              'campaigns.detail.companiesPage.email' | translate }}</ion-button>
+          </div>
+        </ion-col><ion-col size="4" class="ion-no-padding ion-no-margin">
+          <div *ngIf="company.contactPhone" class="website">
+            <ion-button (click)="openPhone(company.contactPhone)" expand="block" color="playgo"><ion-icon slot="start"
+                name="call"></ion-icon>{{
+              'campaigns.detail.companiesPage.phone' | translate }}</ion-button>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row>

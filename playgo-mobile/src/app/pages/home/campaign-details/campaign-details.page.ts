@@ -271,7 +271,7 @@ export class CampaignDetailsPage implements OnInit, OnDestroy, AfterViewChecked 
       this.campaignService.getFunctionalityByType(
         what,
         this.campaignContainer.campaign.type
-      )?.present || false || this.campaignHasPlacement(this.campaignContainer.campaign)
+      )?.present || false || (what === 'leaderboard' && this.campaignHasPlacement(this.campaignContainer.campaign))
     );
   }
   campaignHasPlacement(campaign: Campaign): boolean {

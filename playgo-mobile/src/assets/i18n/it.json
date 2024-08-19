@@ -430,9 +430,9 @@
       "location": "Sede {{index}}:",
       "personalStatWeek": "Il tuo contributo questa settimana: {{value}}",
       "companiesPage": {
-        "website": "Sito internet [->]",
-        "email": "Email [->]",
-        "phone": "Telefono [->]",
+        "website": "Sito internet",
+        "email": "Email",
+        "phone": "Telefono",
         "address": "Indirizzo: ",
         "location": "Sedi"
       }
