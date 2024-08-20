@@ -2,6 +2,11 @@ ion-content {
   span {
     margin: 0px 2px;
   }
+  .image-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .company-name {
     font-style: normal;
     font-weight: 600;
@@ -21,9 +26,17 @@ ion-content {
   .section {
     font-weight: bold;
     margin: 24px 0px 8px 0px;
+    border-bottom: solid 1px grey;
   }
   .subsection {
-    font-weight: bold;
     margin: 24px 0px 8px 0px;
+  }
+  .link {
+    cursor: pointer;
+    color: var(--ion-color-playgo);
+    text-decoration: underline;
+  }
+  .id {
+    font-weight: bold;
   }
 }

@@ -34,7 +34,6 @@ export class CompanyLabelComponent implements OnInit {
       componentProps: {
         userCompany: this.userCompany,
       },
-      cssClass: 'modalConfirm',
       swipeToClose: true,
     });
     await modal.present();
