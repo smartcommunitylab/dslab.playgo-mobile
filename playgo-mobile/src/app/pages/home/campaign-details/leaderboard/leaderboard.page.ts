@@ -42,6 +42,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
     km: 'campaigns.leaderboard.leaderboard_type_unit.km',
+    virtualScore: 'campaigns.leaderboard.leaderboard_type_unit.GL'
   } as const;
   metricToUnitLabel: Record<any, TranslateKey> = {
     co2: 'campaigns.leaderboard.unit.co2',
@@ -90,7 +91,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
   metrics$: Observable<any[]> = this.campaign$.pipe(
     map((campaign) => {
       campaign?.campaignPlacement?.active ? this.metricToUnitLabel['virtualScore'] = 'campaigns.leaderboard.unit.virtualScore' : null
-      return [...this.metrics, campaign?.campaignPlacement?.active ? 'virtualScore' : null]
+      return campaign?.campaignPlacement?.active ? [...this.metrics, 'virtualScore'] : [...this.metrics]
     })
   );
   metrics: Metric[] = ['co2', 'km'];
@@ -302,7 +303,7 @@ type Period = {
   default?: boolean;
 };
 
-type Metric = 'co2' | 'km';
+type Metric = 'co2' | 'km' | 'virtualScore';
 
 const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
 type Mean = TransportType | typeof ALL_MEANS;
