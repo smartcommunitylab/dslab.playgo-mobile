@@ -306,7 +306,7 @@
       "last": "Durata:"
     },
     "campaignmodal": {
-      "title": "Aziende partecipanti",
+      "title": "Dettaglio azienda",
       "close": "X"
     },
     "joinmodal": {
@@ -431,9 +431,9 @@
       "location": "Sede {{index}}:",
       "personalStatWeek": "Il tuo contributo questa settimana: {{value}}",
       "companiesPage": {
-        "website": "Sito internet",
+        "website": "WWW",
         "email": "Email",
-        "phone": "Telefono",
+        "phone": "Tel",
         "address": "Indirizzo: ",
         "location": "Sedi"
       }
