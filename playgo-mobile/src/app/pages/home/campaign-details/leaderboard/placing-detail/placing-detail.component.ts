@@ -3,6 +3,7 @@ import { map } from 'rxjs/operators';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
+import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
@@ -26,7 +27,7 @@ export class PlacingDetailComponent implements OnInit {
     map((userProfile) => userProfile.avatar.avatarSmallUrl)
   );
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private campaignService: CampaignService) { }
   getValue(value: number) {
     if (
       this.unitLabelKey === 'campaigns.leaderboard.leaderboard_type_unit.km'
@@ -44,7 +45,7 @@ export class PlacingDetailComponent implements OnInit {
       case 'campaigns.leaderboard.leaderboard_type_unit.co2':
         return 'co2';
       case 'campaigns.leaderboard.leaderboard_type_unit.GL':
-        return 'ecoLeavesCity';
+        return this.campaignService.getCampaignTypeIcon(this.campaign?.campaign) || 'ecoLeavesCity';
       default:
         return '';
     }
