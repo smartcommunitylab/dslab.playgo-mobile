@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { map, Observable, shareReplay, Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
+import { CompanyModalPage } from 'src/app/core/shared/campaigns/app-company-label/company-modal/company.modal';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
 import { ReportService } from 'src/app/core/shared/services/report.service';
@@ -19,7 +20,7 @@ export class CompaniesCampaignPage implements OnInit, OnDestroy {
   subCampaignId: Subscription;
   subCampaignContainer: Subscription;
   campaignContainer: PlayerCampaign;
-
+  userCompany: any;
   campaignId$: Observable<string> = this.route.params.pipe(
     map((params) => params.id),
     shareReplay(1)
@@ -28,10 +29,22 @@ export class CompaniesCampaignPage implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
-    private pageSettingsService: PageSettingsService
+    private pageSettingsService: PageSettingsService,
+    private modalController: ModalController
   ) { }
 
+  async initMyCompany() {
+    try {
+      this.userCompany = await this.campaignService
+        .getCompanyOfTheUser(this.campaignContainer);
+      this.companies = this.companies.filter((company: any) => company.id != this.userCompany?.company?.id)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   ngOnInit() {
+    // this.initCompanies();
+
     this.subCampaignId = this.campaignId$.subscribe((campaignId) => {
       this.campaignService
         .getCompaniesForSubscription(campaignId)
@@ -47,6 +60,7 @@ export class CompaniesCampaignPage implements OnInit, OnDestroy {
               campaignContainer.campaign.campaignId === campaignId
           );
           if (this.campaignContainer) {
+            this.initMyCompany();
             this.changePageSettings();
           }
         }
@@ -66,5 +80,16 @@ export class CompaniesCampaignPage implements OnInit, OnDestroy {
     this.subCampaignContainer.unsubscribe();
     this.subCampaignId.unsubscribe();
   }
-
+  async openCompanyDetail(event: any) {
+    event.stopPropagation();
+    const modal = await this.modalController.create({
+      component: CompanyModalPage,
+      componentProps: {
+        userCompany: this.userCompany,
+      },
+      swipeToClose: true,
+    });
+    await modal.present();
+    await modal.onWillDismiss();
+  }
 }
