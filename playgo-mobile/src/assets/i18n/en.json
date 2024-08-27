@@ -306,6 +306,7 @@
       "last": "TODO: Durata:"
     },
     "campaignmodal": {
+      "listTitle": "Partecipating companies",
       "title": "Company Details",
       "close": "X"
     },

@@ -9,7 +9,7 @@ const routes: RoutesWithPageSettings = [
     path: '',
     component: CompaniesCampaignPage,
     data: {
-      title: 'campaigns.campaignmodal.title',
+      title: 'campaigns.campaignmodal.listTitle',
     },
   },
   {
