@@ -10,9 +10,16 @@
               <ion-select interface="popover" [disabled]="(useMeanAndMetric$ |async)===false"
                 [interfaceOptions]="{ cssClass: 'app-alert' }"
                 (ionChange)="selectedMeanChangedSubject.next($any($event))" [value]="selectedMean$ | async">
-                <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
-                  {{meanLabels[mean] |translate}}
-                </ion-select-option>
+                <ng-container *ngIf="(this.campaign$ |async).type!=='company' ; else meansCompany">
+                  <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
+                    {{meanLabels[mean] |translate}}
+                  </ion-select-option>
+                </ng-container>
+                <ng-template #meansCompany>
+                  <ion-select-option *ngFor="let mean of meansForCompany$|async" [value]="mean">
+                    {{meanLabels[mean] |translate}}
+                  </ion-select-option>
+                </ng-template>
               </ion-select>
             </ion-item>
           </ion-col>

@@ -3,9 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectCustomEvent } from '@ionic/angular';
 import { find } from 'lodash-es';
 
-import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
+  first,
   map,
   shareReplay,
   startWith,
@@ -74,13 +76,26 @@ export class LeaderboardPage implements OnInit, OnDestroy {
   useMeanAndMetric$ = this.campaign$.pipe(
     map((campaign) => campaign.type === 'personal' || campaign.type === 'company' && this.campaignContainer?.campaign?.campaignPlacement.active)
   );
-  // useMeanAndMetric$ = this.campaign$.pipe(
-  //   map((campaign) => campaign.type === 'personal' || campaign.type === 'company' && this.campaignContainer?.campaign?.campaignPlacement.active || campaign.type === 'city'),
-  // );
+
 
   means$: Observable<Mean[]> = this.campaignService.availableMeans$.pipe(
     map((availableMeans) => [ALL_MEANS, ...availableMeans])
   );
+  meansForCompany$ = combineLatest([
+    this.means$,
+    this.campaign$,
+  ]).pipe(
+    switchMap(([means, campaign]) => {
+      console.log(campaign);
+      console.log(means);
+      if (!campaign?.campaignPlacement?.configuration?.meansShow) {
+        return of([ALL_MEANS])
+      }
+      return of([...means]);
+    }
+    ))
+
+
   selectedMeanChangedSubject = new Subject<SelectCustomEvent<Mean>>();
   selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
     map((event) => event.detail.value),
@@ -312,3 +327,9 @@ function filterByGroup(campaignContainer: PlayerCampaign) {
   return campaignContainer?.campaign?.campaignPlacement?.active;
 }
 
+function waitFor<T>(signal: Observable<any>) {
+  return (source: Observable<T>) => signal.pipe(
+    first(),
+    switchMap(_ => source),
+  );
+}
