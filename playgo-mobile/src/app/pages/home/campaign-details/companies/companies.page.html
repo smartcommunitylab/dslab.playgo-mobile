@@ -1,23 +1,28 @@
 <ion-header appHeader></ion-header>
 <ion-content class="ion-padding">
-  <ion-card class="myCompany" (click)="openCompanyDetail($event)">
-    <ion-grid class="ion-no-padding">
-      <ion-row>
-        <ion-col size="2">
-          <ion-thumbnail>
-            <img alt="Logo" [src]="userCompany?.company?.imagePath"
-              *ngIf="userCompany?.company?.imagePath; else companyIcon" />
-            <ng-template #companyIcon>
-              <ion-icon name="briefcase-outline" size="large"></ion-icon>
-            </ng-template>
-          </ion-thumbnail>
-        </ion-col>
-        <ion-col class="company-desc">
-          <div class="desc"> {{userCompany?.company?.name}} </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card>
+  <div class="myCompany"> <ion-label>{{'campaigns.detail.youCompany'|translate}}</ion-label>
+    <ion-card (click)="openCompanyDetail($event)">
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="2">
+            <ion-thumbnail>
+              <img alt="Logo" [src]="userCompany?.company?.imagePath"
+                *ngIf="userCompany?.company?.imagePath; else companyIcon" />
+              <ng-template #companyIcon>
+                <ion-icon name="briefcase-outline" size="large"></ion-icon>
+              </ng-template>
+            </ion-thumbnail>
+          </ion-col>
+          <ion-col class="company-desc">
+            <div class="desc"> {{userCompany?.company?.name}} </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </div>
+  <div class="otherCompany">
+    <ion-label>{{'campaigns.detail.otherCompany'|translate}}</ion-label>
+  </div>
   <div *ngFor="let company of companies">
     <app-company-item [company]="company"></app-company-item>
   </div>

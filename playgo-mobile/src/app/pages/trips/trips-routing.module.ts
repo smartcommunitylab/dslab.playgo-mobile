@@ -22,7 +22,7 @@ const routes: RoutesWithPageSettings = [
     data: {
       title: 'tripsTitle',
       defaultHref: '/',
-      backButton: true,
+      backButton: false,
       isOfflinePage: true,
       showPlayButton: true,
       refresher: true,

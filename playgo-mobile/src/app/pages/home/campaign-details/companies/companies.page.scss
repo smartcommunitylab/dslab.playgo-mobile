@@ -17,6 +17,10 @@ ion-thumbnail {
   }
 }
 .myCompany {
-  background-color: var(--ion-color-playgo);
-  color: white;
+  border-bottom: solid 1px lightgray;
+  font-weight: bold;
+}
+.otherCompany {
+  font-weight: bold;
+  margin-top: 16px;
 }
