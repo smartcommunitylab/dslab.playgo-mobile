@@ -86,8 +86,6 @@ export class LeaderboardPage implements OnInit, OnDestroy {
     this.campaign$,
   ]).pipe(
     switchMap(([means, campaign]) => {
-      console.log(campaign);
-      console.log(means);
       if (!campaign?.campaignPlacement?.configuration?.meansShow) {
         return of([ALL_MEANS])
       }
