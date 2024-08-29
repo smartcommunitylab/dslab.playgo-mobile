@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SelectCustomEvent } from '@ionic/angular';
+import { IonSelect, SelectCustomEvent } from '@ionic/angular';
 import { find } from 'lodash-es';
 
 import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
@@ -12,6 +12,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { DateTime } from 'luxon';
 
@@ -37,9 +38,14 @@ import { PageSettingsService } from 'src/app/core/shared/services/page-settings.
   templateUrl: './leaderboard.page.html',
   styleUrls: ['./leaderboard.page.scss'],
 })
-export class LeaderboardPage implements OnInit, OnDestroy {
+export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChildren('periodSelect')
+  public selects: QueryList<IonSelect>;
+  private periodSelect: IonSelect;
+
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
+  periodsCompany: Period[];
 
   metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
@@ -120,7 +126,9 @@ export class LeaderboardPage implements OnInit, OnDestroy {
 
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> = this.periodChangedSubject.pipe(
+    tap((value) => console.log(value)),
     map((event) => event.detail.value),
+    tap((value) => console.log(value)),
     startWith(find(this.periods, { default: true })), // initial select value
     shareReplay(1)
   );
@@ -244,6 +252,18 @@ export class LeaderboardPage implements OnInit, OnDestroy {
       );
     });
   }
+  filterPeriods(campaign: PlayerCampaign) {
+    if (campaign?.campaign?.type === 'company') {
+      this.periodsCompany = this.getPeriods(this.referenceDate).filter(period => campaign?.campaign?.campaignPlacement?.configuration[period.configurationKey] === true)
+
+
+      this.periodChangedSubject.next({ detail: { value: this.periodsCompany.find(period => campaign?.campaign?.campaignPlacement?.configuration?.periodDefault === period.configurationKey) } } as any)
+      // this.periodChangedSubject.next(new CustomEvent('change', { detail: { value: this.periodsCompany.find(period => campaign?.campaign?.campaignPlacement?.configuration?.periodDefault === period.configurationKey) } }) as any);
+      // // this.periodChangedSubject.next(new CustomEvent('change', { detail: { value: this.periodsCompany.find(period => campaign?.campaign?.campaignPlacement?.configuration?.periodDefault === period.configurationKey) } }) as any);
+    }
+
+  }
+
   ngOnDestroy(): void {
     this.subCampaign.unsubscribe();
     this.subId.unsubscribe();
@@ -251,7 +271,14 @@ export class LeaderboardPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.changePageSettings();
   }
+  ngAfterViewInit() {
+    this.selects.changes.subscribe((comps: QueryList<IonSelect>) => {
+      this.periodSelect = comps.first;
+      this.filterPeriods(this.campaignContainer);
 
+    });
+
+  }
   private changePageSettings() {
     this.pageSettingsService.set({
       color: this.campaignContainer?.campaign?.type,
@@ -264,12 +291,14 @@ export class LeaderboardPage implements OnInit, OnDestroy {
         labelKey: 'campaigns.leaderboard.period.today',
         from: this.toServerDate(referenceDate.startOf('day')),
         to: this.toServerDate(referenceDate),
+        configurationKey: 'periodToday',
         default: false,
       },
       {
         labelKey: 'campaigns.leaderboard.period.this_week',
         from: this.toServerDate(referenceDate.startOf('week')),
         to: this.toServerDate(referenceDate),
+        configurationKey: 'periodCurrentWeek',
         default: true,
       },
       {
@@ -278,12 +307,14 @@ export class LeaderboardPage implements OnInit, OnDestroy {
           referenceDate.startOf('week').minus({ weeks: 1 })
         ),
         to: this.toServerDate(referenceDate.startOf('week').minus({ weeks: 1 }).endOf('week')),
+        configurationKey: 'periodLastWeek',
         default: false,
       },
       {
         labelKey: 'campaigns.leaderboard.period.this_month',
         from: this.toServerDate(referenceDate.startOf('month')),
         to: this.toServerDate(referenceDate),
+        configurationKey: 'periodCurrentMonth',
         default: false,
       },
       {
@@ -293,6 +324,7 @@ export class LeaderboardPage implements OnInit, OnDestroy {
         // maybe it is not such deal, "All Time" leaderboard will not change so rapidly.
         from: null, //this.toServerDate(minusInfDate),
         to: null, //this.toServerDate(referenceDate),
+        configurationKey: 'periodGeneral',
         default: false,
       },
     ];
@@ -313,6 +345,7 @@ type Period = {
   labelKey: TranslateKey;
   from: string;
   to: string;
+  configurationKey: string;
   default?: boolean;
 };
 

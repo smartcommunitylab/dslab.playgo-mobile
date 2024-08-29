@@ -51,11 +51,21 @@
         <ion-row>
           <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type">
-              <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
+              <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }" #periodSelect
                 (ionChange)="periodChangedSubject.next($any($event))" [value]="selectedPeriod$ | async">
-                <ion-select-option *ngFor="let period of periods" [value]="period">
+                <ng-container *ngIf="(this.campaign$ |async).type!=='company' ; else periodCompany">
+                  <ion-select-option *ngFor="let period of periods" [value]="period">
+                    {{period.labelKey |translate}}
+                  </ion-select-option>
+                </ng-container>
+                <ng-template #periodCompany>
+                  <ion-select-option *ngFor="let period of periodsCompany" [value]="period">
+                    {{period.labelKey |translate}}
+                  </ion-select-option>
+                </ng-template>
+                <!-- <ion-select-option *ngFor="let period of periods" [value]="period">
                   {{period.labelKey |translate}}
-                </ion-select-option>
+                </ion-select-option> -->
               </ion-select>
             </ion-item>
           </ion-col>
