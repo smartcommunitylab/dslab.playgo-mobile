@@ -26,12 +26,21 @@
 
           <ion-col *ngIf="useMeanAndMetric$ |async">
             <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
-              <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
+              <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }" #metricSelect
                 (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
-                <ion-select-option *ngFor="let metric of metrics$|async" [value]="metric">
-                  <p *ngIf="metric !=='virtualScore'">{{metricToUnitLabel[metric] |translate}}</p>
-                  <p *ngIf="metric ==='virtualScore'">{{(campaign$ |async)?.specificData?.virtualScore?.label}}</p>
-                </ion-select-option>
+                <ng-container *ngIf="(this.campaign$ |async).type!=='company' ; else metricCompany">
+                  <ion-select-option *ngFor="let metric of metrics$|async" [value]="metric">
+                    <p *ngIf="metric !=='virtualScore'">{{metricToUnitLabel[metric] |translate}}</p>
+                    <p *ngIf="metric ==='virtualScore'">{{(campaign$ |async)?.specificData?.virtualScore?.label}}</p>
+                  </ion-select-option>
+                </ng-container>
+                <ng-template #metricCompany>
+                  <ion-select-option *ngFor="let metric of metricsCompany$|async" [value]="metric">
+                    <p *ngIf="metric !=='virtualScore'">{{metricToUnitLabel[metric] |translate}}</p>
+                    <p *ngIf="metric ==='virtualScore'">{{(campaign$ |async)?.specificData?.virtualScore?.label}}</p>
+                  </ion-select-option>
+                </ng-template>
+
               </ion-select>
             </ion-item>
           </ion-col>
@@ -41,13 +50,6 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <!-- <ion-row *ngIf="(useMeanAndMetric$ |async) === false">
-          <ion-col>
-            <ion-item [color]="campaignContainer?.campaign?.type">
-              {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
-            </ion-item>
-          </ion-col>
-        </ion-row> -->
         <ion-row>
           <ion-col>
             <ion-item [color]="campaignContainer?.campaign?.type">
@@ -63,9 +65,6 @@
                     {{period.labelKey |translate}}
                   </ion-select-option>
                 </ng-template>
-                <!-- <ion-select-option *ngFor="let period of periods" [value]="period">
-                  {{period.labelKey |translate}}
-                </ion-select-option> -->
               </ion-select>
             </ion-item>
           </ion-col>

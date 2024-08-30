@@ -32,6 +32,7 @@ import { ErrorService } from 'src/app/core/shared/services/error.service';
 import { PlayerCampaign } from 'src/app/core/api/generated/model/playerCampaign';
 import { TranslateKey } from 'src/app/core/shared/globalization/i18n/i18n.utils';
 import { PageSettingsService } from 'src/app/core/shared/services/page-settings.service';
+import { Campaign } from 'src/app/core/api/generated/model/campaign';
 
 @Component({
   selector: 'app-leaderboard',
@@ -42,19 +43,29 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChildren('periodSelect')
   public selects: QueryList<IonSelect>;
   private periodSelect: IonSelect;
+  @ViewChildren('metricSelect')
+  public metricSelects: QueryList<IonSelect>;
+  private metricSelect: IonSelect;
 
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
   periodsCompany: Period[];
 
-  metricToNumberWithUnitLabel: Record<Metric, TranslateKey> = {
+  metricToNumberWithUnitLabel: Record<Metric | MetricCompany, TranslateKey> = {
     co2: 'campaigns.leaderboard.leaderboard_type_unit.co2',
     km: 'campaigns.leaderboard.leaderboard_type_unit.km',
-    virtualScore: 'campaigns.leaderboard.leaderboard_type_unit.GL'
+    virtualScore: 'campaigns.leaderboard.leaderboard_type_unit.GL',
+    time: 'campaigns.leaderboard.leaderboard_type_unit.duration',
+    tracks: 'campaigns.leaderboard.leaderboard_type_unit.tracks',
+    virtualTrack: 'campaigns.leaderboard.leaderboard_type_unit.virtualTrack'
   } as const;
   metricToUnitLabel: Record<any, TranslateKey> = {
     co2: 'campaigns.leaderboard.unit.co2',
     km: 'campaigns.leaderboard.unit.km',
+    virtualScore: 'campaigns.leaderboard.unit.virtualScore',
+    time: 'campaigns.leaderboard.unit.duration',
+    tracks: 'campaigns.leaderboard.unit.tracks',
+    virtualTrack: 'campaigns.leaderboard.unit.virtualTrack'
   };
 
   meanLabels: Record<Mean, TranslateKey> = {
@@ -106,14 +117,25 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
     startWith(ALL_MEANS),
     shareReplay(1)
   );
-
+  metrics: Metric[] = ['co2', 'km'];
+  metricsCompany: MetricCompany[] = ['co2', 'km', 'virtualScore', 'time', 'tracks', 'virtualTrack'];
   metrics$: Observable<any[]> = this.campaign$.pipe(
     map((campaign) => {
       campaign?.campaignPlacement?.active ? this.metricToUnitLabel['virtualScore'] = 'campaigns.leaderboard.unit.virtualScore' : null
       return campaign?.campaignPlacement?.active ? [...this.metrics, 'virtualScore'] : [...this.metrics]
     })
   );
-  metrics: Metric[] = ['co2', 'km'];
+
+  metricsCompany$: Observable<any[]> = this.campaign$.pipe(
+    map((campaign) => {
+      return this.getMetricsCompany(campaign)
+    })
+  );
+
+  getMetricsCompany(campaign: Campaign): any {
+    // based on available metrics in campaign
+    return this.metricsCompany?.filter((metricCompany: any) => campaign?.campaignPlacement?.configuration[metricsCompanyConfigurations.find(metricConf => metricConf.metric === metricCompany).configurationKey] === true);
+  }
   selectedMetricChangedSubject = new Subject<SelectCustomEvent<Metric>>();
   selectedMetric$: Observable<Metric> = this.selectedMetricChangedSubject.pipe(
     map((event) => event.detail.value),
@@ -126,9 +148,7 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
 
   periodChangedSubject = new Subject<SelectCustomEvent<Period>>();
   selectedPeriod$: Observable<Period> = this.periodChangedSubject.pipe(
-    tap((value) => console.log(value)),
     map((event) => event.detail.value),
-    tap((value) => console.log(value)),
     startWith(find(this.periods, { default: true })), // initial select value
     shareReplay(1)
   );
@@ -252,6 +272,11 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
       );
     });
   }
+
+  filterMetrics(campaign: PlayerCampaign) {
+    this.selectedMetricChangedSubject.next({ detail: { value: this.metricsCompany.find(metric => campaign?.campaign?.campaignPlacement?.configuration?.metricDefault === metricsCompanyConfigurations.find(metricConf => metricConf.metric === metric).configurationKey) } } as any)
+
+  }
   filterPeriods(campaign: PlayerCampaign) {
     if (campaign?.campaign?.type === 'company') {
       this.periodsCompany = this.getPeriods(this.referenceDate).filter(period => campaign?.campaign?.campaignPlacement?.configuration[period.configurationKey] === true)
@@ -275,6 +300,11 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
     this.selects.changes.subscribe((comps: QueryList<IonSelect>) => {
       this.periodSelect = comps.first;
       this.filterPeriods(this.campaignContainer);
+
+    });
+    this.metricSelects.changes.subscribe((comps: QueryList<IonSelect>) => {
+      this.metricSelect = comps.first;
+      this.filterMetrics(this.campaignContainer);
 
     });
 
@@ -349,7 +379,8 @@ type Period = {
   default?: boolean;
 };
 
-type Metric = 'co2' | 'km' | 'virtualScore';
+type Metric = 'co2' | 'km';
+type MetricCompany = 'co2' | 'km' | 'virtualScore' | 'time' | 'tracks' | 'virtualTrack';
 
 const ALL_MEANS: 'ALL_MEANS' = 'ALL_MEANS';
 type Mean = TransportType | typeof ALL_MEANS;
@@ -364,3 +395,30 @@ function waitFor<T>(signal: Observable<any>) {
     switchMap(_ => source),
   );
 }
+
+
+const metricsCompanyConfigurations = [{
+  metric: 'co2',
+  configurationKey: 'metricCo2',
+},
+{
+  metric: 'km',
+  configurationKey: 'metricDistance',
+},
+{
+  metric: 'virtualScore',
+  configurationKey: 'metricVirtualScore',
+},
+{
+  metric: 'time',
+  configurationKey: 'metricDuration',
+},
+{
+  metric: 'tracks',
+  configurationKey: 'metricTrackNumber',
+},
+{
+  metric: 'virtualTrack',
+  configurationKey: 'metricVirtualTrack',
+},
+]
