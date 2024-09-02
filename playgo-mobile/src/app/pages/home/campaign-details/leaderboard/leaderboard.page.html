@@ -1,6 +1,6 @@
 <ion-header appHeader></ion-header>
 <ion-content appContent class="page">
-  <ng-container *ngIf="(campaign$ |async) !== null">
+  <ng-container *ngIf="(campaign$ |async) !== null && campaignContainer !== null">
     <div class="header-margin">
       <div class="header-sticky" [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
         [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'">

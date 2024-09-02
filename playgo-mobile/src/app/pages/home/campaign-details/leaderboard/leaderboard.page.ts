@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonSelect, SelectCustomEvent } from '@ionic/angular';
 import { find } from 'lodash-es';
@@ -39,7 +39,7 @@ import { Campaign } from 'src/app/core/api/generated/model/campaign';
   templateUrl: './leaderboard.page.html',
   styleUrls: ['./leaderboard.page.scss'],
 })
-export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
+export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterContentChecked {
   @ViewChildren('periodSelect')
   public selects: QueryList<IonSelect>;
   private periodSelect: IonSelect;
@@ -131,6 +131,7 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
       return this.getMetricsCompany(campaign)
     })
   );
+
 
   getMetricsCompany(campaign: Campaign): any {
     // based on available metrics in campaign
@@ -249,6 +250,8 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
   resetItems$ = this.filterOptions$.pipe(map(() => Symbol()));
   subCampaign: Subscription;
   subId: Subscription;
+  subMetricSelectChange: Subscription;
+  subSelectChange: Subscription;
   campaignContainer: PlayerCampaign;
   id: string;
 
@@ -258,7 +261,8 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
     private userService: UserService,
     private campaignService: CampaignService,
     private errorService: ErrorService,
-    private pageSettingsService: PageSettingsService
+    private pageSettingsService: PageSettingsService,
+    private cdref: ChangeDetectorRef
   ) {
     this.subId = this.route.params.subscribe((params) => {
       this.id = params.id;
@@ -268,9 +272,15 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
             (campaignContainer) =>
               campaignContainer.campaign.campaignId === this.id
           );
+          this.filterPeriods(this.campaignContainer);
+          this.filterMetrics(this.campaignContainer);
         }
       );
     });
+  }
+  ngAfterContentChecked(): void {
+
+    this.cdref.detectChanges();
   }
 
   filterMetrics(campaign: PlayerCampaign) {
@@ -292,21 +302,28 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.subCampaign.unsubscribe();
     this.subId.unsubscribe();
+
+
   }
   ionViewWillEnter() {
     this.changePageSettings();
   }
   ngAfterViewInit() {
-    this.selects.changes.subscribe((comps: QueryList<IonSelect>) => {
-      this.periodSelect = comps.first;
-      this.filterPeriods(this.campaignContainer);
+    setTimeout(() => {
+      this.subSelectChange = this.selects.changes.pipe(startWith(undefined)).subscribe((comps: QueryList<IonSelect>) => {
+        if (comps?.length > 0) {
+          this.periodSelect = comps.first;
+        }
+        this.filterPeriods(this.campaignContainer);
+      });
+      this.subMetricSelectChange = this.metricSelects.changes.pipe(startWith(undefined)).subscribe((comps: QueryList<IonSelect>) => {
+        if (comps?.length > 0) {
+          this.metricSelect = comps.first;
 
-    });
-    this.metricSelects.changes.subscribe((comps: QueryList<IonSelect>) => {
-      this.metricSelect = comps.first;
-      this.filterMetrics(this.campaignContainer);
-
-    });
+        }
+        this.filterMetrics(this.campaignContainer);
+      });
+    }, 0);
 
   }
   private changePageSettings() {
