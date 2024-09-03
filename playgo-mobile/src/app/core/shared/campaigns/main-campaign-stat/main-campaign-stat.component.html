@@ -101,7 +101,7 @@
       <ion-col>
         <app-limit-status [campaign]="campaignContainer?.campaign" [limitMax]="limitDayMax" [limitValue]="limitDayValue"
           [infoBox]="true"
-          [virtualScoreLabel]="campaignContainer?.campaign?.specificData?.virtualScore?campaignContainer?.campaign?.specificData?.virtualScore?.label:'Km'"
+          [virtualScoreLabel]="getLabel(campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar)"
           [type]="campaignContainer?.campaign?.type" [header]="'campaigns.homewidgets.stat.today' | translate">
         </app-limit-status>
       </ion-col>
@@ -110,7 +110,7 @@
     <ion-row *ngIf="limitMonthValue !== null">
       <ion-col>
         <app-limit-status [limitMax]="limitMonthMax" [limitValue]="limitMonthValue"
-          [virtualScoreLabel]="campaignContainer?.campaign?.specificData?.virtualScore?campaignContainer?.campaign?.specificData?.virtualScore?.label:'Km'"
+          [virtualScoreLabel]="getLabel(campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar)"
           [type]="campaignContainer?.campaign?.type" [header]="getTitle(month|localDate: 'LLLL')">
         </app-limit-status>
       </ion-col>

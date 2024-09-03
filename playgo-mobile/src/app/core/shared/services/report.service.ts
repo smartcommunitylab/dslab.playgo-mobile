@@ -71,6 +71,29 @@ export class ReportService {
       dateTo,
     });
   }
+  getBarStat(
+    campaignId: string,
+    playerId: string,
+    dateFrom?: string,
+    dateTo?: string,
+    virtualScoreLabel?: string
+  ): Promise<CampaignPlacing> {
+    return this.reportControllerService
+      .getPlayerTransportStatsUsingGET({
+        campaignId,
+        playerId,
+        metric: virtualScoreLabel,
+        mean: null,
+        dateFrom,
+        dateTo,
+      }).pipe(
+        map(stats => {
+          return {
+            value: stats[0] ? stats[0]?.value : 0
+          } as CampaignPlacing;
+        })
+      ).toPromise();
+  }
   getBikeStats(
     campaignId: string,
     playerId: string,

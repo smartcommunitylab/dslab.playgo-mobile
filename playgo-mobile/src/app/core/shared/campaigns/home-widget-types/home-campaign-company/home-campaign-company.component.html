@@ -17,13 +17,16 @@
   <ion-card-content class="company-content ion-no-padding">
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
       [lastPaymentDate]="lastPaymentDate" [lastPaymentDateTo]="lastPaymentDateTo" [showRanking]="false"
-      [reportTotalStat]="reportTotalStat" [limitMonthMax]="campaignContainer?.campaign?.specificData?.virtualScore?
-        campaignContainer?.campaign?.specificData?.virtualScore?.scoreMonthlyLimit:campaignContainer?.campaign?.specificData?.bike?.monthlyLimit
-      " [limitMonthValue]="reportMonthStat" [limitDayMax]="campaignContainer?.campaign?.specificData?.virtualScore?
-        campaignContainer?.campaign?.specificData?.virtualScore?.scoreDailyLimit:campaignContainer?.campaign?.specificData?.bike?.dailyLimit
-      " [limitDayValue]="reportDayStat"
-      [unit]="campaignContainer?.campaign?.specificData?.virtualScore?virtualScoreLabel:'Km'">
+      [reportTotalStat]="reportTotalStat" [limitMonthMax]="getLimitMonthMax()" [limitMonthValue]="reportMonthStat"
+      [limitDayMax]="getLimitDayMax()" [limitDayValue]="reportDayStat" [unit]="getUnit()">
     </app-main-campaign-stat>
+    <!-- <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
+      [lastPaymentDate]="lastPaymentDate" [lastPaymentDateTo]="lastPaymentDateTo" [showRanking]="false"
+      [reportTotalStat]="reportTotalStat"
+      [firstLimit]="campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar"
+      [secondLimit]="campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar"
+      [unit]="campaignContainer?.campaign?.specificData?.virtualScore.label">
+    </app-main-campaign-stat> -->
     <app-company-label [campaignContainer]="campaignContainer"
       *ngIf="!campaignContainer?.campaign?.specificData.hideCompanyDesc"></app-company-label>
 

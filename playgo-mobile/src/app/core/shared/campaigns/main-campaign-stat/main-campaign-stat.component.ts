@@ -12,6 +12,7 @@ import { DateTime } from 'luxon';
   styleUrls: ['./main-campaign-stat.component.scss'],
 })
 export class MainCampaignStatComponent implements OnInit {
+
   month: number;
   @Input() campaignContainer: PlayerCampaign;
   @Input() status?: PlayerGameStatus = undefined;
@@ -40,6 +41,9 @@ export class MainCampaignStatComponent implements OnInit {
     this.month = DateTime.local().toMillis();
     console.log(this.month);
 
+  }
+  getLabel(metric: string): string {
+    return metric.startsWith('score') ? this.campaignContainer?.campaign?.specificData?.virtualScore?.label : ""
   }
   getTitle(title: string) {
     if (!title) {
