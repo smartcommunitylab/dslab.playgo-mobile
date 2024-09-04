@@ -59,7 +59,7 @@
           <div class="section">{{'campaigns.detail.mm'|translate}}</div>
           <div *ngFor="let mm of userCompany?.mobilityManagers" class="subsection">
             <div (click)="openMail(userCompany?.company?.contactEmail)">
-              <span>{{mm.name}}</span> <span>{{mm.surname}}</span>
+              <span><b>{{mm.name}}</b></span> <span><b>{{mm.surname}}</b></span>
             </div>
             <div><span class="link">{{mm.username}}</span></div>
             <div (click)="openPhone(userCompany?.company?.contactPhone)">

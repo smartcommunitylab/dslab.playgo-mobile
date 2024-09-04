@@ -545,10 +545,10 @@
       "unit": {
         "co2": "CO₂ Kg",
         "km": "km",
-        "tracks": "tracks",
+        "tracks": "# of tracks",
         "duration": "hours",
         "virtualScore": "",
-        "virtualTrack": ""
+        "virtualTrack": "# of journeys"
       },
       "unitChart": {
         "co2": "Kg",
