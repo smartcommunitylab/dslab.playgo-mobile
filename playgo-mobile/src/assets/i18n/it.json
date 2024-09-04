@@ -461,8 +461,9 @@
         "emptystatus": "Per visualizzare il tuo livello e il punteggio inizia a giocare! ",
         "status": "{{score}} Kg CO₂ risparmiata",
         "record": "{{record}} Record Settimanale",
-        "today": "Oggi",
-        "lastmonth": "{{lastmonth}}:",
+        "today": "Oggi: ",
+        "thisWeek": "Settimana: ",
+        "lastmonth": "{{lastmonth}}: ",
         "max": " max",
         "km": " Km"
       }

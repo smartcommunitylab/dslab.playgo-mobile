@@ -98,7 +98,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     CompanyModalPage
   ],
   entryComponents: [],
-  providers: [AlertService],
+  providers: [AlertService, LocalDatePipe],
   exports: [
     PlayGoSharedLibsModule,
     MyCampaignCardComponent,

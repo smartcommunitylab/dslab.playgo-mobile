@@ -461,8 +461,9 @@
         "emptystatus": "If you want to see your level and points start to play!",
         "status": "{{score}} Kg CO₂ saved",
         "record": "{{record}} weekly record",
-        "today": "Today",
-        "lastmonth": "{{lastmonth}}:",
+        "today": "Today: ",
+        "thisWeek": "Week: ",
+        "lastmonth": "{{lastmonth}}: ",
         "max": " max",
         "km": " Km"
       }

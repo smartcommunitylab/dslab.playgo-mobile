@@ -6,6 +6,7 @@ import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { CampaignService } from '../../services/campaign.service';
 import { DateTime } from 'luxon';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalDatePipe } from 'src/app/core/shared/pipes/localDate.pipe';
 
 @Component({
   selector: 'app-main-campaign-stat',
@@ -13,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./main-campaign-stat.component.scss'],
 })
 export class MainCampaignStatComponent implements OnInit {
+
 
   month: number;
   @Input() campaignContainer: PlayerCampaign;
@@ -31,7 +33,7 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() lastPaymentStat?: any;
   @Input() lastPaymentDate?: any;
   @Input() lastPaymentDateTo?: any;
-  constructor(public campaignService: CampaignService, private translateService: TranslateService) { }
+  constructor(public campaignService: CampaignService, private translateService: TranslateService, private localDatePipe: LocalDatePipe) { }
   getValueByUnit(value: number, unit: string, virtualSore: boolean): number {
     if ('Km' === unit && !virtualSore) {
       return value / 1000;
@@ -54,5 +56,34 @@ export class MainCampaignStatComponent implements OnInit {
       return '';
     }
     return title[0].toUpperCase() + title.substr(1).toLowerCase();
+  }
+  getHeader(barMetric: any): string {
+    var category = this.categorize(barMetric);
+    switch (category) {
+      case 'Daily':
+        return this.translateService.instant('campaigns.homewidgets.stat.today');
+      case 'Weekly':
+        return this.translateService.instant('campaigns.homewidgets.stat.thisWeek');
+      case 'Monthly':
+        // return this.translateService.instant('campaigns.homewidgets.stat.thisWeek');
+
+        return this.getTitle(this.localDatePipe.transform(this.month, 'LLLL'));
+      default:
+        return ""
+    }
+    return "";
+    // 'campaigns.homewidgets.stat.today' | translate
+    // getTitle(month|localDate: 'LLLL')
+  }
+  categorize(metric: string): string {
+    if (metric?.includes('Daily')) {
+      return 'Daily';
+    }
+    if (metric?.includes('Monthly')) {
+      return 'Monthly';
+    }
+    if (metric?.includes('eekly')) {
+      return 'Weekly';
+    }
   }
 }
