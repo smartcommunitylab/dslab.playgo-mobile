@@ -421,7 +421,7 @@
       "sponsor": "Organizzatori e sponsor",
       "description": "Descrizione",
       "details": "Dettagli campagna",
-      "limits_title": "Limiti giornalieri e mensili",
+      "limits_title": "Limiti previsti",
       "limits_text": "Dal regolamento sono previsti i seguenti limiti: <ul><li>massimo 20 km al giorno;</li><li>massimo 250 km al mese;</li></ul> Superato il limite, i viaggi non vengono validati per la campagna e la ricompensa non viene riconosciuta.",
       "contacts": "Contatti: ",
       "name": "Nome: ",
@@ -545,10 +545,10 @@
       "unit": {
         "co2": "CO₂ Kg",
         "km": "Km",
-        "tracks": "Num.tracce",
+        "tracks": "Numero tracce",
         "duration": "Ore",
         "virtualScore": "",
-        "virtualTrack": "Num.viaggi"
+        "virtualTrack": "Numero viaggi"
       },
       "unitChart": {
         "co2": "Kg",
