@@ -120,13 +120,13 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
   }
   //first bar firstLimitBar
   getLimitMonthMax(): any {
-    return this.campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar ?
-      this.campaignContainer?.campaign?.specificData?.virtualScore[this.campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar] : null
+    return this.campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar ?
+      this.campaignContainer?.campaign?.specificData?.virtualScore[this.campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar] : null
   }
   //secondBar secondLimitBar
   getLimitDayMax(): any {
-    return this.campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar ?
-      this.campaignContainer?.campaign?.specificData?.virtualScore[this.campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar] : null
+    return this.campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar ?
+      this.campaignContainer?.campaign?.specificData?.virtualScore[this.campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar] : null
   }
   getUnit(): string {
     return this.campaignContainer?.campaign?.specificData?.virtualScore?.label ? this.campaignContainer?.campaign?.specificData?.virtualScore?.label : (this.campaignContainer?.campaign?.specificData?.virtualScore ? this.virtualScoreLabel : 'Km')

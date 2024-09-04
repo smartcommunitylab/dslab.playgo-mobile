@@ -5,6 +5,7 @@ import { PlayerGameStatus } from 'src/app/core/api/generated/model/playerGameSta
 import { TransportStat } from 'src/app/core/api/generated/model/transportStat';
 import { CampaignService } from '../../services/campaign.service';
 import { DateTime } from 'luxon';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main-campaign-stat',
@@ -30,7 +31,7 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() lastPaymentStat?: any;
   @Input() lastPaymentDate?: any;
   @Input() lastPaymentDateTo?: any;
-  constructor(public campaignService: CampaignService) { }
+  constructor(public campaignService: CampaignService, private translateService: TranslateService) { }
   getValueByUnit(value: number, unit: string, virtualSore: boolean): number {
     if ('Km' === unit && !virtualSore) {
       return value / 1000;
@@ -46,7 +47,7 @@ export class MainCampaignStatComponent implements OnInit {
     if (!metric) {
       return '';
     }
-    return metric.startsWith('score') ? this.campaignContainer?.campaign?.specificData?.virtualScore?.label : ""
+    return metric.startsWith('score') ? this.campaignContainer?.campaign?.specificData?.virtualScore?.label : this.translateService.instant('travels')
   }
   getTitle(title: string) {
     if (!title) {
