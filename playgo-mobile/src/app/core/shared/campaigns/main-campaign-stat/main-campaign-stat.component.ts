@@ -43,6 +43,9 @@ export class MainCampaignStatComponent implements OnInit {
 
   }
   getLabel(metric: string): string {
+    if (!metric) {
+      return '';
+    }
     return metric.startsWith('score') ? this.campaignContainer?.campaign?.specificData?.virtualScore?.label : ""
   }
   getTitle(title: string) {
