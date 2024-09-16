@@ -1,12 +1,12 @@
 <div class="ion-text-left" *ngIf="limitMax">
   <ion-grid>
     <ion-row class="limit-text">
-      <ion-col size="7">
+      <ion-col size="8">
         <div class="max-length">{{ header }} <b>{{ limitValue?.value | localNumber: '0.0-1'
             }} <span>{{virtualScoreLabel}}</span></b></div>
 
       </ion-col>
-      <ion-col size="4" class="ion-text-end">
+      <ion-col size="3" class="ion-text-end">
         <div class="max-length"> {{ limitMax }}
           {{ "campaigns.homewidgets.stat.max" | translate }}</div>
       </ion-col>

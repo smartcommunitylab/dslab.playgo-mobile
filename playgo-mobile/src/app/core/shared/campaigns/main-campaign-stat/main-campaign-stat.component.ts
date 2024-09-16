@@ -67,7 +67,7 @@ export class MainCampaignStatComponent implements OnInit {
       case 'Monthly':
         // return this.translateService.instant('campaigns.homewidgets.stat.thisWeek');
 
-        return this.getTitle(this.localDatePipe.transform(this.month, 'LLLL'));
+        return this.getTitle(this.localDatePipe.transform(this.month, 'LLLL')) + ': ';
       default:
         return ""
     }
