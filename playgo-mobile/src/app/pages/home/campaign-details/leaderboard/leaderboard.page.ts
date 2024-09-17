@@ -284,17 +284,15 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
   }
 
   filterMetrics(campaign: PlayerCampaign) {
-    this.selectedMetricChangedSubject.next({ detail: { value: this.metricsCompany.find(metric => campaign?.campaign?.campaignPlacement?.configuration?.metricDefault === metricsCompanyConfigurations.find(metricConf => metricConf.metric === metric).configurationKey) } } as any)
+    if (campaign?.campaign?.type === 'company') {
+      this.selectedMetricChangedSubject.next({ detail: { value: this.metricsCompany.find(metric => campaign?.campaign?.campaignPlacement?.configuration?.metricDefault === metricsCompanyConfigurations.find(metricConf => metricConf.metric === metric).configurationKey) } } as any)
 
+    }
   }
   filterPeriods(campaign: PlayerCampaign) {
     if (campaign?.campaign?.type === 'company') {
       this.periodsCompany = this.getPeriods(this.referenceDate).filter(period => campaign?.campaign?.campaignPlacement?.configuration[period.configurationKey] === true)
-
-
       this.periodChangedSubject.next({ detail: { value: this.periodsCompany.find(period => campaign?.campaign?.campaignPlacement?.configuration?.periodDefault === period.configurationKey) } } as any)
-      // this.periodChangedSubject.next(new CustomEvent('change', { detail: { value: this.periodsCompany.find(period => campaign?.campaign?.campaignPlacement?.configuration?.periodDefault === period.configurationKey) } }) as any);
-      // // this.periodChangedSubject.next(new CustomEvent('change', { detail: { value: this.periodsCompany.find(period => campaign?.campaign?.campaignPlacement?.configuration?.periodDefault === period.configurationKey) } }) as any);
     }
 
   }
@@ -321,6 +319,7 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
           this.metricSelect = comps.first;
 
         }
+        console.log(this.metricSelect);
         this.filterMetrics(this.campaignContainer);
       });
     }, 0);
