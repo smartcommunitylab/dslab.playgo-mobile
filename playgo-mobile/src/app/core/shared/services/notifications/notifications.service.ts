@@ -31,6 +31,7 @@ import { RefresherService } from '../refresher.service';
 })
 export class NotificationService {
   private since: number = null;
+  private marked: boolean = false;
   private notificationStorage =
     this.localStorageService.getStorageOf<Notification[]>('notifications');
   private appResumed$: Observable<void> = NEVER;
@@ -91,7 +92,7 @@ export class NotificationService {
         this.markAllNOtificationsAsRead();
       }
     }),
-    debounceTime(500),
+    debounceTime(2000),
     shareReplay(1)
   );
   public unreadNotifications$ = this.allNotifications$.pipe(
@@ -230,15 +231,20 @@ export class NotificationService {
     );
   }
   public async markAllNOtificationsAsRead() {
+    console.log('markAllNOtificationsAsRead');
     const storedNotifications = await this.notificationStorage.get();
     storedNotifications?.forEach((notification) => {
       this.markSingleNotificationAsRead(storedNotifications, notification);
     });
     this.notificationStorage.set(storedNotifications);
     //notify the new list of notifications
-    this.notificationRead$.next();
+    if (!this.marked) {
+      this.marked = true;
+      this.notificationRead$.next();
+    }
   }
   public async markAnnouncementAsRead() {
+    console.log('markAnnouncementAsRead');
     const storedNotifications = await this.notificationStorage.get();
     storedNotifications?.forEach((notification) => {
       if (
@@ -253,6 +259,7 @@ export class NotificationService {
     this.notificationRead$.next();
   }
   public async markCommonChallengeNotificationAsRead() {
+    console.log('markCommonChallengeNotificationAsRead');
     const storedNotifications = await this.notificationStorage.get();
     storedNotifications.forEach((notification) => {
       if (
@@ -269,6 +276,7 @@ export class NotificationService {
     this.notificationRead$.next();
   }
   public async markListOfNotificationAsRead(notifications: Notification[]) {
+    console.log('markListOfNotificationAsRead');
     const storedNotifications = await this.notificationStorage.get();
     notifications.forEach((notification) => {
       this.markSingleNotificationAsRead(storedNotifications, notification);

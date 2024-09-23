@@ -13,7 +13,7 @@ import {
   providedIn: 'root',
 })
 export class SpinnerService {
-  private delay = 200;
+  private delay = 500;
   private loader: HTMLIonLoadingElement;
   private loadingRequestedSubject = new Subject<{
     changeCounter: number;
@@ -23,6 +23,8 @@ export class SpinnerService {
   private notDebouncedLoading: Observable<boolean> =
     this.loadingRequestedSubject.pipe(
       scan((mapOfOngoingLoadings, newUpdate) => {
+        console.log('mapOfOngoingLoadings', mapOfOngoingLoadings);
+        console.log('newUpdate', newUpdate);
         mapOfOngoingLoadings.add(newUpdate.topic, newUpdate.changeCounter);
         return mapOfOngoingLoadings;
       }, new CounterMap()),
@@ -53,6 +55,7 @@ export class SpinnerService {
     }
   }
   private async showLoader() {
+    console.log('show loader');
     this.loader = await this.loadingController.create({});
     await this.loader.present();
   }

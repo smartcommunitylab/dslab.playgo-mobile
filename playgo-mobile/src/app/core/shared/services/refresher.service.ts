@@ -10,6 +10,7 @@ import {
   scan,
   Subject,
   switchMap,
+  tap,
   timeout,
 } from 'rxjs';
 
@@ -51,6 +52,7 @@ export class RefresherService {
       scan((acc, curr) => acc + curr, 0),
       map((count) => count > 0),
       distinctUntilChanged(),
+      tap(() => console.log('isHttpCallInProgress')),
       // if call is ended and another one is opened in the same time, we don't want to emit
       // we assume that is also second call is caused by same refresher...
       debounceTime(100)
@@ -62,6 +64,7 @@ export class RefresherService {
       this.isHttpCallInProgress$.pipe(
         filter((isInProgress) => !isInProgress),
         map(() => null),
+        tap(() => console.log('should complete refresh')),
         timeout({ first: 3000, with: () => of(null) })
       )
     )
@@ -73,7 +76,7 @@ export class RefresherService {
     });
   }
 
-  private completeFunction: () => void = () => {};
+  private completeFunction: () => void = () => { };
 
   public onRefresh(event: RefresherCustomEvent): void {
     this.refreshSubject.next();
