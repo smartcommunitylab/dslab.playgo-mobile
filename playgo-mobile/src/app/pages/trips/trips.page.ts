@@ -212,6 +212,7 @@ export class TripsPage implements OnInit {
           };
           return trip;
         });
+
         return this.sortTrips(locationsAsTrips);
       })
     );

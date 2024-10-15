@@ -17,6 +17,7 @@ import {
   map,
   shareReplay,
   switchMap,
+  tap,
   throttleTime,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -201,7 +202,6 @@ export class LocalTripsService {
       this.pairPendingTrips(lastLocalData, newData)
     ),
     startFrom(this.initialLocalData$),
-
     shareReplay(1)
   );
 
@@ -294,7 +294,13 @@ export class LocalTripsService {
     const localOnlyTrips = lastLocalTrips.filter(
       (localTrip) => !some(serverOrPluginTrips, { id: localTrip.id })
     );
-    return this.sortTrips([...serverOrPluginTrips, ...localOnlyTrips]);
+    const onlyLongServerOrPluginTrips = serverOrPluginTrips.filter(
+      (serverOrPluginTrip) => Math.ceil((serverOrPluginTrip?.tripData?.endTime - serverOrPluginTrip?.tripData?.startTime) / 1000) > 15
+    )
+    const onlyLongLocalOnlyTrips = localOnlyTrips.filter(
+      (localOnlyTrip) => Math.ceil((localOnlyTrip?.tripData?.endTime - localOnlyTrip?.tripData?.startTime) / 1000) > 15
+    )
+    return this.sortTrips([...onlyLongServerOrPluginTrips, ...onlyLongLocalOnlyTrips]);
   }
 
   private sortTrips(trips: StorableTrip[]): StorableTrip[] {

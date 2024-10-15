@@ -44,7 +44,7 @@ import {
   UNABLE_TO_GET_POSITION,
   MAX_MS_TRACKING,
 } from './trip.model';
-import { runInZone } from '../rxjs.utils';
+import { runInZone, tapLog } from '../rxjs.utils';
 import { PlayerControllerService } from '../../api/generated/controllers/playerController.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/auth.service';
@@ -128,7 +128,6 @@ export class BackgroundTrackingService {
     ),
     map((rawLocations) => rawLocations.map(TripLocation.fromLocation)),
     distinctUntilChanged(isEqual),
-    // tapLog('trip locations'),
     shareReplay(1)
   );
 

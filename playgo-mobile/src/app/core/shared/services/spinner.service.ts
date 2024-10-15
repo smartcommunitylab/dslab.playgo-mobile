@@ -23,8 +23,6 @@ export class SpinnerService {
   private notDebouncedLoading: Observable<boolean> =
     this.loadingRequestedSubject.pipe(
       scan((mapOfOngoingLoadings, newUpdate) => {
-        console.log('mapOfOngoingLoadings', mapOfOngoingLoadings);
-        console.log('newUpdate', newUpdate);
         mapOfOngoingLoadings.add(newUpdate.topic, newUpdate.changeCounter);
         return mapOfOngoingLoadings;
       }, new CounterMap()),
