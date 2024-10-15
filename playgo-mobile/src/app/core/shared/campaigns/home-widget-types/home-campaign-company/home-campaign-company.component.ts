@@ -188,17 +188,17 @@ export class HomeCampaignCompanyComponent implements OnInit, OnDestroy {
         toServerDateOnly(DateTime.utc()),]
       },
       trackDailyLimit: {
-        metric: 'tracks',
+        metric: 'virtualTrack',
         period: [toServerDateOnly(DateTime.utc().startOf('day')),
         toServerDateOnly(DateTime.utc()),]
       },
       trackWeeklyLimit: {
-        metric: 'tracks',
+        metric: 'virtualTrack',
         period: [toServerDateOnly(DateTime.utc().startOf('week')),
         toServerDateOnly(DateTime.utc()),]
       },
       trackMonthlyLimit: {
-        metric: 'tracks',
+        metric: 'virtualTrack',
         period: [toServerDateOnly(DateTime.utc().startOf('month')),
         toServerDateOnly(DateTime.utc()),]
       }
