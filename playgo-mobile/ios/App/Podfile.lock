@@ -151,7 +151,7 @@ PODS:
   - SwiftKeychainWrapper (4.0.1)
   - TransistorsoftCapacitorBackgroundFetch (1.0.0):
     - Capacitor
-  - TransistorsoftCapacitorBackgroundGeolocation (4.12.0):
+  - TransistorsoftCapacitorBackgroundGeolocation (6.1.0):
     - Capacitor
     - CocoaLumberjack (~> 3.7.2)
 
@@ -283,7 +283,7 @@ SPEC CHECKSUMS:
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
   TransistorsoftCapacitorBackgroundFetch: 5f8ed3e3634f93731ec5dafa9d95c5f28c843256
-  TransistorsoftCapacitorBackgroundGeolocation: ee62011f147c91bb41e29adce516edb3a3e47579
+  TransistorsoftCapacitorBackgroundGeolocation: 6862b2191a3975a10c8aebdb4528dd9691c5693b
 
 PODFILE CHECKSUM: 2933777a69c19a58426a5ac55e5b4ab1b5bc105d
 
