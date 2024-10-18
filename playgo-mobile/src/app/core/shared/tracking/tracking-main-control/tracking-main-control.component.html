@@ -4,8 +4,10 @@
       'show-tracking-info': (tripService.isInTrip$ | async) || trackingUIActive,
       'low-accuracy-container': (backgroundTrackingService.lowAccuracy$ | async)
     }">
+
     <div class="current-tracking-info">
       <div *ngIf="tripService.isInTrip$ | async; else chooseMean">
+
         <ion-grid class="ion-no-padding">
           <ion-row *ngIf="backgroundTrackingService.lowAccuracy$ | async">
             <ion-col size="12">
@@ -41,8 +43,12 @@
         </div>
       </ng-template>
     </div>
+    <div class="share-button" *ngIf="tripShared$ | async" (click)="openCarSharingInfo()">
+      <ion-icon size="small" name="chevron-up"></ion-icon>
+      <ion-icon name="qr-code"></ion-icon>
+    </div>
     <div class="slide-wrapper" *ngIf="trackingUIActive" (click)="backdropClicked($event)">
-      <div class="map-wrapper">
+      <div class="map-wrapper" [ngClass]="{'car-shared-map': (tripShared$ | async)}">
         <ion-spinner name="circles"></ion-spinner>
         <app-map *ngIf="hasPermissions"></app-map>
       </div>

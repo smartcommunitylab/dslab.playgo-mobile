@@ -10,14 +10,16 @@ import { CarpoolingShowQRDialogComponent } from './carpooling-show-qr-dialog/car
   providedIn: 'root',
 })
 export class CarPoolingService {
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController) { }
 
   public async startCarPoolingTrip(): Promise<string> {
     console.log('startCarPoolingTrip started!');
+    //first modal to ask if driver or passenger
     const role = await this.isDriverOrPassenger();
     if (role === 'driver') {
       const id: string = this.generateRandomId();
-      await this.showQRDialog(id);
+      //show qrcode dialog and start tracking
+      this.showQRDialog(id);
       return `D_${id}`;
     } else {
       const id = await this.scanQR();
@@ -33,6 +35,7 @@ export class CarPoolingService {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
+
     const role = data?.role;
     if (!role) {
       throw NO_ROLE_CHOSEN;
@@ -40,7 +43,7 @@ export class CarPoolingService {
     console.log(role);
     return role;
   }
-  private async showQRDialog(id: string): Promise<boolean> {
+  public async showQRDialog(id: string): Promise<boolean> {
     const modal = await this.modalController.create({
       component: CarpoolingShowQRDialogComponent,
       componentProps: { id },

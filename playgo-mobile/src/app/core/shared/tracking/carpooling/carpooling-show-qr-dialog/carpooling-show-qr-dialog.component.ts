@@ -11,14 +11,19 @@ export class CarpoolingShowQRDialogComponent implements OnInit {
   @Input()
   public id: string;
   public qrCodePrefix = QR_CODE_PREFIX;
-  constructor(private modalController: ModalController) {}
+  @Input() submitDataToParent: () => void;
+
+  constructor(private modalController: ModalController) { }
 
   close() {
-    this.modalController.dismiss();
-  }
-  startAndClose() {
     this.modalController.dismiss(true);
   }
+  // startAndClose() {
+  //   this.modalController.dismiss(true);
+  // }
+  // startAndGenerate() {
+  //   this.submitDataToParent();
+  // }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

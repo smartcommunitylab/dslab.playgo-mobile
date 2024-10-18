@@ -11,6 +11,7 @@ import { FirstTimeBackgrounModalPage } from '../first-time-modal/first-time.moda
 import { transportTypeIcons, transportTypeLabels, TRIP_END } from '../trip.model';
 import { TripService } from '../trip.service';
 import { InfoTrackingModalPage } from './info-tracking-modal/info-tracking.modal';
+import { CarPoolingService } from '../carpooling/carpooling.service';
 
 @Component({
   selector: 'app-tracking-main-control',
@@ -39,7 +40,14 @@ export class TrackingMainControlComponent {
     filter((tripPart) => tripPart === TRIP_END),
     map(() => false)
   );
-
+  public tripShared$: Observable<boolean> = this.tripService.tripPart$.pipe(
+    map((tripPart) => {
+      if (!tripPart || tripPart === TRIP_END)
+        return false
+      else if (tripPart.sharedTravelId) return true
+      else return false
+    })
+  );
   constructor(
     public tripService: TripService,
     public backgroundTrackingService: BackgroundTrackingService,
@@ -48,6 +56,7 @@ export class TrackingMainControlComponent {
     private modalController: ModalController,
     private router: Router,
     private alertService: AlertService,
+    private carpoolingService: CarPoolingService,
     private platform: Platform
   ) {
     this.tripStopped$.subscribe(() => {
@@ -71,6 +80,9 @@ export class TrackingMainControlComponent {
         this.hideMapAndButtons();
       }
     }
+  }
+  public openCarSharingInfo() {
+    this.carpoolingService.showQRDialog('1234');
   }
   private async askForPermissions(): Promise<boolean> {
     if (this.platform.is('android')) {
