@@ -165,7 +165,7 @@
       "manual_code_input_confirm": "OK",
       "or": "or scan the QR code",
       "scan": "Scan",
-      "showCode": "<h3><b>Your journeu has started.</b></h3><br>Now add a passenger.<br>Show QR code or share code.",
+      "showCode": "<h3><b>Your journeu has started.</b></h3><br>Now add a passenger.<br>Show QR Code or share code.",
       "confirm": "Start to drive",
       "errors": {
         "NO_ROLE_CHOSEN": "You have to choose to be passenger or driver!",

@@ -165,7 +165,7 @@
       "manual_code_input_confirm": "Conferma codice",
       "or": "oppure scansiona il QR code",
       "scan": "Leggilo",
-      "showCode": "<h3><b>Il tuo viaggio é iniziato.</b></h3><br>Ora aggiungi un passeggero.<br>Mostra il qrcode o condividi il codice.",
+      "showCode": "<h3><b>Il tuo viaggio è iniziato.</b></h3><br>Ora aggiungi un passeggero.<br>Mostra il QR Code o condividi il codice.",
       "confirm": "Inizia a guidare",
       "errors": {
         "NO_ROLE_CHOSEN": "Nessun ruolo selezionato!",
