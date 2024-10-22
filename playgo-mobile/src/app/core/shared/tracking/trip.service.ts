@@ -49,9 +49,11 @@ export class TripService {
   );
   private stopTimerStorage =
     this.localStorageService.getStorageOf<number>('stopTimer');
+  private longJourneyStorage =
+    this.localStorageService.getStorageOf<boolean>('longJourney');
   private operationInProgressSubject = new ReplaySubject();
   public operationInProgress$ = this.operationInProgressSubject.asObservable();
-
+  private longJourneyState = false;
   public isInTrip$: Observable<boolean> = this.tripPart$.pipe(
     map(isNotConstant(TRIP_END)),
     distinctUntilChanged(),
@@ -66,6 +68,7 @@ export class TripService {
     private errorService: ErrorService,
     private localStorageService: LocalStorageService
   ) {
+
     console.log('constructor tripService');
     this.start();
     backgroundTrackingService.isPowerSaveMode$
@@ -87,6 +90,8 @@ export class TripService {
       this.tripPersistanceService.storeLastOf(this.tripPart$);
       console.log('startTracking');
       console.log({ initialTrip });
+      this.longJourneyState = await this.longJourneyStorage.get();
+
       if (initialTrip === NO_TRIP_STARTED) {
         // maybe we have some location that are not synchronized with the server...
         await this.backgroundTrackingService.syncInitialLocations();
@@ -131,8 +136,8 @@ export class TripService {
     await this.startOrStop(TripPart.fromTransportType(transportType));
   }
 
-  public async stop() {
-    await this.startOrStop(TRIP_END);
+  public async stop(): Promise<boolean> {
+    return await this.startOrStop(TRIP_END);
   }
 
   private getNewTripPart(
@@ -158,7 +163,8 @@ export class TripService {
   }
   private async startOrStop(
     tripPartWithoutMultimodalId: TripPart | TRIP_END
-  ): Promise<void> {
+  ): Promise<boolean> {
+    let longJourney: boolean = false;
     try {
       this.operationInProgressSubject.next(true);
       const lastTripPartWithId = this.currentTripPart;
@@ -170,17 +176,31 @@ export class TripService {
         lastTripPartWithId,
         tripPartWithoutMultimodalId
       );
+      if (newTripPart !== TRIP_END) {
+        this.longJourneyState = await this.longJourneyStorage.get();
+        if (!this.shortJourney(this.currentTripPart) && !this.longJourneyState && this.currentTripPart !== TRIP_END) {
+          {
+            this.longJourneyStorage.set(true);
+            console.log("value", await this.longJourneyStorage.get());
 
-      if (newTripPart !== TRIP_END && newTripPart.transportType === 'car') {
-        newTripPart.sharedTravelId =
-          await this.carpoolingService.startCarPoolingTrip();
+          }
+          if (newTripPart.transportType === 'car') {
+            newTripPart.sharedTravelId =
+              await this.carpoolingService.startCarPoolingTrip();
+          }
+        }
       }
-
       if (newTripPart === TRIP_END) {
         await this.backgroundTrackingService.stopTracking();
         this.stopTimerStorage.clear();
+        if (await this.longJourneyStorage.get() || !this.shortJourney(this.currentTripPart)) {
+          longJourney = true;
+        }
+        else {
+          longJourney = false;
+        }
+        this.longJourneyStorage.clear();
       } else {
-        console.log('startOrStop');
 
         await this.backgroundTrackingService.startTracking(
           newTripPart,
@@ -194,6 +214,20 @@ export class TripService {
     } finally {
       this.operationInProgressSubject.next(false);
     }
+    return longJourney;
+  }
+  shortJourney(currentTripPart: TripPart | TRIP_END | NO_TRIP_STARTED): boolean {
+    if (currentTripPart !== TRIP_END && currentTripPart !== NO_TRIP_STARTED) {
+      const now = Date.now();
+      const duration = now - currentTripPart?.start;
+      if (duration < 15 * 1000) {
+        this.alertService.showToast({
+          messageTranslateKey: 'tracking.too_short',
+        });
+        return true;
+      }
+    }
+    return false;
   }
   private setCurrentTripPart(newTripPart: TripPart | TRIP_END) {
     this.currentTripPart = newTripPart;

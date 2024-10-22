@@ -59,7 +59,8 @@ export class TrackingButtonsComponent implements OnInit {
     public tripService: TripService,
     private campaignService: CampaignService,
     private alertService: AlertService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private backgroundTrackingService: BackgroundTrackingService
   ) { }
 
   async toggleFabList() {
@@ -106,16 +107,21 @@ export class TrackingButtonsComponent implements OnInit {
     event.stopPropagation();
     this.inProgressButton = 'stop';
     try {
-      await this.tripService.stop();
-      await this.alertService.presentAlert({
-        headerTranslateKey: 'tracking.stop_header',
-        messageTranslateKey: 'tracking.stop_body',
-        cssClass: 'app-alert',
-      });
+      const longJourney = await this.tripService.stop();
+      // add modal if at least one tripart is >15 seconds
+      console.log("longJourney", longJourney);
+      if (longJourney) {
+        await this.alertService.presentAlert({
+          headerTranslateKey: 'tracking.stop_header',
+          messageTranslateKey: 'tracking.stop_body',
+          cssClass: 'app-alert',
+        });
+      }
     } finally {
       this.inProgressButton = null;
     }
   }
+
 
   ngOnInit() { }
 }

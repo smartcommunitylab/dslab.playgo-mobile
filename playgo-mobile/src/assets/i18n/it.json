@@ -144,6 +144,7 @@
     "choose_means": "Seleziona un mezzo per tracciare",
     "continue_low_accuracy_prompt": "Bassa precisione rilevata! Vuoi proseguire?",
     "show_current_location": "Fammi vedere dove sono",
+    "too_short": "Il viaggio è troppo corto e non verrà aggiunto!",
     "info": {
       "title": "Mezzi e tracciamento",
       "subtitle": "Ciascuna icona può corrispondere a più mezzi differenti. Ecco una legenda per orientarti meglio:",
@@ -174,8 +175,8 @@
         "INCORRECT_QR_CODE": "Codice QR Code errato"
       }
     },
-    "stop_header": "Viaggio concluso con successo!",
-    "stop_body": "Il tracciamento si è concluso con successo. I dati del viaggio verranno inviati ai nostri server per la validazione.",
+    "stop_header": "Viaggio concluso!",
+    "stop_body": "Il tracciamento si è concluso. I dati del viaggio verranno inviati ai nostri server per la validazione.",
     "errors": {
       "ACCESS_DENIED": "Accesso alla posizione in background rifiutata!",
       "LOW_ACCURACY": "Bassa precisione nella posizione rilevata!",

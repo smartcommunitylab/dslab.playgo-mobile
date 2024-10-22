@@ -144,6 +144,7 @@
     "choose_means": "Choose means of tracking",
     "continue_low_accuracy_prompt": "Low accuracy detected! Do you want to continue?",
     "show_current_location": "Show me where I am",
+    "too_short": "The journey is too short and will not be added.",
     "info": {
       "title": "Means e tracking",
       "subtitle": "Each icon could correspond to several different vehicles. Here is a legend to better orient you:",
@@ -174,7 +175,7 @@
         "INCORRECT_QR_CODE": "Wrong QR CODE"
       }
     },
-    "stop_header": "Journey completed successfully!",
+    "stop_header": "Journey completed!",
     "stop_body": "Tracking was successful. The trip data will be sent to our servers for validation.",
     "errors": {
       "ACCESS_DENIED": "Access to background position denied!",
