@@ -184,10 +184,10 @@ export class TripService {
             console.log("value", await this.longJourneyStorage.get());
 
           }
-          if (newTripPart.transportType === 'car') {
-            newTripPart.sharedTravelId =
-              await this.carpoolingService.startCarPoolingTrip();
-          }
+        }
+        if (newTripPart.transportType === 'car') {
+          newTripPart.sharedTravelId =
+            await this.carpoolingService.startCarPoolingTrip();
         }
       }
       if (newTripPart === TRIP_END) {
