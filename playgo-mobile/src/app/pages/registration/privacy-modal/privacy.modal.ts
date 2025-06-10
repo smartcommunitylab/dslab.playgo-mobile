@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { AppLauncher } from '@capacitor/app-launcher';
+import { Capacitor } from '@capacitor/core';
 
 import { Browser } from '@capacitor/browser';
 
@@ -14,7 +16,7 @@ export class PrivacyModalPage implements OnInit, AfterViewInit {
   constructor(
     private elementRef: ElementRef,
     private modalController: ModalController
-  ) {}
+  ) { }
   ngAfterViewInit() {
     //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
     this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
@@ -22,17 +24,45 @@ export class PrivacyModalPage implements OnInit, AfterViewInit {
       anchor.addEventListener('click', this.handleAnchorClick);
     });
   }
-  public handleAnchorClick = (event: Event) => {
-    // Prevent opening anchors the default way
+  public handleAnchorClick = async (event: Event) => {
     event.preventDefault();
-    const anchor = event.target as HTMLAnchorElement;
-    Browser.open({
-      url: anchor.href,
-      windowName: '_system',
-      presentationStyle: 'popover',
-    });
+
+    const anchor = event.currentTarget as HTMLAnchorElement;
+    const href = anchor.href;
+
+    if (!href) {
+      console.warn('Anchor has no href.');
+      return;
+    }
+
+    // Gestione dei mailto, tel, sms, ecc.
+    if (
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:') ||
+      href.startsWith('sms:')
+    ) {
+      if (Capacitor.isNativePlatform()) {
+        await AppLauncher.openUrl({ url: href });
+      } else {
+        // fallback per web
+        window.open(href, '_blank');
+      }
+      return;
+    }
+
+    // Altri link (http/https)
+    try {
+      await Browser.open({
+        url: href,
+        windowName: '_system',
+        presentationStyle: 'popover',
+      });
+    } catch (err) {
+      console.error('Browser.open failed', err);
+    }
   };
-  ngOnInit() {}
+
+  ngOnInit() { }
   close() {
     this.modalController.dismiss(false);
   }

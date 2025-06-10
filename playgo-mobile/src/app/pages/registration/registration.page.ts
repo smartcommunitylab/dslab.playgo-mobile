@@ -17,6 +17,7 @@ import { find } from 'lodash-es';
 import { PrivacyModalPage } from './privacy-modal/privacy.modal';
 import { NotificationService } from 'src/app/core/shared/services/notifications/notifications.service';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-registration',
@@ -98,6 +99,20 @@ export class RegistrationPage implements OnInit {
       messageTranslateKey: 'registration.territoryPopup.message',
       cssClass: 'modalConfirm',
     });
+  }
+  openLink(link: string) {
+    console.log('open link', link);
+    Browser.open({
+      url: link,
+      windowName: '_system',
+      presentationStyle: 'popover',
+    });
+    return true;
+  }
+
+  openMail(mail: string) {
+    console.log('open mail', mail);
+    window.open('mailto:' + mail);
   }
   async openPrivacyPopup() {
     const modal = await this.modalController.create({
