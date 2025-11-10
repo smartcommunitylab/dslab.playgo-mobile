@@ -1,0 +1,153 @@
+ion-card-title {
+  font-size: 16px;
+  font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+}
+ion-card {
+  color: black;
+}
+ion-card-content {
+  .prize {
+    font-weight: 700;
+  }
+  .info-prize {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    ion-icon {
+      font-size: 22px;
+      margin: 6px;
+    }
+  }
+  ion-grid {
+    ion-row {
+      ion-col {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        ion-icon {
+          margin: auto;
+          font-size: 30px;
+        }
+      }
+      ion-col:first-child {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.gold {
+  background-color: gold;
+}
+.silver {
+  background-color: silver;
+}
+.bronze {
+  background-color: chocolate;
+  color: white;
+}
+.packet-gold {
+  color: gold;
+}
+.packet-silver {
+  color: silver;
+}
+.packet-bronze {
+  color: chocolate;
+}
+.active {
+  background-color: gold;
+}
+.not-active {
+  background-color: silver;
+}
+.on-going {
+  font-style: italic;
+}
+ion-card-header {
+  border-bottom: 1px solid #e0e0e0;
+}
+.final-header {
+  text-align: center;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -20px;
+  span {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ion-icon {
+      color: #00000042;
+      margin-left: 8px;
+    }
+  }
+}
+.actual-header {
+  text-align: center;
+  height: 70px;
+  justify-content: center;
+  p {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ion-icon {
+      color: #00000042;
+      margin-left: 8px;
+    }
+  }
+}
+.sub-header {
+  text-align: center;
+  justify-content: center;
+  padding: 8px;
+  p {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ion-icon {
+      color: #00000042;
+      margin-left: 8px;
+    }
+  }
+}
+.information {
+  opacity: 50%;
+}
+.date-prize {
+  font-weight: 300;
+}
+.sponsor {
+  .desc {
+    font-size: 17px;
+  }
+  .detail {
+    background-color: #b6b6b61a;
+    color: #666666;
+    .sponsorby {
+      color: #00000026;
+    }
+    .website {
+      color: #ecd56c;
+      text-decoration: underline;
+    }
+  }
+}
+.no-prizes {
+  text-align: center;
+  margin: 40px;
+  font-weight: 700;
+}
+ion-accordion-group {
+  ion-accordion {
+    .container {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+// ion-icon {
+//   width: 100%;
+// }
+.material-icons {
+  font-size: inherit;
+}
+
+.svg-icon {
+  fill: currentcolor !important;
+  transform-origin: center center;
+  font-size: inherit;
+  margin-top: calc(6em / 22);
+  margin-bottom: calc(2em / 22);
+}
+ion-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

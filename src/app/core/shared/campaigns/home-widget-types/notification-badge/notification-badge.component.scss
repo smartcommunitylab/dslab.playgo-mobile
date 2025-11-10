@@ -1,0 +1,13 @@
+.school-content {
+  //   background-color: var(--ion-color-school-tint);
+  color: black;
+}
+.notif {
+  position: relative;
+  ion-badge {
+    position: absolute;
+    z-index: 99;
+    right: 10px;
+    top: -6px;
+  }
+}

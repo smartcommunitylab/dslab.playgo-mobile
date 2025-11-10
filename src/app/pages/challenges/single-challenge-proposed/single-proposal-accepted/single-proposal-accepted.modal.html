@@ -1,0 +1,32 @@
+<ion-content color="playgo">
+  <ion-grid class="content">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <div>
+          <app-icon name="checked" class="type-notif  icon-size-normal"></app-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <div> {{ "challenges.singleActivated" | translate }}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <div><app-icon name="default" class="type-notif  icon-size-big"></app-icon></div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <div>{{
+          "challenges.singleDesc" | translate: { from:
+          challenge.startDate|localDate, to: challenge.endDate|localDate}
+          }}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer color="playgo" mode="ios">
+  <ion-button color="light" expand="block" (click)="close()">{{'notifications.close'|translate}}</ion-button>
+</ion-footer>

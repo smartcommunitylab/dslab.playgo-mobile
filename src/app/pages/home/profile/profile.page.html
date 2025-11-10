@@ -1,0 +1,47 @@
+<ion-header appHeader></ion-header>
+<ion-content appContent [fullscreen]="true" class="page">
+  <app-profile-component (click)="developerModeSingleClick()" [editable]="true"></app-profile-component>
+  <ion-row *ngIf="profile">
+    <ion-col text-center>
+      <ion-item lines="full">
+        <ion-label>{{'profile.change.lang.language'|translate}}</ion-label>
+        <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
+          placeholder="{{'profile.change.lang.select'|translate}}" [(ngModel)]="profile.language"
+          (ionChange)="updateLanguage()">
+          <ion-select-option value="it"><b>{{'profile.change.lang.it'|translate}}</b></ion-select-option>
+          <ion-select-option value="en"><b>{{'profile.change.lang.en'|translate}}</b></ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col text-center>
+      <ion-button expand="block" color="playgo" size="large" (click)="signOut()">
+        <ion-icon slot="end" name="exit"></ion-icon>
+        <span class="button-left-icon">{{'profile.logout'|translate}}</span>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="developerMode$ |async">
+    <ion-col text-center>
+      <ion-button expand="block" color="playgo" size="large" (click)="openAbout()">
+        <ion-icon slot="end" name="help-circle-outline"></ion-icon>
+        <span class="button-left-icon">Developer Info</span>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <!-- <ion-row *ngIf="developerMode$ |async">
+    <ion-col class="ion-text-center">
+      {{ appStatusService.version$ | async }} | {{
+      appStatusService.codePushLabel$ | async }}
+    </ion-col>
+  </ion-row> -->
+  <ion-row>
+    <ion-col text-center>
+      <ion-button expand="block" color="danger" size="large" (click)="deleteAccount()">
+        <ion-icon slot="end" name="trash-outline"></ion-icon>
+        <span class="button-left-icon">{{'profile.deleteAccount'|translate}}</span>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

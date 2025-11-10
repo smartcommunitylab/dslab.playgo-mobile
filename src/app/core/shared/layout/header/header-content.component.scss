@@ -1,0 +1,17 @@
+ion-badge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  border-radius: 100%;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+#notificationButton {
+  position: relative;
+  width: 42px;
+  top: 1px;
+  right: 1px;
+  overflow: visible !important;
+  font-size: 20px;
+}

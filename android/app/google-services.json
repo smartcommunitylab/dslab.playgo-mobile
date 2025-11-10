@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "187362305431",
+    "project_id": "playgo-mobile",
+    "storage_bucket": "playgo-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187362305431:android:9d01b7f4132527d51810d2",
+        "android_client_info": {
+          "package_name": "it.dslab.playgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187362305431-73ur6b13get6olu27r6hh78jlt192t7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.dslab.playgo",
+            "certificate_hash": "4a26acdc72300c03759b6ead2ea6bfac00555b6c"
+          }
+        },
+        {
+          "client_id": "187362305431-4i5d489604rcgn1s80gqhhi5hhndclvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3Nk3iOUrT3Gekk97nqT7F5BUsAelv0y8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187362305431-4i5d489604rcgn1s80gqhhi5hhndclvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

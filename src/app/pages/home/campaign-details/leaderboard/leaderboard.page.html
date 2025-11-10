@@ -1,0 +1,93 @@
+<ion-header appHeader></ion-header>
+<ion-content appContent class="page">
+  <ng-container *ngIf="(campaign$ |async) !== null && campaignContainer !== null">
+    <div class="header-margin">
+      <div class="header-sticky" [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
+        [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
+        <ion-row>
+          <ion-col>
+            <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
+              <ion-select interface="popover" [disabled]="(useMeanAndMetric$ |async)===false"
+                [interfaceOptions]="{ cssClass: 'app-alert' }"
+                (ionChange)="selectedMeanChangedSubject.next($any($event))" [value]="selectedMean$ | async">
+                <ng-container *ngIf="(this.campaign$ |async).type!=='company' ; else meansCompany">
+                  <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
+                    {{meanLabels[mean] |translate}}
+                  </ion-select-option>
+                </ng-container>
+                <ng-template #meansCompany>
+                  <ion-select-option *ngFor="let mean of meansForCompany$|async" [value]="mean">
+                    {{meanLabels[mean] |translate}}
+                  </ion-select-option>
+                </ng-template>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+
+          <ion-col *ngIf="useMeanAndMetric$ |async">
+            <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
+              <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }" #metricSelect
+                (ionChange)="selectedMetricChangedSubject.next($any($event))" [value]="selectedMetric$ | async">
+                <ng-container *ngIf="(this.campaign$ |async).type!=='company' ; else metricCompany">
+                  <ion-select-option *ngFor="let metric of metrics$|async" [value]="metric">
+                    <p *ngIf="metric !=='virtualScore'">{{metricToUnitLabel[metric] |translate}}</p>
+                    <p *ngIf="metric ==='virtualScore'">{{(campaign$ |async)?.specificData?.virtualScore?.label}}</p>
+                  </ion-select-option>
+                </ng-container>
+                <ng-template #metricCompany>
+                  <ion-select-option *ngFor="let metric of metricsCompany$|async" [value]="metric">
+                    <p *ngIf="metric !=='virtualScore'">{{metricToUnitLabel[metric] |translate}}</p>
+                    <p *ngIf="metric ==='virtualScore'">{{(campaign$ |async)?.specificData?.virtualScore?.label}}</p>
+                  </ion-select-option>
+                </ng-template>
+
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col *ngIf="(useMeanAndMetric$ |async) === false">
+            <ion-item [color]="campaignContainer?.campaign?.type">
+              {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item [color]="campaignContainer?.campaign?.type">
+              <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }" #periodSelect
+                (ionChange)="periodChangedSubject.next($any($event))" [value]="selectedPeriod$ | async">
+                <ng-container *ngIf="(this.campaign$ |async).type!=='company' ; else periodCompany">
+                  <ion-select-option *ngFor="let period of periods" [value]="period">
+                    {{period.labelKey |translate}}
+                  </ion-select-option>
+                </ng-container>
+                <ng-template #periodCompany>
+                  <ion-select-option *ngFor="let period of periodsCompany" [value]="period">
+                    {{period.labelKey |translate}}
+                  </ion-select-option>
+                </ng-template>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <app-placing-detail [placing]="playerPosition$ | async" [unitLabelKey]="numberWithUnitKey$ | async"
+          *ngIf="(leaderboardScrollResponse$ | async)?.totalElements>0" [first]="true" [campaign]="campaignContainer">
+        </app-placing-detail>
+      </div>
+      <ng-container
+        *ngIf="(leaderboardScrollResponse$ | async)?.totalElements>0 && (filterOptions$ |async) as filterOptions; else emptyLead">
+        <app-infinite-scroll [resetItems]="resetItems$ | async" [response]="leaderboardScrollResponse$ | async"
+          (request)="scrollRequestSubject.next($event)">
+          <ng-template appInfiniteScrollContent let-placing="item">
+            <app-placing-detail [placing]="placing" [unitLabelKey]="numberWithUnitKey$ | async" [first]="false"
+              [campaign]="campaignContainer"></app-placing-detail>
+          </ng-template>
+        </app-infinite-scroll>
+      </ng-container>
+      <ng-template #emptyLead>
+        <ion-col>
+          <div class="empty-lead">{{ "campaigns.leaderboard.empty" | translate }}</div>
+        </ion-col>
+      </ng-template>
+    </div>
+  </ng-container>
+</ion-content>

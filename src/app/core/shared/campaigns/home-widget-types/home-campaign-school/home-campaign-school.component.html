@@ -1,0 +1,40 @@
+<app-notification-badge *ngIf="header" [type]="'campaign'" [campaignContainer]="campaignContainer">
+</app-notification-badge>
+<ion-card [ngClass]="{'home-card-widget': header}">
+  <ion-card-header color="school">
+    <ion-avatar>
+      <img [src]="imagePath" alt="Avatar" />
+    </ion-avatar>
+    <div lines="none" color="school" *ngIf="header; else detailHeader">
+
+      <span> {{ campaignContainer.campaign.name | languageMap }}</span>
+    </div>
+    <ng-template #detailHeader>
+      <div>
+        <span> {{'campaigns.detail.generalStat'|translate}}</span>
+      </div>
+    </ng-template>
+  </ion-card-header>
+  <ion-card-content class="school-content ion-no-padding">
+    <app-home-school-profile [campaignContainer]="campaignContainer"></app-home-school-profile>
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus"
+      [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'eL'">
+    </app-main-campaign-stat>
+    <!-- if no challenges and home page -->
+    <ng-container *ngIf="header; else noHome">
+      <app-home-school-progression [stat]="progressionTeam" [type]="'team'"
+        *ngIf="(activeUncompleteChallenges$ | async)?.length === 0 && (activeUncompleteChallengesTeam$ | async)?.length === 0  "></app-home-school-progression>
+      <app-home-school-progression [stat]="progressionPlayer" [type]="'personal'"
+        *ngIf="(activeUncompleteChallenges$ | async)?.length === 0 && (activeUncompleteChallengesTeam$ | async)?.length === 0 "></app-home-school-progression>
+      <!-- if it is home page and I have challenges -->
+      <app-home-campaign-challenges [team]="true"
+        *ngIf="((activeUncompleteChallenges$ | async)?.length !== 0 || (activeUncompleteChallengesTeam$ | async)?.length !== 0) "
+        [campaignContainer]="campaignContainer">
+      </app-home-campaign-challenges>
+    </ng-container>
+    <ng-template #noHome>
+      <app-home-school-progression [stat]="progressionTeam" [type]="'team'"></app-home-school-progression>
+      <app-home-school-progression [stat]="progressionPlayer" [type]="'personal'"></app-home-school-progression>
+    </ng-template>
+  </ion-card-content>
+</ion-card>

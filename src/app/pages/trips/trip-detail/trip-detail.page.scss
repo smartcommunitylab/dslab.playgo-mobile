@@ -1,0 +1,65 @@
+:host {
+  height: 100%;
+}
+ion-grid {
+  color: var(--dark-grey);
+}
+.inherit-color {
+  color: inherit !important;
+}
+.big-icon {
+  font-size: 64px;
+}
+.underline {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.absolute-wrapper {
+  font-size: 18px;
+  position: absolute;
+  bottom: 1em;
+  z-index: 1000;
+  right: 0;
+  left: 0;
+  ion-row {
+    display: flex;
+    align-items: center !important;
+    .mean-label {
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 25px;
+    }
+    .mean-date {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 25px;
+    }
+    .mean-hour {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 25px;
+    }
+    .no-score {
+      margin: 8px;
+    }
+  }
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campaigns-validation > ion-col {
+  display: flex;
+  align-items: center;
+}
+.campaigns-validation > ion-col:first-child {
+  flex-direction: row-reverse;
+}
+.no-map {
+  margin: auto;
+  padding: 8px;
+  font-size: 16px;
+  text-align: center;
+}

@@ -1,0 +1,12 @@
+<ion-content color="playgo">
+  <p class="title">
+    {{ 'challenges.create.sent_title'| translate :{ nickname: opponentName } }}
+  </p>
+  <p class="body">
+    {{ 'challenges.create.sent_body'|translate :{ nickname: opponentName } }}
+  </p>
+  <ion-button (click)="close()" expand="block" color="light"
+    >{{ 'challenges.create.close'|translate :{ nickname: opponentName }
+    }}</ion-button
+  >
+</ion-content>

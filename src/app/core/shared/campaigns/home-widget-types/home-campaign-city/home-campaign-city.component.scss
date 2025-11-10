@@ -1,0 +1,29 @@
+.city-content {
+  color: black;
+}
+ion-card {
+  overflow: visible;
+  ion-card-header {
+    border-radius: 10px 10px 0px 0px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 12px;
+    margin-bottom: 24px;
+    ion-avatar {
+      --border-radius: 50%;
+      border: solid 5px var(--ion-color-city);
+      background-color: var(--ion-color-city);
+      position: absolute;
+      z-index: 2;
+      text-align: center;
+      right: 12px;
+      bottom: -29px;
+      width: 64px;
+      height: 64px;
+    }
+  }
+  ion-card-content {
+    padding: 0px 0px 0px 0px;
+  }
+}

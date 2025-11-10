@@ -1,0 +1,28 @@
+<ion-card>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="first-row">
+      <ion-col size="2">
+        <app-icon name="homeFooter" class="icon-size-big"></app-icon>
+      </ion-col>
+      <ion-col *ngIf="(appStatusService.appInfo$ | async)">
+        <div *ngIf="(appStatusService.appInfo$ | async)?.name"><span>{{ (appStatusService.appInfo$ | async)?.name
+            }}</span></div>
+        <div *ngIf="(appStatusService.appInfo$ | async)?.version"><span class="first-row-text">{{
+            'appFooter.version'|translate :{ version:
+            (appStatusService.appInfo$ | async)?.version }
+            }}</span></div>
+        <div><span class="first-row-text">{{ 'appFooter.by' | translate }}</span>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="second-row">
+      <ion-col>
+        <div (click)="openCredits()"> <span class="second-row-text">{{ 'appFooter.credits' | translate }}</span></div>
+      </ion-col>
+      <ion-col><span (click)="openFaq()" class="second-row-text">{{ 'appFooter.faq' | translate }}</span></ion-col>
+      <ion-col><span (click)="openHelp()" class="second-row-text">{{ 'appFooter.help' | translate }}</span></ion-col>
+      <ion-col><span (click)="openPrivacy()" class="second-row-text">{{ 'appFooter.privacy' | translate }}</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

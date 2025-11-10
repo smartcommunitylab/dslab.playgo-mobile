@@ -1,0 +1,30 @@
+.my-placing {
+  font-weight: bold;
+}
+.nickname {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+ion-row {
+  align-items: center;
+}
+ion-avatar {
+  width: 48px;
+  height: 48px;
+  img {
+    margin: 4px;
+  }
+}
+ion-icon {
+  width: 59px;
+  height: 59px;
+}
+.points {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  app-icon {
+    margin: 0px 4px;
+  }
+}

@@ -1,0 +1,8 @@
+<ng-container *ngFor="let challenge of challenges; trackBy: challengeTracking">
+  <app-challenge-card *ngIf="challenge.challengeType !== 'PROPOSED'" [team]="team" [challenge]="challenge"
+    [campaignContainer]="campaign" [type]="type">
+  </app-challenge-card>
+</ng-container>
+<app-challenges-proposed-card [challenges]="challengeProposed" [type]="type" [campaign]="campaign"
+  [canInvite]="canInvite">
+</app-challenges-proposed-card>

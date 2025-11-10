@@ -1,0 +1,81 @@
+{{>licenseInfo}}
+
+
+import { environment } from 'src/environments/environment';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+{{#operations}}
+
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class {{classname}} {
+    constructor(private http: HttpClient) {}
+{{#operation}}
+{{#contents}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#parameters}} {{parameters.length}}* @param {{paramName}} {{description}}
+     {{/parameters}}
+     */
+    public {{nickname}}(
+      {{#parameters.1}}
+          args:{
+            {{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}; {{/isConstEnumParam}}{{/parameters}}
+          }
+      {{/parameters.1}}
+      {{^parameters.1}}
+        {{#parameters}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/parameters}}
+      {{/parameters.1}}
+    ): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>
+    {
+        {{#parameters.1}}
+        const {
+          {{#parameters}}{{paramName}} , {{/parameters}}
+        } = args;
+        {{/parameters.1}}
+        return this.http.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(
+          '{{httpMethod}}',
+          environment.serverUrl.hscApi+`{{path}}`,
+          {
+            {{#bodyParam}}
+              body:{{paramName}},
+            {{/bodyParam}}
+            {{#hasQueryParams}}
+              params: removeNullOrUndefined({
+                {{#queryParams}}
+                  {{baseName}},
+                {{/queryParams}}
+              }),
+            {{/hasQueryParams}}
+          }
+        );
+    }
+
+{{/contents}}
+{{/operation}}
+}
+{{/operations}}
+
+function removeNullOrUndefined(obj: any) {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] != null) {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
+}
+

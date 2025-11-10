@@ -1,0 +1,20 @@
+.level-bar {
+  height: 16px;
+  --background: none;
+}
+.score {
+  position: absolute;
+  display: flex;
+  right: 8px;
+  color: var(--dark-grey);
+  app-icon {
+    margin-left: 4px;
+  }
+}
+.level-name {
+  color: var(--dark-grey);
+}
+.max {
+  text-align: center;
+  font-style: italic;
+}

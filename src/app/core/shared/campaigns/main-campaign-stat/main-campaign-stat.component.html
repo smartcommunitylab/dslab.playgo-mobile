@@ -1,0 +1,129 @@
+<div class="container">
+  <ion-grid>
+    <ion-row class="min-height ion-no-margin">
+      <ion-col class="ion-no-margin" size="2" *ngIf="reportWeekStat || reportMonthStat || reportTotalStat">
+        <app-icon class="icon-header" *ngIf="showRanking; else typeIcon" name="leaderboard"></app-icon>
+        <ng-template #typeIcon>
+          <app-icon class="icon-header" [name]="
+            campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
+          "></app-icon>
+        </ng-template>
+      </ion-col>
+      <ion-col size="10" *ngIf="showRanking" class="ranking ion-no-margin">
+        <ng-container *ngIf="reportWeekStat">
+          <ion-row class="ion-no-margin stat-row">
+            <ion-col size="5" class="ion-no-margin ion-no-padding">
+              <span class="ion-text-left">
+                {{ "campaigns.homewidgets.stat.weekposition" | translate }}
+              </span>
+            </ion-col>
+
+            <ion-col size="auto" class="ion-no-margin ion-no-padding">
+              <app-ordinal-number [value]="reportWeekStat?.position"></app-ordinal-number>
+            </ion-col>
+            <ion-col size="auto">
+              -
+            </ion-col>
+            <ion-col size="auto" class="ion-no-margin ion-no-padding">
+              <p class="unit-value">
+                <b>{{getValueByUnit(reportWeekStat?.value,unit,campaignContainer?.campaign?.specificData?.virtualScore)
+                  | localNumber: '0.0-1'}} <span *ngIf="unit!=='eL'">{{unit}}</span></b>
+              </p>
+            </ion-col>
+            <ion-col class="ion-text-start ion-margin-end ion-margin-end ion-no-padding">
+              <app-icon class="icon-size-normal" class="icon-stat" [name]="
+        campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
+      "></app-icon>
+            </ion-col>
+          </ion-row>
+        </ng-container>
+        <ng-container *ngIf="reportTotalStat" class="ion-text-left">
+          <ion-row class="ion-no-margin stat-row">
+            <ion-col size="5" class="ion-no-margin ion-no-padding">
+              <span>
+                {{ "campaigns.homewidgets.stat.totalposition" | translate }} </span>
+            </ion-col>
+            <ion-col size="auto" class="ion-no-margin ion-no-padding">
+              <app-ordinal-number [value]="reportTotalStat?.position"></app-ordinal-number>
+            </ion-col>
+            <ion-col size="auto">
+              -
+            </ion-col>
+            <ion-col size="auto" class="ion-no-margin ion-no-padding">
+              <p class="unit-value">
+                <b>{{getValueByUnit(reportTotalStat?.value,unit,campaignContainer?.campaign?.specificData?.virtualScore)
+                  | localNumber: '0.0-1'}} <span *ngIf="unit!=='eL'">{{unit}}</span></b>
+              </p>
+            </ion-col>
+            <ion-col class="ion-text-start ion-margin-end ion-margin-end ion-no-padding">
+              <app-icon class="icon-size-normal" class="icon-stat" [name]="
+            campaignService.getCampaignTypeIcon(campaignContainer?.campaign)
+          "></app-icon>
+            </ion-col>
+
+          </ion-row>
+        </ng-container>
+      </ion-col>
+      <ion-col *ngIf="!showRanking" class="report">
+        <p *ngIf="reportWeekStat" class="ion-text-left" [innerHtml]="
+            'campaigns.homewidgets.stat.weekvalue'
+              | translate: { value: getValueByUnit(reportWeekStat?.value,unit,campaignContainer?.campaign?.specificData?.virtualScore) | localNumber: '0.0-1', unit: unit}
+          "></p>
+        <p *ngIf="reportMonthStat" class="ion-text-left" [innerHtml]="
+            'campaigns.homewidgets.stat.monthvalue'
+              | translate: { value: getValueByUnit(reportMonthStat?.value,unit,campaignContainer?.campaign?.specificData?.virtualScore) | localNumber: '0.0-1' , unit: unit}
+          "></p>
+        <p *ngIf="reportTotalStat" class="ion-text-left" [innerHtml]="
+            'campaigns.homewidgets.stat.totalvalue'
+              | translate: { value: getValueByUnit(reportTotalStat?.value,unit,campaignContainer?.campaign?.specificData?.virtualScore) | localNumber: '0.0-1' , unit: unit}
+          "></p>
+        <p *ngIf="lastPaymentStat" class="ion-text-left" [innerHtml]="
+          'campaigns.homewidgets.stat.lastpaymentkm'
+            | translate: { value: getValueByUnit(lastPaymentStat?.value,unit,campaignContainer?.campaign?.specificData?.virtualScore) | localNumber: '0.0-1' , unit: unit, date: lastPaymentDate |  localDate, dateTo: lastPaymentDateTo |  localDate}
+        "></p>
+      </ion-col>
+    </ion-row>
+    <ng-container *ngIf="showGameStatus">
+      <ion-row *ngIf="status !== null; else nullStatus">
+        <ion-col>
+          <app-game-status [status]="status" [campaign]="campaignContainer?.campaign"
+            [type]="campaignContainer?.campaign?.type"></app-game-status>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+    <ion-row *ngIf="record && reportWeekStat">
+      <ion-col>
+        <app-record-status [status]="reportWeekStat" [record]="record" [type]="campaignContainer?.campaign?.type">
+        </app-record-status>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="limitDayValue">
+      <ion-col>
+        <app-limit-status [campaign]="campaignContainer?.campaign" [limitMax]="limitDayMax" [limitValue]="limitDayValue"
+          [infoBox]="true"
+          [virtualScoreLabel]="getLabel(campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar)"
+          [type]="campaignContainer?.campaign?.type"
+          [header]="getHeader(campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar)">
+        </app-limit-status>
+      </ion-col>
+    </ion-row>
+    <!-- <ng-template #emptyValueDay>Nessun valore giornaliero</ng-template> -->
+    <ion-row *ngIf="limitMonthValue !== null">
+      <ion-col>
+        <app-limit-status [limitMax]="limitMonthMax" [limitValue]="limitMonthValue"
+          [virtualScoreLabel]="getLabel(campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar)"
+          [type]="campaignContainer?.campaign?.type"
+          [header]="getHeader(campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar)">
+        </app-limit-status>
+      </ion-col>
+    </ion-row>
+    <!-- <ng-template #emptyValueMonth>Nessun valore del mese</ng-template> -->
+
+    <ng-template #nullStatus>
+      <ion-row>
+        <ion-col>
+          {{ "campaigns.homewidgets.stat.emptystatus" | translate }}</ion-col>
+      </ion-row>
+    </ng-template>
+  </ion-grid>
+</div>

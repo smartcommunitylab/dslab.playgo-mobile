@@ -1,0 +1,47 @@
+.container {
+  // margin-top: 24px;
+  color: black;
+  ion-grid {
+    .min-height {
+      min-height: 70px;
+    }
+    ion-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    app-ordinal-number {
+      font-weight: bold;
+    }
+    .report {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      color: var(--dark-grey);
+    }
+    .ranking {
+      font-size: 14px;
+      text-align: left;
+      color: var(--dark-grey);
+    }
+    .icon-header {
+      font-size: 34px;
+      ion-icon {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+    }
+  }
+}
+.unit-value {
+  min-width: 40px;
+}
+.stat-row {
+  ion-col {
+    margin: 0px 2px;
+    .icon-stat {
+      font-size: 18px;
+      margin-left: 2px;
+    }
+  }
+}

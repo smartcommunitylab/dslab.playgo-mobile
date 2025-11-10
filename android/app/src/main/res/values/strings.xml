@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">playGo</string>
+    <string name="title_activity_main">playGo</string>
+    <string name="package_name">it.dslab.playgo.production</string>
+    <string name="custom_url_scheme">it.dslab.playgo.production</string>
+</resources>

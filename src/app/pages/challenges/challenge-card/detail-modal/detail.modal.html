@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title>{{'challenges.detail.title'|translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" color="playgo">
+  <div [innerHTML]="challDesc(challenge?.challCompleteDesc | languageMap,(otherTeam$|async)?.customData?.name)"
+    class="ion-padding"></div>
+</ion-content>
+<ion-footer color="playgo">
+  <ion-button color="light" expand="block" (click)="close()">{{'challenges.detail.close'|translate}}</ion-button>
+</ion-footer>

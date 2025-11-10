@@ -1,0 +1,32 @@
+.header {
+  text-align: end;
+  padding: 2px;
+  font-style: italic;
+  span {
+    margin: 4px;
+  }
+}
+.content {
+  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  span {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 13px;
+    width: 100%;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+ion-avatar {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: -7px;
+  top: 5px;
+}

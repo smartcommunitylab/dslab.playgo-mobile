@@ -1,0 +1,42 @@
+<div class="challenges-state" [ngStyle]="{
+  backgroundColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + '-light)'
+}">
+  <div *ngIf="(activeUncompleteChallenges$ | async)?.length!==0 ||(activeUncompleteChallengesTeam$ | async)?.length!==0"
+    (click)="goToActiveChallenge($event)">
+    <ion-avatar [ngStyle]="{
+      borderColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + ')',
+       backgroundColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + '-light)'
+    }">
+      <app-icon name="groupCompetitivePerformance" class="type-notif  icon-size-normal"></app-icon>
+    </ion-avatar>
+    <div class="challenge-text">{{
+      'challenges.active'|translate: {active: (activeUncompleteChallenges$ |
+      async)?.length+(activeUncompleteChallengesTeam$ | async)?.length}
+      }}</div>
+  </div>
+  <div *ngIf="(configureChallenges$| async)?.length!==0 || ((canInvite$ | async) && (coupled$|async)===false)"
+    (click)="goToConfigureChallenge($event)">
+
+    <ion-avatar [ngStyle]="{
+      borderColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + ')',
+      backgroundColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + '-light)'
+    }">
+      <app-icon name="cupCog" class="type-notif  icon-size-normal"></app-icon>
+    </ion-avatar>
+    <div class="challenge-text">{{
+      'challenges.configure'|translate: {configurable: (((configureChallenges$|async)?.length>0)?1:0)+((canInvite$|
+      async) && (coupled$|async)===false ?1:0)}
+      }}</div>
+  </div>
+  <div *ngIf="(invitesChallenges$ | async)?.length!==0" (click)="goToInvitationsChallenge($event)">
+    <ion-avatar [ngStyle]="{
+      borderColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + ')',
+      backgroundColor: ' var(--ion-color-' + campaignContainer?.campaign?.type + '-light)'
+    }">
+      <app-icon name="invitation" class="type-notif  icon-size-normal"></app-icon>
+    </ion-avatar>
+    <div class="challenge-text">{{
+      'challenges.invitations'|translate: {invites: (invitesChallenges$ | async)?.length}
+      }}</div>
+  </div>
+</div>

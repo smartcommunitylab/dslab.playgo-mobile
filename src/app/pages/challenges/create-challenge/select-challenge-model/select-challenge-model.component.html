@@ -1,0 +1,45 @@
+<ion-grid class="wrapper">
+  <ion-row>
+    <ion-col
+      size="6"
+      *ngFor="let eachModel of availableModels"
+      class="ion-text-center"
+    >
+      <div
+        class="model"
+        [class.disabled]="!eachModel.available"
+        [class.selected]="eachModel.challengeModelName === selectedModelName"
+        (click)="selectModel(eachModel)"
+      >
+        <div class="text-bold">
+          {{
+            "challenges.challenge_model.name." + eachModel.challengeModelName
+              | translate
+          }}
+        </div>
+        <div *ngIf="eachModel.available">
+          <div>
+            <app-icon [name]="eachModel.challengeModelName"></app-icon>
+          </div>
+          <div class="description">
+            {{
+              "challenges.challenge_model.description." +
+                eachModel.challengeModelName | translate
+            }}
+          </div>
+        </div>
+        <div *ngIf="!eachModel.available">
+          <div>
+            <app-icon name="lock"></app-icon>
+          </div>
+          <div>
+            {{
+              "challenges.challenge_model.disabled_until_level"
+                | translate: { level: eachModel.availableFromLevel }
+            }}
+          </div>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

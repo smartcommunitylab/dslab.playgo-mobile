@@ -1,0 +1,27 @@
+<ion-tabs class="scanner-hide">
+  <div class="padding-tracking" *ngIf="(isTracking$|async)"></div>
+  <app-tracking-main-control></app-tracking-main-control>
+  <ion-tab-bar slot="bottom" color="playgo">
+    <ion-tab-button tab="home" (click)="handleTabClick( $event)">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>{{'homeTtle'|translate}}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="campaigns" (click)="handleTabClick( $event)">
+      <ion-icon name="game-controller"></ion-icon>
+      <ion-label>{{'campaignsTitle'|translate}}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="trips" (click)="handleTabClick( $event)">
+      <ion-icon name="list"></ion-icon>
+      <ion-label>{{'tripsTitle'|translate}}</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="challenges" (click)="handleTabClick( $event)">
+      <app-icon name="cup" class="icon-size-normal"></app-icon>
+      <ion-label>{{'challengeTitle'|translate}}</ion-label>
+      <ion-badge color="danger" *ngIf="challengesUnread>0"
+        ><ion-icon name="alert"></ion-icon
+      ></ion-badge>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

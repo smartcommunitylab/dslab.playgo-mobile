@@ -1,0 +1,22 @@
+<app-notification-badge [campaignContainer]="campaignContainer"></app-notification-badge>
+<ion-card [ngClass]="{'home-card-widget': header}">
+  <ion-card-header color="personal">
+    <ion-avatar>
+      <img [src]="imagePath" alt="Avatar" />
+    </ion-avatar>
+    <div lines="none" color="personal" *ngIf="header; else detailHeader">
+
+      <span> {{ campaignContainer.campaign.name | languageMap }}</span>
+    </div>
+    <ng-template #detailHeader>
+      <div>
+        <span> {{'campaigns.detail.generalStat'|translate}}</span>
+      </div>
+    </ng-template>
+  </ion-card-header>
+  <ion-card-content class="personal-content ion-no-padding">
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [reportWeekStat]="reportWeekStat" [record]="record"
+      [reportTotalStat]="reportTotalStat" [unit]="'Kg'">
+    </app-main-campaign-stat>
+  </ion-card-content>
+</ion-card>

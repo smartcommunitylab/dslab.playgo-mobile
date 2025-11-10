@@ -1,0 +1,11 @@
+<div class="wrapper">
+  <div
+    *ngFor="let mean of availableMeans"
+    class="mean"
+    [class.selected]="mean.name === selectedMeanName"
+    (click)="selectMean(mean)"
+    title="{{ mean.title | translate }}"
+  >
+    <app-icon [name]="mean.icon"></app-icon>
+  </div>
+</div>

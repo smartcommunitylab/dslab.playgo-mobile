@@ -1,0 +1,128 @@
+<p></p>
+<ion-card>
+  <ion-card-header [color]="campaign.type">
+    {{ campaign.name | languageMap }}
+  </ion-card-header>
+  <ion-card-content>
+    <div *ngIf="campaign.type!=='school';else school">
+      <ion-grid>
+        <ion-row *ngIf="(blacklisted$ | async)===true">
+          <ion-col size="auto" class="chall-line">
+            <app-icon name="blockUserColor" class="icon-size-normal"></app-icon>
+          </ion-col>
+          <ion-col>
+            <span class="blockuser-info">
+              {{
+              "userprofile.blacklist_user"
+              | translate
+              }}
+            </span>
+          </ion-col>
+        </ion-row>
+        <ion-row [style.border-bottom]="'3px solid var(--ion-color-'+campaign.type+')'">
+          <ion-col size="2">
+            <app-icon name="leaderboard" class="icon-size-medium" [color]="campaign.type"></app-icon>
+          </ion-col>
+          <ion-col>
+            <div class="result">
+              <div>
+                <app-ordinal-number [value]="(reportWeek$ | async)?.position"></app-ordinal-number>
+
+                {{
+                "userprofile.last_week_position"
+                | translate
+                }}
+              </div>
+              <div>
+                <app-ordinal-number [value]="(reportTotal$ | async)?.position"></app-ordinal-number>
+
+                {{
+                "userprofile.general_position"
+                | translate }}
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div>
+        <ion-grid>
+          <ion-row [style.border-bottom]="'3px solid var(--ion-color-'+campaign.type+')'">
+            <ion-col size="2">
+              <app-icon class="icon-size-medium" [name]="campaignService.getCampaignTypeIcon(campaign)"></app-icon>
+            </ion-col>
+            <ion-col>
+              <div class="result">
+                <div>
+                  <span class="bolded">{{(reportTotal$ | async)?.value}}</span><span>{{
+                    "userprofile.total_points"
+                    | translate
+                    }}</span>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div>
+        <ion-grid *ngIf="(challengeStat$ | async)?.length>0">
+          <ion-row>
+            <ion-col>
+              <span class="challe-text">{{
+                "userprofile.period_challenge"
+                | translate: { periodFrom: getChallengeFrom()|localDate, periodTo: getChallengeTo()|localDate }
+                }}</span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="2" class="chall-line">
+              <app-icon class="icon-size-medium" name="cup" [color]="campaign.type"></app-icon>
+            </ion-col>
+            <ion-col>
+              <div class="result">
+                <div *ngFor="let challengeType of challengeStat$ | async">
+                  <div class="chall-line">
+                    <app-icon [name]="imgChallenge(challengeType.type)"
+                      class="challenge-icon icon-size-normal"></app-icon>
+                    <b> {{ challengeType.completed + challengeType.failed }} </b>
+                    {{ typeChallenge(challengeType.type) }}:
+                    <b> {{
+                      "userprofile.won"
+                      | translate: { won: challengeType.completed }
+                      }}</b>
+                  </div>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </div>
+      <div class="ion-text-center">
+        <ng-container *ngIf="blacklisted$ | async; else addblacklist">
+          <ion-button class="remove-button" (click)="removeBlacklist()">
+            <app-icon name="invitation" class="icon-size-normal"></app-icon>{{ "userprofile.remove_blacklist" |
+            translate
+            }}
+          </ion-button>
+        </ng-container>
+        <ng-template #addblacklist>
+          <ion-button class="add-button" (click)="addBlacklist()">
+            <app-icon name="blacklist" class="icon-size-normal"></app-icon>{{ "userprofile.add_blacklist" | translate }}
+          </ion-button>
+        </ng-template>
+      </div>
+    </div>
+    <ng-template #school>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-center">{{
+              "userprofile.user_joined"
+              | translate
+              }}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-template>
+  </ion-card-content>
+</ion-card>

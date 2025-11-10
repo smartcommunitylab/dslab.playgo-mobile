@@ -1,0 +1,20 @@
+.level-bar {
+  height: 16px;
+  --background: none;
+}
+.limit-text {
+  font-size: 14px;
+}
+.info-box {
+  font-size: 19px;
+  display: inline-block;
+  vertical-align: middle;
+  vertical-align: center;
+  color: var(--ion-color-company);
+}
+.max-length {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

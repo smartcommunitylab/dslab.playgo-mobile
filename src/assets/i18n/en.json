@@ -1,0 +1,777 @@
+{
+  "---comment-cSpell-locales": "cSpell:locale en",
+  "helloWorld": "Hello world",
+  "homeTtle": "Play&Go",
+  "profileTitle": "Profile",
+  "campaignsTitle": "Campaigns",
+  "tripsTitle": "Trips",
+  "challengeTitle": "Challenges",
+  "tripDetailTitle": "Trip Details",
+  "notifications_title": "Notifications",
+  "discovercampaignbutton": "Discover other campaigns",
+  "leaderboard.title": "Leaderboard",
+  "green leaves": "ecoLeaves",
+  "bike aficionado": "Bike Trip Badge",
+  "sustainable life": "Zero Impact Badge",
+  "public transport aficionado": "Public Transport Badge",
+  "park and ride pioneer": "Park And Ride Badge",
+  "bike sharing pioneer": "Bike Sharing Badge",
+  "recommendations": "User Recommendation Badge",
+  "leaderboard top 3": "Leaderboard Top 3 Badge",
+  "travels": " journeys",
+  "appFooter": {
+    "by": "By Fondazione Bruno Kessler",
+    "version": "Versione {{version}}",
+    "credits": "Credits",
+    "faq": "FAQ",
+    "help": "Help",
+    "privacy": "Privacy"
+  },
+  "appCredits": {
+    "by": "A research project by:",
+    "dslab": "DSLab",
+    "modis": "MoDiS",
+    "pmg": "PMG",
+    "fbk": "Fondazione Bruno Kessler",
+    "version": "Versione {{version}}",
+    "credits": "Credits",
+    "faq": "FAQ",
+    "help": "Help",
+    "privacy": "Privacy"
+  },
+  "firstTime": {
+    "title": "Use your location",
+    "message": "Play&go collects location data to enable the tracking, validation and rewarding of sustainable trips even when the app is closed or not in use.",
+    "close": "Deny",
+    "accept": "Accept"
+  },
+  "permission": {
+    "title": "Allow {applicationName} to access to this device's location in the background?",
+    "message": "In order to track your activity in the background, please enable {backgroundPermissionOptionLabel} location permission",
+    "positiveAction": "Change to {backgroundPermissionOptionLabel}",
+    "cancelAction": "Cancel"
+  },
+  "permission_denied": {
+    "title": "Not able to start tracking",
+    "message": "You have denied the permission to access this device's location. This permission is needed to create tracks of your sustainable trips which are later used to assign you score based on your campaigns. You can enable the permission in the phone's settings."
+  },
+  "permission_when_in_use": {
+    "title": "Warning",
+    "message": "If you don't allow to share location in the background, there is risk that your tracks will be incomplete. Please consider changing permission to \"Allow always\"."
+  },
+  "badges": {
+    "empty": "You have not earned any badges for this campaign. Play to find them."
+  },
+  "login": {
+    "login_page_title": "Login",
+    "labelSignin": "Signing in...",
+    "labelSignout": "Signing out...",
+    "loginCardHeader": "Login",
+    "loginButton": "Login",
+    "welcome": "Welcome",
+    "loginGoogleButton": "Login with Google",
+    "loginFacebookButton": "Login with Facebook",
+    "loginAppleButton": "Login with Apple",
+    "loginInternalButton": "Login with Username",
+    "title": "Welcome in Play&Go",
+    "subtitle": "Sustainable mobility app"
+  },
+  "notifications": {
+    "empty": "You have no notifications",
+    "close": "Close"
+  },
+  "registration": {
+    "title": "New user",
+    "newUser": "New User. Fill the form with your information",
+    "avatar": {
+      "title": "Avatar"
+    },
+    "name": "Name",
+    "lastname": "Surname",
+    "mail": "Email",
+    "nickname": "Nickname",
+    "lang": {
+      "language": "Language",
+      "select": "Select the language",
+      "it": "Italian",
+      "en": "English"
+    },
+    "territories": {
+      "territory": "Territory",
+      "select": "Select the territory"
+    },
+    "infoTerritory": "Your territory will influence your campaigns. Please select your territory",
+    "form": {
+      "nameRequired": "The name is required.",
+      "nameMinLength": "Name must be at least 2 characters long.",
+      "lastNameRequired": "The surname is required.",
+      "lastNameMinLength": "Last name must be at least 2 characters long.",
+      "mailRequired": "The address is required.",
+      "mailPattern": "The email address is not valid.",
+      "nicknameRequired": "The nickname is required.",
+      "nicknameMinLength": "Nickname must be at least 2 characters long.",
+      "languageRequired": "The language is required.",
+      "territoryRequired": "The territory is required.",
+      "privacyRequired": "Privacy is required.",
+      "nicknamePattern": "Use only alphanumeric characters"
+    },
+    "territoryPopup": {
+      "header": "Territory",
+      "message": "The choice of the territory determines the validation of the journeys and the availability of the mobility campaigns. Once selected, it will no longer be possible to modify."
+    },
+    "privacyPopup": {
+      "header": "Privacy",
+      "title": "Privacy",
+      "message": "<div class=\"entry-content\"><p style=\"font: 18.7px ;\"><b>PLAY&amp;GO </b></p><p class=\"c2\"><span class=\"c0\">Information regarding the processing of personal data</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c1\">Pursuant to Article 13 of the EU Regulation No. 2016/679 (GDPR), and in general in compliance with the principle of transparency set out in that Regulation, below we provide information regarding the processing of personal data within the Play&amp;Go application (hereinafter &quot;App&quot;).</span></p><p class=\"c2\"><span class=\"c1\">The App allows tracking of integrated, multimodal mobility trips &nbsp;(e.g., bus, train, bicycle, walking, carpooling, and combinations these).</span></p><p class=\"c2 c4\"><span class=\"c1\"></span></p><p class=\"c2\"><span class=\"c3\">It is worth pointing out that the App can also be used in the context of sustainable mobility campaigns to award </span><span class=\"c3 c10\">points </span><span class=\"c3\">and prizes based on the trips correctly </span><span class=\"c3\">tracked </span><span class=\"c1\">by participants. In order to allow such campaigns to be carried out, it is necessary to collect and process information related to the tracking of trips made via the App.</span></p><p class=\"c2\"><span class=\"c1\">This information is therefore to be considered supplementary to that which will be made available upon joining the various sustainable mobility campaigns proposed over time through the Play&amp;Go App.</span></p><p class=\"c2 c4\"><span class=\"c1\"></span></p><p class=\"c2\"><span class=\"c0\">1. PURPOSE OF PROCESSING</span></p><p class=\"c2\"><span class=\"c1\">The processing of personal data takes place within the App and will have the following purposes:</span></p><ol class=\"c6 lst-kix_v1j04fyyyjqt-0 start\" start=\"1\"><li class=\"c5 li-bullet-0\"><span class=\"c1\">register users and allow them to use the App;</span></li><li class=\"c5 li-bullet-0\"><span class=\"c1\">ensure the proper functioning of the App;</span></li><li class=\"c5 li-bullet-0\"><span class=\"c1\">enable the performance, documentation, and improvement of the App&#39;s activities;</span></li><li class=\"c5 li-bullet-0\"><span class=\"c1\">track and validate trips through the App;</span></li><li class=\"c5 li-bullet-0\"><span class=\"c1\">provide for scientific, historical, and statistical research purposes.</span></li></ol><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c0\">2. OBLIGATION TO PROVIDE DATA</span></p><p class=\"c2\"><span class=\"c1\">The legal basis for processing is the explicit consent upon first use of the App.</span></p><p class=\"c2\"><span class=\"c1\">All purposes of processing are related to the use of the App. Although there is no obligation to provide the data, failure to do so will make it impossible to proceed with access to the App and therefore to use it. With reference to geolocation, it should be noted that failure to consent to tracking could compromise the validation of your trips.</span></p><p class=\"c2 c4\"><span class=\"c1\"></span></p><p class=\"c2\"><span class=\"c7\">3. TYPE OF DATA PROCESSED</span></p><p class=\"c2\"><span class=\"c1\">The following categories of data may be processed for the purposes of managing the App: </span></p><ol class=\"c6 lst-kix_4xl5nuom5aqd-0 start\" start=\"1\"><li class=\"c8 li-bullet-0\"><span class=\"c1\">personal data and contact details;</span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">geolocalization data (data on the user&#39;s position detected in real time, based on the GPS present on the mobile device on which the App is installed, while tracking a trip); </span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">behavior data (mode of travel, number of kilometers covered).</span></li></ol><p class=\"c2\"><span class=\"c1\">The user&#39;s public profile data (Google, Facebook, Apple, Smart Community) may be used to personalize the App.</span></p><p class=\"c2\"><span class=\"c1\">The user&#39;s e-mail address is also used as a means to uniquely identify the user within the Smart Community systems.</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c7\">4. METHODS OF DATA PROCESSING</span></p><p class=\"c2\"><span class=\"c1\">The processing will be carried out:</span></p><ul class=\"c6 lst-kix_9abvnggic5rt-0 start\"><li class=\"c8 li-bullet-0\"><span class=\"c1\">through the App and the use of manual and automated systems;</span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">by individuals authorized and trained to perform such tasks, in accordance with the law; </span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">with the use of appropriate measures to ensure the confidentiality of data and prevent access to them by unauthorized third parties;</span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">in contexts that do not undermine the personal dignity and decorum of the data subject, ensuring due care to guarantee confidentiality in their use.</span></li></ul><p class=\"c2\"><span class=\"c3\">You can consult all the technical and organizational measures adopted by FBK to ensure proportionality and necessity of the processing and prevent illegitimate access, unwanted modification, disappearance and explicit breaches of personal data at the following link </span><span class=\"c3 c13 c17\"><a class=\"c15\" href=\"https://www.google.com/url?q=http://bit.ly/MisureFBK&amp;sa=D&amp;source=editors&amp;ust=1749139687909478&amp;usg=AOvVaw3I2ueLstevB1z71YTAikxC\">bit.ly/MisureFBK</a></span><span class=\"c1\">.</span></p><p class=\"c2\"><span class=\"c1\">No automated decision-making process is involved, nor any profiling activity.</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c0\">5. DURATION OF TREATMENT</span></p><p class=\"c2\"><span class=\"c1\">The data will be retained until the user requests its deletion and, in any case, for a period not exceeding that necessary for the fulfillment the obligations or tasks referred to in point 1, and in any case for pursuing the specific purposes indicated therein. The deletion of the data will occur gradually, based on the exhaustion of the individual purposes for which they were collected.</span></p><p class=\"c2\"><span class=\"c1\">In some cases, the data may also be retained after the account is closed, such as in backups or in the Disaster Recovery system, or in aggregated and anonymized form, for scientific research purposes.</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c7\">6. COMMUNICATION OF DATA</span></p><p class=\"c2\"><span class=\"c1\">The data collected and processed may be communicated exclusively for the above mentioned purposes and in aggregate form, to Public Administrations (for example as promoters of sustainable mobility initiatives).</span></p><p class=\"c2\"><span class=\"c1\">Personal data are not subject to dissemination.</span></p><p class=\"c2\"><span class=\"c1\">For the exclusive purposes of scientific dissemination of statistical and/or scientific results (e.g., through publication of scientific articles, participation in conferences, etc.), data may be disseminated in anonymous and aggregate form and always in a manner that does not make the Data Subject identifiable.</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c7\">7. PLACE OF DATA PROCESSING</span></p><p class=\"c2\"><span class=\"c1\">The processing personal data takes place on the territory of the European Union, or with the help of IT tools involving processing in countries for which the European Commission has taken a decision on the adequacy of the protection of personal data or, failing that, through the signing of Standard Contractual Clauses (SCC) for data protection adopted by the European Commission with the supplier.</span></p><p class=\"c2 c4\"><span class=\"c1\"></span></p><p class=\"c2\"><span class=\"c0\">8. RIGHTS OF THE DATA SUBJECT</span></p><p class=\"c11 c10 c12\"><span class=\"c1\">The Data Subject has the right to ask the Data Controller at any time to exercise the rights set out in Articles 15 et seq. of the GDPR and, in particular, to:</span></p><ul class=\"c6 lst-kix_rh590fh4292s-0 start\"><li class=\"c8 li-bullet-0\"><span class=\"c1\">request confirmation of the existence or non-existence of their personal data and request access to them;</span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">obtain information about the purposes of the processing, the categories of personal data, the recipients or categories of recipients to whom the personal data have been or will be communicated and, when possible, the storage period;</span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">obtain rectification and deletion of data;</span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">obtain restriction of processing; </span></li><li class=\"c8 li-bullet-0\"><span class=\"c1\">object to the processing at any time.</span></li></ul><p class=\"c2\"><span class=\"c1\">He or she also has the right to revoke his consent at any time without affecting the lawfulness of processing based on consent given before revocation. </span></p><p class=\"c2\"><span class=\"c7\">To exercise the above rights, please write to: </span><span class=\"c7 c10 c13\"><a class=\"c15\" href=\"mailto:privacy@fbk.eu\">privacy@fbk.eu</a></span><span class=\"c7 c10\">.</span><span class=\"c7\">&nbsp;</span></p><p class=\"c2\"><span class=\"c1\">This is without prejudice to the right to send a complaint to the Garante per la protezione dei dati personali.</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c0\">9. DATA CONTROLLER</span></p><p class=\"c2\"><span class=\"c3\">The data controller for the processing of personal data is the Bruno Kessler Foundation, based in Trento, Italy</span><span class=\"c1\">, via Santa Croce, 77 &ndash; +39.0461.314.621-227 &ndash; segr.presidenza@fbk.eu</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c0\">10. CONTACT DETAILS OF THE DATA PROTECTION OFFICER </span></p><p class=\"c2\"><span class=\"c3\">The Data Controller has designated a Data Protection Officer (DPO) pursuant to Article 37 of the GDPR, who can be contacted through the following channels</span><span class=\"c1\">: +39.0461.314.370 &ndash; privacy@fbk.eu.</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c2\"><span class=\"c0\">11. AMENDMENTS TO THIS POLICY</span></p><p class=\"c11\"><span class=\"c3\">The Data Controller reserves the right to make, if necessary, appropriate changes to this Privacy Policy - currently updated to</span><span class=\"c7\">&nbsp;May 16, 2025</span><span class=\"c1\">&nbsp;- giving the widest possible visibility to the Data Subjects.</span></p><p class=\"c2 c4\"><span class=\"c0\"></span></p><p class=\"c4 c9\"><span class=\"c14\"></span></p></div>"
+    },
+    "privacyLink": "Privacy Policy",
+    "privacy": "I agree with the privacy policy",
+    "sumbmitButton": "Register",
+    "confirm": {
+      "header": "Confirm registration",
+      "message": "<h1>{{territory}}</h1><br><strong>{{nickname}}</strong>, are you sure you want to register to app Play&Go for the selected territory?"
+    }
+  },
+  "modal": {
+    "cancel": "Cancel",
+    "ok": "OK",
+    "alert_title": "Alert",
+    "levelup": "Level Up!",
+    "newbadge": "New badge!"
+  },
+  "tracking": {
+    "low_accuracy": "Low accuracy!",
+    "choose_means": "Choose means of tracking",
+    "continue_low_accuracy_prompt": "Low accuracy detected! Do you want to continue?",
+    "show_current_location": "Show me where I am",
+    "too_short": "The journey is too short and will not be added.",
+    "info": {
+      "title": "Means e tracking",
+      "subtitle": "Each icon could correspond to several different vehicles. Here is a legend to better orient you:",
+      "car": "Shared car, Transport reserved for the disabled with authorized drivers or vehicles",
+      "bike": "Electric/muscle bike, Running, Electric/muscle scooter, Skateboard, Segway, Roller skates",
+      "walk": "Walking",
+      "train": "Rail transport",
+      "bus": "Urban and suburban line bus",
+      "boat": "Boat",
+      "unknown": "by any other means"
+    },
+    "car": {
+      "choose_role": "Which mode are you?",
+      "driver": "Driver",
+      "passenger": "Passenger",
+      "manual_code": "Trip code:",
+      "manual_code_input_label": "Input code manually:",
+      "manual_code_input_example": "Ex: 12345",
+      "manual_code_input_confirm": "OK",
+      "or": "or scan the QR code",
+      "scan": "Scan",
+      "showCode": "<h3><b>Your journeu has started.</b></h3><br>Now add a passenger.<br>Show QR Code or share code.",
+      "confirm": "Start to drive",
+      "errors": {
+        "NO_ROLE_CHOSEN": "You have to choose to be passenger or driver!",
+        "NO_CONFIRMED": "You have to confirm the QR Code",
+        "NO_PASSENGER_CARPOOLING_ID": "You have to insert the driver code",
+        "INCORRECT_QR_CODE": "Wrong QR CODE"
+      }
+    },
+    "stop_header": "Journey completed!",
+    "stop_body": "Tracking was successful. The trip data will be sent to our servers for validation.",
+    "errors": {
+      "ACCESS_DENIED": "Access to background position denied!",
+      "LOW_ACCURACY": "Low location accuracy detected!",
+      "POWER_SAVE_MODE": "Power save mode is active! This will result in not accurate tracking!",
+      "UNABLE_TO_GET_POSITION": "Unable to get current location! Make sure that location services are enabled and try again."
+    }
+  },
+  "profile": {
+    "mail": "Email: ",
+    "activeFrom": "Activated since: ",
+    "territory": "Territory: ",
+    "blacklistedUser": "Blacklist user",
+    "Faq": "FAQ",
+    "Help": "Help",
+    "Privacy": "Privacy",
+    "logout": "Logout",
+    "logoutpopup": {
+      "title": "Warning",
+      "message": "The unsaved data will be lost. Are you sure you want to exit?",
+      "cancel": "Annulla",
+      "ok": "OK"
+    },
+    "about": "About",
+    "deleteAccount": "Delete account",
+    "changeButton": "Change",
+    "delete": {
+      "title": "Delete account",
+      "message": "This action will delete all your data and your progress in the Play&Go app",
+      "message2": "This is a irreversible action: you cannot get any data back if you will delete the account",
+      "message3": "Are you sure to delete definetly your account?",
+      "close": "Cancel",
+      "accept": "Delete"
+    },
+    "change": {
+      "modalTitle": "Change Profile",
+      "closeButton": "Save",
+      "saveButton": "Close",
+      "lang": {
+        "language": "Language",
+        "select": "Select the language",
+        "it": "Italian",
+        "en": "English"
+      }
+    },
+    "status": {
+      "totalKm": "{{totalKM}} done",
+      "travels": "{{totalTravels}} valid travels",
+      "activityDays": "{{activityDays}} days of gaming",
+      "activeCampaigns": "{{activeCampaigns}} active campaigns",
+      "myCampaigns": "Active campaigns:"
+    }
+  },
+  "report": {
+    "stats": {
+      "title": "Statistics",
+      "title_team": "Team statistics"
+    }
+  },
+  "trips": {
+    "filter_all_campaigns": "All the campaigns",
+    "filter_all_the_time": "All the periods",
+    "empty": "No journeys stored"
+  },
+  "trip_detail": {
+    "title": "Trip Details",
+    "start": "Start",
+    "end": "End",
+    "distance": "Distance",
+    "gl_for": "for",
+    "valid_for_campaigns": {
+      "plural_form": {
+        "one": "Valid for {{count}} campaign",
+        "other": "Valid for {{count}} campaigns"
+      }
+    },
+    "no_score": "No score associated with this journey.",
+    "no_track": "No track associated with this journey.",
+    "mean": {
+      "car": "Car",
+      "bike": "Bike",
+      "walk": "Walk",
+      "train": "Train",
+      "bus": "Bus",
+      "boat": "Boat",
+      "unknown": "Unknown Mean"
+    },
+    "status": {
+      "valid": "Valid",
+      "invalid": "Invalid",
+      "pending": "Pending",
+      "not_synchronized": "Not synchronized",
+      "not_finished": "Ongoing",
+      "validation": "Validating"
+    },
+    "historic_values_offline": "To load historic trips, you have to be online."
+  },
+  "errors": {
+    "error_header": "Error",
+    "not_recoverable": "Application encountered unrecoverable error, and will be restarted! \n Your trip progress will be saved.",
+    "offline": "This functionality is available only online.",
+    "userNotFound": "User Not Found!",
+    "nickNameExist": "This nickname already exists!",
+    "defaultErr": "Server operation failed!"
+  },
+  "offline": {
+    "title": "Offline",
+    "header": "You can continue to track your trips, but some pages may not work!",
+    "page": {
+      "body_1": "No connection available!",
+      "body_2": "This page cannot work without an internet connection",
+      "body_3": "You can still track your trips and play; the data will be sent when the connection is restored.",
+      "return_home": "Return to homepage"
+    }
+  },
+  "campaigns": {
+    "title": "Campaigns",
+    "join": "Join",
+    "novaliddate": "The campaign's period is not valid",
+    "removed": "The campaign is over",
+    "notStarted": "The campaign is not active",
+    "cantSubscribe": "The campaign is running.<br> Your nickname does not belong to any team. To participate, contact the teacher in charge",
+    "notStartedHSC": "The campaign is not yet active. To partecipate contact your teacher.",
+    "noDesc": "No description provided",
+    "myCampaigns": "My campaigns",
+    "allCampaigns": "All campaigns",
+    "registered": "Registered",
+    "unregistered": "Unregistered",
+    "public": {
+      "last": "TODO: Durata:"
+    },
+    "campaignmodal": {
+      "listTitle": "Partecipating companies",
+      "title": "Company Details",
+      "close": "X"
+    },
+    "joinmodal": {
+      "search": "Search",
+      "raccomandation": "Who invited you?",
+      "nickname": "Insert thenickname",
+      "teamselection": "Select your team",
+      "teams": "Teams",
+      "noItems": "No companies found",
+      "modalTitle": "Subscribe to {{campaignTitle}}",
+      "close": "X",
+      "closeString": "Close",
+      "pinRequired": "The univoque code is required",
+      "companyselection": "Select the company",
+      "companyPIN": "Insert your PIN",
+      "privacyLink": "Read the privacy",
+      "privacy": "Accept the privacy",
+      "privacyRequired": "Privacy is needed",
+      "rulesLink": "Read the rules",
+      "rules": "Accept the rules",
+      "rulesRequired": "Rules is needed",
+      "companyRequired": "The selection is needed",
+      "error": {
+        "ERROR_TEAM": "Subscription error. Check the selected team"
+      },
+      "privacyPopup": {
+        "header": "Privacy"
+      },
+      "rulesPopup": {
+        "header": "Rules"
+      },
+      "codeInfo": {
+        "header": "Player code",
+        "message": "Unique code issued to the player"
+      },
+      "join": "Join",
+      "confirm": "Confirm subscription"
+    },
+    "unsub": {
+      "title": "Unsubscribe",
+      "text": "Are you sure to unsubscribe?",
+      "close": "Close",
+      "confirm": "Confirm"
+    },
+    "detail": {
+      "not_subscribed": "Not subscribed",
+      "unregistered": "Unregistered",
+      "nMembersActive": "Members active:",
+      "nMembersInvited": "Invited:",
+      "nMembersMax": "Max team:",
+      "playerProgression": "How are you going",
+      "teamProgression": "How is your team doing",
+      "teamDetailRanking": "General Ranking:",
+      "teamAvg": "{{value}} Km/mese per utente",
+      "points": "Weekly points: ",
+      "noPoints": "Weekly points: 0",
+      "members": "{{members}} members",
+      "member": "{{members}} member",
+      "modalTeam": "<div class=\"ion-text-start\"><i>This component shows the performance of your team compared to the most active and least active <b>team this week</b> .<br/><br/>The score of the less active team is shown on the left.<br/><br/> The score of the more active team is shown on the right. <br/>The bar represents your position with respect to the two scores. <br /><br/><b>Values from {{dateFrom}} to {{dateTo }}</b>:<br /><br/></i></div>",
+      "modalBestTeam": "Best team score: ",
+      "modalActualTeam": "Your team score: ",
+      "modalMinTeam": "Worst team score: ",
+      "modalPersonal": "<div class=\"ion-text-start\"><i>This component shows your performance compared to the most active and least active player <b> this week</b>.< br/><br/> On the left, the score of the less active player is represented. <br/><br/>On the right, the score of the more active player. <br/>The bar represents your position with respect to the two scores. <br/> <br/><b>Values from {{dateFrom}} to {{dateTo }}</b>:<br /><br/><i></div>",
+      "modalBestPersonal": "Max score: ",
+      "modalActualPersonal": "Your score:",
+      "modalMinPersonal": "Min score:",
+      "modalTeamValid": "Only teams that have made at least one valid journey are taken into consideration.",
+      "modalPersonalValid": "Only players that have made at least one valid journey are taken into consideration.",
+      "myCompany": "Company:",
+      "youCompany": "Your company",
+      "otherCompany": "Other companies",
+      "companies": "Partecipating companies",
+      "companySubscribe": "Insert your identification code",
+      "not_found": "Campaign not found",
+      "blacklist": "Blacklist",
+      "badges": "Badges",
+      "stats": "Statistics",
+      "statsTeam": "Team statistics",
+      "generalStat": "General informazion",
+      "signal": "Help and support",
+      "unsubscribe": "Leave the campaign",
+      "prizes": "Prizes",
+      "prize": {
+        "title": "Prizes",
+        "desc": "The first prize will be awarded by right to the first player in the weekly eco-leaves ranking while the other prizes will be drawn at random among the top 50 classified players. Check the rules to find out which players can compete for the weekly prizes, such as cases of equality and other details on assignment methods and times are managed.",
+        "periodic": "Periodic",
+        "final": "Final",
+        "prizefinal": "Final prizes",
+        "prizeactual": "Current prizes",
+        "finalWeekTitle": "Final prizes' notes",
+        "actualWeekTitle": "Periodic prizes' notes",
+        "finalRewardTitle": "Prize's information",
+        "periodicWeekTitle": "Regulation",
+        "sponsorBy": "Sponsor by:",
+        "website": "website",
+        "noFinal": "No prizes available",
+        "noActual": "No prizes available",
+        "expand": "Show past prizes",
+        "expanded": "Past prizes"
+      },
+      "from": "From ",
+      "to": "to",
+      "info": "Prizes information",
+      "current": "On going",
+      "dateFrom": "From: ",
+      "dateTo": "To: ",
+      "challenges": "Challenges",
+      "journeys": "Journeys",
+      "leaderboard": "Leaderboard",
+      "faq": "FAQ",
+      "sponsor": "Organizers and collaborators",
+      "description": "Description",
+      "details": "Campaign details",
+      "limits_title": "Limits",
+      "limits_text": "The regulation provides for the following limits: <ul><li>maximum 20 km per day;</li><li> maximum 250 km per month;</li><ul> Once the limit is exceeded, the trips are not validated for the campaign and the reward is not recognized.",
+      "contacts": "Contatti: ",
+      "name": "Nome: ",
+      "address": "Indirizzo: ",
+      "phone": "Telefono: ",
+      "mail": "Email: ",
+      "mm": "Mobility Manager",
+      "locations": "Valid locations:",
+      "location": "location {{index}}:",
+      "personalStatWeek": "Your contribution this week: {{value}}",
+      "companiesPage": {
+        "website": "Website",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address: ",
+        "location": "Locations"
+      }
+    },
+    "homewidgets": {
+      "personal": {
+        "active": "Active from: {{startDate}}",
+        "totalco2": "Total CO₂: {{totalCO2}}",
+        "weeklyco2": "Weekly CO₂: {{weeklyCO2}}",
+        "weeklyRanking": "Weekly ranking: {{weeklyRanking}}"
+      },
+      "stat": {
+        "weekposition": "Week:",
+        "totalposition": "Total:",
+        "weekvalue": "<b>{{value}} weekly value</b>",
+        "monthvalue": "<b>{{value}} monthly value</b>",
+        "totalvalue": "<b>{{value}} total value</b>",
+        "lastpaymentkm": "<b>{{value}} {{unit}}</b> from {{date}} to {{dateTo}}",
+        "levelName": "<b>Level : {{levelName}}</b>",
+        "maxscore": "You have reached the max score",
+        "score": " ",
+        "emptystatus": "If you want to see your level and points start to play!",
+        "status": "{{score}} Kg CO₂ saved",
+        "record": "{{record}} weekly record",
+        "today": "Today: ",
+        "thisWeek": "Week: ",
+        "lastmonth": "{{lastmonth}}: ",
+        "max": " max",
+        "km": " Km"
+      }
+    },
+    "stats": {
+      "filter": {
+        "unit": {
+          "km": {
+            "label": "Km",
+            "unit": "km"
+          },
+          "co2": {
+            "label": "CO2",
+            "unit": "co2"
+          }
+        },
+        "means": {
+          "car": {
+            "label": "Car",
+            "unit": "car"
+          },
+          "bike": {
+            "label": "Bike",
+            "unit": "bike"
+          },
+          "walk": {
+            "label": "Walk",
+            "unit": "walk"
+          },
+          "boat": {
+            "label": "Boat",
+            "unit": "boat"
+          },
+          "bus": {
+            "label": "Bus",
+            "unit": "bus"
+          },
+          "train": {
+            "label": "Train",
+            "unit": "train"
+          }
+        },
+        "GL": "ecoLeaves",
+        "period": {
+          "week": "Week",
+          "month": "Month",
+          "year": "Year"
+        },
+        "mean_type": "Mean",
+        "unit_type": "Unit"
+      }
+    },
+    "leaderboard": {
+      "empty": "No journeys tracked in this period",
+      "filter": {
+        "leaderboard_type": "Value",
+        "period": "Period"
+      },
+      "period": {
+        "today": "Today",
+        "this_week": "This Week",
+        "last_week": "Last Week",
+        "this_month": "This Month",
+        "all_time": "All Time"
+      },
+      "leaderboard_type": {
+        "co2": "Total CO₂",
+        "km": "Total km",
+        "GL": "ecoLeaves",
+        "virtualScore": "",
+        "virtualTrack": ""
+      },
+      "select": {
+        "co2": "CO₂",
+        "km": "km",
+        "tracks": "tracks",
+        "duration": "duration",
+        "virtualScore": "",
+        "virtualTrack": ""
+      },
+      "unit": {
+        "co2": "CO₂ Kg",
+        "km": "km",
+        "tracks": "# of tracks",
+        "duration": "hours",
+        "virtualScore": "",
+        "virtualTrack": "# of journeys"
+      },
+      "unitChart": {
+        "co2": "Kg",
+        "km": "Km",
+        "tracks": "",
+        "duration": "h",
+        "virtualScore": "",
+        "virtualTrack": ""
+      },
+      "leaderboard_type_unit": {
+        "co2": "{{value}} kg CO₂",
+        "GL": "{{value}}",
+        "km": "{{value}} km",
+        "duration": "{{value}} h",
+        "tracks": "{{value}}",
+        "virtualScore": "{{value}}",
+        "virtualTrack": "{{value}}"
+      },
+      "all_means": "All means",
+      "gl": "Score",
+      "virtualScore": "Virtual Score"
+    },
+    "score_label": {
+      "flower": "ecoLeaves",
+      "shield": "ecoLeaves"
+    }
+  },
+  "blacklist": {
+    "blacklist": "Blacklisted users",
+    "intro1": "Here you can find the list of the users you blocked",
+    "intro2": "The users you blocked can not send you invites for the challenges in this campaign and you can not challenge them.",
+    "empty": "No blocked user for this campaign"
+  },
+  "teamprofile": {
+    "title": "Team profile"
+  },
+  "userprofile": {
+    "period_challenge": "Last month's challenges {{periodFrom}} - {{periodTo}}",
+    "title": "User Profile",
+    "last_month": "Last month activity",
+    "personal_stat_bike": " by bike",
+    "personal_stat_walk": " walking",
+    "personal_stat_bus": " by bus",
+    "personal_stat_train": " by train",
+    "personal_stat_car": " by carpooling",
+    "personal_stat_boat": " by boat",
+    "empty": "There are not statistics to show",
+    "last_week_position": " this week",
+    "general_position": " general ranking",
+    "total_points": " total points",
+    "won": "won {{won}}",
+    "add_blacklist": "Block invites",
+    "remove_blacklist": "Unlock invites",
+    "user_joined": "The user participates in this campaign",
+    "blacklist_user": "Attenzione: hai bloccato gli inviti per le sfide di questo utente. Non puoi inviare nè ricevere sfide da questo utente. "
+  },
+  "challenges": {
+    "singleActivated": "Challenge activated!",
+    "singleDesc": "You activated a single challenge from {{from}} to {{to}}",
+    "active": "Active : {{active}}",
+    "configure": "Configurable: {{configurable}}",
+    "invitations": "Invitations: {{invites}}",
+    "challenges": "Challenges",
+    "allchallenges": "All the challenges",
+    "checkallchallenges": "Check all challenges",
+    "detail": {
+      "title": "Challenge details",
+      "close": "Close"
+    },
+    "sent": "Invitation sent to {{nickame}}",
+    "received": "Invitation received from {{nickame}}",
+    "activate": "Accept",
+    "reject": "Reject",
+    "cancel": "Cancel",
+    "ongoing": "Ongoing",
+    "singleproposal": "Single challenge",
+    "proposed": "Next week challenges",
+    "choose_single": "Choose one of the following challenge",
+    "choose_or_configure": "Configure a group challenge",
+    "empty": "You don't have future challenges",
+    "past": "Past",
+    "present": "Present",
+    "future": "Future",
+    "fromto": "From {{ from }} to {{ to }}",
+    "points": "{{ point }} points",
+    "challenge_container": "Challenges {{ type }} of campaign",
+    "info": {
+      "title": "Single challenge",
+      "body": "Each week you can choose only ONE single challenge and ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a single challenge, the other possible single challenges proposed by the system disappear. <br> <br> Similarly, when you activate a couple challenge, the alternatives disappear. <br> <br>  Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 single challenge proposals.",
+      "close": "Close"
+    },
+    "infogroup": {
+      "title": "Group challenges",
+      "body": "Each week you can choose only ONE couple challenge. <br> Once you have chosen a challenge, the other alternatives for that type disappear. <br> So when you activate a couple challenge, the other possible couple challenges proposed by the system disappear. <br> <br> Accepting an invitation is equivalent to choosing a couple challenge. <br> <br> When someone accepts an invitation you sent, the couple challenge for the week is automatically chosen. All other alternate challenges disappear. <br> <br> Each week the proposed challenges are renewed: depending on your level, you can receive up to a maximum of 3 invitations and you can send up to a maximum of 2 invitations.",
+      "close": "Chiudi"
+    },
+    "challenge_detail": {
+      "challenge_future_start": "This challenge will start : {{startDate}}",
+      "survey": "Survey",
+      "title": "Configure a challenge",
+      "won": "You won!",
+      "prize": "You won {{prize}}",
+      "lost": "You lost!"
+    },
+    "stats": {
+      "empty": "If you want to see your challenges' statistics start to play!",
+      "filter": {
+        "campaign": "Campaign",
+        "no_campaigns": "No game present"
+      },
+      "totalChallenges": "{{totalChallenges}} challenges",
+      "totalWon": "{{totalWon}} won",
+      "singleChallengeWin": {
+        "single": "won",
+        "plural": "won"
+      },
+      "singleChallengeLost": {
+        "single": "lost",
+        "plural": "lost"
+      }
+    },
+    "create": {
+      "configure": "Configure challenge",
+      "button_create": "Configure a new challenge",
+      "title": "Configure a challenge",
+      "choose_type": "Choose challenge type",
+      "choose_metric": "Choose metric",
+      "choose_partner": "Choose opponent",
+      "activate": "Activate challenge",
+      "invite": "INVITE",
+      "preview": {
+        "model": "Type:",
+        "mean": "Selected mean:",
+        "challengeable": "Player to challenge:",
+        "you": "You"
+      },
+      "sent_title": "You have sent a challenge to {{nickname}}",
+      "sent_body": "The invitation will be visible to {{nickname}}. You will get a notification if {{nickname}} accept or reject the challenge. If he will not reply before the time limit the challenge will be rejected automatically. ",
+      "close": "Close"
+    },
+    "challenge_model": {
+      "title": "Which kind of challenge you want create?",
+      "name": {
+        "groupCompetitivePerformance": "Competitive performance",
+        "groupCompetitiveTime": "Competitive time",
+        "groupCooperative": "Cooperative",
+        "survey": "Survey",
+        "default": "Single Challenge",
+        "default-team": "Team challenge",
+        "teams": "Teams challenge"
+      },
+      "description": {
+        "groupCompetitivePerformance": "Do more than your opponent in a week",
+        "groupCompetitiveTime": "Reach the target before your opponent!",
+        "groupCooperative": "Reach shared target with another player."
+      },
+      "disabled_until_level": "Challenge type disabled until level {{level}}!"
+    },
+    "challenge_mean": {
+      "title": "How do you want to face the challenge?",
+      "label": {
+        "Bike_Km": "Km on bike",
+        "Walk_Km": "Km on foot",
+        "Boat_Km": "Km on boat",
+        "Bus_Km": "Km on bus",
+        "Car_Km": "Km in car",
+        "Train_Km": "Km on train"
+      },
+      "pointconcept": {
+        "Bike_Km": "Km on bike",
+        "Walk_Km": "Km on foot",
+        "green leaves": "ecoLeaves"
+      }
+    }
+  },
+  "wizard": {
+    "next": "Next",
+    "back": "Back"
+  },
+  "outof": "{{current}} out of {{total}}",
+  "Language": "Language",
+  "join": "Discover",
+  "home": "Play&Go",
+  "home_title": "Home",
+  "profile_title": "Profile",
+  "campaigns_title": "Available campaigns",
+  "playNow": "Play now",
+  "noMessages": "No messages available",
+  "noCampaigns": "No campaigns available",
+  "noOtherCampaigns": "No other campaigns available.",
+  "messages": "Messages",
+  "generalStatistics": "General Statistics",
+  "noStatistics": "No statistics available",
+  "activities": "My activities",
+  "noActivities": "No activities available",
+  "greenLeaves": "Green Leaves",
+  "forNextLevel": "for next level",
+  "challenge": "Challenge",
+  "totals": "totals",
+  "thisWeek": "this week",
+  "classificationList": "Classification position",
+  "activeSince": "Active since",
+  "to": "to",
+  "madeToday": "Made today",
+  "maximumKmPerToday": "maximum for today",
+  "total": "total",
+  "tier": "Tier",
+  "adhesionCode": "Adhesion code",
+  "generalTier": "General tier",
+  "weeklyTier": "Weekly tier",
+  "number": {
+    "ordinal": {
+      "one": "{{ordinal}}st",
+      "two": "{{ordinal}}nd",
+      "few": "{{ordinal}}rd",
+      "other": "{{ordinal}}th",
+      "many": "{{ordinal}}th"
+    }
+  },
+  "date": {
+    "from_to": "from {{from}} to {{to}}"
+  }
+}

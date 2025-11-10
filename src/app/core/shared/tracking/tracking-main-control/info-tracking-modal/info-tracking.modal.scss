@@ -1,0 +1,39 @@
+ion-content {
+  font-style: italic;
+  .title {
+    font-weight: 600;
+    font-size: 13px;
+    margin: 8px 5px 0px 5px;
+    padding: 12px 5px 0 5px;
+  }
+  .subtitle {
+    font-weight: 400;
+    font-size: 13px;
+    margin: 0px 5px 20px 5px;
+  }
+  .transport-type {
+    font-weight: 700;
+    font-size: 10px;
+  }
+  .description {
+    font-weight: 400;
+    font-size: 2vh;
+  }
+  .dotted-big {
+    border-top: 1.5px dashed #ffffff;
+    margin: 0 10px;
+  }
+  .dotted-small {
+    border-top: 0.5px dashed #ffffff;
+    opacity: 0.5;
+    margin: 0 10px;
+  }
+  .info-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
+ion-footer {
+  background-color: var(--ion-color-playgo);
+}

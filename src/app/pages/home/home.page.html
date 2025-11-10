@@ -1,0 +1,15 @@
+<ion-header appHeader></ion-header>
+<ion-content appContent class="page" #scrollMe>
+  <div id="container">
+    <ion-card class="profile-main">
+      <ion-card-content color="playgo" mode="md">
+        <app-profile-component [editable]="false"></app-profile-component>
+      </ion-card-content>
+    </ion-card>
+    <app-my-campaigns-widget></app-my-campaigns-widget>
+    <ion-button *ngIf="arrowDown" class="arrow" color="dark" (click)="goDown()">
+      <ion-icon name="arrow-down-outline"></ion-icon>
+    </ion-button>
+    <app-footer enterTheViewportNotifier (visibilityChange)="changedVisibility($event)"></app-footer>
+  </div>
+</ion-content>

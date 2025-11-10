@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar [color]="type">
+    <ion-title>{{detail?.name}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div [innerHTML]="detail?.content"></div>
+</ion-content>

@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar [color]="type">
+    <ion-title mode="md">{{title}}</ion-title>
+    <ion-buttons slot=" end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [color]="type">
+  <div [innerHTML]="detail| languageMap"></div>
+</ion-content>
+
+<ion-footer color="playgo" class="ion-text-center">
+  <ion-button expand="block" color="light" (click)="close()">{{
+    "modal.ok" | translate
+    }}</ion-button>
+</ion-footer>

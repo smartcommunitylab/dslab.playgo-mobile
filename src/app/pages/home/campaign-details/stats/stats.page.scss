@@ -1,0 +1,32 @@
+.header-margin {
+  margin: 8px;
+  ion-select {
+    font-weight: 500;
+    font-size: 17px;
+  }
+  .header-radius {
+    border-radius: 8px 8px 0 0;
+  }
+  .table-header {
+    font-size: 22px;
+  }
+  .period-value {
+    margin: 4px;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 20px;
+  }
+  .total-value {
+    margin: 4px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .white-line {
+    height: 2px;
+  }
+}
+.chart-container {
+  position: relative;
+  height: calc(100vh - 400px);
+  width: 100%;
+}

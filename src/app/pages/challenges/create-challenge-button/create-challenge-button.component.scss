@@ -1,0 +1,15 @@
+.header {
+  text-align: end;
+  padding: 2px;
+  font-style: italic;
+}
+.content {
+  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  span {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 13px;
+  }
+}

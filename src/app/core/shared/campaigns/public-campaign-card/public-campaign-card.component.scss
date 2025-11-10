@@ -1,0 +1,151 @@
+.progress-bar {
+  height: 24px;
+  width: var(--varwidth, 0%);
+  color: black;
+  background-color: rgb(8, 166, 240);
+  text-align: center;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.progress-bar-contourn {
+  border: 1px solid black;
+  border-color: black;
+  margin-left: 18px;
+  margin-right: 18px;
+  background-color: lightgrey;
+  border-radius: 10px;
+}
+ion-card-header ion-label {
+  font-weight: bold;
+}
+.border-class {
+  border: 1px solid rgb(63, 63, 63);
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.border-class-fancy {
+  border: 1px solid rgb(255, 255, 255);
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.ion-card {
+  color: black;
+  background-color: white;
+
+  .header {
+    ion-label {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      bottom: 20px;
+      z-index: 2;
+      text-align: center;
+      bottom: 20px;
+      width: 100%;
+    }
+    ion-avatar {
+      --border-radius: 50%;
+      // border: solid 3px rgba(0, 0, 0, 0);
+      background-color: white;
+      position: absolute;
+      z-index: 2;
+      text-align: center;
+      right: 20px;
+      bottom: -20px;
+    }
+  }
+  ion-grid {
+    margin-top: 15px;
+  }
+}
+.company {
+  border: 3px solid var(--ion-color-company);
+}
+.school {
+  border: 3px solid var(--ion-color-school);
+}
+.city {
+  border: 3px solid var(--ion-color-city);
+}
+.header {
+  position: relative;
+
+  .banner {
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .header-title {
+    position: absolute;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    color: white;
+    padding: 8px;
+  }
+}
+.company-effect:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 30%,
+    var(--ion-color-company) 75%
+  );
+  z-index: 1;
+}
+.school-effect:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 30%,
+    var(--ion-color-school) 75%
+  );
+  z-index: 1;
+}
+.city-effect:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 30%,
+    var(--ion-color-city) 75%
+  );
+  z-index: 1;
+}
+// .header:before {
+//   content: "";
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background: linear-gradient(
+//     to bottom,
+//     rgba(0, 0, 0, 0) 0%,
+//     rgba(0, 0, 0, 1) 100%
+//   );
+//   z-index: 1;
+// }

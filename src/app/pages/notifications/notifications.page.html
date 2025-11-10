@@ -1,0 +1,12 @@
+<ion-header appHeader></ion-header>
+
+<ion-content appContent fullscreen="true">
+  <ng-container *ngIf="notifications?.length > 0; else emptyNotifications">
+    <ng-container *ngFor="let notification of notifications">
+      <app-notification-detail [notification]="notification"></app-notification-detail>
+    </ng-container>
+  </ng-container>
+  <ng-template #emptyNotifications>
+    <div class="empty-notifications">{{'notifications.empty'|translate}}</div>
+  </ng-template>
+</ion-content>

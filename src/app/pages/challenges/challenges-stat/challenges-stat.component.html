@@ -1,0 +1,70 @@
+<div class="header-margin">
+  <ion-item color="playgo" class="header-radius" [ngStyle]="{
+    borderBottomColor: ' var(--ion-color-' + (selectedCampaign$ | async)?.campaign?.type+ ')'
+  }">
+    <ion-label>{{ "challenges.stats.filter.campaign" | translate }}</ion-label>
+    <ion-select [interfaceOptions]="{ cssClass: 'app-alert' }" *ngIf="campaigns.length > 0; else noCampaigns"
+      (ionChange)="campaignChangedSubject.next($any($event))" [value]="selectedCampaign$ | async">
+      <ion-select-option *ngFor="let campaign of campaigns" [value]="campaign">
+        {{ campaign.campaign.name | languageMap }}
+      </ion-select-option>
+    </ion-select>
+    <ng-template #noCampaigns>
+      <ion-label>
+        {{ "challenges.stats.filter.no_campaigns" | translate }}</ion-label>
+    </ng-template>
+  </ion-item>
+
+  <ion-segment mode="md" class="app-segment" [(ngModel)]="selectedSegment"
+    [style.--background]="'var(--ion-color-playgo)'" (ionChange)="
+      segmentChanged($event); statPeriodChangedSubject.next(selectedSegment)
+    " scrollable>
+    <ion-segment-button *ngFor="let period of periods" [value]="period" checked mode="ios" class="app-segment-button"
+      [style.--color]="'white'" [style.--color-checked]="'black'">
+      <ion-label>{{ period.labelKey | translate }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-grid class="table-header">
+    <ion-row>
+      <ion-col size="2">
+        <ion-button (click)="backPeriod()" color="light" fill="clear">
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="8">
+        <p class="ion-text-center">{{ getSelectedPeriod() }}</p>
+        <p class="ion-text-center">
+          {{
+          "challenges.stats.totalChallenges"
+          | translate: { totalChallenges: totalChallenges }
+          }}
+          /
+          {{ "challenges.stats.totalWon" | translate: { totalWon: totalWon } }}
+        </p>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button (click)="forwardPeriod()" color="light" fill="clear">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div [style.display]="stats && stats?.length > 0? 'block':'none'">
+    <div *ngIf="isWeekSelected(); else barChart">
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngFor="let stat of stats">
+            <app-challenge-single-stat [stat]="stat" [kind]="(selectedCampaign$ | async)?.campaign?.type">
+            </app-challenge-single-stat>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ng-template #barChart>
+      <canvas #barCanvas style="position: relative; height: 20vh; width: 40vw" id="statsChart"></canvas>
+    </ng-template>
+  </div>
+  <div [style.display]="stats===null ||  stats?.length <=0? 'block':'none'">
+    <div class="empty-stats">{{ "challenges.stats.empty" | translate }}</div>
+  </div>
+</div>

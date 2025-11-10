@@ -1,0 +1,116 @@
+apply plugin: 'com.android.application'
+
+// ===== [TRANSISTORSOFT Background Geolocation - safe import] =====
+def background_geolocation
+try {
+    background_geolocation = project(':transistorsoft-capacitor-background-geolocation')
+    apply from: "${background_geolocation.projectDir}/app.gradle"
+    println("✅ Background Geolocation plugin applied.")
+} catch (Exception e) {
+    println("⚠️ Background Geolocation plugin not found, skipping.")
+}
+
+android {
+    namespace "it.dslab.playgo"
+    def secretProperties = new Properties()
+    file("../../secrets/secrets-android.properties").withInputStream {
+        secretProperties.load(it)
+    }
+
+    signingConfigs {
+        production {
+            storeFile file('../../secrets/playgomulti.keystore')
+            keyAlias 'playgomulti'
+            storePassword secretProperties['PRODUCTION_STORE_PASSWORD']
+            keyPassword secretProperties['PRODUCTION_KEY_PASSWORD']
+        }
+        stage {
+            storeFile file('../../secrets/playgomulti_stage.keystore')
+            keyAlias 'playgomultiStage'
+            storePassword secretProperties['PRODUCTION_STORE_PASSWORD']
+            keyPassword secretProperties['PRODUCTION_KEY_PASSWORD']
+        }
+    }
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "it.dslab.playgo"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 137
+        versionName "1.3.7"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        stage {
+            dimension "version"
+            applicationId "it.dslab.playgo.stage"
+            manifestPlaceholders = [
+                displayName: "PlayGo - Stage",
+                customUrlScheme: "it.dslab.playgo.stage",
+                backgroundKey: "d0de5b4c45ddb86f33ff57edd2f521de9333436d8c981edc00c380ac01a7260c"
+            ]
+            signingConfig signingConfigs.stage
+        }
+        production {
+            dimension "version"
+            applicationId "it.dslab.playgo"
+            manifestPlaceholders = [
+                displayName: "PlayGo",
+                customUrlScheme: "it.dslab.playgo",
+                backgroundKey: "2e4f62a3935686bc54cb1c7bbe6eca8cf11a5744e49fac82cfee506d79601bee"
+            ]
+            signingConfig signingConfigs.production
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (background_geolocation != null) {
+                proguardFiles "${background_geolocation.projectDir}/proguard-rules.pro"
+            }
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation project(':capacitor-android')
+    implementation project(':capacitor-cordova-android-plugins')
+
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+}
+
+apply from: 'capacitor.build.gradle'
+
+// Google Services (Firebase)
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.exists() && servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+        println("✅ Google Services applied.")
+    } else {
+        println("ℹ️ google-services.json not found, skipping Firebase setup.")
+    }
+} catch (Exception e) {
+    println("⚠️ Error loading google-services plugin: ${e.message}")
+}
