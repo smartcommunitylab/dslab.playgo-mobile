@@ -19,7 +19,7 @@
             <ion-label>{{ 'campaigns.joinmodal.teamselection' | translate
               }}</ion-label>
 
-            <ionic-selectable [(ngModel)]="teamSelected" [items]="teams" itemValueField="id" itemTextField="name"
+            <ionic-selectable [(ngModel)]="teamSelected" [items]="teams" itemValueField="id" itemTextField="displayName"
               formControlName="teamSelected" hasSearchText="false" headerColor="playgo" groupColor="playgo"
               modalCssClass="modal-search-playgo" [searchFailText]=" 'campaigns.joinmodal.noItems' | translate"
               [canSearch]="true" (onSelect)="onSelect($event)">

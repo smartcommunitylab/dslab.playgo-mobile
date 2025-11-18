@@ -51,6 +51,10 @@ export class AppComponent implements AfterContentInit {
        this.initLink();
       this.badgeService.init();
       await this.platform.ready();
+      const observer = new MutationObserver(() => {
+        document.documentElement.classList.remove('dark');
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
        this.authService.init().catch(err => console.error('auth init error', err));
       // this.backgroundTrackingService.start().catch(err => console.error('tracking start error', err));
       // // await this.authService.init();
@@ -59,6 +63,8 @@ export class AppComponent implements AfterContentInit {
       console.error('initializeApp error:', error);
     } finally {
       StatusBar.setOverlaysWebView({ overlay: false });
+      await StatusBar.setBackgroundColor({ color: '#3880ff' });
+
       StatusBar.setStyle({ style: Style.Light }); 
        await SplashScreen.hide();
     }

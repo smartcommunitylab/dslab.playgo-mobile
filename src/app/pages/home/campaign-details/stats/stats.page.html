@@ -6,7 +6,7 @@
       <ion-row>
         <ion-col>
           <ion-item [color]="campaignContainer.campaign.type" class="header-radius" lines="none">
-            <ion-select class="app-alert" interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
+            <ion-select  interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
               (ionChange)="selectedMeanChangedSubject.next($any($event))" [value]="selectedMean$ | async">
               <ion-select-option *ngFor="let mean of means$|async" [value]="mean">
                 {{meanLabels[mean] |translate}}

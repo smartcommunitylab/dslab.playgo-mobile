@@ -37,9 +37,7 @@ export class SingleChallengeProposedComponent implements OnInit {
         componentProps: {
           challenge: this.challenge,
           campaign: this.campaign,
-        },
-        breakpoints: [0, 0.5, 0.8],
-        initialBreakpoint: 0.5
+        }
       });
       await modal.present();
       await modal.onWillDismiss();

@@ -40,7 +40,7 @@ export class TripDetailMapComponent implements OnInit, OnDestroy {
 
   public mapOptions: MapOptions = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19, // for lower zooms there are no tiles!
         minZoom: 10,
         attribution:

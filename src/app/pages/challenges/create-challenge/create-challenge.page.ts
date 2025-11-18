@@ -213,9 +213,7 @@ export class CreateChallengePage implements OnInit {
         cssClass: 'modal-challenge',
         componentProps: {
           opponentName: this.nicknameOpponent,
-        },
-        breakpoints: [0, 0.5, 0.8],
-        initialBreakpoint: 0.5
+        }
       });
       await modal.present();
       const navigationExtras: NavigationExtras = {

@@ -1,36 +1,45 @@
 <ion-header appHeader></ion-header>
 <ion-item color="playgo" [ngStyle]="campaignFilterStyle$ |async">
-  <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
-    (ionChange)="monthFilterSubject.next($any($event).target.value)" [value]="monthFilterSubject | async"
-    [selectedText]="
+  <ion-grid class="ion-no-padding ion-no-margin">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="6">
+        <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'app-alert' }"
+          (ionChange)="monthFilterSubject.next($any($event).target.value)" [value]="monthFilterSubject | async"
+          [selectedText]="
       (monthFilterSubject | async) === 'NO_FILTER' ?
       ( 'trips.filter_all_the_time' | translate ) :
       undefined
     ">
-    <!-- [selectText] is workaround for ionic bug https://github.com/ionic-team/ionic-framework/issues/8561#issuecomment-399639608 -->
-    <ion-select-option value="NO_FILTER">
-      {{ "trips.filter_all_the_time" | translate }}
-    </ion-select-option>
-    <ion-select-option *ngFor="let month of months$ | async" [value]="month">
-      {{ month.from | localDate: "MMMM y" }}
-    </ion-select-option>
-  </ion-select>
-  <ion-select interface="popover" class="campaign-filter" [interfaceOptions]="{ cssClass: 'app-alert' }"
-    (ionChange)="campaignFilterSubject.next($any($event).target.value)" [value]="campaignFilter$ | async"
-    [selectedText]="
+          <!-- [selectText] is workaround for ionic bug https://github.com/ionic-team/ionic-framework/issues/8561#issuecomment-399639608 -->
+          <ion-select-option value="NO_FILTER">
+            {{ "trips.filter_all_the_time" | translate }}
+          </ion-select-option>
+          <ion-select-option *ngFor="let month of months$ | async" [value]="month">
+            {{ month.from | localDate: "MMMM y" }}
+          </ion-select-option>
+        </ion-select>
+      </ion-col>
+
+      <ion-col size="6" class="ion-text-right">
+        <ion-select interface="popover" class="campaign-filter" [interfaceOptions]="{ cssClass: 'app-alert' }"
+          (ionChange)="campaignFilterSubject.next($any($event).target.value)" [value]="campaignFilter$ | async"
+          [selectedText]="
       (campaignFilter$ | async) === 'NO_FILTER' ?
       ( 'trips.filter_all_campaigns' | translate ) :
       undefined
     ">
-    <!-- [selectText] is workaround for ionic bug https://github.com/ionic-team/ionic-framework/issues/8561#issuecomment-399639608 -->
-    <ion-select-option value="NO_FILTER">
-      {{ "trips.filter_all_campaigns" | translate }}
-    </ion-select-option>
-    <ion-select-option class="campaign-filter" *ngFor="let campaign of myCampaigns$ | async"
-      [value]="campaign.campaign.campaignId">
-      {{ campaign.campaign.name | languageMap }}
-    </ion-select-option>
-  </ion-select>
+          <!-- [selectText] is workaround for ionic bug https://github.com/ionic-team/ionic-framework/issues/8561#issuecomment-399639608 -->
+          <ion-select-option value="NO_FILTER">
+            {{ "trips.filter_all_campaigns" | translate }}
+          </ion-select-option>
+          <ion-select-option class="campaign-filter" *ngFor="let campaign of myCampaigns$ | async"
+            [value]="campaign.campaign.campaignId">
+            {{ campaign.campaign.name | languageMap }}
+          </ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-item>
 <ion-content appContent>
   <app-infinite-scroll [allItemsInTemplate]="true" [resetItems]="resetItems$ | async"

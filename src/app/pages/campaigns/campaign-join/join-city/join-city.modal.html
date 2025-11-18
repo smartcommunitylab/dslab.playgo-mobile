@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="playgo">
+<ion-content color="playgo" scroll="false">
   <form [formGroup]="joinCityForm" (ngSubmit)="joinCitySubmit()">
     <ion-grid>
       <ion-row class="ion-margin-top" *ngIf="!isAlreadySubscribed()">

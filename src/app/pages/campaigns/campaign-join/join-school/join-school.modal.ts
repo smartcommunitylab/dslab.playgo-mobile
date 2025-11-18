@@ -52,7 +52,10 @@ export class JoinSchoolModalPage implements OnInit, OnDestroy {
     this.sub = this.teamService.getTeamsForSubscription(this.campaign.campaignId)
       .subscribe((result) => {
         if (result) {
-          this.teams = result;
+          this.teams = result.map(t => ({
+            ...t,
+            displayName: t.customData?.name
+          }));
         }
       });
   }

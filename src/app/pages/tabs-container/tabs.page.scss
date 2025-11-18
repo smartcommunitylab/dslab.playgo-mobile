@@ -4,3 +4,6 @@
 .padding {
   height: 25px;
 }
+ion-tab-bar {
+  padding-bottom:var(--ion-safe-area-bottom) ;
+}

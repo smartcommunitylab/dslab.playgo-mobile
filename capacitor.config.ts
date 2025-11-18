@@ -1,15 +1,8 @@
-// import type { CapacitorConfig } from '@capacitor/cli';
 
-// const config: CapacitorConfig = {
-//   appId: 'it.dslab.playgo.stage',
-//   appName: 'playGo',
-//   webDir: 'www'
-// };
-
-// export default config;
 
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CapacitorConfig } from '@capacitor/cli';
+import { KeyboardResize, KeyboardStyle } from '@capacitor/keyboard';
 
 // Recupera il "flavor" da variabile ambiente o fallback a 'production'
 const flavor = (process?.env?.FLAVOR as 'stage' | 'production') || 'production';
@@ -20,6 +13,11 @@ const baseConfig: CapacitorConfig = {
   webDir: 'www',
   server: { allowNavigation: ['*'] },
   plugins: {
+    Keyboard: {
+      resize: KeyboardResize.Body,
+      style: KeyboardStyle.Dark,
+
+    },
     SplashScreen: {
       launchShowDuration: 3000,
       launchAutoHide: false,
@@ -29,8 +27,12 @@ const baseConfig: CapacitorConfig = {
       androidScaleType: 'CENTER_CROP',
       androidSplashResourceName: 'splash',
     },
+    StatusBar: {
+      overlaysWebView: true
+    },
     android: {
       webContentsDebuggingEnabled: true,
+      adjustMarginsForEdgeToEdge: "auto"
     },
     PushNotifications: {
       presentationOptions: ['badge', 'sound', 'alert'],

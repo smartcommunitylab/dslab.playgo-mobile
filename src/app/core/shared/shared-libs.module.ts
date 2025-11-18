@@ -3,17 +3,39 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicSelectableComponent } from 'ionic-selectable';
+import {
+  IonicSelectableComponent,
+  IonicSelectableItemTemplateDirective,
+  IonicSelectableValueTemplateDirective,
+  IonicSelectableCloseButtonTemplateDirective,
+  IonicSelectableTitleTemplateDirective
+} from 'ionic-selectable';
 
 @NgModule({
-  imports: [TranslateModule, IonicSelectableComponent,IonicModule],
-  exports: [
-    FormsModule,
+  imports: [
     CommonModule,
-    IonicModule,
+    FormsModule,
     ReactiveFormsModule,
+    IonicModule,
     TranslateModule,
-    IonicSelectableComponent
-  ]
+    // 👇 importa standalone components con .import() (Angular 15+)
+    IonicSelectableComponent,
+    IonicSelectableItemTemplateDirective,
+    IonicSelectableValueTemplateDirective,
+    IonicSelectableCloseButtonTemplateDirective,
+    IonicSelectableTitleTemplateDirective,
+  ],
+  exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IonicModule,
+    TranslateModule,
+    IonicSelectableComponent,
+    IonicSelectableItemTemplateDirective,
+    IonicSelectableValueTemplateDirective,
+    IonicSelectableCloseButtonTemplateDirective,
+    IonicSelectableTitleTemplateDirective,
+  ],
 })
-export class PlayGoSharedLibsModule { }
+export class PlayGoSharedLibsModule {}

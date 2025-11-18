@@ -71,8 +71,8 @@ export class AlertService {
       const alert = await this.alertController.create({
         cssClass: args.cssClass,
         header,
-        message,
-        buttons: [
+        message: '',
+                buttons: [
           {
             text: ok,
             id: 'confirm-button',
@@ -84,6 +84,10 @@ export class AlertService {
       });
 
       await alert.present();
+      const messageEl = alert.querySelector('.alert-message');
+      if (messageEl) {
+        messageEl.innerHTML = message;
+      }
       const anchors = alert.querySelectorAll('a');
       anchors.forEach((anchor: HTMLAnchorElement) => {
         anchor.addEventListener('click', this.handleAnchorClick);

@@ -20,6 +20,8 @@ PODS:
     - FirebaseAnalytics
   - CapacitorCommunityHttp (1.4.1):
     - Capacitor
+  - CapacitorCommunitySafeArea (7.0.0-beta.2):
+    - Capacitor
   - CapacitorCordova (7.4.4)
   - CapacitorDevice (7.0.2):
     - Capacitor
@@ -30,7 +32,7 @@ PODS:
     - IONFilesystemLib (~> 1.0.1)
   - CapacitorHaptics (7.0.2):
     - Capacitor
-  - CapacitorKeyboard (7.0.3):
+  - CapacitorKeyboard (8.0.0-next.4):
     - Capacitor
   - CapacitorPreferences (7.0.2):
     - Capacitor
@@ -159,6 +161,7 @@ DEPENDENCIES:
   - "CapacitorCommunityFcm (from `../../node_modules/@capacitor-community/fcm`)"
   - "CapacitorCommunityFirebaseAnalytics (from `../../node_modules/@capacitor-community/firebase-analytics`)"
   - "CapacitorCommunityHttp (from `../../node_modules/@capacitor-community/http`)"
+  - "CapacitorCommunitySafeArea (from `../../node_modules/@capacitor-community/safe-area`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorDevice (from `../../node_modules/@capacitor/device`)"
   - "CapacitorDialog (from `../../node_modules/@capacitor/dialog`)"
@@ -211,6 +214,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor-community/firebase-analytics"
   CapacitorCommunityHttp:
     :path: "../../node_modules/@capacitor-community/http"
+  CapacitorCommunitySafeArea:
+    :path: "../../node_modules/@capacitor-community/safe-area"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorDevice:
@@ -252,12 +257,13 @@ SPEC CHECKSUMS:
   CapacitorCommunityFcm: 8b6bd4c26c95643dd954aa886d18b0693280c29f
   CapacitorCommunityFirebaseAnalytics: b70024dd8bee31e6e5bcc07d8a207454056e30c1
   CapacitorCommunityHttp: 7be90668527ef14ee10d08135b0e00fac9cf8247
+  CapacitorCommunitySafeArea: 77de78a80d55e008af5f199538a2ab80c029c842
   CapacitorCordova: bf648a636f3c153f652d312ae145fb508b6ffced
   CapacitorDevice: a50a45f0d075e55e2392c7a4be5404d4f69515de
   CapacitorDialog: f23be5f188fbfedf7eca159c5d5bdab98b4c89c6
   CapacitorFilesystem: ac0a386949ed6c295a3dffa129ecd26b881ae5be
   CapacitorHaptics: 09d96bcb5a2b74ede8fd039b4cdf58fc43dcacf1
-  CapacitorKeyboard: 3822c3a0c6b58168f96ca562f9534ed095d40860
+  CapacitorKeyboard: 9e375691fba3eaddf07aa5d94d03b61423b39043
   CapacitorPreferences: b583b5deb74e564c35968189d25d32c0fd41200d
   CapacitorPushNotifications: 729ade0d2791ec1969feaf931a15e28d929a6d70
   CapacitorScreenOrientation: f698d08d01a06dfe0b21392f6c6ba522b9f61773
@@ -282,6 +288,6 @@ SPEC CHECKSUMS:
   TransistorsoftCapacitorBackgroundFetch: 54e24b0b6794524bb6b7895a38a770cb0f0c2369
   TransistorsoftCapacitorBackgroundGeolocation: 822bbbeab2f20cb9d183fe2ba8d4648779ca1cb2
 
-PODFILE CHECKSUM: 0697a301bab9a85e45c1d78f15a75ad6c57f994c
+PODFILE CHECKSUM: 309be7eddd3ba00d4790213dbe2542367d23fe62
 
 COCOAPODS: 1.16.2

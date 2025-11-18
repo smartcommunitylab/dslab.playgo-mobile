@@ -7,19 +7,17 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  ViewChild,
   Optional,
 } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { IonToolbar, IonButtons, IonTitle } from '@ionic/angular';
+import { IonToolbar, IonButtons, IonTitle, IonContent } from '@ionic/angular';
 import toPx from 'to-px';
-import { HeaderContentComponent } from '../layout/header/header-content.component';
 import { HeaderDirective } from '../layout/header/header.directive';
 import { waitMs } from '../utils';
+
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'ion-header[parallax]',
-  standalone:false
+  standalone: false
 })
 export class ParallaxDirective implements AfterContentInit {
   @Input() imageUrl: string;
@@ -28,23 +26,28 @@ export class ParallaxDirective implements AfterContentInit {
   @Input() color: string;
   @Input() height: string | number = 300;
   @Input() bgPosition: 'top' | 'center' | 'bottom' = 'top';
+
   imageOverlay: HTMLElement;
   textDateOverlay: HTMLElement;
-  // logoOverlay: HTMLElement;
   private toolbarBackground: HTMLElement;
   private innerScroll: HTMLElement;
   private originalToolbarHeight = 0;
   private ticking = false;
   private toolbarContainer: HTMLDivElement;
+  private ionContent: IonContent;
+
   @ContentChild(IonTitle, { static: false }) ionTitle: IonTitle & {
     el: HTMLIonTitleElement;
   };
+
   @ContentChild(IonToolbar, { static: false }) ionToolbar: IonToolbar & {
     el: HTMLIonToolbarElement;
   };
+
   @ContentChildren(IonButtons) ionButtons: QueryList<
     IonButtons & { el: HTMLElement }
   >;
+
   constructor(
     private headerRef: ElementRef<HTMLElement>,
     private renderer: Renderer2,
@@ -54,20 +57,20 @@ export class ParallaxDirective implements AfterContentInit {
   ngAfterContentInit() {
     this.init();
   }
+
   private async init(numOfTry: number = 0) {
     try {
-      if (this.initElements()) {
+      if (await this.initElements()) {
         this.setupContentPadding();
         this.setupImageOverlay();
         this.setupDate();
-        // this.setupLogo();
         this.setupPointerEventsForButtons();
         this.setupEvents();
         this.updateProgress();
       }
     } catch (e) {
       if (numOfTry > 5) {
-        console.log('parallax error', e);
+        console.error('parallax error', e);
       } else {
         await waitMs(100);
         await this.init(numOfTry + 1);
@@ -78,10 +81,7 @@ export class ParallaxDirective implements AfterContentInit {
   private get header() {
     return this.headerRef.nativeElement;
   }
-  /**
-   * Return the value of the input parameter `height` as a string with units.
-   * If no units were provided, it will default to 'px'.
-   */
+
   getMaxHeightWithUnits() {
     return !isNaN(+this.height) || typeof this.height === 'number'
       ? this.height + 'px'
@@ -92,25 +92,25 @@ export class ParallaxDirective implements AfterContentInit {
     return toPx(this.getMaxHeightWithUnits());
   }
 
-  private initElements() {
+  private async initElements() {
     if (this.headerDirective) {
-      // If we are using [appHeader] directive, than @ContentChild will not resolve elements
-      // so we need to get them from the HeaderContentComponent via @ViewChild
       const headerContentComponent =
         this.headerDirective.headerContentComponent.instance;
-
       this.ionToolbar = headerContentComponent.ionToolbar;
       this.ionTitle = headerContentComponent.ionTitle;
       this.ionButtons = headerContentComponent.ionButtons;
     }
+
     if (!this.ionToolbar) {
       console.error(
-        'A <ion-toolbar> element is needed inside <ion-header > or using the [appHeader] directive on the <ion-header >'
+        'A <ion-toolbar> element is needed inside <ion-header> or using the [appHeader] directive'
       );
       return false;
     }
+
+    // Stili per il titolo
     if (this.ionTitle) {
-      this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', '75px');
+      this.renderer.setStyle(this.ionTitle.el.firstChild,'margin-top',`calc(env(safe-area-inset-top) + 75px)` );
       this.renderer.setStyle(this.ionTitle.el.firstChild, 'overflow', 'hidden');
       this.renderer.setStyle(this.ionTitle.el.firstChild, 'white-space', 'normal');
       this.renderer.setStyle(this.ionTitle.el.firstChild, 'text-overflow', 'ellipsis');
@@ -118,44 +118,112 @@ export class ParallaxDirective implements AfterContentInit {
       this.renderer.setStyle(this.ionTitle.el.firstChild, '-webkit-line-clamp', '2');
       this.renderer.setStyle(this.ionTitle.el.firstChild, '-webkit-box-orient', 'vertical');
     }
-    if (this.ionButtons) {
-      if (this.ionButtons.first?.el?.childNodes[0]) {
-        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'background-color',
-          'rgba(var(--ion-color-contrast-reversed-rgb), 0.5)');
-        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'border-radius', '100%');
-        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'width', '36px');
-        this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0], 'height', '36px');
+
+    // Stili per i bottoni - Ionic 8
+    if (this.ionButtons?.first?.el) {
+      const backButton = this.ionButtons.first.el.querySelector('ion-back-button');
+      const button = this.ionButtons.first.el.querySelector('ion-button');
+
+      if (backButton) {
+        // Per ion-back-button, prova diversi selettori per trovare il button interno
+        const backButtonShadow = backButton.shadowRoot?.querySelector('button') ||
+          backButton.shadowRoot?.querySelector('.button-native') ||
+          backButton.shadowRoot?.querySelector('[part="native"]');
+
+        if (backButtonShadow) {
+          this.renderer.setStyle(backButtonShadow, 'background-color', 'rgba(var(--ion-color-contrast-reversed-rgb), 0.5)');
+          this.renderer.setStyle(backButtonShadow, 'border-radius', '50%');
+          this.renderer.setStyle(backButtonShadow, 'width', '36px');
+          this.renderer.setStyle(backButtonShadow, 'height', '36px');
+          this.renderer.setStyle(backButtonShadow, 'min-width', '36px');
+          this.renderer.setStyle(backButtonShadow, 'min-height', '36px');
+        } else {
+          console.warn('Cannot find back button shadow element. Available elements:',
+            backButton.shadowRoot ? Array.from(backButton.shadowRoot.children).map(el => el.tagName) : 'No shadowRoot');
+        }
+        this.renderer.setStyle(backButton, 'width', '36px');
+        this.renderer.setStyle(backButton, 'height', '36px');
+      } else if (button) {
+        // Per ion-button normale
+        const buttonShadow = button.shadowRoot?.querySelector('button') ||
+          button.shadowRoot?.querySelector('.button-native') ||
+          button.shadowRoot?.querySelector('[part="native"]');
+
+        if (buttonShadow) {
+          this.renderer.setStyle(buttonShadow, 'background-color', 'rgba(var(--ion-color-contrast-reversed-rgb), 0.5)');
+          this.renderer.setStyle(buttonShadow, 'border-radius', '50%');
+          this.renderer.setStyle(buttonShadow, 'width', '36px');
+          this.renderer.setStyle(buttonShadow, 'height', '36px');
+        }
       }
-
     }
-    const parentElement = this.header.parentElement;
-    const ionContent = parentElement.querySelector('ion-content');
 
-    if (!ionContent) {
+    const parentElement = this.header.parentElement;
+    this.ionContent = parentElement.querySelector('ion-content') as any;
+
+    if (!this.ionContent) {
       console.error('A <ion-content> element is needed');
       return false;
     }
 
-    this.innerScroll = ionContent.shadowRoot.querySelector(
-      '.inner-scroll'
-    ) as HTMLElement;
+    // IMPORTANTE: In Ionic 8, usa getScrollElement() invece di accedere al shadowRoot
+    try {
+      this.innerScroll = await this.ionContent.getScrollElement();
+    } catch (e) {
+      console.error('Cannot get scroll element', e);
+      return false;
+    }
+
+    if (!this.innerScroll) {
+      console.error('innerScroll is null');
+      return false;
+    }
 
     this.originalToolbarHeight = this.ionToolbar.el.offsetHeight;
-    // console.log('this.originalToolbarHeight', this.originalToolbarHeight);
-    // console.log(
-    //   'this.ionToolbar.el.clientHeight',
-    //   this.ionToolbar.el.clientHeight
-    // );
-    this.toolbarContainer =
-      this.ionToolbar.el.shadowRoot.querySelector('.toolbar-container');
 
-    this.toolbarBackground = this.ionToolbar.el.shadowRoot.querySelector(
-      '.toolbar-background'
-    );
-    this.color =
-      this.color ||
-      window.getComputedStyle(this.toolbarBackground).backgroundColor;
-    this.renderer.setStyle(this.toolbarContainer, 'align-items', 'baseline');
+    // Accesso al shadow DOM della toolbar - Ionic 8
+    const toolbarShadowRoot = this.ionToolbar.el.shadowRoot;
+    if (!toolbarShadowRoot) {
+      console.error('Cannot access toolbar shadow root');
+      return false;
+    }
+
+    // In Ionic 8, prova questi selettori
+    this.toolbarContainer = toolbarShadowRoot.querySelector('.toolbar-container') as HTMLDivElement;
+    this.toolbarBackground = toolbarShadowRoot.querySelector('.toolbar-background') as HTMLElement;
+
+    // Fallback: se non trova .toolbar-background, prova altri selettori
+    if (!this.toolbarBackground) {
+      // Prova con il div principale
+      this.toolbarBackground = toolbarShadowRoot.querySelector('div') as HTMLElement;
+      console.warn('Using fallback for toolbar background');
+    }
+
+    if (!this.toolbarContainer) {
+      // Crea un container se non esiste
+      this.toolbarContainer = this.renderer.createElement('div');
+      this.renderer.addClass(this.toolbarContainer, 'toolbar-container-custom');
+      const firstChild = toolbarShadowRoot.firstElementChild;
+      if (firstChild) {
+        this.renderer.insertBefore(toolbarShadowRoot, this.toolbarContainer, firstChild);
+        this.renderer.appendChild(this.toolbarContainer, firstChild);
+      }
+      console.warn('Created custom toolbar container');
+    }
+
+    if (!this.toolbarBackground) {
+      console.error('Cannot find toolbar background element');
+      return false;
+    }
+
+    // Imposta il colore
+    this.color = this.color || window.getComputedStyle(this.toolbarBackground).backgroundColor;
+
+    // Imposta l'allineamento del container
+    if (this.toolbarContainer) {
+      this.renderer.setStyle(this.toolbarContainer, 'align-items', 'baseline');
+    }
+
     return true;
   }
 
@@ -167,30 +235,43 @@ export class ParallaxDirective implements AfterContentInit {
   }
 
   private setupContentPadding() {
-    const parentElement = this.header.parentElement;
-    const ionContent = parentElement.querySelector('ion-content');
-    const mainContent = ionContent.shadowRoot.querySelector('main');
-    const { paddingTop } = window.getComputedStyle(mainContent);
-    const contentPaddingPx = toPx(paddingTop);
     const coverHeightPx = this.getMaxHeightInPx();
     this.renderer.setStyle(this.header, 'position', 'absolute');
+
+    // In Ionic 8, imposta il padding direttamente sul content
     this.renderer.setStyle(
       this.innerScroll,
       'padding-top',
-      `${contentPaddingPx + coverHeightPx}px`
+      `${coverHeightPx}px`
     );
   }
+
   private setupDate() {
+    if (!this.text) return;
+
     this.textDateOverlay = this.renderer.createElement('div');
-    this.textDateOverlay.innerHTML += this.text;
+    this.textDateOverlay.innerHTML = this.text;
     this.renderer.addClass(this.textDateOverlay, 'text-overlay');
     this.renderer.setStyle(this.textDateOverlay, 'background-color', 'transparent');
     this.renderer.setStyle(this.textDateOverlay, 'text-align', 'center');
     this.renderer.setStyle(this.textDateOverlay, 'width', '100%');
-    this.renderer.setStyle(this.textDateOverlay, 'position', 'relative');
-    this.renderer.setStyle(this.textDateOverlay, 'top', '80%');
+    this.renderer.setStyle(this.textDateOverlay, 'position', 'absolute');
+
+    const safeTop = parseInt(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--ion-safe-area-top') || '0'
+    );
+    
+    this.renderer.setStyle(
+      this.textDateOverlay,
+      'bottom',
+      `calc(${safeTop}px + 16px)` 
+    );
+    // this.renderer.setStyle(this.textDateOverlay, 'bottom', '20%');
+    this.renderer.setStyle(this.textDateOverlay, 'pointer-events', 'none');
     this.toolbarBackground.appendChild(this.textDateOverlay);
   }
+
   private setupImageOverlay() {
     this.imageOverlay = this.renderer.createElement('div');
     this.renderer.addClass(this.imageOverlay, 'image-overlay');
@@ -200,43 +281,23 @@ export class ParallaxDirective implements AfterContentInit {
       'background-image',
       `url(${this.imageUrl || ''})`
     );
-
-    this.renderer.setStyle(this.imageOverlay, 'height', `100%`);
+    this.renderer.setStyle(this.imageOverlay, 'height', '100%');
     this.renderer.setStyle(this.imageOverlay, 'width', '100%');
     this.renderer.setStyle(this.imageOverlay, 'position', 'absolute');
+    this.renderer.setStyle(this.imageOverlay, 'top', '0');
+    this.renderer.setStyle(this.imageOverlay, 'left', '0');
     this.renderer.setStyle(this.imageOverlay, 'background-size', 'cover');
-    this.renderer.setStyle(
-      this.imageOverlay,
-      'background-position',
-      this.bgPosition
-    );
+    this.renderer.setStyle(this.imageOverlay, 'background-position', this.bgPosition);
     this.renderer.setStyle(
       this.imageOverlay,
       'box-shadow',
       'inset 0px -170px 102px -57px rgba(var(--ion-color-base-rgb),1), 4px 5px 15px 5px rgb(0 0 0 / 0%)'
     );
+    this.renderer.setStyle(this.imageOverlay, 'pointer-events', 'none');
 
     this.toolbarBackground.appendChild(this.imageOverlay);
   }
-  // setupLogo() {
-  // this.logoOverlay = this.renderer.createElement('div');
-  // const img = new Image();
-  // img.src = this.logo as string;
-  // img.width = 50;
-  // img.height = 50;
-  // img.style.borderRadius = '50px';
-  // img.style.border = '3px solid ' + this.color;
-  // this.logoOverlay.appendChild(img);
-  // this.renderer.addClass(this.logoOverlay, 'logo-overlay');
-  // this.renderer.setStyle(this.logoOverlay, 'background-color', 'transparent');
-  // this.renderer.setStyle(this.logoOverlay, 'margin', 'auto');
-  // this.renderer.setStyle(this.logoOverlay, 'width', '50px');
-  // this.renderer.setStyle(this.logoOverlay, 'height', '50px');
-  // this.renderer.setStyle(this.logoOverlay, 'position', 'relative');
-  // // this.renderer.setStyle(this.logoOverlay, 'top', '70%');
-  // this.toolbarBackground.appendChild(this.logoOverlay);
 
-  // }
   private setupEvents() {
     this.innerScroll.addEventListener('scroll', (_event) => {
       if (!this.ticking) {
@@ -249,7 +310,6 @@ export class ParallaxDirective implements AfterContentInit {
     });
   }
 
-  /** Update the parallax effect as per the current scroll of the ion-content */
   updateProgress() {
     const h = this.getMaxHeightInPx();
     const progress = this.calcProgress(this.innerScroll, h);
@@ -259,35 +319,66 @@ export class ParallaxDirective implements AfterContentInit {
   }
 
   progressLayerHeight(progress: number) {
-    // console.log('progress', progress);
     const h = Math.max(
       this.getMaxHeightInPx() * (1 - progress),
       this.originalToolbarHeight
     );
-    // console.log(
-    //   'this.getMaxHeightInPx() * (1 - progress)',
-    //   this.getMaxHeightInPx() * (1 - progress)
-    // );
 
-    // console.log('originalToolbarHeight', this.originalToolbarHeight);
-    this.renderer.setStyle(this.toolbarContainer, 'height', `${h}px`);
-    this.renderer.setStyle(this.imageOverlay, 'height', `100%`);
-
+    if (this.toolbarContainer) {
+      this.renderer.setStyle(this.toolbarContainer, 'height', `${h}px`);
+    }
+    this.renderer.setStyle(this.ionToolbar.el, 'height', `${h}px`);
+    this.renderer.setStyle(this.imageOverlay, 'height', '100%');
   }
 
   progressLayerOpacity(progress: number) {
     const op = 1 - progress;
     this.renderer.setStyle(this.imageOverlay, 'opacity', op);
-    // this.renderer.setStyle(this.logoOverlay, 'opacity', op);
-    this.renderer.setStyle(this.textDateOverlay, 'opacity', op);
-    // this.renderer.setStyle(this.toolbarContainer, 'opacity', progress);
-    this.renderer.setStyle(this.ionTitle.el.firstChild, 'margin-top', ((1 - progress) * 75) + 'px');
 
+    if (this.textDateOverlay) {
+      this.renderer.setStyle(this.textDateOverlay, 'opacity', op);
+    }
+
+    if (this.ionTitle?.el?.firstChild) {
+      this.renderer.setStyle(
+        this.ionTitle.el.firstChild,
+        'margin-top',
+        `calc(env(safe-area-inset-top) + ${(1 - progress) * 75}px)`
+      );
+    }
   }
+
   progressLayerBackground(progress: number) {
-    const op = 0.5 - progress;
-    this.renderer.setStyle(this.ionButtons.first?.el?.childNodes[0],
-      'background-color', 'rgba(var(--ion-color-contrast-reversed-rgb),' + op + ')');
+    const op = Math.max(0, 0.5 - progress);
+
+    if (this.ionButtons?.first?.el) {
+      const backButton = this.ionButtons.first.el.querySelector('ion-back-button');
+      const button = this.ionButtons.first.el.querySelector('ion-button');
+
+      if (backButton) {
+        const backButtonShadow = backButton.shadowRoot?.querySelector('button') ||
+          backButton.shadowRoot?.querySelector('.button-native') ||
+          backButton.shadowRoot?.querySelector('[part="native"]');
+        if (backButtonShadow) {
+          this.renderer.setStyle(
+            backButtonShadow,
+            'background-color',
+            `rgba(var(--ion-color-contrast-reversed-rgb), ${op})`
+          );
+        }
+      } else if (button) {
+        const buttonShadow = button.shadowRoot?.querySelector('button') ||
+          button.shadowRoot?.querySelector('.button-native') ||
+          button.shadowRoot?.querySelector('[part="native"]');
+        if (buttonShadow) {
+          this.renderer.setStyle(
+            buttonShadow,
+            'background-color',
+            `rgba(var(--ion-color-contrast-reversed-rgb), ${op})`
+          );
+        }
+      }
+    }
   }
 
   private calcProgress(scrollingElement: HTMLElement, maxHeight: number) {

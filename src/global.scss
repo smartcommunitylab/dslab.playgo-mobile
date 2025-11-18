@@ -34,4 +34,445 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+// @import "@ionic/angular/css/palettes/dark.system.css";
+html {
+    // background-color: green !important;
+  }
+  .scanner-ui {
+    display: none;
+  }
+  .scanner-hide {
+    visibility: visible;
+  }
+  
+  body.qr-scanner {
+    background-color: transparent;
+  }
+  
+  body.qr-scanner .scanner-ui {
+    display: block;
+  }
+  body.qr-scanner .show-modal {
+    visibility: hidden;
+  }
+  body.qr-scanner .scanner-hide {
+    visibility: hidden;
+  }
+  ion-list {
+    --ion-item-background: transparent;
+  }
+  ion-card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .input-clear-icon.sc-ion-input-md,
+  .input-clear-icon.sc-ion-input-ios {
+    background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><polygon fill='white' points='405,136.798 375.202,107 256,226.202 136.798,107 107,136.798 226.202,256 107,375.202 136.798,405 256,285.798 375.202,405 405,375.202 285.798,256'/></svg>") !important;
+    width: 30px;
+    height: 30px;
+    background-size: 22px;
+  }
+  .modalConfirm {
+    --background: var(--ion-color-playgo);
+    color: white;
+    .alert-message.sc-ion-alert-md,
+    .alert-message.sc-ion-alert-ios,
+    .alert-input-group.sc-ion-alert-md,
+    .alert-input-group.sc-ion-alert-ios,
+    .alert-title.sc-ion-alert-md,
+    .alert-title.sc-ion-alert-ios {
+      color: white;
+    }
+    .alert-button.sc-ion-alert-md,
+    .alert-button.sc-ion-alert-ios {
+      color: var(--ion-color-playgo);
+      background-color: white;
+    }
+  }
+  .modalJoin {
+    --background: var(--ion-color-playgo);
+    color: white;
+    .alert-message.sc-ion-alert-md,
+    .alert-message.sc-ion-alert-ios,
+    .alert-input-group.sc-ion-alert-md,
+    .alert-input-group.sc-ion-alert-ios,
+    .alert-title.sc-ion-alert-md,
+    .alert-title.sc-ion-alert-ios {
+      color: white;
+      max-height: none;
+    }
+    .alert-button.sc-ion-alert-md,
+    .alert-button.sc-ion-alert-ios {
+      color: var(--ion-color-playgo);
+      background-color: white;
+    }
+  }
+  .app-segment {
+    padding: 10px;
+    //   --background: var(--ion-color-playgo);
+    //   color: white;
+    .app-segment-button {
+      font-size: 17px;
+    }
+  }
+  ion-segment-button.ios::part(indicator-background) {
+    border-radius: 10px;
+  }
+  ion-segment-button:not(.segment-button-checked) {
+    font-weight: 300;
+  }
+  
+  .segment-button-checked {
+    font-weight: bold;
+  }
+  .button-left-icon {
+    width: 100%;
+    text-align: left;
+  }
+  .error-message {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+  .icon-size-normal {
+    font-size: 22px;
+  }
+  .icon-size-medium {
+    font-size: 30px;
+  }
+  .icon-size-big {
+    font-size: 48px;
+  }
+  .icon-size-superbig {
+    font-size: 96px;
+  }
+  .app-alert {
+    --background: var(--ion-color-playgo);
+  
+    .select-interface-option {
+      --button-color: white;
+      --button-color-hover: white;
+      --color: white;
+      --color-hover: white;
+    }
+    .alert-title,
+    .alert-message,
+    .select-interface-option .alert-radio-label,
+    .select-interface-option .alert-checkbox-label,
+    .select-interface-option[aria-checked="true"] .alert-radio-label,
+    .select-interface-option[aria-checked="true"] .alert-checkbox-label {
+      color: white;
+    }
+    [aria-checked="true"].sc-ion-alert-md .alert-radio-icon {
+      border-color: white;
+    }
+    .alert-radio-inner {
+      background-color: white;
+    }
+    .alert-radio-icon {
+      border-color: white;
+    }
+    .alert-button {
+      color: white;
+    }
+  }
+  .text-bold {
+    font-weight: bold;
+  }
+  .text-italic {
+    font-style: italic;
+  }
+  .text-underlined {
+    text-decoration: underline;
+  }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+  }
+  .card-ellipsis {
+    font-size: 13px;
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0px;
+    text-align: justify;
+    white-space: pre-wrap;
+    * {
+      display: inline;
+    }
+  }
+  .campaign-notification {
+    --height: 75%;
+    --width: 85%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  
+  .campaign-notification::part(backdrop) {
+    background: rgb(35, 36, 37);
+    opacity: 1;
+  }
+  
+  .campaign-notification ion-toolbar {
+    --background: rgb(14 116 144);
+    --color: white;
+  }
+  .challenge-info {
+    --height: 75%;
+    --width: 85%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  
+  .challenge-info::part(backdrop) {
+    background: rgb(35, 36, 37);
+    opacity: 1;
+  }
+  
+  .challenge-info ion-toolbar {
+    --background: rgb(14 116 144);
+    --color: white;
+  }
+  .modalInfo {
+    --background: var(--ion-color-playgo);
+    color: white;
+    .alert-message.sc-ion-alert-md,
+    .alert-message.sc-ion-alert-ios,
+    .alert-input-group.sc-ion-alert-md,
+    .alert-input-group.sc-ion-alert-ios,
+    .alert-title.sc-ion-alert-md,
+    .alert-title.sc-ion-alert-ios {
+      color: white;
+    }
+    .alert-button.sc-ion-alert-md,
+    .alert-button.sc-ion-alert-ios {
+      color: var(--ion-color-playgo);
+      background-color: white;
+    }
+    a:link {
+      color: rgb(0, 0, 238);
+    }
+  }
+  .modal-search-playgo {
+    ion-toolbar {
+      --background: var(--ion-color-playgo);
+      --color: white;
+    }
+    ion-searchbar {
+      --background: white;
+      --color: black;
+    }
+    ion-content {
+      --background: var(--ion-color-playgo);
+      --color: white;
+    }
+    ion-item {
+      --color: white;
+    }
+    ion-label {
+      --color: white;
+    }
+    ion-icon {
+      --color: white;
+      color: white;
+    }
+  }
+  .modal-playgo {
+    --height: 50%;
+    --width: 85%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+    a:link {
+      color: white;
+    }
+    a:visited {
+      color: lightgray;
+    }
+    .title {
+      background-color: var(--ion-color-playgo);
+    }
+    .footer {
+      background-color: var(--ion-color-playgo);
+    }
+  }
+  
+  .modal-playgo::part(backdrop) {
+    background: rgb(35, 36, 37);
+    opacity: 1;
+  }
+  
+  .modal-playgo ion-toolbar {
+    --background: rgb(14 116 144);
+    --color: white;
+  }
+  .modal-challenge {
+    --height: 50%;
+    --width: 85%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  
+  .modal-challenge::part(backdrop) {
+    background: rgb(35, 36, 37);
+    opacity: 1;
+  }
+  
+  .modal-challenge ion-toolbar {
+    --background: rgb(14 116 144);
+    --color: white;
+  }
+  .modal-notification {
+    --height: 50%;
+    --width: 85%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  .modal-notification app-notification {
+    // background: var(--ion-color-playgo);
+  }
+  .modal-notification::part(backdrop) {
+    background: rgb(35, 36, 37);
+    opacity: 1;
+  }
+  
+  .modal-notification ion-toolbar {
+    --background: rgb(14 116 144);
+    --color: white;
+  }
+  .modal-notification ion-footer {
+    width: 50%;
+    margin: auto;
+  }
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .flex-end {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+  .progress-bar {
+    padding: 2px;
+    border: solid 1px var(--ion-color-sad-gray);
+    border-radius: 4px;
+    ion-progress-bar {
+      border-radius: 4px;
+    }
+  }
+  .home-card-widget {
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 2px 18px 2px;
+  }
+  .page {
+    --padding-bottom: 50px;
+  }
+  ion-modal {
+    ion-footer {
+      padding: 8px;
+    }
+  }
+  .footer-md::before {
+    background-image: none;
+  }
+  
+  app-notification {
+    background-color: var(--ion-color-playgo);
+    a:link {
+      color: white;
+    }
+    a:visited {
+      color: lightgray;
+    }
+  }
+  app-single-proposal-accepted {
+    background-color: var(--ion-color-playgo);
+    a:link {
+      color: white;
+    }
+    a:visited {
+      color: lightgray;
+    }
+  }
+  app-detail-modal {
+    background-color: var(--ion-color-playgo);
+    a:link {
+      color: white;
+    }
+    a:visited {
+      color: lightgray;
+    }
+  }
+  app-info-challenge {
+    background-color: var(--ion-color-playgo);
+    a:link {
+      color: white;
+    }
+    a:visited {
+      color: lightgray;
+    }
+  }
+  app-info-challenge-group {
+    background-color: var(--ion-color-playgo);
+    a:link {
+      color: white;
+    }
+    a:visited {
+      color: lightgray;
+    }
+  }
+  .header-sticky {
+    position: sticky;
+    top: 8px;
+    z-index: 999;
+    border-radius: 16px 16px 0px 0px;
+    ion-select {
+      width: 100%;
+    }
+    &::before {
+      content: "";
+      width: 100%;
+      height: 8px;
+      background: var(--background);
+      position: absolute;
+      top: -8px;
+    }
+  }
+  ion-header[parallax] {
+    ion-back-button {
+      border-radius: 50%;
+      overflow: hidden;
+      width: 36px;
+      height: 36px;
+      
+      &::part(native) {
+        border-radius: 50% !important;
+        overflow: hidden;
+      }
+      
+      // Forza il border-radius su tutto
+      * {
+        border-radius: 50% !important;
+      }
+    }
+  }
+//   @import "material-icons/iconfont/material-icons.scss";
+
+// $material-icons-font-path: "./" !default;
+// $material-icons-font-size: 24px !default;
+// $material-icons-font-display: block !default;

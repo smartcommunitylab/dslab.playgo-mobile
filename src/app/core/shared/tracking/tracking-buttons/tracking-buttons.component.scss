@@ -1,5 +1,6 @@
 .tracking-button {
-  bottom: 60px;
+  bottom: calc(env(safe-area-inset-bottom) + 70px); 
+  right: 16px;
 }
 .default-tracking-button {
   color: white;

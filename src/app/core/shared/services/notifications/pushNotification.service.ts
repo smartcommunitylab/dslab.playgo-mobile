@@ -141,9 +141,7 @@ export class PushNotificationService {
         cssClass: 'modal-challenge',
         componentProps: {
           notification,
-        },
-        breakpoints: [0, 0.5, 0.8],
-        initialBreakpoint: 0.5
+        }
       });
       await this.modal.present();
 

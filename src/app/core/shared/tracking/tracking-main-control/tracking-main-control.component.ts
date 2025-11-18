@@ -91,9 +91,7 @@ export class TrackingMainControlComponent {
         const modal = await this.modalController.create({
           component: FirstTimeBackgrounModalPage,
           backdropDismiss: false,
-          cssClass: 'modal-playgo',
-          breakpoints: [0, 0.5, 0.8],
-          initialBreakpoint: 0.5
+          cssClass: 'modal-playgo'
         });
         await modal.present();
         const userAcceptsCustomDialog: boolean = (await modal.onWillDismiss())

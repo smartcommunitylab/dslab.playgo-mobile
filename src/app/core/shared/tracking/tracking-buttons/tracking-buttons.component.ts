@@ -4,26 +4,19 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlertService } from '../../services/alert.service';
 import { CampaignService } from '../../services/campaign.service';
-import { LocalStorageService } from '../../services/local-storage.service';
-import { UserService } from '../../services/user.service';
 import { trackByProperty, waitMs } from '../../utils';
 import { BackgroundTrackingService } from '../background-tracking.service';
-import { FirstTimeBackgrounModalPage } from '../first-time-modal/first-time.modal';
 import {
-  ACCESS_DENIED,
   TransportType,
   transportTypeIcons,
-  transportTypes,
 } from '../trip.model';
 import { TripService } from '../trip.service';
 

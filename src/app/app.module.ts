@@ -66,7 +66,7 @@ registerLocaleData(localeItalian);
       provide: 'BackgroundGeolocationPlugin',
       useFactory: () =>
         // useMock() ? BackgroundGeolocationMock : BackgroundGeolocation,
-        useMock() ? BackgroundGeolocationMock : BackgroundGeolocationMock,
+        useMock() ? BackgroundGeolocationMock : BackgroundGeolocation,
     },
     {
       provide: 'AppPlugin',

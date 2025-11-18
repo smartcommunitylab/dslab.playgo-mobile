@@ -12,6 +12,7 @@ dependencies {
     implementation project(':capacitor-community-fcm')
     implementation project(':capacitor-community-firebase-analytics')
     implementation project(':capacitor-community-http')
+    implementation project(':capacitor-community-safe-area')
     implementation project(':capacitor-app')
     implementation project(':capacitor-app-launcher')
     implementation project(':capacitor-barcode-scanner')
