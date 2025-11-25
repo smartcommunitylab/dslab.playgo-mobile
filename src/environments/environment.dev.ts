@@ -6,5 +6,5 @@ export const environment: Environment = createEnvironment({
   name: 'development',
   aacConfig: 'default',
   apiServer: 'dev',
-  releaseToStore: false,
+  releaseToStore: true,
 });

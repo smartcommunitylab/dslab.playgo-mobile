@@ -91,7 +91,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
                 }
-              ]
+              ],
+              "sourceMap": true
             },
             "testing": {
               "fileReplacements": [
@@ -99,7 +100,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.testing.ts"
                 }
-              ]
+              ],
+              "sourceMap": true
             },
             "stage": {
               "fileReplacements": [
@@ -107,7 +109,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.stage.ts"
                 }
-              ]
+              ],
+              "sourceMap": true
             },
             "ci": {
               "progress": false

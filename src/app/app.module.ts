@@ -15,12 +15,14 @@ import { BackgroundGeolocationMock } from './core/shared/plugin-mocks/Background
 import { App } from '@capacitor/app';
 import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
 // import { codePush } from '@dwimcore/capacitor-codepush';
+import { codePush, CodePush  } from 'cap-codepush';
+
 import { GlobalErrorHandler } from './core/shared/services/global-error-handler';
 import { Device } from '@capacitor/device';
 import { DevicePluginMock } from './core/shared/plugin-mocks/DevicePluginMock';
 import localeItalian from '@angular/common/locales/it';
 import { registerLocaleData } from '@angular/common';
-// import { CodePushPluginMock } from './core/shared/plugin-mocks/CodePushPluginMock';
+import { CodePushPluginMock } from './core/shared/plugin-mocks/CodePushPluginMock';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -76,10 +78,10 @@ registerLocaleData(localeItalian);
       provide: 'DevicePlugin',
       useFactory: () => (useMock() ? DevicePluginMock : Device),
     },
-    // {
-    //   provide: 'CodePushPlugin',
-    //   useFactory: () => (useMock() ? CodePushPluginMock : codePush),
-    // },
+    {
+      provide: 'CodePushPlugin',
+      useFactory: () => (useMock() ? CodePushPluginMock : codePush),
+    },
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,

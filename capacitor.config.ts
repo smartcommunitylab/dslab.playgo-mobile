@@ -37,6 +37,12 @@ const baseConfig: CapacitorConfig = {
     PushNotifications: {
       presentationOptions: ['badge', 'sound', 'alert'],
     },
+    CodePush: {
+      // we store used flavor (stage/production), so it could be accessed from java, and then sent
+      // to javascript. In the end this value will be shown in 'About' screen.
+      flavor,
+      SERVER_URL: 'https://code-push-server.platform.smartcommunitylab.it',
+    },
   },
 };
 
@@ -44,14 +50,24 @@ const baseConfig: CapacitorConfig = {
 const stageConfig: CapacitorConfig = {
   ...baseConfig,
   plugins: {
-    ...baseConfig.plugins
+    ...baseConfig.plugins,
+    CodePush: {
+      ...baseConfig.plugins.CodePush,
+      ANDROID_DEPLOY_KEY: 'URuryzYvyd6Q13lQwdxdtofY2vMt4ksvOXqog',
+      IOS_DEPLOY_KEY: 'KAihplQ1hjbJ0Rsw0yA2r6GSD2op4ksvOXqog',
+    },
   },
 };
 
 const productionConfig: CapacitorConfig = {
   ...baseConfig,
   plugins: {
-    ...baseConfig.plugins
+    ...baseConfig.plugins,
+    CodePush: {
+      ...baseConfig.plugins.CodePush,
+      ANDROID_DEPLOY_KEY: 'NiSk40OVMGOakRCneMkpabXrskEC4ksvOXqog',
+      IOS_DEPLOY_KEY: 'zb5HmAnKlI5QKIjJCLjC375GAEsf4ksvOXqog',
+    },
   },
 };
 

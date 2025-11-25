@@ -65,5 +65,8 @@ project(':transistorsoft-capacitor-background-fetch').projectDir = new File('../
 include ':transistorsoft-capacitor-background-geolocation'
 project(':transistorsoft-capacitor-background-geolocation').projectDir = new File('../node_modules/@transistorsoft/capacitor-background-geolocation/android')
 
+include ':cap-codepush'
+project(':cap-codepush').projectDir = new File('../node_modules/cap-codepush/android')
+
 include ':capacitor-secure-storage-plugin'
 project(':capacitor-secure-storage-plugin').projectDir = new File('../node_modules/capacitor-secure-storage-plugin/android')

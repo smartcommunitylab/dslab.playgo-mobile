@@ -4,8 +4,9 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { AfterContentInit, Component, Inject, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
-// import { codePush as CodePushPluginInternal } from '@dwimcore/capacitor-codepush';
-// import { SyncStatus } from '@dwimcore/capacitor-codepush/dist/esm/syncStatus';
+// import { codePush as CodePushPluginInternal } from 'capacitor-codepush';
+import { CodePush as CodePushPluginInternal, InstallMode } from 'cap-codepush';
+// import { SyncStatus } from '@gianluigitrontini/capacitor-codepush/dist/esm/syncStatus';
 import { AppStatusService } from './core/shared/services/app-status.service';
 import { IconService } from './core/shared/ui/icon/icon.service';
 import { AuthService } from './core/auth/auth.service';
@@ -17,6 +18,9 @@ import { Capacitor } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
 import { ScreenOrientation } from '@capacitor/screen-orientation';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { SyncStatus } from 'cap-codepush/dist/esm/syncStatus';
+import { environment } from 'src/environments/environment';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',
@@ -35,8 +39,8 @@ export class AppComponent implements AfterContentInit {
     private iconService: IconService,
     private authService: AuthService,
     private badgeService: BadgeService,
-    // @Inject('CodePushPlugin')
-    // private codePushPlugin: typeof CodePushPluginInternal,
+    @Inject('CodePushPlugin')
+    private codePushPlugin: typeof CodePushPluginInternal,
     private errorService: ErrorService
   ) {
     this.initializeApp();
@@ -47,15 +51,20 @@ export class AppComponent implements AfterContentInit {
       try {
         await ScreenOrientation.lock({ orientation: 'portrait' });
       } catch (e) { }
-       this.loadCustomIcons();
-       this.initLink();
+      this.loadCustomIcons();
+      this.initLink();
       this.badgeService.init();
       await this.platform.ready();
+      App.addListener('appUrlOpen', (event: any) => {
+        console.log('App aperta con URL:', event.url);
+      });
       const observer = new MutationObserver(() => {
         document.documentElement.classList.remove('dark');
       });
       observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-       this.authService.init().catch(err => console.error('auth init error', err));
+      this.authService.init().catch(err => console.error('auth init error', err));
+      console.log('Starting codePushSync with 3s timeout');
+      await Promise.race([this.codePushSync(), waitMs(3000)]);
       // this.backgroundTrackingService.start().catch(err => console.error('tracking start error', err));
       // // await this.authService.init();
       await this.backgroundTrackingService.start();
@@ -65,8 +74,8 @@ export class AppComponent implements AfterContentInit {
       StatusBar.setOverlaysWebView({ overlay: false });
       await StatusBar.setBackgroundColor({ color: '#3880ff' });
 
-      StatusBar.setStyle({ style: Style.Light }); 
-       await SplashScreen.hide();
+      StatusBar.setStyle({ style: Style.Light });
+      await SplashScreen.hide();
     }
   }
   initLink() {
@@ -91,26 +100,43 @@ export class AppComponent implements AfterContentInit {
     }
   }
 
-  // async codePushSync() {
-  //   try {
-  //     let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';
-  //     if (environment.useCodePush) {
-  //       syncStatus = await Promise.race([
-  //         this.codePushPlugin.sync({}),
-  //         // there is some problem with error handling on the plugin side...
-  //         // https://github.com/capacitor-community/http/issues/232
-  //         waitMs(15_000).then(() => {
-  //           throw new Error('codePushSync timeout');
-  //         }),
-  //       ]);
-  //     }
-  //     console.log('codePushSync syncStatus:', syncStatus);
-  //     this.appStatusService.codePushSyncFinished(true);
-  //   } catch (error) {
-  //     this.errorService.handleError(error, 'silent');
-  //     this.appStatusService.codePushSyncFinished(false);
-  //   }
-  // }
+  async codePushSync() {
+    try {
+      let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';
+      console.log('Starting codePushSync');
+      if (environment.useCodePush) {
+        console.log('Starting codePushSync with 15s timeout');
+        syncStatus = await Promise.race([
+          this.codePushPlugin.sync({
+            onSyncStatusChanged: (syncStatus) => {
+              return syncStatus;
+            },
+            installMode: InstallMode.IMMEDIATE,
+          }).then(
+            (status) => {
+              if (status) {
+                return status;
+              }
+            },
+            (error) => {
+              if (error) {
+                return SyncStatus.ERROR;
+              }
+            }),
+          // there is some problem with error handling on the plugin side...
+          // https://github.com/capacitor-community/http/issues/232
+          waitMs(15_000).then(() => {
+            throw new Error('codePushSync timeout');
+          }),
+        ]);
+      }
+      console.log('codePushSync syncStatus:', syncStatus);
+      this.appStatusService.codePushSyncFinished(true);
+    } catch (error) {
+      this.errorService.handleError(error, 'silent');
+      this.appStatusService.codePushSyncFinished(false);
+    }
+  }
 
   loadCustomIcons() {
     const icons = {

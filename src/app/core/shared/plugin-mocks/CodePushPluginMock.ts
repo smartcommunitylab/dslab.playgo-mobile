@@ -1,6 +1,8 @@
 // import { ILocalPackage } from '@dwimcore/capacitor-codepush/dist/esm/package';
 // import { SyncStatus } from '@dwimcore/capacitor-codepush/dist/esm/syncStatus';
+import { SyncStatus } from 'cap-codepush/dist/esm/syncStatus';
 import { getMockMethodAnnotation } from './mock-utils';
+import { ILocalPackage } from 'cap-codepush/dist/esm/package';
 
 const mockMethod = getMockMethodAnnotation({
   doLog: false,
@@ -12,19 +14,19 @@ export class CodePushPluginMock {
     throw new Error('static mock');
   }
 
-  // @mockMethod({ async: true })
-  // public static async sync(config: any): Promise<SyncStatus> {
-  //   return 'sync_mocked' as unknown as SyncStatus;
-  // }
+  @mockMethod({ async: true })
+  public static async sync(config: any): Promise<SyncStatus> {
+    return 'sync_mocked' as unknown as SyncStatus;
+  }
 
-  // @mockMethod({ async: true })
-  // public static async getCurrentPackage(): Promise<ILocalPackage> {
-  //   return {
-  //     label: '-',
-  //   } as ILocalPackage;
-  // }
-  // @mockMethod({ async: true })
-  // public static async getPendingPackage(): Promise<ILocalPackage> {
-  //   return null;
-  // }
+  @mockMethod({ async: true })
+  public static async getCurrentPackage(): Promise<ILocalPackage> {
+    return {
+      label: '-',
+    } as ILocalPackage;
+  }
+  @mockMethod({ async: true })
+  public static async getPendingPackage(): Promise<ILocalPackage> {
+    return null;
+  }
 }

@@ -26,7 +26,7 @@ export function createEnvironment(
   const environment: Environment = {
     name: opts.name,
     production: opts.releaseToStore,
-    // useCodePush: opts.releaseToStore,
+    useCodePush: opts.releaseToStore,
     support: {
       privacy: 'https://playngo.it/privacy-policy-app/',
       privacyEng: 'https://playngo.it/privacy-policy-app-eng/',
@@ -134,7 +134,7 @@ interface EnvironmentOptions {
 
 export interface Environment {
   production: boolean;
-  // useCodePush: boolean;
+ useCodePush: boolean;
   name: string;
   support: {
     privacy: string;
