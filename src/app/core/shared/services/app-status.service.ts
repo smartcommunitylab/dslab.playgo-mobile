@@ -2,8 +2,8 @@ import { App as AppPluginInternal, AppInfo } from '@capacitor/app';
 import { Device as DevicePluginInternal } from '@capacitor/device';
 import { Inject, Injectable, NgZone } from '@angular/core';
 // import { codePush as CodePushPluginInternal } from '@dwimcore/capacitor-codepush';
-import { codePush } from 'cap-codepush';
-import type { CodePush } from 'cap-codepush';
+// import { codePush } from 'cap-codepush';
+// import type { CodePush } from 'cap-codepush';
 import {
   combineLatest,
   of,
@@ -28,13 +28,13 @@ import { environment } from 'src/environments/environment';
 import { ErrorService } from './error.service';
 // import { ILocalPackage } from '@dwimcore/capacitor-codepush/dist/esm/package';
 import { runInZone, runOutsideAngular } from '../rxjs.utils';
-import { ILocalPackage } from 'cap-codepush/dist/esm/package';
+// import { ILocalPackage } from 'cap-codepush/dist/esm/package';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppStatusService {
-  private codePushPlugin = codePush; 
+  // private codePushPlugin = codePush; 
   public isOnline$: Observable<boolean> = merge(
     of(navigator?.onLine),
     of(null).pipe(
@@ -60,40 +60,40 @@ export class AppStatusService {
   );
 
   private syncFinished$ = new ReplaySubject<boolean>(1);
-  public codePushLabel$: Observable<string> = this.syncFinished$.pipe(
-    switchMap((success) =>
-      combineLatest([
-        of(success),
-        this.codePushPlugin.getCurrentPackage(),
-        this.codePushPlugin.getPendingPackage(),
-      ]).pipe(
-        map((a) => a),
-        catchError((error) => {
-          this.errorService.handleError(error, 'silent');
-          return of([false, { label: 'unknown' }, null] as [
-            boolean,
-            ILocalPackage,
-            ILocalPackage
-          ]);
-        })
-      )
-    ),
-    map(([successSync, currentPackage, pendingPackage]) => {
-      let hotCodePushLabel = '';
+  // public codePushLabel$: Observable<string> = this.syncFinished$.pipe(
+  //   switchMap((success) =>
+  //     combineLatest([
+  //       of(success),
+  //       this.codePushPlugin.getCurrentPackage(),
+  //       this.codePushPlugin.getPendingPackage(),
+  //     ]).pipe(
+  //       map((a) => a),
+  //       catchError((error) => {
+  //         this.errorService.handleError(error, 'silent');
+  //         return of([false, { label: 'unknown' }, null] as [
+  //           boolean,
+  //           ILocalPackage,
+  //           ILocalPackage
+  //         ]);
+  //       })
+  //     )
+  //   ),
+  //   map(([successSync, currentPackage, pendingPackage]) => {
+  //     let hotCodePushLabel = '';
 
-      if (!environment.useCodePush) {
-        hotCodePushLabel = '(code push disabled)';
-      } else {
-        const fallbackLabel = successSync ? '-' : 'unknown';
-        hotCodePushLabel = currentPackage?.label || fallbackLabel;
-      }
+  //     if (!environment.useCodePush) {
+  //       hotCodePushLabel = '(code push disabled)';
+  //     } else {
+  //       const fallbackLabel = successSync ? '-' : 'unknown';
+  //       hotCodePushLabel = currentPackage?.label || fallbackLabel;
+  //     }
 
-      const pendingPackageLabel = pendingPackage
-        ? ` (pending: ${pendingPackage.label})`
-        : '';
-      return hotCodePushLabel + pendingPackageLabel;
-    })
-  );
+  //     const pendingPackageLabel = pendingPackage
+  //       ? ` (pending: ${pendingPackage.label})`
+  //       : '';
+  //     return hotCodePushLabel + pendingPackageLabel;
+  //   })
+  // );
 
   constructor(
     @Inject('AppPlugin')

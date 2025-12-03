@@ -15,7 +15,7 @@ import { BackgroundGeolocationMock } from './core/shared/plugin-mocks/Background
 import { App } from '@capacitor/app';
 import { AppPluginMock } from './core/shared/plugin-mocks/AppPluginMock';
 // import { codePush } from '@dwimcore/capacitor-codepush';
-import { codePush, CodePush  } from 'cap-codepush';
+// import { codePush, CodePush  } from 'cap-codepush';
 
 import { GlobalErrorHandler } from './core/shared/services/global-error-handler';
 import { Device } from '@capacitor/device';
@@ -78,10 +78,10 @@ registerLocaleData(localeItalian);
       provide: 'DevicePlugin',
       useFactory: () => (useMock() ? DevicePluginMock : Device),
     },
-    {
-      provide: 'CodePushPlugin',
-      useFactory: () => (useMock() ? CodePushPluginMock : codePush),
-    },
+    // {
+    //   provide: 'CodePushPlugin',
+    //   useFactory: () => (useMock() ? CodePushPluginMock : codePush),
+    // },
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,

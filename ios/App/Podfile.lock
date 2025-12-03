@@ -1,4 +1,6 @@
 PODS:
+  - Alamofire (5.10.2)
+  - BigInt (5.2.0)
   - Capacitor (7.4.4):
     - CapacitorCordova
   - CapacitorApp (7.1.0):
@@ -47,9 +49,12 @@ PODS:
     - Capacitor
   - CapacitorStatusBar (7.0.3):
     - Capacitor
-  - CapCodepush (7.0.2):
+  - CapgoCapacitorUpdater (6.27.11):
+    - Alamofire (= 5.10.2)
+    - BigInt (= 5.2.0)
     - Capacitor
-    - SSZipArchive
+    - SSZipArchive (= 2.4.3)
+    - Version (= 0.8.0)
   - CocoaLumberjack (3.7.4):
     - CocoaLumberjack/Core (= 3.7.4)
   - CocoaLumberjack/Core (3.7.4)
@@ -159,6 +164,7 @@ PODS:
   - TransistorsoftCapacitorBackgroundGeolocation (7.2.3):
     - Capacitor
     - CocoaLumberjack (~> 3.7.2)
+  - Version (0.8.0)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -183,7 +189,7 @@ DEPENDENCIES:
   - CapacitorSecureStoragePlugin (from `../../node_modules/capacitor-secure-storage-plugin`)
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
-  - CapCodepush (from `../../node_modules/cap-codepush`)
+  - "CapgoCapacitorUpdater (from `../../node_modules/@capgo/capacitor-updater`)"
   - CordovaPlugins (from `../capacitor-cordova-ios-plugins`)
   - Firebase/Messaging
   - "TransistorsoftCapacitorBackgroundFetch (from `../../node_modules/@transistorsoft/capacitor-background-fetch`)"
@@ -191,6 +197,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://cdn.cocoapods.org/:
+    - Alamofire
+    - BigInt
     - CocoaLumberjack
     - Firebase
     - FirebaseAnalytics
@@ -207,6 +215,7 @@ SPEC REPOS:
     - PromisesObjC
     - SSZipArchive
     - SwiftKeychainWrapper
+    - Version
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -253,8 +262,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/splash-screen"
   CapacitorStatusBar:
     :path: "../../node_modules/@capacitor/status-bar"
-  CapCodepush:
-    :path: "../../node_modules/cap-codepush"
+  CapgoCapacitorUpdater:
+    :path: "../../node_modules/@capgo/capacitor-updater"
   CordovaPlugins:
     :path: "../capacitor-cordova-ios-plugins"
   TransistorsoftCapacitorBackgroundFetch:
@@ -263,6 +272,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@transistorsoft/capacitor-background-geolocation"
 
 SPEC CHECKSUMS:
+  Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
+  BigInt: f668a80089607f521586bbe29513d708491ef2f7
   Capacitor: 09d9ff8e9618e8c4b3cab2bbee34a17215dd2fef
   CapacitorApp: 846d4b4a1dbb19dd1e9029c08ba6f028aa7be862
   CapacitorAppLauncher: 96930b89740f1deabc737df750dbc3e9a0430f34
@@ -285,7 +296,7 @@ SPEC CHECKSUMS:
   CapacitorSecureStoragePlugin: 8019bd11de7d5832a87c1bb320750dd6cef792d7
   CapacitorSplashScreen: d06ae8804808e9f649a08e7bb7f283c77b688084
   CapacitorStatusBar: 7d8fcbd6768db014bd721d75e246590b014928e8
-  CapCodepush: e68457bddb33130cf319504b064baf66f99346cc
+  CapgoCapacitorUpdater: b46a15698270be0424db53c85d6b79adad248b39
   CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
   CordovaPlugins: 2ce67ef2b09c9be5dca0c6208b7569674c07083e
   Firebase: 580d09e8edafc3073ebf09c03fd42e4d80d35fe9
@@ -305,7 +316,8 @@ SPEC CHECKSUMS:
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
   TransistorsoftCapacitorBackgroundFetch: 54e24b0b6794524bb6b7895a38a770cb0f0c2369
   TransistorsoftCapacitorBackgroundGeolocation: 822bbbeab2f20cb9d183fe2ba8d4648779ca1cb2
+  Version: de5907f2c5d0f3cf21708db7801d1d5401139486
 
-PODFILE CHECKSUM: b23889cd55832e807583cb4cd46dfe074fb287d4
+PODFILE CHECKSUM: 4eadf7884d752650976470e7179c9fe4d8605069
 
 COCOAPODS: 1.16.2
