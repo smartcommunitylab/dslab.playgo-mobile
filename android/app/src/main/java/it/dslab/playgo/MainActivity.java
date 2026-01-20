@@ -34,14 +34,14 @@ public class MainActivity extends BridgeActivity {
     return gitVersion;
   }
 
-  private String getCapacitorFlavor() {
+  // private String getCapacitorFlavor() {
 
-    CapConfig configInstance = getBridge().getConfig();
-    PluginConfig codePushConfig = configInstance.getPluginConfiguration("CodePush");
-    String flavor = codePushConfig.getString("flavor");
+  //   CapConfig configInstance = getBridge().getConfig();
+  //   PluginConfig codePushConfig = configInstance.getPluginConfiguration("CodePush");
+  //   String flavor = codePushConfig.getString("flavor");
 
-    return flavor;
-  }
+  //   return flavor;
+  // }
 
   private void storeBuildInfo() {
     try {
@@ -49,7 +49,7 @@ public class MainActivity extends BridgeActivity {
       SharedPreferences.Editor editor = gitInfo.edit();
 
       editor.putString("gitInfo", getGitVersion());
-      editor.putString("capacitorFlavor", getCapacitorFlavor());
+      // editor.putString("capacitorFlavor", getCapacitorFlavor());
 
       editor.apply();
     } catch (Exception e) {

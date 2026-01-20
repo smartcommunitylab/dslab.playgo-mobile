@@ -30,12 +30,12 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="developerMode$ |async">
+  <!-- <ion-row *ngIf="developerMode$ |async">
     <ion-col class="ion-text-center">
       {{ appStatusService.version$ | async }} | {{
       appStatusService.codePushLabel$ | async }}
     </ion-col>
-  </ion-row>
+  </ion-row> -->
   <ion-row>
     <ion-col text-center>
       <ion-button expand="block" color="danger" size="large" (click)="deleteAccount()">
@@ -44,9 +44,4 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  <!-- <ion-row>
-    <ion-col text-center>
-      ola
-    </ion-col>
-  </ion-row> -->
 </ion-content>
