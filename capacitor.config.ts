@@ -11,7 +11,7 @@ const baseConfig: CapacitorConfig = {
   appId: `it.dslab.playgo.${flavor}`,
   appName: 'playGo',
   webDir: 'www',
-  server: { allowNavigation: ['*'] },
+  server: { allowNavigation: ['*']},
   plugins: {
     Keyboard: {
       resize: KeyboardResize.Body,
@@ -19,10 +19,13 @@ const baseConfig: CapacitorConfig = {
 
     },
     CapacitorUpdater : {
-      localHost: "http://10.30.46.226:8000",
-      localWebHost: "http://10.30.46.226:8000",
-      localSupa: "http://10.30.46.226:8000",
-      localSupaAnon: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE",
+      autoUpdate: false,  
+      statsUrl: '',  
+      //   statsUrl: 'http://10.30.46.226:8000/api/stats',  
+      // channelUrl: 'http://10.30.46.226:8000/api/channel',  
+      //channelUrl: ' https://c3a58fcc67a8.ngrok-free.app/rest/v1/rpc/check_update',
+      //updateUrl: ' https://c3a58fcc67a8.ngrok-free.app/rest/v1/rpc/check_update',
+      //localSupaAnon: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE",
     },
     SplashScreen: {
       launchShowDuration: 3000,

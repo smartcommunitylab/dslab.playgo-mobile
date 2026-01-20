@@ -22,6 +22,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 // import { SyncStatus } from 'cap-codepush/dist/esm/syncStatus';
 import { environment } from 'src/environments/environment';
 import { App } from '@capacitor/app';
+import { AutoUpdateService } from './core/shared/services/auto-update.service';
 
 @Component({
   selector: 'app-root',
@@ -40,6 +41,8 @@ export class AppComponent implements AfterContentInit {
     private iconService: IconService,
     private authService: AuthService,
     private badgeService: BadgeService,
+    private autoUpdateService: AutoUpdateService,
+
     // @Inject('CodePushPlugin')
     // private codePushPlugin: typeof CodePushPluginInternal,
     private errorService: ErrorService
@@ -56,16 +59,7 @@ export class AppComponent implements AfterContentInit {
       this.initLink();
       this.badgeService.init();
       await this.platform.ready();
-      try {
-        await CapacitorUpdater.notifyAppReady();
-        console.log('✅ Capgo: App notificata come pronta!');
-        
-        const currentVersion = await CapacitorUpdater.list(); 
-        console.log('📦 Versione Corrente:', currentVersion);
-
-      } catch (e) {
-        console.error('❌ Capgo Error:', e);
-      }
+      await this.autoUpdateService.init();
       App.addListener('appUrlOpen', (event: any) => {
         console.log('App aperta con URL:', event.url);
       });

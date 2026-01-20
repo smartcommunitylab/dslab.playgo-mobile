@@ -1,6 +1,6 @@
 {
   "name": "playGo",
-  "version": "0.0.1",
+  "version": "0.0.9",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "engines": {
@@ -35,10 +35,10 @@
     "build:prod": "npm run before-build && ng build --configuration=production",
     "build:stage": "npm run before-build && cross-env FLAVOR=stage ng build --configuration=stage",
     "sync:stage": "cross-env FLAVOR=stage npx cap sync --inline",
-    "ionic:sync:stage": "npm run build:stage && npm run sync:stage",
+    "ionic:sync:stage": "cross-env FLAVOR=stage npm run build:stage && cross-env FLAVOR=stage npm run sync:stage",
     "ionic:sync:testing": "ionic cap sync --configuration=testing",
     "sync:prod": "cross-env FLAVOR=production npx cap sync --inline",
-    "ionic:sync:prod": "npm run build:prod && npm run sync:prod",
+    "ionic:sync:prod": "cross-env FLAVOR=production npm run build:prod && cross-env FLAVOR=production npm run sync:prod npm run build:prod && npm run sync:prod",
     "ionic:sync:android:prod": "ionic cap sync --inline android --prod",
     "ionic:sync:ios:prod": "ionic cap sync --inline ios --prod",
     "ionic:build:before": "npm run before-build",
@@ -51,7 +51,9 @@
     "prettier:check": "prettier . --check",
     "generate-api": "sh ./generate-api.sh",
     "getTypescriptVersion": "tsc -v",
-    "postinstall": "node check-node-version.js && node fcm-library.js"
+    "postinstall": "node check-node-version.js && node fcm-library.js",
+"deploy:stage": "ionic build --configuration=stage && cross-env FLAVOR=stage SUPABASE_URL=https://f8f3213ff572.ngrok-free.app SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q node scripts/deploy-update.js",
+  "deploy:prod": "ionic build --configuration=production && && cross-env FLAVOR=production  SUPABASE_URL=https://f8f3213ff572.ngrok-free.app SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q node scripts/deploy-update.js"
   },
   "private": true,
   "dependencies": {
@@ -125,6 +127,7 @@
     "@googlemaps/polyline-codec": "^1.0.28",
     "@ionic/angular-toolkit": "^12.0.0",
     "@ionic/storage-angular": "^4.0.0",
+    "@supabase/supabase-js": "^2.90.1",
     "@types/jasmine": "~5.1.0",
     "@types/leaflet": "^1.9.21",
     "@types/lodash-es": "^4.17.12",
@@ -132,7 +135,9 @@
     "@types/to-px": "^1.1.4",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
+    "archiver": "^7.0.1",
     "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
     "eslint": "^9.16.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.2.1",
