@@ -9,5 +9,5 @@ export const environment: Environment = createEnvironment({
   name: 'testing',
   aacConfig: 'default',
   apiServer: 'dev',
-  releaseToStore: true,
+  releaseToStore: false,
 });
