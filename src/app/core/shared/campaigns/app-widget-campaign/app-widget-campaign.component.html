@@ -15,5 +15,9 @@
     <app-home-campaign-school [header]="header" [campaignContainer]="campaign" (click)="detailCampaign(campaign)">
     </app-home-campaign-school>
   </ng-container>
+  <ng-container *ngSwitchCase="'group'">
+    <app-home-campaign-group [header]="header" [campaignContainer]="campaign" (click)="detailCampaign(campaign)">
+    </app-home-campaign-group>
+  </ng-container>
   <ng-container *ngSwitchDefault> default </ng-container>
 </ng-container>

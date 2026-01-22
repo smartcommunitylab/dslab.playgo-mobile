@@ -201,6 +201,26 @@
   --ion-color-personal-stat-shade: #388887;
   --ion-color-personal-stat-tint: #53a4a3;
 
+  /** Group campaign **/
+
+  --ion-color-group: #ffb3ba;
+--ion-color-group-rgb: 255,179,186;
+--ion-color-group-contrast: #000000;
+--ion-color-group-contrast-rgb: 0,0,0;
+--ion-color-group-shade: #e0a0a5;
+--ion-color-group-tint: #ffc8cc;
+
+--ion-color-group-stat: #409a99;
+--ion-color-group-stat-rgb: 64, 154, 153;
+--ion-color-group-stat-contrast: #ffffff;
+--ion-color-group-stat-contrast-rgb: 255, 255, 255;
+--ion-color-group-stat-contrast-reversed: #000000;
+--ion-color-group-stat-contrast-reversed-rgb: 0, 0, 0;
+--ion-color-group-stat-shade: #388887;
+--ion-color-group-stat-tint: #53a4a3;
+
+
+
   /** School campaign **/
 
   --ion-color-school: #ffab40;
@@ -256,7 +276,10 @@ $color-names:
   "company-light", "company-stat",
   // city
   "city",
-  "city-light", "city-stat";
+  "city-light", "city-stat",
+    // group
+    "group",
+    "group-light", "group-stat";
 
 // generate ionic helper class for each color name
 @each $color-name in $color-names {

@@ -29,11 +29,12 @@ export namespace CampaignTripInfo {
     SENT: 'SENT' as ScoreStatusEnum,
     UNASSIGNED: 'UNASSIGNED' as ScoreStatusEnum,
   };
-  export type TypeEnum = 'city' | 'company' | 'personal' | 'school';
+  export type TypeEnum = 'city' | 'company' | 'personal' | 'school' | 'group';
   export const TypeEnum = {
     City: 'city' as TypeEnum,
     Company: 'company' as TypeEnum,
     Personal: 'personal' as TypeEnum,
     School: 'school' as TypeEnum,
+    Group: 'group' as TypeEnum,
   };
 }

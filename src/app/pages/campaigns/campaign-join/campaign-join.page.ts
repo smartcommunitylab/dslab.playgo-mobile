@@ -19,6 +19,7 @@ import { DetailCampaignModalPage } from '../../home/campaign-details/detail-moda
 import { JoinCityModalPage } from './join-city/join-city.modal';
 import { JoinCompanyModalPage } from './join-company/join-company.modal';
 import { JoinSchoolModalPage } from './join-school/join-school.modal';
+import { JoinGroupModalPage } from './join-group/join-group.modal';
 
 @Component({
   selector: 'app-campaign-join',
@@ -31,6 +32,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   id: string;
   campaign?: Campaign;
   imagePath: SafeResourceUrl;
+  bannerPath: string;
   sub: Subscription;
   subSchool: Subscription;
   subProf: Subscription;
@@ -60,29 +62,13 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       this.profile = profile;
       if (campaign) {
         this.campaign = campaign;
-        this.imagePath = this.campaign.logo.url
-          ? this.campaign.logo.url
-          : 'data:image/jpg;base64,' + this.campaign.logo.image;
-        this.changePageSettings();
+        this.imagePath = this.safeImageUrl(this.campaign?.logo ?? null);
+        this.bannerPath = this.safeImageUrl(this.campaign?.banner ?? null);
+              this.changePageSettings();
         this.manageSpecificDetail(this.campaign, this.profile?.nickname);
       }
     }
     );
-    // this.subProf = this.userService.userProfile$.subscribe((profile) => {
-    //   this.profile = profile;
-    // });
-    // this.sub = this.campaignService
-    //   .getCampaignDetailsById(this.id)
-    //   .subscribe((result) => {
-    //     if (result) {
-    //       this.campaign = result;
-    //       this.imagePath = this.campaign.logo.url
-    //         ? this.campaign.logo.url
-    //         : 'data:image/jpg;base64,' + this.campaign.logo.image;
-    //       this.changePageSettings();
-    //       this.manageSpecificDetail(this.campaign);
-    //     }
-    //   });
 
   }
   manageSpecificDetail(campaign: Campaign, nickname: string) {
@@ -90,6 +76,9 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       case 'city':
         this.canSubscribe = true;
         break;
+      case 'group':
+          this.canSubscribe = true;
+          break;
       case 'school':
         this.subSchool =
           this.playerTeamControllerService.checkSubscribeTeamMemberUsingGET({ initiativeId: this.id, nickname }).subscribe(res =>
@@ -133,6 +122,9 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         case 'city':
           this.registerToCity(campaign);
           break;
+        case 'group':
+            this.registerToGroup(campaign);
+            break;
         case 'school':
           this.openRegisterSchool(campaign);
           break;
@@ -182,19 +174,47 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }
-  getCampaignSponsor(details: CampaignDetail[]): Record<string, unknown> {
-    return details.filter((detail) => detail.type === 'sponsor')[0];
+  getCampaignSponsor(details?: CampaignDetail[] | null): CampaignDetail | null {
+    try {
+      if (!Array.isArray(details) || details.length === 0) return null;
+      const sponsor = details.find((detail) => !!detail && detail.type === 'sponsor');
+      return sponsor ?? null;
+    } catch (err) {
+      console.error('getCampaignSponsor error', err);
+      return null;
+    }
   }
-  campaignHasSponsor(details: CampaignDetail[]): any {
-    return details.filter((detail) => detail.type === 'sponsor').length > 0;
+  campaignHasSponsor(details?: CampaignDetail[] | null): boolean {
+    try {
+      if (!Array.isArray(details) || details.length === 0) return false;
+      return details.some((detail) => !!detail && detail.type === 'sponsor');
+    } catch (err) {
+      console.error('campaignHasSponsor error', err);
+      return false;
+    }
   }
-  isCompany() {
-    return this.campaign.type === 'company';
+  private safeImageUrl(img?: { url?: string; image?: string } | null): string {
+    try {
+      if (!img) return '';
+      if (typeof img.url === 'string' && img.url.trim() !== '') return img.url;
+      if (typeof img.image === 'string' && img.image.trim() !== '') return 'data:image/jpg;base64,' + img.image;
+      return '';
+    } catch (e) {
+      console.warn('safeImageUrl error', e);
+      return '';
+    }
   }
-  isSchool() {
-    return this.campaign.type === 'school';
 
+  isCompany(): boolean {
+    return !!this.campaign && this.campaign.type === 'company';
   }
+  isGroup(): boolean {
+    return !!this.campaign && this.campaign.type === 'group';
+  }
+  isSchool(): boolean {
+    return !!this.campaign && this.campaign.type === 'school';
+  }
+
   async openCompanies() {
     const modal = await this.modalController.create({
       component: CompaniesCampaignModalPage,
@@ -231,6 +251,9 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       case 'city':
         joinable = true;
         break;
+      case 'group':
+          joinable = true;
+          break;
       case 'school':
         joinable = true;
         break;
@@ -256,20 +279,27 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    //this.registerToCompany(campaign, data);
     if (data) {
-      //update list of campaign
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
-    // this.sub = this.campaignService
-    //   .subscribeToCampaign(campaign.campaignId)
-    //   .subscribe((result) => {
-    //     if (result) {
-    //       this.alertService.showToast({
-    //         messageTranslateKey: 'campaigns.registered',
-    //       });
-    //     }
-    //   });
+  }
+  async registerToGroup(campaign: Campaign) {
+    const language = this.userService.getLanguage();
+    const modal = await this.modalController.create({
+      component: JoinGroupModalPage,
+      componentProps: {
+        campaign,
+        language,
+        profile: this.profile
+      },
+      cssClass: 'modalConfirm',
+      canDismiss: true
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.navCtrl.navigateRoot('/pages/tabs/home');
+    }
   }
   back() {
     this.navCtrl.back();

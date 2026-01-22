@@ -6,6 +6,7 @@ import { JoinCompanyModalPage } from './join-company/join-company.modal';
 import { JoinCityModalPage } from './join-city/join-city.modal';
 import { JoinSchoolModalPage } from './join-school/join-school.modal';
 import { IonicModule } from '@ionic/angular';
+import { JoinGroupModalPage } from './join-group/join-group.modal';
 
 @NgModule({
   imports: [CampaignJoinPageRoutingModule, PlayGoSharedModule,IonicModule],
@@ -13,6 +14,7 @@ import { IonicModule } from '@ionic/angular';
     CampaignJoinPage,
     JoinCompanyModalPage,
     JoinCityModalPage,
+    JoinGroupModalPage,
     JoinSchoolModalPage,
   ],
 })

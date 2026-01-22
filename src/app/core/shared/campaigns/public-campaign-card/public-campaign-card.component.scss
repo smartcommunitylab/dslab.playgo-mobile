@@ -41,6 +41,7 @@ ion-card-header ion-label {
   background-color: white;
 
   .header {
+    min-height: 100px;
     ion-label {
       position: absolute;
       bottom: 0px;
@@ -74,6 +75,9 @@ ion-card-header ion-label {
 }
 .city {
   border: 3px solid var(--ion-color-city);
+}
+.group {
+  border: 3px solid var(--ion-color-group);
 }
 .header {
   position: relative;
@@ -132,6 +136,20 @@ ion-card-header ion-label {
     to bottom,
     rgba(0, 0, 0, 0) 30%,
     var(--ion-color-city) 75%
+  );
+  z-index: 1;
+}
+.group-effect:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 30%,
+    var(--ion-color-group) 75%
   );
   z-index: 1;
 }

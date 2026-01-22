@@ -257,6 +257,9 @@ export class CampaignDetailsPage implements OnInit, OnDestroy, AfterViewChecked 
   isCompany() {
     return this.campaignContainer.campaign.type === 'company';
   }
+  isGroup() {
+    return this.campaignContainer.campaign.type === 'group';
+  }
   isSchool() {
     return this.campaignContainer.campaign.type === 'school';
   }

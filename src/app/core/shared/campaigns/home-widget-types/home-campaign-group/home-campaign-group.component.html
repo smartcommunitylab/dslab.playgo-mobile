@@ -1,0 +1,34 @@
+<app-notification-badge *ngIf=" header" [type]="'campaign'" [campaignContainer]="campaignContainer">
+</app-notification-badge>
+<ion-card [ngClass]="{'home-card-widget': header}">
+  <ion-card-header color="group">
+    <ion-avatar>
+      <img [src]="imagePath" alt="Avatar" />
+    </ion-avatar>
+    <div lines="none" color="group" *ngIf="header; else detailHeader">
+      <span> {{ campaignContainer.campaign.name | languageMap }}</span>
+    </div>
+    <ng-template #detailHeader>
+      <div>
+        <span> {{'campaigns.detail.generalStat'|translate}}</span>
+      </div>
+    </ng-template>
+  </ion-card-header>
+  <ion-card-content class="group-content ion-no-padding">
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
+      [lastPaymentDate]="lastPaymentDate" [lastPaymentDateTo]="lastPaymentDateTo" [showRanking]="false"
+      [reportTotalStat]="reportTotalStat" [limitMonthMax]="getLimitMonthMax()" [limitMonthValue]="reportMonthStat"
+      [limitDayMax]="getLimitDayMax()" [limitDayValue]="reportDayStat" [unit]="getUnit()">
+    </app-main-campaign-stat>
+    <!-- <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
+      [lastPaymentDate]="lastPaymentDate" [lastPaymentDateTo]="lastPaymentDateTo" [showRanking]="false"
+      [reportTotalStat]="reportTotalStat"
+      [firstLimit]="campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar"
+      [secondLimit]="campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar"
+      [unit]="campaignContainer?.campaign?.specificData?.virtualScore.label">
+    </app-main-campaign-stat> -->
+    <app-company-label [campaignContainer]="campaignContainer"
+      *ngIf="!campaignContainer?.campaign?.specificData.hideCompanyDesc"></app-company-label>
+
+  </ion-card-content>
+</ion-card>

@@ -43,7 +43,8 @@ export class ChallengeService {
       campaigns.filter(
         (campaign) =>
           campaign.campaign.type === 'city'
-          || campaign.campaign.type === 'school'
+        || campaign.campaign.type === 'school'
+        || campaign.campaign.type === 'group'
       )
     ),
     shareReplay(1)

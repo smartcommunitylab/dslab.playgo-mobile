@@ -331,6 +331,9 @@ export class CampaignService {
     if (campaign.type === 'city') {
       return 'ecoLeavesCity';
     }
+    if (campaign.type === 'group') {
+      return 'ecoLeavesGroup';
+    }
     if (campaign.type === 'company') {
       return 'ecoLeavesCompany';
     }
