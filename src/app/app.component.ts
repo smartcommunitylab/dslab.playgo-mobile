@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { AfterContentInit, Component, Inject, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, Inject, ViewChild, NgZone } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
 // import { codePush as CodePushPluginInternal } from 'capacitor-codepush';
@@ -21,8 +21,10 @@ import { ScreenOrientation } from '@capacitor/screen-orientation';
 import { StatusBar, Style } from '@capacitor/status-bar';
 // import { SyncStatus } from 'cap-codepush/dist/esm/syncStatus';
 import { environment } from 'src/environments/environment';
-import { App } from '@capacitor/app';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { AutoUpdateService } from './core/shared/services/auto-update.service';
+import { Router } from '@angular/router';
+import { AuthFlowService } from './core/shared/services/auth-flow.service';
 
 @Component({
   selector: 'app-root',
@@ -40,14 +42,19 @@ export class AppComponent implements AfterContentInit {
     private appStatusService: AppStatusService,
     private iconService: IconService,
     private authService: AuthService,
+    private authFlowService: AuthFlowService,
+
     private badgeService: BadgeService,
     private autoUpdateService: AutoUpdateService,
 
     // @Inject('CodePushPlugin')
     // private codePushPlugin: typeof CodePushPluginInternal,
-    private errorService: ErrorService
+    private ngZone: NgZone,
+    private router: Router
   ) {
     this.initializeApp();
+    this.setupDeepLinks();
+
   }
   private async initializeApp() {
     try {
@@ -104,7 +111,85 @@ export class AppComponent implements AfterContentInit {
       };
     }
   }
+  private setupDeepLinks() {
+    console.log('Setting up deep link listeners...');
+    
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.ngZone.run(() => {
+        const url = event.url;
+        console.log('=== DEEP LINK RECEIVED ===');
+        console.log('URL:', url);
 
+        // Gestisci auth callback
+        if (url.includes('auth/callback')) {
+          this.handleAuthCallback(url);
+        }
+        // Gestisci end session
+        else if (url.includes('auth/endsession')) {
+          console.log('Handling end session callback');
+          this.authService.endSessionCallback();
+        }
+        else {
+          console.warn('Unhandled deep link:', url);
+        }
+        
+        console.log('========================');
+      });
+    });
+  }
+
+  private async handleAuthCallback(url: string) {
+    console.log('handleAuthCallback START');
+    
+    try {
+      const urlObj = new URL(url);
+      const state = urlObj.searchParams.get('state');
+      const code = urlObj.searchParams.get('code');
+      
+      console.log('State:', state);
+      console.log('Code:', code ? 'YES' : 'NO');
+      
+      const isTempCallback = state?.startsWith('temp_');
+      console.log('isTempCallback:', isTempCallback);
+
+      if (isTempCallback) {
+        // Callback temporaneo per campagna
+        console.log('Processing temporary auth callback');
+        await this.authFlowService.handleTemporaryAuthCallback(url);
+
+        // Recupera l'ID della campagna
+        const campaignId = sessionStorage.getItem('pending_campaign_id');
+        console.log('pending_campaign_id:', campaignId);
+        
+        if (campaignId) {
+          // Segnala successo
+          sessionStorage.setItem('temp_auth_success', 'true');
+          
+          // Naviga alla pagina della campagna
+          console.log('Navigating to campaign:', campaignId);
+          setTimeout(() => {
+            this.router.navigate(['/pages/tabs/campaigns/join', campaignId]);
+          }, 1000);
+        } else {
+          console.warn('No campaign ID, navigating to campaigns list');
+          this.router.navigate(['/pages/tabs/campaigns']);
+        }
+      } else {
+        // Callback login principale
+        console.log('Processing main auth callback');
+        this.authService.authorizationCallback();
+        
+        // Naviga alla home
+        setTimeout(() => {
+          this.router.navigate(['/pages/tabs/home']);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error('Error handling auth callback:', error);
+    }
+    
+    console.log('handleAuthCallback END');
+  }
   // async codePushSync() {
   //   try {
   //     let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';

@@ -259,7 +259,7 @@ export class CampaignService {
   ) { }
   subscribeToCampaign(
     id: string,
-    body?: any
+    body?: any,
   ): Observable<CampaignSubscription> {
     //update my campaign list
     return this.campaignControllerService

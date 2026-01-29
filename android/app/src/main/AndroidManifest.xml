@@ -31,11 +31,34 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+          <!-- Deep link generico (mantieni per compatibilità) -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="${customUrlScheme}" />
+            </intent-filter>
+            
+            <!-- Deep link specifico per auth callback -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data 
+                    android:scheme="${customUrlScheme}"
+                    android:host="auth"
+                    android:pathPrefix="/callback" />
+            </intent-filter>
+            
+            <!-- Deep link specifico per end session -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data 
+                    android:scheme="${customUrlScheme}"
+                    android:host="auth"
+                    android:pathPrefix="/endsession" />
             </intent-filter>
         </activity>
 

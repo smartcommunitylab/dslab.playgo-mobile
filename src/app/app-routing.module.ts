@@ -25,6 +25,13 @@ const routes: RoutesWithPageSettings = [
         (m) => m.AuthCallbackPageModule
       ),
   },
+  // {
+  //   path: 'campaign-auth/callback',
+  //   loadChildren: () =>
+  //     import('./pages/campaign-auth-callback/campaign-auth-callback.module').then(
+  //       (m) => m.CampaignAuthCallbackModule
+  //     ),
+  // },
   {
     path: 'auth/endsession',
     loadChildren: () =>

@@ -20,6 +20,7 @@ import { JoinCityModalPage } from './join-city/join-city.modal';
 import { JoinCompanyModalPage } from './join-company/join-company.modal';
 import { JoinSchoolModalPage } from './join-school/join-school.modal';
 import { JoinGroupModalPage } from './join-group/join-group.modal';
+import { AuthFlowService } from 'src/app/core/shared/services/auth-flow.service';
 
 @Component({
   selector: 'app-campaign-join',
@@ -39,6 +40,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   descriptionExpanded = false;
   canSubscribe = false;
   profile: User;
+  AAC_BASE_URL: string= 'https://aac.platform.smartcommunitylab.it';
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
@@ -47,12 +49,17 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     private modalController: ModalController,
     private userService: UserService,
     private pageSettingsService: PageSettingsService,
-    private playerTeamControllerService: PlayerTeamControllerService
+    private playerTeamControllerService: PlayerTeamControllerService,
+   private authFlowService: AuthFlowService
+
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
 
   ngOnInit() {
+
+    
+
     // combineLatest tra profile e campaign per chiamare manageSpecificDetail
     this.sub = combineLatest([
       this.userService.userProfile$,
@@ -69,7 +76,17 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       }
     }
     );
+    const authSuccess = sessionStorage.getItem('temp_auth_success');
 
+    if (authSuccess) {
+      console.log('Returning from OAuth callback, completing join...');
+      sessionStorage.removeItem('temp_auth_success');
+      
+      // Aspetta che la pagina sia completamente caricata
+      setTimeout(() => {
+        this.completeJoinWithToken();
+      }, 500);
+    }
   }
   manageSpecificDetail(campaign: Campaign, nickname: string) {
     switch (campaign.type) {
@@ -283,21 +300,124 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }
+  
   async registerToGroup(campaign: Campaign) {
-    const language = this.userService.getLanguage();
+    const specificData = campaign?.specificData;
+  
+    if (specificData?.clientId) {
+      try {
+        // Salva campaignId per il redirect dopo auth
+        sessionStorage.setItem('pending_campaign_id', campaign.campaignId);
+        sessionStorage.setItem('pending_campaign', JSON.stringify(campaign));
+  
+        await this.alertService.showLoading('Authenticating...');
+  
+        console.log('Starting temp auth flow with config:', {
+          clientId: specificData.clientId,
+          scopes: specificData.oauth_scope || 'openid',
+        });
+  
+        // Avvia auth temporaneo
+        const tempToken = await this.authFlowService.startAuthForCampaign({
+          clientId: specificData.clientId,
+          scopes: specificData.oauth_scope || 'openid'
+          });
+  
+        console.log('Temporary token received:', tempToken ? 'YES' : 'NO');
+  
+        await this.alertService.dismissLoading();
+  
+        if (!tempToken) {
+          throw new Error('No token received');
+        }
+  
+        // Su native, apri subito il modal (non c'è redirect)
+        await this.openJoinModal(campaign, tempToken);
+  
+      } catch (error) {
+        await this.alertService.dismissLoading();
+        console.error('Auth flow failed:', error);
+        
+        // Pulisci dati salvati
+        sessionStorage.removeItem('pending_campaign_id');
+        sessionStorage.removeItem('pending_campaign');
+        
+
+      }
+    } else {
+      // Fallback: apri modal senza token
+      await this.openJoinModal(campaign, undefined);
+    }
+  }
+  
+  /**
+   * Completa il join con il token dopo il redirect OAuth
+   */
+  private async completeJoinWithToken() {
+    const pendingCampaignStr = sessionStorage.getItem('pending_campaign');
+    
+    if (!pendingCampaignStr) {
+      console.warn('No pending campaign found');
+      return;
+    }
+  
+    const campaign = JSON.parse(pendingCampaignStr) as Campaign;
+    
+    console.log('Completing join for campaign:', campaign.campaignId);
+  
+    // Mostra loading mentre aspettiamo il token
+    await this.alertService.showLoading('Processing authentication...');
+  
+    try {
+      // Aspetta un attimo che authorizationCallback() processi il code
+      await new Promise(resolve => setTimeout(resolve, 1000));
+  
+      // Ottieni il token dal servizio
+      const tempToken = await this.authFlowService.getTemporaryToken();
+  
+      await this.alertService.dismissLoading();
+  
+      if (tempToken) {
+        console.log('Token available, opening modal');
+        await this.openJoinModal(campaign, tempToken);
+      } else {
+        console.error('No token available after auth');
+
+      }
+    } catch (error) {
+      await this.alertService.dismissLoading();
+      console.error('Error getting temporary token:', error);
+      
+
+    } finally {
+      // Pulisci sempre i dati salvati
+      sessionStorage.removeItem('pending_campaign');
+      sessionStorage.removeItem('pending_campaign_id');
+    }
+  }
+  
+  /**
+   * Apri il modal di join con o senza token temporaneo
+   */
+  private async openJoinModal(campaign: Campaign, tempToken?: string) {
     const modal = await this.modalController.create({
       component: JoinGroupModalPage,
       componentProps: {
         campaign,
-        language,
-        profile: this.profile
+        temporaryToken: tempToken,
       },
-      cssClass: 'modalConfirm',
-      canDismiss: true
     });
+  
     await modal.present();
     const { data } = await modal.onWillDismiss();
+  
+    // Pulisci il token temporaneo dopo l'uso
+    if (tempToken) {
+      await this.authFlowService.clearTemporaryAuth();
+    }
+  
     if (data) {
+      // Successo: naviga alla home o ricarica la pagina
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }

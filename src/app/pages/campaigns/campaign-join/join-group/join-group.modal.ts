@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -16,7 +17,11 @@ import { User, UserService } from 'src/app/core/shared/services/user.service';
 
 })
 export class JoinGroupModalPage implements OnInit {
-  joinGroupForm: FormGroup;
+  @Input() authData?: {
+    access_token?: string;
+    id_token?: string;
+    refresh_token?: string;
+  }; joinGroupForm: FormGroup;
   campaign: Campaign;
   privacy: any;
   rules: any;
@@ -76,31 +81,36 @@ export class JoinGroupModalPage implements OnInit {
       cssClass: 'modalConfirm',
     });
   }
-  joinGroupSubmit() {
-    // call join with all params
-    this.isSubmitted = true;
-    if (!this.joinGroupForm.valid) {
-      return false;
-    } else {
-      const body = {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        nick_recommandation: this.joinGroupForm.value.name
-      };
-      this.campaignService
-        .subscribeToCampaign(this.campaign.campaignId, body)
-        .subscribe(
-          (result) => {
-            if (result) {
-              this.alertService.showToast({
-                messageTranslateKey: 'campaigns.registered',
-              });
-              this.modalController.dismiss(true);
-            }
-          },
-          (err) => {
-            this.errorService.handleError(err);
-          }
-        );
+  async joinGroupSubmit() {
+    try {
+      this.isSubmitted = true;
+  
+      // Prepara headers HTTP
+      let headers = new HttpHeaders();
+      
+      // Se abbiamo authData, aggiungi il token temporaneo
+      if (this.authData?.access_token) {
+        headers = headers.set('Authorization', `Bearer ${this.authData.access_token}`);
+      }
+  
+  
+
+     await this.campaignService.subscribeToCampaign(
+      this.campaign.campaignId,
+      this.joinGroupForm.value
+    ).toPromise();
+  
+      // Successo
+      this.alertService.showToast({
+        messageString: 'Successfully joined campaign!',
+      });
+  
+      this.modalController.dismiss({ success: true });
+  
+    } catch (error) {
+      console.error('Join campaign error:', error);
+      this.errorService.handleError(error);
+      this.isSubmitted = false;
     }
-  }
+}
 }
