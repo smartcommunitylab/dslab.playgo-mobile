@@ -1,0 +1,13 @@
+.selected-role {
+    font-size: 1.1rem;
+    color: var(--ion-color-light);
+    
+    strong {
+      font-weight: 600;
+    }
+  }
+  
+  ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }

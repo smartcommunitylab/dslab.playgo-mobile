@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="playgo">
-    <ion-title>{{ 'campaigns.joinmodal.modalTitle' |translate :
-      {campaignTitle:campaign?.name | languageMap } }}</ion-title>
+    <ion-title>{{ 'campaigns.joinmodal.modalTitle' | translate : {campaignTitle: campaign?.name | languageMap}
+      }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close-circle-outline"></ion-icon>
@@ -13,56 +13,104 @@
 <ion-content color="playgo" scroll="false">
   <form [formGroup]="joinGroupForm" (ngSubmit)="joinGroupSubmit()">
     <ion-grid>
+
+      <!-- Selezione gruppo SOLO se ci sono gruppi disponibili -->
+      <!-- Selezione gruppo SOLO se ci sono MULTIPLI gruppi disponibili -->
+      <div *ngIf="availableGroups && availableGroups.length > 0">
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <!-- Se c'è UN SOLO gruppo, mostra solo il valore senza select -->
+            <ion-item color="playgo" class="header-radius" *ngIf="availableGroups.length === 1">
+              <ion-label>{{ 'campaigns.joinmodal.yourRole' | translate }}</ion-label>
+              <ion-text slot="end" class="selected-role">
+                <strong>{{ getGroupLabel(availableGroups[0]) }}</strong>
+              </ion-text>
+            </ion-item>
+
+            <!-- Se ci sono MULTIPLI gruppi, mostra la select -->
+            <ion-item color="playgo" class="header-radius" *ngIf="availableGroups.length > 1">
+              <ion-label>{{ 'campaigns.joinmodal.selectGroup' | translate }}</ion-label>
+              <ion-select formControlName="groupId" [interfaceOptions]="{ cssClass: 'app-alert' }" interface="alert"
+                [placeholder]="'campaigns.joinmodal.selectGroupPlaceholder' | translate">
+                <ion-select-option *ngFor="let group of availableGroups" [value]="group.value">
+                  {{ getGroupLabel(group) }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="isSubmitted && errorControl['groupId']?.errors?.['required']">
+          <ion-col>
+            <div class="error-message ion-padding">
+              <span>{{ 'campaigns.joinmodal.groupRequired' | translate }}</span>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <!-- Nickname field -->
       <ion-row class="ion-margin-top" *ngIf="!isAlreadySubscribed()">
         <ion-col>
           <ion-item lines="full" color="playgo">
-            <ion-label position="floating">{{'campaigns.joinmodal.raccomandation'|translate}}</ion-label>
+            <ion-label position="floating">{{ 'campaigns.joinmodal.raccomandation' | translate }}</ion-label>
             <ion-input type="text" formControlName="name" clearInput
-              placeholder="{{'campaigns.joinmodal.nickname'|translate}}"></ion-input>
+              placeholder="{{ 'campaigns.joinmodal.nickname' | translate }}"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
+
+      <!-- Privacy link -->
       <ion-row class="ion-margin-top" *ngIf="privacy">
         <ion-col size="10">
-          <ion-label class="privacy-info">{{'campaigns.joinmodal.privacyLink'|translate}}</ion-label>
+          <ion-label class="privacy-info">{{ 'campaigns.joinmodal.privacyLink' | translate }}</ion-label>
         </ion-col>
         <ion-col class="ion-text-center" (click)="openPrivacyPopup()">
           <ion-icon class="popup-icon" name="information-circle-outline"></ion-icon>
         </ion-col>
       </ion-row>
+
+      <!-- Privacy checkbox -->
       <ion-row class="ion-margin-top" *ngIf="privacy">
         <ion-col>
           <ion-item color="playgo">
             <ion-checkbox slot="start" color="playgo" formControlName="privacy"></ion-checkbox>
-            <ion-label class="ion-text-wrap">{{'campaigns.joinmodal.privacy'|translate}}</ion-label>
+            <ion-label class="ion-text-wrap">{{ 'campaigns.joinmodal.privacy' | translate }}</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
       <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl?.privacy?.errors">
-        <span>{{'campaigns.joinmodal.privacyRequired'|translate}}</span>
+        <span>{{ 'campaigns.joinmodal.privacyRequired' | translate }}</span>
       </div>
+
+      <!-- Rules link -->
       <ion-row class="ion-margin-top" *ngIf="rules">
         <ion-col size="10">
-          <ion-label class="privacy-info">{{'campaigns.joinmodal.rulesLink'|translate}}</ion-label>
+          <ion-label class="privacy-info">{{ 'campaigns.joinmodal.rulesLink' | translate }}</ion-label>
         </ion-col>
         <ion-col class="ion-text-center" (click)="openRulesPopup()">
           <ion-icon class="popup-icon" name="information-circle-outline"></ion-icon>
         </ion-col>
       </ion-row>
+
+      <!-- Rules checkbox -->
       <ion-row class="ion-margin-top" *ngIf="rules">
         <ion-col>
           <ion-item color="playgo">
             <ion-checkbox slot="start" color="playgo" formControlName="rules"></ion-checkbox>
-            <ion-label class="ion-text-wrap">{{'campaigns.joinmodal.rules'|translate}}</ion-label>
+            <ion-label class="ion-text-wrap">{{ 'campaigns.joinmodal.rules' | translate }}</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
       <div class="error-message ion-padding" *ngIf="isSubmitted && errorControl?.rules?.errors">
-        <span>{{'campaigns.joinmodal.rulesRequired'|translate}}</span>
+        <span>{{ 'campaigns.joinmodal.rulesRequired' | translate }}</span>
       </div>
+
+      <!-- Submit button -->
       <ion-row>
         <ion-col>
-          <ion-button color="light" type="submit" expand="block">{{'campaigns.joinmodal.confirm'|translate}}
+          <ion-button color="light" type="submit" expand="block" [disabled]="!joinGroupForm.valid || isSubmitted">
+            {{ 'campaigns.joinmodal.confirm' | translate }}
           </ion-button>
         </ion-col>
       </ion-row>

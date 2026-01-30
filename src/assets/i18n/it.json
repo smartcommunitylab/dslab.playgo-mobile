@@ -313,6 +313,10 @@
       "close": "X"
     },
     "joinmodal": {
+            "yourRole": "Il tuo ruolo",
+      "selectGroup": "Seleziona il tuo ruolo",
+      "selectGroupPlaceholder": "Scegli...",
+      "groupRequired": "Devi selezionare un ruolo",
       "search": "Cerca",
       "raccomandation": "Chi ti ha invitato?",
       "nickname": "Inserisci il nickname",

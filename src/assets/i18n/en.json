@@ -313,6 +313,11 @@
       "close": "X"
     },
     "joinmodal": {
+      "yourRole": "Your role",
+
+      "selectGroup": "Select your role",
+      "selectGroupPlaceholder": "Choose...",
+      "groupRequired": "You must select a role",
       "search": "Search",
       "raccomandation": "Who invited you?",
       "nickname": "Insert thenickname",

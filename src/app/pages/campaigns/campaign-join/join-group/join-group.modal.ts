@@ -1,8 +1,6 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
 import { Campaign } from 'src/app/core/api/generated/model/campaign';
 import { AlertService } from 'src/app/core/shared/services/alert.service';
 import { CampaignService } from 'src/app/core/shared/services/campaign.service';
@@ -14,56 +12,80 @@ import { User, UserService } from 'src/app/core/shared/services/user.service';
   templateUrl: './join-group.modal.html',
   styleUrls: ['./join-group.modal.scss'],
   standalone: false,
-
 })
 export class JoinGroupModalPage implements OnInit {
+  @Input() campaign: Campaign;
+  @Input() language: string;
+  @Input() profile: User;
+  
+  // Nuovi input per OAuth flow
   @Input() authData?: {
     access_token?: string;
-    id_token?: string;
-    refresh_token?: string;
-  }; joinGroupForm: FormGroup;
-  campaign: Campaign;
+  };
+  @Input() availableGroups?: Array<{
+    value: string;
+    label: { it: string; en: string };
+  }>;
+
+  joinGroupForm: FormGroup;
   privacy: any;
   rules: any;
   isSubmitted = false;
-  language: string;
-  profile: User;
 
   constructor(
     private modalController: ModalController,
     private alertService: AlertService,
-    private errorService: ErrorService,
     private campaignService: CampaignService,
     public formBuilder: FormBuilder,
     private userService: UserService,
-    private navCtrl: NavController
-  ) { }
+    private navCtrl: NavController,
+        private errorService: ErrorService,
+    
+  ) {}
+
   ngOnInit() {
-    this.language = this.userService.getLanguage();
-    const rules = this.campaign.details[this.language];
+    this.language = this.language || this.userService.getLanguage();
+    const rules = this.campaign.details?.[this.language];
     this.rules = rules?.find((detail) => detail.type === 'rules');
     this.privacy = rules?.find((detail) => detail.type === 'privacy');
+    
+    // Build form con groupId SOLO se ci sono gruppi disponibili
     this.joinGroupForm = this.formBuilder.group({
       name: [''],
+      ...(this.availableGroups && this.availableGroups.length > 0 && {
+        groupId: ['', Validators.required]
+      }),
       ...(this.privacy && { privacy: [false, Validators.requiredTrue] }),
       ...(this.rules && { rules: [false, Validators.requiredTrue] }),
     });
+
+    console.log('Join modal initialized:', {
+      hasAuthData: !!this.authData,
+      hasGroups: !!this.availableGroups,
+      groupCount: this.availableGroups?.length || 0
+    });
   }
-  //computed errorcontrol
+
   get errorControl() {
     return this.joinGroupForm.controls;
   }
+
   close() {
-    this.modalController.dismiss(false);
+    this.modalController.dismiss({ success: false });
   }
+
   isAlreadySubscribed() {
     return this.profile?.personalData?.registeredIds?.includes(this.campaign?.campaignId);
   }
+
+  getGroupLabel(group: any): string {
+    return group.label[this.language] || group.label.en || group.value;
+  }
+
   openPrivacyPopup() {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.privacyPopup.header' as any,
       messageString: this.privacy.content,
-      cssClass: 'modalJoin',
     });
   }
 
@@ -71,46 +93,64 @@ export class JoinGroupModalPage implements OnInit {
     this.alertService.presentAlert({
       headerTranslateKey: 'campaigns.joinmodal.rulesPopup.header' as any,
       messageString: this.rules.content,
-      cssClass: 'modalJoin',
     });
   }
-  openCodeInfoPopup() {
-    this.alertService.presentAlert({
-      headerTranslateKey: 'campaigns.joinmodal.codeInfo.header' as any,
-      messageString: 'campaigns.joinmodal.codeInfo.message' as any,
-      cssClass: 'modalConfirm',
-    });
-  }
+
   async joinGroupSubmit() {
     try {
       this.isSubmitted = true;
-  
-      // Prepara headers HTTP
-      let headers = new HttpHeaders();
-      
-      // Se abbiamo authData, aggiungi il token temporaneo
-      if (this.authData?.access_token) {
-        headers = headers.set('Authorization', `Bearer ${this.authData.access_token}`);
-      }
-  
-  
 
-     await this.campaignService.subscribeToCampaign(
-      this.campaign.campaignId,
-      this.joinGroupForm.value
-    ).toPromise();
-  
-      // Successo
-      this.alertService.showToast({
-        messageString: 'Successfully joined campaign!',
+      if (!this.joinGroupForm.valid) {
+        console.log('Form invalid:', this.joinGroupForm.errors);
+        return;
+      }
+
+      const formValue = this.joinGroupForm.value;
+      const body: any = {};
+
+      // Se abbiamo gruppi disponibili, aggiungi groupId e token
+      if (this.availableGroups && this.availableGroups.length > 0) {
+        if (!formValue.groupId) {
+          throw new Error('Please select a group');
+        }
+        
+        body.groupId = formValue.groupId;
+        
+        if (this.authData?.access_token) {
+          body.extToken = this.authData.access_token;
+        }
+      }
+
+      // Aggiungi name se presente
+      if (formValue.name) {
+        body.name = formValue.name;
+      }
+
+      console.log('Submitting join with body:', {
+        campaignId: this.campaign.campaignId,
+        hasGroupId: !!body.groupId,
+        hasToken: !!body.extToken,
+        hasName: !!body.name
       });
-  
+
+      await this.campaignService.subscribeToCampaign(
+        this.campaign.campaignId,
+        body
+      ).toPromise();
+
+      this.alertService.showToast({
+        messageTranslateKey: 'campaigns.registered',
+      });
+
       this.modalController.dismiss({ success: true });
-  
+      this.navCtrl.navigateRoot('/pages/tabs/home');
+
+
     } catch (error) {
       console.error('Join campaign error:', error);
       this.errorService.handleError(error);
+
       this.isSubmitted = false;
     }
-}
+  }
 }
