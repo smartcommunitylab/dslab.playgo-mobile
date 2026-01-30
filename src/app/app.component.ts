@@ -111,7 +111,8 @@ export class AppComponent implements AfterContentInit {
       };
     }
   }
-  private setupDeepLinks() {
+  private 
+  setupDeepLinks() {
     console.log('Setting up deep link listeners...');
     
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {

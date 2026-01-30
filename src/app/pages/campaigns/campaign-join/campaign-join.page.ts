@@ -320,8 +320,9 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         // Avvia auth temporaneo
         const tempToken = await this.authFlowService.startAuthForCampaign({
           clientId: specificData.clientId,
-          scopes: specificData.oauth_scope || 'openid'
-          });
+          scopes: specificData.oauth_scope || 'openid',
+          authUrl: specificData.authUrl || 'https://aac.platform.smartcommunitylab.it'
+        });
   
         console.log('Temporary token received:', tempToken ? 'YES' : 'NO');
   

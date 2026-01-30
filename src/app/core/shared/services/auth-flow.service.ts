@@ -10,6 +10,7 @@ import { firstValueFrom } from 'rxjs';
 import { filter, timeout } from 'rxjs/operators';
 
 export interface CampaignAuthConfig {
+    authUrl: string;
   clientId: string;
   scopes: string;
   clientSecret?: string;
@@ -24,7 +25,7 @@ export class AuthFlowService {
   private tempStorage: TemporaryStorageBackend | null = null;
   private tempAuthState: string | null = null;
 
-  private readonly AAC_BASE_URL = 'https://aac.platform.smartcommunitylab.it';
+//   private readonly AAC_BASE_URL = 'https://aac.platform.smartcommunitylab.it';
 
   constructor(
     private platform: Platform,
@@ -88,7 +89,7 @@ private restoreTempAuthServiceIfNeeded(): void {
         // Riconfigura
         const tempConfig: IAuthConfig = {
           client_id: config.clientId,
-          server_host: this.AAC_BASE_URL,
+          server_host: config.authUrl,
           redirect_url: config.redirectUrl,
           end_session_redirect_url: config.redirectUrl,
           scopes: config.scopes,
@@ -123,6 +124,10 @@ private restoreTempAuthServiceIfNeeded(): void {
     const redirectUrl = this.getRedirectUri();
     this.tempAuthState = `temp_${Math.random().toString(36).substr(2, 9)}`;
     
+    console.log('=== startAuthForCampaign START ===');
+    console.log('redirectUrl:', redirectUrl);
+    console.log('tempAuthState:', this.tempAuthState);
+    
     // Salva config e state in sessionStorage (sopravvive al redirect)
     sessionStorage.setItem('temp_auth_state', this.tempAuthState);
     sessionStorage.setItem(TEMP_AUTH_CONFIG_KEY, JSON.stringify({
@@ -147,7 +152,7 @@ private restoreTempAuthServiceIfNeeded(): void {
 
     const tempConfig: IAuthConfig = {
       client_id: config.clientId,
-      server_host: this.AAC_BASE_URL,
+      server_host: config.authUrl,
       redirect_url: redirectUrl,
       end_session_redirect_url: redirectUrl,
       scopes: config.scopes,
@@ -160,16 +165,31 @@ private restoreTempAuthServiceIfNeeded(): void {
     // Setup listener per callback su app native
     const isNative = this.platform.is('capacitor') || this.platform.is('hybrid');
     if (isNative) {
+        console.log('Setting up native App listener');
+    // Rimuovi listener precedenti se esistono
+    await App.removeAllListeners();
+
       App.addListener('appUrlOpen', (data: any) => {
+        console.log('=== App URL Open Event ===');
+        console.log('URL received:', data?.url);
+       
         if (data?.url && data.url.indexOf(redirectUrl) === 0) {
           const url = new URL(data.url);
           const state = url.searchParams.get('state');
-          
+          console.log('State from URL:', state);
+          console.log('Expected state:', this.tempAuthState);
+       
           if (state === this.tempAuthState) {
+            console.log('State matches! Processing callback...');
+
             this.ngZone.run(() => {
               this.tempAuthService?.authorizationCallback(data.url);
             });
-          }
+          }else {
+            console.warn('State mismatch!');
+          }} else {
+            console.log('URL does not match redirect URL');
+          
         }
       });
     }
@@ -178,18 +198,23 @@ private restoreTempAuthServiceIfNeeded(): void {
 
     // Aspetta il token PRIMA di chiamare signIn
     const tokenPromise = firstValueFrom(
-      this.tempAuthService.token$.pipe(
-        filter(token => !!token?.accessToken),
-        timeout(120_000) // 2 minuti
-      )
+        this.tempAuthService.token$.pipe(
+            filter(token => {
+              console.log('Token received:', !!token?.accessToken);
+              return !!token?.accessToken;
+            }),
+            timeout(120_000) // 2 minuti
+          )
     );
 
     // Avvia signin
+    console.log('Starting signIn...');
     await this.tempAuthService.signIn(undefined, this.tempAuthState);
 
     // Aspetta che il token arrivi
     const token = await tokenPromise;
-    
+    console.log('Token received successfully');
+
     if (!token?.accessToken) {
       throw new Error('No access token received');
     }
