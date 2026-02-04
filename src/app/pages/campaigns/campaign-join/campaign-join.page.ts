@@ -23,6 +23,7 @@ import { JoinSchoolModalPage } from './join-school/join-school.modal';
 import { JoinGroupModalPage } from './join-group/join-group.modal';
 import { AuthFlowService } from 'src/app/core/shared/services/auth-flow.service';
 import { JwtHelperService } from 'src/app/core/shared/services/jwt-helper.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-campaign-join',
@@ -42,7 +43,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   descriptionExpanded = false;
   canSubscribe = false;
   profile: User;
-  AAC_BASE_URL: string= 'https://aac.platform.smartcommunitylab.it';
+  AAC_BASE_URL: string = 'https://aac.platform.smartcommunitylab.it';
   constructor(
     private route: ActivatedRoute,
     private campaignService: CampaignService,
@@ -52,16 +53,18 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     private userService: UserService,
     private pageSettingsService: PageSettingsService,
     private playerTeamControllerService: PlayerTeamControllerService,
-   private authFlowService: AuthFlowService,
-   private jwtHelper: JwtHelperService,
-    private platform: Platform
+    private authFlowService: AuthFlowService,
+    private jwtHelper: JwtHelperService,
+    private platform: Platform,
+    private translate: TranslateService
+
   ) {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
 
   ngOnInit() {
 
-    
+
 
     // combineLatest tra profile e campaign per chiamare manageSpecificDetail
     this.sub = combineLatest([
@@ -74,290 +77,299 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         this.campaign = campaign;
         this.imagePath = this.safeImageUrl(this.campaign?.logo ?? null);
         this.bannerPath = this.safeImageUrl(this.campaign?.banner ?? null);
-              this.changePageSettings();
+        this.changePageSettings();
         this.manageSpecificDetail(this.campaign, this.profile?.nickname);
         this.checkPendingAuthCallback();
 
       }
     }
     );
-   
+
   }
   /**
  * Controlla se c'è un auth callback in attesa di essere completato
  */
-private async checkPendingAuthCallback() {
-  const pendingCampaignId = sessionStorage.getItem('pending_campaign_id');
-  const tempToken = sessionStorage.getItem('temp_auth_token');
-  
-  if (pendingCampaignId === this.campaign.campaignId && tempToken) {
-    console.log('=== Completing pending auth callback ===');
-    
-    // Rimuovi subito per evitare loop
-    sessionStorage.removeItem('pending_campaign_id');
-    sessionStorage.removeItem('temp_auth_token');
-    
-    // Nascondi eventuali loading
-    await this.alertService.dismissLoading();
-    
-    // Processa il token
-    await this.handleTokenValidationAndJoin(this.campaign, tempToken);
-  }
-}
+  private async checkPendingAuthCallback() {
+    const pendingCampaignId = sessionStorage.getItem('pending_campaign_id');
+    const tempToken = sessionStorage.getItem('temp_auth_token');
 
-async registerToGroup(campaign: Campaign) {
-  const specificData = campaign?.specificData;
+    if (pendingCampaignId === this.campaign.campaignId && tempToken) {
+      console.log('=== Completing pending auth callback ===');
 
-  if (specificData?.clientId) {
-    try {
-      // Salva l'ID della campagna per dopo il callback
-      sessionStorage.setItem('pending_campaign_id', campaign.campaignId);
-      
-      await this.alertService.showLoading('Authenticating...');
-
-      console.log('Starting temp auth flow');
-
-      // Avvia auth temporaneo - questo farà redirect/aprirà browser
-      const tempToken = await this.authFlowService.startAuthForCampaign({
-        clientId: specificData.clientId,
-        scopes: specificData.oauth_scope || 'openid',
-        authUrl: specificData.authUrl || this.AAC_BASE_URL
-      });
-
-      console.log('Token received:', tempToken ? 'YES' : 'NO');
-
-      await this.alertService.dismissLoading();
-
-      if (!tempToken) {
-        sessionStorage.removeItem('pending_campaign_id');
-        throw new Error('No token received');
-      }
-
-      // Salva il token e ricarica la pagina (su web)
-      // Su mobile il token viene gestito direttamente
-      const isNative = this.platform.is('capacitor') || this.platform.is('hybrid');
-      
-      if (!isNative) {
-        // Su web: salva token e attendi che la pagina si ricarichi
-        sessionStorage.setItem('temp_auth_token', tempToken);
-        console.log('Token saved, page will reload and process it');
-        // La pagina si ricaricherà dopo il redirect OAuth
-        // e checkPendingAuthCallback() processerà il token
-      } else {
-        // Su mobile: processa immediatamente (no page reload)
-        await this.handleTokenValidationAndJoin(campaign, tempToken);
-      }
-
-    } catch (error) {
-      await this.alertService.dismissLoading();
-      console.error('Auth flow failed:', error);
-      
+      // Rimuovi subito per evitare loop
       sessionStorage.removeItem('pending_campaign_id');
       sessionStorage.removeItem('temp_auth_token');
-      
-      await this.alertService.showToast({
-        messageString: 'Authentication failed. Please try again.'
-      });
-    }
-  } else {
-    // Fallback: apri modal senza token
-    await this.openJoinModalWithoutToken(campaign);
-  }
-}
 
-/**
- * Valida il JWT e gestisce la join in base ai claim
- */
-private async handleTokenValidationAndJoin(campaign: Campaign, token: string): Promise<void> {
-  const specificData = campaign.specificData;
-  
-  console.log('=== Token Validation START ===');
-  console.log('ClaimName:', specificData.claimName);
-
-  // Decodifica il token
-  const payload = this.jwtHelper.decodeToken(token);
-  console.log('Decoded payload:', payload);
-
-  if (!payload) {
-    await this.alertService.presentAlert({
-      headerTranslateKey: 'campaigns.join.error.title' as any,
-      messageString: 'Invalid token format',
-    });
-    return;
-  }
-
-  // Estrai il claim richiesto
-  const claimValue = payload[specificData.claimName];
-  console.log(`Claim '${specificData.claimName}' value:`, claimValue);
-
-  if (!claimValue) {
-    await this.alertService.presentAlert({
-      headerTranslateKey: 'campaigns.join.error.title' as any,
-      messageString: `You don't have the required '${specificData.claimName}' claim to join this campaign.`,
-    });
-    return;
-  }
-
-  // Valida il claim con regex
-  const isValid = this.jwtHelper.validateClaimWithRegex(
-    claimValue,
-    specificData.claimRegExp
-  );
-
-  if (!isValid) {
-    await this.alertService.presentAlert({
-      headerTranslateKey: 'campaigns.join.error.title' as any,
-      messageString: `Your '${specificData.claimName}' claim doesn't match the required pattern.`,
-    });
-    return;
-  }
-
-  // Parsing dei valori multipli
-  const claimValues = this.jwtHelper.parseMultiValueClaim(claimValue);
-  console.log('Parsed claim values:', claimValues);
-
-  if (claimValues.length === 0) {
-    await this.alertService.presentAlert({
-      headerTranslateKey: 'campaigns.join.error.title' as any,
-      messageString: `No valid values found in '${specificData.claimName}' claim.`,
-    });
-    return;
-  }
-
-  // Filtra solo i valori presenti nella groupList
-  const validGroups = claimValues.filter(value => 
-    specificData.groupList?.some(g => g.value === value)
-  );
-
-  console.log('Valid groups:', validGroups);
-
-  if (validGroups.length === 0) {
-    await this.alertService.presentAlert({
-      headerTranslateKey: 'campaigns.join.error.title' as any,
-      messageString: `None of your roles are valid for this campaign.`,
-    });
-    return;
-  }
-
-  if (validGroups.length === 1) {
-    // Un solo gruppo: join automatica SENZA modal
-    console.log('Single group, auto-joining:', validGroups[0]);
-    
-    await this.alertService.showLoading('Joining campaign...');
-    
-    try {
-      await this.joinCampaignWithToken(campaign.campaignId, validGroups[0], token);
-      
+      // Nascondi eventuali loading
       await this.alertService.dismissLoading();
-      await this.alertService.showToast({
-        messageString: 'Successfully joined campaign!',
+
+      // Processa il token
+      await this.handleTokenValidationAndJoin(this.campaign, tempToken);
+    }
+  }
+
+  async registerToGroup(campaign: Campaign) {
+    const specificData = campaign?.specificData;
+
+    if (specificData?.clientId) {
+      try {
+        // Salva l'ID della campagna per dopo il callback
+        sessionStorage.setItem('pending_campaign_id', campaign.campaignId);
+
+        await this.alertService.showLoading(this.translate.instant('campaigns.joinMessage.loading.authenticating')
+        );
+
+        console.log('Starting temp auth flow');
+
+        // Avvia auth temporaneo - questo farà redirect/aprirà browser
+        const tempToken = await this.authFlowService.startAuthForCampaign({
+          clientId: specificData.clientId,
+          scopes: specificData.oauth_scope || 'openid',
+          authUrl: specificData.authUrl || this.AAC_BASE_URL
+        });
+
+        console.log('Token received:', tempToken ? 'YES' : 'NO');
+
+        await this.alertService.dismissLoading();
+
+        if (!tempToken) {
+          sessionStorage.removeItem('pending_campaign_id');
+          throw new Error('No token received');
+        }
+
+        // Salva il token e ricarica la pagina (su web)
+        // Su mobile il token viene gestito direttamente
+        const isNative = this.platform.is('capacitor') || this.platform.is('hybrid');
+
+        if (!isNative) {
+          // Su web: salva token e attendi che la pagina si ricarichi
+          sessionStorage.setItem('temp_auth_token', tempToken);
+          console.log('Token saved, page will reload and process it');
+          // La pagina si ricaricherà dopo il redirect OAuth
+          // e checkPendingAuthCallback() processerà il token
+        } else {
+          // Su mobile: processa immediatamente (no page reload)
+          await this.handleTokenValidationAndJoin(campaign, tempToken);
+        }
+
+      } catch (error) {
+        await this.alertService.dismissLoading();
+        console.error('Auth flow failed:', error);
+
+        sessionStorage.removeItem('pending_campaign_id');
+        sessionStorage.removeItem('temp_auth_token');
+
+        await this.alertService.showToast({
+          messageString: this.translate.instant('campaigns.joinMessage.error.joinFailed')
+        });
+      }
+    } else {
+      // Fallback: apri modal senza token
+      await this.openJoinModalWithoutToken(campaign);
+    }
+  }
+
+  /**
+   * Valida il JWT e gestisce la join in base ai claim
+   */
+  private async handleTokenValidationAndJoin(campaign: Campaign, token: string): Promise<void> {
+    const specificData = campaign.specificData;
+
+    console.log('=== Token Validation START ===');
+    console.log('ClaimName:', specificData.claimName);
+
+    // Decodifica il token
+    const payload = this.jwtHelper.decodeToken(token);
+    console.log('Decoded payload:', payload);
+
+    if (!payload) {
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'campaigns.joinMessage.error.title' as any,
+        messageTranslateKey: 'campaigns.joinMessage.error.invalidToken' as any
+
       });
-      
+      return;
+    }
+
+    // Estrai il claim richiesto
+    const claimValue = payload[specificData.claimName];
+    console.log(`Claim '${specificData.claimName}' value:`, claimValue);
+
+    if (!claimValue) {
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'campaigns.joinMessage.error.title' as any,
+        messageString: this.translate.instant('campaigns.joinMessage.error.missingClaim', {
+          claimName: specificData.claimName
+        })
+      });
+      return;
+    }
+
+    // Valida il claim con regex
+    const isValid = this.jwtHelper.validateClaimWithRegex(
+      claimValue,
+      specificData.claimRegExp
+    );
+
+    if (!isValid) {
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'campaigns.joinMessage.error.title' as any,
+        messageString: this.translate.instant('campaigns.joinMessage.error.claimMismatch', {
+          claimName: specificData.claimName
+        })
+      });
+      return;
+    }
+
+    // Parsing dei valori multipli
+    const claimValues = this.jwtHelper.parseMultiValueClaim(claimValue);
+    console.log('Parsed claim values:', claimValues);
+
+    if (claimValues.length === 0) {
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'campaigns.joinMessage.error.title' as any,
+        messageString: this.translate.instant('campaigns.joinMessage.error.noValidValues', {
+          claimName: specificData.claimName
+        })
+      });
+      return;
+    }
+
+    // Filtra solo i valori presenti nella groupList
+    const validGroups = claimValues.filter(value =>
+      specificData.groupList?.some(g => g.value === value)
+    );
+
+    console.log('Valid groups:', validGroups);
+
+    if (validGroups.length === 0) {
+      await this.alertService.presentAlert({
+        headerTranslateKey: 'campaigns.joinMessage.error.title' as any,
+        messageTranslateKey: 'campaigns.joinMessage.error.noValidRoles' as any
+      });
+      return;
+    }
+
+    if (validGroups.length === 1) {
+      // Un solo gruppo: join automatica SENZA modal
+      console.log('Single group, auto-joining:', validGroups[0]);
+
+      await this.alertService.showLoading(this.translate.instant('campaigns.joinMessage.loading.joining')
+      );
+
+      try {
+        await this.joinCampaignWithToken(campaign.campaignId, validGroups[0], token);
+
+        await this.alertService.dismissLoading();
+        await this.alertService.showToast({
+          messageString: this.translate.instant('campaigns.joinMessage.error.joinSuccess')
+        });
+
+        // Naviga alla campagna appena joinata
+        this.navCtrl.navigateRoot(`/pages/campaigns/${campaign.campaignId}`);
+
+      } catch (error) {
+        await this.alertService.dismissLoading();
+        console.error('Join error:', error);
+      }
+    } else {
+      // Più gruppi: mostra modal per selezione
+      console.log('Multiple groups, opening modal');
+      await this.openJoinModalWithGroups(campaign, token, validGroups, specificData.groupList);
+    }
+  }
+
+  /**
+   * Join diretta con token e groupId
+   */
+  private async joinCampaignWithToken(
+    campaignId: string,
+    groupId: string,
+    token: string
+  ): Promise<void> {
+    const body = {
+      groupId: groupId,
+      extToken: token
+    };
+
+    console.log('Joining with:', { campaignId, groupId });
+
+    await this.campaignService.subscribeToCampaign(campaignId, body).toPromise();
+  }
+
+  /**
+   * Apri modal con selezione gruppi (SOLO se > 1 gruppo valido)
+   */
+  private async openJoinModalWithGroups(
+    campaign: Campaign,
+    token: string,
+    validGroups: string[],
+    groupList: any[]
+  ): Promise<void> {
+    const language = this.userService.getLanguage();
+
+    const modal = await this.modalController.create({
+      component: JoinGroupModalPage,
+      componentProps: {
+        campaign,
+        language,
+        authData: {
+          access_token: token
+        },
+        availableGroups: validGroups.map(value => {
+          const group = groupList.find(g => g.value === value);
+          return {
+            value,
+            label: group?.label || { en: value, it: value }
+          };
+        })
+      },
+      cssClass: 'modalConfirm',
+      canDismiss: true
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+
+    if (data?.success) {
       // Naviga alla campagna appena joinata
       this.navCtrl.navigateRoot(`/pages/campaigns/${campaign.campaignId}`);
-      
-    } catch (error) {
-      await this.alertService.dismissLoading();
-      console.error('Join error:', error);
     }
-  } else {
-    // Più gruppi: mostra modal per selezione
-    console.log('Multiple groups, opening modal');
-    await this.openJoinModalWithGroups(campaign, token, validGroups, specificData.groupList);
   }
-}
 
-/**
- * Join diretta con token e groupId
- */
-private async joinCampaignWithToken(
-  campaignId: string,
-  groupId: string,
-  token: string
-): Promise<void> {
-  const body = {
-    groupId: groupId,
-    extToken: token
-  };
+  /**
+   * Apri modal SENZA token (campagne senza OAuth)
+   */
+  private async openJoinModalWithoutToken(campaign: Campaign): Promise<void> {
+    const language = this.userService.getLanguage();
 
-  console.log('Joining with:', { campaignId, groupId });
-
-  await this.campaignService.subscribeToCampaign(campaignId, body).toPromise();
-}
-
-/**
- * Apri modal con selezione gruppi (SOLO se > 1 gruppo valido)
- */
-private async openJoinModalWithGroups(
-  campaign: Campaign,
-  token: string,
-  validGroups: string[],
-  groupList: any[]
-): Promise<void> {
-  const language = this.userService.getLanguage();
-  
-  const modal = await this.modalController.create({
-    component: JoinGroupModalPage,
-    componentProps: {
-      campaign,
-      language,
-      authData: {
-        access_token: token
+    const modal = await this.modalController.create({
+      component: JoinGroupModalPage,
+      componentProps: {
+        campaign,
+        language
       },
-      availableGroups: validGroups.map(value => {
-        const group = groupList.find(g => g.value === value);
-        return {
-          value,
-          label: group?.label || { en: value, it: value }
-        };
-      })
-    },
-    cssClass: 'modalConfirm',
-    canDismiss: true
-  });
+      cssClass: 'modalConfirm',
+      canDismiss: true
+    });
 
-  await modal.present();
-  
-  const { data } = await modal.onDidDismiss();
-  
-  if (data?.success) {
-    // Naviga alla campagna appena joinata
-    this.navCtrl.navigateRoot(`/pages/campaigns/${campaign.campaignId}`);
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+
+    if (data) {
+      this.navCtrl.navigateRoot(`/pages/campaigns/${campaign.campaignId}`);
+    }
   }
-}
-
-/**
- * Apri modal SENZA token (campagne senza OAuth)
- */
-private async openJoinModalWithoutToken(campaign: Campaign): Promise<void> {
-  const language = this.userService.getLanguage();
-  
-  const modal = await this.modalController.create({
-    component: JoinGroupModalPage,
-    componentProps: {
-      campaign,
-      language
-    },
-    cssClass: 'modalConfirm',
-    canDismiss: true
-  });
-
-  await modal.present();
-  
-  const { data } = await modal.onDidDismiss();
-  
-  if (data) {
-    this.navCtrl.navigateRoot(`/pages/campaigns/${campaign.campaignId}`);
-  }
-}
   manageSpecificDetail(campaign: Campaign, nickname: string) {
     switch (campaign.type) {
       case 'city':
         this.canSubscribe = true;
         break;
       case 'group':
-          this.canSubscribe = true;
-          break;
+        this.canSubscribe = true;
+        break;
       case 'school':
         this.subSchool =
           this.playerTeamControllerService.checkSubscribeTeamMemberUsingGET({ initiativeId: this.id, nickname }).subscribe(res =>
@@ -402,8 +414,8 @@ private async openJoinModalWithoutToken(campaign: Campaign): Promise<void> {
           this.registerToCity(campaign);
           break;
         case 'group':
-            this.registerToGroup(campaign);
-            break;
+          this.registerToGroup(campaign);
+          break;
         case 'school':
           this.openRegisterSchool(campaign);
           break;
@@ -531,8 +543,8 @@ private async openJoinModalWithoutToken(campaign: Campaign): Promise<void> {
         joinable = true;
         break;
       case 'group':
-          joinable = true;
-          break;
+        joinable = true;
+        break;
       case 'school':
         joinable = true;
         break;
@@ -562,8 +574,8 @@ private async openJoinModalWithoutToken(campaign: Campaign): Promise<void> {
       this.navCtrl.navigateRoot('/pages/tabs/home');
     }
   }
-  
-  
+
+
   back() {
     this.navCtrl.back();
   }

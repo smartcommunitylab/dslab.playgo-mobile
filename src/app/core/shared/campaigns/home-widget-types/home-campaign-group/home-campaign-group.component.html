@@ -1,4 +1,4 @@
-<app-notification-badge *ngIf=" header" [type]="'campaign'" [campaignContainer]="campaignContainer">
+<app-notification-badge *ngIf="header" [type]="'campaign'" [campaignContainer]="campaignContainer">
 </app-notification-badge>
 <ion-card [ngClass]="{'home-card-widget': header}">
   <ion-card-header color="group">
@@ -15,20 +15,13 @@
     </ng-template>
   </ion-card-header>
   <ion-card-content class="group-content ion-no-padding">
-    <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
-      [lastPaymentDate]="lastPaymentDate" [lastPaymentDateTo]="lastPaymentDateTo" [showRanking]="false"
-      [reportTotalStat]="reportTotalStat" [limitMonthMax]="getLimitMonthMax()" [limitMonthValue]="reportMonthStat"
-      [limitDayMax]="getLimitDayMax()" [limitDayValue]="reportDayStat" [unit]="getUnit()">
+    <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus" [showGameStatus]="
+        (activeUncompleteChallenges$ | async)?.length === 0 || !header
+          ? true
+          : false
+      " [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'eL'">
     </app-main-campaign-stat>
-    <!-- <app-main-campaign-stat [campaignContainer]="campaignContainer" [lastPaymentStat]="lastPaymentStat"
-      [lastPaymentDate]="lastPaymentDate" [lastPaymentDateTo]="lastPaymentDateTo" [showRanking]="false"
-      [reportTotalStat]="reportTotalStat"
-      [firstLimit]="campaignContainer?.campaign?.specificData?.virtualScore?.firstLimitBar"
-      [secondLimit]="campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar"
-      [unit]="campaignContainer?.campaign?.specificData?.virtualScore.label">
-    </app-main-campaign-stat> -->
-    <app-company-label [campaignContainer]="campaignContainer"
-      *ngIf="!campaignContainer?.campaign?.specificData.hideCompanyDesc"></app-company-label>
-
+    <app-home-campaign-challenges *ngIf="header" [campaignContainer]="campaignContainer">
+    </app-home-campaign-challenges>
   </ion-card-content>
 </ion-card>

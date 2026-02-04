@@ -111,6 +111,21 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
     }
     ))
 
+    userGroupId$ = combineLatest([
+      this.campaign$,
+      this.userService.userProfile$
+    ]).pipe(
+      map(([campaign, profile]) => {
+        // Se la campagna è di tipo group, trova il groupId dell'utente
+        if (campaign?.type === 'group' && profile?.personalData?.registeredIds) {
+          const campaignRegistration = profile.personalData.registeredIds
+            .find(reg => reg.campaignId === campaign.campaignId);
+          return campaignRegistration?.groupId || null;
+        }
+        return null;
+      }),
+      shareReplay(1)
+    );
 
   selectedMeanChangedSubject = new Subject<SelectCustomEvent<Mean>>();
   selectedMean$: Observable<Mean> = this.selectedMeanChangedSubject.pipe(
@@ -230,6 +245,9 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
                   dateFrom: period.from,
                   dateTo: period.to,
                   filterByGroupId: filterByGroup(this.campaignContainer) ? this.campaignContainer?.subscription?.campaignData?.companyKey : null,
+                  groupId: this.campaignContainer?.campaign?.type === 'group' 
+                  ? (this.campaignContainer?.subscription?.campaignData?.groupId)
+                  : null,                  groupByGroupId: this.campaignContainer?.campaign?.type === 'group',
                 })
                 .pipe(this.errorService.getErrorHandler());
             } else {
@@ -240,6 +258,9 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
                   campaignId,
                   dateFrom: period.from,
                   dateTo: period.to,
+                  groupId: this.campaignContainer?.campaign?.type === 'group' 
+                  ? (this.campaignContainer?.subscription?.campaignData?.groupId )
+                  : null,                  groupByGroupId: this.campaignContainer?.campaign?.type === 'group',
                 })
                 .pipe(this.errorService.getErrorHandler());
             }

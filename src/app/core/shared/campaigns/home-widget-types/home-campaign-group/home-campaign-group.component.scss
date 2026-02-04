@@ -1,13 +1,8 @@
 .group-content {
   color: black;
 }
-
 ion-card {
   overflow: visible;
-  padding-bottom: 8px;
-  #challenge {
-    overflow: visible;
-  }
   ion-card-header {
     border-radius: 10px 10px 0px 0px;
     text-align: left;
@@ -15,7 +10,6 @@ ion-card {
     font-weight: 500;
     padding: 12px;
     margin-bottom: 24px;
-
     ion-avatar {
       --border-radius: 50%;
       border: solid 5px var(--ion-color-group);
@@ -28,5 +22,8 @@ ion-card {
       width: 64px;
       height: 64px;
     }
+  }
+  ion-card-content {
+    padding: 0px 0px 0px 0px;
   }
 }

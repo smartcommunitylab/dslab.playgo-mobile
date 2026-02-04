@@ -246,6 +246,38 @@ export class CampaignService {
         present: false,
       },
     },
+    group: {
+      challenge: {
+        present: true,
+      },
+      prizes: {
+        present: true,
+      },
+      leaderboard: {
+        present: true,
+      },
+      blacklist: {
+        present: true,
+      },
+      stats: {
+        present: true,
+      },
+      statsTeam: {
+        present: false,
+      },
+      badges: {
+        present: true,
+      },
+      dates: {
+        present: true,
+      },
+      companies: {
+        present: false,
+      },
+      sponsor: {
+        present: false,
+      },
+    },
   };
   public subscribeCampaignAction$ = new Subject<string>();
   public unsubscribeCampaignAction$ = new Subject<string>();

@@ -294,6 +294,22 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Join",
+    "joinMessage": {
+      "error": {
+        "title": "Cannot Join Campaign",
+        "invalidToken": "Invalid authentication token. Please try again.",
+        "missingClaim": "You don't have the required '{{claimName}}' role to join this campaign.",
+        "claimMismatch": "Your '{{claimName}}' role doesn't match the required pattern.",
+        "noValidValues": "No valid values found in your '{{claimName}}' role.",
+        "noValidRoles": "None of your roles are valid for this campaign.",
+        "joinSuccess": "Successfully joined campaign!",
+        "joinFailed": "Failed to join campaign. Please try again."
+      },
+      "loading": {
+        "authenticating": "Authenticating...",
+        "joining": "Joining campaign..."
+      }
+    },
     "novaliddate": "The campaign's period is not valid",
     "removed": "The campaign is over",
     "notStarted": "The campaign is not active",

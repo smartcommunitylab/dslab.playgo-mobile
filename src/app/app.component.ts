@@ -248,6 +248,7 @@ export class AppComponent implements AfterContentInit {
       ecoLeavesCompany: '../assets/icon/company-leaf.svg',
       ecoLeavesCity: '../assets/icon/city-eco-leave.svg',
       ecoLeavesHsc: '../assets/icon/hsc-eco-leaves.svg',
+      ecoLeavesGroup: '../assets/icon/star.svg',
       offline: '../assets/icon/offline.svg',
       badges: '../assets/icon/badges.svg',
       blockUserColor: '../assets/icon/blockUserColor.svg',

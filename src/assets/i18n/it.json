@@ -294,6 +294,22 @@
   "campaigns": {
     "title": "Campaigns",
     "join": "Iscriviti",
+    "joinMessage": {
+      "error": {
+        "title": "Impossibile iscriversi alla campagna",
+        "invalidToken": "Token di autenticazione non valido. Riprova.",
+        "missingClaim": "Non hai il ruolo '{{claimName}}' richiesto per iscriverti a questa campagna.",
+        "claimMismatch": "Il tuo ruolo '{{claimName}}' non corrisponde al pattern richiesto.",
+        "noValidValues": "Nessun valore valido trovato nel tuo ruolo '{{claimName}}'.",
+        "noValidRoles": "Nessuno dei tuoi ruoli è valido per questa campagna.",
+        "joinSuccess": "Iscrizione alla campagna completata!",
+        "joinFailed": "Iscrizione alla campagna fallita. Riprova."
+      },
+      "loading": {
+        "authenticating": "Autenticazione in corso...",
+        "joining": "Iscrizione in corso..."
+      }
+    },
     "notStarted": "La campagna non é attiva",
     "cantSubscribe": "La campagna è in corso. <br> Il tuo nickname non appartiene a nessuna squadra. Per partecipare rivolgiti al docente referente",
     "notStartedHSC": "La campagna non è ancora attiva. Per partecipare rivolgiti al docente referente",
