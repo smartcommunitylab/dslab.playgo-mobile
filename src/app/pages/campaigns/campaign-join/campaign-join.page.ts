@@ -124,7 +124,7 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         // Avvia auth temporaneo - questo farà redirect/aprirà browser
         const tempToken = await this.authFlowService.startAuthForCampaign({
           clientId: specificData.clientId,
-          scopes: specificData.oauth_scope || 'openid',
+          scopes: specificData.oauth_scope || 'openid email',
           authUrl: specificData.authUrl || this.AAC_BASE_URL
         });
 
@@ -250,33 +250,33 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
       return;
     }
 
-    if (validGroups.length === 1) {
-      // Un solo gruppo: join automatica SENZA modal
-      console.log('Single group, auto-joining:', validGroups[0]);
+    // if (validGroups.length === 1) {
+    //   // Un solo gruppo: join automatica SENZA modal
+    //   console.log('Single group, auto-joining:', validGroups[0]);
 
-      await this.alertService.showLoading(this.translate.instant('campaigns.joinMessage.loading.joining')
-      );
+    //   await this.alertService.showLoading(this.translate.instant('campaigns.joinMessage.loading.joining')
+    //   );
 
-      try {
-        await this.joinCampaignWithToken(campaign.campaignId, validGroups[0], token);
+    //   try {
+    //     await this.joinCampaignWithToken(campaign.campaignId, validGroups[0], token);
 
-        await this.alertService.dismissLoading();
-        await this.alertService.showToast({
-          messageString: this.translate.instant('campaigns.joinMessage.error.joinSuccess')
-        });
+    //     await this.alertService.dismissLoading();
+    //     await this.alertService.showToast({
+    //       messageString: this.translate.instant('campaigns.joinMessage.error.joinSuccess')
+    //     });
 
-        // Naviga alla campagna appena joinata
-        this.navCtrl.navigateRoot(`/pages/campaigns/${campaign.campaignId}`);
+    //     // Naviga alla campagna appena joinata
+    //     this.navCtrl.navigateRoot(`/pages/tabs/home`);
 
-      } catch (error) {
-        await this.alertService.dismissLoading();
-        console.error('Join error:', error);
-      }
-    } else {
-      // Più gruppi: mostra modal per selezione
-      console.log('Multiple groups, opening modal');
+    //   } catch (error) {
+    //     await this.alertService.dismissLoading();
+    //     console.error('Join error:', error);
+    //   }
+    // } else {
+    //   // Più gruppi: mostra modal per selezione
+    //   console.log('Multiple groups, opening modal');
       await this.openJoinModalWithGroups(campaign, token, validGroups, specificData.groupList);
-    }
+    // }
   }
 
   /**

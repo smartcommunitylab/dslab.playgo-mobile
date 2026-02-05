@@ -80,8 +80,10 @@ export class ReportControllerService {
     dateFrom?: string;
     dateTo?: string;
     groupByGroupId?: boolean;
+    groupId?: string;
+    filterByGroupId?: boolean;
   }): Observable<PageCampaignPlacing> {
-    const { campaignId, page, size, sort, dateFrom, dateTo, groupByGroupId } =
+    const { campaignId, page, size, sort, dateFrom, dateTo, groupByGroupId,groupId,filterByGroupId } =
       args;
     return this.http.request<PageCampaignPlacing>(
       'get',
@@ -95,6 +97,8 @@ export class ReportControllerService {
           dateFrom,
           dateTo,
           groupByGroupId,
+          groupId,
+          filterByGroupId
         }),
       }
     );

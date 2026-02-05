@@ -86,17 +86,36 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     console.log('actualPrizes', this.actualPrize);
   }
   getFinalPrize() {
-    let prize = this.campaignContainer!.campaign!.weekConfs!.find(x => x.weekNumber === 0);
-    if (prize!.rewards!.length > 0) { return prize; }
+    if (!this.campaignContainer?.campaign?.weekConfs) {
+      console.warn('WeekConfs not available');
+      return null;
+    }
+    
+    let prize = this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
+    if (prize && prize.rewards && prize.rewards.length > 0) { 
+      return prize; 
+    }
     return null;
   }
+  
   getActualPrize() {
-    let prize = this.campaignContainer.campaign?.weekConfs?.find(x => this.isThisPeriod(x!.dateFrom!, x!.dateTo!) && x.weekNumber !== 0);
-    if (prize!.rewards!.length > 0) {
-      this.prizePresent = true;
+    if (!this.campaignContainer?.campaign?.weekConfs) {
+      console.warn('WeekConfs not available');
+      return null;
     }
-    return prize;
+    
+    let prize = this.campaignContainer.campaign.weekConfs.find(x => 
+      this.isThisPeriod(x!.dateFrom!, x!.dateTo!) && x.weekNumber !== 0
+    );
+    
+    if (prize && prize.rewards && prize.rewards.length > 0) {
+      this.prizePresent = true;
+      return prize;
+    }
+    
+    return null;
   }
+  
   async openWeekDescActual(finalPrize: CampaignWeekConf) {
     const titlePrize = await firstValueFrom(
       this.translateService.get('campaigns.detail.prize.actualWeekTitle')

@@ -51,7 +51,7 @@ export class JoinGroupModalPage implements OnInit {
     
     // Build form con groupId SOLO se ci sono gruppi disponibili
     this.joinGroupForm = this.formBuilder.group({
-      name: [''],
+      // name: [''],
       ...(this.availableGroups && this.availableGroups.length > 0 && {
         groupId: ['', Validators.required]
       }),
@@ -121,16 +121,16 @@ export class JoinGroupModalPage implements OnInit {
         }
       }
 
-      // Aggiungi name se presente
-      if (formValue.name) {
-        body.name = formValue.name;
-      }
+      // // Aggiungi name se presente
+      // if (formValue.name) {
+      //   body.name = formValue.name;
+      // }
 
       console.log('Submitting join with body:', {
         campaignId: this.campaign.campaignId,
         hasGroupId: !!body.groupId,
         hasToken: !!body.extToken,
-        hasName: !!body.name
+        // hasName: !!body.name
       });
 
       await this.campaignService.subscribeToCampaign(

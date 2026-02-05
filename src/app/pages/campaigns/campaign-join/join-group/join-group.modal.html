@@ -14,7 +14,6 @@
   <form [formGroup]="joinGroupForm" (ngSubmit)="joinGroupSubmit()">
     <ion-grid>
 
-      <!-- Selezione gruppo SOLO se ci sono gruppi disponibili -->
       <!-- Selezione gruppo SOLO se ci sono MULTIPLI gruppi disponibili -->
       <div *ngIf="availableGroups && availableGroups.length > 0">
         <ion-row class="ion-margin-top">
@@ -49,7 +48,7 @@
         </ion-row>
       </div>
 
-      <!-- Nickname field -->
+      <!-- Nickname field
       <ion-row class="ion-margin-top" *ngIf="!isAlreadySubscribed()">
         <ion-col>
           <ion-item lines="full" color="playgo">
@@ -58,7 +57,7 @@
               placeholder="{{ 'campaigns.joinmodal.nickname' | translate }}"></ion-input>
           </ion-item>
         </ion-col>
-      </ion-row>
+      </ion-row> -->
 
       <!-- Privacy link -->
       <ion-row class="ion-margin-top" *ngIf="privacy">
