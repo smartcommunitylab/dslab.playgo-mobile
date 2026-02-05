@@ -49,11 +49,16 @@ export class JoinGroupModalPage implements OnInit {
     this.rules = rules?.find((detail) => detail.type === 'rules');
     this.privacy = rules?.find((detail) => detail.type === 'privacy');
     
-    // Build form con groupId SOLO se ci sono gruppi disponibili
+    // Determina il valore iniziale di groupId
+    const initialGroupId = this.availableGroups?.length === 1 
+      ? this.availableGroups[0].value 
+      : '';
+    
+    // Build form con groupId sempre presente se ci sono gruppi
     this.joinGroupForm = this.formBuilder.group({
       // name: [''],
       ...(this.availableGroups && this.availableGroups.length > 0 && {
-        groupId: ['', Validators.required]
+        groupId: [initialGroupId, Validators.required]
       }),
       ...(this.privacy && { privacy: [false, Validators.requiredTrue] }),
       ...(this.rules && { rules: [false, Validators.requiredTrue] }),

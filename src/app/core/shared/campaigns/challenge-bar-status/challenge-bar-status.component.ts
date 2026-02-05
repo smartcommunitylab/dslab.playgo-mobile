@@ -49,6 +49,9 @@ export class ChallengeBarStatusComponent implements OnInit {
     if (type === 'city') {
       return 'var(--ion-color-city)';
     }
+    if (type === 'group') {
+      return 'var(--ion-color-group)';
+    }
     return 'var(--ion-color-personal)';
   }
 }
