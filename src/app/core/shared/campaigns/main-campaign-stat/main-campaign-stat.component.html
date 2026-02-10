@@ -87,7 +87,7 @@
       <ion-row *ngIf="status !== null; else nullStatus">
         <ion-col>
           <app-game-status [status]="status" [campaign]="campaignContainer?.campaign"
-            [type]="campaignContainer?.campaign?.type"></app-game-status>
+            [type]="campaignContainer?.campaign?.type" [showLevel]="showLevel"></app-game-status>
         </ion-col>
       </ion-row>
     </ng-container>
@@ -119,8 +119,8 @@
     </ion-row>
     <!-- <ng-template #emptyValueMonth>Nessun valore del mese</ng-template> -->
 
-    <ng-template #nullStatus>
-      <ion-row>
+    <ng-template #nullStatus >
+      <ion-row *ngIf="showLevel">
         <ion-col>
           {{ "campaigns.homewidgets.stat.emptystatus" | translate }}</ion-col>
       </ion-row>

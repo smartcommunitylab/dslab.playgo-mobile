@@ -1,123 +1,100 @@
-// scripts/deploy-update.js
 require('dotenv').config();
 const fs = require('fs');
 const archiver = require('archiver');
-const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
+const path = require('path');
 
-// Configurazione Supabase
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY; 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Parametri da riga di comando o default
+// Configurazione
 const FLAVOR = process.env.FLAVOR || 'production'; 
-const APP_ID = FLAVOR === 'stage' ? 'it.dslab.playgo.stage' : 'it.dslab.playgo.production';
-const CHANNEL_NAME = FLAVOR === 'stage' ? 'Staging' : 'Production';
+const PLATFORM = process.env.PLATFORM || 'android'; // android/ios
+const BASE_URL = 'https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/main/updates';
 
-// Leggiamo la versione dal package.json
+// Path relativi alla root del progetto
+const PROJECT_ROOT = path.join(__dirname, '..');
+const UPDATES_DIR = path.join(PROJECT_ROOT, 'updates', FLAVOR, PLATFORM);
+const MANIFEST_PATH = path.join(PROJECT_ROOT, 'updates-manifest.json');
+
+// Leggi versione
 const packageJson = require('../package.json');
-const VERSION = packageJson.version; 
-
-// Gestione min_native_version (opzionale da ENV, altrimenti default 0.0.0)
-const MIN_NATIVE_VERSION = process.env.MIN_NATIVE || '0.0.0';
+const VERSION = packageJson.version;
+const APP_VERSION = process.env.APP_VERSION || VERSION; // Versione nativa minima richiesta
 
 async function deploy() {
-  console.log(`🚀 Deploying ${FLAVOR} (v${VERSION}) for ${APP_ID}...`);
-  console.log(`📱 Richiede Native Version >= ${MIN_NATIVE_VERSION}`);
+  console.log(`🚀 Deploying ${FLAVOR} v${VERSION} for ${PLATFORM}...`);
+  console.log(`📱 Richiede App Nativa >= ${APP_VERSION}`);
 
-  // ---------------------------------------------------------
-  // 1. Crea ZIP della cartella www/
-  // ---------------------------------------------------------
-  const zipName = `bundle_${FLAVOR}_${VERSION}.zip`;
-  const output = fs.createWriteStream(zipName);
+  // 1. Crea cartella updates se non esiste
+  if (!fs.existsSync(UPDATES_DIR)) {
+    fs.mkdirSync(UPDATES_DIR, { recursive: true });
+    console.log(`📁 Cartella creata: ${UPDATES_DIR}`);
+  }
+
+  // 2. Crea ZIP
+  const zipName = `bundle_${FLAVOR}_${PLATFORM}_${VERSION}.zip`;
+  const zipPath = path.join(UPDATES_DIR, zipName);
+  const output = fs.createWriteStream(zipPath);
   const archive = archiver('zip', { zlib: { level: 9 } });
   
   archive.pipe(output);
   archive.directory('www/', false);
   await archive.finalize();
   
-  // Attendi che lo stream di scrittura finisca
   await new Promise((resolve, reject) => {
     output.on('close', resolve);
     output.on('error', reject);
   });
 
-  // ---------------------------------------------------------
-  // 2. Calcola Checksum SHA256
-  // ---------------------------------------------------------
-  const fileBuffer = fs.readFileSync(zipName);
+  console.log(`📦 ZIP creato: ${zipPath}`);
+
+  // 3. Calcola Checksum
+  const fileBuffer = fs.readFileSync(zipPath);
   const hashSum = crypto.createHash('sha256');
   hashSum.update(fileBuffer);
   const checksum = hashSum.digest('hex');
   console.log(`🔑 Checksum: ${checksum}`);
 
-  // ---------------------------------------------------------
-  // 3. Upload su Supabase Storage
-  // ---------------------------------------------------------
-  // Definiamo il percorso interno al bucket (es: stage/bundle_v1.zip)
-  const storagePath = `${FLAVOR}/${zipName}`; 
-  
-  const { error: upErr } = await supabase.storage
-    .from('updates') // Assicurati che il bucket 'updates' esista e sia pubblico
-    .upload(storagePath, fileBuffer, { upsert: true, contentType: 'application/zip' });
-  
-  if (upErr) {
-    console.error('❌ Upload fallito');
-    throw upErr;
+  // 4. Costruisci URL
+  const url = `${BASE_URL}/${FLAVOR}/${PLATFORM}/${zipName}`;
+
+  // 5. Leggi/Crea Manifest
+  let manifest = [];
+  if (fs.existsSync(MANIFEST_PATH)) {
+    manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
   }
 
-  // --- FIX IMPORTANTE ---
-  // Costruiamo il path relativo "Bucket + File Path"
-  // Questo permette all'App di ricostruire l'URL completo dinamicamente
-  const relativePath = `updates/${storagePath}`; 
-  console.log(`☁️ Uploaded to: ${relativePath}`);
+  // 6. Aggiungi nuovo entry
+  const newEntry = {
+    version: VERSION,
+    url: url,
+    checksum: checksum,
+    platform: PLATFORM,
+    app_version: APP_VERSION,
+    flavor: FLAVOR,
+    timestamp: Date.now()
+  };
 
-  // ---------------------------------------------------------
-  // 4. Inserisci nella tabella 'bundles'
-  // ---------------------------------------------------------
-  console.log('💾 Saving to bundles table...');
-  const { error: bundleErr } = await supabase
-    .from('bundles')
-    .insert({
-      app_id: APP_ID,
-      version: VERSION,
-      url: relativePath, // Salviamo il path relativo!
-      checksum: checksum,
-      min_native_version: MIN_NATIVE_VERSION
-    });
+  // Evita duplicati
+  manifest = manifest.filter(e => 
+    !(e.version === VERSION && e.platform === PLATFORM && e.flavor === FLAVOR)
+  );
   
-  if (bundleErr) {
-    console.error('❌ Errore insert bundles');
-    throw bundleErr;
-  }
+  manifest.unshift(newEntry); // Aggiungi in testa (più recenti prima)
 
-  // ---------------------------------------------------------
-  // 5. Aggiorna il puntatore nella tabella 'channels'
-  // ---------------------------------------------------------
-  console.log(`📡 Updating channel ${CHANNEL_NAME} to version ${VERSION}...`);
-  
-  // Usiamo upsert per aggiornare la versione se il canale esiste già
-  // NOTA: Richiede un vincolo UNIQUE su (app_id, name) nel database
-  const { error: channelErr } = await supabase
-    .from('channels')
-    .upsert({
-      app_id: APP_ID,
-      name: CHANNEL_NAME,
-      version: VERSION,
-      public: true
-    }, { onConflict: 'app_id, name' }); // Specifica su quali colonne verificare il conflitto
+  // 7. Salva Manifest
+  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2));
+  console.log(`📄 Manifest aggiornato: ${MANIFEST_PATH}`);
 
-  if (channelErr) {
-    console.error('❌ Errore update channel');
-    throw channelErr;
-  }
-
-  // ---------------------------------------------------------
-  // 6. Pulizia
-  // ---------------------------------------------------------
-  fs.unlinkSync(zipName);
-  console.log('✅ Deploy Success! Zip locale rimosso.');
+  // 8. Info finale
+  console.log(`\n✅ Deploy completato!`);
+  console.log(`📦 ZIP: ${zipPath}`);
+  console.log(`🌐 URL: ${url}`);
+  console.log(`\n⚠️  Prossimi passi:`);
+  console.log(`   1. Verifica i file in: updates/${FLAVOR}/${PLATFORM}/`);
+  console.log(`   2. Verifica ${MANIFEST_PATH}`);
+  console.log(`   3. Committa e pusha su GitHub:`);
+  console.log(`      git add updates/ updates-manifest.json`);
+  console.log(`      git commit -m "chore: deploy v${VERSION} ${FLAVOR} ${PLATFORM}"`);
+  console.log(`      git push`);
 }
 
 deploy().catch((e) => {

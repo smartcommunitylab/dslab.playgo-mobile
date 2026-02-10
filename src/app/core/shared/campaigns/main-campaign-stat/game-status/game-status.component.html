@@ -18,8 +18,8 @@
   <div class="progress-bar" *ngIf="status?.levels[0]?.toNextLevel>0; else topScore">
     <ion-progress-bar class="level-bar" [color]="type" [value]="getValueScore()"></ion-progress-bar>
   </div>
-  <ng-template #topScore>
-    <div class="max">
+  <ng-template #topScore >
+    <div class="max" *ngIf="showLevel">
       {{'campaigns.homewidgets.stat.maxscore'|translate}}
     </div>
   </ng-template>

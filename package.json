@@ -1,6 +1,6 @@
 {
   "name": "playGo",
-  "version": "1.4.9",
+  "version": "1.5.2",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "engines": {
@@ -52,8 +52,10 @@
     "generate-api": "sh ./generate-api.sh",
     "getTypescriptVersion": "tsc -v",
     "postinstall": "node check-node-version.js && node fcm-library.js",
-    "deploy:stage": "ionic build --configuration=stage && cross-env FLAVOR=stage SUPABASE_URL=https://f8f3213ff572.ngrok-free.app SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q node scripts/deploy-update.js",
-    "deploy:prod": "ionic build --configuration=production && && cross-env FLAVOR=production  SUPABASE_URL=https://f8f3213ff572.ngrok-free.app SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q node scripts/deploy-update.js"
+    "deploy:stage:android": "npm run build:stage && cross-env FLAVOR=stage PLATFORM=android node scripts/deploy-update.js",
+    "deploy:stage:ios": "npm run build:stage && cross-env FLAVOR=stage PLATFORM=ios node scripts/deploy-update.js",
+    "deploy:prod:android": "npm run build:prod && cross-env FLAVOR=production PLATFORM=android node scripts/deploy-update.js",
+    "deploy:prod:ios": "npm run build:prod && cross-env FLAVOR=production PLATFORM=ios node scripts/deploy-update.js"
   },
   "private": true,
   "dependencies": {

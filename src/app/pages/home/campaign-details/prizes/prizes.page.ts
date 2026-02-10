@@ -90,8 +90,9 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
       console.warn('WeekConfs not available');
       return null;
     }
-    
-    let prize = this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0);
+    const playerGroupId = this.campaignContainer?.subscription?.campaignData?.groupId;
+
+    let prize = this.campaignContainer.campaign.weekConfs.find(x => x.weekNumber === 0 && (!x.groupId || x.groupId === playerGroupId));
     if (prize && prize.rewards && prize.rewards.length > 0) { 
       return prize; 
     }
@@ -104,8 +105,12 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
       return null;
     }
     
+    const playerGroupId = this.campaignContainer?.subscription?.campaignData?.groupId;
+    
     let prize = this.campaignContainer.campaign.weekConfs.find(x => 
-      this.isThisPeriod(x!.dateFrom!, x!.dateTo!) && x.weekNumber !== 0
+      this.isThisPeriod(x!.dateFrom!, x!.dateTo!) && 
+      x.weekNumber !== 0 &&
+      (!x.groupId || x.groupId === playerGroupId)
     );
     
     if (prize && prize.rewards && prize.rewards.length > 0) {
@@ -139,8 +144,11 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   pastprizes() {
     //get all the confs and check if there are confs before dateTimetocheck
     // eslint-disable-next-line arrow-body-style
+    const playerGroupId = this.campaignContainer?.subscription?.campaignData?.groupId;
+
     return this.campaignContainer.campaign?.weekConfs?.find(
-      x => DateTime.fromMillis(x.dateTo!) < this.dateTimeToCheck && x?.rewards?.length! > 0
+      x => DateTime.fromMillis(x.dateTo!) < this.dateTimeToCheck && x?.rewards?.length! > 0 
+      && (!x.groupId || x.groupId === playerGroupId)
     );
   }
   async openWeekDescPast(confPrize: CampaignWeekConf) {

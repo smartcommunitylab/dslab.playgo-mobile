@@ -257,7 +257,7 @@ export class CampaignService {
         present: true,
       },
       blacklist: {
-        present: true,
+        present: false,
       },
       stats: {
         present: true,
@@ -266,7 +266,7 @@ export class CampaignService {
         present: false,
       },
       badges: {
-        present: true,
+        present: false,
       },
       dates: {
         present: true,

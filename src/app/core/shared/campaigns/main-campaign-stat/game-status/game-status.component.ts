@@ -14,6 +14,7 @@ export class GameStatusComponent implements OnInit {
   @Input() status?: PlayerGameStatus = undefined;
   @Input() type?: string;
   @Input() campaign?: Campaign;
+  @Input() showLevel?: boolean=false;
   constructor(private campaignService: CampaignService) { }
 
   ngOnInit() {

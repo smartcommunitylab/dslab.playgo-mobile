@@ -34,6 +34,7 @@ export class MainCampaignStatComponent implements OnInit {
   @Input() lastPaymentStat?: any;
   @Input() lastPaymentDate?: any;
   @Input() lastPaymentDateTo?: any;
+  @Input() showLevel?: boolean=false;
   constructor(public campaignService: CampaignService, private translateService: TranslateService, private localDatePipe: LocalDatePipe) { }
   getValueByUnit(value: number, unit: string, virtualSore: boolean): number {
     if ('Km' === unit && !virtualSore) {

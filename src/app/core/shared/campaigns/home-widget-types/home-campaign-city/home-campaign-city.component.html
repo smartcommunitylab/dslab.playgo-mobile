@@ -19,7 +19,7 @@
         (activeUncompleteChallenges$ | async)?.length === 0 || !header
           ? true
           : false
-      " [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'eL'">
+      " [reportWeekStat]="reportWeekStat" [reportTotalStat]="reportTotalStat" [unit]="'eL'" [showLevel]="true">
     </app-main-campaign-stat>
     <app-home-campaign-challenges *ngIf="header" [campaignContainer]="campaignContainer">
     </app-home-campaign-challenges>
