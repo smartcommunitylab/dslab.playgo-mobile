@@ -17,7 +17,7 @@ interface UpdateManifestEntry {
 @Injectable({ providedIn: 'root' })
 export class AutoUpdateService {
   
-  private readonly MANIFEST_URL = 'https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/main/updates-manifest.json';
+  private readonly MANIFEST_URL = 'https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/capgo-test/updates-manifest.json';
 
   constructor() {}
 

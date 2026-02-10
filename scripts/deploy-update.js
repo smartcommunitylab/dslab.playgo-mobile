@@ -7,7 +7,7 @@ const path = require('path');
 // Configurazione
 const FLAVOR = process.env.FLAVOR || 'production'; 
 const PLATFORM = process.env.PLATFORM || 'android'; // android/ios
-const BASE_URL = 'https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/main/updates';
+const BASE_URL = 'https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/capgo-test/updates';
 
 // Path relativi alla root del progetto
 const PROJECT_ROOT = path.join(__dirname, '..');
