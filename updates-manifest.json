@@ -1,5 +1,14 @@
 [
   {
+    "version": "1.5.4",
+    "url": "https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/capgo-test/updates/stage/android/bundle_stage_android_1.5.4.zip",
+    "checksum": "97c423e9b37bb2b6c4e8ac75c6f04b38d89b3e2a24ea0c549c7c47696c706ad3",
+    "platform": "android",
+    "app_version": "1.5.2",
+    "flavor": "stage",
+    "timestamp": 1770735466788
+  },
+  {
     "version": "1.5.3",
     "url": "https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/capgo-test/updates/stage/android/bundle_stage_android_1.5.3.zip",
     "checksum": "eef71665b2617c1a432267c80132ab42e755a22790d256ee39b9a511b5137ae8",
