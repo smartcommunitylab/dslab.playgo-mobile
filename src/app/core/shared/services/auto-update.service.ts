@@ -55,19 +55,38 @@ export class AutoUpdateService {
         return;
       }
 
-      const manifest: UpdateManifestEntry[] = response.data;
+      console.log('📥 Manifest response type:', typeof response.data);
+      console.log('📥 Manifest data:', response.data);
 
+      // Parse manifest - gestisce sia stringa che oggetto
+      let manifest: UpdateManifestEntry[];
+      try {
+        if (typeof response.data === 'string') {
+          manifest = JSON.parse(response.data);
+        } else if (Array.isArray(response.data)) {
+          manifest = response.data;
+        } else {
+          console.error('❌ Formato manifest non valido:', response.data);
+          return;
+        }
+      } catch (e) {
+        console.error('❌ Errore parsing manifest:', e);
+        return;
+      }
+
+      if (!Array.isArray(manifest)) {
+        console.error('❌ Manifest non è un array:', manifest);
+        return;
+      }
+
+      console.log(`📋 Manifest entries: ${manifest.length}`);
+        
       // 3. Filtra per Piattaforma, Flavor e Compatibilità
       const compatibleUpdates = manifest.filter(entry => 
         entry.platform === platform &&
         entry.flavor === flavor &&
         this.isNativeVersionCompatible(nativeVersion, entry.app_version)
       );
-
-      if (compatibleUpdates.length === 0) {
-        console.log('✅ Nessun aggiornamento compatibile disponibile.');
-        return;
-      }
 
       // 4. Prendi la versione più alta
       const latestUpdate = compatibleUpdates.reduce((prev, current) => 
