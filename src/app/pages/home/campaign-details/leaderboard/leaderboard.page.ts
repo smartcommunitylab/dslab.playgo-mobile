@@ -331,8 +331,27 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
 
   }
   private changePageSettings() {
+    const groupId = this.campaignContainer?.subscription?.campaignData?.groupId;
+    let subtitle: string | undefined;
+
+    if (groupId && this.campaignContainer?.campaign?.type === 'group') {
+      const groupList = this.campaignContainer?.campaign?.specificData?.groupList;
+      
+      if (groupList && Array.isArray(groupList)) {
+        const group = groupList.find(g => g.value === groupId);
+        
+        if (group && group.label) {
+          const language = this.userService.getLanguage();
+          subtitle = group.label[language] || group.label.en || groupId;
+        } else {
+          subtitle = groupId;
+        }
+      }
+    }
+
     this.pageSettingsService.set({
       color: this.campaignContainer?.campaign?.type,
+      subtitle: subtitle,
     });
   }
 

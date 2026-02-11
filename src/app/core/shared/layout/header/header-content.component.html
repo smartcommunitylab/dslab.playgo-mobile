@@ -5,7 +5,8 @@
       </ion-back-button>
     </ion-buttons>
     <ion-title>
-      <div *ngIf="settings.title">{{ settings.title | translate }}</div>
+      <span *ngIf="settings.title">{{ settings.title | translate }}</span>
+      <span *ngIf="settings.subtitle" class="subtitle">{{ settings.subtitle }}</span>
     </ion-title>
     <ion-buttons slot="secondary" *ngIf="settings.showNotifications">
       <ion-button id="notificationButton" (click)="navigateToNotification()">

@@ -63,6 +63,7 @@ import { TranslateKey } from '../globalization/i18n/i18n.utils';
 export class PageSettingsService {
   private defaultPageSettings: Required<PageSettings> = {
     title: '' as TranslateKey,
+    subtitle: '',
     backButton: true,
     color: 'playgo',
     defaultHref: '/',
@@ -181,6 +182,10 @@ export interface PageSettings {
    * Title of the page. Used in header and also as html title.
    * */
   title: TranslateKey | '';
+  /**
+   * Subtitle of the page. Used in header.
+   * */
+  subtitle?: string | '';
   /**
    * If false, back button will not be shown in the header.
    * */

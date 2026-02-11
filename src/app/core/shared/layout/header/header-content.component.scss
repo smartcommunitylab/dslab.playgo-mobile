@@ -15,3 +15,26 @@ ion-badge {
   overflow: visible !important;
   font-size: 20px;
 }
+
+
+ion-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  
+  div {
+    white-space: nowrap;
+  }
+}
+
+.subtitle {
+  font-size: 0.85em;
+  font-weight: normal;
+  opacity: 0.9;
+  
+  &::before {
+    content: '•';
+    margin: 0 4px;
+  }
+}
