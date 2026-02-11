@@ -19,7 +19,10 @@
 
     <ion-card *ngIf="campaignHas('leaderboard')" [routerLink]="getLeaderboardLink()">
       <ion-item [color]="campaignContainer?.campaign?.type">
-        <ion-label>{{'campaigns.detail.leaderboard'|translate}} </ion-label>
+        <ion-label>
+          {{'campaigns.detail.leaderboard'|translate}}
+          <span *ngIf="getGroupLabel()" class="group-label"> • {{getGroupLabel()}}</span>
+        </ion-label>
         <app-icon name="leaderboard" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
@@ -53,7 +56,10 @@
     <ion-card *ngIf="campaignHas('prizes') && campaignContainer?.campaign?.weekConfs"
       [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/prizes']">
       <ion-item [color]="campaignContainer?.campaign?.type">
-        <ion-label>{{'campaigns.detail.prizes'|translate}} </ion-label>
+        <ion-label>
+          {{'campaigns.detail.prizes'|translate}}
+          <span *ngIf="getGroupLabel()" class="group-label"> • {{getGroupLabel()}}</span>
+        </ion-label>
         <ion-icon name="gift" class="icon-size-normal"></ion-icon>
       </ion-item>
     </ion-card>

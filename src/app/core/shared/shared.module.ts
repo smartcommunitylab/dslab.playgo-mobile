@@ -49,6 +49,7 @@ import { EnterTheViewportNotifierDirective } from './directives/enter-viewport.d
 import { ChallengeStateComponent } from './campaigns/app-widget-campaign/app-home-campaign-challenges/app-challenge-state/app-challenge-state.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { HomeCampaignGroupComponent } from './campaigns/home-widget-types/home-campaign-group/home-campaign-group.component';
+import { HomeGroupProfileComponent } from './campaigns/home-widget-types/home-campaign-group/home-group-profile/home-group-profile.component';
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -77,9 +78,11 @@ import { HomeCampaignGroupComponent } from './campaigns/home-widget-types/home-c
     HomeCampaignGroupComponent,
     HomeCampaignCityComponent,
     HomeSchoolProfiloComponent,
+    HomeGroupProfileComponent,
     HomeSchoolProgressionComponent,
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,
+    HomeCampaignGroupComponent,
     HomeCampaignPersonalComponent,
     NotificationBadgeComponent,
     RecordStatusComponent,
@@ -124,8 +127,10 @@ import { HomeCampaignGroupComponent } from './campaigns/home-widget-types/home-c
     OrdinalNumberComponent,
     ComparisonModalPage,
     HomeCampaignGroupComponent,
+    HomeCampaignGroupComponent,
     HomeCampaignCityComponent,
     HomeSchoolProfiloComponent,
+    HomeGroupProfileComponent,
     HomeSchoolProgressionComponent,
     HomeCampaignSchoolComponent,
     HomeCampaignCompanyComponent,

@@ -15,6 +15,7 @@
     </ng-template>
   </ion-card-header>
   <ion-card-content class="group-content ion-no-padding">
+    <app-home-group-profile [campaignContainer]="campaignContainer"></app-home-group-profile>
     <app-main-campaign-stat [campaignContainer]="campaignContainer" [status]="campaignStatus" [showGameStatus]="
         (activeUncompleteChallenges$ | async)?.length === 0 || !header
           ? true

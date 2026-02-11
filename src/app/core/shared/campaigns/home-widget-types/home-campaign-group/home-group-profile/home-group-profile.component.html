@@ -1,0 +1,26 @@
+<div *ngIf="groupId">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="auto" class="avatar-col">
+        <div class="user-intro">
+          <ion-avatar class="group">
+            <img src="assets/images/registration/people.svg" alt="Group" />
+          </ion-avatar>
+        </div>
+      </ion-col>
+      <ion-col size="8">
+
+        <ion-row>
+          <ion-col class="ion-text-start name-group" (click)="goToLeaderboard($event)">
+            <span class="name">{{ groupName }}</span>
+          </ion-col>
+        </ion-row>
+                <ion-row>
+          <ion-col class="ion-text-start desc-group">
+            <span class="institute">{{'campaigns.detail.group' | translate}}</span>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

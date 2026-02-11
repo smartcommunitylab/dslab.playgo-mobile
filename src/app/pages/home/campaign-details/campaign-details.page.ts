@@ -206,7 +206,26 @@ export class CampaignDetailsPage implements OnInit, OnDestroy, AfterViewChecked 
       title: this.titlePage as any,
     });
   }
-
+  getGroupLabel(): string | null {
+    const groupId = this.campaignContainer?.subscription?.campaignData?.groupId;
+    
+    if (!groupId || this.campaignContainer?.campaign?.type !== 'group') {
+      return null;
+    }
+    
+    const groupList = this.campaignContainer?.campaign?.specificData?.groupList;
+    
+    if (groupList && Array.isArray(groupList)) {
+      const group = groupList.find(g => g.value === groupId);
+      
+      if (group && group.label) {
+        const language = this.userService.getLanguage();
+        return group.label[language] || group.label.en || groupId;
+      }
+    }
+    
+    return groupId;
+  }
   async openDetail(detail: CampaignDetail) {
     const modal = await this.modalController.create({
       component: DetailCampaignModalPage,

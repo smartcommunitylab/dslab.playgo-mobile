@@ -42,7 +42,11 @@ ion-card {
 .open .text {
   animation: open 0.1s linear 0s forwards;
 }
-
+.group-label {
+  font-size: 0.9em;
+  opacity: 0.85;
+  font-weight: normal;
+}
 /* Text */
 @keyframes open {
   from {
