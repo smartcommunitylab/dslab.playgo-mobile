@@ -37,7 +37,7 @@ export class AutoUpdateService {
       const appInfo = await App.getInfo();
       const nativeVersion = appInfo.version;
       const appId = appInfo.id;
-      const platform = Capacitor.getPlatform(); // 'ios' o 'android'
+      const platform = Capacitor.getPlatform(); 
       const flavor = appId.includes('.stage') ? 'stage' : 'production';
 
       const currentBundle = await CapacitorUpdater.current();
