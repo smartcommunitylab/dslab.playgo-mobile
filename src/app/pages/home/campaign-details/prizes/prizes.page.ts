@@ -142,14 +142,18 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
 
   }
   pastprizes() {
-    //get all the confs and check if there are confs before dateTimetocheck
-    // eslint-disable-next-line arrow-body-style
     const playerGroupId = this.campaignContainer?.subscription?.campaignData?.groupId;
-
-    return this.campaignContainer.campaign?.weekConfs?.find(
-      x => DateTime.fromMillis(x.dateTo!) < this.dateTimeToCheck && x?.rewards?.length! > 0 
-      && (!x.groupId || x.groupId === playerGroupId)
+    
+    return this.campaignContainer.campaign?.weekConfs?.filter(
+      x => DateTime.fromMillis(x.dateTo!) < this.dateTimeToCheck && 
+           x?.rewards?.length! > 0 &&
+           x.weekNumber !== 0 &&
+           (!x.groupId || x.groupId === playerGroupId)
     );
+  }
+  isMyGroupPrize(conf: CampaignWeekConf): boolean {
+    const playerGroupId = this.campaignContainer?.subscription?.campaignData?.groupId;
+    return !conf.groupId || conf.groupId === playerGroupId;
   }
   async openWeekDescPast(confPrize: CampaignWeekConf) {
     const titlePrize = await firstValueFrom(

@@ -84,7 +84,7 @@
     </ng-template>
     <ng-container *ngIf="!notExpanded">
       <ng-container *ngFor="let conf of this.campaignContainer?.campaign?.weekConfs;let i = index">
-        <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom  && conf?.dateTo && isBeforeNow(conf)">
+        <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom && conf?.dateTo && isBeforeNow(conf) && conf.weekNumber !== 0 && isMyGroupPrize(conf)">
           <ion-card-header [style.--background]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
             <ion-card-title>
               <span class="date-prize">{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
