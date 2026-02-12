@@ -1,5 +1,41 @@
 [
   {
+    "version": "1.5.83",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.83.zip",
+    "checksum": "1f3ce13f7df03dbc93cfc3cf8ffa68eb0cee473c909488843aa0e9dd5daaa963",
+    "platform": "android",
+    "app_version": "1.5.8",
+    "flavor": "stage",
+    "timestamp": 1770912908882
+  },
+  {
+    "version": "1.5.82",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.82.zip",
+    "checksum": "227a765dda49d78b0a2fdb3d6da4844b8ae64aa6da503e5e4a2b37039be3ca65",
+    "platform": "android",
+    "app_version": "1.5.8",
+    "flavor": "stage",
+    "timestamp": 1770912464473
+  },
+  {
+    "version": "1.5.81",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.81.zip",
+    "checksum": "f8daad064477faf7f4180b94ec792553cc69977fedfffb5d1ad614d58f76d82e",
+    "platform": "android",
+    "app_version": "1.5.8",
+    "flavor": "stage",
+    "timestamp": 1770911828401
+  },
+  {
+    "version": "1.5.8",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.8.zip",
+    "checksum": "936a580523c9a52bd3d49dd19b7bc759037f58b93023eda338a74760b96edd3c",
+    "platform": "android",
+    "app_version": "1.5.8",
+    "flavor": "stage",
+    "timestamp": 1770911775250
+  },
+  {
     "version": "1.5.8",
     "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/ios/bundle_stage_ios_1.5.8.zip",
     "checksum": "dde235613f6b575986a6ad0732c21e2882737626758d1fec61686388facd572b",
@@ -7,15 +43,6 @@
     "app_version": "1.3.5",
     "flavor": "stage",
     "timestamp": 1770904758018
-  },
-  {
-    "version": "1.5.8",
-    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.8.zip",
-    "checksum": "a3d3901b47ac1a4b54c423f7b7ce2346e0a7ccc3b574358c474fa7f20436d4f0",
-    "platform": "android",
-    "app_version": "1.5.5",
-    "flavor": "stage",
-    "timestamp": 1770893314993
   },
   {
     "version": "1.5.7",

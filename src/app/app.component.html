@@ -1,5 +1,9 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+  <app-update-loading 
+  *ngIf="showUpdateLoading" 
+  [message]="updateMessage">
+</app-update-loading>
 </ion-app>
 
 <!-- 

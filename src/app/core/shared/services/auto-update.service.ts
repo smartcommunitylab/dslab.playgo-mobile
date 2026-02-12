@@ -4,6 +4,7 @@ import { App } from '@capacitor/app';
 import { Capacitor, CapacitorHttp } from '@capacitor/core'; 
 import { SplashScreen } from '@capacitor/splash-screen';
 import { environment } from 'src/environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 interface UpdateManifestEntry {
   version: string;
@@ -15,10 +16,34 @@ interface UpdateManifestEntry {
   timestamp: number;
 }
 
+export interface HotCodeUpdateStatus {
+  isChecking: boolean;
+  isDownloading: boolean;
+  hasUpdate: boolean;
+  currentVersion: string;
+  latestVersion: string | null;
+  minNativeVersion: string | null;
+  isNativeVersionTooOld: boolean;
+  error: string | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AutoUpdateService {
   
   private readonly MANIFEST_URL = `${environment.serverUrl.azureBlobBaseUrl}/updates-manifest.json`;
+  
+  private hotCodeUpdateSubject = new BehaviorSubject<HotCodeUpdateStatus>({
+    isChecking: false,
+    isDownloading: false,
+    hasUpdate: false,
+    currentVersion: '0.0.0',
+    latestVersion: null,
+    minNativeVersion: null,
+    isNativeVersionTooOld: false,
+    error: null
+  });
+  
+  public hotCodeUpdate$ = this.hotCodeUpdateSubject.asObservable();
 
   constructor() {}
 
@@ -38,9 +63,14 @@ export class AutoUpdateService {
     }
   }
 
-  async checkForUpdate(): Promise<void> {
+  async checkForUpdate(silent: boolean = true): Promise<void> {
+    this.hotCodeUpdateSubject.next({
+      ...this.hotCodeUpdateSubject.value,
+      isChecking: true,
+      error: null
+    });
+
     try {
-      // 1. Info App Corrente
       const appInfo = await App.getInfo();
       const nativeVersion = appInfo.version;
       const appId = appInfo.id;
@@ -54,41 +84,24 @@ export class AutoUpdateService {
       console.log(`🔍 Check Update | Platform: ${platform} | Flavor: ${flavor}`);
       console.log(`📱 Native: ${nativeVersion} | Web: ${currentWebVersion}`);
 
-      // 2. Scarica Manifest con cache-busting
       const manifestUrl = `${this.MANIFEST_URL}?t=${Date.now()}`;
-      console.log(`📥 Downloading manifest from: ${manifestUrl}`);
-      
       const response = await CapacitorHttp.get({ url: manifestUrl });
       
       if (response.status !== 200 || !response.data) {
-        console.log('❌ Impossibile scaricare manifest');
-        return;
+        throw new Error('Impossibile scaricare manifest');
       }
 
-      // Parse manifest
       let manifest: UpdateManifestEntry[];
-      try {
-        if (typeof response.data === 'string') {
-          manifest = JSON.parse(response.data);
-        } else if (Array.isArray(response.data)) {
-          manifest = response.data;
-        } else {
-          console.error('❌ Formato manifest non valido:', response.data);
-          return;
-        }
-      } catch (e) {
-        console.error('❌ Errore parsing manifest:', e);
-        return;
-      }
-
-      if (!Array.isArray(manifest)) {
-        console.error('❌ Manifest non è un array:', manifest);
-        return;
+      if (typeof response.data === 'string') {
+        manifest = JSON.parse(response.data);
+      } else if (Array.isArray(response.data)) {
+        manifest = response.data;
+      } else {
+        throw new Error('Formato manifest non valido');
       }
 
       console.log(`📋 Manifest entries: ${manifest.length}`);
         
-      // 3. Filtra per Piattaforma, Flavor e Compatibilità
       const compatibleUpdates = manifest.filter(entry => 
         entry.platform === platform &&
         entry.flavor === flavor &&
@@ -96,20 +109,59 @@ export class AutoUpdateService {
       );
 
       if (compatibleUpdates.length === 0) {
-        console.log('✅ Nessun aggiornamento compatibile disponibile.');
+        const allUpdates = manifest.filter(entry => 
+          entry.platform === platform && entry.flavor === flavor
+        );
+        
+        if (allUpdates.length > 0) {
+          const latestUpdate = allUpdates.reduce((prev, current) => 
+            this.compareVersions(current.version, prev.version) === 1 ? current : prev
+          );
+          
+          const isNativeTooOld = this.compareVersions(nativeVersion, latestUpdate.app_version) < 0;
+          
+          this.hotCodeUpdateSubject.next({
+            isChecking: false,
+            isDownloading: false,
+            hasUpdate: false,
+            currentVersion: currentWebVersion,
+            latestVersion: latestUpdate.version,
+            minNativeVersion: latestUpdate.app_version,
+            isNativeVersionTooOld: isNativeTooOld,
+            error: null
+          });
+          
+          console.log(`⚠️ Versione nativa troppo vecchia. Richiesta: ${latestUpdate.app_version}, Corrente: ${nativeVersion}`);
+          return;
+        }
+        
+        this.hotCodeUpdateSubject.next({
+          ...this.hotCodeUpdateSubject.value,
+          isChecking: false,
+          hasUpdate: false
+        });
         return;
       }
 
-      // 4. Prendi la versione più alta
       const latestUpdate = compatibleUpdates.reduce((prev, current) => 
         this.compareVersions(current.version, prev.version) === 1 ? current : prev
       );
 
       console.log(`📡 Versione disponibile: v${latestUpdate.version}`);
 
-      // 5. Confronta con versione corrente
       if (this.compareVersions(latestUpdate.version, currentWebVersion) === 1) {
         console.log('🚀 Nuova versione trovata! Inizio download...');
+
+        this.hotCodeUpdateSubject.next({
+          isChecking: false,
+          isDownloading: true,
+          hasUpdate: true,
+          currentVersion: currentWebVersion,
+          latestVersion: latestUpdate.version,
+          minNativeVersion: latestUpdate.app_version,
+          isNativeVersionTooOld: false,
+          error: null
+        });
 
         const update = await CapacitorUpdater.download({
           url: latestUpdate.url,
@@ -118,21 +170,33 @@ export class AutoUpdateService {
         });
         
         if (update) {
-          SplashScreen.show();
-          try {
-            await CapacitorUpdater.set(update);
-            console.log('✅ Update installato!');
-          } catch (error) {
-            console.error('❌ Errore installazione:', error);
-            SplashScreen.hide();
+          if (!silent) {
+            SplashScreen.show();
           }
+          await CapacitorUpdater.set(update);
+          console.log('✅ Update installato!');
         }
       } else {
-        console.log('✅ Versione già aggiornata.');
+        this.hotCodeUpdateSubject.next({
+          isChecking: false,
+          isDownloading: false,
+          hasUpdate: false,
+          currentVersion: currentWebVersion,
+          latestVersion: latestUpdate.version,
+          minNativeVersion: latestUpdate.app_version,
+          isNativeVersionTooOld: false,
+          error: null
+        });
       }
 
     } catch (error) {
       console.error('❌ Errore Update:', error);
+      this.hotCodeUpdateSubject.next({
+        ...this.hotCodeUpdateSubject.value,
+        isChecking: false,
+        isDownloading: false,
+        error: error.message || 'Errore sconosciuto'
+      });
     }
   }
 

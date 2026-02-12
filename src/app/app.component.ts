@@ -1,30 +1,24 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { AfterContentInit, Component, Inject, ViewChild, NgZone } from '@angular/core';
+import { AfterContentInit, Component, ViewChild, NgZone, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackgroundTrackingService } from './core/shared/tracking/background-tracking.service';
-// import { codePush as CodePushPluginInternal } from 'capacitor-codepush';
-// import { CodePush as CodePushPluginInternal, InstallMode } from 'cap-codepush';
-// import { SyncStatus } from '@gianluigitrontini/capacitor-codepush/dist/esm/syncStatus';
-import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import { AppStatusService } from './core/shared/services/app-status.service';
 import { IconService } from './core/shared/ui/icon/icon.service';
 import { AuthService } from './core/auth/auth.service';
-import { NotificationService } from './core/shared/services/notifications/notifications.service';
 import { BadgeService } from './core/shared/services/badge.service';
-import { waitMs } from './core/shared/utils';
-import { ErrorService } from './core/shared/services/error.service';
 import { Capacitor } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
 import { ScreenOrientation } from '@capacitor/screen-orientation';
 import { StatusBar, Style } from '@capacitor/status-bar';
-// import { SyncStatus } from 'cap-codepush/dist/esm/syncStatus';
 import { environment } from 'src/environments/environment';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { AutoUpdateService } from './core/shared/services/auto-update.service';
+import { UpdateCoordinatorService } from './core/shared/services/update-coordinator.service';
 import { Router } from '@angular/router';
 import { AuthFlowService } from './core/shared/services/auth-flow.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -32,9 +26,16 @@ import { AuthFlowService } from './core/shared/services/auth-flow.service';
   styleUrls: ['app.component.scss'],
   standalone: false,
 })
-export class AppComponent implements AfterContentInit {
+export class AppComponent implements AfterContentInit, OnInit, OnDestroy {
   @ViewChild('contentTemplateComponent', { static: true })
   contentTemplateComponent: any;
+
+  // Update states
+  showUpdateLoading = false;
+  updateMessage = '';
+
+  private unsubscribe$ = new Subject<void>();
+
   constructor(
     private translate: TranslateService,
     private platform: Platform,
@@ -43,53 +44,101 @@ export class AppComponent implements AfterContentInit {
     private iconService: IconService,
     private authService: AuthService,
     private authFlowService: AuthFlowService,
-
     private badgeService: BadgeService,
     private autoUpdateService: AutoUpdateService,
-
-    // @Inject('CodePushPlugin')
-    // private codePushPlugin: typeof CodePushPluginInternal,
+    private updateCoordinator: UpdateCoordinatorService,
     private ngZone: NgZone,
     private router: Router
   ) {
     this.initializeApp();
     this.setupDeepLinks();
-
   }
+
+  ngOnInit() {
+    this.autoUpdateService.hotCodeUpdate$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(status => {
+        this.showUpdateLoading = status.isDownloading;
+        if (status.isDownloading && status.latestVersion) {
+          this.updateMessage = this.translate.instant('update.hotcode.downloading');
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   private async initializeApp() {
     try {
       this.translate.setDefaultLang('it');
+      
       try {
         await ScreenOrientation.lock({ orientation: 'portrait' });
-      } catch (e) { }
+      } catch (e) {
+        console.log('Screen orientation lock not available');
+      }
+
       this.loadCustomIcons();
       this.initLink();
       this.badgeService.init();
+      
       await this.platform.ready();
+
       await this.autoUpdateService.init();
+
       App.addListener('appUrlOpen', (event: any) => {
         console.log('App aperta con URL:', event.url);
       });
+
       const observer = new MutationObserver(() => {
         document.documentElement.classList.remove('dark');
       });
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-      this.authService.init().catch(err => console.error('auth init error', err));
-      // console.log('Starting codePushSync with 3s timeout');
-      // await Promise.race([this.codePushSync(), waitMs(3000)]);
-      // this.backgroundTrackingService.start().catch(err => console.error('tracking start error', err));
-      // // await this.authService.init();
+      observer.observe(document.documentElement, { 
+        attributes: true, 
+        attributeFilter: ['class'] 
+      });
+
+      // Initialize auth
+      this.authService.init().catch(err => 
+        console.error('auth init error', err)
+      );
+
+      // Start background tracking
       await this.backgroundTrackingService.start();
+
+      // Check for updates after everything is initialized
+      // Wait a bit to let the app settle
+      setTimeout(() => {
+        this.checkForUpdates();
+      }, 3000);
+
     } catch (error) {
       console.error('initializeApp error:', error);
     } finally {
       StatusBar.setOverlaysWebView({ overlay: false });
       await StatusBar.setBackgroundColor({ color: '#3880ff' });
-
       StatusBar.setStyle({ style: Style.Light });
       await SplashScreen.hide();
     }
   }
+
+  private async checkForUpdates() {
+    if (Capacitor.getPlatform() === 'web') {
+      console.log('⚠️ Update check skipped on web platform');
+      return;
+    }
+
+    try {
+      console.log('🔍 Checking for updates...');
+      await this.updateCoordinator.checkAllUpdates();
+    } catch (error) {
+      console.error('❌ Error checking for updates:', error);
+      // Non bloccare l'app se il controllo update fallisce
+    }
+  }
+
   initLink() {
     if (Capacitor.getPlatform() !== 'web') {
       document.onclick = (event: any): boolean | void => {
@@ -111,8 +160,8 @@ export class AppComponent implements AfterContentInit {
       };
     }
   }
-  private 
-  setupDeepLinks() {
+
+  private setupDeepLinks() {
     console.log('Setting up deep link listeners...');
     
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
@@ -191,43 +240,6 @@ export class AppComponent implements AfterContentInit {
     
     console.log('handleAuthCallback END');
   }
-  // async codePushSync() {
-  //   try {
-  //     let syncStatus: SyncStatus | 'sync_disabled' = 'sync_disabled';
-  //     console.log('Starting codePushSync');
-  //     if (environment.useCodePush) {
-  //       console.log('Starting codePushSync with 15s timeout');
-  //       syncStatus = await Promise.race([
-  //         this.codePushPlugin.sync({
-  //           onSyncStatusChanged: (syncStatus) => {
-  //             return syncStatus;
-  //           },
-  //           installMode: InstallMode.IMMEDIATE,
-  //         }).then(
-  //           (status) => {
-  //             if (status) {
-  //               return status;
-  //             }
-  //           },
-  //           (error) => {
-  //             if (error) {
-  //               return SyncStatus.ERROR;
-  //             }
-  //           }),
-  //         // there is some problem with error handling on the plugin side...
-  //         // https://github.com/capacitor-community/http/issues/232
-  //         waitMs(15_000).then(() => {
-  //           throw new Error('codePushSync timeout');
-  //         }),
-  //       ]);
-  //     }
-  //     console.log('codePushSync syncStatus:', syncStatus);
-  //     this.appStatusService.codePushSyncFinished(true);
-  //   } catch (error) {
-  //     this.errorService.handleError(error, 'silent');
-  //     this.appStatusService.codePushSyncFinished(false);
-  //   }
-  // }
 
   loadCustomIcons() {
     const icons = {

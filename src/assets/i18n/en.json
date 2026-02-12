@@ -796,5 +796,33 @@
   },
   "date": {
     "from_to": "from {{from}} to {{to}}"
+  },
+  "update": {
+    "store": {
+      "title": "Update available",
+      "currentVersion": "Current version",
+      "newVersion": "New version",
+      "mandatory": {
+        "title": "Mandatory update",
+        "message": "To continue using the app, you need to update to the latest version."
+      },
+      "optional": {
+        "message": "A new version of the app is available with improvements and fixes."
+      },
+      "features": {
+        "improvements": "New features and improvements",
+        "bugfixes": "Bug fixes",
+        "performance": "Performance optimizations"
+      },
+      "updateNow": "Update now",
+      "later": "Later"
+    },
+    "hotcode": {
+      "downloading": "Downloading update...",
+      "pleaseWait": "Please wait a moment..."
+    }
+  },
+  "common": {
+    "new": "New"
   }
 }

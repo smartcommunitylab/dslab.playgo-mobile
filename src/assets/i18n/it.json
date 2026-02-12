@@ -794,5 +794,33 @@
   },
   "date": {
     "from_to": "dal {{from}} al {{to}}"
+  },
+"update": {
+    "store": {
+      "title": "Aggiornamento disponibile",
+      "currentVersion": "Versione corrente",
+      "newVersion": "Nuova versione",
+      "mandatory": {
+        "title": "Aggiornamento obbligatorio",
+        "message": "Per continuare ad usare l'app è necessario aggiornarla alla versione più recente."
+      },
+      "optional": {
+        "message": "È disponibile una nuova versione dell'app con miglioramenti e correzioni."
+      },
+      "features": {
+        "improvements": "Nuove funzionalità e miglioramenti",
+        "bugfixes": "Correzioni di bug",
+        "performance": "Ottimizzazioni delle prestazioni"
+      },
+      "updateNow": "Aggiorna ora",
+      "later": "Più tardi"
+    },
+    "hotcode": {
+      "downloading": "Download aggiornamento in corso...",
+      "pleaseWait": "Attendi qualche secondo..."
+    }
+  },
+  "common": {
+    "new": "Nuovo"
   }
 }

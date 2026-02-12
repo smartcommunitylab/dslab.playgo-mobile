@@ -33,13 +33,11 @@ const PROJECT_ROOT = path.join(__dirname, '..');
 const TEMP_DIR = path.join(PROJECT_ROOT, 'temp');
 const MANIFEST_PATH = path.join(PROJECT_ROOT, 'updates-manifest.json');
 
-// Leggi versione
 const packageJson = require('../package.json');
 const VERSION = packageJson.version;
 const APP_VERSION = process.env.APP_VERSION || VERSION;
 
 async function uploadToAzure(filePath, blobName) {
-  // Crea BlobServiceClient dalla base URL (senza container)
   const baseUrl = AZURE_SAS_URL.split('?')[0].replace(`/${CONTAINER_NAME}`, '');
   const sasToken = AZURE_SAS_URL.split('?')[1];
   const blobServiceClient = new BlobServiceClient(`${baseUrl}?${sasToken}`);
@@ -56,7 +54,6 @@ async function uploadToAzure(filePath, blobName) {
       }
     });
     
-    // Costruisci URL pubblico (senza SAS token)
     const publicUrl = `${BASE_URL}/${blobName}`;
     console.log(`✅ Upload completato: ${publicUrl}`);
     return publicUrl;
@@ -71,12 +68,10 @@ async function deploy() {
   console.log(`📱 Richiede App Nativa >= ${APP_VERSION}`);
   console.log(`☁️  Azure Container: ${CONTAINER_NAME}`);
 
-  // 1. Crea cartella temp se non esiste
   if (!fs.existsSync(TEMP_DIR)) {
     fs.mkdirSync(TEMP_DIR, { recursive: true });
   }
 
-  // 2. Crea ZIP
   const zipName = `bundle_${FLAVOR}_${PLATFORM}_${VERSION}.zip`;
   const zipPath = path.join(TEMP_DIR, zipName);
   const output = fs.createWriteStream(zipPath);
@@ -93,24 +88,20 @@ async function deploy() {
 
   console.log(`📦 ZIP creato: ${zipPath}`);
 
-  // 3. Calcola Checksum
   const fileBuffer = fs.readFileSync(zipPath);
   const hashSum = crypto.createHash('sha256');
   hashSum.update(fileBuffer);
   const checksum = hashSum.digest('hex');
   console.log(`🔑 Checksum: ${checksum}`);
 
-  // 4. Upload ZIP su Azure
   const blobPath = `${FLAVOR}/${PLATFORM}/${zipName}`;
   const zipUrl = await uploadToAzure(zipPath, blobPath);
 
-  // 5. Leggi/Crea Manifest
   let manifest = [];
   if (fs.existsSync(MANIFEST_PATH)) {
     manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
   }
 
-  // 6. Aggiungi nuovo entry
   const newEntry = {
     version: VERSION,
     url: zipUrl,
@@ -121,25 +112,20 @@ async function deploy() {
     timestamp: Date.now()
   };
 
-  // Evita duplicati
   manifest = manifest.filter(e => 
     !(e.version === VERSION && e.platform === PLATFORM && e.flavor === FLAVOR)
   );
   
   manifest.unshift(newEntry);
 
-  // 7. Salva Manifest localmente
   fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2));
   console.log(`📄 Manifest aggiornato: ${MANIFEST_PATH}`);
 
-  // 8. Upload Manifest su Azure
   await uploadToAzure(MANIFEST_PATH, 'updates-manifest.json');
 
-  // 9. Cleanup
   fs.unlinkSync(zipPath);
   console.log(`🗑️  File temporaneo rimosso: ${zipPath}`);
 
-  // 10. Info finale
   console.log(`\n✅ Deploy completato!`);
   console.log(`📦 ZIP URL: ${zipUrl}`);
   console.log(`📄 Manifest URL: ${BASE_URL}/updates-manifest.json`);
