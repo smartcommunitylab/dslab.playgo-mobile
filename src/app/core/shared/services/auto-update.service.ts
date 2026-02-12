@@ -3,6 +3,7 @@ import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import { App } from '@capacitor/app';
 import { Capacitor, CapacitorHttp } from '@capacitor/core'; 
 import { SplashScreen } from '@capacitor/splash-screen';
+import { environment } from 'src/environments/environment';
 
 interface UpdateManifestEntry {
   version: string;
@@ -17,12 +18,18 @@ interface UpdateManifestEntry {
 @Injectable({ providedIn: 'root' })
 export class AutoUpdateService {
   
-  private readonly MANIFEST_URL = 'https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/capgo-test/updates-manifest.json';
+  private readonly MANIFEST_URL = `${environment.serverUrl.azureBlobBaseUrl}/updates-manifest.json`;
 
   constructor() {}
 
   async init(): Promise<void> {
     if (Capacitor.getPlatform() === 'web') return;
+    
+    if (!environment.useCodePush) {
+      console.log('⚠️ CodePush disabilitato in questo environment');
+      return;
+    }
+
     try {
       await CapacitorUpdater.notifyAppReady();
       await this.checkForUpdate();
@@ -47,18 +54,18 @@ export class AutoUpdateService {
       console.log(`🔍 Check Update | Platform: ${platform} | Flavor: ${flavor}`);
       console.log(`📱 Native: ${nativeVersion} | Web: ${currentWebVersion}`);
 
-      // 2. Scarica Manifest
-      const response = await CapacitorHttp.get({ url: this.MANIFEST_URL });
+      // 2. Scarica Manifest con cache-busting
+      const manifestUrl = `${this.MANIFEST_URL}?t=${Date.now()}`;
+      console.log(`📥 Downloading manifest from: ${manifestUrl}`);
+      
+      const response = await CapacitorHttp.get({ url: manifestUrl });
       
       if (response.status !== 200 || !response.data) {
         console.log('❌ Impossibile scaricare manifest');
         return;
       }
 
-      console.log('📥 Manifest response type:', typeof response.data);
-      console.log('📥 Manifest data:', response.data);
-
-      // Parse manifest - gestisce sia stringa che oggetto
+      // Parse manifest
       let manifest: UpdateManifestEntry[];
       try {
         if (typeof response.data === 'string') {
@@ -87,6 +94,11 @@ export class AutoUpdateService {
         entry.flavor === flavor &&
         this.isNativeVersionCompatible(nativeVersion, entry.app_version)
       );
+
+      if (compatibleUpdates.length === 0) {
+        console.log('✅ Nessun aggiornamento compatibile disponibile.');
+        return;
+      }
 
       // 4. Prendi la versione più alta
       const latestUpdate = compatibleUpdates.reduce((prev, current) => 
@@ -125,7 +137,6 @@ export class AutoUpdateService {
   }
 
   private isNativeVersionCompatible(currentNative: string, requiredNative: string): boolean {
-    // Verifica che la versione nativa corrente sia >= alla richiesta
     return this.compareVersions(currentNative, requiredNative) >= 0;
   }
 

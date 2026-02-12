@@ -68,3 +68,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment variables (contiene secrets - NON committare)
+.env
+.env.local
+.env.*.local
+
+# Temp files for deploy
+temp/
+updates-manifest.json

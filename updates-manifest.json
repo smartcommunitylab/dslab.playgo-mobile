@@ -1,12 +1,48 @@
 [
   {
-    "version": "1.5.5",
-    "url": "https://raw.githubusercontent.com/smartcommunitylab/dslab.playgo-mobile/capgo-test/updates/stage/android/bundle_stage_android_1.5.5.zip",
-    "checksum": "bdc33982c394244ad3d15c923df2965e462277bd4af6da939b5ef8a1332ad7f6",
+    "version": "1.5.8",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/ios/bundle_stage_ios_1.5.8.zip",
+    "checksum": "dde235613f6b575986a6ad0732c21e2882737626758d1fec61686388facd572b",
+    "platform": "ios",
+    "app_version": "1.3.5",
+    "flavor": "stage",
+    "timestamp": 1770904758018
+  },
+  {
+    "version": "1.5.8",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.8.zip",
+    "checksum": "a3d3901b47ac1a4b54c423f7b7ce2346e0a7ccc3b574358c474fa7f20436d4f0",
     "platform": "android",
     "app_version": "1.5.5",
     "flavor": "stage",
-    "timestamp": 1770825875831
+    "timestamp": 1770893314993
+  },
+  {
+    "version": "1.5.7",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.7.zip",
+    "checksum": "581d72b904222941810a9dc4c0480939673eb3789b4cc96036dc675b224bdeef",
+    "platform": "android",
+    "app_version": "1.5.5",
+    "flavor": "stage",
+    "timestamp": 1770893108634
+  },
+  {
+    "version": "1.5.6",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.6.zip",
+    "checksum": "2ce0b397e5ae8ecaaad6e6d49790d6fc35fae219807e6c27dcea2dd1881c522f",
+    "platform": "android",
+    "app_version": "1.5.5",
+    "flavor": "stage",
+    "timestamp": 1770892953453
+  },
+  {
+    "version": "1.5.5",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.5.5.zip",
+    "checksum": "412c193b868daa33b14cdb1bcdc2a322ae1b90569fa1b72fa4f43b201a962ed0",
+    "platform": "android",
+    "app_version": "1.5.5",
+    "flavor": "stage",
+    "timestamp": 1770891439297
   },
   {
     "version": "1.5.4",
