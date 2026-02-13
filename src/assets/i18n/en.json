@@ -815,6 +815,8 @@
         "performance": "Performance optimizations"
       },
       "updateNow": "Update now",
+      "remindLater": "Remind me in 1 week",
+      "skip": "Skip",
       "later": "Later"
     },
     "hotcode": {

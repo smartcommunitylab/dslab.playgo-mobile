@@ -813,6 +813,8 @@
         "performance": "Ottimizzazioni delle prestazioni"
       },
       "updateNow": "Aggiorna ora",
+      "remindLater": "Ricordamelo tra 1 settimana",
+      "skip": "Salta",
       "later": "Più tardi"
     },
     "hotcode": {

@@ -166,7 +166,7 @@ export class AutoUpdateService {
         const update = await CapacitorUpdater.download({
           url: latestUpdate.url,
           version: latestUpdate.version,
-          checksum: latestUpdate.checksum
+          checksum: latestUpdate.checksum,
         });
         
         if (update) {

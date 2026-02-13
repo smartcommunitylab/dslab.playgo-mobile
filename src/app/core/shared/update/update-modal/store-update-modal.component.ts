@@ -18,6 +18,10 @@ export class StoreUpdateModalComponent {
     await this.modalController.dismiss({ action: 'update' });
   }
 
+  async remindLater() {
+    await this.modalController.dismiss({ action: 'remind' });
+  }
+
   async dismiss() {
     if (!this.isMandatory) {
       await this.modalController.dismiss({ action: 'skip' });

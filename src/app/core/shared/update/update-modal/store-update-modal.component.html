@@ -72,7 +72,7 @@
       </ion-col>
     </ion-row>
 
-    <!-- Features list (opzionale) -->
+    <!-- Features list -->
     <ion-row class="ion-margin-top" *ngIf="!isMandatory">
       <ion-col>
         <ion-list color="playgo" lines="none">
@@ -111,6 +111,20 @@
       </ion-col>
     </ion-row>
 
+    <!-- Remind later button (solo se non obbligatorio) -->
+    <ion-row *ngIf="!isMandatory">
+      <ion-col>
+        <ion-button 
+          fill="outline" 
+          expand="block" 
+          color="light"
+          (click)="remindLater()">
+          <ion-icon name="time-outline" slot="start"></ion-icon>
+          {{ 'update.store.remindLater' | translate }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
     <ion-row *ngIf="!isMandatory">
       <ion-col>
         <ion-button 
@@ -118,7 +132,7 @@
           expand="block" 
           color="light"
           (click)="dismiss()">
-          {{ 'update.store.later' | translate }}
+          {{ 'update.store.skip' | translate }}
         </ion-button>
       </ion-col>
     </ion-row>

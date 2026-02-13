@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Capacitor } from '@capacitor/core';
+import { Capacitor, CapacitorHttp } from '@capacitor/core';
 import { BehaviorSubject } from 'rxjs';
 import { App } from '@capacitor/app';
-import { CapacitorHttp } from '@capacitor/core';
+import { environment } from 'src/environments/environment';
 
 export interface StoreUpdateInfo {
   isChecking: boolean;
@@ -13,8 +13,20 @@ export interface StoreUpdateInfo {
   updateUrl: string | null;
 }
 
+interface UpdateManifestEntry {
+  version: string;
+  url: string;
+  checksum: string;
+  platform: string;
+  app_version: string; // Questa è la versione sullo store!
+  flavor: string;
+  timestamp: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class StoreUpdateService {
+  
+  private readonly MANIFEST_URL = `${environment.serverUrl.azureBlobBaseUrl}/updates-manifest.json`;
   
   private storeUpdateSubject = new BehaviorSubject<StoreUpdateInfo>({
     isChecking: false,
@@ -46,27 +58,59 @@ export class StoreUpdateService {
       const appInfo = await App.getInfo();
       const currentVersion = appInfo.version;
       const platform = Capacitor.getPlatform();
+      const flavor = appInfo.id.includes('.stage') ? 'stage' : 'production';
 
       console.log('📱 StoreUpdateService: App info:', {
         currentVersion,
         platform,
-        id: appInfo.id,
-        build: appInfo.build
+        flavor,
+        id: appInfo.id
       });
 
-      let storeVersion: string | null = null;
-      //TODO con url definitivi
-      if (platform === 'android') {
-        console.log('🤖 StoreUpdateService: Checking Google Play...');
-        storeVersion = await this.checkGooglePlayVersion(appInfo.id);
-      } else if (platform === 'ios') {
-        console.log('🍎 StoreUpdateService: Checking App Store...');
-        storeVersion = await this.checkAppStoreVersion(appInfo.id);
+      // Scarica manifest
+      const manifestUrl = `${this.MANIFEST_URL}?t=${Date.now()}`;
+      const response = await CapacitorHttp.get({ url: manifestUrl });
+      
+      if (response.status !== 200 || !response.data) {
+        throw new Error('Impossibile scaricare manifest');
       }
 
-      console.log('📊 StoreUpdateService: Store version:', storeVersion);
+      let manifest: UpdateManifestEntry[];
+      if (typeof response.data === 'string') {
+        manifest = JSON.parse(response.data);
+      } else if (Array.isArray(response.data)) {
+        manifest = response.data;
+      } else {
+        throw new Error('Formato manifest non valido');
+      }
 
-      const hasUpdate = storeVersion ? this.compareVersions(storeVersion, currentVersion) === 1 : false;
+      console.log(`📋 Manifest entries: ${manifest.length}`);
+
+      // Filtra per platform e flavor
+      const relevantUpdates = manifest.filter(entry => 
+        entry.platform === platform && entry.flavor === flavor
+      );
+
+      if (relevantUpdates.length === 0) {
+        console.log('⚠️ No updates found for this platform/flavor');
+        this.storeUpdateSubject.next({
+          ...this.storeUpdateSubject.value,
+          isChecking: false
+        });
+        return;
+      }
+
+      // Trova l'entry più recente (quella con app_version più alta)
+      const latestEntry = relevantUpdates.reduce((prev, current) => 
+        this.compareVersions(current.app_version, prev.app_version) === 1 ? current : prev
+      );
+
+      // app_version è la versione sullo store
+      const storeVersion = latestEntry.app_version;
+      console.log('📊 StoreUpdateService: Latest store version in manifest:', storeVersion);
+
+      // Confronta la versione corrente del dispositivo con quella sullo store
+      const hasUpdate = this.compareVersions(storeVersion, currentVersion) === 1;
 
       console.log('✅ StoreUpdateService: Comparison result:', {
         storeVersion,
@@ -94,64 +138,6 @@ export class StoreUpdateService {
     }
   }
 
-  private async checkGooglePlayVersion(packageName: string): Promise<string | null> {
-    try {
-      console.log('🔍 Checking Google Play for:', packageName);
-      
-      // TEMPORARY: Return hardcoded version for testing
-      // TODO: Implement proper Google Play version check
-      // Options:
-      // 1. Use backend API that checks Google Play Store
-      // 2. Use third-party service (unreliable)
-      // 3. Manual configuration in Firebase Remote Config or similar
-      
-      return '1.5.9'; // REMOVE THIS LINE WHEN IMPLEMENTING REAL CHECK
-      
-      /* FUTURE IMPLEMENTATION:
-      // Option 1: Backend API
-      const response = await CapacitorHttp.get({
-        url: `${environment.serverUrl.api}/app/latest-version?platform=android&package=${packageName}`
-      });
-      return response.data?.version || null;
-      
-      // Option 2: Scrape Play Store (not recommended, against TOS)
-      // Not implemented
-      
-      // Option 3: Firebase Remote Config
-      // Configure version in Firebase Console and fetch here
-      */
-      
-    } catch (error) {
-      console.error('❌ Error checking Google Play version:', error);
-      return null;
-    }
-  }
-
-  private async checkAppStoreVersion(bundleId: string): Promise<string | null> {
-    try {
-      console.log('🔍 Checking App Store for:', bundleId);
-      
-      // Use iTunes Lookup API (official Apple API)
-      const response = await CapacitorHttp.get({
-        url: `https://itunes.apple.com/lookup?bundleId=${bundleId}`
-      });
-
-      console.log('📥 App Store response:', response);
-
-      if (response.status === 200 && response.data?.results?.length > 0) {
-        const version = response.data.results[0].version;
-        console.log('✅ App Store version found:', version);
-        return version;
-      }
-      
-      console.log('⚠️ No version found in App Store');
-      return null;
-    } catch (error) {
-      console.error('❌ Error checking App Store version:', error);
-      return null;
-    }
-  }
-
   async openStore(): Promise<void> {
     console.log('🚀 Opening store...');
     const platform = Capacitor.getPlatform();
@@ -170,10 +156,9 @@ export class StoreUpdateService {
     
     if (currentPlatform === 'ios') {
       // TODO: Replace with your actual iOS App Store ID
-      // Find it in App Store Connect
-      return 'https://apps.apple.com/app/id6670234191';
+      return 'https://apps.apple.com/app/1641103495';
     } else if (currentPlatform === 'android') {
-      const packageName = appId || 'it.dslab.playgo.stage';
+      const packageName =  'it.dslab.playgo';
       return `https://play.google.com/store/apps/details?id=${packageName}`;
     }
     return null;
