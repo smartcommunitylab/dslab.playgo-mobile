@@ -18,7 +18,6 @@ export class JoinGroupModalPage implements OnInit {
   @Input() language: string;
   @Input() profile: User;
   
-  // Nuovi input per OAuth flow
   @Input() authData?: {
     access_token?: string;
   };
@@ -31,7 +30,12 @@ export class JoinGroupModalPage implements OnInit {
   privacy: any;
   rules: any;
   isSubmitted = false;
-
+  
+  // Stato per la schermata di conferma
+  showConfirmation = false;
+  selectedGroupInfo: any = null;
+  groupConfirmed = false; // Flag per sapere se gruppo è stato confermato
+  
   constructor(
     private modalController: ModalController,
     private alertService: AlertService,
@@ -39,8 +43,7 @@ export class JoinGroupModalPage implements OnInit {
     public formBuilder: FormBuilder,
     private userService: UserService,
     private navCtrl: NavController,
-        private errorService: ErrorService,
-    
+    private errorService: ErrorService,
   ) {}
 
   ngOnInit() {
@@ -49,20 +52,23 @@ export class JoinGroupModalPage implements OnInit {
     this.rules = rules?.find((detail) => detail.type === 'rules');
     this.privacy = rules?.find((detail) => detail.type === 'privacy');
     
-    // Determina il valore iniziale di groupId
     const initialGroupId = this.availableGroups?.length === 1 
       ? this.availableGroups[0].value 
       : '';
     
-    // Build form con groupId sempre presente se ci sono gruppi
     this.joinGroupForm = this.formBuilder.group({
-      // name: [''],
       ...(this.availableGroups && this.availableGroups.length > 0 && {
         groupId: [initialGroupId, Validators.required]
       }),
       ...(this.privacy && { privacy: [false, Validators.requiredTrue] }),
       ...(this.rules && { rules: [false, Validators.requiredTrue] }),
     });
+
+    // Se c'è un solo gruppo, consideralo già confermato
+    if (this.availableGroups?.length === 1) {
+      this.groupConfirmed = true;
+      this.selectedGroupInfo = this.availableGroups[0];
+    }
 
     console.log('Join modal initialized:', {
       hasAuthData: !!this.authData,
@@ -84,7 +90,8 @@ export class JoinGroupModalPage implements OnInit {
   }
 
   getGroupLabel(group: any): string {
-    return group.label[this.language] || group.label.en || group.value;
+    if (!group) return '';
+    return group.label?.[this.language] || group.label?.en || group.value || '';
   }
 
   openPrivacyPopup() {
@@ -101,15 +108,96 @@ export class JoinGroupModalPage implements OnInit {
     });
   }
 
+  /**
+   * Chiamato quando utente seleziona un gruppo dalla dropdown
+   * NON mostra ancora la conferma, aspetta il submit
+   */
+  onGroupSelected() {
+    const groupId = this.joinGroupForm.get('groupId')?.value;
+    
+    if (!groupId || !this.availableGroups || this.availableGroups.length <= 1) {
+      return;
+    }
+
+    const selectedGroup = this.availableGroups.find(g => g.value === groupId);
+    
+    if (selectedGroup) {
+      this.selectedGroupInfo = selectedGroup;
+      // Reset conferma se utente cambia gruppo
+      this.groupConfirmed = false;
+    }
+  }
+
+  /**
+   * Torna indietro dalla schermata di conferma
+   */
+  goBackToSelection() {
+    this.showConfirmation = false;
+    this.groupConfirmed = false;
+    this.isSubmitted = false; // Reset validation errors
+  }
+
+  /**
+   * Conferma il gruppo selezionato e procedi con submit
+   */
+  async confirmGroupSelection() {
+    this.groupConfirmed = true;
+    this.showConfirmation = false;
+    
+    // Ora procedi con il submit effettivo
+    await this.performSubmit();
+  }
+
+  /**
+   * Submit del form - controlla se serve conferma gruppo
+   */
   async joinGroupSubmit() {
     try {
       this.isSubmitted = true;
 
+      // Validazione form
       if (!this.joinGroupForm.valid) {
         console.log('Form invalid:', this.joinGroupForm.errors);
         return;
       }
 
+      const formValue = this.joinGroupForm.value;
+
+      // Se ci sono multipli gruppi e NON è ancora stato confermato, mostra conferma
+      if (this.availableGroups && 
+          this.availableGroups.length > 1 && 
+          !this.groupConfirmed) {
+        
+        const groupId = formValue.groupId;
+        const selectedGroup = this.availableGroups.find(g => g.value === groupId);
+        
+        if (!selectedGroup) {
+          console.error('No group selected');
+          return;
+        }
+
+        // Mostra schermata di conferma
+        this.selectedGroupInfo = selectedGroup;
+        this.showConfirmation = true;
+        return; // Stop qui, aspetta conferma
+      }
+
+      // Se siamo qui, o c'è un solo gruppo o è già stato confermato
+      await this.performSubmit();
+
+    } catch (error) {
+      console.error('Join campaign error:', error);
+      this.errorService.handleError(error);
+      this.isSubmitted = false;
+      this.groupConfirmed = false;
+    }
+  }
+
+  /**
+   * Esegue il submit effettivo della subscription
+   */
+  private async performSubmit() {
+    try {
       const formValue = this.joinGroupForm.value;
       const body: any = {};
 
@@ -126,18 +214,14 @@ export class JoinGroupModalPage implements OnInit {
         }
       }
 
-      // // Aggiungi name se presente
-      // if (formValue.name) {
-      //   body.name = formValue.name;
-      // }
-
       console.log('Submitting join with body:', {
         campaignId: this.campaign.campaignId,
         hasGroupId: !!body.groupId,
         hasToken: !!body.extToken,
-        // hasName: !!body.name
+        groupConfirmed: this.groupConfirmed
       });
 
+      // Chiamata API
       await this.campaignService.subscribeToCampaign(
         this.campaign.campaignId,
         body
@@ -150,12 +234,12 @@ export class JoinGroupModalPage implements OnInit {
       this.modalController.dismiss({ success: true });
       this.navCtrl.navigateRoot('/pages/tabs/home');
 
-
     } catch (error) {
-      console.error('Join campaign error:', error);
+      console.error('Submit error:', error);
       this.errorService.handleError(error);
-
       this.isSubmitted = false;
+      this.groupConfirmed = false;
+      throw error;
     }
   }
 }

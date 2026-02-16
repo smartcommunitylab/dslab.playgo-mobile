@@ -209,7 +209,7 @@ private restoreTempAuthServiceIfNeeded(): void {
 
     // Avvia signin
     console.log('Starting signIn...');
-    await this.tempAuthService.signIn(undefined, this.tempAuthState);
+    await this.tempAuthService.signIn({prompt:'login'}, this.tempAuthState);
 
     // Aspetta che il token arrivi
     const token = await tokenPromise;

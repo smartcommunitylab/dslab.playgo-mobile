@@ -330,7 +330,15 @@
     },
     "joinmodal": {
       "yourRole": "Your role",
-
+"selectedGroup": "Selected group",
+"confirmGroup": {
+  "title": "Warning",
+  "message": "You are about to join the group \"{{groupName}}\". If you proceed, this group cannot be changed.",
+  "warning": "⚠️ Warning: once confirmed, you will not be able to change the selected group for this campaign.",
+  "confirm": "Confirm and proceed",
+  "back": "Back to selection",
+  "cancel": "Cancel"
+},
       "selectGroup": "Select your role",
       "selectGroupPlaceholder": "Choose...",
       "groupRequired": "You must select a role",

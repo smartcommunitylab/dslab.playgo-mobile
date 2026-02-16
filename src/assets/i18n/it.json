@@ -329,8 +329,17 @@
       "close": "X"
     },
     "joinmodal": {
-            "yourRole": "Il tuo ruolo",
+      "yourRole": "Il tuo ruolo",
       "selectGroup": "Seleziona il tuo ruolo",
+      "selectedGroup": "Gruppo selezionato",
+      "confirmGroup": {
+        "title": "Attenzione",
+        "message": "Stai per iscriverti nel gruppo \"{{groupName}}\". Se prosegui, questo gruppo non potrà più essere modificato.",
+        "warning": "⚠️ Attenzione: una volta confermato, non potrai più cambiare il gruppo selezionato per questa campagna.",
+        "confirm": "Confermo e proseguo",
+        "back": "Torna alla selezione",
+        "cancel": "Annulla"
+      },
       "selectGroupPlaceholder": "Scegli...",
       "groupRequired": "Devi selezionare un ruolo",
       "search": "Cerca",

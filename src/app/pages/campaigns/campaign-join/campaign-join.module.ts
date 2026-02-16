@@ -15,7 +15,6 @@ import { JoinGroupModalPage } from './join-group/join-group.modal';
     JoinCompanyModalPage,
     JoinCityModalPage,
     JoinGroupModalPage,
-    JoinSchoolModalPage,
-  ],
+    JoinSchoolModalPage  ],
 })
 export class CampaignJoinPageModule {}
