@@ -26,31 +26,33 @@ ion-avatar.group {
 
 .desc-group {
   .institute {
-    font-size: 0.85em;
     opacity: 0.7;
     font-weight: normal;
   }
-}
-
-.name-group {
-  cursor: pointer;
-  
   .name {
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    font-weight: 700;
-    color: var(--ion-color-playgo);
-    margin-top: 8px;
-    font-style: italic;
-    text-decoration: underline;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 21px;
-    letter-spacing: 0px;
-    text-align: left;
-    &:hover {
-      opacity: 0.8;
-    }
+    font-weight: bold;
   }
 }
+
+// .name-group {
+//   cursor: pointer;
+  
+//   .name {
+//     display: flex;
+//     justify-content: space-evenly;
+//     flex-direction: column;
+//     font-weight: 700;
+//     color: var(--ion-color-playgo);
+//     margin-top: 8px;
+//     font-style: italic;
+   
+//     font-size: 18px;
+//     font-weight: 600;
+//     line-height: 21px;
+//     letter-spacing: 0px;
+//     text-align: left;
+//     &:hover {
+//       opacity: 0.8;
+//     }
+//   }
+// }

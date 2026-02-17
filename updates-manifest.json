@@ -1,12 +1,30 @@
 [
   {
-    "version": "1.6.0",
-    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.6.0.zip",
-    "checksum": "4dac9b39dbcc2ba4bf3081374007996d4cd9538676e95a61a049cf27e58bcb37",
+    "version": "1.6.01",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/ios/bundle_stage_ios_1.6.01.zip",
+    "checksum": "94f14457565a860d233afff4d9922c19afe2ff51cf992ca30967c2eba184e06f",
+    "platform": "ios",
+    "app_version": "1.3.5",
+    "flavor": "stage",
+    "timestamp": 1771239250309
+  },
+  {
+    "version": "1.6.01",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.6.01.zip",
+    "checksum": "6d022b070f282df15d842cf7f9321986dfcc060a8cfb12b384a53bb0d72a0b20",
     "platform": "android",
     "app_version": "1.6.0",
     "flavor": "stage",
-    "timestamp": 1770998574066
+    "timestamp": 1771237745905
+  },
+  {
+    "version": "1.6.0",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.6.0.zip",
+    "checksum": "35028824bcb4b75a1598a7ad653b770470c83ce84b5aa84f09e52b18dd79d3c0",
+    "platform": "android",
+    "app_version": "1.6.0",
+    "flavor": "stage",
+    "timestamp": 1771236627121
   },
   {
     "version": "1.5.91",
