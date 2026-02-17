@@ -528,13 +528,104 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   //       }
   //     });
   // }
-  campaignNotStarted(campaign: Campaign) {
-    // compare campaign.dateFrom and dateTo with now
-    const now = DateTime.utc().toMillis();
-    if (now > campaign.dateFrom && now < campaign.dateTo) {
-      return false;
+  campaignNotStarted(campaign: Campaign): boolean {
+    if (!campaign?.dateFrom) return false;
+    const now = new Date().getTime();
+    const startDate = new Date(campaign.dateFrom).getTime();
+    return now < startDate;
+  }
+  /**
+   * Verifica se siamo nel periodo di registrazione
+   */
+  isRegistrationPeriodActive(campaign: Campaign): boolean {
+    if (!campaign) return false;
+    
+    const now = new Date().getTime();
+    
+    const registrationFrom = campaign.registrationFrom 
+      ? new Date(campaign.registrationFrom).getTime() 
+      : null;
+      
+    const registrationTo = campaign.registrationTo 
+      ? new Date(campaign.registrationTo).getTime() 
+      : null;
+
+    // Se non ci sono date di registrazione, permetti sempre
+    if (!registrationFrom && !registrationTo) return true;
+    
+    const afterStart = !registrationFrom || now >= registrationFrom;
+    const beforeEnd = !registrationTo || now <= registrationTo;
+    
+    return afterStart && beforeEnd;
+  }
+
+  /**
+   * Verifica se il periodo di registrazione non è ancora iniziato
+   */
+  isRegistrationNotStarted(campaign: Campaign): boolean {
+    if (!campaign?.registrationFrom) return false;
+    const now = new Date().getTime();
+    const regFrom = new Date(campaign.registrationFrom).getTime();
+    return now < regFrom;
+  }
+
+  /**
+   * Verifica se il periodo di registrazione è terminato
+   */
+  isRegistrationEnded(campaign: Campaign): boolean {
+    if (!campaign?.registrationTo) return false;
+    const now = new Date().getTime();
+    const regTo = new Date(campaign.registrationTo).getTime();
+    return now > regTo;
+  }
+
+  /**
+   * Verifica se il button join deve essere disabilitato
+   */
+  isJoinButtonDisabled(campaign: Campaign): boolean {
+    // Disabilita se campagna non ancora iniziata
+    if (this.campaignNotStarted(campaign)) return true;
+    
+    // Disabilita se non può iscriversi (subscriptionOpened)
+    if (!this.canSubscribe) return true;
+    
+    // Disabilita se fuori dal periodo di registrazione
+    if (!this.isRegistrationPeriodActive(campaign)) return true;
+    
+    return false;
+  }
+
+  /**
+   * Mostra periodo di registrazione nel template
+   */
+  hasRegistrationPeriod(campaign: Campaign): boolean {
+    return !!(campaign?.registrationFrom || campaign?.registrationTo);
+  }
+  /**
+   * Ottiene il testo da mostrare nell'header (date campagna o registrazione)
+   */
+  getHeaderDateText(campaign: Campaign): string {
+    if (!campaign) return '';
+    
+    
+    
+    // Altrimenti mostra date campagna
+    const from = campaign.dateFrom 
+      ? DateTime.fromISO(new Date(campaign.dateFrom).toISOString()).toFormat('dd MMMM y')
+      : '';
+    const to = campaign.dateTo 
+      ? DateTime.fromISO(new Date(campaign.dateTo).toISOString()).toFormat('dd MMMM y')
+      : '';
+    
+    if (from && to) {
+      return `${from} - ${to}`;
+    } else if (from) {
+      return from;
+    } else if (to) {
+      return to;
     }
-    return true;
+    
+    return '';
   }
   joinIsVisible(campaign: Campaign) {
     let joinable = false;

@@ -385,6 +385,10 @@
     },
     "detail": {
       "not_subscribed": "Non iscritto",
+      "registrationPeriodText": "Apertura iscrizioni dal {{from}} al {{to}}",
+      "registrationNotStartedMessage": "Le registrazioni non sono ancora iniziate",
+
+      "registrationEndedMessage": "Il periodo di registrazione è terminato",
       "unregistered": "Abbandono",
       "nMembersActive": "Membri attivi:",
       "nMembersInvited": "Invitati:",

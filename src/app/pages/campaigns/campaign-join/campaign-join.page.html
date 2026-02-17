@@ -1,18 +1,21 @@
 <ng-container *ngIf="campaign">
-  <!-- <ion-header appHeader parallax [imageUrl]="campaign?.banner?.url" height="30vh"> -->
-  <!-- </ion-header> -->
-  <ion-header mode="ios" appHeader parallax [imageUrl]="bannerPath"
-    text="{{campaign?.dateFrom|localDate:'dd MMMM y'}} - {{campaign?.dateTo|localDate:'dd MMMM y'}}" [logo]="imagePath"
-    height="30vh"></ion-header>
+  <ion-header mode="ios" appHeader parallax [imageUrl]="bannerPath" [text]="getHeaderDateText(campaign)"
+    [logo]="imagePath" height="30vh">
+  </ion-header>
+
   <ion-content appContent [fullscreen]="true" class="page">
     <div class="ion-padding">
       <ion-avatar class="avatar-campaign" [ngClass]="campaign.type">
         <img [src]="imagePath" title="campaign avatar" />
       </ion-avatar>
+
+      <!-- Button iscrizione -->
       <ion-button class="ion-margin-start ion-margin-end" expand="block" color="playgo" *ngIf="joinIsVisible(campaign)"
-        (click)="joinCampaign(campaign)" [disabled]="campaignNotStarted(campaign) || !canSubscribe ">
+        (click)="joinCampaign(campaign)" [disabled]="isJoinButtonDisabled(campaign)">
         {{'campaigns.join'|translate}}
       </ion-button>
+
+      <!-- Messaggi di stato -->
       <div class="ion-text-center">
         <div *ngIf="campaignNotStarted(campaign); else started">
           <span *ngIf="isSchool(); else notHsc">{{'campaigns.notStartedHSC'|translate}}</span>
@@ -20,49 +23,76 @@
             <span>{{'campaigns.notStarted'|translate}}</span>
           </ng-template>
         </div>
-        <ng-template #started>
-          <span *ngIf="!canSubscribe" [innerHTML]="'campaigns.cantSubscribe'|translate">
 
+        <ng-template #started>
+          <!-- Registrazione non ancora iniziata -->
+          <div *ngIf="isRegistrationNotStarted(campaign)" class="status-message warning">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ 'campaigns.detail.registrationNotStartedMessage' | translate }}</span>
+          </div>
+
+          <!-- Registrazione terminata -->
+          <div *ngIf="isRegistrationEnded(campaign)" class="status-message error">
+            <ion-icon name="close-circle-outline"></ion-icon>
+            <span>{{ 'campaigns.detail.registrationEndedMessage' | translate }}</span>
+          </div>
+
+          <!-- Can't subscribe (altre ragioni) -->
+          <span *ngIf="!canSubscribe && !isRegistrationEnded(campaign)"
+            [innerHTML]="'campaigns.cantSubscribe'|translate">
           </span>
         </ng-template>
       </div>
     </div>
+
+    <!-- Card dettagli campagna -->
     <ion-card>
       <ion-card-content>
         <div *ngIf="campaignHasSponsor(campaign?.details | languageMap)">
           <div [innerHTML]="getCampaignSponsor(campaign?.details | languageMap)?.content"></div>
         </div>
-        <ion-item lines="none" class="ion-no-padding ion-no-margin">
-          <ion-label>{{'campaigns.detail.dateFrom'|translate}}<span
-              class="text-bold">{{campaign.dateFrom|localDate}}</span></ion-label>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding ion-no-margin">
-          <ion-label>{{'campaigns.detail.dateTo'|translate}}<span class="text-bold">{{campaign.dateTo
-              |localDate}}</span></ion-label>
-        </ion-item>
+
+        <!-- Periodo di iscrizione (se presente) -->
+        <div *ngIf="hasRegistrationPeriod(campaign)" class="registration-period">
+          <p class="registration-text">
+            {{ 'campaigns.detail.registrationPeriodText' | translate : {
+            from: (campaign.registrationFrom | localDate:'dd/MM/yyyy'),
+            to: (campaign.registrationTo | localDate:'dd/MM/yyyy')
+            } }}
+          </p>
+        </div>
+
+        <!-- Description -->
         <div class="box" (click)="clickDescription()" [ngClass]="descriptionExpanded ? 'open' : ''">
           <div class="text" [innerHTML]="campaign.description | languageMap"></div>
         </div>
+
         <div class="expansion" (click)="clickDescription()">
           <ion-icon name="chevron-up-outline" *ngIf="descriptionExpanded"></ion-icon>
           <ion-icon name="chevron-down-outline" *ngIf="!descriptionExpanded"></ion-icon>
         </div>
+
+        <!-- Details -->
         <div *ngIf="(campaign.details | languageMap) as details">
           <ng-container *ngFor="let detail of details">
             <div *ngIf="detail.type!=='sponsor'" (click)="openDetail(detail)">
               <ion-item lines="none">
-                <ion-label><span class="text-bold text-underlined">
-                    {{detail.name}}</span></ion-label>
-                <ion-icon name="information-circle-outline" end> </ion-icon>
+                <ion-label>
+                  <span class="text-bold text-underlined">{{detail.name}}</span>
+                </ion-label>
+                <ion-icon name="information-circle-outline" end></ion-icon>
               </ion-item>
             </div>
           </ng-container>
-          <div *ngIf="isCompany() && campaign?.specificData?.hideCompanyDesc!== true">
+
+          <div *ngIf="isCompany() && campaign?.specificData?.hideCompanyDesc !== true">
             <ion-item lines="none" (click)="openCompanies()">
-              <ion-label><span class="text-bold text-underlined">
+              <ion-label>
+                <span class="text-bold text-underlined">
                   {{'campaigns.detail.companies'|translate}}
-                </span></ion-label>
-              <ion-icon name="information-circle-outline" end> </ion-icon>
+                </span>
+              </ion-label>
+              <ion-icon name="information-circle-outline" end></ion-icon>
             </ion-item>
           </div>
         </div>

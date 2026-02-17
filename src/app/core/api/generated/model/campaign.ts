@@ -21,6 +21,8 @@ export interface Campaign {
   communications?: boolean;
   dateFrom?: number;
   dateTo?: number;
+  registrationFrom?: number;
+  registrationTo?: number;
   description?: { [key: string]: string };
   details?: { [key: string]: Array<CampaignDetail> };
   gameId?: string;
