@@ -386,6 +386,7 @@
     "detail": {
       "not_subscribed": "Not subscribed",
       "registrationPeriodText": "Registration from {{from}} to {{to}}",
+      "registrationLabel": "Registration",
       "registrationNotStartedMessage": "Registrations have not started yet",
       "registrationEndedMessage": "Registration period has ended",
       "unregistered": "Unregistered",

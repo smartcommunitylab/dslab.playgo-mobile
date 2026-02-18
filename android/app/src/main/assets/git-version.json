@@ -1,10 +1,10 @@
 {
-  "dirty": false,
-  "raw": "e330de8",
-  "hash": "e330de8",
+  "dirty": true,
+  "raw": "ecc124a-dirty",
+  "hash": "ecc124a",
   "distance": null,
   "tag": null,
   "semver": null,
-  "suffix": "e330de8",
+  "suffix": "ecc124a-dirty",
   "semverString": null
 }

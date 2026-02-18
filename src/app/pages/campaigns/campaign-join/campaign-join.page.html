@@ -4,7 +4,7 @@
   </ion-header>
 
   <ion-content appContent [fullscreen]="true" class="page">
-    <div class="ion-padding">
+    <div >
       <ion-avatar class="avatar-campaign" [ngClass]="campaign.type">
         <img [src]="imagePath" title="campaign avatar" />
       </ion-avatar>
@@ -15,51 +15,42 @@
         {{'campaigns.join'|translate}}
       </ion-button>
 
-      <!-- Messaggi di stato -->
+      <!-- Messaggi di stato (solo se campagna non iniziata o can't subscribe) -->
       <div class="ion-text-center">
-        <div *ngIf="campaignNotStarted(campaign); else started">
+        <div *ngIf="campaignNotStarted(campaign)">
           <span *ngIf="isSchool(); else notHsc">{{'campaigns.notStartedHSC'|translate}}</span>
           <ng-template #notHsc>
             <span>{{'campaigns.notStarted'|translate}}</span>
           </ng-template>
         </div>
-
-        <ng-template #started>
-          <!-- Registrazione non ancora iniziata -->
-          <div *ngIf="isRegistrationNotStarted(campaign)" class="status-message warning">
-            <ion-icon name="time-outline"></ion-icon>
-            <span>{{ 'campaigns.detail.registrationNotStartedMessage' | translate }}</span>
-          </div>
-
-          <!-- Registrazione terminata -->
-          <div *ngIf="isRegistrationEnded(campaign)" class="status-message error">
-            <ion-icon name="close-circle-outline"></ion-icon>
-            <span>{{ 'campaigns.detail.registrationEndedMessage' | translate }}</span>
-          </div>
-
-          <!-- Can't subscribe (altre ragioni) -->
-          <span *ngIf="!canSubscribe && !isRegistrationEnded(campaign)"
-            [innerHTML]="'campaigns.cantSubscribe'|translate">
-          </span>
-        </ng-template>
+        
+        <span *ngIf="!canSubscribe && !campaignNotStarted(campaign) && !isRegistrationEnded(campaign)" 
+              [innerHTML]="'campaigns.cantSubscribe'|translate">
+        </span>
       </div>
     </div>
 
     <!-- Card dettagli campagna -->
     <ion-card>
       <ion-card-content>
-        <div *ngIf="campaignHasSponsor(campaign?.details | languageMap)">
-          <div [innerHTML]="getCampaignSponsor(campaign?.details | languageMap)?.content"></div>
+        <!-- Periodo di iscrizione (se presente) - PRIMA di sponsor/description -->
+        <div *ngIf="hasRegistrationPeriod(campaign)" class="registration-period" 
+             [ngClass]="{
+               'status-warning': isRegistrationNotStarted(campaign),
+               'status-success': isRegistrationPeriodActive(campaign),
+               'status-danger': isRegistrationEnded(campaign)
+             }">
+          <span class="registration-text">
+            {{ 'campaigns.detail.registrationLabel' | translate }}:
+            <span *ngIf="campaign.registrationFrom">{{ campaign.registrationFrom | localDate:'dd/MM/yyyy' }}</span>
+            <span *ngIf="campaign.registrationFrom && campaign.registrationTo"> - </span>
+            <span *ngIf="campaign.registrationTo">{{ campaign.registrationTo | localDate:'dd/MM/yyyy' }}</span>
+          </span>
         </div>
 
-        <!-- Periodo di iscrizione (se presente) -->
-        <div *ngIf="hasRegistrationPeriod(campaign)" class="registration-period">
-          <p class="registration-text">
-            {{ 'campaigns.detail.registrationPeriodText' | translate : {
-            from: (campaign.registrationFrom | localDate:'dd/MM/yyyy'),
-            to: (campaign.registrationTo | localDate:'dd/MM/yyyy')
-            } }}
-          </p>
+        <!-- Sponsor (Organizzatori e sponsor) -->
+        <div *ngIf="campaignHasSponsor(campaign?.details | languageMap)">
+          <div [innerHTML]="getCampaignSponsor(campaign?.details | languageMap)?.content"></div>
         </div>
 
         <!-- Description -->

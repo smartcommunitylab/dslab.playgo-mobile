@@ -24,6 +24,7 @@ import { JoinGroupModalPage } from './join-group/join-group.modal';
 import { AuthFlowService } from 'src/app/core/shared/services/auth-flow.service';
 import { JwtHelperService } from 'src/app/core/shared/services/jwt-helper.service';
 import { TranslateService } from '@ngx-translate/core';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-campaign-join',
@@ -607,14 +608,13 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
   getHeaderDateText(campaign: Campaign): string {
     if (!campaign) return '';
     
+    const locale = this.userService.getLanguage() || 'it';
     
-    
-    // Altrimenti mostra date campagna
     const from = campaign.dateFrom 
-      ? DateTime.fromISO(new Date(campaign.dateFrom).toISOString()).toFormat('dd MMMM y')
+      ? formatDate(campaign.dateFrom, 'dd MMMM y', locale)
       : '';
     const to = campaign.dateTo 
-      ? DateTime.fromISO(new Date(campaign.dateTo).toISOString()).toFormat('dd MMMM y')
+      ? formatDate(campaign.dateTo, 'dd MMMM y', locale)
       : '';
     
     if (from && to) {
