@@ -1,0 +1,31 @@
+.header-margin {
+  margin: 8px;
+  
+  .header-sticky {
+    border-radius: 8px 8px 0 0;
+    padding: 0;
+  }
+  
+  .header-radius {
+    border-radius: 8px 8px 0 0;
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+  
+  ion-item {
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+  
+  .label-small {
+    font-size: 0.9em;
+    font-weight: 600;
+  }
+}
+
+.empty-lead {
+  margin: auto;
+  padding: 8px;
+  font-size: 20px;
+  text-align: center;
+}

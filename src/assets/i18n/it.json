@@ -454,6 +454,7 @@
       "challenges": "Sfide",
       "journeys": "Lista viaggi campagna",
       "leaderboard": "Classifica",
+      "otherGroupsLeaderboard": "Classifica Altri Gruppi",
       "faq": "FAQ",
       "sponsor": "Organizzatori e collaboratori",
       "description": "Descrizione",
@@ -469,6 +470,8 @@
       "locations": "Lista sedi valide",
       "location": "Sede {{index}}:",
       "personalStatWeek": "Il tuo contributo questa settimana: {{value}}",
+      
+
       "companiesPage": {
         "website": "WWW",
         "email": "Email",
@@ -553,6 +556,7 @@
       }
     },
     "leaderboard": {
+        "selectGroup": "Gruppo",
       "empty": "Nessun viaggio registrato nel periodo",
       "filter": {
         "leaderboard_type": "Valore",

@@ -26,6 +26,14 @@
         <app-icon name="leaderboard" class="icon-size-normal"></app-icon>
       </ion-item>
     </ion-card>
+    <ion-card 
+  *ngIf="isGroup() && campaignHas('leaderboard')" 
+  [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/other-groups-leaderboard']">
+  <ion-item [color]="campaignContainer?.campaign?.type">
+    <ion-label>{{'campaigns.detail.otherGroupsLeaderboard'|translate}}</ion-label>
+    <ion-icon name="people-outline" class="icon-size-normal"></ion-icon>
+  </ion-item>
+</ion-card>
     <ion-card *ngIf="campaignHas('stats')"
       [routerLink]="['/pages/tabs/home/details/'+campaignContainer.campaign.campaignId+'/stats']">
       <ion-item [color]="campaignContainer?.campaign?.type">

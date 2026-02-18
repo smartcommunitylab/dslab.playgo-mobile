@@ -23,6 +23,10 @@ const routes: RoutesWithPageSettings = [
       ),
   },
   {
+    path: 'other-groups-leaderboard',
+    loadChildren: () => import('./other-groups-leaderboard/other-groups-leaderboard.module').then(m => m.OtherGroupsLeaderboardPageModule)
+  },
+  {
     path: 'school-leaderboard',
     loadChildren: () =>
       import('./school-leaderboard/school-leaderboard.module').then(

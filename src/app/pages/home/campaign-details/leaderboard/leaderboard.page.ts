@@ -299,6 +299,16 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
       this.periodsCompany = this.getPeriods(this.referenceDate).filter(period => campaign?.campaign?.campaignPlacement?.configuration[period.configurationKey] === true)
       this.periodChangedSubject.next({ detail: { value: this.periodsCompany.find(period => campaign?.campaign?.campaignPlacement?.configuration?.periodDefault === period.configurationKey) } } as any)
     }
+    //tmp
+    if (campaign?.campaign?.type === 'group') {
+      // Per le campagne "group", imposta il periodo "globale" come default
+      const globalPeriod = this.periods.find(period => period.configurationKey === "periodGeneral");
+      this.periodChangedSubject.next({ 
+        detail: { 
+          value: globalPeriod || find(this.periods, { default: true }) 
+        } 
+      } as any);
+    }
 
   }
 

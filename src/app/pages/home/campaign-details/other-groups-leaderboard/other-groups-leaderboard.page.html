@@ -1,0 +1,80 @@
+<ion-header appHeader></ion-header>
+<ion-content appContent class="page">
+  <ng-container *ngIf="(campaign$ | async) !== null && campaignContainer !== null">
+    <div class="header-margin">
+      <div class="header-sticky" 
+           [style.color]="'var(--ion-color-'+campaignContainer.campaign.type+'-stat-contrast)'"
+           [style.backgroundColor]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
+        
+        <!-- Prima riga: Label + Selector Gruppo -->
+        <ion-row>
+          <ion-col size="6">
+            <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
+              <ion-label class="label-small">
+                {{'campaigns.leaderboard.selectGroup' | translate}}
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item [color]="campaignContainer?.campaign?.type" class="header-radius">
+              <ion-select 
+                #groupSelect
+                interface="popover" 
+                [interfaceOptions]="{ cssClass: 'app-alert' }"
+                (ionChange)="selectedGroupChangedSubject.next($any($event))" 
+                [value]="selectedGroup$ | async">
+                <ion-select-option 
+                  *ngFor="let group of availableGroups$ | async" 
+                  [value]="group.value">
+                  {{ getGroupLabel(group) }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <!-- Seconda riga: Selector Periodo -->
+        <ion-row>
+          <ion-col>
+            <ion-item [color]="campaignContainer?.campaign?.type">
+              <ion-select 
+                #periodSelect
+                interface="popover" 
+                [interfaceOptions]="{ cssClass: 'app-alert' }"
+                (ionChange)="periodChangedSubject.next($any($event))" 
+                [value]="selectedPeriod$ | async">
+                <ion-select-option *ngFor="let period of periods" [value]="period">
+                  {{ period.labelKey | translate }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <!-- Classifica -->
+      <ng-container
+        *ngIf="(leaderboardScrollResponse$ | async)?.totalElements > 0; else emptyLead">
+        <app-infinite-scroll 
+          [resetItems]="resetItems$ | async" 
+          [response]="leaderboardScrollResponse$ | async"
+          (request)="scrollRequestSubject.next($event)">
+          <ng-template appInfiniteScrollContent let-placing="item">
+            <app-other-placing-detail 
+              [placing]="placing" 
+              unitLabelKey="campaigns.leaderboard.leaderboard_type_unit.GL"
+              [first]="false"
+              [campaign]="campaignContainer">
+            </app-other-placing-detail>
+          </ng-template>
+        </app-infinite-scroll>
+      </ng-container>
+
+      <ng-template #emptyLead>
+        <ion-col>
+          <div class="empty-lead">{{ "campaigns.leaderboard.empty" | translate }}</div>
+        </ion-col>
+      </ng-template>
+    </div>
+  </ng-container>
+</ion-content>

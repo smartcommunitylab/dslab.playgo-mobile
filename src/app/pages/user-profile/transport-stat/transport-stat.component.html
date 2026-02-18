@@ -10,7 +10,7 @@
         >
           <ion-col size="6" *ngFor="let stat of personalStat$ | async">
             <app-icon
-              [name]="'directions_' + stat.mean"
+              [name]="stat.mean"
               class="icon-size-normal"
             ></app-icon>
             <span>

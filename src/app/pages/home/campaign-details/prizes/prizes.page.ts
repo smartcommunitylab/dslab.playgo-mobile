@@ -19,6 +19,7 @@ import { Browser } from '@capacitor/browser';
 import { DetailPrizeModalPage } from './detail-modal/detail.modal';
 import { TranslateService } from '@ngx-translate/core';
 import { IonContent } from '@ionic/angular';
+import { UserService } from 'src/app/core/shared/services/user.service';
 
 @Component({
   selector: 'app-stats',
@@ -48,7 +49,9 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     private pageSettingsService: PageSettingsService,
     private campaignService: CampaignService,
     private modalController: ModalController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private userService: UserService,
+    
   ) {
     this.subId = this.route.params.subscribe((params) => {
       this.id = params.id;
@@ -250,9 +253,29 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     const interval = Interval.fromDateTimes(DateTime.fromMillis(dateFrom), DateTime.fromMillis(dateTo));
     return interval.contains(this.dateTimeToCheck);
   }
+
   private changePageSettings() {
+    const groupId = this.campaignContainer?.subscription?.campaignData?.groupId;
+    let subtitle: string | undefined;
+
+    if (groupId && this.campaignContainer?.campaign?.type === 'group') {
+      const groupList = this.campaignContainer?.campaign?.specificData?.groupList;
+      
+      if (groupList && Array.isArray(groupList)) {
+        const group = groupList.find(g => g.value === groupId);
+        
+        if (group && group.label) {
+          const language = this.userService.getLanguage();
+          subtitle = group.label[language] || group.label.en || groupId;
+        } else {
+          subtitle = groupId;
+        }
+      }
+    }
+
     this.pageSettingsService.set({
       color: this.campaignContainer?.campaign?.type,
+      subtitle: subtitle,
     });
   }
   ngOnDestroy(): void {

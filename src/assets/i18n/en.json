@@ -454,6 +454,7 @@
       "challenges": "Challenges",
       "journeys": "Journeys",
       "leaderboard": "Leaderboard",
+      "otherGroupsLeaderboard": "Other Groups Leaderboard",
       "faq": "FAQ",
       "sponsor": "Organizers and collaborators",
       "description": "Description",
@@ -469,6 +470,7 @@
       "locations": "Valid locations:",
       "location": "location {{index}}:",
       "personalStatWeek": "Your contribution this week: {{value}}",
+
       "companiesPage": {
         "website": "Website",
         "email": "Email",
@@ -554,6 +556,7 @@
     },
     "leaderboard": {
       "empty": "No journeys tracked in this period",
+      "selectGroup": "Gruppo",
       "filter": {
         "leaderboard_type": "Value",
         "period": "Period"
