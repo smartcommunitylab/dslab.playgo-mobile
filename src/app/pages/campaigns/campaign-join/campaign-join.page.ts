@@ -63,16 +63,11 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => (this.id = params.id));
   }
 
-  ngOnInit() {
-
-
-
-    // combineLatest tra profile e campaign per chiamare manageSpecificDetail
+  async ngOnInit() {
     this.sub = combineLatest([
       this.userService.userProfile$,
-      this.campaignService
-        .getCampaignDetailsById(this.id),
-    ]).subscribe(([profile, campaign]) => {
+      this.campaignService.getCampaignDetailsById(this.id),
+    ]).subscribe(async ([profile, campaign]) => {
       this.profile = profile;
       if (campaign) {
         this.campaign = campaign;
@@ -80,95 +75,92 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
         this.bannerPath = this.safeImageUrl(this.campaign?.banner ?? null);
         this.changePageSettings();
         this.manageSpecificDetail(this.campaign, this.profile?.nickname);
-        this.checkPendingAuthCallback();
-
+        
+        // 🔥 Controlla se c'è pending auth
+        await this.checkPendingAuth();
       }
-    }
-    );
-
+    });
   }
   /**
- * Controlla se c'è un auth callback in attesa di essere completato
+ * Controlla se c'è un auth callback da completare
  */
-  private async checkPendingAuthCallback() {
-    const pendingCampaignId = sessionStorage.getItem('pending_campaign_id');
-    const tempToken = sessionStorage.getItem('temp_auth_token');
-
-    if (pendingCampaignId === this.campaign.campaignId && tempToken) {
-      console.log('=== Completing pending auth callback ===');
-
-      // Rimuovi subito per evitare loop
+private async checkPendingAuth() {
+  const pendingCampaignId = sessionStorage.getItem('pending_campaign_id');
+  
+  if (pendingCampaignId === this.campaign.campaignId) {
+    console.log('✅ Found pending auth for this campaign');
+    
+    try {
+      // Aspetta un po' per dare tempo al token
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      const token = await this.authFlowService.getTemporaryToken();
+      
+      if (token) {
+        console.log('✅ Token found, processing...');
+        
+        // Rimuovi pending SUBITO per evitare loop
+        sessionStorage.removeItem('pending_campaign_id');
+        
+        await this.handleTokenValidationAndJoin(this.campaign, token);
+      } else {
+        console.warn('⚠️ No token found');
+        sessionStorage.removeItem('pending_campaign_id');
+      }
+    } catch (error) {
+      console.error('❌ Error in checkPendingAuth:', error);
       sessionStorage.removeItem('pending_campaign_id');
-      sessionStorage.removeItem('temp_auth_token');
+    }
+  }
+}
 
-      // Nascondi eventuali loading
+async registerToGroup(campaign: Campaign) {
+  const specificData = campaign?.specificData;
+
+  if (specificData?.clientId) {
+    try {
+      // 1. Salva pending campaign ID
+      sessionStorage.setItem('pending_campaign_id', campaign.campaignId);
+      console.log('💾 Saved pending_campaign_id:', campaign.campaignId);
+
+      // 2. Mostra loading
+      await this.alertService.showLoading(
+        this.translate.instant('campaigns.joinMessage.loading.authenticating')
+      );
+
+      // 3. Avvia auth (farà redirect)
+      console.log('🚀 Starting auth flow...');
+      const token = await this.authFlowService.startAuthForCampaign({
+        clientId: specificData.clientId,
+        scopes: specificData.oauth_scope || 'openid email',
+        authUrl: specificData.authUrl || this.AAC_BASE_URL
+      });
+
       await this.alertService.dismissLoading();
 
-      // Processa il token
-      await this.handleTokenValidationAndJoin(this.campaign, tempToken);
-    }
-  }
-
-  async registerToGroup(campaign: Campaign) {
-    const specificData = campaign?.specificData;
-
-    if (specificData?.clientId) {
-      try {
-        // Salva l'ID della campagna per dopo il callback
-        sessionStorage.setItem('pending_campaign_id', campaign.campaignId);
-
-        await this.alertService.showLoading(this.translate.instant('campaigns.joinMessage.loading.authenticating')
-        );
-
-        console.log('Starting temp auth flow');
-
-        // Avvia auth temporaneo - questo farà redirect/aprirà browser
-        const tempToken = await this.authFlowService.startAuthForCampaign({
-          clientId: specificData.clientId,
-          scopes: specificData.oauth_scope || 'openid email',
-          authUrl: specificData.authUrl || this.AAC_BASE_URL
-        });
-
-        console.log('Token received:', tempToken ? 'YES' : 'NO');
-
-        await this.alertService.dismissLoading();
-
-        if (!tempToken) {
-          sessionStorage.removeItem('pending_campaign_id');
-          throw new Error('No token received');
-        }
-
-        // Salva il token e ricarica la pagina (su web)
-        // Su mobile il token viene gestito direttamente
-        const isNative = this.platform.is('capacitor') || this.platform.is('hybrid');
-
-        if (!isNative) {
-          // Su web: salva token e attendi che la pagina si ricarichi
-          sessionStorage.setItem('temp_auth_token', tempToken);
-          console.log('Token saved, page will reload and process it');
-          // La pagina si ricaricherà dopo il redirect OAuth
-          // e checkPendingAuthCallback() processerà il token
-        } else {
-          // Su mobile: processa immediatamente (no page reload)
-          await this.handleTokenValidationAndJoin(campaign, tempToken);
-        }
-
-      } catch (error) {
-        await this.alertService.dismissLoading();
-        console.error('Auth flow failed:', error);
-
+      // 4. Token ricevuto (SOLO MOBILE - web farà redirect)
+      const isNative = this.platform.is('capacitor') || this.platform.is('hybrid');
+      if (isNative && token) {
+        console.log('📱 Mobile: token received, processing...');
         sessionStorage.removeItem('pending_campaign_id');
-        sessionStorage.removeItem('temp_auth_token');
-
-        await this.alertService.showToast({
-          messageString: this.translate.instant('campaigns.joinMessage.error.joinFailed')
-        });
+        await this.handleTokenValidationAndJoin(campaign, token);
       }
-    } else {
-      // Fallback: apri modal senza token
-      await this.openJoinModalWithoutToken(campaign);
+
+    } catch (error) {
+      await this.alertService.dismissLoading();
+      console.error('❌ Auth flow failed:', error);
+
+      sessionStorage.removeItem('pending_campaign_id');
+      await this.authFlowService.clearTemporaryAuth();
+
+      await this.alertService.showToast({
+        messageString: this.translate.instant('campaigns.joinMessage.error.joinFailed')
+      });
     }
+  } else {
+    await this.openJoinModalWithoutToken(campaign);
   }
+}
 
   /**
    * Valida il JWT e gestisce la join in base ai claim
@@ -276,8 +268,17 @@ export class CampaignJoinPage implements OnInit, OnDestroy {
     // } else {
     //   // Più gruppi: mostra modal per selezione
     //   console.log('Multiple groups, opening modal');
+    try {
       await this.openJoinModalWithGroups(campaign, token, validGroups, specificData.groupList);
-    // }
+      
+      // Pulisci DOPO che il modal si chiude
+      await this.authFlowService.clearTemporaryAuth();
+      
+    } catch (error) {
+      console.error('Error:', error);
+      await this.authFlowService.clearTemporaryAuth();
+      throw error;
+    }    // }
   }
 
   /**

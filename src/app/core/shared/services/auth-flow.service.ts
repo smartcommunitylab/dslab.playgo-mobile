@@ -10,13 +10,12 @@ import { firstValueFrom } from 'rxjs';
 import { filter, timeout } from 'rxjs/operators';
 
 export interface CampaignAuthConfig {
-    authUrl: string;
+  authUrl: string;
   clientId: string;
   scopes: string;
   clientSecret?: string;
 }
 
-// Chiave per salvare config in sessionStorage
 const TEMP_AUTH_CONFIG_KEY = 'temp_auth_config';
 
 @Injectable({ providedIn: 'root' })
@@ -25,18 +24,13 @@ export class AuthFlowService {
   private tempStorage: TemporaryStorageBackend | null = null;
   private tempAuthState: string | null = null;
 
-//   private readonly AAC_BASE_URL = 'https://aac.platform.smartcommunitylab.it';
-
   constructor(
     private platform: Platform,
     private ngZone: NgZone,
     private requestor: Requestor,
     private browser: Browser,
     private spinnerService: SpinnerService
-  ) {
-    // Ricrea il servizio se c'è una config salvata (dopo redirect)
-    this.restoreTempAuthServiceIfNeeded();
-  }
+  ) {}
 
   private getRedirectUri(): string {
     const isNative = this.platform.is('capacitor') || this.platform.is('hybrid');
@@ -45,112 +39,115 @@ export class AuthFlowService {
       const suffix = environment.name !== 'prod' ? `.${environment.name}` : '';
       return `it.dslab.playgo${suffix}://auth/callback`;
     } else {
-      const origin = window.location.origin;
-      return `${origin}/auth/callback`;
+      return `${window.location.origin}/auth/callback`;
     }
   }
 
   /**
- * Ripristina tempAuthService se c'è una sessione OAuth in corso
- */
-private restoreTempAuthServiceIfNeeded(): void {
+   * Pulisce COMPLETAMENTE lo stato temporaneo
+   */
+  async clearTemporaryAuth(): Promise<void> {
+    console.log('🧹 Clearing temporary auth...');
+    
+    if (this.tempStorage) {
+      await this.tempStorage.clear();
+      this.tempStorage = null;
+    }
+    
+    this.tempAuthService = null;
+    this.tempAuthState = null;
+    
+    // Pulisci sessionStorage (TRANNE pending_campaign_id!)
+    sessionStorage.removeItem('temp_auth_state');
+    sessionStorage.removeItem(TEMP_AUTH_CONFIG_KEY);
+    
+    // Pulisci tutti i temp_storage_*
+    Object.keys(sessionStorage).forEach(key => {
+      if (key.startsWith('temp_storage_')) {
+        sessionStorage.removeItem(key);
+      }
+    });
+    
+    console.log('✅ Temporary auth cleared');
+  }
+
+  /**
+   * Ripristina tempAuthService da sessionStorage (dopo redirect)
+   */
+  private async restoreTempAuthService(): Promise<void> {
     const savedConfig = sessionStorage.getItem(TEMP_AUTH_CONFIG_KEY);
     const savedState = sessionStorage.getItem('temp_auth_state');
     
-    console.log('restoreTempAuthServiceIfNeeded START');
-    console.log('savedConfig:', !!savedConfig);
-    console.log('savedState:', savedState);
+    console.log('🔄 Restoring temp auth service...');
+    console.log('Has config:', !!savedConfig);
+    console.log('Has state:', !!savedState);
     
-    if (savedConfig && savedState) {
-      console.log('Restoring temp auth service from session');
-      
-      try {
-        const config: CampaignAuthConfig & { redirectUrl: string } = JSON.parse(savedConfig);
-        console.log('Parsed config:', {
-          clientId: config.clientId,
-          scopes: config.scopes,
-          redirectUrl: config.redirectUrl,
-          hasClientSecret: !!config.clientSecret,
-        });
-        
-        // Ricrea storage e service
-        this.tempStorage = new TemporaryStorageBackend();
-        console.log('TemporaryStorageBackend created');
-        
-        this.tempAuthService = new AuthService(
-          this.browser,
-          this.tempStorage,
-          this.requestor
-        );
-        console.log('AuthService created');
-  
-        this.tempAuthState = savedState;
-  
-        // Riconfigura
-        const tempConfig: IAuthConfig = {
-          client_id: config.clientId,
-          server_host: config.authUrl,
-          redirect_url: config.redirectUrl,
-          end_session_redirect_url: config.redirectUrl,
-          scopes: config.scopes,
-          pkce: true,
-          client_secret: config.clientSecret,
-        };
-  
-        this.tempAuthService.authConfig = tempConfig;
-        console.log('AuthConfig set:', tempConfig);
-        
-        // IMPORTANTE: Inizializza il servizio
-        this.tempAuthService.init().then(() => {
-          console.log('tempAuthService initialized successfully');
-        }).catch(err => {
-          console.error('tempAuthService init error:', err);
-        });
-        
-      } catch (error) {
-        console.error('Error restoring tempAuthService:', error);
-      }
-    } else {
-      console.log('No saved config or state found, skipping restore');
+    if (!savedConfig || !savedState) {
+      console.warn('❌ Cannot restore: missing config or state');
+      return;
     }
     
-    console.log('restoreTempAuthServiceIfNeeded END');
+    try {
+      const config: CampaignAuthConfig & { redirectUrl: string } = JSON.parse(savedConfig);
+      
+      // Ricrea storage e service
+      this.tempStorage = new TemporaryStorageBackend();
+      this.tempAuthService = new AuthService(
+        this.browser,
+        this.tempStorage,
+        this.requestor
+      );
+      
+      this.tempAuthState = savedState;
+      
+      // Configura
+      this.tempAuthService.authConfig = {
+        client_id: config.clientId,
+        server_host: config.authUrl,
+        redirect_url: config.redirectUrl,
+        end_session_redirect_url: config.redirectUrl,
+        scopes: config.scopes,
+        pkce: true,
+        client_secret: config.clientSecret,
+      };
+      
+      await this.tempAuthService.init();
+      console.log('✅ Temp auth service restored');
+      
+    } catch (error) {
+      console.error('❌ Error restoring temp auth service:', error);
+      await this.clearTemporaryAuth();
+    }
   }
 
   /**
-   * Avvia autenticazione temporanea per una campagna
+   * Avvia autenticazione temporanea
    */
   async startAuthForCampaign(config: CampaignAuthConfig): Promise<string> {
+    console.log('🚀 Starting auth for campaign...');
+    
+    // Pulisci stato precedente (TRANNE pending_campaign_id)
+    await this.clearTemporaryAuth();
+    
     const redirectUrl = this.getRedirectUri();
     this.tempAuthState = `temp_${Math.random().toString(36).substr(2, 9)}`;
     
-    console.log('=== startAuthForCampaign START ===');
-    console.log('redirectUrl:', redirectUrl);
-    console.log('tempAuthState:', this.tempAuthState);
-    
-    // Salva config e state in sessionStorage (sopravvive al redirect)
+    // Salva config e state
     sessionStorage.setItem('temp_auth_state', this.tempAuthState);
     sessionStorage.setItem(TEMP_AUTH_CONFIG_KEY, JSON.stringify({
       ...config,
       redirectUrl
     }));
-
+    
+    // Crea nuovo storage e service
     this.tempStorage = new TemporaryStorageBackend();
     this.tempAuthService = new AuthService(
       this.browser,
       this.tempStorage,
       this.requestor
     );
-
-    this.browser.browserCloseListener(() => {
-      try {
-        this.spinnerService.hide('login');
-      } catch (e) {
-        console.warn('Browser close error', e);
-      }
-    });
-
-    const tempConfig: IAuthConfig = {
+    
+    this.tempAuthService.authConfig = {
       client_id: config.clientId,
       server_host: config.authUrl,
       redirect_url: redirectUrl,
@@ -159,152 +156,101 @@ private restoreTempAuthServiceIfNeeded(): void {
       pkce: true,
       client_secret: config.clientSecret,
     };
-
-    this.tempAuthService.authConfig = tempConfig;
-
-    // Setup listener per callback su app native
+    
+    // Setup listener mobile
     const isNative = this.platform.is('capacitor') || this.platform.is('hybrid');
     if (isNative) {
-        console.log('Setting up native App listener');
-    // Rimuovi listener precedenti se esistono
-    await App.removeAllListeners();
-
+      console.log('📱 Setting up mobile listener...');
+      await App.removeAllListeners();
+      
       App.addListener('appUrlOpen', (data: any) => {
-        console.log('=== App URL Open Event ===');
-        console.log('URL received:', data?.url);
-       
-        if (data?.url && data.url.indexOf(redirectUrl) === 0) {
+        if (data?.url && data.url.includes('auth/callback')) {
           const url = new URL(data.url);
           const state = url.searchParams.get('state');
-          console.log('State from URL:', state);
-          console.log('Expected state:', this.tempAuthState);
-       
+          
           if (state === this.tempAuthState) {
-            console.log('State matches! Processing callback...');
-
+            console.log('✅ Mobile callback received');
             this.ngZone.run(() => {
               this.tempAuthService?.authorizationCallback(data.url);
             });
-          }else {
-            console.warn('State mismatch!');
-          }} else {
-            console.log('URL does not match redirect URL');
-          
+          }
         }
       });
     }
-
+    
     await this.tempAuthService.init();
-
-    // Aspetta il token PRIMA di chiamare signIn
+    
+    // Aspetta token
     const tokenPromise = firstValueFrom(
-        this.tempAuthService.token$.pipe(
-            filter(token => {
-              console.log('Token received:', !!token?.accessToken);
-              return !!token?.accessToken;
-            }),
-            timeout(120_000) // 2 minuti
-          )
+      this.tempAuthService.token$.pipe(
+        filter(token => !!token?.accessToken),
+        timeout(120_000)
+      )
     );
-
-    // Avvia signin
-    console.log('Starting signIn...');
-    await this.tempAuthService.signIn({prompt:'login'}, this.tempAuthState);
-
-    // Aspetta che il token arrivi
+    
+    console.log('🔐 Starting sign in...');
+    await this.tempAuthService.signIn({ prompt: 'login' }, this.tempAuthState);
+    
     const token = await tokenPromise;
-    console.log('Token received successfully');
-
+    console.log('✅ Token received');
+    
     if (!token?.accessToken) {
-      throw new Error('No access token received');
+      throw new Error('No access token');
     }
-
+    
     return token.accessToken;
   }
 
- /**
- * Gestisce callback OAuth temporaneo
- */
-handleTemporaryAuthCallback(url: string): void {
-    console.log('=== handleTemporaryAuthCallback START ===');
-    console.log('URL:', url);
-    console.log('tempAuthService exists:', !!this.tempAuthService);
+  /**
+   * Gestisce callback (solo WEB, chiamato da auth-callback.page)
+   */
+  async handleTemporaryAuthCallback(url: string): Promise<void> {
+    console.log('🌐 Handling web callback...');
+    
+    // Ripristina service da sessionStorage
+    if (!this.tempAuthService) {
+      await this.restoreTempAuthService();
+    }
     
     if (!this.tempAuthService) {
-      console.log('Attempting to restore tempAuthService...');
-      this.restoreTempAuthServiceIfNeeded();
-    }
-  
-    if (this.tempAuthService) {
-      console.log('tempAuthService restored/available');
-      console.log('tempAuthService.authConfig:', this.tempAuthService.authConfig);
-      
-      // Sottoscrivi PRIMA di chiamare authorizationCallback
-      const sub = this.tempAuthService.token$.subscribe({
-        next: (token) => {
-          console.log('Token update received:', {
-            hasToken: !!token,
-            hasAccessToken: !!token?.accessToken,
-            tokenType: token?.tokenType
-          });
-          
-          if (token?.accessToken) {
-            console.log('Access token (first 30 chars):', token.accessToken.substring(0, 30) + '...');
-          }
-        },
-        error: (err) => {
-          console.error('Token$ error:', err);
-        },
-        complete: () => {
-          console.log('Token$ completed');
-        }
-      });
-      
-      // Chiama il callback
-      console.log('Calling authorizationCallback with URL:', url);
-      
-      try {
-        this.tempAuthService.authorizationCallback(url);
-        console.log('authorizationCallback called successfully');
-      } catch (error) {
-        console.error('authorizationCallback threw error:', error);
-      }
-    } else {
-      console.error('No tempAuthService available even after restore attempt');
+      console.error('❌ Cannot restore tempAuthService');
+      return;
     }
     
-    console.log('=== handleTemporaryAuthCallback END ===');
+    // Processa callback
+    this.tempAuthService.authorizationCallback(url);
+    console.log('✅ Callback processed');
   }
 
   /**
-   * Pulisce il token temporaneo dopo l'uso
+   * Recupera token corrente
    */
-  async clearTemporaryAuth(): Promise<void> {
-    if (this.tempStorage) {
-      await this.tempStorage.clear();
-      this.tempStorage = null;
-    }
-    this.tempAuthService = null;
-    this.tempAuthState = null;
-    
-    // Pulisci sessionStorage
-    sessionStorage.removeItem('temp_auth_state');
-    sessionStorage.removeItem(TEMP_AUTH_CONFIG_KEY);
-  }
   async getTemporaryToken(): Promise<string | undefined> {
-    if (this.tempAuthService) {
-        const token = await firstValueFrom(
-            this.tempAuthService.token$.pipe(
-              filter(token => {
-                console.log('Token received in observable:', !!token?.accessToken);
-                return !!token?.accessToken;
-              }),
-              timeout(30_000) // 30 secondi
-            )
-      ).catch(() => undefined);
-      
-      return token?.accessToken;
+    console.log('🔍 Getting temporary token...');
+    
+    // Ripristina service se necessario
+    if (!this.tempAuthService) {
+      await this.restoreTempAuthService();
     }
-    return undefined;
+    
+    if (!this.tempAuthService) {
+      console.warn('⚠️ No tempAuthService available');
+      return undefined;
+    }
+    
+    try {
+      const token = await firstValueFrom(
+        this.tempAuthService.token$.pipe(
+          filter(token => !!token?.accessToken),
+          timeout(5000)
+        )
+      );
+      
+      console.log('✅ Token retrieved');
+      return token?.accessToken;
+    } catch (error) {
+      console.warn('⚠️ No token available:', error);
+      return undefined;
+    }
   }
 }

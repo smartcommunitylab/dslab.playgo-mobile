@@ -189,56 +189,45 @@ export class AppComponent implements AfterContentInit, OnInit, OnDestroy {
   }
 
   private async handleAuthCallback(url: string) {
-    console.log('handleAuthCallback START');
+    console.log('📱 Mobile: handleAuthCallback');
+    console.log('URL:', url);
     
     try {
       const urlObj = new URL(url);
       const state = urlObj.searchParams.get('state');
-      const code = urlObj.searchParams.get('code');
-      
-      console.log('State:', state);
-      console.log('Code:', code ? 'YES' : 'NO');
-      
       const isTempCallback = state?.startsWith('temp_');
-      console.log('isTempCallback:', isTempCallback);
-
+  
+      console.log('State:', state);
+      console.log('Is temp:', isTempCallback);
+  
       if (isTempCallback) {
-        // Callback temporaneo per campagna
-        console.log('Processing temporary auth callback');
+        // Callback temporaneo campagna
+        console.log('Processing temp callback...');
         await this.authFlowService.handleTemporaryAuthCallback(url);
-
-        // Recupera l'ID della campagna
+  
         const campaignId = sessionStorage.getItem('pending_campaign_id');
         console.log('pending_campaign_id:', campaignId);
-        
-        if (campaignId) {
-          // Segnala successo
-          sessionStorage.setItem('temp_auth_success', 'true');
-          
-          // Naviga alla pagina della campagna
-          console.log('Navigating to campaign:', campaignId);
-          setTimeout(() => {
+  
+        // Naviga alla campagna
+        setTimeout(() => {
+          if (campaignId) {
             this.router.navigate(['/pages/tabs/campaigns/join', campaignId]);
-          }, 1000);
-        } else {
-          console.warn('No campaign ID, navigating to campaigns list');
-          this.router.navigate(['/pages/tabs/campaigns']);
-        }
+          } else {
+            this.router.navigate(['/pages/tabs/campaigns']);
+          }
+        }, 1000);
       } else {
         // Callback login principale
-        console.log('Processing main auth callback');
+        console.log('Processing main callback...');
         this.authService.authorizationCallback();
-        
-        // Naviga alla home
+  
         setTimeout(() => {
           this.router.navigate(['/pages/tabs/home']);
         }, 1000);
       }
     } catch (error) {
-      console.error('Error handling auth callback:', error);
+      console.error('Error handling callback:', error);
     }
-    
-    console.log('handleAuthCallback END');
   }
 
   loadCustomIcons() {
