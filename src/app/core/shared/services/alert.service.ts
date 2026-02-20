@@ -113,32 +113,37 @@ export class AlertService {
     const message = await this.translate(messageTranslateKey);
     const cancel = await this.translate('modal.cancel');
     const ok = await this.translate('modal.ok');
-    return new Promise(async (resolve, reject) => {
+  
+    return new Promise(async (resolve) => {
       const alert = await this.alertController.create({
         cssClass: cssClass ? cssClass : 'app-alert',
         header,
-        message,
+        message: '', 
         buttons: [
           {
             text: cancel,
             role: 'cancel',
             cssClass: 'secondary',
-            id: 'cancel-button',
-            handler: () => {
-              resolve(false);
-            },
+            handler: () => resolve(false),
           },
           {
             text: ok,
-            id: 'confirm-button',
-            handler: () => {
-              resolve(true);
-            },
+            handler: () => resolve(true),
           },
         ],
       });
-
+  
       await alert.present();
+  
+      const messageEl = alert.querySelector('.alert-message');
+      if (messageEl) {
+        messageEl.innerHTML = message;
+      }
+  
+      const anchors = alert.querySelectorAll('a');
+      anchors.forEach((anchor: HTMLAnchorElement) => {
+        anchor.addEventListener('click', this.handleAnchorClick);
+      });
     });
   }
   public async showLoading(message?: string) {
