@@ -37,6 +37,7 @@ import { CampaignInfo } from '../../api/generated/model/campaignInfo';
 import { RefresherService } from './refresher.service';
 import { TransportType, transportTypes } from '../tracking/trip.model';
 import { ifOfflineUseStored } from '../rxjs.utils';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -287,7 +288,8 @@ export class CampaignService {
     private localStorageService: LocalStorageService,
     private http: HttpClient,
     private errorService: ErrorService,
-    private refresherService: RefresherService
+    private refresherService: RefresherService,
+    private translate: TranslateService
   ) { }
   subscribeToCampaign(
     id: string,
@@ -414,17 +416,24 @@ export class CampaignService {
     return null;
   }
 
-  getCampaignScoreLabel(campaign: Campaign): TranslateKey {
-    if (!campaign) {
-      return null;
+  getCampaignScoreLabel(campaign: Campaign): string {
+    const campaignData = campaign as Campaign;
+    const pointName = campaign?.specificData?.pointName;
+    
+    if (pointName) {
+      const currentLang = this.translate.currentLang || 'it';
+      return pointName[currentLang] || pointName['it'] || 'campaigns.score_label.flower';
     }
-    if (campaign.type === 'city') {
+    
+    if (campaignData?.type === 'city') {
       return 'campaigns.score_label.flower';
     }
-    if (campaign.type === 'school') {
+    if (campaignData?.type === 'school') {
       return 'campaigns.score_label.shield';
     }
-    return null;
+    
+    return 'Punti'; // Fallback generico
+   
   }
   getFunctionalityByType(
     what: string,

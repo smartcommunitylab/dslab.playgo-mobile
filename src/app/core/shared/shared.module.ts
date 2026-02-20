@@ -48,6 +48,7 @@ import { ComparisonModalPage } from './campaigns/home-widget-types/home-campaign
 import { EnterTheViewportNotifierDirective } from './directives/enter-viewport.directive';
 import { ChallengeStateComponent } from './campaigns/app-widget-campaign/app-home-campaign-challenges/app-challenge-state/app-challenge-state.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { CampaignPointNamePipe } from './pipes/campaignPointName.pipe';
 import { HomeCampaignGroupComponent } from './campaigns/home-widget-types/home-campaign-group/home-campaign-group.component';
 import { HomeGroupProfileComponent } from './campaigns/home-widget-types/home-campaign-group/home-group-profile/home-group-profile.component';
 import { UpdateLoadingComponent } from './update/update-loading/update-loading.component';
@@ -71,6 +72,7 @@ import { StoreUpdateModalComponent } from './update/update-modal/store-update-mo
     LocalDatePipe,
     LocalNumberPipe,
     FilterPipe,
+    CampaignPointNamePipe,
     SafeHtmlPipe,
     LanguageMapPipe,
     InfiniteScrollComponent,
@@ -125,6 +127,7 @@ import { StoreUpdateModalComponent } from './update/update-modal/store-update-mo
     ContentDirective,
     LocalNumberPipe,
     FilterPipe,
+    CampaignPointNamePipe,
     SafeHtmlPipe,
     InfiniteScrollComponent,
     InfiniteScrollContentDirective,

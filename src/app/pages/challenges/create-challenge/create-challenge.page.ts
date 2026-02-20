@@ -260,7 +260,7 @@ export type MeanOrGameInfo = {
   isMean: boolean;
   name: PointConcept;
   icon: string;
-  title: TranslateKey;
+  title: string;
 };
 
 export interface Challengeable {

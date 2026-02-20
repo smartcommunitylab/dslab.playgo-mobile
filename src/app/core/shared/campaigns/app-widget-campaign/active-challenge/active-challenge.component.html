@@ -28,7 +28,8 @@
 
 
       <div (click)="goToChallenge($event)" [ngStyle]="{
-      backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')'
+      backgroundColor: ' var(--ion-color-' + campaign?.campaign?.type + ')',
+      color: ' var(--ion-color-light)'
     }" class="ion-text-end all-challenges">
         <span>{{ "challenges.checkallchallenges" | translate }}</span>
         <ion-icon name="arrow-forward-outline"></ion-icon>

@@ -46,7 +46,7 @@
           </ion-col>
           <ion-col *ngIf="(useMeanAndMetric$ |async) === false">
             <ion-item [color]="campaignContainer?.campaign?.type">
-              {{'campaigns.leaderboard.leaderboard_type.GL' |translate}}
+              {{campaignContainer | campaignPointName: 'campaigns.leaderboard.leaderboard_type.GL'}}
             </ion-item>
           </ion-col>
         </ion-row>

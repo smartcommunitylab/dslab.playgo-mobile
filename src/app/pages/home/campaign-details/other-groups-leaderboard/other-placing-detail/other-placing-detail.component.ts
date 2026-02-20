@@ -16,7 +16,7 @@ export class OtherPlacingDetailComponent implements OnInit {
   @Input()
   placing: CampaignPlacing;
   @Input()
-  unitLabelKey: TranslateKey;
+  unitLabelKey: string;
   @Input() first: boolean;
   @Input() campaign: PlayerCampaign;
 
