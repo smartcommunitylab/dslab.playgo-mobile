@@ -200,6 +200,10 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
               playerId,
               dateFrom: period.from,
               dateTo: period.to,
+              groupId: this.campaignContainer?.campaign?.type === 'group' 
+                ? this.campaignContainer?.subscription?.campaignData?.groupId
+                : undefined,
+                filterByGroupId: this.campaignContainer?.campaign?.type === 'group' || undefined,
             })
             .pipe(this.errorService.getErrorHandler());
         }

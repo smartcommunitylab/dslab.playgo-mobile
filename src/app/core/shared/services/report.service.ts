@@ -62,13 +62,17 @@ export class ReportService {
     campaignId?: string,
     playerId?: string,
     dateFrom?: string,
-    dateTo?: string
+    dateTo?: string,
+    groupId?: string,
+    filterByGroupId?: boolean
   ): Observable<CampaignPlacing> {
     return this.reportControllerService.getPlayerCampaingPlacingByGameUsingGET({
       campaignId,
       playerId,
       dateFrom,
       dateTo,
+      groupId,
+      filterByGroupId,
     });
   }
   getBarStat(

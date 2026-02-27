@@ -310,8 +310,10 @@ export class ReportControllerService {
     playerId: string;
     dateFrom?: string;
     dateTo?: string;
+    groupId?: string;
+    filterByGroupId?: boolean;
   }): Observable<CampaignPlacing> {
-    const { campaignId, playerId, dateFrom, dateTo } = args;
+    const { campaignId, playerId, dateFrom, dateTo, groupId,filterByGroupId } = args;
     return this.http.request<CampaignPlacing>(
       'get',
       environment.serverUrl.api +
@@ -322,6 +324,8 @@ export class ReportControllerService {
           playerId,
           dateFrom,
           dateTo,
+          groupId,
+          filterByGroupId
         }),
       }
     );

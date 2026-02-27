@@ -80,7 +80,9 @@ export class HomeCampaignGroupComponent implements OnInit, OnDestroy {
           this.campaignContainer.campaign.campaignId,
           profile.playerId,
           toServerDateOnly(DateTime.utc().startOf('week')),
-          toServerDateOnly(DateTime.utc())
+          toServerDateOnly(DateTime.utc()),
+          this.campaignContainer?.subscription?.campaignData?.groupId,
+          true
         )
         .subscribe(
           (stats) => {
@@ -99,7 +101,11 @@ export class HomeCampaignGroupComponent implements OnInit, OnDestroy {
       this.reportService
         .getGameStats(
           this.campaignContainer.campaign.campaignId,
-          profile.playerId
+          profile.playerId,
+            null,
+            null,
+            this.campaignContainer?.subscription?.campaignData?.groupId,
+            true
         )
         .subscribe(
           (stats) => {
