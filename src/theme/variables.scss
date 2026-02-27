@@ -203,23 +203,25 @@
 
   /** Group campaign **/
 
-  --ion-color-group: #ff6f61;
-  --ion-color-group-rgb: 255, 111, 97;
-  --ion-color-group-contrast: #ffffff;
-  --ion-color-group-contrast-rgb: 255, 255, 255;
-  --ion-color-group-contrast-reversed: #000000;
-  --ion-color-group-contrast-reversed-rgb: 0, 0, 0;
-  --ion-color-group-shade: #e06155;
-  --ion-color-group-tint: #ff7f73;
-  
-  --ion-color-group-light: #ffd1cc;
-  --ion-color-group-light-rgb: 255, 209, 204;
-  --ion-color-group-light-contrast: #000000;
-  --ion-color-group-light-contrast-rgb: 0, 0, 0;
-  --ion-color-group-light-contrast-reversed: #ffffff;
-  --ion-color-group-light-contrast-reversed-rgb: 255, 255, 255;
-  --ion-color-group-light-shade: #e0b8b4;
-  --ion-color-group-light-tint: #ffd9d5;
+/** Group campaign - Custom Red **/
+
+--ion-color-group: #cd132c;
+--ion-color-group-rgb: 205, 19, 44;
+--ion-color-group-contrast: #ffffff;
+--ion-color-group-contrast-rgb: 255, 255, 255;
+--ion-color-group-contrast-reversed: #000000;
+--ion-color-group-contrast-reversed-rgb: 0, 0, 0;
+--ion-color-group-shade: #b51126;
+--ion-color-group-tint: #d12a42;
+
+--ion-color-group-light: #f6b8c0;
+--ion-color-group-light-rgb: 246, 184, 192;
+--ion-color-group-light-contrast: #000000;
+--ion-color-group-light-contrast-rgb: 0, 0, 0;
+--ion-color-group-light-contrast-reversed: #ffffff;
+--ion-color-group-light-contrast-reversed-rgb: 255, 255, 255;
+--ion-color-group-light-shade: #d8a2a9;
+--ion-color-group-light-tint: #f8c3ca;
 
 --ion-color-group-stat: #409a99;
 --ion-color-group-stat-rgb: 64, 154, 153;
