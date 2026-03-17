@@ -29,7 +29,7 @@
               <span>
                 <ion-icon name="gift"></ion-icon>
                 <ng-container *ngIf="reward.label|languageMap; else ordinaryNumber">
-                  {{reward.label|languageMap}}
+                  <b>{{reward.label|languageMap}}</b>
                 </ng-container>
                 <ng-template #ordinaryNumber>
                   <app-ordinal-number [value]="i+1"></app-ordinal-number>
@@ -45,7 +45,7 @@
                 <ion-grid *ngIf="reward.desc">
                   <ion-row class="desc">
                     <ion-col class="ion-text-start">
-                      <b>{{reward.desc| languageMap}}</b>
+                      <div [innerHTML]="reward.desc | languageMap"></div>
                     </ion-col>
                   </ion-row>
                   <ion-row class="detail"
@@ -84,11 +84,12 @@
     </ng-template>
     <ng-container *ngIf="!notExpanded">
       <ng-container *ngFor="let conf of this.campaignContainer?.campaign?.weekConfs;let i = index">
-        <ion-card *ngIf="conf?.rewards?.length>0 && conf?.dateFrom && conf?.dateTo && isBeforeNow(conf) && conf.weekNumber !== 0 && isMyGroupPrize(conf)">
+        <ion-card
+          *ngIf="conf?.rewards?.length>0 && conf?.dateFrom && conf?.dateTo && isBeforeNow(conf) && conf.weekNumber !== 0 && isMyGroupPrize(conf)">
           <ion-card-header [style.--background]="'var(--ion-color-'+campaignContainer.campaign.type+')'">
             <ion-card-title>
-              <span class="date-prize">{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}
-                {{"campaigns.detail.to"|translate}} {{conf.dateTo|localDate}}</span>
+              <span class="date-prize"> <b>{{"campaigns.detail.from"|translate}}{{conf.dateFrom|localDate}}</b>
+                <b>{{"campaigns.detail.to"|translate}} {{conf.dateTo|localDate}}</b></span>
               <span *ngIf="isThisPeriod(conf?.dateFrom,conf?.dateTo)"
                 class="on-going">{{'campaigns.detail.current'|translate}}</span>
               <ion-icon class="information" name="information-circle" (click)="openWeekDescPast(conf)"></ion-icon>
@@ -101,13 +102,16 @@
                   <div class="ion-no-padding container">
                     <ion-grid>
                       <ion-row>
-                        <ion-col size="2">
-                          <ion-icon name="gift" [ngClass]="'packet-'+getPostion(reward?.position-1)"></ion-icon>
-                          <app-ordinal-number [value]="reward?.position"
-                            [ngClass]="'packet-'+getPostion(reward?.position-1)"></app-ordinal-number>
+                        <ion-col size="2" class="gift-col">
+                          <div class="gift-wrapper">
+
+                            <ion-icon name="gift" [ngClass]="'packet-'+getPostion(reward?.position-1)"></ion-icon>
+                            <app-ordinal-number [value]="reward?.position"
+                              [ngClass]="'packet-'+getPostion(reward?.position-1)"></app-ordinal-number>
+                          </div>
                         </ion-col>
                         <ion-col>
-                          <span class="prize">{{reward.desc| languageMap}}</span>
+                          <div class="prize" [innerHTML]="reward.desc | languageMap"></div>
                         </ion-col>
                       </ion-row>
                     </ion-grid>
@@ -157,7 +161,9 @@
             <div class="sponsor">
               <ion-grid *ngIf="reward.desc">
                 <ion-row class="desc">
-                  <ion-col class="ion-text-start">{{reward.desc| languageMap}}
+                  <ion-col class="ion-text-start">
+                    <div [innerHTML]="reward.desc | languageMap"></div>
+
                   </ion-col>
                 </ion-row>
                 <ion-row class="detail"

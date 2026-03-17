@@ -1,5 +1,14 @@
 [
   {
+    "version": "1.6.25",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.6.25.zip",
+    "checksum": "63cd5c618f2d897d28b3b0ab5d036ec026b57003b0adb40930b3ddf7be567c89",
+    "platform": "android",
+    "app_version": "1.6.0",
+    "flavor": "stage",
+    "timestamp": 1773762358067
+  },
+  {
     "version": "1.6.24",
     "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/production/ios/bundle_production_ios_1.6.24.zip",
     "checksum": "b417835e22c52a1501b510f45ece95610636f91d14424667215ab8bce63b8ad0",

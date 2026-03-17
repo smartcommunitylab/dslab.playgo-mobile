@@ -27,7 +27,7 @@ ion-card-content {
         justify-content: center;
         flex-direction: column;
         ion-icon {
-          margin: auto;
+          // margin: auto;
           font-size: 30px;
         }
       }
@@ -37,7 +37,27 @@ ion-card-content {
     }
   }
 }
-
+.gift-col {
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+  
+  .gift-wrapper {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    
+    ion-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    
+    app-ordinal-number {
+      flex-shrink: 0;
+      font-size: 12px;
+    }
+  }
+}
 .gold {
   background-color: gold;
 }
@@ -122,6 +142,26 @@ ion-card-header {
 }
 .date-prize {
   font-weight: 300;
+}
+ion-accordion.no-expand {
+  &::part(indicator) {
+    display: none;
+  }
+  
+  ion-item[slot="header"] {
+    --detail-icon-opacity: 0;
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+.desc div,
+.prize {
+  font-weight: normal !important;
+  
+  b, strong {
+    font-weight: 600;
+  }
 }
 .sponsor {
   .desc {
