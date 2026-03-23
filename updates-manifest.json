@@ -1,5 +1,50 @@
 [
   {
+    "version": "1.6.27",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/production/ios/bundle_production_ios_1.6.27.zip",
+    "checksum": "cef5558d775aba20e9d55d82dcd88efc79006e17bac696f15ece5ade5b5b3d2c",
+    "platform": "ios",
+    "app_version": "1.3.7",
+    "flavor": "production",
+    "timestamp": 1773841308392
+  },
+  {
+    "version": "1.6.27",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/production/android/bundle_production_android_1.6.27.zip",
+    "checksum": "5a629931bb3b8cd4875dab068ba0a9d12e75e907a87b94470e5a1f6daf5c6372",
+    "platform": "android",
+    "app_version": "1.6.2",
+    "flavor": "production",
+    "timestamp": 1773841261964
+  },
+  {
+    "version": "1.6.27",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/ios/bundle_stage_ios_1.6.27.zip",
+    "checksum": "b52e43d01de936081b954978d187a7fcf1912b03fea18d072c9366cfab7b7886",
+    "platform": "ios",
+    "app_version": "1.3.6",
+    "flavor": "stage",
+    "timestamp": 1773826625529
+  },
+  {
+    "version": "1.6.27",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.6.27.zip",
+    "checksum": "1ed21135f719eef40185935061753010f70b08ecec39770c7190390d9741b92d",
+    "platform": "android",
+    "app_version": "1.6.0",
+    "flavor": "stage",
+    "timestamp": 1773824876554
+  },
+  {
+    "version": "1.6.26",
+    "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.6.26.zip",
+    "checksum": "d527139497da24831cf169b91644249388a9e745b465a75f9136eb6167684e2f",
+    "platform": "android",
+    "app_version": "1.6.0",
+    "flavor": "stage",
+    "timestamp": 1773822896115
+  },
+  {
     "version": "1.6.25",
     "url": "https://playngohcstorageaccount.blob.core.windows.net/hotcode/stage/android/bundle_stage_android_1.6.25.zip",
     "checksum": "63cd5c618f2d897d28b3b0ab5d036ec026b57003b0adb40930b3ddf7be567c89",

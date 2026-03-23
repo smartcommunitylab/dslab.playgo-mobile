@@ -33,10 +33,11 @@ export class AuthFlowService {
   ) {}
 
   private getRedirectUri(): string {
+    console.log('🔍 Determining redirect URI...');
     const isNative = this.platform.is('capacitor') || this.platform.is('hybrid');
     
     if (isNative) {
-      const suffix = environment.name !== 'prod' ? `.${environment.name}` : '';
+      const suffix = environment.name !== 'production' ? `.${environment.name}` : '';
       return `it.dslab.playgo${suffix}://auth/callback`;
     } else {
       return `${window.location.origin}/auth/callback`;
@@ -128,7 +129,7 @@ export class AuthFlowService {
     
     // Pulisci stato precedente (TRANNE pending_campaign_id)
     await this.clearTemporaryAuth();
-    
+    console.log('✅ Previous temporary auth cleared');
     const redirectUrl = this.getRedirectUri();
     this.tempAuthState = `temp_${Math.random().toString(36).substr(2, 9)}`;
     

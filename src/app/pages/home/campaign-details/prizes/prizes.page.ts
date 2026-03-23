@@ -2,6 +2,7 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -30,7 +31,8 @@ import { UserService } from 'src/app/core/shared/services/user.service';
 export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(IonContent, { static: false }) content: IonContent;
   notExpanded = true;
-  public anchors: any;
+  private anchors: HTMLAnchorElement[] = [];
+  private mutationObserver: MutationObserver;
   selectedSegment?: string;
   campaignId$: Observable<string> = this.route.params.pipe(
     map((params) => params.id),
@@ -51,6 +53,7 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     private modalController: ModalController,
     private translateService: TranslateService,
     private userService: UserService,
+    private elementRef: ElementRef
     
   ) {
     this.subId = this.route.params.subscribe((params) => {
@@ -72,6 +75,46 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnInit() {
   }
+  ngAfterViewInit() {
+    this.mutationObserver = new MutationObserver(() => {
+      this.rebindAnchors();
+    });
+
+    this.mutationObserver.observe(this.elementRef.nativeElement, {
+      childList: true,
+      subtree: true,
+    });
+
+    this.rebindAnchors();
+  }
+  private rebindAnchors() {
+    // Rimuovi vecchi listener
+    this.anchors.forEach((anchor) => {
+      anchor.removeEventListener('click', this.handleAnchorClick);
+    });
+
+    // Aggiungi listener a tutti gli anchor presenti
+    this.anchors = Array.from(
+      this.elementRef.nativeElement.querySelectorAll('a')
+    );
+    this.anchors.forEach((anchor) => {
+      anchor.addEventListener('click', this.handleAnchorClick);
+    });
+  }
+  public handleAnchorClick = (event: Event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const anchor = event.target as HTMLAnchorElement;
+    const href = anchor.href || anchor.getAttribute('href');
+    
+    if (href) {
+      Browser.open({
+        url: href,
+        windowName: '_system',
+        presentationStyle: 'popover',
+      });
+    }
+  };
   ionViewWillEnter() {
     this.changePageSettings();
     let pastPrizes = this.pastprizes();
@@ -219,13 +262,7 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     await modal.present();
     const { data } = await modal.onWillDismiss();
   }
-  ngAfterViewInit() {
-    // //change the behaviour of _blank arrived with editor, adding a new listener and opening a browser
-    // this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
-    // this.anchors.forEach((anchor: HTMLAnchorElement) => {
-    //   anchor.addEventListener('click', this.handleAnchorClick);
-    // });
-  }
+
   expandPrizes() {
     this.notExpanded = false;
     this.scrollTo('subprizes');
@@ -279,6 +316,12 @@ export class PrizesPage implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+    }
+    this.anchors.forEach((anchor) => {
+      anchor.removeEventListener('click', this.handleAnchorClick);
+    });
     this.subCampaign.unsubscribe();
     this.subId.unsubscribe();
   }
