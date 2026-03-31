@@ -42,6 +42,7 @@ import {
   TransportType,
   TripPart,
   UNABLE_TO_GET_POSITION,
+  MOCK_LOCATION,
   MAX_MS_TRACKING,
 } from './trip.model';
 import { runInZone, tapLog } from '../rxjs.utils';
@@ -61,7 +62,7 @@ import { LocalStorageService } from '../services/local-storage.service';
  */
 export class BackgroundTrackingService {
   private markAsReady: (val: unknown) => void;
-
+  // private isMockAlertOpen = false;
   private isReady = new Promise((resolve, reject) => {
     this.markAsReady = resolve;
   });
@@ -69,8 +70,40 @@ export class BackgroundTrackingService {
 
   private pluginLocation$ = this.getPluginObservable(
     this.backgroundGeolocationPlugin.onLocation
-  ).pipe(tap(NgZone.assertInAngularZone), shareReplay(1));
-
+  ).pipe(
+    tap(NgZone.assertInAngularZone),
+    // Rileva mock GPS durante il tracking
+    tap((location) => {
+      if (location.mock) {
+        console.warn('🚨 Mock/Fake GPS detected during tracking!', location);
+        // this.handleMockLocationDetected();
+      }
+    }),
+    // Filtra le location mock per non processarle
+    // filter((location) => !location.mock),
+    shareReplay(1)
+  );
+  // private async handleMockLocationDetected(): Promise<void> {
+  //   if (this.isMockAlertOpen) {
+  //     console.warn('⚠️ Mock alert already open, skipping...');
+  //     return;
+  //   }
+  //   console.warn('🛑 Stopping trip due to mock GPS');
+  //   this.isMockAlertOpen = true;
+  //   try {
+  //     await this.backgroundGeolocationPlugin.stop();
+  //     await this.alertService.presentAlert({
+  //       headerTranslateKey: 'modal.alert_title',
+  //       messageTranslateKey: 'tracking.mock_location_detected',
+  //       cssClass: 'modalConfirm'
+  //     });
+  //   } catch (e) {
+  //     console.error('Error stopping trip after mock detection', e);
+  //   }finally {
+  //     // Reset flag quando alert viene chiuso
+  //     this.isMockAlertOpen = false;
+  //   }
+  // }
   public accuracy$ = this.pluginLocation$.pipe(
     map((loc) => loc.coords.accuracy),
     shareReplay(1)
@@ -310,6 +343,9 @@ export class BackgroundTrackingService {
     const accuracy = location.coords.accuracy;
     // we are not doing checks in case of change of the mean
     if (doChecks) {
+      // if (location.mock) {
+      //   throw MOCK_LOCATION; 
+      // }
       if (accuracy > this.appConfig.tracking.maximalAccuracy) {
         const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
         if (!userAcceptsLowAccuracy) {
@@ -426,11 +462,23 @@ export class BackgroundTrackingService {
       console.error(e);
       throw UNABLE_TO_GET_POSITION;
     }
-
+    if (currentLocation.mock) {
+      console.warn('🚨 Mock GPS detected, flagging extras');
+      const extrasWithMock: TripExtras = { ...extras, mockLocation: true };
+      await this.backgroundGeolocationPlugin.setConfig({ extras: extrasWithMock });
+      this.currentExtrasSubject.next(extrasWithMock);
+    }
+    await this.debugLocations();
     this.possibleLocationsChangeSubject.next();
     return currentLocation;
   }
-
+  public async debugLocations(): Promise<void> {
+    const locations = await this.backgroundGeolocationPlugin.getLocations() as Location[];
+    console.log('📍 Locations in plugin DB:', locations.length);
+    locations.forEach((loc, i) => {
+      console.log(`  [${i}] extras:`, loc.extras, '| mock:', loc.mock, '| coords:', loc.coords.latitude, loc.coords.longitude);
+    });
+  }
   private getExtras(tripPart: TripPart | null): TripExtras {
     return {
       idTrip: tripPart?.idTrip,
@@ -486,7 +534,9 @@ export class TripLocation {
   }
 }
 
-interface TripExtras extends Extras, Partial<TripPart> { }
+interface TripExtras extends Extras, Partial<TripPart> { 
+  mockLocation?: boolean;
+}
 
 interface DeviceInfo {
   isVirtual: boolean;

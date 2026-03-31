@@ -66,7 +66,10 @@ export const POWER_SAVE_MODE = new UserError({
   id: 'POWER_SAVE_MODE',
   message: 'tracking.errors.POWER_SAVE_MODE',
 });
-
+export const MOCK_LOCATION = new UserError({
+  id: 'MOCK_LOCATION',
+  message: 'tracking.errors.MOCK_LOCATION',
+});
 // probably location services are disabled by user.
 export const UNABLE_TO_GET_POSITION = new UserError({
   id: 'UNABLE_TO_GET_POSITION',

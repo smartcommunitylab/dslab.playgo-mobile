@@ -140,6 +140,7 @@
     "newbadge": "Nuovo badge!"
   },
   "tracking": {
+    "mock_location_detected": "Posizione mock rilevata!",
     "low_accuracy": "Bassa precisione!",
     "choose_means": "Seleziona un mezzo per tracciare",
     "continue_low_accuracy_prompt": "Bassa precisione rilevata! Vuoi proseguire?",
@@ -181,7 +182,8 @@
       "ACCESS_DENIED": "Accesso alla posizione in background rifiutata!",
       "LOW_ACCURACY": "Bassa precisione nella posizione rilevata!",
       "POWER_SAVE_MODE": "Modalità Risparmio Energetico attiva! Questo puó comportare un tracciamento impreciso!",
-      "UNABLE_TO_GET_POSITION": "Impossibile recuperare la tua locazione! Assicurati che i servizi di localizzazione siano attivi e riprovare."
+      "UNABLE_TO_GET_POSITION": "Impossibile recuperare la tua locazione! Assicurati che i servizi di localizzazione siano attivi e riprovare.",
+      "MOCK_LOCATION": "Posizione mock rilevata!"
     }
   },
   "profile": {
