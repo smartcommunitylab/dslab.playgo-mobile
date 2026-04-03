@@ -18,6 +18,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  scan,
 } from 'rxjs/operators';
 // import { ReportControllerService } from 'src/app/core/api/generated/controllers/reportController.service';
 import { CampaignPlacing } from 'src/app/core/api/generated/model/campaignPlacing';
@@ -206,6 +207,13 @@ export class SchoolLeaderboardPage implements OnInit, OnDestroy {
             page: 0,
             size: 10,
           }),
+          scan((acc, curr) => {
+            if (curr.page === 0) return curr;
+            if (curr.page === (acc.page || 0) + 1) return curr;
+            return acc;
+          }, { page: -1, size: 10 } as PageableRequest),
+          distinctUntilChanged((a, b) => a.page === b.page && a.size === b.size),
+       
           switchMap(({ page, size }) => {
             if (useMeanAndMetric) {
               return this.teamStatsControllerService

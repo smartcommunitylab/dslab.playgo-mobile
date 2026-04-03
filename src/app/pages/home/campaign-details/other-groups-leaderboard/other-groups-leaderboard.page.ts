@@ -8,6 +8,7 @@ import {
   filter,
   first,
   map,
+  scan,
   shareReplay,
   startWith,
   switchMap,
@@ -135,6 +136,13 @@ export class OtherGroupsLeaderboardPage implements OnInit, OnDestroy {
             page: 0,
             size: 10,
           }),
+          scan((acc, curr) => {
+            if (curr.page === 0) return curr;
+            if (curr.page === (acc.page || 0) + 1) return curr;
+            return acc;
+          }, { page: -1, size: 10 } as PageableRequest),
+          distinctUntilChanged((a, b) => a.page === b.page && a.size === b.size),
+       
           tap(req => console.log('API Request:', { campaignId, groupId, period, ...req })), // DEBUG
           switchMap(({ page, size }) =>
             this.reportControllerService
