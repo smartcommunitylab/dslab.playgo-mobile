@@ -1,9 +1,9 @@
 import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonSelect, SelectCustomEvent } from '@ionic/angular';
+import { IonContent, IonSelect, SelectCustomEvent } from '@ionic/angular';
 import { find } from 'lodash-es';
 
-import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -13,6 +13,7 @@ import {
   startWith,
   switchMap,
   tap,
+  scan
 } from 'rxjs/operators';
 import { DateTime } from 'luxon';
 
@@ -47,6 +48,7 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
   @ViewChildren('metricSelect')
   public metricSelects: QueryList<IonSelect>;
   private metricSelect: IonSelect;
+  @ViewChild(IonContent, { static: false }) ionContent: IonContent;
 
   referenceDate = DateTime.local();
   periods = this.getPeriods(this.referenceDate);
@@ -167,7 +169,15 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
     campaignId: this.campaignId$,
     useMeanAndMetric: this.useMeanAndMetric$,
     playerId: this.playerId$,
-  });
+  }).pipe(
+    distinctUntilChanged(),
+    tap(() => {
+      setTimeout(() => {
+        this.ionContent?.scrollToTop(300);
+        console.log('📍 scrollToTop called', this.ionContent);
+      }, 0);    }),
+    shareReplay(1)
+  );
 
   numberWithUnitKey$: Observable<TranslateKey> = this.filterOptions$.pipe(
     map(({ useMeanAndMetric, metric }) =>
@@ -215,48 +225,54 @@ export class LeaderboardPage implements OnInit, OnDestroy, AfterViewInit, AfterC
   scrollRequestSubject = new Subject<PageableRequest>();
 
   leaderboardScrollResponse$: Observable<PageCampaignPlacing> =
-    this.filterOptions$.pipe(
-      switchMap(({ useMeanAndMetric, metric, mean, period, campaignId }) =>
-        this.scrollRequestSubject.pipe(
-          startWith({
-            page: 0,
-            size: 10,
-          }),
-          switchMap(({ page, size }) => {
-            if (useMeanAndMetric) {
-              return this.reportControllerService
-                .getCampaingPlacingByTransportStatsUsingGET({
-                  page,
-                  size,
-                  campaignId,
-                  metric,
-                  mean: mean === ALL_MEANS ? null : mean,
-                  dateFrom: period.from,
-                  dateTo: period.to,
-                  filterByGroupId: filterByGroup(this.campaignContainer) ? this.campaignContainer?.subscription?.campaignData?.companyKey : null,
-                })
-                .pipe(this.errorService.getErrorHandler());
-            } else {
-              return this.reportControllerService
-              .getCampaingPlacingByGameUsingGET({
-                page,
-                size,
-                campaignId,
+  this.filterOptions$.pipe(
+    switchMap(({ useMeanAndMetric, metric, mean, period, campaignId }) => {
+      
+      this.scrollRequestSubject.next({ page: 0, size: 10 });
+
+      return this.scrollRequestSubject.pipe(
+        startWith({ page: 0, size: 10 }),
+        scan((acc, curr) => {
+          if (curr.page === 0) return curr; 
+          if (curr.page === (acc.page || 0) + 1) return curr; 
+          return acc; 
+        }, { page: -1, size: 10 } as PageableRequest),
+        distinctUntilChanged((a, b) => a.page === b.page && a.size === b.size),
+        switchMap(({ page, size }) => {
+          if (useMeanAndMetric) {
+            return this.reportControllerService
+              .getCampaingPlacingByTransportStatsUsingGET({
+                page, size, campaignId, metric,
+                mean: mean === ALL_MEANS ? null : mean,
                 dateFrom: period.from,
                 dateTo: period.to,
-                groupId: this.campaignContainer?.campaign?.type === 'group' 
+                filterByGroupId: filterByGroup(this.campaignContainer) 
+                  ? this.campaignContainer?.subscription?.campaignData?.companyKey 
+                  : null,
+              })
+              .pipe(this.errorService.getErrorHandler());
+          } else {
+            return this.reportControllerService
+              .getCampaingPlacingByGameUsingGET({
+                page, size, campaignId,
+                dateFrom: period.from,
+                dateTo: period.to,
+                groupId: this.campaignContainer?.campaign?.type === 'group'
                   ? this.campaignContainer?.subscription?.campaignData?.groupId
                   : undefined,
                 filterByGroupId: this.campaignContainer?.campaign?.type === 'group' || undefined,
               })
               .pipe(this.errorService.getErrorHandler());
-            }
-          })
-        )
-      )
-    );
+          }
+        })
+      );
+    })
+  );
 
-  resetItems$ = this.filterOptions$.pipe(map(() => Symbol()));
+    resetItems$ = this.filterOptions$.pipe(
+      map(() => Symbol()),
+      shareReplay(1)
+    );
   subCampaign: Subscription;
   subId: Subscription;
   subMetricSelectChange: Subscription;
