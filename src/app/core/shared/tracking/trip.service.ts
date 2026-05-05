@@ -78,8 +78,12 @@ export class TripService {
         distinctUntilChanged()
       )
       .subscribe(() =>
-        // TODO: no not work reliable
-        alert('Please disable power save mode for proper location tracking')
+       // Usa AlertService invece del window.alert
+      this.alertService.presentAlert({
+        headerTranslateKey: 'modal.alert_title',
+        messageTranslateKey: 'tracking.power_save_mode_active',
+        cssClass: 'modalConfirm'
+      })
       );
   }
 

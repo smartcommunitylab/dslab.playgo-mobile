@@ -41,7 +41,7 @@
   },
   "firstTime": {
     "title": "Use your location",
-    "message": "Play&go collects location data to enable the tracking, validation and rewarding of sustainable trips even when the app is closed or not in use.",
+    "message": "Play&Go uses location data to track, validate, and reward sustainable trips, even when the app is closed or not in use, but only after the user has started tracking and until the end of the trip is declared.",
     "close": "Deny",
     "accept": "Accept"
   },
@@ -141,6 +141,7 @@
   },
   "tracking": {
     "mock_location_detected": "Mock location detected!",
+    "power_save_mode_active": "Disable power saving mode for a correct tracking of the location.",
     "low_accuracy": "Low accuracy!",
     "choose_means": "Choose means of tracking",
     "continue_low_accuracy_prompt": "Low accuracy detected! Do you want to continue?",
