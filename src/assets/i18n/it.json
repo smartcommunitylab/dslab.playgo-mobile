@@ -142,6 +142,8 @@
   "tracking": {
     "mock_location_detected": "Posizione mock rilevata!",
     "power_save_mode_active": "Disabilita il risparmio energetico per un corretto tracciamento della posizione.",
+    "fake_gps_title": "Posizione mock rilevata!",
+  "fake_gps_message": "Sembra che tu stia utilizzando un'app per falsificare la tua posizione. Per favore disabilita questa funzionalità per continuare a tracciare i tuoi viaggi.",
     "low_accuracy": "Bassa precisione!",
     "choose_means": "Seleziona un mezzo per tracciare",
     "continue_low_accuracy_prompt": "Bassa precisione rilevata! Vuoi proseguire?",

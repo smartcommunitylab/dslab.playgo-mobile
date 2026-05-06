@@ -14,6 +14,7 @@ import { LocationsStorageService } from './locations-storage.service';
 import {
   MAX_MS_TRACKING,
   NO_TRIP_STARTED,
+  MOCK_LOCATION,
   TransportType,
   TripPart,
   TRIP_END,
@@ -85,6 +86,27 @@ export class TripService {
         cssClass: 'modalConfirm'
       })
       );
+      backgroundTrackingService.fakeGpsDetected$
+      .pipe(
+        withLatestFrom(this.isInTrip$),
+        filter(([, isInTrip]) => isInTrip) 
+      )
+      .subscribe(async () => {
+        await this.handleFakeGpsDetectedDuringTracking();
+      });
+  }
+  private async handleFakeGpsDetectedDuringTracking(): Promise<void> {
+    try {
+      await this.startOrStop(TRIP_END);
+        await this.backgroundTrackingService.saveFakeGpsAttempt();
+        await this.alertService.presentAlert({
+        headerTranslateKey: 'tracking.fake_gps_title',
+        messageTranslateKey: 'tracking.fake_gps_message',
+        cssClass: 'modalConfirm',
+      });
+    } catch (e) {
+      this.errorService.handleError(e, 'normal');
+    }
   }
 
   private async start() {
@@ -205,11 +227,20 @@ export class TripService {
         }
         this.longJourneyStorage.clear();
       } else {
-
-        await this.backgroundTrackingService.startTracking(
-          newTripPart,
-          isNewTrip
-        );
+        try {
+          await this.backgroundTrackingService.startTracking(newTripPart, isNewTrip);
+        } catch (trackingError) {
+          if (trackingError === MOCK_LOCATION) {
+            await this.backgroundTrackingService.saveFakeGpsAttempt();
+            await this.alertService.presentAlert({
+              headerTranslateKey: 'tracking.fake_gps_title',
+              messageTranslateKey: 'tracking.fake_gps_message',
+              cssClass: 'modalConfirm',
+            });
+            return false;
+          }
+          throw trackingError; 
+        }
         this.setAutoStopTimer();
       }
       this.setCurrentTripPart(newTripPart);

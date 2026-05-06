@@ -61,6 +61,9 @@ import { LocalStorageService } from '../services/local-storage.service';
  * Calls BackgroundGeolocation Plugin under the hood.
  */
 export class BackgroundTrackingService {
+  private isFakeGpsHandling = false;
+  public fakeGpsDetected$ = new Subject<void>();
+
   private markAsReady: (val: unknown) => void;
   // private isMockAlertOpen = false;
   private isReady = new Promise((resolve, reject) => {
@@ -68,42 +71,21 @@ export class BackgroundTrackingService {
   });
   private appConfig = { tracking: { maximalAccuracy: 30 } };
 
-  private pluginLocation$ = this.getPluginObservable(
-    this.backgroundGeolocationPlugin.onLocation
-  ).pipe(
-    tap(NgZone.assertInAngularZone),
-    // Rileva mock GPS durante il tracking
-    tap((location) => {
-      if (location.mock) {
-        console.warn('🚨 Mock/Fake GPS detected during tracking!', location);
-        // this.handleMockLocationDetected();
-      }
-    }),
-    // Filtra le location mock per non processarle
-    // filter((location) => !location.mock),
-    shareReplay(1)
-  );
-  // private async handleMockLocationDetected(): Promise<void> {
-  //   if (this.isMockAlertOpen) {
-  //     console.warn('⚠️ Mock alert already open, skipping...');
-  //     return;
-  //   }
-  //   console.warn('🛑 Stopping trip due to mock GPS');
-  //   this.isMockAlertOpen = true;
-  //   try {
-  //     await this.backgroundGeolocationPlugin.stop();
-  //     await this.alertService.presentAlert({
-  //       headerTranslateKey: 'modal.alert_title',
-  //       messageTranslateKey: 'tracking.mock_location_detected',
-  //       cssClass: 'modalConfirm'
-  //     });
-  //   } catch (e) {
-  //     console.error('Error stopping trip after mock detection', e);
-  //   }finally {
-  //     // Reset flag quando alert viene chiuso
-  //     this.isMockAlertOpen = false;
-  //   }
-  // }
+private pluginLocation$ = this.getPluginObservable(
+  this.backgroundGeolocationPlugin.onLocation
+).pipe(
+  tap(NgZone.assertInAngularZone),
+  tap((location) => {
+    if (location.mock && !this.isFakeGpsHandling) {
+      console.warn('🚨 Mock/Fake GPS detected during tracking!', location);
+      this.isFakeGpsHandling = true;
+      this.fakeGpsDetected$.next(); 
+    }
+  }),
+  filter((location) => !location.mock),
+  shareReplay(1)
+);
+
   public accuracy$ = this.pluginLocation$.pipe(
     map((loc) => loc.coords.accuracy),
     shareReplay(1)
@@ -225,6 +207,7 @@ export class BackgroundTrackingService {
     private playerControllerService: PlayerControllerService,
     private appStatusService: AppStatusService,
     private zone: NgZone,
+    private localStorageService: LocalStorageService,
     private translateService: TranslateService
   ) {
     // start observing plugin events
@@ -276,7 +259,10 @@ export class BackgroundTrackingService {
     }
     return 'DENIED';
   }
-
+  private fakeGpsAttemptsStorage =
+  this.localStorageService.getStorageOf<number[]>(
+    'fake_gps_attempts'
+  );
   async start() {
     try {
       const titlePermission = await firstValueFrom(
@@ -337,16 +323,15 @@ export class BackgroundTrackingService {
   }
 
   public async startTracking(tripPart: TripPart, doChecks: boolean) {
-    console.log('backgroundTracking  service');
-
+    this.isFakeGpsHandling = false;  
     const location = await this.setExtrasAndForceLocation(tripPart);
-    const accuracy = location.coords.accuracy;
-    // we are not doing checks in case of change of the mean
+  
     if (doChecks) {
-      // if (location.mock) {
-      //   throw MOCK_LOCATION; 
-      // }
-      if (accuracy > this.appConfig.tracking.maximalAccuracy) {
+      // Blocca subito se la location iniziale è mock
+      if (location.mock) {
+        throw MOCK_LOCATION; // già definito in trip.model
+      }
+      if (location.coords.accuracy > this.appConfig.tracking.maximalAccuracy) {
         const userAcceptsLowAccuracy = await this.showLowAccuracyWarning();
         if (!userAcceptsLowAccuracy) {
           throw LOW_ACCURACY;
@@ -358,13 +343,35 @@ export class BackgroundTrackingService {
         throw POWER_SAVE_MODE;
       }
     }
-
-    await this.backgroundGeolocationPlugin.start().then((state) => {
+  
+    await this.backgroundGeolocationPlugin.start().then(() => {
       this.backgroundGeolocationPlugin.changePace(true);
     });
     this.possibleLocationsChangeSubject.next();
   }
-
+  public async saveFakeGpsAttempt(): Promise<void> {
+    const newAttempt = Date.now();
+    const existing: number[] = (await this.fakeGpsAttemptsStorage.get()) ?? [];
+    const allAttempts = [...existing, newAttempt];
+    try {
+      // ✅ Tenta subito l'invio
+      const token = await this.authService.getToken();
+      await this.backgroundGeolocationPlugin.setConfig({
+        authorization: { strategy: 'jwt', accessToken: token.accessToken },
+      });
+      await firstValueFrom(
+        this.playerControllerService.saveFakeGpsAttemptsUsingPOST(allAttempts)
+      );
+      console.log('✅ Fake GPS attempt sent immediately to server');
+    } catch (e) {
+      // ❌ Offline o errore: salva in localStorage per retry futuro
+      console.warn('⚠️ Fake GPS immediate send failed, saving locally', e);
+      const existing = (await this.fakeGpsAttemptsStorage.get()) || [];
+      existing.push(newAttempt);
+      await this.fakeGpsAttemptsStorage.set(existing);
+      console.warn('💾 Fake GPS attempt saved locally', existing);
+    }
+  }
   private async showLowAccuracyWarning() {
     return await this.alertService.confirmAlert(
       'modal.alert_title',
@@ -389,6 +396,7 @@ export class BackgroundTrackingService {
     await this.backgroundGeolocationPlugin.stop();
     await this.sync();
     this.possibleLocationsChangeSubject.next();
+    this.isFakeGpsHandling = false;
   }
 
   /**
@@ -414,9 +422,27 @@ export class BackgroundTrackingService {
     } catch (e) {
       console.warn('Sync failed, we will try to sync next time', e);
     }
+    await this.syncFakeGpsAttempts();
     this.possibleLocationsChangeSubject.next();
   }
+  public async syncFakeGpsAttempts(): Promise<void> {
+    const attempts = await this.fakeGpsAttemptsStorage.get();
+    if (!attempts || attempts.length === 0) return;
 
+    try {
+      const token = await this.authService.getToken();
+      await this.backgroundGeolocationPlugin.setConfig({
+        authorization: { strategy: 'jwt', accessToken: token.accessToken },
+      });
+      await firstValueFrom(
+        this.playerControllerService.saveFakeGpsAttemptsUsingPOST(attempts)
+      );
+      await this.fakeGpsAttemptsStorage.set([]);
+      console.log('✅ Pending fake GPS attempts synced and cleared');
+    } catch (e) {
+      console.warn('⚠️ Fake GPS sync failed, will retry on next sync', e);
+    }
+  }
   private async trySync(): Promise<void> {
     const token = await this.authService.getToken();
     // console.log('sync using token', token);

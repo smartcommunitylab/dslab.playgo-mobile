@@ -23,6 +23,7 @@ import { PlayerInfo } from '../model/playerInfo';
   providedIn: 'root',
 })
 export class PlayerControllerService {
+
   constructor(private http: HttpClient) { }
   /**
    * addPlayer
@@ -185,6 +186,22 @@ export class PlayerControllerService {
       environment.serverUrl.api + `/playandgo/api/player/avatar`,
       {
         body,
+      }
+    );
+  }
+  /*
+    * saveFakeGpsAttempts
+    *
+    * @param attempts attempts
+    */
+  public saveFakeGpsAttemptsUsingPOST(
+    attempts: number []
+  ): Observable<any> {
+    return this.http.request(
+      'post',
+      `${environment.serverUrl.api}${environment.serverUrl.apiPath}/faketrack/my`,
+      {
+        body: attempts,
       }
     );
   }
