@@ -1,39 +1,116 @@
-.background {
-  background-image: url("../../../assets/images/login/background.png");
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
+:host {
+  display: block;
   height: 100%;
-  .title-login {
-    font-size: 25px;
-    line-height: 29.3px;
-    font-weight: 700;
-  }
-  .subtitle-login {
-    font-size: 17px;
-    font-weight: 300;
-    line-height: 20px;
-  }
-  .playgoicon {
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100px;
-    height: 100px;
-  }
-  .fbkicon {
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100px;
-    height: 100px;
-  }
-  .google-button {
-    --background: #de5246;
+}
+
+ion-content {
+  // Gestione nativa dello sfondo tramite shadow part
+  &::part(background) {
+    background: url("/assets/images/login/background.png") no-repeat center top / cover;
   }
 
-  .apple-button {
-    --background: black;
+  // Previene bug di rendering su Android 15/16
+  --overflow: auto;
+}
+
+.login-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--ion-safe-area-top, 20px) + 24px) 24px calc(var(--ion-safe-area-bottom, 20px) + 24px);
+  box-sizing: border-box;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+
+  .logo-playgo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 12px;
   }
-  .facebook-button {
-    --background: #3b5998;
+
+  .title {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .subtitle {
+    margin: 0;
+    max-width: 260px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #ffffff;
+    opacity: 0.95;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.actions-section {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+
+  ion-button {
+    --border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    height: 48px;
+    margin: 0;
+
+    // Fix per il bug del logo Apple / stroke SVG su Android WebView
+    ion-icon {
+      font-size: 20px;
+      stroke: none !important;
+      fill: currentColor !important;
+    }
+  }
+
+  .btn-google {
+    --background: #de5246;
+    --color: #ffffff;
+  }
+
+  .btn-apple {
+    --background: #000000;
+    --color: #ffffff;
+
+    ion-icon {
+      stroke-width: 0 !important;
+    }
+  }
+
+  .btn-internal {
+    --background: var(--ion-color-primary, #007aff);
+    --color: #ffffff;
+  }
+}
+
+.footer-section {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  .logo-fbk {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
   }
 }
