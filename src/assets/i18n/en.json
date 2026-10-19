@@ -315,6 +315,11 @@
         "joining": "Joining campaign..."
       }
     },
+    "acceptance_title": "Campaign Terms Update",
+    "acceptance_intro": "The terms of participation to this campaign have been updated. To continue to participate, you must accept the new conditions.",
+    "acceptance_confirm": "Accept and continue",
+    "acceptance_refuse": "Refuse and leave campaign",
+    "acceptance_refuse_warning": "Warning: If you do not accept the updated terms or privacy policy, you will be automatically removed from this campaign. Do you want to proceed?",
     "novaliddate": "The campaign's period is not valid",
     "removed": "The campaign is over",
     "notStarted": "The campaign is not active",

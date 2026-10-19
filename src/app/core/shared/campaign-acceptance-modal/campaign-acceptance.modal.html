@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="playgo">
+    <ion-title>{{ 'campaigns.acceptance_title' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="playgo" class="ion-padding">
+  <ion-text color="light">
+    <h3>{{ playerCampaign.campaign?.name?.[language] || playerCampaign.campaign?.name?.['it'] }}</h3>
+    <p>{{ 'campaigns.acceptance_intro' | translate }}</p>
+  </ion-text>
+
+  <form [formGroup]="form">
+    <ion-grid>
+      <!-- PRIVACY -->
+      <ng-container *ngIf="needsPrivacy && privacyDetail">
+        <ion-row class="ion-margin-top ion-align-items-center">
+          <ion-col size="10">
+            <ion-label class="privacy-info">{{ 'campaigns.joinmodal.privacyLink' | translate }}</ion-label>
+          </ion-col>
+          <ion-col size="2" class="ion-text-center" (click)="openPrivacyPopup()">
+            <ion-icon class="popup-icon" name="information-circle-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <ion-item color="playgo" lines="none">
+              <ion-checkbox slot="start" color="light" formControlName="privacy"></ion-checkbox>
+              <ion-label class="ion-text-wrap">{{ 'campaigns.joinmodal.privacy' | translate }}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ng-container>
+
+      <!-- RULES -->
+      <ng-container *ngIf="needsRules && rulesDetail">
+        <ion-row class="ion-margin-top ion-align-items-center">
+          <ion-col size="10">
+            <ion-label class="privacy-info">{{ 'campaigns.joinmodal.rulesLink' | translate }}</ion-label>
+          </ion-col>
+          <ion-col size="2" class="ion-text-center" (click)="openRulesPopup()">
+            <ion-icon class="popup-icon" name="information-circle-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <ion-item color="playgo" lines="none">
+              <ion-checkbox slot="start" color="light" formControlName="rules"></ion-checkbox>
+              <ion-label class="ion-text-wrap">{{ 'campaigns.joinmodal.rules' | translate }}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ng-container>
+
+      <!-- AZIONI -->
+      <ion-row class="ion-margin-top">
+        <ion-col>
+          <ion-button color="light" expand="block" [disabled]="!form.valid" (click)="confirmAcceptance()">
+            {{ 'campaigns.acceptance_confirm' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button fill="clear" color="light" expand="block" (click)="rejectAndUnsubscribe()">
+            {{ 'campaigns.acceptance_refuse' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

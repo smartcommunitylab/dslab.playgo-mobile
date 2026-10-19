@@ -53,6 +53,7 @@ import { HomeCampaignGroupComponent } from './campaigns/home-widget-types/home-c
 import { HomeGroupProfileComponent } from './campaigns/home-widget-types/home-campaign-group/home-group-profile/home-group-profile.component';
 import { UpdateLoadingComponent } from './update/update-loading/update-loading.component';
 import { StoreUpdateModalComponent } from './update/update-modal/store-update-modal.component';
+import { CampaignAcceptanceModalComponent } from './campaign-acceptance-modal/campaign-acceptance.modal'; // <-- Importa qui
 
 @NgModule({
   imports: [PlayGoSharedLibsModule],
@@ -106,7 +107,8 @@ import { StoreUpdateModalComponent } from './update/update-modal/store-update-mo
     NotificationModalPage,
     CompanyLabelComponent,
     LimitModalPage,
-    CompanyModalPage
+    CompanyModalPage,
+    CampaignAcceptanceModalComponent
   ],
   providers: [AlertService, LocalDatePipe],
   exports: [
@@ -160,7 +162,8 @@ import { StoreUpdateModalComponent } from './update/update-modal/store-update-mo
     NotificationModalPage,
     CompanyLabelComponent,
     LimitModalPage,
-    CompanyModalPage
+    CompanyModalPage,
+    CampaignAcceptanceModalComponent
   ],
 })
 export class PlayGoSharedModule { }

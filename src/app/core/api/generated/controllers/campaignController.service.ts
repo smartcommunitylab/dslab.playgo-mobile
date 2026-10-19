@@ -268,6 +268,27 @@ export class CampaignControllerService {
     );
   }
 
+/**
+ *  API per ri-accettare privacy e regolamento su campagne già iscritte
+ */
+public updateCampaignAcceptanceUserUsingPOST(args: {
+  campaignId: string;
+  privacyAcceptance: boolean;
+  rulesAcceptance: boolean;
+}): Observable<any> {
+  const { campaignId, privacyAcceptance, rulesAcceptance } = args;
+  return this.http.request<any>(
+    'post',
+    environment.serverUrl.api + `/playandgo/api/campaign-acceptance/user`,
+    {
+      params: removeNullOrUndefined({
+        campaignId,
+        privacyAcceptance: String(privacyAcceptance),
+        rulesAcceptance: String(rulesAcceptance),
+      }),
+    }
+  );
+}
   /**
    * unsubscribeCampaign
    *

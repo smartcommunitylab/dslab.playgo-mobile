@@ -38,6 +38,7 @@ import { RefresherService } from './refresher.service';
 import { TransportType, transportTypes } from '../tracking/trip.model';
 import { ifOfflineUseStored } from '../rxjs.utils';
 import { TranslateService } from '@ngx-translate/core';
+import { CampaignAcceptanceService } from './acceptance.service';
 
 @Injectable({
   providedIn: 'root',
@@ -70,7 +71,7 @@ export class CampaignService {
 
   private myCampaignsStorage =
     this.localStorageService.getStorageOf<PlayerCampaign[]>('myCampaigns');
-  public myCampaigns$: Observable<PlayerCampaign[]> =
+    public myCampaigns$: Observable<PlayerCampaign[]> =
     this.campaignsCouldBeChanged$.pipe(
       switchMap(() =>
         this.campaignControllerService
@@ -78,13 +79,9 @@ export class CampaignService {
           .pipe(
             tap((myCampaigns) => console.log(myCampaigns)),
             ifOfflineUseStored(this.myCampaignsStorage),
-            // this is not recoverable, app is bricked...
-            // for example new campaign subscription could be added successfully, but
-            // server could not return the list of my campaigns, data integrity is broken,
-            // but problem when new user, in that case error is 500
-            tap((myCampaigns) => console.log(myCampaigns)),
+             tap((myCampaigns) => console.log(myCampaigns)),
             catchError((error) => {
-              const isErrorExpected = true; // TODO:
+              const isErrorExpected = true; 
               this.errorService.handleError(
                 error,
                 isErrorExpected ? 'silent' : 'blocking'
@@ -94,7 +91,10 @@ export class CampaignService {
           )
       ),
       distinctUntilChanged(isEqual),
-      tap((myCampaigns) => this.myCampaignsStorage.set(myCampaigns)),
+      tap((myCampaigns) => {
+        this.myCampaignsStorage.set(myCampaigns);
+        this.campaignAcceptanceService.checkCampaignsAcceptance(myCampaigns);
+      }),
       shareReplay(1)
     );
 
@@ -289,7 +289,9 @@ export class CampaignService {
     private http: HttpClient,
     private errorService: ErrorService,
     private refresherService: RefresherService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private campaignAcceptanceService: CampaignAcceptanceService // <-- Aggiungi qui
+
   ) { }
   subscribeToCampaign(
     id: string,
@@ -304,6 +306,24 @@ export class CampaignService {
           this.playerCampaignSubscribed$.next(null);
           this.refresherService.onRefresh(null);
           return res;
+        })
+      );
+  }
+  updateAcceptance(
+    campaignId: string,
+    privacyAcceptance: boolean,
+    rulesAcceptance: boolean
+  ): Observable<any> {
+    return this.campaignControllerService
+      .updateCampaignAcceptanceUserUsingPOST({
+        campaignId,
+        privacyAcceptance,
+        rulesAcceptance,
+      })
+      .pipe(
+        tap(() => {
+          this.playerCampaignSubscribed$.next(null);
+          this.refresherService.onRefresh(null);
         })
       );
   }
