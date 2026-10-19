@@ -1,6 +1,10 @@
 <ion-grid>
   <ion-row *ngFor="let campaign of myCampaigns">
-    <ion-col>
+    <ion-col class="campaign-col-container" [class.campaign-expired]="isExpired(campaign)">
+      <div *ngIf="isExpired(campaign)" class="expired-badge">
+        <ion-icon name="time-outline"></ion-icon>
+        <span>{{ 'campaigns.expired' | translate }}</span>
+      </div>
       <app-widget-campaign
         [campaign]="campaign"
         [header]="true"

@@ -315,6 +315,7 @@
         "joining": "Iscrizione in corso..."
       }
     },
+      "expired": "Conclusa",
     "acceptance_title": "Aggiornamento condizioni",
     "acceptance_intro": "I termini di partecipazione a questa campagna sono stati aggiornati. Per continuare a partecipare è necessario accettare le nuove condizioni.",
     "acceptance_confirm": "Accetta e continua",

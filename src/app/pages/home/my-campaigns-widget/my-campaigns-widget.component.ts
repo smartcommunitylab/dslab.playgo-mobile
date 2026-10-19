@@ -32,6 +32,12 @@ export class MyCampaignsWidgetComponent implements OnInit, OnDestroy {
   discover() {
     this.navCtrl.navigateRoot('pages/tabs/campaigns');
   }
+  isExpired(campaign: PlayerCampaign): boolean {
+    if (!campaign?.campaign?.dateTo) {
+      return false;
+    }
+    return Date.now() > campaign.campaign.dateTo;
+  }
   ngOnDestroy() {
   }
   ionViewDidLeave() {

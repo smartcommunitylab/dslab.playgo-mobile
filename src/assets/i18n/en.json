@@ -315,6 +315,7 @@
         "joining": "Joining campaign..."
       }
     },
+    "expired": "Ended",
     "acceptance_title": "Campaign Terms Update",
     "acceptance_intro": "The terms of participation to this campaign have been updated. To continue to participate, you must accept the new conditions.",
     "acceptance_confirm": "Accept and continue",
@@ -852,5 +853,4 @@
   "common": {
     "new": "New"
   }
-
 }
