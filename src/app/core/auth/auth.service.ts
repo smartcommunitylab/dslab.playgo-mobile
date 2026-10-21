@@ -187,9 +187,9 @@ export class AuthService {
     this.navController.navigateRoot('login');
   }
   /** called from AuthCallbackPage */
-  public authorizationCallback() {
+  public authorizationCallback(url?: string) {
     return this.ionicAppAuthService.authorizationCallback(
-      window.location.origin + this.router.url
+      url || (window.location.origin + this.router.url)
     );
   }
 

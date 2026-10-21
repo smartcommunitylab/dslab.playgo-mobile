@@ -117,9 +117,12 @@ export class AppComponent implements AfterContentInit, OnInit, OnDestroy {
     } catch (error) {
       console.error('initializeApp error:', error);
     } finally {
+      if (Capacitor.isNativePlatform()) {
+
       StatusBar.setOverlaysWebView({ overlay: false });
       await StatusBar.setBackgroundColor({ color: '#3880ff' });
       StatusBar.setStyle({ style: Style.Light });
+      }
       await SplashScreen.hide();
     }
   }
@@ -170,12 +173,12 @@ export class AppComponent implements AfterContentInit, OnInit, OnDestroy {
         console.log('=== DEEP LINK RECEIVED ===');
         console.log('URL:', url);
 
-        // Gestisci auth callback
-        if (url.includes('auth/callback')) {
+        //  auth callback 
+        if (url.includes('callback')) {
           this.handleAuthCallback(url);
         }
         // Gestisci end session
-        else if (url.includes('auth/endsession')) {
+        else if (url.includes('endsession')) {
           console.log('Handling end session callback');
           this.authService.endSessionCallback();
         }
@@ -217,9 +220,9 @@ export class AppComponent implements AfterContentInit, OnInit, OnDestroy {
           }
         }, 1000);
       } else {
-        // Callback login principale
-        console.log('Processing main callback...');
-        this.authService.authorizationCallback();
+        // Callback login principale 
+        console.log('Processing main callback with URL...');
+        await this.authService.authorizationCallback(url);
   
         setTimeout(() => {
           this.router.navigate(['/pages/tabs/home']);
