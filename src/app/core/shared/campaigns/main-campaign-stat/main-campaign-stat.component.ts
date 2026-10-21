@@ -88,4 +88,10 @@ export class MainCampaignStatComponent implements OnInit {
       return 'Weekly';
     }
   }
+  isExpired(): boolean {
+    if (!this.campaignContainer?.campaign?.dateTo) {
+      return false;
+    }
+    return Date.now() > this.campaignContainer.campaign.dateTo;
+  }
 }

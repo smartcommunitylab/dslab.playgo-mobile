@@ -97,7 +97,7 @@
         </app-record-status>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="limitDayValue">
+    <ion-row *ngIf="!isExpired() && limitDayValue">
       <ion-col>
         <app-limit-status [campaign]="campaignContainer?.campaign" [limitMax]="limitDayMax" [limitValue]="limitDayValue"
           [infoBox]="true"
@@ -108,7 +108,7 @@
       </ion-col>
     </ion-row>
     <!-- <ng-template #emptyValueDay>Nessun valore giornaliero</ng-template> -->
-    <ion-row *ngIf="limitMonthValue !== null">
+    <ion-row *ngIf="!isExpired() && limitMonthValue !== null">
       <ion-col>
         <app-limit-status [limitMax]="limitMonthMax" [limitValue]="limitMonthValue"
           [virtualScoreLabel]="getLabel(campaignContainer?.campaign?.specificData?.virtualScore?.secondLimitBar)"

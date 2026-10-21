@@ -57,7 +57,7 @@
       <!-- AZIONI -->
       <ion-row class="ion-margin-top">
         <ion-col>
-          <ion-button color="light" expand="block" [disabled]="!form.valid" (click)="confirmAcceptance()">
+          <ion-button color="light" expand="block" size="large" [disabled]="!form.valid" (click)="confirmAcceptance()">
             {{ 'campaigns.acceptance_confirm' | translate }}
           </ion-button>
         </ion-col>
@@ -65,8 +65,9 @@
 
       <ion-row>
         <ion-col>
-          <ion-button fill="clear" color="light" expand="block" (click)="rejectAndUnsubscribe()">
-            {{ 'campaigns.acceptance_refuse' | translate }}
+          <ion-button expand="block" color="danger" size="large" (click)="rejectAndUnsubscribe()">
+            <ion-icon slot="end" name="trash-outline"></ion-icon>
+            <span class="button-left-icon">{{ 'campaigns.acceptance_refuse' | translate }}</span>
           </ion-button>
         </ion-col>
       </ion-row>
