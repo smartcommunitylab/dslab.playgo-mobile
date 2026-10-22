@@ -91,11 +91,11 @@ export class CampaignAcceptanceModalComponent implements OnInit {
       message: this.translateService.instant('campaigns.acceptance_refuse_warning'),
       buttons: [
         {
-          text: this.translateService.instant('cancel'),
+          text: this.translateService.instant('modal.cancel'),
           role: 'cancel',
         },
         {
-          text: this.translateService.instant('ok'),
+          text: this.translateService.instant('campaigns.acceptance_refuse_confirm_btn'),
           role: 'confirm',
         },
       ],

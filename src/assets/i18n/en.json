@@ -316,13 +316,15 @@
       }
     },
     "expired": "Ended",
+   
     "acceptance_title": "Campaign Terms Update",
     "acceptance_intro": "The terms of participation to this campaign have been updated. To continue to participate, you must accept the new conditions.",
     "acceptance_confirm": "Accept and continue",
     "acceptance_refuse": "Refuse and leave campaign",
-    "acceptance_refuse_warning": "Warning: If you do not accept the updated terms or privacy policy, you will be automatically removed from this campaign. Do you want to proceed?",
+    "acceptance_refuse_warning": "By proceeding, you confirm that you refuse the changes to the privacy policy and/or rules and you will be unsubscribed from the campaign.<br/><br/>If you wish to reactivate your participation in the campaign you will need to register again, but be careful! Some campaign types - such as \"High School Challenge\" campaigns - do not allow re-registration once left.",
+    "acceptance_refuse_confirm_btn": "Leave campaign",
     "novaliddate": "The campaign's period is not valid",
-    "removed": "The campaign is over",
+   "removed": "The campaign is over",
     "notStarted": "The campaign is not active",
     "cantSubscribe": "The campaign is running.<br> Your nickname does not belong to any team. To participate, contact the teacher in charge",
     "notStartedHSC": "The campaign is not yet active. To partecipate contact your teacher.",

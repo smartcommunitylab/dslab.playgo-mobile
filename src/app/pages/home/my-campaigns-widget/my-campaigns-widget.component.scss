@@ -5,37 +5,44 @@
 .campaign-col-container {
   position: relative;
   transition: all 0.3s ease;
+  overflow: hidden;
+  border-radius: 12px;
 
   &.campaign-expired {
-    filter: grayscale(25%) saturate(85%);
-    opacity: 0.88;
+    filter: grayscale(45%) contrast(92%);
+    opacity: 0.85;
 
     app-widget-campaign {
       display: block;
     }
   }
 
-  .expired-badge {
+  // Contenitore dell'angolo superiore destro
+  .expired-ribbon-wrapper {
     position: absolute;
-    top: 10px;
-    right: 14px;
+    top: 0;
+    right: 0;
+    width: 95px;
+    height: 95px;
+    overflow: hidden;
     z-index: 10;
-    background: rgba(33, 33, 33, 0.75); 
-    backdrop-filter: blur(4px);
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 4px 10px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    pointer-events: none;
 
-    ion-icon {
-      font-size: 13px;
+    .expired-ribbon {
+      position: absolute;
+      top: 22px;
+      right: -28px;
+      width: 125px;
+      transform: rotate(45deg);
+      background: var(--ion-color-danger, #eb445a);
+      color: #ffffff;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
     }
   }
 }

@@ -7,6 +7,8 @@ import * as internalGitInfo from 'src/assets/git-version.json';
 import { environment } from 'src/environments/environment';
 import { Preferences } from '@capacitor/preferences';
 import { ErrorService } from 'src/app/core/shared/services/error.service';
+import { CapacitorUpdater } from '@capgo/capacitor-updater';
+import { Capacitor } from '@capacitor/core';
 
 const gitInfo = internalGitInfo as unknown as GitInfo;
 
@@ -46,18 +48,19 @@ const gitInfo = internalGitInfo as unknown as GitInfo;
  *     read from src folder, because code push would overwrite it. To get value
  *     from this file, we use "java->ts" technique.
  * */
+
 @Component({
   selector: 'app-about-modal',
   templateUrl: './about-modal.component.html',
   styleUrls: ['./about-modal.component.scss'],
   standalone: false,
-
 })
 export class AboutModalComponent implements OnInit {
   angularBuildCommit = gitInfo.raw || gitInfo.hash || '-';
   angularBuildConfiguration = environment.name;
   javaBuildCommit = '';
   capacitorFlavor = '';
+  bundleVersion = '-';
 
   constructor(
     private modalController: ModalController,
@@ -77,7 +80,20 @@ export class AboutModalComponent implements OnInit {
     } catch (e) {
       this.errorService.handleError(e, 'silent');
     }
+
+    // Legge la versione del bundle aggiornato tramite CapacitorUpdater
+    if (Capacitor.getPlatform() !== 'web') {
+      try {
+        const currentBundle = await CapacitorUpdater.current();
+        this.bundleVersion = currentBundle?.bundle?.version || 'builtin';
+      } catch (e) {
+        this.bundleVersion = 'builtin';
+      }
+    } else {
+      this.bundleVersion = 'web';
+    }
   }
+
   close() {
     this.modalController.dismiss();
   }

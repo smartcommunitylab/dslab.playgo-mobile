@@ -14,13 +14,13 @@
       <ion-col>{{ (appStatusService.appInfo$ | async)?.id }} </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>App Version</ion-col>
+      <ion-col>App Native Version</ion-col>
       <ion-col>{{ appStatusService.version$ | async }} </ion-col>
     </ion-row>
-    <!-- <ion-row>
-      <ion-col>Code push label</ion-col>
-      <ion-col>{{ appStatusService.codePushLabel$ | async }}</ion-col>
-    </ion-row> -->
+    <ion-row>
+      <ion-col>Web / Bundle Version</ion-col>
+      <ion-col><b>{{ bundleVersion }}</b></ion-col>
+    </ion-row>
     <ion-row>
       <ion-col>Capacitor Flavor</ion-col>
       <ion-col>{{ capacitorFlavor }}</ion-col>

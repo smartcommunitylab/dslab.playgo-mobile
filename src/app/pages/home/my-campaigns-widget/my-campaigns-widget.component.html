@@ -1,9 +1,11 @@
 <ion-grid>
   <ion-row *ngFor="let campaign of myCampaigns">
     <ion-col class="campaign-col-container" [class.campaign-expired]="isExpired(campaign)">
-      <div *ngIf="isExpired(campaign)" class="expired-badge">
-        <ion-icon name="time-outline"></ion-icon>
-        <span>{{ 'campaigns.expired' | translate }}</span>
+      <!-- Ribbon diagonale quando conclusa -->
+      <div *ngIf="isExpired(campaign)" class="expired-ribbon-wrapper">
+        <div class="expired-ribbon">
+          {{ 'campaigns.expired' | translate }}
+        </div>
       </div>
       <app-widget-campaign
         [campaign]="campaign"
