@@ -220,13 +220,10 @@ export class AppComponent implements AfterContentInit, OnInit, OnDestroy {
           }
         }, 1000);
       } else {
-        // Callback login principale 
+        // Callback login principale: authorizationCallback scatenerà SignInSuccess
+        // che verificherà se l'utente è registrato e lo porterà su /registration o su /home
         console.log('Processing main callback with URL...');
         await this.authService.authorizationCallback(url);
-  
-        setTimeout(() => {
-          this.router.navigate(['/pages/tabs/home']);
-        }, 1000);
       }
     } catch (error) {
       console.error('Error handling callback:', error);

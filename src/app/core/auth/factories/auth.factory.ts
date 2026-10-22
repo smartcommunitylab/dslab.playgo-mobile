@@ -1,11 +1,10 @@
 import { Platform } from '@ionic/angular';
 import { AuthService, Browser } from 'ionic-appauth';
-import { App } from '@capacitor/app';
-import { environment } from 'src/environments/environment';
-import { NgZone } from '@angular/core';
 import { Requestor } from '@openid/appauth/built/xhr';
 import { StorageBackend } from '@openid/appauth/built/storage';
 import { SpinnerService } from '../../shared/services/spinner.service';
+import { environment } from 'src/environments/environment';
+import { NgZone } from '@angular/core';
 
 export const authFactory = (
   platform: Platform,
@@ -28,20 +27,6 @@ export const authFactory = (
       window.location.origin + '/auth/endsession';
   }
 
-  if (platform.is('capacitor')) {
-    console.log('capacitor');
-    App.addListener('appUrlOpen', (data: any) => {
-      if (data.url !== undefined) {
-        ngZone.run(() => {
-          if (data.url.indexOf(authService.authConfig.redirect_url) === 0) {
-            authService.authorizationCallback(data.url);
-          } else {
-            authService.endSessionCallback();
-          }
-        });
-      }
-    });
-  }
-
+  // Il listener appUrlOpen è gestito in modo centralizzato in app.component.ts
   return authService;
 };

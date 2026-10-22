@@ -221,15 +221,16 @@ export class AuthService {
         .getProfileUsingGET()
         .toPromise();
       if (user) {
-        //user registered
         return true;
       } else {
-        //user not registered
         return false;
       }
-    } catch (e) {
-      // toto check local storage
-      console.warn(e);
+    } catch (e: any) {
+      // Se l'API restituisce 404 o 400 (player not found), l'utente NON è registrato
+      if (e?.status === 404 || e?.status === 400) {
+        return false;
+      }
+      console.warn('isUserRegistered error:', e);
       return null;
     }
   }
