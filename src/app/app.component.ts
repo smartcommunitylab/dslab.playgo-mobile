@@ -238,7 +238,7 @@ export class AppComponent implements AfterContentInit, OnInit, OnDestroy {
       car: '../assets/icon/travel/custom_carpooling.svg',
       train: '../assets/icon/travel/train.svg',
       walk: '../assets/icon/travel/walk.svg',
-      boat: 'boat',
+      boat: '../assets/icon/travel/boat.svg',
       cup: '../assets/icon/cup.svg',
       passenger: '../assets/icon/passenger.svg',
       driver: '../assets/icon/driver.svg',
