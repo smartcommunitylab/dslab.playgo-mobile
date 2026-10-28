@@ -86,22 +86,41 @@ export class CampaignAcceptanceModalComponent implements OnInit {
   }
 
   async rejectAndUnsubscribe() {
+    const rawMessage = (
+      this.translateService.instant('campaigns.acceptance_refuse_warning') || ''
+    ).replace(/\\n/g, '\n');
+
     const alert = await this.alertCtrl.create({
       header: this.translateService.instant('modal.alert_title'),
-      message: this.translateService.instant('campaigns.acceptance_refuse_warning'),
+      message: rawMessage,
+      cssClass: 'pre-line-alert',
       buttons: [
         {
           text: this.translateService.instant('modal.cancel'),
           role: 'cancel',
         },
         {
-          text: this.translateService.instant('campaigns.acceptance_refuse_confirm_btn'),
+          text: this.translateService.instant(
+            'campaigns.acceptance_refuse_confirm_btn'
+          ),
           role: 'confirm',
         },
       ],
     });
 
     await alert.present();
+
+    // Forza il pre-line direttamente sul nodo DOM (funziona sia con che senza Shadow DOM)
+    const messageEl = (
+      alert.shadowRoot
+        ? alert.shadowRoot.querySelector('.alert-message')
+        : alert.querySelector('.alert-message')
+    ) as HTMLElement;
+
+    if (messageEl) {
+      messageEl.style.whiteSpace = 'pre-line';
+    }
+
     const { role } = await alert.onDidDismiss();
 
     if (role === 'confirm') {

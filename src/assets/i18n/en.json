@@ -321,7 +321,7 @@
     "acceptance_intro": "The terms of participation to this campaign have been updated. To continue to participate, you must accept the new conditions.",
     "acceptance_confirm": "Accept and continue",
     "acceptance_refuse": "Refuse and leave campaign",
-    "acceptance_refuse_warning": "By proceeding, you confirm that you refuse the changes to the privacy policy and/or rules and you will be unsubscribed from the campaign.<br/><br/>If you wish to reactivate your participation in the campaign you will need to register again, but be careful! Some campaign types - such as \"High School Challenge\" campaigns - do not allow re-registration once left.",
+    "acceptance_refuse_warning": "By continuing, you confirm that you are rejecting the changes to the privacy policy and/or terms and conditions, and you will be unsubscribed from the campaign.\n\n If you wish to resume your participation in the campaign, you will need to sign up again. \n\nPlease note: some types of campaigns do not allow for re-registration once you have left.",
     "acceptance_refuse_confirm_btn": "Leave campaign",
     "novaliddate": "The campaign's period is not valid",
    "removed": "The campaign is over",
