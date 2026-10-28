@@ -294,13 +294,21 @@ export class LocalTripsService {
     const localOnlyTrips = lastLocalTrips.filter(
       (localTrip) => !some(serverOrPluginTrips, { id: localTrip.id })
     );
-    const onlyLongServerOrPluginTrips = serverOrPluginTrips.filter(
-      (serverOrPluginTrip) => Math.ceil((serverOrPluginTrip?.tripData?.endTime - serverOrPluginTrip?.tripData?.startTime) / 1000) > 15
-    )
-    const onlyLongLocalOnlyTrips = localOnlyTrips.filter(
-      (localOnlyTrip) => Math.ceil((localOnlyTrip?.tripData?.endTime - localOnlyTrip?.tripData?.startTime) / 1000) > 15
-    )
-    return this.sortTrips([...onlyLongServerOrPluginTrips, ...onlyLongLocalOnlyTrips]);
+  
+    // Mantiene tutti i viaggi provenienti dal server, scarta solo i locali/plugin non sincronizzati < 15s
+    const validServerOrPluginTrips = serverOrPluginTrips.filter(
+      (trip) =>
+        trip.status === 'fromServer' ||
+        Math.ceil((trip?.tripData?.endTime - trip?.tripData?.startTime) / 1000) >= 15
+    );
+  
+    const validLocalOnlyTrips = localOnlyTrips.filter(
+      (trip) =>
+        trip.status === 'fromServer' ||
+        Math.ceil((trip?.tripData?.endTime - trip?.tripData?.startTime) / 1000) >= 15
+    );
+  
+    return this.sortTrips([...validServerOrPluginTrips, ...validLocalOnlyTrips]);
   }
 
   private sortTrips(trips: StorableTrip[]): StorableTrip[] {
